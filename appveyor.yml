@@ -8,25 +8,15 @@ environment:
     # /E:ON and /V:ON options are not enabled in the batch script interpreter
     # See: http://stackoverflow.com/a/13751649/163740
     CMD_IN_ENV: "cmd /E:ON /V:ON /C .\\ci_scripts\\appveyor\\run_with_env.cmd"
-    WHEELHOUSE_UPLOADER_USERNAME: sklearn
+    WHEELHOUSE_UPLOADER_USERNAME: ysig
     WHEELHOUSE_UPLOADER_SECRET:
       secure: XzK+Mi6Ba5frV2B/jHq7h4aD8/nox9SsI3T8Kub1L2XNevRSIurUEry3PdWESzRY
-    MODULE: skltemplate
-    PROJECT_NAME: sklearn-template
+    MODULE: grakel
+    PROJECT_NAME: GraKeL
     CLOUD_STORAGE: CLOUDFILES
-    CLOUD_CONTATINER: sklearn-template-trial
+    CLOUD_CONTATINER: grakel-trial
 
   matrix:
-    - PYTHON: "C:\\Python27"
-      PYTHON_VERSION: "2.7.8"
-      PYTHON_ARCH: "32"
-      MINICONDA: "C:\\Miniconda"
-
-    - PYTHON: "C:\\Python27-x64"
-      PYTHON_VERSION: "2.7.8"
-      PYTHON_ARCH: "64"
-      MINICONDA: "C:\\Miniconda-x64"
-
     - PYTHON: "C:\\Python35"
       PYTHON_VERSION: "3.5.0"
       PYTHON_ARCH: "32"

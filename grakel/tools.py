@@ -4,8 +4,9 @@
 """
 
 from __future__ import generators
+import operator
         
-class priority_dict(dict):
+class priority_dict(dict,object):
     def __init__(self):
         """Initialize priorityDictionary by creating binary heap of pairs (value,key).
            Note that changing or removing a dict entry will
@@ -16,15 +17,14 @@ class priority_dict(dict):
            was implemented by David Eppstein, UC Irvine, 8 Mar 2002
            and was found at: http://code.activestate.com/recipes/117228-priority-dictionary/
         """
-
-    self.__heap = []
-    dict.__init__(self)
+        self.__heap = []
+        dict.__init__(self)
 
 
     def smallest(self):
         """ Find smallest item after removing deleted items from heap. """
         if len(self) == 0:
-            raise IndexError, "smallest of empty priorityDictionary"
+            raise(IndexError, "smallest of empty priorityDictionary")
         heap = self.__heap
         while heap[0][1] not in self or self[heap[0][1]] != heap[0][0]:
             lastItem = heap.pop()
@@ -81,55 +81,90 @@ class priority_dict(dict):
             self[key] = val
         return self[key]
 
-	def nested_dict_add(dictionary, value, *keys):
-		""" Does a nesting adding in a dictionary
-			dictionary: the dictionary that is going to be parsed
+def nested_dict_add(dictionary, value, *keys):
+    """ Does a nesting adding in a dictionary
+        dictionary: the dictionary that is going to be parsed
 
-			dictionary: the dictionary that is going to be parsed
-			value: the value that is going to be added
-			keys: a list of keys
-		"""
-		address = dictionary:
-		l = len(keys)
-		i = 1
-		for k in keys:
-			if(i<l):
-				if(k not in address):
-					address[k] = dict()
-				address = address[k]
-			elif(i==l):
-				address[k] = value			
-			i+=1
-		
-	def nested_dict_get(dictionary, *keys):
-		""" Checks if an item exists in a nested
-            level by keys in a dictionary and if
-			yes returns it. Otherwise return None
+        dictionary: the dictionary that is going to be parsed
+        value: the value that is going to be added
+        keys: a list of keys
+    """
+    address = dictionary
+    l = len(keys)
+    i = 1
+    for k in keys:
+        if(i<l):
+            if(k not in address):
+                address[k] = dict()
+            address = address[k]
+        elif(i==l):
+            address[k] = value            
+        i+=1
+        
+def nested_dict_get(dictionary, *keys):
+    """ Checks if an item exists in a nested
+        level by keys in a dictionary and if
+        yes returns it. Otherwise return None
 
-			dictionary: the dictionary that is going to be parsed
-			keys: a list of keys
-		"""
-		element = dictionary
-		for k in keys:
-			if (k in element):
-				element = element[k]
-			else:
-				return None
-		return element
-		
+        dictionary: the dictionary that is going to be parsed
+        keys: a list of keys
+        """
+    element = dictionary
+    for k in keys:
+        if (k in element):
+            element = element[k]
+        else:
+            return None
+    return element
+    
 
-    def inv_dict(d):
+def inv_dict(d):
     """ A function that given a surjective
         dictionary, calculates its dictionary inverse
-        
+            
         d: dictionary
     """
     inv = dict()
     for a in d.keys():
         for b in d[a]:
             if b not in d:
-                inv[b] = list():
+                inv[b] = list()
             inv[b].append(a)
-    
+     
     # returns a dictionary of list items
     return inv
+
+def matrix_to_dict(matrix, op='==', const_value=0, s=-1, allow_diagonal=False):
+    """ Transform a matrix to a dictionary
+        adding for each row only the elements
+        that satisfy as certain constraint
+        specifically.
+
+        matrix: A square numpy matrix
+        op: an operator applied as a constraint
+        const_value: the value to be compared with
+        s: if -1 calculates the matrix shape
+           else takes it as input
+        allow_diagonal: allows matrix diagonal to be added
+                        at input
+    """
+    ops = {
+        '>': operator.gt,
+        '<': operator.lt,
+        '>=': operator.ge,
+        '<=': operator.le,
+        '==': operator.eq
+        }
+    operator = ops[op]
+    if(s==-1):
+        s = matrix.shape[0]
+    dictionary = dict()
+    for i in range(0,s):
+        for j in range(0,s):
+            if(allow_diagonal or i!=j):
+                if(operator(matrix[i,j],const_value)):
+                    if i not in dictionary:
+                        dictionary[i] = list()
+                    dictionary[i].append(j)
+    return dictionary
+

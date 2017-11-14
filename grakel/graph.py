@@ -30,7 +30,7 @@ class graph(object):
     vertices = set()
     
     # adjacency matrix corresponding to current graph
-    adjacency_matrix = np.ndarray.empty()
+    adjacency_matrix = np.empty(0)
 
     # a labels dictionary
     labels = dict()
@@ -40,13 +40,16 @@ class graph(object):
     # with edge labels of input or existing dictionary
     elamcd = dict()
 
+    # A direct label holder for adjoint idxs when having dictionary with symbols
+    index_labels = dict()    
+
     # a variable holding the shortest path matrix
     shortest_path_mat = None
 
     # label_group: an inverse map between the labels and the nodes
     label_group = dict()
 
-    def __init__(self, initialization_object=None, labels=None, graph_format="dictionary"):
+    def __init__(self, initialization_object=None, labels=None, graph_format="auto"):
         
         """ Creates a new graph object
 
@@ -65,7 +68,7 @@ class graph(object):
                 - for dictionary: "dictionary"
                 - for adjacency_matrix: "adjacency"
                 - for both: "all"
-                
+                - for the current_format (if existent): "auto"
         """
 
 
@@ -73,8 +76,9 @@ class graph(object):
             self.format = graph_format
             self.build_graph(initialization_object,labels)
         else:
+            pass
             # Raise an exception if graph format is not valid?
-        
+
     def build_graph(self, g, labels=None):
         """ builds a graph structure given a supported graph representation
         
@@ -86,26 +90,33 @@ class graph(object):
         self.shortest_path_mat = None
         self.label_group = None
 
+        case = 0
         # If graph is of one type prune thee other
+        if g is not None:
+            if type(g) is np.ndarray:
+                # Input is considered an adjacency matrix
+                case = 1
+                if(self.format == "auto"):
+                    self.format = "adjacency"
+            elif type(g) is dictionary:
+                # Input is considered as a edge dictionary
+                case = 2
+                if(self.format == "auto"):
+                    self.format = "dictionary"
+            else:
+                pass
+                # Raise exception: "Unsupported input type"
+
         if self.format is "adjacency":
             edge_dictionary = None
 
         elif self.format is "dictionary":
             adjacency_matrix = None
 
-        if g is not None:
-            if type(g) is np.ndarray:
-                # Input is considered an adjacency matrix
-                                
-                self._import_adjacency(g)
-
-            elif type(g) is dictionary:
-                # Input is considered as a edge dictionary
-
-                self._import_dictionary(g)
-
-            else:
-                # Raise exception: "Unsupported input type"
+        if (case==1):
+            self._import_adjacency(g)
+        elif (case==2):
+            self._import_dictionary(g)
 
     def change_format(self, graph_format):
         """ Changes the format of the graph
@@ -116,13 +127,14 @@ class graph(object):
                 - for adjacency_matrix: "adjacency"
                 - for both: "all"
         """
-        if graph_format not in ["all", "dictionary", "adjacency"]
+        if graph_format not in ["all", "dictionary", "adjacency"]:
+            pass
             # Raise exception ?
         else:
             if (graph_format is not self.format):
                 if self.format is "adjacency":
                     self._import_adjacency(self.adjacency,False)
-                    if graph_format is "dictionary"
+                    if graph_format is "dictionary":
                         self.n = 0
                         self.adjacency_matrix = None
                         self.elamcd = None
@@ -139,37 +151,55 @@ class graph(object):
                     else:
                         self.edge_dictionary = None
 
+    def desired_format(self,graph_format):
+        """ Changes the format to include the desired
+
+            graph_format: Is the internal represantation of the graph object be a dictionary as a matrix, or both
+                - for dictionary: "dictionary"
+                - for adjacency_matrix: "adjacency"
+                - for both: "all"
+        """
+        if graph_format is "all":
+            self.change_format(self, graph_format)
+        elif graph_format is "dictionary":
+            if self.format not in ["all","edge_dictionary"]:
+                self.change_format(self, "all")
+        elif graph_format is "adjacency":
+            if self.format not in ["all","adjacency"]:
+                self.change_format(self, "all")
+
     def get_label_group(self):
         """ A function that calculates the inverse dictionary
             for labels (once)
         """
-        if self.label_group is None:
+        if bool(self.label_group):
+            return self.label_group
+        else:
             label_group = dict()
             # calculate the label_group
-            if (self.labels == {} or self.labels is None):
+            if not bool(self.labels):
                 if (self.format == "adjacency"):
                     for i in range(0,n):
                         label_group[i] = [i]
-                else
+                else:
                     for k in vertices.set():
                         label_group[k] = [k]
                 self.label_group = label_group
             else:
                 self.label_group = inv_dict(self.labels)
-        else:
-            return self.label_group
 
     def label(self,vertex):
         """ Returns the label of a vertex
             vertex: a valid vertex
         """
-        if(self.labels == {} or self.labels is None):
-            return vertex
-        else:
+        if not bool(self.labels):
             if (vertex in self.labels):
                 return self.labels[vertex]
             else:
-                # Raise exception
+                pass
+                # Raise exception: No label assigned to thise vertex symbol?
+        else:
+            return vertex
 
 
     def neighbours(self, vertex, with_weights = False):
@@ -214,54 +244,86 @@ class graph(object):
                             out[i] = element
                     return edge_dictionary[vertex]
             else:
-                # Raise exception:
+                pass
+                # Raise exception ?:
                 # "item with index ",idx," does not exist"
 
-    def build_shortest_path_matrix(self):
-        """ A method that builds and returns the shortest path matrix between all nodes """
+    def build_shortest_path_matrix(self, algorithm_type="auto"):
+        """ A method that builds and returns the shortest path matrix between all nodes
 
-        # If dijkstra algorithm is going to be applied
-        # labels must be numbered and added to a dictionary
-        if self.format is "dictionary":
-            temp_labels = dict()
-            edge_labels_count = 0
-            for k in edge_dictionary.keys():
-                if k not in temp_labels:
-                    temp_labels[k] = edge_labels_count
-                    edge_labels_count += 1
-                for l in edge_dictionary[k].keys():
-                    if l not in temp_labels: 
-                        temp_labels[k] = edge_labels_count
+            algorithm_type: "auto" for "dictionary" or "all" format - Dijkstra
+                                   for "adjacency" - Floyd Warshall
+                            "dijkstra" - Dijkstra
+                            "floyd_warshall" - Floyd Warshall
+        """
+
+        # Assign the desired algorithm
+        if algorithm_type is "auto":
+            if self.format in ["all","dictionary"]:
+                algorithm_type = "dijkstra"
+            elif self.format == "adjacency":
+                algorithm_type = "floyd_warshall"
+        
+        if algorithm_type is "dijkstra":
+            # Prepare for algorithm implementation
+            self.desired_format("dictionary")
+            if self.format is "dictionary":
+                
+                # labels for shortest path
+                sp_labels = dict()
+                indexes = dict()
+                edge_labels_count = 0
+
+                if bool(self.labels):
+                    add = lambda i, v: operator.setitem(sp_labels[i], i, labels[v])
+                else:
+                    add = lambda i, v: operator.setitem(sp_labels[i], i, v)
+
+                # Associate matrix indexes with dictionary edges and labels
+                for k in self.vertices:
+                    if k not in indexes:
+                        add(edge_labels_count, k)
+                        indexes[k] = edge_labels_count
                         edge_labels_count += 1
-             shortert_path_mat_dim = edge_labels_count - 1
 
-        elif self.format is "all":
-            temp_labels = self.elamcd
-            shortert_path_mat_dim = len(self.elamcd.keys())
+                shortert_path_mat_dim = edge_labels_count - 1
 
-        # Calculate the shortest path matrix
-        if self.format is in ["dictionary","all"]:
-           shortest_path_mat = np.empty([short_path_mat_dim, short_path_mat_dim])
-           for k in temp_labels.keys():
-               (dict_fd,_) = dijkstra(self.edge_dictionary,k):
-               for s in dict_fd.keys():
-                   shortest_path_mat[temp_labels[k],temp_labels[s]] = dict_fd[s]
+            elif self.format is "all":
+                indexes = self.elamcd
+                sp_labels = self.get_labels()
+                shortert_path_mat_dim = len(self.elamcd.keys())
+            
+            # calculate shortest path matrix
+            shortest_path_mat = np.empty([short_path_mat_dim, short_path_mat_dim])
+            for k in sp_labels.keys():
+                dict_fd, _ = dijkstra(self.edge_dictionary,k)
+                for s in dict_fd.keys():
+                    shortest_path_mat[indexes[k],indexes[s]] = dict_fd[s]
 
-            # Create assign labels to shortest path idxs
-            shortest_path_labels = dict()
-            if (self.labels != []):
-                for k in temp_labels.keys():
-                    shortest_path_labels[temp_labels[k]] = labels[temp_labels[k]]
-            else:
-                shortest_path_labels = temp_labels
-        else:
+            shortest_path_labels = sp_labels
+        elif algorithm_type is "floyd_warshall":
+            self.desired_format("adjacency")
             shortest_path_mat = floyd_warshall(self.adjacency_matrix,self.n)
-            shortest_path_labels = labels
+            shortest_path_labels = self.get_labels()
 
         self.shortest_path_mat = shortest_path_mat
         return shortest_path_mat, shortest_path_labels
+    
+    def get_labels(self, purpose="adjacency"):
+        """ Return labels corresponding to the purpose
+            
+            purpose: if "adjacency" for indexes
+                     if "dictionary" for nodes
+        """
+        if (purpose == "adjacency"):
+            if bool(self.index_labels):
+                return self.index_labels
+            else:
+                return self.labels
+        else:
+            return self.labels
 
-    def _import_adjacency(self,adjacency_matrix,save_matrix=True):
+    def _import_adjacency(self, adjacency_matrix, save_matrix=True):
         """ A function that creates a graph object
             representation given its adjacency matrix
 
@@ -272,8 +334,10 @@ class graph(object):
         # calculate graph size
         self.n = g.shape[0]
 
-        # Raise an exception if matrix is not squared?
-
+        if self.n != g.shape[1]:
+            pass
+            # Raise an exception if matrix is not squared?
+        
         # import_adjacency
         if (save_matrix is True) and (self.format is "all" or self.format is "adjacency"):
             self.adjacency_matrix = adjacency_matrix
@@ -291,7 +355,7 @@ class graph(object):
             self.vertices = vertices
             self.edge_dictionary = edge_dictionary
                     
-    def _import_dictionary(self,edge_dictionary,save_dictionary=True):
+    def _import_dictionary(self, edge_dictionary, save_dictionary=True):
         """ A function that creates a graph object
             representation given its edge dictionary
 
@@ -321,17 +385,31 @@ class graph(object):
             edge_labels_count = 0
             # edge_labels_adjacency_matrix_correspondance_dictionary
             elamcd = dict()
+
+            # index labels
+            index_labels = dict()
+
+            if bool(labels):
+                add = lambda d, k, v: operator.setitem(d, k, v)
+            else:
+                add = lambda *args: None
+
             for k in edge_dictionary.keys():
                 if k not in elamcd:
                     elamcd[k] = edge_labels_count
+                    add(index_labels,edge_labels_count,labels[k])
                     edge_labels_count += 1
                 for l in edge_dictionary[k].keys():
                     if l not in elamcd: 
                         elamcd[k] = edge_labels_count
                         edge_labels_count += 1
 
-            # Initialize adjacency_matrix
+            # Save previous
             self.n = edge_labels_count-1
+            self.elamcd = elamcd
+            self.index_labels = index_labels
+
+            # Initialize adjacency_matrix
             adjacency_matrix = np.zeros(shape = (self.n,self.n))
             
             # Produce and save adjacency matrix
@@ -341,7 +419,7 @@ class graph(object):
             self.adjacency_matrix = adjacency_matrix
 
 
-def dijkstra(edge_dictionary,start_vertex,end_vertex=None):
+def dijkstra(edge_dictionary, start_vertex, end_vertex=None):
     """ Implementation of the dijkstra algorithm
     Find shortest paths from the start vertex to all
     vertices nearer than or equal to the end_vertex.
@@ -372,14 +450,14 @@ def dijkstra(edge_dictionary,start_vertex,end_vertex=None):
             vwLength = dict_fd[v] + edge_dictionary[v][w]
             if w in dict_fd:
                 if vwLength < dict_fd[w]:
-                    raise ValueError, "Dijkstra: found better path to already-final vertex"
+                    raise(ValueError, "Dijkstra: found better path to already-final vertex")
             elif w not in queue or vwLength < queue[w]:
                 queue[w] = vwLength
                 dict_pred[w] = v
     
-    return (dict_fd,dict_pred)
+    return dict_fd, dict_pred
 
-def floyd_warshall(adjacency_matrix,n = -1):
+def floyd_warshall(adjacency_matrix, n=-1):
     """ Floyd Warshall calculates the matrix of shortest paths between all pairs
 
         adjacency_matrix : a square nd array
@@ -422,80 +500,3 @@ class MessageError(Exception):
     """
     
     pass
-
-
-# Whitespace in Expressions and Statements
-def example():
-    """ How to use whitespace in expressions and statements. """
-
-    # Around brackets, parentheses and braces:-
-    #
-    # BAD
-    spam( ham[ 1 ], { eggs: 2 } )
-
-    # GOOD
-    spam(ham[1], {eggs : 2})
-
-    # Around a comma, semicolon, or colon, as in (although multi-statement
-    # lines are STRONGLY discouraged!):-
-    #
-    # BAD
-    if x == 4 : print x , y ; x , y = y , x
-
-    # GOOD
-    if x == 4: print x, y; x, y = y, x
-
-    # Function/method calls.
-    #
-    # BAD
-    spam (1)
-
-    # GOOD
-    spam(1)
-
-    # Indexing/slicing.
-    #
-    # BAD
-    dict ['key'] = list [index]
-
-    # GOOD
-    dict['key'] = list[index]
-
-    # Groups of assignment statements.
-    #
-    # BAD
-    x             = 1
-    y             = 2
-    long_variable = 3
-
-    # GOOD
-    x = 1
-    y = 2
-    long_variable = 3
-
-    # These binary operators should aways surrounded with a single space.
-    #
-    # assignment (=), comparisons (==, <, >, !=, <>, <=, >=, in, not in, is,
-    # is not), Booleans (and, or, not).
-
-    # Use your better judgment for the insertion of spaces around arithmetic
-    # operators.  Always be consistent about whitespace on either side of a
-    # binary operator.
-    #
-    # Some examples:
-    i = i+1
-    submitted = submitted + 1
-    x = x*2 - 1
-    hypot2 = x*x + y*y
-    c = (a+b) * (a-b)
-    c = (a + b) * (a - b)
-
-    return
-
-
-# Don't use spaces around the '=' sign when used to indicate a keyword
-# argument or a default parameter value.  For instance:
-def complex(real, imag=0.0):
-    return magic(r=real, i=imag)
-
-#### EOF ######################################################################

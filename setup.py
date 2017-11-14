@@ -18,11 +18,17 @@ except ImportError:
     print('scipy is required during installation')
     sys.exit(1)
 
-setup(name='sklearn-template',
-      version='0.0.3',
-      description='A template for scikit-learn compatible packages',
-      author='Vighnesh Birodkar',
+try:
+	import pynauty
+except ImportError:
+    print('pynauty is required during installation')
+    sys.exit(1)
+
+setup(name='grakel',
+      version='0.0.1',
+      description='A scikit-learn compatible library for graph kernels',
+      author='mary et.al.',
       packages=find_packages(),
       install_requires=INSTALL_REQUIRES,
-      author_email='vighneshbirodkar@nyu.edu',
+      author_email='mary@dev.null',
       )
