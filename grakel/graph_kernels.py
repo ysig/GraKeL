@@ -6,7 +6,7 @@ from sklearn.base import BaseEstimator, ClassifierMixin, TransformerMixin
 from sklearn.utils.validation import check_X_y, check_array, check_is_fitted
 from graph import graph
 from kernels import dirac_inner, random_walk_inner, shortest_path_inner, subtree_RG_inner, graphlets_sampling_inner, weisfeiler_lehman_inner
- 
+
 class GraphKernel(BaseEstimator, TransformerMixin):
     """ A general class that describes all kernels
 

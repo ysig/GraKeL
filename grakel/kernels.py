@@ -9,14 +9,13 @@ import numpy as np
 
 import pynauty
 
-from np.linalg import inv
+from numpy.linalg import inv
 from scipy.linalg import solve_sylvester
 from scipy.interpolate import interp1d
 
 from graph import graph
-from tools import inv_dict, matrix_to_dict
+from tools import inv_dict, matrix_to_dict, nested_dict_get, nested_dict_add
 
-random.seed(352163)
 np.random.seed(238537)
 
 def random_walk(X, Y, Lx, Ly, lamda=0.1, method_type="sylvester"):
@@ -28,7 +27,7 @@ def random_walk(X, Y, Lx, Ly, lamda=0.1, method_type="sylvester"):
     g_x = graph(X)
     g_y = graph(Y)
 
-    return random_walk_inner(X, Y,lamda, method_type)
+    return random_walk_inner(g_x, g_y,lamda, method_type)
 
 
 def random_walk_inner(Gx, Gy,lamda=0.1, method_type="sylvester"):
@@ -39,22 +38,22 @@ def random_walk_inner(Gx, Gy,lamda=0.1, method_type="sylvester"):
         lamda: the factor concerning summation
         method_type: "simple" [O(|V|^6)] or "sylvester" [O(|V|^3)]
     """
-    Gx.desired_type("adjacency")
-    Gy.desired_type("adjacency")
+    Gx.desired_format("adjacency")
+    Gy.desired_format("adjacency")
     X = Gx.adjacency_matrix
     Y = Gy.adjacency_matrix
     
     # calculate the product graph
-    XY = np.kron(A,B)
+    XY = np.kron(X,Y)
 
     if(method_type == "simple"):
-        # algorithm presented in [Kashima et al., 2003; Gärtner et al., 2003]
+        # algorithm presented in [Kashima et al., 2003; Gartner et al., 2003]
         # complexity of O(|V|^6)
 
-        # XY is a s    uare matrix
+        # XY is a square matrix
         s = XY.shape[0]
-    
-        k = np.dot(np.dot(np.ones(s),inv(I - lamda*XY)),np.ones(shape=(1,s)))
+        I = np.identity(s)
+        k = np.dot(np.dot(np.ones(s),inv(I - lamda*XY)).T,np.ones(shape=(s)))
     elif(method_type == "sylvester"):
         # algorithm presented in [Vishwanathan et al., 2006]
         # complexity of O(|V|^3)
@@ -65,22 +64,22 @@ def random_walk_inner(Gx, Gy,lamda=0.1, method_type="sylvester"):
 
         # For efficiency reasons multiply lambda
         # with the smallest e_{x,y} in dimension
-        e_x = np.ones(X_dimension)
-        e_y = np.ones(shape(1,Y_dimension))
-        if(X_dimension < Y_dimension):
+        e_x = np.ones(shape=(X_dimension,1))
+        e_y = np.ones(shape=(1,Y_dimension))
+        if(X_dimension <= Y_dimension):
             e_x = np.dot(e_x,-lamda)
         else:
             e_y = np.dot(e_y,-lamda)
 
-        # Prepare parameters for sylvester e    uation
+        # Prepare parameters for sylvester equation
         A = Y
         B = np.divide(inv(X), -lamda)
         C = np.dot(e_x ,np.dot(e_y,X))
-
+        
         R = solve_sylvester(A, B, C)
         
         # calculate kernel
-        k = - np.sum(np.sum(R,axis=0),axis=1)
+        k = - np.sum(np.sum(R,axis=1),axis=0)
     else:
         pass
         # raise exception?
@@ -95,10 +94,10 @@ def shortest_path(X, Y, Lx, Ly, algorithm_type="dijkstra"):
         X, Y: to valid graph types i.e. edge dictionary or adjacency_mat
         algorithm_type: "dijkstra" or "floyd_warshall" or "auto" (for the best concerning current format)
     """
-    g_x = graph(X)
-    g_y = graph(Y)
+    g_x = graph(X,Lx)
+    g_y = graph(Y,Ly)
 
-    return shortest_path_inner(S_x, S_y, Lx, Ly, algorithm_type)
+    return shortest_path_inner(g_x, g_y, algorithm_type)
 
 def shortest_path_inner(g_x, g_y, algorithm_type="dijkstra"):
     """ A function that calculates the inner summation part of the
@@ -113,7 +112,6 @@ def shortest_path_inner(g_x, g_y, algorithm_type="dijkstra"):
     """
     S_x, Lx = g_x.build_shortest_path_matrix(algorithm_type)
     S_y, Ly = g_y.build_shortest_path_matrix(algorithm_type)
-
     kernel = 0
     Ly_inv = inv_dict(Ly)
     dim = S_x.shape[0]
@@ -154,12 +152,12 @@ def subtree_RG_inner(Gx, Gy, h=5):
 
         height: The height of the subtree exploration         
     """
-    Gx.desired_fromat("dictionary")
-    Gy.desired_fromat("dictionary")
+    Gx.desired_format("dictionary")
+    Gy.desired_format("dictionary")
     kernel = 0
     dynamic_dictionary = dict()
-    for u in X.edge_dictinary.keys():
-        for v in Y.edge_dictionary.keys():
+    for u in Gx.edge_dictionary.keys():
+        for v in Gy.edge_dictionary.keys():
             kernel += core_subtree_RG_dynamic(u,v,Gx,Gy,h,dynamic_dictionary)
     return kernel
 
@@ -184,19 +182,20 @@ def core_subtree_RG_dynamic(u, v, g_x, g_y, h, dynamic_dict, p_u=None, p_v=None)
     
     if h==1:
         return (g_x.label(u)==g_y.label(v))
+
     elif h>1:
         R = list()
-        
         
         # Calculate R
         # First group all nodes with the same label
         # make a list of lists of all pairs for each label
-        lbx = g_x.label_group()
-        lby = g_y.label_group()
+        lbx = g_x.get_label_group()
+        lby = g_y.get_label_group()
         Rset = []
+
         # What happens when there are no neighbours?
         nx = g_x.neighbours(u)
-        
+
         # Avoid going back
         if (p_u is not None):
             if p_u in nx:
@@ -215,7 +214,7 @@ def core_subtree_RG_dynamic(u, v, g_x, g_y, h, dynamic_dict, p_u=None, p_v=None)
         xy_or = len(nx)+len(ny)
         if(xy_or == 0):
             # both trees finish at the same point
-            return (g_x.label(u)==g_y.label(v))
+            return int(g_x.label(u) == g_y.label(v))
         elif(xy_and == 0):
             # else trees are different so output zero (?)
             return 0
@@ -227,16 +226,19 @@ def core_subtree_RG_dynamic(u, v, g_x, g_y, h, dynamic_dict, p_u=None, p_v=None)
             if (kx in lby):
                 # substract from the common label 
                 # only the valid neighbors
-                snxk = list(set(lbx[k]).intersect(snx))
-                snyk = list(set(lbx[y]).intersect(sny))
+                snxk = list(set(lbx[kx]).intersection(snx))
+                snyk = list(set(lbx[kx]).intersection(sny))
                 if len(snxk) > 0 and len(snyk) > 0:
-                    pair = [lbx[kx],lby[ky]]
+                    pair = [lbx[kx],lby[kx]]
                     Rset += list(itertools.product(*pair))
 
         # Designate all nodes with the same start
         # and all with the same finish
         right = dict()
         left = dict()
+        # Dictionary to store for 
+        # every pair the index
+        Rset_dict = dict()
         l = 0
         # assign values to indexes
         for (w,z) in Rset:
@@ -246,6 +248,7 @@ def core_subtree_RG_dynamic(u, v, g_x, g_y, h, dynamic_dict, p_u=None, p_v=None)
                 left[z] = list()
             right[w].append(l)
             left[z].append(l)
+            Rset_dict[(w,z)] = l
             l+=1
 
 
@@ -253,48 +256,49 @@ def core_subtree_RG_dynamic(u, v, g_x, g_y, h, dynamic_dict, p_u=None, p_v=None)
         Kbins_flat_r = list()
         Kbins_flat_l = list()
         for k in right.keys():
-            Kbins_flat_r.append(list(Kbins_flat_r[k]))
+            Kbins_flat_r.append(list(right[k]))
         for k in left.keys():
-            Kbins_flat_l.append(list(Kbins_flat_l[k]))
+            Kbins_flat_l.append(list(left[k]))
+
         # calculate combinations
-        # product e    uals combinations
+        # product equals combinations
         # because the lists are disjoint
         setA = set(itertools.product(*Kbins_flat_r))
         setB = set(itertools.product(*Kbins_flat_l))
-        # take the intersect
+
+        # take the intersection of
         # found maximal valid R sets
-        # allsubsets all also valid
+        # all subsets of maximal sets are also valid
         Rmaximal = setA.intersection(setB)
 
         # Rset: set of all pairs in R
-        l = 0
         # Rv assign values best on index
         Rv = dict()
         for (w,wp) in Rset:
             r = nested_dict_get(dynamic_dict, h-1, u, v, w, wp)
             if (r is None):
-                kh = inner_subtree_RG_dynamic(w, wp, g_x, g_y, h-1, dynamic_dict, u, v)
+                kh = core_subtree_RG_dynamic(w, wp, g_x, g_y, h-1, dynamic_dict, u, v)
                 nested_dict_add(dynamic_dict, kh, h-1, u, v, w, wp)
-                Rv[l] = kh
+                Rv[Rset_dict[(w,wp)]] = kh
             else:
-                Rv[l] = r
-            
+                Rv[Rset_dict[(w,wp)]] = r
         
         k = 0    
         for s in Rmaximal:
-            # Can we calculate do calculation on subsets faster?
-            # The answer is yes: dynamic programming
+            # Keep only non zero elements
+            # (all subsets containing them will be zero)
             non_zero_elements = set()
             for i in s:
-                if(Rv[l] != 0):
-                    non_zero_elements.add()
-            # Dictionary that keeps the subset values if they have been calculated
-            # keys of type set
-            value = dict()
-            plough_subsets(ns.copy().discard(i), Rv, value)
-            for v in value.values():
-                k+=v
+                if(Rv[i] != 0):
+                    non_zero_elements.add(i)
 
+            if bool(non_zero_elements):
+                value = dict()
+                # Can we calculate do calculation on subsets faster?
+                # The answer is yes: dynamic programming
+                plough_subsets(non_zero_elements, Rv, value)
+                for v in value.values():
+                    k+=v
         return k
     else:
         # Raise Warning?
@@ -310,20 +314,24 @@ def plough_subsets(initial_set, Rv, value):
     """
     # If only one element return its value
     if (len(initial_set) == 1):
-        value[frozenset(initial_set)] = Rv[initial_set.pop()]
+        frozen_initial_set = frozenset(initial_set)
+        p = initial_set.pop()
+        value[frozen_initial_set] = Rv[p]
     
     elif (len(initial_set) > 1):
         # Explore all subsets for value dictionary to fill and
         # and calculate current
         flag = True
-        frozen_inital_set = frozenset(initial_set)
+        frozen_initial_set = frozenset(initial_set)
         for s in initial_set:
-            temp_set = ns.copy().discard(s)
+            temp_set = initial_set.copy()
+            temp_set.discard(s)
             frozen_temp_set = frozenset(temp_set)
             if frozen_temp_set not in value:
-                plough_for_subsets(temp_set, Rv, value)            
+                plough_subsets(temp_set, Rv, value)
+            
             if(flag):
-                value[frozenset_initial_set] = Rv[s]*value[frozen_temp_set]
+                value[frozen_initial_set] = Rv[s]*value[frozen_temp_set]
                 flag = False
 
 def graphlets_sampling(X, Y, k = 5, delta=0.05, epsilon=0.05, a=-1):
@@ -335,22 +343,22 @@ def graphlets_sampling(X, Y, k = 5, delta=0.05, epsilon=0.05, a=-1):
     """
     Gx = graph(X,{})
     Gy = graph(Y,{})
-    return graphlets_sampling_inner(Gx, Gy, k = 5, delta=0.05, epsilon=0.05, a=-1)
     
-def graphlets_sampling_inner(Gx, Gy, k = 5, delta=0.05, epsilon=0.05, a=-1):
-    """ Applies the sampling random graph kernel as proposed
-        by Shervashidze, Vishwanathan at 2009 (does not consider labels)
-        
-        Gx, Gy: Graph type objects
+    # Steps:
+    # Feature Space
+    nsamples, graphlets, P = sample_graphlets(k, delta, epsilon, a)
+
+    # Calculate Features
+    return graphlets_sampling_inner(Gx, Gy, nsamples, graphlets, P, k)
+    
+def sample_graphlets(k = 5, delta=0.05, epsilon=0.05, a=-1):
+    """ A function that samples graphlets, based on statistic parameters
+
         k: the dimension of the given graphlets
         delta : confidence level (typically 0.05 or 0.1)
-        epsilon : precision level (typically 0.05 or 1)
-        a : number of isomorphism classes of graphlets
+        epsilon : precision level (typically 0.05 or 0.1)
+        a : number of isomorphism classes of graphlets        
     """
-    Gx.desired_format("adjacency")
-    Gy.desired_format("adjacency")
-    X, Y = Gx.adjacency_matrix, Gy.adjacency_matrix
-
     fallback_map = {1: 1, 2: 2, 3: 4, 4: 8, 5: 19, 6: 53, 7: 209, 8: 1253, 9: 13599}
     if not k>=3:
         # Raise Warning
@@ -364,10 +372,8 @@ def graphlets_sampling_inner(Gx, Gy, k = 5, delta=0.05, epsilon=0.05, a=-1):
         else:
             a = fallback_map[k]
     
-    nsamples = math.floor(2 * ( a* np.log10(2) + np.log10(1/delta) ) / (epsilon*epsilon))
+    nsamples = math.floor(2*(a*np.log10(2) + np.log10(1/delta))/(epsilon*epsilon))
 
-    # Steps:
-    # 1) Sample graphlets
     graphlets = dict()
     graphlet_set = set()
     # keeps a track of what 
@@ -384,17 +390,17 @@ def graphlets_sampling_inner(Gx, Gy, k = 5, delta=0.05, epsilon=0.05, a=-1):
         cert = list()
         f = True
         while f:
-            for i in range(0,k-1):
-                gr[i,i] = .0
+            for j in range(0,k-1):
+                gr[j,j] = .0
                 line = np.random.randint(2, size=k-1)
                 while 1 not in line[:]:
                     line = np.random.randint(2, size=k-1)
-                gr[0:(i-1),i] = line[0:i-1]
-                gr[i,(i+1):k-1] = line[i:k-2]
+                gr[0:j,j] = line[0:j]
+                gr[j,(j+1):k] = line[j:k-1]
                 # Apply also for symmetric
-                gr[(i+1):k,i] = line[i:k-2]
-                gr[i,0:(i-1)] = line[0:i-1]
-                cert += list(line[i:k-2])
+                gr[(j+1):k,j] = line[j:k-1]
+                gr[j,0:j] = line[0:j]
+                cert += list(line[j:k-1])
             certificate = str(cert)
             f = certificate in graphlet_set
         graphlet_set.add(str(cert))
@@ -405,7 +411,7 @@ def graphlets_sampling_inner(Gx, Gy, k = 5, delta=0.05, epsilon=0.05, a=-1):
         else:
             newbin = True
             for j in range(nbins):
-                if pynauty.isomorphic(graph_bins[j],graphlets[i]):
+                if pynauty.isomorphic(graphlets[graph_bins[j][0]],graphlets[i]):
                     newbin = False
                     graph_bins[j].append(i)
                     break
@@ -416,7 +422,7 @@ def graphlets_sampling_inner(Gx, Gy, k = 5, delta=0.05, epsilon=0.05, a=-1):
     # Produce Pij Matrix:
     # Based on the idea that 
     # if Pij = 1 and Pjk = 1 then Pik=1
-    P = np.zeros(nsamples)
+    P = np.zeros(shape = (nsamples,nsamples))
     for i in range(nbins):
         pair = list(graph_bins[i])
         for (i,j) in itertools.combinations(pair,2):
@@ -427,26 +433,48 @@ def graphlets_sampling_inner(Gx, Gy, k = 5, delta=0.05, epsilon=0.05, a=-1):
         for j in range(i+1,nsamples):
             P[j,i]=P[j,i]
 
-    # 2) Calculate fre    uencies for each graph
+    return nsamples, graphlets, P
+
+def graphlets_sampling_inner(Gx, Gy, nsamples, graphlets, P, k):
+    """ Applies the sampling random graph kernel as proposed
+        by Shervashidze, Vishwanathan at 2009 (does not consider labels)
+        
+        Gx, Gy: Graph type objects
+        k: the dimension of the given graphlets
+        delta : confidence level (typically 0.05 or 0.1)
+        epsilon : precision level (typically 0.05 or 0.1)
+        a : number of isomorphism classes of graphlets
+    """
+    Gx.desired_format("adjacency")
+    Gy.desired_format("adjacency")
+    X, Y = Gx.adjacency_matrix, Gy.adjacency_matrix    
+
+    # Calculate frequencies for each graph
     # Check that if each matrix is a principal
     # minor of the adjoint and how many times
     i = 0
 
-    # Fre    uency vector for x
+    # Frequency vector for x
     fx = np.zeros(nsamples)
     
-    # Fre    uency vector for y
+    # Frequency vector for y
     fy = np.zeros(nsamples)
 
     # To transform the adjacency to edge dictionary
     # needed for nauty graph initialise a small lambda
     to_edge_dict_real = lambda x : matrix_to_dict(x, '>', .0, k, False)
+
+    # For all kminors
     for c in itertools.combinations(list(range(k)),k):
         for s in range(0,nsamples):
             idxs = list(c)
-            if(pynauty.isomorphic(pynauty.Graph(k, True, to_edge_dict_real(X[c,c])), graphlets[s])):
+            # Extract k minors
+            X_m = X[idxs,:][:,idxs]
+            Y_m = Y[idxs,:][:,idxs]
+            # Test isomorphism with each graphlet
+            if(pynauty.isomorphic(pynauty.Graph(k, True, to_edge_dict_real(X_m)), graphlets[s])):
                 fx[s]+=1
-            if(pynauty.isomorphic(pynauty.Graph(k, True, to_edge_dict_real(Y[c,c])),graphlets[s])):
+            if(pynauty.isomorphic(pynauty.Graph(k, True, to_edge_dict_real(Y_m)), graphlets[s])):
                 fy[s]+=1
 
     # normalize fx
@@ -459,12 +487,16 @@ def graphlets_sampling_inner(Gx, Gy, k = 5, delta=0.05, epsilon=0.05, a=-1):
     if(sfy != 0):
         fy = np.divide(fy,sfy)
 
-    # 3) Calculate the kernel
+    np.set_printoptions(threshold=np.nan)
+    print(fx)
+    print(fy)
+    print(P)
+    # Calculate the kernel
     kernel = np.dot(fx,np.dot(P,fy.T))
 
     return kernel
 
-def weisfeiler_lehman(X, Y, Lx, Ly, base_kernel, niter):
+def weisfeiler_lehman(X, Y, Lx, Ly, niter, base_kernel):
     """ Computes the Weisfeler Lehman as proposed
         at 2011 by shervashize et. al.
 
@@ -540,14 +572,29 @@ def weisfeiler_lehman_inner(Ga, Gb, niter, base_kernel):
             WL_labels_inverse[dv] = label_count
             label_count +=1
 
-        # relabel
+        # backup
+        La_backup = La
+        Lb_backup = Lb
+
+        # calculate labels
+        La = dict()
+        Lb = dict()
         for k in La_temp.keys():
             La[k] = WL_labels_inverse[k]
         for k in Lb_temp.keys():
             Lb[k] = WL_labels_inverse[k]
+        
+        # relabel
+        Ga.relabel(La)
+        Gb.relabel(Lb)
 
-        # calculate kernel
-        k += base_kernel(Ga_edge_dictionary, Gb_edge_dictionary, La, Lb)
+        # calculate kernel 
+        k += base_kernel(Ga, Gb)
+        
+        # Restore backup labels
+        Ga.relabel(La_backup)
+        Gb.relabel(Lb_backup)
+        
     return k
 
 def dirac(input_a, input_b, Lx, Ly):

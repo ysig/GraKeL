@@ -125,13 +125,13 @@ def inv_dict(d):
         d: dictionary
     """
     inv = dict()
-    for a in d.keys():
-        for b in d[a]:
-            if b not in d:
-                inv[b] = list()
-            inv[b].append(a)
-     
-    # returns a dictionary of list items
+    if bool(d):
+        for a in d.keys():
+            k = d[a]
+            if k not in inv:
+               inv[k] = list()
+            inv[k].append(a)
+        # returns a dictionary of list items
     return inv
 
 def matrix_to_dict(matrix, op='==', const_value=0, s=-1, allow_diagonal=False):
@@ -155,14 +155,14 @@ def matrix_to_dict(matrix, op='==', const_value=0, s=-1, allow_diagonal=False):
         '<=': operator.le,
         '==': operator.eq
         }
-    operator = ops[op]
+    opr = ops[op]
     if(s==-1):
         s = matrix.shape[0]
     dictionary = dict()
     for i in range(0,s):
         for j in range(0,s):
             if(allow_diagonal or i!=j):
-                if(operator(matrix[i,j],const_value)):
+                if(opr(matrix[i,j],const_value)):
                     if i not in dictionary:
                         dictionary[i] = list()
                     dictionary[i].append(j)

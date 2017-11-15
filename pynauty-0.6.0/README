@@ -1,0 +1,17 @@
+pynauty  --  isomorphism testing and automorphism groups of graphs
+version: 0.6
+
+Copyright (c) 2015 Peter Dobsan
+
+This is the source distribution of pynauty, a Python/C extension module.
+It can be used to compare graphs for isomorphism and to determine their
+automorphism group. It is based on the Nauty C procedures.
+
+pynauty is compatible both Python-2 and Python-3.
+
+pynauty is distributed under the terms GPL v3 WITHOUT ANY WARRANTY.
+For exact details on licencing see the file COPYING.
+
+For documentations, including instructions for  installation, API and
+User's Guide see the docs/ directory.
+

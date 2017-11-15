@@ -1,0 +1,15 @@
+Changes in version 0.6
+
+  - Made pynauty compatible with both Python 2.7 and 3.5
+
+  - Pynauty now works with nauty25r9.
+
+  - Extended tests to cover computing automorphism groups, orbits and
+    testing isomorphism.
+
+  - Added Makefile to provide build, test, install, uninstall (in
+    virtualenv and user's home directroy), etc.  targets. 
+  
+  - Fixed a pointer underflow bug - thanks to Gregory Puleo
+    <gpuleo@gmail.com>
+

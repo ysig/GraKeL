@@ -1,0 +1,28 @@
+Metadata-Version: 1.1
+Name: pynauty
+Version: 0.6.0
+Summary: Automorphism and isomorphism of graphs
+Home-page: https://github.com/pdobsan/pynauty
+Author: Peter Dobsan
+Author-email: pdobsan@gmail.com
+License: GNU General Public License v3
+Description: 
+        Package for testing isomorphism of graphs
+        and computing their automorphism group.
+        
+Platform: Linux
+Platform: Unix
+Platform: OS X
+Classifier: Environment :: Console
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Operating System :: Unix
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3.5
+Classifier: Programming Language :: C
+Classifier: Topic :: Scientific/Engineering
+Classifier: Topic :: Scientific/Engineering :: Mathematics
+Classifier: Topic :: Scientific/Engineering :: Computing Science
+Classifier: Intended Audience :: Science/Research
+Classifier: Intended Audience :: Education
+Classifier: License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)
