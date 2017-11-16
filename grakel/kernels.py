@@ -4,6 +4,7 @@
 """
 import itertools
 import math
+import collections
 
 import numpy as np
 
@@ -13,12 +14,41 @@ from numpy.linalg import inv
 from scipy.linalg import solve_sylvester
 from scipy.interpolate import interp1d
 
-from graph import graph
-from tools import inv_dict, matrix_to_dict, nested_dict_get, nested_dict_add
+from .graph import graph
+from .tools import inv_dict, matrix_to_dict, nested_dict_get, nested_dict_add
 
 np.random.seed(238537)
 
-def random_walk(X, Y, Lx, Ly, lamda=0.1, method_type="sylvester"):
+def dirac(X, Y, Lx, Ly):
+    """ The simple dirac kernel for labelled graphs
+        k(X,Y) = \sum_{v \in V_{1}}\sum_{v' \in V_{2}}dirac(l(v),l(v'))
+
+        X,Y: Valid graph formats to be compared
+        L{x,y}: The corresponding label dictionaries.
+    """
+    Gx = graph(X, Lx)
+    Gy = graph(Y, Ly)
+    return dirac_inner(Gx,Gy)
+
+def dirac_inner(Gx,Gy):
+    """ The simple dirac kernel for labelled graphs
+        k(X,Y) = \sum_{v \in V_{1}}\sum_{v' \in V_{2}}dirac(l(v),l(v'))
+
+        G_{x,y}: corresponding graph structures
+    """
+    Gx.desired_format("dictionary")
+    Gy.desired_format("dictionary")
+    
+    # Calculate kernel
+    linv_x = inv_dict(Gx.get_labels("dictionary"))
+    linv_y = inv_dict(Gy.get_labels("dictionary"))
+    k = 0
+    for lx in linv_x:
+        if lx in linv_y:
+            k += len(linv_x[lx])*len(linv_y[lx])     
+    return k
+
+def random_walk(X, Y, lamda=0.1, method_type="sylvester"):
     """ This is a function that implements the random walk kernel.
 
         X, Y: to valid graph types i.e. edge dictionary or adjacency_mat
@@ -66,15 +96,11 @@ def random_walk_inner(Gx, Gy,lamda=0.1, method_type="sylvester"):
         # with the smallest e_{x,y} in dimension
         e_x = np.ones(shape=(X_dimension,1))
         e_y = np.ones(shape=(1,Y_dimension))
-        if(X_dimension <= Y_dimension):
-            e_x = np.dot(e_x,-lamda)
-        else:
-            e_y = np.dot(e_y,-lamda)
 
         # Prepare parameters for sylvester equation
         A = Y
-        B = np.divide(inv(X), -lamda)
-        C = np.dot(e_x ,np.dot(e_y,X))
+        B = np.divide(inv(X.T), -lamda)
+        C = -np.dot(e_x ,np.dot(e_y,B))
         
         R = solve_sylvester(A, B, C)
         
@@ -158,10 +184,10 @@ def subtree_RG_inner(Gx, Gy, h=5):
     dynamic_dictionary = dict()
     for u in Gx.edge_dictionary.keys():
         for v in Gy.edge_dictionary.keys():
-            kernel += core_subtree_RG_dynamic(u,v,Gx,Gy,h,dynamic_dictionary)
+            kernel += subtree_RG_core_dynamic(u,v,Gx,Gy,h,dynamic_dictionary)
     return kernel
 
-def core_subtree_RG_dynamic(u, v, g_x, g_y, h, dynamic_dict, p_u=None, p_v=None):
+def subtree_RG_core_dynamic(u, v, g_x, g_y, h, dynamic_dict, p_u=None, p_v=None):
     """ Calculate the inside of the summation
         of Ramon Gartner subtree kernel
         as proposed on [Ramon & Gartner, 2003]
@@ -181,7 +207,7 @@ def core_subtree_RG_dynamic(u, v, g_x, g_y, h, dynamic_dict, p_u=None, p_v=None)
     """
     
     if h==1:
-        return (g_x.label(u)==g_y.label(v))
+        return int(g_x.label(u)==g_y.label(v))
 
     elif h>1:
         R = list()
@@ -193,7 +219,7 @@ def core_subtree_RG_dynamic(u, v, g_x, g_y, h, dynamic_dict, p_u=None, p_v=None)
         lby = g_y.get_label_group()
         Rset = []
 
-        # What happens when there are no neighbours?
+        # Calculate neighbours and remove previous
         nx = g_x.neighbours(u)
 
         # Avoid going back
@@ -223,11 +249,11 @@ def core_subtree_RG_dynamic(u, v, g_x, g_y, h, dynamic_dict, p_u=None, p_v=None)
         snx = set(nx)
         sny = set(ny)
         for kx in lbx:
-            if (kx in lby):
+            if kx in lby:
                 # substract from the common label 
                 # only the valid neighbors
                 snxk = list(set(lbx[kx]).intersection(snx))
-                snyk = list(set(lbx[kx]).intersection(sny))
+                snyk = list(set(lby[kx]).intersection(sny))
                 if len(snxk) > 0 and len(snyk) > 0:
                     pair = [lbx[kx],lby[kx]]
                     Rset += list(itertools.product(*pair))
@@ -259,7 +285,6 @@ def core_subtree_RG_dynamic(u, v, g_x, g_y, h, dynamic_dict, p_u=None, p_v=None)
             Kbins_flat_r.append(list(right[k]))
         for k in left.keys():
             Kbins_flat_l.append(list(left[k]))
-
         # calculate combinations
         # product equals combinations
         # because the lists are disjoint
@@ -277,7 +302,7 @@ def core_subtree_RG_dynamic(u, v, g_x, g_y, h, dynamic_dict, p_u=None, p_v=None)
         for (w,wp) in Rset:
             r = nested_dict_get(dynamic_dict, h-1, u, v, w, wp)
             if (r is None):
-                kh = core_subtree_RG_dynamic(w, wp, g_x, g_y, h-1, dynamic_dict, u, v)
+                kh = subtree_RG_core_dynamic(w, wp, g_x, g_y, h-1, dynamic_dict, u, v)
                 nested_dict_add(dynamic_dict, kh, h-1, u, v, w, wp)
                 Rv[Rset_dict[(w,wp)]] = kh
             else:
@@ -334,24 +359,95 @@ def plough_subsets(initial_set, Rv, value):
                 value[frozen_initial_set] = Rv[s]*value[frozen_temp_set]
                 flag = False
 
-def graphlets_sampling(X, Y, k = 5, delta=0.05, epsilon=0.05, a=-1):
+def graphlets_sampling(X, Y, k=5, delta=0.05, epsilon=0.05, a=-1):
     """ Applies the sampling random graph kernel as proposed
         by Shervashidze, Vishwanathan at 2009 (does not consider labels)
         
         X,Y: valid graph formats
-
+        k: the dimension of the given graphlets
+        delta : confidence level (typically 0.05 or 0.1)
+        epsilon : precision level (typically 0.05 or 0.1)
+        a : number of isomorphism classes of graphlets  
     """
-    Gx = graph(X,{})
-    Gy = graph(Y,{})
+    Gx = graph(X)
+    Gy = graph(Y)
     
+    return graphlets_sampling_inner(Gx, Gy, k=5, delta=0.05, epsilon=0.05, a=-1)
+
+def graphlets_sampling_inner(Gx, Gy, k=5, delta=0.05, epsilon=0.05, a=-1):
+    """ A graphlet sampling kernel for graphs
+
+        Gx, Gy: Graph type objects
+        k: the dimension of the given graphlets
+        delta : confidence level (typically 0.05 or 0.1)
+        epsilon : precision level (typically 0.05 or 0.1)
+        a : number of isomorphism classes of graphlets  
+    """
     # Steps:
     # Feature Space
     nsamples, graphlets, P = sample_graphlets(k, delta, epsilon, a)
 
     # Calculate Features
-    return graphlets_sampling_inner(Gx, Gy, nsamples, graphlets, P, k)
+    return graphlets_sampling_core(Gx, Gy, nsamples, graphlets, P, k)
+
+def graphlets_sampling_core(Gx, Gy, nsamples, graphlets, P, k):
+    """ Applies the sampling random graph kernel as proposed
+        by Shervashidze, Vishwanathan at 2009 (does not consider labels)
+        
+        Gx, Gy: Graph type objects
+        k: the dimension of the given graphlets
+        delta : confidence level (typically 0.05 or 0.1)
+        epsilon : precision level (typically 0.05 or 0.1)
+        a : number of isomorphism classes of graphlets
+    """
+    Gx.desired_format("adjacency")
+    Gy.desired_format("adjacency")
+    X, Y = Gx.adjacency_matrix, Gy.adjacency_matrix    
+
+    # Calculate frequencies for each graph
+    # Check that if each matrix is a principal
+    # minor of the adjoint and how many times
+    i = 0
+
+    # Frequency vector for x
+    fx = np.zeros(nsamples)
     
-def sample_graphlets(k = 5, delta=0.05, epsilon=0.05, a=-1):
+    # Frequency vector for y
+    fy = np.zeros(nsamples)
+
+    # To transform the adjacency to edge dictionary
+    # needed for nauty graph initialise a small lambda
+    to_edge_dict_real = lambda x : matrix_to_dict(x, '>', .0, k, False)
+
+    # For all kminors
+    for c in itertools.combinations(list(range(k)),k):
+        for s in range(0,nsamples):
+            idxs = list(c)
+            # Extract k minors
+            X_m = X[idxs,:][:,idxs]
+            Y_m = Y[idxs,:][:,idxs]
+            # Test isomorphism with each graphlet
+            if(pynauty.isomorphic(pynauty.Graph(k, True, to_edge_dict_real(X_m)), graphlets[s])):
+                fx[s]+=1
+            if(pynauty.isomorphic(pynauty.Graph(k, True, to_edge_dict_real(Y_m)), graphlets[s])):
+                fy[s]+=1
+
+    # normalize fx
+    sfx = np.sum(fx,axis=0)
+    if(sfx != 0):
+        fx = np.divide(fx,sfx)
+    
+    # normalize fy
+    sfy = np.sum(fy,axis=0)
+    if(sfy != 0):
+        fy = np.divide(fy,sfy)
+
+    # Calculate the kernel
+    kernel = np.dot(fx,np.dot(P,fy.T))
+
+    return kernel
+ 
+def sample_graphlets(k=5, delta=0.05, epsilon=0.05, a=-1):
     """ A function that samples graphlets, based on statistic parameters
 
         k: the dimension of the given graphlets
@@ -435,68 +531,9 @@ def sample_graphlets(k = 5, delta=0.05, epsilon=0.05, a=-1):
 
     return nsamples, graphlets, P
 
-def graphlets_sampling_inner(Gx, Gy, nsamples, graphlets, P, k):
-    """ Applies the sampling random graph kernel as proposed
-        by Shervashidze, Vishwanathan at 2009 (does not consider labels)
-        
-        Gx, Gy: Graph type objects
-        k: the dimension of the given graphlets
-        delta : confidence level (typically 0.05 or 0.1)
-        epsilon : precision level (typically 0.05 or 0.1)
-        a : number of isomorphism classes of graphlets
-    """
-    Gx.desired_format("adjacency")
-    Gy.desired_format("adjacency")
-    X, Y = Gx.adjacency_matrix, Gy.adjacency_matrix    
 
-    # Calculate frequencies for each graph
-    # Check that if each matrix is a principal
-    # minor of the adjoint and how many times
-    i = 0
 
-    # Frequency vector for x
-    fx = np.zeros(nsamples)
-    
-    # Frequency vector for y
-    fy = np.zeros(nsamples)
-
-    # To transform the adjacency to edge dictionary
-    # needed for nauty graph initialise a small lambda
-    to_edge_dict_real = lambda x : matrix_to_dict(x, '>', .0, k, False)
-
-    # For all kminors
-    for c in itertools.combinations(list(range(k)),k):
-        for s in range(0,nsamples):
-            idxs = list(c)
-            # Extract k minors
-            X_m = X[idxs,:][:,idxs]
-            Y_m = Y[idxs,:][:,idxs]
-            # Test isomorphism with each graphlet
-            if(pynauty.isomorphic(pynauty.Graph(k, True, to_edge_dict_real(X_m)), graphlets[s])):
-                fx[s]+=1
-            if(pynauty.isomorphic(pynauty.Graph(k, True, to_edge_dict_real(Y_m)), graphlets[s])):
-                fy[s]+=1
-
-    # normalize fx
-    sfx = np.sum(fx,axis=0)
-    if(sfx != 0):
-        fx = np.divide(fx,sfx)
-    
-    # normalize fy
-    sfy = np.sum(fy,axis=0)
-    if(sfy != 0):
-        fy = np.divide(fy,sfy)
-
-    np.set_printoptions(threshold=np.nan)
-    print(fx)
-    print(fy)
-    print(P)
-    # Calculate the kernel
-    kernel = np.dot(fx,np.dot(P,fy.T))
-
-    return kernel
-
-def weisfeiler_lehman(X, Y, Lx, Ly, niter, base_kernel):
+def weisfeiler_lehman(X, Y, Lx, Ly, base_kernel, niter=5):
     """ Computes the Weisfeler Lehman as proposed
         at 2011 by shervashize et. al.
 
@@ -506,9 +543,9 @@ def weisfeiler_lehman(X, Y, Lx, Ly, niter, base_kernel):
     """
     Ga = graph(X,Lx)
     Gb = graph(Y,Ly)
-    return weisfeiler_lehman_inner(Ga, Gb, niter)
+    return weisfeiler_lehman_inner(Ga, Gb, base_kernel, niter)
 
-def weisfeiler_lehman_inner(Ga, Gb, niter, base_kernel):
+def weisfeiler_lehman_inner(Ga, Gb, base_kernel, niter=5):
     """ Computes the Weisfeler Lehman as proposed
         at 2011 by shervashize et. al.
 
@@ -522,25 +559,30 @@ def weisfeiler_lehman_inner(Ga, Gb, niter, base_kernel):
     Ga.desired_format("dictionary")
     Gb.desired_format("dictionary")
     
-    La = Ga.get_labels("dictionary")
-    Lb = Gb.get_labels("dictionary")
+    La_original = Ga.get_labels("dictionary")
+    Lb_original = Gb.get_labels("dictionary")
     Ga_edge_dictionary = Ga.edge_dictionary
     Gb_edge_dictionary = Gb.edge_dictionary
 
-    WL_labels = OrderedDict()
-    WL_labels_inverse = OrderedDict()
-    distinct_values = sorted(list(set(La.values()).union(set(Lb.values()))))
+    WL_labels = dict()
+    WL_labels_inverse = dict()
+    distinct_values = sorted(list(set(La_original.values()).union(set(Lb_original.values()))))
     label_count = 0
     for dv in distinct_values:
         WL_labels[label_count] = dv
         WL_labels_inverse[dv] = label_count
         label_count +=1
-    for k in La.keys():
-        La[k] = WL_labels_inverse[La[k]]
-    for k in Lb.keys():
-        Lb[k] = WL_labels_inverse[Lb[k]]
 
-    k = base_kernel(Ga_edge_dictionary, Gb_edge_dictionary, La, Lb)
+    La = dict()
+    Lb = dict()
+    for k in La_original.keys():
+        La[k] = WL_labels_inverse[La_original[k]]
+    for k in Lb_original.keys():
+        Lb[k] = WL_labels_inverse[Lb_original[k]]
+
+    Ga.relabel(La)
+    Gb.relabel(Lb)
+    k = base_kernel(Ga, Gb)
     for i in range(niter):
         label_set = set()
        
@@ -572,18 +614,13 @@ def weisfeiler_lehman_inner(Ga, Gb, niter, base_kernel):
             WL_labels_inverse[dv] = label_count
             label_count +=1
 
-        # backup
-        La_backup = La
-        Lb_backup = Lb
-
-        # calculate labels
+        # Recalculate labels
         La = dict()
         Lb = dict()
         for k in La_temp.keys():
-            La[k] = WL_labels_inverse[k]
+            La[k] = WL_labels_inverse[La_temp[k]]
         for k in Lb_temp.keys():
-            Lb[k] = WL_labels_inverse[k]
-        
+            Lb[k] = WL_labels_inverse[Lb_temp[k]]        
         # relabel
         Ga.relabel(La)
         Gb.relabel(Lb)
@@ -591,39 +628,10 @@ def weisfeiler_lehman_inner(Ga, Gb, niter, base_kernel):
         # calculate kernel 
         k += base_kernel(Ga, Gb)
         
-        # Restore backup labels
-        Ga.relabel(La_backup)
-        Gb.relabel(Lb_backup)
         
-    return k
-
-def dirac(input_a, input_b, Lx, Ly):
-    """ The simple dirac kernel for labelled graphs
-        k(X,Y) = \sum_{v \in V_{1}}\sum_{v' \in V_{2}}dirac(l(v),l(v'))
-
-        edge_dict_{X,Y}: The edge dicitonaries of the two compared graphs
-        L{x,y}: The corresponding label dictionaries.
-    """
-    Gx = graph(edge_dict_X, edge_dict_Y, Lx, Ly)
-    Gy = graph(edge_dict_X, edge_dict_Y, Lx, Ly)
-    return dirac_inner(Gx,Gy)
-
-def dirac_inner(Gx,Gy):
-    """ The simple dirac kernel for labelled graphs
-        k(X,Y) = \sum_{v \in V_{1}}\sum_{v' \in V_{2}}dirac(l(v),l(v'))
-
-        G_{x,y}: corresponding graph structures
-    """
-    Gx.desired_format("dictionary")
-    Gy.desired_format("dictionary")
-    
-    # Calculate kernel
-    linv_x = inv_dict(Gx.get_labels("dictionary"))
-    linv_y = inv_dict(Gy.get_labels("dictionary"))
-    k = 0
-    for lx in linv_x:
-        if ly in linv_y:
-            k += len(linv_x[lx])*len(linv_y[ly])     
+    # Restore original labels  
+    Ga.relabel(La_original)
+    Gb.relabel(Lb_original) 
     return k
 
 #def graphlets(X,Y):

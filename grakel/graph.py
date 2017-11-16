@@ -5,7 +5,7 @@ import collections
 import operator
 import numpy as np
 
-from tools import priority_dict, inv_dict
+from .tools import priority_dict, inv_dict
 
 class graph(object):
     """ Definition of a graph
@@ -261,14 +261,29 @@ class graph(object):
 
     def relabel(self,new_labels,labels_for="dictionary"):
         """ Adds new labels dictionary """
-        if labels_for is "dictionary":
+        if new_labels is None or not bool(new_labels):
+            # Raise warning: User must provide new labels?
+            pass
+        elif labels_for is "dictionary":
             if self._format in "dictionary":
-                self._labels = new_labels
-            elif self.format in "all":
-                self._labels = new_labels
-                if bool(index_labels):
+                self.labels = new_labels
+                if self.shortest_path_mat is not None:
+                    lov = list(self.vertices)
+                    shortest_path_mat_dim = len(lov)
+                    lov_sorted = sorted(lov)
+
+                    # shortest path labels
+                    sp_labels =  dict()
+                    if bool(self.splabels):
+                        tmp = [self.labels[k] for k in lov_sorted]
+                        sp_labels = dict(zip(list(range(0,shortest_path_mat_dim)),tmp))
+            elif self._format in "all":
+                self.labels = new_labels
+                if bool(self.index_labels):
                     for k in elamcd.keys():
                         self.index_labels[elamcd[k]] = new_labels[k]
+                    if bool(self.sp_labels):
+                        self.sp_labels = self.index_labels
             else:
                 pass
                 # Raise exception?
@@ -276,10 +291,18 @@ class graph(object):
             if self._format is "all":
                 if bool(self.index_labels):
                     self.index_labels = new_labels
+                    # move from index labels to dictionary key labels
+                    ielamcd = inv_dict(self.elamcd)
+                    for k in ielamcd.keys():
+                        self.labels[ielamcd[k]] = new_labels[k]
                 else:
                     self.labels = new_labels
+                if bool(self.sp_labels):
+                    self.sp_labels = self.labels
             elif self._format is "adjacency":
                 self.labels = new_labels
+                if bool(self.sp_labels):
+                    self.sp_labels = self.labels
             else:
                 pass
                 # Raise exception?
@@ -300,8 +323,8 @@ class graph(object):
             self.shortest_path_mat = None
             self.shortest_path_labels = None
         
-        if bool(self.shortest_path_mat) and bool(self.shortest_path_mat):
-            return shortest_path_mat, shortest_path_labels
+        if self.shortest_path_mat is not None:
+            return self.shortest_path_mat, self.shortest_path_labels
 
         # Assign the desired algorithm
         if algorithm_type is "auto":

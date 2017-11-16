@@ -1,7 +1,7 @@
 import numpy as np
 from numpy.testing import assert_almost_equal
 
-from graph import graph
+from grakel.graph import graph
 
 def test_graph_adjacency():
     X = np.array([[1,1,0,3],[1,0,0,2],[2,3,0,1],[1,0,0,0]])
@@ -39,5 +39,3 @@ def test_graph_edge_dictionary():
         sp1, sp2 = g[k].build_shortest_path_matrix(algorithm_type="auto")
         print(sp1,'\n',sp2,'\n')
 
-test_graph_adjacency()
-test_graph_edge_dictionary()
