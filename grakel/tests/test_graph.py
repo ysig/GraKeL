@@ -39,3 +39,5 @@ def test_graph_edge_dictionary():
         sp1, sp2 = g[k].build_shortest_path_matrix(algorithm_type="auto")
         print(sp1,'\n',sp2,'\n')
 
+test_graph_adjacency()
+test_graph_edge_dictionary()

@@ -69,3 +69,12 @@ def gk_test_weisfeiler_lehman():
         gk = GraphKernel(kernel=[{"name":"weisfeiler_lehman","niter":5},base_kernel[k]])
         gkf = gk.fit(XX)
         print("Weisfeiler_lehman - "+str(k)+":",gkf.transform())
+
+gk_test_dirac()
+gk_test_random_walk_simple()
+gk_test_random_walk_sylvester()
+gk_test_shortest_path()
+gk_test_subtree_RG()
+gk_test_graphlets_sampling()
+gk_test_weisfeiler_lehman()
+

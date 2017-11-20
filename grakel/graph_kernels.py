@@ -88,12 +88,12 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                 elif kernel_name is "subtree_RG":
                     return lambda x, y: subtree_RG_inner(x,y,**kernel)
                 elif kernel_name is "graphlets_sampling":
-                    nsamples, graphlets, P = sample_graphlets(**kernel)
+                    nsamples, graphlets, P, graph_bins, nbins = sample_graphlets(**kernel)
                     print(str(nsamples)+" graphlets sampled")
                     if "k" in kernel:
-                        return lambda x, y: graphlets_sampling_core(x,y,nsamples, graphlets, P, k=kernel["k"])
+                        return lambda x, y: graphlets_sampling_core(x,y,nsamples, graphlets, P, graph_bins, nbins, k=kernel["k"])
                     else:
-                        return lambda x, y: graphlets_sampling_core(x,y,nsamples, graphlets, P)
+                        return lambda x, y: graphlets_sampling_core(x,y,nsamples, graphlets, P, graph_bins, nbins, k)
             elif kernel_name in ["weisfeiler_lehman"]:
                 if (len(kernel_list)==0):
                     pass

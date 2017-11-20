@@ -237,7 +237,7 @@ class graph(object):
                 return None
         else:
             idx = int(vertex)
-            if 1 < idx < self.n:
+            if 0 <= idx < self.n:
                 if not with_weights:
                     out = list()
                     for i in range(0,self.n):

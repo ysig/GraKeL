@@ -4,7 +4,7 @@
 """
 import itertools
 import math
-import collections
+import random
 
 import numpy as np
 
@@ -18,6 +18,7 @@ from .graph import graph
 from .tools import inv_dict, matrix_to_dict, nested_dict_get, nested_dict_add
 
 np.random.seed(238537)
+random.seed(3456789)
 
 def dirac(X, Y, Lx, Ly):
     """ The simple dirac kernel for labelled graphs
@@ -147,7 +148,7 @@ def shortest_path_inner(g_x, g_y, algorithm_type="dijkstra"):
                 if((Lx[i] in Ly_inv) and (Lx[j] in Ly_inv)):
                     for k in Ly_inv[Lx[i]]:
                         for m in Ly_inv[Lx[j]]:
-                            if(S_x[i,j] == S_y[k,m]):
+                            if(k!=m and S_x[i,j] == S_y[k,m]):
                                 kernel +=1
 
     return kernel
@@ -262,10 +263,13 @@ def subtree_RG_core_dynamic(u, v, g_x, g_y, h, dynamic_dict, p_u=None, p_v=None)
         # and all with the same finish
         right = dict()
         left = dict()
+
         # Dictionary to store for 
         # every pair the index
         Rset_dict = dict()
+        Rset_inv_dict = dict()
         l = 0
+
         # assign values to indexes
         for (w,z) in Rset:
             if w not in right:
@@ -275,6 +279,7 @@ def subtree_RG_core_dynamic(u, v, g_x, g_y, h, dynamic_dict, p_u=None, p_v=None)
             right[w].append(l)
             left[z].append(l)
             Rset_dict[(w,z)] = l
+            Rset_inv_dict[l] = (w,z)
             l+=1
 
 
@@ -295,11 +300,11 @@ def subtree_RG_core_dynamic(u, v, g_x, g_y, h, dynamic_dict, p_u=None, p_v=None)
         # found maximal valid R sets
         # all subsets of maximal sets are also valid
         Rmaximal = setA.intersection(setB)
-
-        # Rset: set of all pairs in R
+        Valid_tuples = [Rset_inv_dict[i] for s in Rmaximal for i in s]
+        # Calculate trees for the valid tuples
         # Rv assign values best on index
         Rv = dict()
-        for (w,wp) in Rset:
+        for (w,wp) in Valid_tuples:
             r = nested_dict_get(dynamic_dict, h-1, u, v, w, wp)
             if (r is None):
                 kh = subtree_RG_core_dynamic(w, wp, g_x, g_y, h-1, dynamic_dict, u, v)
@@ -308,7 +313,9 @@ def subtree_RG_core_dynamic(u, v, g_x, g_y, h, dynamic_dict, p_u=None, p_v=None)
             else:
                 Rv[Rset_dict[(w,wp)]] = r
         
-        k = 0    
+        # Holds the values of all sets
+        # inside R, that are not zero
+        M_values = dict()
         for s in Rmaximal:
             # Keep only non zero elements
             # (all subsets containing them will be zero)
@@ -318,12 +325,14 @@ def subtree_RG_core_dynamic(u, v, g_x, g_y, h, dynamic_dict, p_u=None, p_v=None)
                     non_zero_elements.add(i)
 
             if bool(non_zero_elements):
-                value = dict()
                 # Can we calculate do calculation on subsets faster?
                 # The answer is yes: dynamic programming
-                plough_subsets(non_zero_elements, Rv, value)
-                for v in value.values():
-                    k+=v
+                plough_subsets(non_zero_elements, Rv, M_values)
+        
+        k = 0
+        for v in M_values.values():
+          k+=v
+                
         return k
     else:
         # Raise Warning?
@@ -344,7 +353,7 @@ def plough_subsets(initial_set, Rv, value):
         value[frozen_initial_set] = Rv[p]
     
     elif (len(initial_set) > 1):
-        # Explore all subsets for value dictionary to fill and
+        # Explore all subsets for value dictionary to fill
         # and calculate current
         flag = True
         frozen_initial_set = frozenset(initial_set)
@@ -372,7 +381,7 @@ def graphlets_sampling(X, Y, k=5, delta=0.05, epsilon=0.05, a=-1):
     Gx = graph(X)
     Gy = graph(Y)
     
-    return graphlets_sampling_inner(Gx, Gy, k=5, delta=0.05, epsilon=0.05, a=-1)
+    return graphlets_sampling_inner(Gx, Gy, k=k, delta=delta, epsilon=epsilon, a=a)
 
 def graphlets_sampling_inner(Gx, Gy, k=5, delta=0.05, epsilon=0.05, a=-1):
     """ A graphlet sampling kernel for graphs
@@ -385,12 +394,12 @@ def graphlets_sampling_inner(Gx, Gy, k=5, delta=0.05, epsilon=0.05, a=-1):
     """
     # Steps:
     # Feature Space
-    nsamples, graphlets, P = sample_graphlets(k, delta, epsilon, a)
+    nsamples, graphlets, P, graph_bins, nbins = sample_graphlets(k, delta, epsilon, a)
 
     # Calculate Features
-    return graphlets_sampling_core(Gx, Gy, nsamples, graphlets, P, k)
+    return graphlets_sampling_core(Gx, Gy, nsamples, graphlets, P, graph_bins, nbins, k)
 
-def graphlets_sampling_core(Gx, Gy, nsamples, graphlets, P, k):
+def graphlets_sampling_core(Gx, Gy, nsamples, graphlets, P, graph_bins, nbins, k=5):
     """ Applies the sampling random graph kernel as proposed
         by Shervashidze, Vishwanathan at 2009 (does not consider labels)
         
@@ -421,16 +430,23 @@ def graphlets_sampling_core(Gx, Gy, nsamples, graphlets, P, k):
 
     # For all kminors
     for c in itertools.combinations(list(range(k)),k):
-        for s in range(0,nsamples):
+        for s in range(0,nbins):
             idxs = list(c)
             # Extract k minors
             X_m = X[idxs,:][:,idxs]
             Y_m = Y[idxs,:][:,idxs]
+            graphlet_idx = graph_bins[s][0]
             # Test isomorphism with each graphlet
-            if(pynauty.isomorphic(pynauty.Graph(k, True, to_edge_dict_real(X_m)), graphlets[s])):
-                fx[s]+=1
-            if(pynauty.isomorphic(pynauty.Graph(k, True, to_edge_dict_real(Y_m)), graphlets[s])):
-                fy[s]+=1
+            if(pynauty.isomorphic(pynauty.Graph(k, True, to_edge_dict_real(X_m)), graphlets[graphlet_idx])):
+                fx[graphlet_idx]+=1
+            if(pynauty.isomorphic(pynauty.Graph(k, True, to_edge_dict_real(Y_m)), graphlets[graphlet_idx])):
+                fy[graphlet_idx]+=1
+                
+    for s in range(0,nbins):
+        for i in range(1,len(graph_bins[s])):
+            idx = graph_bins[s][i]
+            fx[idx]=fx[graph_bins[s][0]]
+            fy[idx]=fy[graph_bins[s][0]]
 
     # normalize fx
     sfx = np.sum(fx,axis=0)
@@ -443,7 +459,7 @@ def graphlets_sampling_core(Gx, Gy, nsamples, graphlets, P, k):
         fy = np.divide(fy,sfy)
 
     # Calculate the kernel
-    kernel = np.dot(fx,np.dot(P,fy.T))
+    kernel = np.dot(fx.T,np.dot(P,fy))
 
     return kernel
  
@@ -468,7 +484,7 @@ def sample_graphlets(k=5, delta=0.05, epsilon=0.05, a=-1):
         else:
             a = fallback_map[k]
     
-    nsamples = math.floor(2*(a*np.log10(2) + np.log10(1/delta))/(epsilon*epsilon))
+    nsamples = math.ceil(2*(a*np.log10(2) + np.log10(1/delta))/(epsilon**2))
 
     graphlets = dict()
     graphlet_set = set()
@@ -477,6 +493,8 @@ def sample_graphlets(k=5, delta=0.05, epsilon=0.05, a=-1):
     to_edge_dict_binary = lambda x : matrix_to_dict(x, '==', 1, k, False)
     graph_bins = dict()
     nbins = 0
+    max_n = 2**(k-1)
+    all_bin = {i: np.array(list(j)) for (i,j) in zip(range(0,max_n),itertools.product([0, 1], repeat=k-1))}
     for i in range(0,nsamples):
         # An upper triangular matrix is calculated
         # characteristics: at least one zero in every line
@@ -484,13 +502,11 @@ def sample_graphlets(k=5, delta=0.05, epsilon=0.05, a=-1):
         # line and row.
         gr = np.empty(shape = (k,k))
         cert = list()
-        f = True
+        f = True        
         while f:
             for j in range(0,k-1):
                 gr[j,j] = .0
-                line = np.random.randint(2, size=k-1)
-                while 1 not in line[:]:
-                    line = np.random.randint(2, size=k-1)
+                line = all_bin[random.randrange(1,max_n)]
                 gr[0:j,j] = line[0:j]
                 gr[j,(j+1):k] = line[j:k-1]
                 # Apply also for symmetric
@@ -514,7 +530,6 @@ def sample_graphlets(k=5, delta=0.05, epsilon=0.05, a=-1):
             if newbin:
                 graph_bins[nbins] = [i]
                 nbins+=1
-
     # Produce Pij Matrix:
     # Based on the idea that 
     # if Pij = 1 and Pjk = 1 then Pik=1
@@ -529,7 +544,7 @@ def sample_graphlets(k=5, delta=0.05, epsilon=0.05, a=-1):
         for j in range(i+1,nsamples):
             P[j,i]=P[j,i]
 
-    return nsamples, graphlets, P
+    return nsamples, graphlets, P, graph_bins, nbins
 
 
 

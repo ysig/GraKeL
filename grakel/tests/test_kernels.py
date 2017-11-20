@@ -27,7 +27,7 @@ def test_shortest_path():
     print("Auto:",shortest_path(X, X, L, L, "auto"))
 
 def test_subtree_RG():
-    print("Subtree [RG]:",subtree_RG(X,X,L,L,3))
+    print("Subtree [RG]:",subtree_RG(X,X,L,L,2))
 
 def test_graphlets_sampling():
     print("Graphlets Sampling:",graphlets_sampling(X, X, 5, 0.05, 0.05,-1))
@@ -40,3 +40,10 @@ def test_weisfeiler_lehman():
     for k in base_kernel.keys():
         print("Weisfeiler_lehman - "+str(k)+":",weisfeiler_lehman(X,X,L,L,base_kernel[k],5))
 
+test_dirac()
+test_random_walk_simple()
+test_random_walk_sylvester()
+test_shortest_path()
+test_subtree_RG()
+test_graphlets_sampling()
+test_weisfeiler_lehman()
