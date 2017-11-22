@@ -1,11 +1,14 @@
 """
-This is a module to be used as a reference for building other modules
+    The main graph kernel object used for creating a graph kernel object
 """
+
 import numpy as np
+
 from sklearn.base import BaseEstimator, ClassifierMixin, TransformerMixin
 from sklearn.utils.validation import check_X_y, check_array, check_is_fitted
+
 from .graph import graph
-from .kernels import dirac_inner, random_walk_inner, shortest_path_inner, subtree_RG_inner, sample_graphlets, graphlets_sampling_core, weisfeiler_lehman_inner
+from .kernels import dirac_inner, random_walk_inner, shortest_path_inner, subtree_rg_inner, sample_graphlets, graphlet_sampling_core, weisfeiler_lehman_inner
 
 class GraphKernel(BaseEstimator, TransformerMixin):
     """ A general class that describes all kernels
@@ -27,7 +30,7 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                                                                                  "simple"
                     - "shortest_path" | (o) "algorithm_type": [str] "dijkstra"
                                                                 "floyd_warshall"
-                    - "subtree_RG" | (o) "h": [int]
+                    - "subtree_rg" | (o) "h": [int]
                     - "graphlets_sampling" | (o) "k": [int], (o) "delta" : [float], (o) "epsilon" : [float], (o) "a": [int]
              
              ii) general_kernels (this kernel will consider the next kernel on list for nesting):
@@ -75,7 +78,7 @@ class GraphKernel(BaseEstimator, TransformerMixin):
             # If nesting type:
             kernel = kernel_list.pop(0)
             kernel_name = kernel.pop("name")
-            if kernel_name in ["dirac","random_walk","shortest_path","subtree_RG","graphlets_sampling"]:
+            if kernel_name in ["dirac","random_walk","shortest_path","subtree_rg","graphlets_sampling"]:
                 if (len(kernel_list)!=0):
                     pass
                     # Raise Warning: Arguments are being ignored reached base kernel?
@@ -85,15 +88,15 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                     return lambda x, y: random_walk_inner(x,y,**kernel)
                 elif kernel_name is "shortest_path":
                     return lambda x, y: shortest_path_inner(x,y,**kernel)
-                elif kernel_name is "subtree_RG":
-                    return lambda x, y: subtree_RG_inner(x,y,**kernel)
+                elif kernel_name is "subtree_rg":
+                    return lambda x, y: subtree_rg_inner(x,y,**kernel)
                 elif kernel_name is "graphlets_sampling":
                     nsamples, graphlets, P, graph_bins, nbins = sample_graphlets(**kernel)
                     print(str(nsamples)+" graphlets sampled")
                     if "k" in kernel:
-                        return lambda x, y: graphlets_sampling_core(x,y,nsamples, graphlets, P, graph_bins, nbins, k=kernel["k"])
+                        return lambda x, y: graphlet_sampling_core(x,y,nsamples, graphlets, P, graph_bins, nbins, k=kernel["k"])
                     else:
-                        return lambda x, y: graphlets_sampling_core(x,y,nsamples, graphlets, P, graph_bins, nbins, k)
+                        return lambda x, y: graphlet_sampling_core(x,y,nsamples, graphlets, P, graph_bins, nbins, k)
             elif kernel_name in ["weisfeiler_lehman"]:
                 if (len(kernel_list)==0):
                     pass

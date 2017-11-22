@@ -1,5 +1,5 @@
-#GraKeL: A library for graph kernels
-##!!!Warning: Project still under construction
+# GraKeL: A library for graph kernels
+**!!!Warning: Project still under construction**
 
 [![Travis Status](https://travis-ci.org/scikit-learn-contrib/project-template.svg?branch=master)](https://travis-ci.org/scikit-learn-contrib/project-template)
 [![Coveralls Status](https://coveralls.io/repos/scikit-learn-contrib/project-template/badge.svg?branch=master&service=github)](https://coveralls.io/r/scikit-learn-contrib/project-template)

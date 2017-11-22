@@ -1,0 +1,17 @@
+Current:
+- Lovasz θ graph kernel
+
+- SVM θ graph kernel
+
+- Multiscale laplacian graph kernel
+
+- Subgraph Matching Kerne
+
+
+Archive:
+
+# Calculates the full graphlet kernel
+# as proposed by Shervashidze and Vishwanathan (2009)
+# for graphlets of size 3,4,5
+
+

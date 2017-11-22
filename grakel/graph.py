@@ -49,6 +49,9 @@ class graph(object):
 
     # label_group: an inverse map between the labels and the nodes
     label_group = dict()
+    
+    # keeps the laplacian graph
+    laplacian_graph = None
 
     def __init__(self, initialization_object=None, labels=None, graph_format="auto"):
         
@@ -499,7 +502,38 @@ class graph(object):
                 self.index_labels = index_labels
                 self.elamcd = elamcd
 
+    def laplacian(self, save=True):
+        """ Calculates the laplacian of the given graph
+            save: optional parameter to store the matrix
+        """ 
+        if self.laplacian_graph is not None:
+            laplacian_graph = self.laplacian_graph
+        else:
+            self.desired_format("adjacency")
+            laplacian_graph = laplacian(self.adjacency_matrix, self.n)
+            
+            if save:
+                self.laplacian_graph = laplacian_graph
+        return laplacian_graph
 
+def laplacian(A, n=-1):
+    """ Calculates the laplacian given the adjacency matrix
+        A: a numpy array of a square matrix corresponding
+           to the adjacency matrix of a graph
+        n: x dimension of the matrix [int] - optional
+    """        
+
+    if (n<=0):
+        n = A.shape[0]
+        
+    laplacian_graph = np.zeros(shape=(n, n))
+    for i in range(0, n):
+        for j in range(0, n):
+            if i!=j and A[i,j]!=.0:
+                laplacian_graph[i,j] = -A[i,j]
+                laplacian_graph[i,i]+= A[i,j]
+    return laplacian_graph
+ 
 def dijkstra(edge_dictionary, start_vertex, end_vertex=None):
     """ Implementation of the dijkstra algorithm
     Find shortest paths from the start vertex to all
@@ -568,7 +602,8 @@ def floyd_warshall(adjacency_matrix, n=-1):
                     dist[i,j] = dist[i,k] + dist[k,j]
 
     return dist
- 
+
+
 # Exceptions
 # ----------
 #

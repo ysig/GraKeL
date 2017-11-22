@@ -5,6 +5,8 @@
 
 from __future__ import generators
 import operator
+
+import numpy as np
         
 class priority_dict(dict,object):
     def __init__(self):
@@ -168,3 +170,15 @@ def matrix_to_dict(matrix, op='==', const_value=0, s=-1, allow_diagonal=False):
                     dictionary[i].append(j)
     return dictionary
 
+def extract_matrix(mat, a, b):
+    """ Subtract the matrix corresponding to two 
+        index lists from an original matrix
+        
+        a, b: the two corresponding index lists
+    """
+    mat_a, mat_b = mat[a,:], mat[b,:]
+    
+    A = np.concatenate((mat_a[:,a], mat_a[:,b]), axis=1)
+    B = np.concatenate((mat_b[:,a], mat_b[:,b]), axis=1)
+    
+    return np.concatenate((A,B),axis=0)
