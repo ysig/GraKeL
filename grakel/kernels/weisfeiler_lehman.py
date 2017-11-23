@@ -32,8 +32,8 @@ def weisfeiler_lehman_inner(Ga, Gb, base_kernel, niter=5):
     Ga.desired_format("dictionary")
     Gb.desired_format("dictionary")
     
-    La_original = Ga.get_labels("dictionary")
-    Lb_original = Gb.get_labels("dictionary")
+    La_original = Ga.get_labels(purpose="dictionary")
+    Lb_original = Gb.get_labels(purpose="dictionary")
     Ga_edge_dictionary = Ga.edge_dictionary
     Gb_edge_dictionary = Gb.edge_dictionary
 

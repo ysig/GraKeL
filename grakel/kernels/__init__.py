@@ -5,6 +5,7 @@ from .subtree_rg import subtree_rg, subtree_rg_inner
 from .graphlet_sampling import graphlet_sampling, graphlet_sampling_inner, graphlet_sampling_core, sample_graphlets
 from .weisfeiler_lehman import weisfeiler_lehman, weisfeiler_lehman_inner
 from .multiscale_laplacian import multiscale_laplacian, multiscale_laplacian_inner
+from .subgraph_matching import subgraph_matching, subgraph_matching_inner
 __all__ = [
 "dirac",
 "dirac_inner",
@@ -20,4 +21,6 @@ __all__ = [
 "weisfeiler_lehman",
 "weisfeiler_lehman_inner",
 "multiscale_laplacian",
-"multiscale_laplacian_inner"]
+"multiscale_laplacian_inner",
+"subgraph_matching",
+"subgraph_matching_inner"]

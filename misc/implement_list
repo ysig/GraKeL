@@ -1,17 +1,18 @@
 Current:
 - Lovasz θ graph kernel
-
 - SVM θ graph kernel
 
-- Multiscale laplacian graph kernel
-
-- Subgraph Matching Kerne
-
-
 Archive:
+- Calculates the full graphlet kernel
+  as proposed by Shervashidze and Vishwanathan (2009)
+  for graphlets of size 3,4,5
 
-# Calculates the full graphlet kernel
-# as proposed by Shervashidze and Vishwanathan (2009)
-# for graphlets of size 3,4,5
+TOSOLVE:
+- overflow error for some executions of the 
+- maximum_recursion_depth error for subgraph matching:
+    define formula in better detail
 
-
+TODO:
+- correct the build frame work
+- unit test by asserting the existing values
+- add new kernels to graph_kernels.py

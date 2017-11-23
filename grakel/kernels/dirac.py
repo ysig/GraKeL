@@ -26,8 +26,8 @@ def dirac_inner(Gx,Gy):
     Gy.desired_format("dictionary")
     
     # Calculate kernel
-    linv_x = inv_dict(Gx.get_labels("dictionary"))
-    linv_y = inv_dict(Gy.get_labels("dictionary"))
+    linv_x = inv_dict(Gx.get_labels(purpose="dictionary"))
+    linv_y = inv_dict(Gy.get_labels(purpose="dictionary"))
     k = 0
     for lx in linv_x:
         if lx in linv_y:

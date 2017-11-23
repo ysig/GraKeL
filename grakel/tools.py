@@ -130,10 +130,18 @@ def inv_dict(d):
     if bool(d):
         for a in d.keys():
             k = d[a]
+            if type(k) is list:
+                k = tuple(k)
+            elif type(k) is set:
+                k = frozenset(k)
+            else:
+                # check for hashability
+                # if not raise error
+                pass
             if k not in inv:
                inv[k] = list()
             inv[k].append(a)
-        # returns a dictionary of list items
+        # returns a dictionary of lists
     return inv
 
 def matrix_to_dict(matrix, op='==', const_value=0, s=-1, allow_diagonal=False):

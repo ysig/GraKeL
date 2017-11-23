@@ -25,6 +25,7 @@ class graph(object):
     # between vertices.
     # If (u,v) edge exists then edges["u"]["v"] has
     # weight of the edge pointing from u to v
+    
     edge_dictionary = dict()
     # A set of vertices corresponding to the edge dictionary
     # for fast indexing
@@ -34,16 +35,18 @@ class graph(object):
     adjacency_matrix = np.empty(0)
 
     # a labels dictionary
-    labels = dict()
+    node_labels = dict()
+    edge_labels = dict()
 
-    # edge_labels_adjacency_matrix_correspondance_dictionary
+    # edge_dictionary_symbols_adjacency_matrix_index_correspondance
     # A dictionary which links adjacency matrix numbering 
     # with edge labels of input or existing dictionary
-    elamcd = dict()
+    edsamic = dict()
 
     # A direct label holder for adjoint idxs when having dictionary with symbols
-    index_labels = dict()    
-
+    index_node_labels = dict()    
+    index_edge_labels = dict()
+    
     # a variable holding the shortest path matrix
     shortest_path_mat = None
 
@@ -52,8 +55,11 @@ class graph(object):
     
     # keeps the laplacian graph
     laplacian_graph = None
+    
+    # an edge labels dictionary
+    edge_labels = dict()
 
-    def __init__(self, initialization_object=None, labels=None, graph_format="auto"):
+    def __init__(self, initialization_object=None, node_labels=None, edge_labels=None, graph_format="auto"):
         
         """ Creates a new graph object
 
@@ -65,11 +71,12 @@ class graph(object):
                     If no weights for an edge (u,v) then edges[u]
                     must be a list and v must be inside                   
 
-            labels: A label dictionary corresponding to all vertices of the graph
+            node_labels: A label dictionary corresponding to all vertices of the graph
                 - for adjacency matrix labels should be given to numbers starting
                   from 0 and ending in N-1, where the matrix has size N by N
                 - for dictionary labels should correspond to all keys
-
+            edge_labels: A labels dictionary corresponding to all edges of the graph
+                         keys: touples, value: label
             graph_format: Is the internal represantation of the graph object be a dictionary as a matrix, or both
                 - for dictionary: "dictionary"
                 - for adjacency_matrix: "adjacency"
@@ -80,19 +87,18 @@ class graph(object):
 
         if graph_format in ["adjacency","dictionary","auto","all"]:
             self._format = graph_format
-            self.build_graph(initialization_object,labels)
+            self.build_graph(initialization_object, node_labels, edge_labels)
         else:
             pass
             # Raise an exception if graph format is not valid?
-
-    def build_graph(self, g, labels=None):
+            
+    def build_graph(self, g, node_labels=None, edge_labels=None):
         """ builds a graph structure given a supported graph representation
         
             g: - for an adjacency matrix input an ndarray
                - for edge_dictionary input a dictionary
         """
 
-        self.labels = labels
         self.shortest_path_mat = None
         self.label_group = None
 
@@ -101,36 +107,44 @@ class graph(object):
             if type(g) is np.array or type(g) is np.ndarray:
                 # Input is considered an adjacency matrix
                 case = 1
+                
+                # Assign labels for nodes
+                self.index_node_labels = node_labels
+
+                # Assign labels for edges
+                self.index_edge_labels = edge_labels
+                
                 if(self._format is "auto"):
                     self._format = "adjacency"
             elif type(g) is dict:
-                # Input is considered as a edge dictionary
+                # Input is considered as an edge dictionary
                 case = 2
+                
+                # Assign labels for nodes
+                self.node_labels = node_labels
+                
+                # Assign labels for edges
+                self.edge_labels = edge_labels
+                
                 if(self._format is "auto"):
                     self._format = "dictionary"
             else:
                 pass
                 # Raise exception: "Unsupported input type"
 
-        # If graph is of one type prune the other        
+        
+        # If graph is of one type prune the other
         if self._format is "adjacency":
             edge_dictionary = None
 
         elif self._format is "dictionary":
             adjacency_matrix = None
-
+        
+        # Import the given input properly
         if (case==1):
             self._import_adjacency(g)
         elif (case==2):
-            self._import_dictionary(g)
-
-        if self.labels is None:
-            if self._format in ["dictionary","all"]:
-                nodes = sorted(list(self.vertices))
-                self.labels = dict(zip(nodes,nodes))
-            else:
-                nodes = list(range(0,self.n))
-            self.labels = dict(zip(nodes,nodes)) 
+            self._import_dictionary(g)        
 
     def change_format(self, graph_format):
         """ Changes the format of the graph
@@ -150,21 +164,32 @@ class graph(object):
                 self._format = graph_format
                 if past_format is "adjacency":
                     self._import_adjacency()
+                    self.convert_labels(target_format = "dictionary", purpose="all")
                     if self._format is "dictionary":
                         self.n = 0
                         self.adjacency_matrix = None
-                        self.elamcd = None
+                        self.edsamic = None
+                        self.index_node_labels = None
+                        self.index_edge_labels = None
                 elif past_format is "dictionary":
                     self._import_dictionary()
+                    self.convert_labels(target_format = "adjacency", purpose="all")
                     if self._format is "adjacency":
                         self.edge_dictionary = None
                         self.vertices = None
+                        self.node_labels = None
+                        self.edge_labels = None
                 else:
                     if self._format is "dictionary":
                         self.n = 0
                         self.adjacency_matrix = None
-                        self.elamcd = None
+                        self.edsamic = None
+                        self.index_node_labels = None
+                        self.index_edge_labels = None
                     else:
+                        self.vertices = None
+                        self.node_labels = None
+                        self.edge_labels = None
                         self.edge_dictionary = None
 
     def desired_format(self,graph_format):
@@ -184,41 +209,288 @@ class graph(object):
             if self._format not in ["all","adjacency"]:
                 self.change_format("all")
 
-    def get_label_group(self):
-        """ A function that calculates the inverse dictionary
-            for labels (once)
+    def construct_labels(self, label_type="vertex", purpose="adjacency"):
+        """ A method that constructs labels (if user does not provide)
+            
+            label_type: "vertex", "edge"
         """
-        if not bool(self.label_group):
-            label_group = dict()
-            # calculate the label_group
-            if not bool(self.labels):
-                if (self._format == "adjacency"):
-                    for i in range(0,self.n):
-                        label_group[i] = [i]
-                else:
-                    for k in vertices.set():
-                        label_group[k] = [k]
-                self.label_group = label_group
-            else:
-                self.label_group = inv_dict(self.labels)
-        return self.label_group
-
-    def label(self,vertex):
-        """ Returns the label of a vertex
-            vertex: a valid vertex
-        """
-        if not bool(self.labels):
-            if (vertex in self.labels):
-                return self.labels[vertex]
+        if (purpose == "adjacency"):
+            if (label_type == "vertex"):
+                nodes = list(range(0,self.n))
+                self.index_node_labels = dict(zip(nodes,nodes))
+            elif (label_type=="edge"):
+                nodes = list(range(0,self.n))
+                self.index_edge_labels = {(i,j):self.adjacency_matrix[i,j] for i in nodes for j in nodes}
             else:
                 pass
-                # Raise exception: No label assigned to thise vertex symbol?
+                # Raise warning: Unsupported label_type ?
+        elif (purpose == "dictionary"):
+            if (label_type == "vertex"):
+                nodes = sorted(list(self.vertices))
+                self.node_labels = dict(zip(nodes,nodes))
+            elif (label_type=="edge"):
+                self.index_edge_labels = {(i,j):(0 if (i not in self.edge_dictionary) or (j not in self.edge_dictionary[i]) else self.edge_dictionary[i][j]) for i in nodes for j in nodes}
+            else:
+                pass
+                # Raise warning: Unsupported label_type ?
+                                
+    def convert_labels(self, target_format = "dictionary", purpose="all"):
+        """ A method that converts labels to a desired format 
+            target_format: "dictionary" or "adjacency"
+            purpose: "all", "edge" or "vertex"
+        """
+        
+        if (target_format == "adjacency"):
+            if (self._format != "adjacency"):
+                self.desired_format("adjacency")
+                
+                if bool(self.index_node_labels) and purpose in ['all', 'vertex']:
+                    # Raise Warning: Overriding existing node labels for indexes
+                    pass
+                    
+                if bool(self.index_edge_labels) and purpose in ['all', 'edges']:
+                    # Raise Warning: Overriding existing edge labels for indexes
+                    pass
+                    
+                cond_labels_nodes = purpose in ['all', 'vertex'] and bool(self.node_labels)
+                cond_labels_edges = purpose in ['all', 'edges'] and bool(self.edge_labels)
+                if cond_labels_nodes or cond_labels_edges:
+                    lov_sorted = sorted(list(self.vertices))                    
+                    if cond_labels_nodes:
+                        self.index_node_labels = {i:self.node_labels[k] for (i,k) in zip(list(range(0,self.n)),lov_sorted)}
+                    if cond_labels_edges:
+                        self.index_edge_labels = {(i,j): self.edge_labels[(k,q)] for (i,k) in zip(list(range(0,self.n)),lov_sorted) for (j,q) in zip(list(range(0,self.n)),lov_sorted)}
+                else:
+                    # Raise warning no labels to convert from for the given purpose?
+                    pass
+                    
+            else:
+                pass
+                # Raise Warning labels current form are supported
+        elif (target_format == "dictionary"):
+            if (self._format != "dictionary"):
+                self.desired_format("dictionary")
+                
+                if bool(self.node_labels) and purpose in ['all', 'vertex']:
+                    # Raise Warning: Overriding existing node labels for indexes
+                    pass
+                    
+                if bool(self.edge_labels) and purpose in ['all', 'edges']:
+                    # Raise Warning: Overriding existing edge labels for indexes
+                    pass
+                
+                if purpose in ['all', 'vertex'] and bool(self.node_labels):
+                    self.index_node_labels = self.node_labels
+                if purpose in ['all', 'edges'] and bool(self.edge_labels):
+                    self.index_edge_labels = self.edge_labels
+                else:
+                    # Raise warning no labels to convert from for the given purpose?
+                    pass
+                    
+            else:
+                # Raise Warning labels current form are supported
+                pass
+    
+    def label(self, obj, label_type="vertex", purpose="dictionary"):
+        """ Returns the label of a vertex
+            
+            obj: a valid vertex
+            label_type="vertex"
+        """
+        if (label_type == "vertex"):
+            vertex = obj
+            if purpose == "dictionary":
+                labels = self.node_labels
+            elif purpose == "adjacency":
+                labels = self.index_node_labels
+            else:
+                pass
+                # Raise Unrecognized purpose for label are not set?
+                
+            if not bool(labels):
+                if (vertex in labels):
+                    return labels[vertex]
+                else:
+                    pass
+                    # Raise exception: No label assigned to thise vertex symbol?
+            else:
+                # Raise warning: Labels are not set?
+                # return a default value
+                return vertex
+        elif (label_type == "edge"):
+            edge = obj
+            if purpose == "dictionary":
+                labels = self.edge_labels
+            elif purpose == "adjacency":
+                labels = self.index_edge_labels
+            else:
+                pass
+                # Raise Unrecognized purpose for label are not set?
+                
+            if not bool(labels):
+                if (edge in labels):
+                    return labels[edge]
+                else:
+                    pass
+                    # Raise exception: No label assigned to that edge?
+            else:
+                # Raise warning: Labels are not set?
+                # return a default value
+                if (edge[0] not in self.edge_dictionary) or (edge[1] not in self.edge_dictionary[edge[0]]):
+                    return .0
+                else:
+                    return self.edge_dictionary[edge[0]][edge[1]]
+    
+    def relabel(self, new_labels, purpose="dictionary", label_type="vertex"):
+        """ A method to relabel the graph
+            
+            new_labels: the new_labels
+            label_type: "vertex" or "edge"
+            purpose: "dicitonary", "adjacency"
+        """
+        if new_labels is None or not bool(new_labels):
+            # Raise warning: User must provide new labels?
+            pass
+        elif label_type=="vertex":
+            if purpose is "dictionary":
+                if self._format in ["dictionary","all"]:
+                    self.node_labels = new_labels
+                else:
+                    # Raise exception?
+                    pass
+                
+                # Transform to a valid format
+                if self._format is "all":
+                    self.convert_labels("adjacency","vertex")
+                    
+            elif purpose is "adjacency":
+                if self._format is ["all","adjacency"]:
+                    self.index_node_labels = new_labels
+                elif self._format is "all":
+                    self.convert_labels("dictionary","vertex")
+            else:
+                # Raise warning unsuported label purpose?
+                pass
+        elif label_type=="edge":
+            if purpose is "dictionary":
+                if self._format in ["dictionary","all"]:
+                    self.edge_labels = new_labels
+                else:
+                    # Raise exception?
+                    pass
+                
+                # Transform to a valid format
+                if self._format is "all":
+                    self.convert_labels("adjacency","edge")
+                    
+            elif purpose is "adjacency":
+                if self._format is ["all","adjacency"]:
+                    self.index_edge_labels = new_labels
+                elif self._format is "all":
+                    self.convert_labels("dictionary","edge")
+            else:
+                # Raise unsuported label purpose
+                pass
         else:
-            return vertex
+            # Raise warning unrecognised label type?
+            pass
 
+        
+    def build_shortest_path_matrix(self, algorithm_type="auto", clean=False):
+        """ A method that builds and returns the shortest path matrix between all nodes
 
+            algorithm_type: "auto" for "dictionary" or "all" format - Dijkstra
+                                   for "adjacency" - Floyd Warshall
+                            "dijkstra" - Dijkstra
+                            "floyd_warshall" - Floyd Warshall
+        """
+        if clean:
+            self.shortest_path_mat = None
+            
+        if self.shortest_path_mat is not None:
+            return self.shortest_path_mat, self.index_node_labels
+
+        # Assign the desired algorithm
+        if algorithm_type is "auto":
+            if self._format in ["all","dictionary"]:
+                algorithm_type = "dijkstra"
+            elif self._format is "adjacency":
+                algorithm_type = "floyd_warshall"
+        
+        if algorithm_type is "dijkstra":
+            # all format required
+            self.desired_format("all")
+            if (bool(self.edsamic)):
+                indexes = self.edsamic
+            else:
+                indexes = dict(zip(list(range(self.n)),list(range(self.n))))
+            
+            # calculate shortest path matrix
+            shortest_path_mat = np.full([self.n, self.n],float("Inf"))
+            for k in indexes.keys():
+                dict_fd, _ = dijkstra(self.edge_dictionary,k)
+                for s in dict_fd.keys():
+                    shortest_path_mat[indexes[k],indexes[s]] = dict_fd[s]
+
+            shortest_path_labels = self.get_labels()
+        elif algorithm_type is "floyd_warshall":
+            self.desired_format("adjacency")
+            shortest_path_mat = floyd_warshall(self.adjacency_matrix,self.n)
+            shortest_path_labels = self.get_labels()
+
+        self.shortest_path_mat = shortest_path_mat
+        return shortest_path_mat, shortest_path_labels
+    
+    def get_labels(self, label_type="vertex", purpose="adjacency"):
+        """ Return labels corresponding to the purpose
+            
+            purpose: if "adjacency" for indexes
+                     if "dictionary" for nodes
+            label_type: if "vertex" labels for vertices
+                        if "edge" labels for edges
+        """
+        if (purpose == "adjacency"):
+            self.desired_format("adjacency")
+            if label_type == "vertex":
+                if not bool(self.index_node_labels):
+                    self.construct_labels(label_type, purpose)
+                return self.index_node_labels
+            elif label_type == "edge":
+                if not bool(self.index_edge_labels):
+                    self.construct_labels(label_type, purpose)
+                return self.index_edge_labels
+        elif (purpose == "dictionary"):
+            self.desired_format("dictionary")
+            if label_type == "vertex":
+                if not bool(self.node_labels):
+                    self.construct_labels(label_type, purpose)
+                return self.node_labels
+            elif label_type == "edge":
+                if not bool(self.edge_labels):
+                    self.construct_labels(label_type, purpose)
+                return self.edge_labels
+        else:
+            return None
+            # raise error unsupported label format?
+    
+    def get_label_group(self, label_type="vertex", purpose="dictionary"):
+        """ A function that calculates the inverse dictionary
+            for vertex labels (once)
+            
+            label_type: "vertex" or "edge"
+            purpose: "dictionary" or "adjacency"
+        """
+        if not bool(self.label_group):
+            self.label_group = dict()
+        if not (label_type,purpose) in self.label_group:
+           self.label_group[(label_type,purpose)] = dict()
+        if not bool(self.label_group[(label_type,purpose)]):
+            # calculate the label_group
+            self.label_group[(label_type,purpose)] = inv_dict(self.get_labels(label_type,purpose))
+        return self.label_group[(label_type,purpose)]
+                
     def neighbours(self, vertex, with_weights = False):
-        """ Find all neighbors of a vertex
+        """ Find all neighbours of a vertex
             
             vertex: a valid vertex inside the matrix
                     that is not a sink
@@ -262,139 +534,32 @@ class graph(object):
                 pass
                 # Raise exception: "item with index ",idx," does not exist"?
 
-    def relabel(self,new_labels,labels_for="dictionary"):
-        """ Adds new labels dictionary """
-        if new_labels is None or not bool(new_labels):
-            # Raise warning: User must provide new labels?
-            pass
-        elif labels_for is "dictionary":
-            if self._format in "dictionary":
-                self.labels = new_labels
-                if self.shortest_path_mat is not None:
-                    lov = list(self.vertices)
-                    shortest_path_mat_dim = len(lov)
-                    lov_sorted = sorted(lov)
-
-                    # shortest path labels
-                    sp_labels =  dict()
-                    if bool(self.splabels):
-                        tmp = [self.labels[k] for k in lov_sorted]
-                        sp_labels = dict(zip(list(range(0,shortest_path_mat_dim)),tmp))
-            elif self._format in "all":
-                self.labels = new_labels
-                if bool(self.index_labels):
-                    for k in elamcd.keys():
-                        self.index_labels[elamcd[k]] = new_labels[k]
-                    if bool(self.sp_labels):
-                        self.sp_labels = self.index_labels
-            else:
-                pass
-                # Raise exception?
-        elif labels_for is "adjacency":
-            if self._format is "all":
-                if bool(self.index_labels):
-                    self.index_labels = new_labels
-                    # move from index labels to dictionary key labels
-                    ielamcd = inv_dict(self.elamcd)
-                    for k in ielamcd.keys():
-                        self.labels[ielamcd[k]] = new_labels[k]
-                else:
-                    self.labels = new_labels
-                if bool(self.sp_labels):
-                    self.sp_labels = self.labels
-            elif self._format is "adjacency":
-                self.labels = new_labels
-                if bool(self.sp_labels):
-                    self.sp_labels = self.labels
-            else:
-                pass
-                # Raise exception?
-        else:
-            pass
-            # Raise exception?
-                
-                
-    def build_shortest_path_matrix(self, algorithm_type="auto", clean=False):
-        """ A method that builds and returns the shortest path matrix between all nodes
-
-            algorithm_type: "auto" for "dictionary" or "all" format - Dijkstra
-                                   for "adjacency" - Floyd Warshall
-                            "dijkstra" - Dijkstra
-                            "floyd_warshall" - Floyd Warshall
-        """
-        if clean:
-            self.shortest_path_mat = None
-            self.shortest_path_labels = None
-        
-        if self.shortest_path_mat is not None:
-            return self.shortest_path_mat, self.shortest_path_labels
-
-        # Assign the desired algorithm
-        if algorithm_type is "auto":
-            if self._format in ["all","dictionary"]:
-                algorithm_type = "dijkstra"
-            elif self._format is "adjacency":
-                algorithm_type = "floyd_warshall"
-        
-        if algorithm_type is "dijkstra":
-            # Prepare for algorithm implementation
-            self.desired_format("dictionary")
-            if self._format is "dictionary":
-                
-                # vertices to list
-                lov = list(self.vertices)
-                shortest_path_mat_dim = len(lov)
-                lov_sorted = sorted(lov)
-
-                # make indexes - same with elamcd           
-                indexes = dict(zip(lov_sorted,list(range(0,shortest_path_mat_dim))))
-
-                # shortest path labels
-                sp_labels =  dict()
-                if bool(self.labels):
-                    tmp = [self.labels[k] for k in lov_sorted]
-                    sp_labels = dict(zip(list(range(0,shortest_path_mat_dim)),tmp))
-                else:
-                    sp_labels = dict(zip(list(range(self.n)),list(range(self.n))))
-
-            elif self._format is "all":
-                if (bool(self.elamcd)):
-                    indexes = self.elamcd
-                else:
-                    indexes = dict(zip(list(range(self.n)),list(range(self.n))))
-                sp_labels = self.get_labels()
-                shortest_path_mat_dim = len(indexes)
+    def _make_edsamic(self, all_out = True):
+        """ A method to produce the edge symbols
+            adjacency matrix correspondance dictionary
             
-            # calculate shortest path matrix
-            shortest_path_mat = np.full([shortest_path_mat_dim, shortest_path_mat_dim],float("Inf"))
-            for k in indexes.keys():
-                dict_fd, _ = dijkstra(self.edge_dictionary,k)
-                for s in dict_fd.keys():
-                    shortest_path_mat[indexes[k],indexes[s]] = dict_fd[s]
-
-            shortest_path_labels = sp_labels
-        elif algorithm_type is "floyd_warshall":
-            self.desired_format("adjacency")
-            shortest_path_mat = floyd_warshall(self.adjacency_matrix,self.n)
-            shortest_path_labels = self.get_labels()
-
-        self.shortest_path_mat = shortest_path_mat
-        self.shortest_path_labels = shortest_path_labels
-        return shortest_path_mat, shortest_path_labels
-    
-    def get_labels(self, purpose="adjacency"):
-        """ Return labels corresponding to the purpose
-            
-            purpose: if "adjacency" for indexes
-                     if "dictionary" for nodes
+            all_out: output everything valuable
         """
-        if (purpose == "adjacency"):
-            if bool(self.index_labels):
-                return self.index_labels
+        if self._format in ['dictionary', 'all']:
+            # vertices to list
+            lov = list(self.vertices)
+
+            # length is adjacency matrix size
+            n = len(lov)
+
+            # sort lov indexes for labeling
+            lov_sorted = sorted(lov)
+
+            # edge_labels_adjacency_matrix_correspondance_dictionary            
+            edsamic = dict(zip(lov_sorted,list(range(0,self.n))))
+            if all_out:
+                return edsamic, n, lov_sorted
             else:
-                return self.labels
+                return edsamic, n
         else:
-            return self.labels
+            # Raise warning: Wrong Format?
+            return None
+
 
     def _import_adjacency(self, adjacency_matrix=None):
         """ A function that creates a graph object
@@ -430,7 +595,7 @@ class graph(object):
                         edge_dictionary[i][j] = adjacency_matrix[i,j]
             self.vertices = vertices
             self.edge_dictionary = edge_dictionary
-                    
+
     def _import_dictionary(self, edge_dictionary=None):
         """ A function that creates a graph object
             representation given its edge dictionary
@@ -468,40 +633,21 @@ class graph(object):
 
         # Create and store the adjacency matrix
         if self._format in ["adjacency","all"]:
-            # vertices to list
-            lov = list(vertices)
-
-            # length is adjacency matrix size
-            self.n = len(lov)
-
-            # sort lov indexes for labeling
-            lov_sorted = sorted(lov)
-
-            # edge_labels_adjacency_matrix_correspondance_dictionary            
-            elamcd = dict(zip(lov_sorted,list(range(0,self.n))))
-
-            # index labels
-            index_labels = dict()
-            if bool(self.labels):
-                tmp = [self.labels[k] for k in lov_sorted]
-                index_labels = dict(zip(list(range(0,self.n)),tmp))
-
+            edsamic, self.n, lov_sorted = self._make_edsamic()
+            
             # Initialize adjacency_matrix
             adjacency_matrix = np.zeros(shape = (self.n,self.n))
             
             # Produce and save adjacency matrix
             for k in edge_dictionary_refined.keys():
                 for l in edge_dictionary_refined[k].keys():
-                    adjacency_matrix[elamcd[k],elamcd[l]] = edge_dictionary_refined[k][l]
+                    adjacency_matrix[edsamic[k],edsamic[l]] = edge_dictionary_refined[k][l]
                 
             self.adjacency_matrix = adjacency_matrix
         
-            if self._format is "adjacency":
-                self.labels = index_labels
-            elif self._format is "all":
-                self.index_labels = index_labels
-                self.elamcd = elamcd
-
+            if self._format is "all":
+                self.edsamic = edsamic
+        
     def laplacian(self, save=True):
         """ Calculates the laplacian of the given graph
             save: optional parameter to store the matrix
@@ -533,7 +679,7 @@ def laplacian(A, n=-1):
                 laplacian_graph[i,j] = -A[i,j]
                 laplacian_graph[i,i]+= A[i,j]
     return laplacian_graph
- 
+
 def dijkstra(edge_dictionary, start_vertex, end_vertex=None):
     """ Implementation of the dijkstra algorithm
     Find shortest paths from the start vertex to all

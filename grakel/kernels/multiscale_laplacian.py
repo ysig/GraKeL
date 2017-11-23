@@ -51,7 +51,7 @@ def multiscale_laplacian_inner(Gx, Gy, L=3, gamma=0.01):
     gram_matrix = np.empty(shape=(gram_matrix_size,gram_matrix_size))
     
     # initialise the gram matrix
-    pick = lambda i: phi_x[i] if i<Gx.n else phi_y[i-Gx.n]
+    pick = lambda i: list(phi_x[i]) if i<Gx.n else list(phi_y[i-Gx.n])
     for i in range(0, gram_matrix_size):
         vec_a = pick(i)
         for j in range(0, gram_matrix_size):

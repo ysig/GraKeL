@@ -4,8 +4,8 @@
 
 import numpy as np
 
-from sklearn.base import BaseEstimator, ClassifierMixin, TransformerMixin
-from sklearn.utils.validation import check_X_y, check_array, check_is_fitted
+from sklearn.base import BaseEstimator, TransformerMixin
+from sklearn.utils.validation import check_array
 
 from .graph import graph
 from .kernels import dirac_inner, random_walk_inner, shortest_path_inner, subtree_rg_inner, sample_graphlets, graphlet_sampling_core, weisfeiler_lehman_inner
@@ -113,7 +113,7 @@ class GraphKernel(BaseEstimator, TransformerMixin):
         ----------
         X : array-like or sparse matrix of shape = [n_samples, n_features]
             There must be two features: A valid graph structure (adjacency matrix
-            or edge_dictionary, edge_labels) 
+            or edge_dictionary, vertex_labels, node_labels) 
             The training input samples.
         y : None
             There is no need of a target in a transformer, yet the pipeline API
@@ -124,7 +124,9 @@ class GraphKernel(BaseEstimator, TransformerMixin):
         self : object
             Returns self.
         """
-
+        # Input validation
+        check_array(X)
+        
         self.X_graph = dict()
         graph_idx = 0
         for x in list(X):
@@ -134,9 +136,11 @@ class GraphKernel(BaseEstimator, TransformerMixin):
             elif len(x) == 2:
                 self.X_graph[graph_idx] = graph(x[0],x[1],"all")
                 graph_idx += 1
+            elif len(x) == 2:
+                self.X_graph[graph_idx] = graph(x[0],x[1],x[2],"all")
             else:
+                # Raise warning: input point is empty
                 pass
-                # Raise warning input hole.?
         self.num_of_graphs = graph_idx
 
         # Return the transformer
@@ -160,10 +164,11 @@ class GraphKernel(BaseEstimator, TransformerMixin):
             between target an features
         """
         # Check is fit had been called
-        #check_is_fitted(self, ['input_shape_'])
-
+        check_is_fitted(self, ['X_graph_'])
+        
         # Input validation
-        # ~X = check_array(X)
+        check_array(X)
+        
         if(X is None):
             is_symmetric = True
             target_graph = self.X_graph
