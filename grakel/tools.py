@@ -85,24 +85,18 @@ class priority_dict(dict,object):
 
 def nested_dict_add(dictionary, value, *keys):
     """ Does a nesting adding in a dictionary
-        dictionary: the dictionary that is going to be parsed
-
+        
         dictionary: the dictionary that is going to be parsed
         value: the value that is going to be added
         keys: a list of keys
     """
     address = dictionary
-    l = len(keys)
-    i = 1
-    for k in keys:
-        if(i<l):
-            if(k not in address):
-                address[k] = dict()
-            address = address[k]
-        elif(i==l):
-            address[k] = value            
-        i+=1
-        
+    for k in keys[:-1]:
+        if(k not in address):
+            address[k] = dict()
+        address = address[k]
+    address[keys[-1]] = value
+    
 def nested_dict_get(dictionary, *keys):
     """ Checks if an item exists in a nested
         level by keys in a dictionary and if
@@ -144,6 +138,16 @@ def inv_dict(d):
         # returns a dictionary of lists
     return inv
 
+global ops
+ops = {
+    '>': operator.gt,
+    '<': operator.lt,
+    '>=': operator.ge,
+    '<=': operator.le,
+    '==': operator.eq
+    }
+
+
 def matrix_to_dict(matrix, op='==', const_value=0, s=-1, allow_diagonal=False):
     """ Transform a matrix to a dictionary
         adding for each row only the elements
@@ -158,24 +162,22 @@ def matrix_to_dict(matrix, op='==', const_value=0, s=-1, allow_diagonal=False):
         allow_diagonal: allows matrix diagonal to be added
                         at input
     """
-    ops = {
-        '>': operator.gt,
-        '<': operator.lt,
-        '>=': operator.ge,
-        '<=': operator.le,
-        '==': operator.eq
-        }
+    if op not in ['>', '<', '>=', '<=', '==']:
+        # Raise exception unsupported operator?
+        pass
+
     opr = ops[op]
+    
     if(s==-1):
         s = matrix.shape[0]
+    
     dictionary = dict()
     for i in range(0,s):
-        for j in range(0,s):
-            if(allow_diagonal or i!=j):
-                if(opr(matrix[i,j],const_value)):
-                    if i not in dictionary:
-                        dictionary[i] = list()
-                    dictionary[i].append(j)
+        line = matrix[i,:]
+        if not allow_diagonal:
+            np.delete(line,i)
+        w = np.where(opr(line,const_value))
+        dictionary[i] = list(w[0])
     return dictionary
 
 def extract_matrix(mat, a, b):
@@ -184,6 +186,10 @@ def extract_matrix(mat, a, b):
         
         a, b: the two corresponding index lists
     """
+    if (len(a) != len(b)):
+        # Raise exception: Index lists must have the same size
+        pass
+        
     mat_a, mat_b = mat[a,:], mat[b,:]
     
     A = np.concatenate((mat_a[:,a], mat_a[:,b]), axis=1)

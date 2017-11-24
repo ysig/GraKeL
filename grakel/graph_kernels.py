@@ -8,7 +8,7 @@ from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.utils.validation import check_array
 
 from .graph import graph
-from .kernels import dirac_inner, random_walk_inner, shortest_path_inner, subtree_rg_inner, sample_graphlets, graphlet_sampling_core, weisfeiler_lehman_inner
+from .kernels import dirac_inner, random_walk_inner, shortest_path_inner, subtree_rg_inner, sample_graphlets, graphlet_sampling_core, weisfeiler_lehman_inner, multiscale_laplacian_inner, subgraph_matching_inner
 
 class GraphKernel(BaseEstimator, TransformerMixin):
     """ A general class that describes all kernels
@@ -26,13 +26,24 @@ class GraphKernel(BaseEstimator, TransformerMixin):
 
              i)  base_kernels (the structure must always reach a base kernel):
                     - "dirac" | 
+
                     - "random_walk" | (o) "lamda": [float] < 1 , (o) method_type : [str] "sylvester"
                                                                                  "simple"
                     - "shortest_path" | (o) "algorithm_type": [str] "dijkstra"
                                                                 "floyd_warshall"
                     - "subtree_rg" | (o) "h": [int]
+                    
                     - "graphlets_sampling" | (o) "k": [int], (o) "delta" : [float], (o) "epsilon" : [float], (o) "a": [int]
-             
+                    
+                    - "multiscale_laplacian" | (o) "L": [int], (o) "gamma"
+                    
+                    - "subgraph_matching" | (o) "kv": kernel function for nodes
+                                                      (node_x, node_y, Lx, Ly) -> number
+                                            (o) "ke": kernel function for edges
+                                                      (edge_x, edge_y, Lx, Ly) -> number
+                                            (o) "lw": a lambda weight function for cliques
+                                                      set -> number
+              
              ii) general_kernels (this kernel will consider the next kernel on list for nesting):
                     - "weisfeiler_lehman": "niter": [int]
                 
@@ -83,20 +94,24 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                     pass
                     # Raise Warning: Arguments are being ignored reached base kernel?
                 if kernel_name is "dirac":
-                    return lambda x, y: dirac_inner(x,y)
+                    return lambda x, y: dirac_inner(x, y)
                 elif kernel_name is "random_walk":
-                    return lambda x, y: random_walk_inner(x,y,**kernel)
+                    return lambda x, y: random_walk_inner(x, y, **kernel)
                 elif kernel_name is "shortest_path":
-                    return lambda x, y: shortest_path_inner(x,y,**kernel)
+                    return lambda x, y: shortest_path_inner(x, y, **kernel)
                 elif kernel_name is "subtree_rg":
-                    return lambda x, y: subtree_rg_inner(x,y,**kernel)
+                    return lambda x, y: subtree_rg_inner(x, y, **kernel)
                 elif kernel_name is "graphlets_sampling":
                     nsamples, graphlets, P, graph_bins, nbins = sample_graphlets(**kernel)
                     print(str(nsamples)+" graphlets sampled")
                     if "k" in kernel:
-                        return lambda x, y: graphlet_sampling_core(x,y,nsamples, graphlets, P, graph_bins, nbins, k=kernel["k"])
+                        return lambda x, y: graphlet_sampling_core(x, y, nsamples, graphlets, P, graph_bins, nbins, k=kernel["k"])
                     else:
-                        return lambda x, y: graphlet_sampling_core(x,y,nsamples, graphlets, P, graph_bins, nbins, k)
+                        return lambda x, y: graphlet_sampling_core(x, y, nsamples, graphlets, P, graph_bins, nbins, k)
+                elif kernel_name is "multiscale_laplacian":
+                    return lambda x, y: multiscale_laplacian_inner(x, y, **kernel)
+                elif kernel_name is "subgraph_matching":
+                    return lambda x, y: subgraph_matching_inner(x, y, **kernel)
             elif kernel_name in ["weisfeiler_lehman"]:
                 if (len(kernel_list)==0):
                     pass
@@ -131,15 +146,15 @@ class GraphKernel(BaseEstimator, TransformerMixin):
         graph_idx = 0
         for x in list(X):
             if len(x) == 1:
-                self.X_graph[graph_idx] = graph(x[0],{},"all")
+                self.X_graph[graph_idx] = graph(x[0],{},{},"all")
                 graph_idx += 1
             elif len(x) == 2:
-                self.X_graph[graph_idx] = graph(x[0],x[1],"all")
+                self.X_graph[graph_idx] = graph(x[0],x[1],{},"all")
                 graph_idx += 1
             elif len(x) == 2:
                 self.X_graph[graph_idx] = graph(x[0],x[1],x[2],"all")
             else:
-                # Raise warning: input point is empty
+                # Raise warning: Input has an empty or unrecognised element?
                 pass
         self.num_of_graphs = graph_idx
 
@@ -179,15 +194,16 @@ class GraphKernel(BaseEstimator, TransformerMixin):
             num_of_targets = 0
             for x in X:
                 if len(x) == 1:
-                    target_graph[num_of_targets] = graph(x[0],{},"all")
+                    target_graph[num_of_targets] = graph(x[0],{},{},"all")
                     num_of_targets += 1
                 elif len(x) == 2:            
-                    target_graph[num_of_targets] = graph(x[0],x[1],"all")
+                    target_graph[num_of_targets] = graph(x[0],x[1],{},"all")
                     num_of_targets += 1
+                elif len(x) == 2:
+                    self.X_graph[graph_idx] = graph(x[0],x[1],x[2],"all")
                 else:
+                    # Raise warning: Input has an empty or unrecognised element?
                     pass
-                    # Raise warning passing null element?
-
         # Check that the input is of the same shape as the one passed
         # during fit.
 

@@ -28,6 +28,7 @@ def gk_test_random_walk_simple():
     gk = GraphKernel(kernel={"name":"random_walk", "lamda":0.1, "method_type":"simple"})
     gkf = gk.fit(XX)
     print("Simple:",gkf.transform())
+    
 def gk_test_random_walk_sylvester():
     XX = list(zip(k*[X],k*[L]))
     gk = GraphKernel(kernel={"name":"random_walk", "lamda":0.1, "method_type":"sylvester"})

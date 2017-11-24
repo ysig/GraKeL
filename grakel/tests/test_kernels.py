@@ -1,7 +1,13 @@
 import numpy as np
-from numpy.testing import assert_almost_equal
+import numpy.testing as npt
 
 from grakel.kernels import *
+
+global verbose, main, development
+
+main = True
+verbose = True
+development = False
 
 global X, L, Le, phi
 
@@ -26,47 +32,76 @@ Le = {(0,0):'b',(0,1):'c',(0,2):'d',(0,3):'b',(0,4):'c',(0,5):'a',(0,6):'d',
 (6,0):'w',(6,1):'c',(6,2):'d',(6,3):'w',(6,4):'r',(6,5):'c',(6,6):'w'}
 
 def test_dirac():
-    print("Dirac:",dirac(X, X, L, L))
-
+    if verbose:
+        print("Dirac:",dirac(X, X, L, L))
+    else:
+        npt.assert_equal(15, dirac(X, X, L, L))
 def test_random_walk_simple():
-    print("Simple:",random_walk(X, X, lamda=0.1, method_type="simple"))
-
+    if verbose:
+        print("Random Walk [Simple]:",random_walk(X, X, lamda=0.1, method_type="simple"))
+    else:
+        npt.assert_almost_equal(-30.912616526802676, random_walk(X, X, lamda=0.1, method_type="simple"))
 def test_random_walk_sylvester():
-    print("Sylvester:",random_walk(X, X, lamda=0.1, method_type="sylvester"))
-
+    if verbose:
+        print("Random Walk [Sylvester]:",random_walk(X, X, lamda=0.1, method_type="sylvester"))
+    else:
+        npt.assert_almost_equal(-30.912616526802676, random_walk(X, X, lamda=0.1, method_type="sylvester"))
 def test_shortest_path():
-    print("Dijkstra:",shortest_path(X, X, L, L, "dijkstra"))
-    print("Floyd Warshall:",(shortest_path(X, X, L, L, "floyd_warshall")))
-    print("Auto:",shortest_path(X, X, L, L, "auto"))
+    if verbose:
+        print("Shortest Path [Dijkstra]:",shortest_path(X, X, L, L, "dijkstra"))
+        print("Shortest Path [Floyd Warshall]:",(shortest_path(X, X, L, L, "floyd_warshall")))
+        print("Shortest Path [Auto]:",shortest_path(X, X, L, L, "auto"))
+    else:
+        npt.assert_equal(66, shortest_path(X, X, L, L, "dijkstra")) 
+        npt.assert_equal(66, shortest_path(X, X, L, L, "floyd_warshall")) 
+        npt.assert_equal(66, shortest_path(X, X, L, L, "auto")) 
 
 def test_subtree_RG():
-    print("Subtree [RG]:",subtree_rg(X,X,L,L,2))
+    if verbose:
+        print("Subtree [RG]:",subtree_rg(X,X,L,L,2))
+    else:
+        bign = 15458150092069060998865743245478022133789841061117106540018232182730681287234085528132318819741260764317676931326456376488696020676136950620929717075828209329592328934916049
+        npt.assert_equal(bign, subtree_rg(X,X,L,L,2)) 
 
 def test_graphlet_sampling():
-    print("Graphlets Sampling:",graphlet_sampling(X, X, 5, 0.05, 0.05,-1))
-
+    if verbose:
+        print("Graphlets Sampling:",graphlet_sampling(X, X, 5, 0.05, 0.05,-1))
+    else:
+         npt.assert_almost_equal(0.49863760218,graphlet_sampling(X, X, 5, 0.05, 0.05,-1))
 def test_weisfeiler_lehman():
     base_kernel = dict()
     base_kernel["dirac"] = lambda x, y: dirac_inner(x,y)
     base_kernel["shortest path"] = lambda x, y: shortest_path_inner(x,y)
     base_kernel["subtree"] = lambda x, y: subtree_rg_inner(x,y)
+    
+    if not verbose:
+        npt_v = dict()
+        npt_v["dirac"] = 50
+        npt_v["shortest path"] = 276
+        npt_v["subtree"] = 15458150092069060998865743245478022133789841061117106540018232182730681287234085528132318819741260764317676931326456376488696020676136950620929717075828209329606781669103994
+    
     for k in base_kernel.keys():
-        print("Weisfeiler_lehman - "+str(k)+":",weisfeiler_lehman(X,X,L,L,base_kernel[k],5))
-        
+        if verbose:
+            print("Weisfeiler_lehman - "+str(k)+":",weisfeiler_lehman(X,X,L,L,base_kernel[k],5))
+        else:
+            npt.assert_equal(npt_v[k],weisfeiler_lehman(X,X,L,L,base_kernel[k],5))
+            
 def test_multiscale_laplacian():
-    print("Multiscale Laplacian:",multiscale_laplacian(X,X,phi,phi))
+    if verbose:
+        print("Multiscale Laplacian:",multiscale_laplacian(X,X,phi,phi))
 
 def test_subgraph_matching():
-    print("Subgraph Matching:",subgraph_matching(X,X,L,L,Le,Le))
+    if verbose:
+        print("Subgraph Matching:",subgraph_matching(X,X,L,L,Le,Le))
 
-"""
-test_dirac()
-test_random_walk_simple()
-test_random_walk_sylvester()
-test_shortest_path()
-test_subtree_RG()
-test_graphlet_sampling()
-test_weisfeiler_lehman()
-test_multiscale_laplacian()
-"""
-test_subgraph_matching()
+if verbose and main:
+    test_dirac()
+    test_random_walk_simple()
+    test_random_walk_sylvester()
+    test_shortest_path()
+    test_subtree_RG()
+    test_graphlet_sampling()
+    test_weisfeiler_lehman()
+if verbose and development:
+    test_multiscale_laplacian()
+    test_subgraph_matching()

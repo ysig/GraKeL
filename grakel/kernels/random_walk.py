@@ -14,8 +14,8 @@ def random_walk(X, Y, lamda=0.1, method_type="sylvester"):
     """ This is a function that implements the random walk kernel.
 
         X, Y: to valid graph types i.e. edge dictionary or adjacency_mat
-        algorithm_type: "dijkstra" or "floyd_warshall" or "auto" 
-        (for the best concerning current format)
+        lamda: the factor concerning summation
+        method_type: "simple" [O(|V|^6)] or "sylvester" [O(|V|^3)]
     """
     g_x = graph(X)
     g_y = graph(Y)
@@ -27,7 +27,7 @@ def random_walk_inner(Gx, Gy,lamda=0.1, method_type="sylvester"):
     """ This is a function that implements the random walk kernel.
 
         Gx, Gy: are two graph type objects representing relevant graphs to 
-        be compared. Their format is a s    uare array.
+        be compared. Their format is a square array.
         lamda: the factor concerning summation
         method_type: "simple" [O(|V|^6)] or "sylvester" [O(|V|^3)]
     """
@@ -36,10 +36,10 @@ def random_walk_inner(Gx, Gy,lamda=0.1, method_type="sylvester"):
     X = Gx.adjacency_matrix
     Y = Gy.adjacency_matrix
     
-    # calculate the product graph
-    XY = np.kron(X,Y)
-
     if(method_type == "simple"):
+        # calculate the product graph
+        XY = np.kron(X,Y)
+
         # algorithm presented in [Kashima et al., 2003; Gartner et al., 2003]
         # complexity of O(|V|^6)
 
@@ -51,7 +51,6 @@ def random_walk_inner(Gx, Gy,lamda=0.1, method_type="sylvester"):
         # algorithm presented in [Vishwanathan et al., 2006]
         # complexity of O(|V|^3)
         
-        # Doing some initialization
         X_dimension = X.shape[0]
         Y_dimension = Y.shape[0]
 
@@ -62,10 +61,21 @@ def random_walk_inner(Gx, Gy,lamda=0.1, method_type="sylvester"):
 
         # Prepare parameters for sylvester equation
         A = Y
-        B = np.divide(inv(X.T), -lamda)
+        
+        try:
+            B = np.divide(inv(X.T), -lamda)
+        except np.linalg.LinAlgError as err:
+            if 'Singular matrix' in err.message:
+                raise ValueError('Adjacency matrix of the first graph is not invertible')
+            else:
+                raise
+        
         C = -np.dot(e_x ,np.dot(e_y,B))
         
-        R = solve_sylvester(A, B, C)
+        try:
+            R = solve_sylvester(A, B, C)
+        except np.linalg.LinAlgError as err:
+            raise ValueError('Solution was not found for the Sylvester Equation. Check Input!')
         
         # calculate kernel
         k = - np.sum(np.sum(R,axis=1),axis=0)

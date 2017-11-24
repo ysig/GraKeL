@@ -135,10 +135,7 @@ def generalized_FLG_core(Lx, Ly, gram_matrix, gamma=0.05, heta=0.1):
     # Caclulate the kernel denominator
     k_denom = quatre(abs(det(Sx)*det(Sy)))
     
-    
-    k = k_nom/k_denom
-    
-    return k
+    return k_nom/k_denom
 
 def make_nested_neighbourhoods(G, L):
     """ Calculates nested neighborhoods needed

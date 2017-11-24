@@ -185,11 +185,11 @@ def subtree_rg_core_dynamic(u, v, g_x, g_y, h, dynamic_dict, p_u=None, p_v=None)
                 # The answer is yes: dynamic programming
                 plough_subsets(non_zero_elements, Rv, M_values)
         
-        k = 0
+        kernel = 0
         for v in M_values.values():
-          k+=v
+          kernel+=v
                 
-        return k
+        return kernel
     else:
         # Raise Warning?
         return 0

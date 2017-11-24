@@ -34,6 +34,7 @@ def weisfeiler_lehman_inner(Ga, Gb, base_kernel, niter=5):
     
     La_original = Ga.get_labels(purpose="dictionary")
     Lb_original = Gb.get_labels(purpose="dictionary")
+    
     Ga_edge_dictionary = Ga.edge_dictionary
     Gb_edge_dictionary = Gb.edge_dictionary
 
@@ -58,7 +59,8 @@ def weisfeiler_lehman_inner(Ga, Gb, base_kernel, niter=5):
     # add new labels
     Ga.relabel(La)
     Gb.relabel(Lb)
-    k = base_kernel(Ga, Gb)
+
+    kernel = base_kernel(Ga, Gb)
     for i in range(niter):
         label_set = set()
        
@@ -103,11 +105,10 @@ def weisfeiler_lehman_inner(Ga, Gb, base_kernel, niter=5):
         Gb.relabel(Lb)
 
         # calculate kernel 
-        k += base_kernel(Ga, Gb)
-        
+        kernel += base_kernel(Ga, Gb)
         
     # Restore original labels  
     Ga.relabel(La_original)
-    Gb.relabel(Lb_original) 
-    return k
+    Gb.relabel(Lb_original)
+    return kernel
 

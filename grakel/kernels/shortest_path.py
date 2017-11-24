@@ -31,6 +31,8 @@ def shortest_path_inner(g_x, g_y, algorithm_type="dijkstra"):
     # calculate shortest path matrix
     S_x, Lx = g_x.build_shortest_path_matrix(algorithm_type)
     S_y, Ly = g_y.build_shortest_path_matrix(algorithm_type)
+    
+    # Initialise
     kernel = 0
     Ly_inv = inv_dict(Ly)
     dim = S_x.shape[0]

@@ -53,7 +53,7 @@ def subgraph_matching_inner(Gx, Gy, kv=kv_default, ke=ke_default, lw=lw_default)
             edge_{x,y}: valid touples of nodes
             L{x,y}: valid label dictionaries
         lw: a lambda weight function for cliques
-            takes as input a set and returns a result
+            set -> number
     """
     # Calculate product graph
     Vp, Ep, c = weighted_product_graph(Gx, Gy, kv=kv, ke=ke)
@@ -86,7 +86,7 @@ def subgraph_matching_core(w, C, P, Ep, c, lw, value):
         # Create the new P
         Pp = P.copy()
         Pp.add(v)
-        Pp |= Ep[v]
+        Pp &= Ep[v]
         
         # apply subgraph matching for the new clique
         subgraph_matching_core(w, C, Pp, Ep, c, lw, value)
