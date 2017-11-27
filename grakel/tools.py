@@ -196,3 +196,67 @@ def extract_matrix(mat, a, b):
     B = np.concatenate((mat_b[:,a], mat_b[:,b]), axis=1)
     
     return np.concatenate((A,B),axis=0)
+    
+def distribute_samples(n, subsets_size_range, n_samples):
+        """ A function that is used in order to 
+            distribute evenly, the amount of samples
+            that will be drawn from a range of subset
+            size, from an original set of given size.
+            
+            n: set size
+            subsets_size_range: A touple having the min and the max subset size
+            n_samples: the number of samples
+        """
+        ## Check input
+        min_ss, max_ss = subsets_size_range[0], subsets_size_range[1]
+        if min_ss <= 1:
+            # raise minimum subset size must be bigger than one?
+            pass
+        if min_ss > max_ss:
+            # raise minimum subset size must be smaller than maximum?
+            pass
+        if min_ss > n:
+            # raise minimum subset size must not exceed graph size?
+            pass
+        if max_ss > n:
+            # raise warning maximum subset to big. saving min?
+            max_ss = n
+            pass
+                
+        # Distribute samples to subset groups
+        availabilities_on_subsets = sorted([(k,binomial(n,k)) for k in range(min_ss,max_ss+1)],key = lambda x: x[1])
+        n_availabilities = sum(item[1] for item in availabilities_on_subsets)
+        
+        # Semantic Exception
+        if n_availabilities < n_samples:
+            # raise error must provide a smaller number of samples?
+            pass
+        
+        samples_on_subsets = dict()
+        available_samples = n_samples
+        # a variable that helps distributing equally
+        cache = 0
+        for (i,n) in availabilities_on_subsets:
+            a = round((n/n_availabilities)*n_samples)
+            value = -1
+            if a < n:
+                if a > 0:
+                    q = a + cache - n
+                    if q >= 0:
+                        cache = q                    
+                        value = n
+                    else:
+                        value = a + cache
+            elif (a >= n):
+                cache += a-n
+                value = n
+                
+            # If maximum number of samples is reached break
+            if value >= available_samples:
+                samples_on_subsets[min_ss+i] = available_samples
+                break
+            elif value != -1:
+                samples_on_subsets[min_ss+i] = value
+               
+        return samples_on_subsets
+

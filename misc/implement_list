@@ -9,8 +9,6 @@ Archive:
 
 TOSOLVE:
 - overflow error for some executions of the 
-- maximum_recursion_depth error for subgraph matching:
-    define formula in better detail
 
 TODO:
 - correct the build frame work

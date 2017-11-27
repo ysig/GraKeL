@@ -5,7 +5,12 @@ import collections
 import operator
 import numpy as np
 
-from .tools import priority_dict, inv_dict
+import cvxopt.base
+import cvxopt.solvers
+
+from .tools import priority_dict, inv_dict, distribute_samples
+
+np.random.seed(238537)
 
 class graph(object):
     """ Definition of a graph
@@ -59,6 +64,15 @@ class graph(object):
     # an edge labels dictionary
     edge_labels = dict()
 
+    # lovasz theta
+    lovasz_theta =  None
+    
+    # svm_theta
+    svm_theta = None
+    
+    # metrics subgraphs dictionary
+    metric_subgraphs_dict = dict()
+    
     def __init__(self, initialization_object=None, node_labels=None, edge_labels=None, graph_format="auto"):
         
         """ Creates a new graph object
@@ -666,7 +680,7 @@ class graph(object):
                 self.node_labels = None
                 self.edge_labels = None
 
-        
+
     def laplacian(self, save=True):
         """ Calculates the laplacian of the given graph
             save: optional parameter to store the matrix
@@ -680,7 +694,168 @@ class graph(object):
             if save:
                 self.laplacian_graph = laplacian_graph
         return laplacian_graph
-
+    
+    def calculate_lovasz_theta(self, from_scratch=False):
+        """ Calculates the lovasz theta for the given graph.
+            
+            from_scratch: boolean flag that chooses with False to
+                          recalculate the lovasz number if it has
+                          already been calculated.
+        """
+        if not from_scratch:
+            if self.lovasz_theta is not None:
+                return self.lovasz_theta
+        
+        # Calculate dependent on the format
+        # sparse matrix and required graph 
+        # parameters for defining the convex 
+        # optimization problem
+        if self._format is "dictionary":
+            nv = len(vertices)
+            if nv == 1:
+                return 1.0
+                
+            else:
+                ne = sum([len(self.neighbours(v)) for v in list(vertices)])+nv
+                enum_vertices = {i: v for (i,v) in enumerate(sorted(list(vertices)))}
+                
+                # Calculate the sparse matrix needed to feed
+                # into the convex optimization problem
+                g_sparse = cvxopt.spmatrix(0, [], [], (nv*nv,ne+1))
+                
+                enum_edges = 0
+                for v in list(vertices):
+                    for n in self.edge_dictionary[v].keys():
+                        i = enum_vertices[v]
+                        if v!=n:
+                            j = enum_vertices[n]
+                            g_sparse[i*nv+j, enum_edges] = -1
+                            # if symmetric
+                            # g_sparse[j*nv+i, enum_edges] = -1
+                        else:
+                            g_sparse[i*nv+i, enum_edges] = -1
+                        enum_edges += 1
+                        
+        elif self._format in ["adjacency","all"]:
+            if self.n == 1:
+                return 1.0
+            else:
+                tf_adjm = self.adjacency_matrix>0
+                np.fill_diagonal(tf_adjm, False)
+                i_list, j_list = np.nonzero(tf_ajm)
+                
+                nv = self.n
+                ne = len(i_list)+nv
+                
+                g_sparse = cvxopt.spmatrix(0, [], [], (nv*nv,ne+1))    
+                for (enum_edges,(i,j)) in enumerate(zip(i_list, j_list)):
+                    g_sparse[i*nv+j, enum_edges] = -1
+                    # if symmetric
+                    # g_sparse[j*nv+i, enum_edges] = -1
+                for (enum_edges,i) in zip(range(0,nv),range(len(i_list)+1,ne+1)):
+                    g_sparse[i*nv+i, enum_edges] = -1
+                
+        # Initialise optimization parameters
+        h = -cvxopt.matrix(1.0, (nv,nv))
+        c = cvxopt.matrix([0.0]*ne + [1.0])
+                
+        # Solve the convex optimization problem
+        sol = cvxopt.solvers.sdp(c, Gs=[G], hs=[h])
+        self.lovasz_theta = sol['x'][ne]
+        return self.lovasz_theta
+    
+    def calculate_svm_theta(self, from_scratch=False):
+        """ Calculates the svm theta for the given graph.
+            
+            from_scratch: boolean flag that chooses with False to
+                          recalculate the lovasz number if it has
+                          already been calculated.
+        """
+        if not from_scratch:
+            if self.svm_theta is not None:
+                return self.svm_theta
+        
+        # Calculate dependent on the format
+        # sparse matrix and required graph 
+        # parameters for defining the convex 
+        # optimization problem
+        if self._format is "dictionary":
+            nv = len(vertices)
+            lov_sorted = sorted(list(vertices))
+            vertices = {v: i for (i,v) in enumerate(lov_sorted)}
+            
+            K = np.zeros(shape=(nv,nv))
+            idx = zip(*[(vertices[v],vertices[n]) for v in lov_sorted for n in self.neighbours(v))])
+            idx1 = list(idx[0])
+            idx2 = list(idx[1])
+            
+            K[idx1,idx2] = 1
+            np.fill_diagonal(K, 1)
+                        
+        elif self._format in ["adjacency","all"]:
+            K = self.adjacency_matrix>0
+            np.fill_diagonal(K, False)
+            K.astype(int)
+        
+        svm = OneClassSVM(kernel="precomputed")
+        svm.fit(K)
+                
+        self.svm_theta = np.sum(np.abs(svm.dual_coef_[0]),axis=0)
+        return self.svm_theta        
+    
+    def calculate_subgraph_samples_metric_dictionary(self, metric_type, n_samples=50, subsets_size_range=(2,8), from_scratch=False, save=True):
+        """ A function useful for calculating a graph metric
+            as the lovasz theta kernel or the svm-theta kernel,
+            on a set of randomly sampled subgraphs, producing
+            a dictionary of subgraph levels and sets
+                        
+            n_samples: the number of samples that will be sampled
+            subsets_size_range: A touple having the min and the max subset size
+            from_scratch: boolean flag that chooses with False to
+                          recalculate the lovasz number if it has
+                          already been calculated.
+            save: boolean flag that determines if the output will be saved
+        """
+        if metric_type is "svm":
+            metric = lambda G: G.calculate_svm_theta()
+        elif metric_type is "lovasz:
+            metric = lambda G: G.calculate_lovasz_theta()            
+        else:
+            # raise exception unsupported metric type?
+            return None
+            
+        self.desired_format("adjacency")
+        
+        # If precalculated and the user wants it, output
+        if not from_scratch:
+            if bool(lovasz_subgraph_dict):
+                if (metric_type, n_samples,subset_size_range) in lovasz_subgraph_dict:
+                    return lovasz_subgraph_dict[(metric_type, n_samples, min_ss, max_ss)]
+        
+        ## Calculate subsets
+        samples_on_subset = distribute_samples(self.n, subsets_size_range, n_samples)
+        
+        # Calculate level dictionary with lovasz values
+        level_values=dict()
+        for level in samples_on_subsets.keys():
+            subsets = set()
+            for k in range(0,samples_on_subsets[level]):
+                while True:
+                    indexes = np.random.choice(self.n, level, replace=False)
+                    if touple(indexes) not in subsets:
+                        subsets.add(touple(indexes))
+                        break
+                # calculate the lovasz value for that level
+                if level not in level_values:
+                    level_values[level] = list()
+                level_values[level].append(metric(graph(self.adjacency_matrix[:,indexes][indexes,:])))
+                
+        if save:
+            metric_subgraph_dict[(metric_type, n_samples, min_ss, max_ss)] = level_values
+        
+        return level_values
+                
+                
 def laplacian(A, n=-1):
     """ Calculates the laplacian given the adjacency matrix
         A: a numpy array of a square matrix corresponding
