@@ -19,6 +19,12 @@ except ImportError:
     sys.exit(1)
 
 try:
+	import cvxopt
+except ImportError:
+    print('cvxopt is required during installation')
+    sys.exit(1)
+
+try:
 	import pynauty
 except ImportError:
     print('pynauty is required during installation')

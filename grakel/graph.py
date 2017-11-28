@@ -9,8 +9,10 @@ import cvxopt.base
 import cvxopt.solvers
 
 from .tools import priority_dict, inv_dict, distribute_samples
+from sklearn.svm import OneClassSVM
 
 np.random.seed(238537)
+cvxopt.solvers.options['show_progress'] = False
 
 class graph(object):
     """ Definition of a graph
@@ -178,7 +180,6 @@ class graph(object):
                 self._format = graph_format
                 if past_format is "adjacency":
                     self._import_adjacency()
-                    
                 elif past_format is "dictionary":
                     self._import_dictionary()
                 else:
@@ -205,7 +206,7 @@ class graph(object):
         if graph_format is "all":
             self.change_format(graph_format)
         elif graph_format is "dictionary":
-            if self._format not in ["all","edge_dictionary"]:
+            if self._format not in ["all","dictionary"]:
                 self.change_format("all")
         elif graph_format is "adjacency":
             if self._format not in ["all","adjacency"]:
@@ -259,7 +260,6 @@ class graph(object):
                     if cond_labels_nodes:
                         self.index_node_labels = {i: self.node_labels[k] for (i,k) in zip(list(range(0,self.n)),lov_sorted)}
                     if cond_labels_edges:
-                        print("edge_labels", self.edge_labels)
                         self.index_edge_labels = {(i,j): self.edge_labels[(k,q)] for (i,k) in zip(list(range(0,lv)),lov_sorted) for (j,q) in zip(list(range(0,lv)),lov_sorted)}
                 else:
                     # Raise warning no labels to convert from for the given purpose?
@@ -656,7 +656,6 @@ class graph(object):
         # Create and store the adjacency matrix
         if self._format in ["adjacency","all"]:
             edsamic, self.n, lov_sorted = self._make_edsamic(vertices)
-            
             # Initialize adjacency_matrix
             adjacency_matrix = np.zeros(shape = (self.n,self.n))
             
@@ -716,51 +715,57 @@ class graph(object):
                 return 1.0
                 
             else:
-                ne = sum([len(self.neighbours(v)) for v in list(vertices)])+nv
                 enum_vertices = {i: v for (i,v) in enumerate(sorted(list(vertices)))}
                 
                 # Calculate the sparse matrix needed to feed
                 # into the convex optimization problem
-                g_sparse = cvxopt.spmatrix(0, [], [], (nv*nv,ne+1))
+                q = {(v,n) for v in list(vertices) for n in self.edge_dictionary[v].keys() if v!=n}
                 
-                enum_edges = 0
-                for v in list(vertices):
-                    for n in self.edge_dictionary[v].keys():
-                        i = enum_vertices[v]
-                        if v!=n:
-                            j = enum_vertices[n]
-                            g_sparse[i*nv+j, enum_edges] = -1
-                            # if symmetric
-                            # g_sparse[j*nv+i, enum_edges] = -1
-                        else:
-                            g_sparse[i*nv+i, enum_edges] = -1
-                        enum_edges += 1
-                        
+                x_list = list()
+                e_list = list()
+                ei = 0
+                for i in range(0, nv):
+                    na = enum_vertices[i]
+                    for j in range(i+1,nv):
+                        nb = enum_vertices[j]
+                        if (na,nb) in q:
+                            e_list.append(int(ei)), x_list.append(int(i*nv+j))
+                            if (nb,na) in q:
+                                e_list.append(int(ei)), x_list.append(int(i*nv+j))
+                            ei+=1
+                ne = ei-1
+                
         elif self._format in ["adjacency","all"]:
             if self.n == 1:
                 return 1.0
             else:
                 tf_adjm = self.adjacency_matrix>0
-                np.fill_diagonal(tf_adjm, False)
-                i_list, j_list = np.nonzero(tf_ajm)
+                i_list, j_list = np.nonzero(np.triu(tf_adjm.astype(int), k=1))
                 
                 nv = self.n
-                ne = len(i_list)+nv
+                ne = len(i_list)
                 
-                g_sparse = cvxopt.spmatrix(0, [], [], (nv*nv,ne+1))    
-                for (enum_edges,(i,j)) in enumerate(zip(i_list, j_list)):
-                    g_sparse[i*nv+j, enum_edges] = -1
-                    # if symmetric
-                    # g_sparse[j*nv+i, enum_edges] = -1
-                for (enum_edges,i) in zip(range(0,nv),range(len(i_list)+1,ne+1)):
-                    g_sparse[i*nv+i, enum_edges] = -1
-                
+                x_list = list()
+                e_list = list()
+                for (e,(i,j)) in enumerate(zip(i_list,j_list)):
+                    e_list.append(int(e)), x_list.append(int(i*nv+j))
+                    if tf_adjm[i,j]:
+                        e_list.append(int(e)), x_list.append(int(i*nv+j))
+        
+        # Add on the last row, diagonal elements
+        e_list = e_list+(nv*[ne])
+        x_list = x_list+[int(i*nv + i) for i in range(0,nv)]
+        
+        # initialise g sparse (to values -1, based on two list that 
+        # define index and one that defines shape
+        g_sparse = cvxopt.spmatrix(-1, x_list, e_list, (nv*nv,ne+1))
+        
         # Initialise optimization parameters
-        h = -cvxopt.matrix(1.0, (nv,nv))
+        h = cvxopt.matrix(-1.0, (nv,nv))
         c = cvxopt.matrix([0.0]*ne + [1.0])
                 
         # Solve the convex optimization problem
-        sol = cvxopt.solvers.sdp(c, Gs=[G], hs=[h])
+        sol = cvxopt.solvers.sdp(c, Gs=[g_sparse], hs=[h])
         self.lovasz_theta = sol['x'][ne]
         return self.lovasz_theta
     
@@ -768,7 +773,7 @@ class graph(object):
         """ Calculates the svm theta for the given graph.
             
             from_scratch: boolean flag that chooses with False to
-                          recalculate the lovasz number if it has
+                          recalculate the svm theta number if it has
                           already been calculated.
         """
         if not from_scratch:
@@ -785,7 +790,7 @@ class graph(object):
             vertices = {v: i for (i,v) in enumerate(lov_sorted)}
             
             K = np.zeros(shape=(nv,nv))
-            idx = zip(*[(vertices[v],vertices[n]) for v in lov_sorted for n in self.neighbours(v))])
+            idx = zip(*[(vertices[v],vertices[n]) for v in lov_sorted for n in self.neighbours(v)])
             idx1 = list(idx[0])
             idx2 = list(idx[1])
             
@@ -818,22 +823,24 @@ class graph(object):
         """
         if metric_type is "svm":
             metric = lambda G: G.calculate_svm_theta()
-        elif metric_type is "lovasz:
+        elif metric_type is "lovasz":
             metric = lambda G: G.calculate_lovasz_theta()            
         else:
             # raise exception unsupported metric type?
             return None
             
-        self.desired_format("adjacency")
-        
+        min_ss, max_ss = subsets_size_range[0], subsets_size_range[1]
         # If precalculated and the user wants it, output
         if not from_scratch:
-            if bool(lovasz_subgraph_dict):
-                if (metric_type, n_samples,subset_size_range) in lovasz_subgraph_dict:
-                    return lovasz_subgraph_dict[(metric_type, n_samples, min_ss, max_ss)]
+            if bool(self.metric_subgraphs_dict):
+                if (metric_type, n_samples, min_ss, max_ss) in self.metric_subgraphs_dict:
+                    return self.metric_subgraphs_dict[(metric_type, n_samples, min_ss, max_ss)]
+        
+        
+        self.desired_format("adjacency")
         
         ## Calculate subsets
-        samples_on_subset = distribute_samples(self.n, subsets_size_range, n_samples)
+        samples_on_subsets = distribute_samples(self.n, subsets_size_range, n_samples)
         
         # Calculate level dictionary with lovasz values
         level_values=dict()
@@ -842,8 +849,8 @@ class graph(object):
             for k in range(0,samples_on_subsets[level]):
                 while True:
                     indexes = np.random.choice(self.n, level, replace=False)
-                    if touple(indexes) not in subsets:
-                        subsets.add(touple(indexes))
+                    if tuple(indexes) not in subsets:
+                        subsets.add(tuple(indexes))
                         break
                 # calculate the lovasz value for that level
                 if level not in level_values:
@@ -851,7 +858,7 @@ class graph(object):
                 level_values[level].append(metric(graph(self.adjacency_matrix[:,indexes][indexes,:])))
                 
         if save:
-            metric_subgraph_dict[(metric_type, n_samples, min_ss, max_ss)] = level_values
+            self.metric_subgraphs_dict[(metric_type, n_samples, min_ss, max_ss)] = level_values
         
         return level_values
                 

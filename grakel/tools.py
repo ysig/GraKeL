@@ -7,6 +7,9 @@ from __future__ import generators
 import operator
 
 import numpy as np
+
+from scipy.special import binom as binomial
+
         
 class priority_dict(dict,object):
     def __init__(self):
@@ -209,6 +212,7 @@ def distribute_samples(n, subsets_size_range, n_samples):
         """
         ## Check input
         min_ss, max_ss = subsets_size_range[0], subsets_size_range[1]
+        
         if min_ss <= 1:
             # raise minimum subset size must be bigger than one?
             pass
@@ -222,9 +226,9 @@ def distribute_samples(n, subsets_size_range, n_samples):
             # raise warning maximum subset to big. saving min?
             max_ss = n
             pass
-                
+        
         # Distribute samples to subset groups
-        availabilities_on_subsets = sorted([(k,binomial(n,k)) for k in range(min_ss,max_ss+1)],key = lambda x: x[1])
+        availabilities_on_subsets = sorted([(k,int(binomial(n,k))) for k in range(min_ss,max_ss+1)], key = lambda x: x[1])
         n_availabilities = sum(item[1] for item in availabilities_on_subsets)
         
         # Semantic Exception

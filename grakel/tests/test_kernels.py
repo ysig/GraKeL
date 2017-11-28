@@ -5,11 +5,11 @@ from grakel.kernels import *
 
 global verbose, main, development
 
-main = True
+main = False
 verbose = True
-development = False
+development = True
 
-global X, L, Le, phi
+global X, Y, L, Le, phi
 
 X = np.array([[0,1,2,1,0,0.5,0],
               [1,0,0,0,1,2,0.5],
@@ -18,6 +18,24 @@ X = np.array([[0,1,2,1,0,0.5,0],
               [0,1,0,0,0,3,1],
               [0.5,2,0,0,3,0,0],
               [0,0.5,2,0,1,0,0]])
+ 
+# Route May 2001 map of Spirit Airlines
+# Atlantic City, Chicago (O'Hare), Detroit, Fort Lauderdale, Fort Myers, Los Angeles, Melbourne, Myrtle Beach, Newark, New York (LaGuardia), Oakland, Orlando, Tampa, and Washington (Reagan National).
+D = np.array([
+[0, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0],
+[1, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0],
+[0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0],
+[1, 1, 1, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 1],
+[1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+[0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1],
+[1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0],
+[0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0],
+[0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0],
+[0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+[1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+[1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0]])
               
 L = {0:'banana', 1:'cherry', 2:'banana', 3:'cherry', 4:'peach',5:'cherry',6:'lime'}
 
@@ -94,6 +112,14 @@ def test_subgraph_matching():
     if verbose:
         print("Subgraph Matching:",subgraph_matching(X,X,L,L,Le,Le))
 
+def test_lovasz_theta():
+    if verbose:
+        print("Lovasz Theta:", lovasz_theta(D,D))
+
+def test_svm_theta():
+    if verbose:
+        print("SVM Theta:", svm_theta(D,D))
+
 if verbose and main:
     test_dirac()
     test_random_walk_simple()
@@ -102,6 +128,9 @@ if verbose and main:
     test_subtree_RG()
     test_graphlet_sampling()
     test_weisfeiler_lehman()
+    
 if verbose and development:
-    test_multiscale_laplacian()
-    test_subgraph_matching()
+    #test_multiscale_laplacian()
+    #test_subgraph_matching()
+    test_lovasz_theta()
+    test_svm_theta()

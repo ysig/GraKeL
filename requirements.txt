@@ -1,3 +1,5 @@
 nose>=1.1.2
 scikit-learn>=0.17
+cvxopt>=1.1.4
 pynauty>=0.5.0
+

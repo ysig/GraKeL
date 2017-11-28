@@ -6,6 +6,8 @@ from .graphlet_sampling import graphlet_sampling, graphlet_sampling_inner, graph
 from .weisfeiler_lehman import weisfeiler_lehman, weisfeiler_lehman_inner
 from .multiscale_laplacian import multiscale_laplacian, multiscale_laplacian_inner
 from .subgraph_matching import subgraph_matching, subgraph_matching_inner
+from .lovasz_theta import lovasz_theta, lovasz_theta_inner
+from .svm_theta import svm_theta, svm_theta_inner
 __all__ = [
 "dirac",
 "dirac_inner",
@@ -23,4 +25,8 @@ __all__ = [
 "multiscale_laplacian",
 "multiscale_laplacian_inner",
 "subgraph_matching",
-"subgraph_matching_inner"]
+"subgraph_matching_inner",
+"lovasz_theta",
+"lovasz_theta_inner",
+"svm_theta",
+"svm_theta_inner"]

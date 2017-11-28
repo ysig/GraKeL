@@ -19,8 +19,8 @@ def lovasz_theta(X, Y, n_samples=50, subsets_size_range=(2,8), metric=(lambda x,
         subsets_size_range: a touple of min, max size of the vertex
                             set of sampled subgraphs
     """
-    Gx = graph(X, Lx)
-    Gy = graph(Y, Ly)
+    Gx = graph(X)
+    Gy = graph(Y)
     return lovasz_theta_inner(Gx, Gy, n_samples, subsets_size_range, metric)
 
 def lovasz_theta_inner(Gx, Gy, n_samples=50, subsets_size_range=(2,8), metric=(lambda x, y:x*y)):
@@ -34,17 +34,14 @@ def lovasz_theta_inner(Gx, Gy, n_samples=50, subsets_size_range=(2,8), metric=(l
         subsets_size_range: a touple of min, max size of the vertex
                             set of sampled subgraphs
     """
-    Gx.desired_format("dictionary")
-    Gy.desired_format("dictionary")
-    
     Ldx = Gx.calculate_subgraph_samples_metric_dictionary("lovasz", n_samples=n_samples, subsets_size_range=subsets_size_range)
     Ldy = Gy.calculate_subgraph_samples_metric_dictionary("lovasz", n_samples=n_samples, subsets_size_range=subsets_size_range)
     
     kernel = 0
     for level in Ldx.keys():
         if level in Ldy:
-            if bool(Ldx[level]) and bool(Ldy[level])
+            if bool(Ldx[level]) and bool(Ldy[level]):
                 Z = len(Ldx[level])*len(Ldy[level])
-                kernel += sum(metric(x,y) for (x,y) in itertools.product(Ldx[level))
+                kernel += sum(metric(x,y) for (x,y) in itertools.product(Ldx[level],Ldy[level]))
 
     return kernel
