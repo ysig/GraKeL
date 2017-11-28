@@ -1,8 +1,10 @@
 """ A python file that implements classes, functions for graphs
 
 """
+import warnings
 import collections
 import operator
+
 import numpy as np
 
 import cvxopt.base
@@ -106,8 +108,7 @@ class graph(object):
             if (initialization_object is not None):
                 self.build_graph(initialization_object, node_labels, edge_labels)
         else:
-            pass
-            # Raise an exception if graph format is not valid?
+            raise ValueError('Invalid graph format.\nValid graph formats are "all", "dictionary", "adjacency", "auto"')
             
     def build_graph(self, g, node_labels=None, edge_labels=None):
         """ builds a graph structure given a supported graph representation
@@ -145,8 +146,7 @@ class graph(object):
                 if(self._format is "auto"):
                     self._format = "dictionary"
             else:
-                pass
-                # Raise exception: "Unsupported input type"
+                raise ValueError('Unsupported input type.\nValid input formats are numpy arrays and edge dictionaries.\nFor more information check the documentation')
 
         
         # If graph is of one type prune the other
@@ -172,8 +172,7 @@ class graph(object):
                 - for both: "all"
         """
         if graph_format not in ["all", "dictionary", "adjacency"]:
-            pass
-            # Raise exception ?
+            raise ValueError('Invalid graph format for function change format. Valid formats are "all", "dictionary", "adjacency"')
         else:
             if (graph_format is not self._format):
                 past_format = self._format
@@ -225,8 +224,7 @@ class graph(object):
                 nodes = list(range(0,self.n))
                 self.index_edge_labels = {(i,j):self.adjacency_matrix[i,j] for i in nodes for j in nodes}
             else:
-                pass
-                # Raise warning: Unsupported label_type ?
+                warnings.warn('unsupported label type')
         elif (purpose == "dictionary"):
             if (label_type == "vertex"):
                 nodes = sorted(list(self.vertices))
@@ -234,8 +232,7 @@ class graph(object):
             elif (label_type=="edge"):
                 self.index_edge_labels = {(i,j):(0 if (i not in self.edge_dictionary) or (j not in self.edge_dictionary[i]) else self.edge_dictionary[i][j]) for i in nodes for j in nodes}
             else:
-                pass
-                # Raise warning: Unsupported label_type ?
+                warnings.warn('unsupported label type')
                                 
     def convert_labels(self, target_format = "dictionary", purpose="all", init=False):
         """ A method that converts labels to a desired format 
@@ -246,12 +243,9 @@ class graph(object):
         if (target_format == "adjacency"):
             if (self._format != "adjacency" or init):
                 if bool(self.index_node_labels) and purpose in ['all', 'vertex']:
-                    # Raise Warning: Overriding existing node labels for indexes
-                    pass
-                    
+                    warnings.warn('overriding existing node labels for indexes')             
                 if bool(self.index_edge_labels) and purpose in ['all', 'edges']:
-                    # Raise Warning: Overriding existing edge labels for indexes
-                    pass
+                    warnings.warn('overriding existing edge labels for indexes')
                 cond_labels_nodes = purpose in ['all', 'vertex'] and bool(self.node_labels)
                 cond_labels_edges = purpose in ['all', 'edges'] and bool(self.edge_labels)
                 if cond_labels_nodes or cond_labels_edges:
@@ -262,32 +256,24 @@ class graph(object):
                     if cond_labels_edges:
                         self.index_edge_labels = {(i,j): self.edge_labels[(k,q)] for (i,k) in zip(list(range(0,lv)),lov_sorted) for (j,q) in zip(list(range(0,lv)),lov_sorted)}
                 else:
-                    # Raise warning no labels to convert from for the given purpose?
-                    pass
-                    
+                    warnings.warn('no labels to convert from, for the given purpose')
             else:
-                # Raise warning: Labels already defined for that format (nothing to convert)?
-                pass
+                warnings.warn('labels already defined for that format - nothing to convert')
         elif (target_format == "dictionary"):
             if (self._format != "dictionary" or init):
                 if bool(self.node_labels) and purpose in ['all', 'vertex']:
-                    # Raise Warning: Overriding existing node labels for indexes
-                    pass
+                    warnings.warn('overriding existing node labels, for dictionary symbols')
                     
                 if bool(self.edge_labels) and purpose in ['all', 'edges']:
-                    # Raise Warning: Overriding existing edge labels for indexes
-                    pass
+                    warnings.warn('overriding existing edge labels, for dictionary symbols')
                 if purpose in ["all", "vertex"] and bool(self.index_node_labels):
                     self.node_labels = self.index_node_labels
                 if purpose in ["all", "edges"] and bool(self.index_edge_labels):
                     self.edge_labels = self.index_edge_labels
                 else:
-                    # Raise warning no labels to convert from for the given purpose?
-                    pass
-                    
+                    warnings.warn('no labels to convert from, for the given purpose')
             else:
-                # Raise warning: Labels already defined for that format (nothing to convert)?
-                pass
+                warnings.warn('labels already defined for the given format')
     
     def label(self, obj, label_type="vertex", purpose="dictionary"):
         """ Returns the label of a vertex
@@ -302,18 +288,15 @@ class graph(object):
             elif purpose == "adjacency":
                 labels = self.index_node_labels
             else:
-                pass
-                # Raise Unrecognized purpose for label are not set?
+                raise ValueError('unrecognized purpose')
                 
             if not bool(labels):
                 if (vertex in labels):
                     return labels[vertex]
                 else:
-                    pass
-                    # Raise exception: No label assigned to thise vertex symbol?
+                    raise ValueError('no label assigned to this vertex symbol')
             else:
-                # Raise warning: Labels are not set?
-                # return a default value
+                warnings.warn('labels are not set - default value returned')
                 return vertex
         elif (label_type == "edge"):
             edge = obj
@@ -322,18 +305,15 @@ class graph(object):
             elif purpose == "adjacency":
                 labels = self.index_edge_labels
             else:
-                pass
-                # Raise Unrecognized purpose for label are not set?
+                raise ValueError('unrecognized purpose')
                 
             if not bool(labels):
                 if (edge in labels):
                     return labels[edge]
                 else:
-                    pass
-                    # Raise exception: No label assigned to that edge?
+                    raise ValueError('no label assigned to this edge symbol')
             else:
-                # Raise warning: Labels are not set?
-                # return a default value
+                warnings.warn('labels are not set - default value returned')
                 if (edge[0] not in self.edge_dictionary) or (edge[1] not in self.edge_dictionary[edge[0]]):
                     return .0
                 else:
@@ -347,15 +327,13 @@ class graph(object):
             purpose: "dicitonary", "adjacency"
         """
         if new_labels is None or not bool(new_labels):
-            # Raise warning: User must provide new labels?
-            pass
+            warnings.warn('user must provide new labels, input is None')
         elif label_type=="vertex":
             if purpose is "dictionary":
                 if self._format in ["dictionary","all"]:
                     self.node_labels = new_labels
                 else:
-                    # Raise exception?
-                    pass
+                    raise ValueError('graph is in a format that supports labels for dictionary symbols')
                 
                 # Transform to a valid format
                 if self._format is "all":
@@ -366,23 +344,20 @@ class graph(object):
                 if self._format in ["all","adjacency"]:
                     self.index_node_labels = new_labels
                 else:
-                    # Raise exception?
-                    pass
+                    raise ValueError('graph is in a format that supports labels for indexes')
                 
                 if self._format is "all":
                     self.convert_labels("dictionary","vertex")
                 if bool(self.label_group) and (label_type,purpose) in self.label_group:
                     self.label_group[(label_type,purpose)] = dict()
             else:
-                # Raise warning unsuported label purpose?
-                pass
+                warnings.warn('no labels to convert from, for the given purpose')
         elif label_type=="edge":
             if purpose is "dictionary":
                 if self._format in ["dictionary","all"]:
                     self.edge_labels = new_labels
                 else:
-                    # Raise exception?
-                    pass
+                    raise ValueError('graph is in a format that supports labels for dictionary symbols')
                 
                 # Transform to a valid format
                 if self._format is "all":
@@ -393,17 +368,18 @@ class graph(object):
             elif purpose is "adjacency":
                 if self._format in ["all","adjacency"]:
                     self.index_edge_labels = new_labels
-                elif self._format is "all":
+                else:
+                    raise ValueError('graph is in a format that supports labels for indexes')
+
+                if self._format is "all":
                     self.convert_labels("dictionary","edge")
                 if (label_type,purpose) in self.label_group:
                     self.label_group[(label_type,purpose)] = dict()  
 
             else:
-                # Raise unsuported label purpose
-                pass
+                warnings.warn('no labels to convert from, for the given purpose')       
         else:
-            # Raise warning unrecognised label type?
-            pass
+            warnings.warn('unrecognized label type')
 
         
     def build_shortest_path_matrix(self, algorithm_type="auto", clean=False):
@@ -480,8 +456,7 @@ class graph(object):
                     self.construct_labels(label_type, purpose)
                 return self.edge_labels
         else:
-            return None
-            # raise error unsupported label format?
+            raise ValueError('unsupported label purpose')
     
     def get_label_group(self, label_type="vertex", purpose="dictionary"):
         """ A function that calculates the inverse dictionary
@@ -518,8 +493,7 @@ class graph(object):
                 else:
                     return self.edge_dictionary[vertex]
             else:
-                # Raise warning: vertex not inside matrix ?
-                return None
+                raise ValueError('vertex not inside edge dictionary')
         else:
             idx = int(vertex)
             if 0 <= idx < self.n:
@@ -541,8 +515,7 @@ class graph(object):
                             out[i] = element
                     return edge_dictionary[vertex]
             else:
-                pass
-                # Raise exception: "item with index ",idx," does not exist"?
+                raise ValueError("item with index "+str(idx)+" does not exist")
 
     def _make_edsamic(self, vertices, all_out = True):
         """ A method to produce the edge symbols
@@ -567,7 +540,7 @@ class graph(object):
             else:
                 return edsamic, n
         else:
-            # Raise warning: Wrong Format?
+            warnings.warn('wrong format: edge dictionary must exist')
             return None
 
 
@@ -583,8 +556,8 @@ class graph(object):
             n = adjacency_matrix.shape[0]
 
             if n != adjacency_matrix.shape[1]:
-                pass
-                # Raise an exception if matrix is not squared?
+                raise ValueError('input matrix must be squared')
+            
             # import_adjacency
             if (self._format is "all" or self._format is "adjacency"):
                 self.adjacency_matrix = adjacency_matrix
@@ -642,8 +615,7 @@ class graph(object):
                     vertices.union(set(edge_dictionary[u].keys()))
                     edge_dictionary_refined[u] = edge_dictionary[u]
                 else:
-                    # Raise exception unsupported edge_dictionary format ?
-                    pass
+                    raise ValueError('unsupported edge_dictionary format')
             
             # Save dictionary, vertices @self if needed        
             if (self._format is "all" or self._format is "dictionary"):
@@ -826,8 +798,7 @@ class graph(object):
         elif metric_type is "lovasz":
             metric = lambda G: G.calculate_lovasz_theta()            
         else:
-            # raise exception unsupported metric type?
-            return None
+            raise ValueError('unsupported metric type')
             
         min_ss, max_ss = subsets_size_range[0], subsets_size_range[1]
         # If precalculated and the user wants it, output
@@ -949,17 +920,3 @@ def floyd_warshall(adjacency_matrix, n=-1):
                     dist[i,j] = dist[i,k] + dist[k,j]
 
     return dist
-
-
-# Exceptions
-# ----------
-#
-# Always use class exceptions instead of the old-style string exceptions.
-class MessageError(Exception):
-    """ Base class for errors in the email package.
-
-    Exceptions are classes too! Hence exception names are CamelCase.
-
-    """
-    
-    pass

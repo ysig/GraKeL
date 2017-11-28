@@ -5,6 +5,7 @@
 
 from __future__ import generators
 import operator
+import collections
 
 import numpy as np
 
@@ -132,9 +133,8 @@ def inv_dict(d):
             elif type(k) is set:
                 k = frozenset(k)
             else:
-                # check for hashability
-                # if not raise error
-                pass
+                if not isinstance(k, collections.Hashable):
+                    raise ValueError('in order to calculate inverse dictionary, values must be hashable')
             if k not in inv:
                inv[k] = list()
             inv[k].append(a)
@@ -166,8 +166,7 @@ def matrix_to_dict(matrix, op='==', const_value=0, s=-1, allow_diagonal=False):
                         at input
     """
     if op not in ['>', '<', '>=', '<=', '==']:
-        # Raise exception unsupported operator?
-        pass
+        raise ValueError('unsupported operator')
 
     opr = ops[op]
     
@@ -190,8 +189,7 @@ def extract_matrix(mat, a, b):
         a, b: the two corresponding index lists
     """
     if (len(a) != len(b)):
-        # Raise exception: Index lists must have the same size
-        pass
+        raise ValueError('index lists must have the same size')
         
     mat_a, mat_b = mat[a,:], mat[b,:]
     
@@ -210,22 +208,18 @@ def distribute_samples(n, subsets_size_range, n_samples):
             subsets_size_range: A touple having the min and the max subset size
             n_samples: the number of samples
         """
-        ## Check input
+        # Check input
         min_ss, max_ss = subsets_size_range[0], subsets_size_range[1]
         
         if min_ss <= 1:
-            # raise minimum subset size must be bigger than one?
-            pass
+            raise ValueError('minimum subset size must be bigger than one')
         if min_ss > max_ss:
-            # raise minimum subset size must be smaller than maximum?
-            pass
+            raise ValueError('minimum subset size must be smaller than maximum')
         if min_ss > n:
-            # raise minimum subset size must not exceed graph size?
-            pass
+            raise ValueError('minimum subset size must not exceed graph size')
         if max_ss > n:
-            # raise warning maximum subset to big. saving min?
+            warnings.warn('maximum subset size to big - adjusting to set size')
             max_ss = n
-            pass
         
         # Distribute samples to subset groups
         availabilities_on_subsets = sorted([(k,int(binomial(n,k))) for k in range(min_ss,max_ss+1)], key = lambda x: x[1])
@@ -233,8 +227,7 @@ def distribute_samples(n, subsets_size_range, n_samples):
         
         # Semantic Exception
         if n_availabilities < n_samples:
-            # raise error must provide a smaller number of samples?
-            pass
+            raise ValueError('number of samples cannot be drown from that range of subsets - for the same range user must provide a smaller number of samples')
         
         samples_on_subsets = dict()
         available_samples = n_samples

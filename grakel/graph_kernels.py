@@ -1,6 +1,7 @@
 """
     The main graph kernel object used for creating a graph kernel object
 """
+import warnings
 
 import numpy as np
 
@@ -70,8 +71,7 @@ class GraphKernel(BaseEstimator, TransformerMixin):
             elif (type(kargs["kernel"]) is list):
                 self.kernel = self._make_kernel(kargs["kernel"])
         else:
-            pass
-            # Raise error Undefined kernel ?
+            raise ValueError('kernel must be defined at the __init__ function of a graph kernel')
 
     def _make_kernel(self,kernel_list):
             """ Produces the desired kernel function.
@@ -91,8 +91,7 @@ class GraphKernel(BaseEstimator, TransformerMixin):
             kernel_name = kernel.pop("name")
             if kernel_name in ["dirac","random_walk","shortest_path","subtree_rg","graphlets_sampling"]:
                 if (len(kernel_list)!=0):
-                    pass
-                    # Raise Warning: Arguments are being ignored reached base kernel?
+                    warnings.warn('rest kernel arguments are being ignored - reached base kernel')
                 if kernel_name is "dirac":
                     return lambda x, y: dirac_inner(x, y)
                 elif kernel_name is "random_walk":
@@ -114,8 +113,7 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                     return lambda x, y: subgraph_matching_inner(x, y, **kernel)
             elif kernel_name in ["weisfeiler_lehman"]:
                 if (len(kernel_list)==0):
-                    pass
-                    # Raise Error: $kernel_name is not a base kernel?
+                    raise ValueError(str(kernel_name)+' is not a base kernel')
                 if kernel_name is "weisfeiler_lehman":
                     bk = self._make_kernel(kernel_list)
                     kernel["base_kernel"] = bk
@@ -154,8 +152,7 @@ class GraphKernel(BaseEstimator, TransformerMixin):
             elif len(x) == 2:
                 self.X_graph[graph_idx] = graph(x[0],x[1],x[2],"all")
             else:
-                # Raise warning: Input has an empty or unrecognised element?
-                pass
+                warnings.warn('input has an empty or unrecognised element')
         self.num_of_graphs = graph_idx
 
         # Return the transformer
@@ -202,8 +199,7 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                 elif len(x) == 2:
                     self.X_graph[graph_idx] = graph(x[0],x[1],x[2],"all")
                 else:
-                    # Raise warning: Input has an empty or unrecognised element?
-                    pass
+                    warnings.warn('input has an empty or unrecognised element')
         # Check that the input is of the same shape as the one passed
         # during fit.
 
