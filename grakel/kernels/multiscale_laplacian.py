@@ -59,12 +59,12 @@ def multiscale_laplacian_inner(Gx, Gy, L=3, gamma=0.01):
             gram_matrix[i,j] = np.dot(vec_a, vec_b)
     
     # calculate the neighboorhoods
-    Nx = make_nested_neighbourhoods(Gx, L=L)
-    Ny = make_nested_neighbourhoods(Gy, L=L)
+    Nx = Gx.produce_neighbourhoods(r=L)
+    Ny = Gy.produce_neighbourhoods(r=L)
     
     # a lambda that calculates indexes inside the gram matrix
     # and the corresponindg laplacian given a node and a level
-    pick = lambda node, level: (Nx[node][level], laplacian(Ax[Nx[node][level],:][:,Nx[node][level]])) if node<Gx.n else ([idx+Gx.n for idx in Ny[node-Gx.n][level]], laplacian(Ay[Ny[node-Gx.n][level],:][:,Ny[node-Gx.n][level]]))
+    pick = lambda node, level: (Nx[level][node], laplacian(Ax[Nx[level][node],:][:,Nx[level][node]])) if node<Gx.n else ([idx+Gx.n for idx in Ny[level][node-Gx.n]], laplacian(Ay[Ny[level][node-Gx.n],:][:,Ny[level][node-Gx.n]]))
 
     for l in range(1,L+1):
         gm = gram_matrix
@@ -136,29 +136,3 @@ def generalized_FLG_core(Lx, Ly, gram_matrix, gamma=0.05, heta=0.1):
     k_denom = quatre(abs(det(Sx)*det(Sy)))
     
     return k_nom/k_denom
-
-def make_nested_neighbourhoods(G, L):
-    """ Calculates nested neighborhoods needed
-        for multiscale laplacian calculation
-        
-        G: a graph type object
-        L: number of neighbourhoods for nesting
-    """
-    N = dict()
-    
-    # initialization
-    for i in range(0,G.n):
-        N[i] = dict()
-        N[i][1] = sorted([i]+list(G.neighbours(i)))
-        
-    # calculate neighbourhoods
-    # by a recursive formula
-    # for all levels from 2 to L
-    for level in range(1,L):
-        for i in range(0,G.n):
-            neighbours = set()
-            for w in N[i][level]:
-                neighbours = neighbours.union(set(N[w][level]))
-            N[i][level+1] = sorted(list(neighbours))
-    
-    return N

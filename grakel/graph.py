@@ -194,7 +194,7 @@ class graph(object):
                         self.edge_labels = None
                         self.edge_dictionary = None
 
-    def desired_format(self,graph_format):
+    def desired_format(self,graph_format, warn=False):
         """ Changes the format to include the desired
 
             graph_format: Is the internal represantation of the graph object be a dictionary as a matrix, or both
@@ -206,9 +206,12 @@ class graph(object):
             self.change_format(graph_format)
         elif graph_format is "dictionary":
             if self._format not in ["all","dictionary"]:
+                if warn:
+                    warnings.warn('changing format from "dictionary" to "all"')
                 self.change_format("all")
         elif graph_format is "adjacency":
             if self._format not in ["all","adjacency"]:
+                warnings.warn('changing format from "adjacency" to "all"')
                 self.change_format("all")
 
     def construct_labels(self, label_type="vertex", purpose="adjacency"):
@@ -382,14 +385,18 @@ class graph(object):
             warnings.warn('unrecognized label type')
 
         
-    def build_shortest_path_matrix(self, algorithm_type="auto", clean=False):
+    def build_shortest_path_matrix(self, algorithm_type="auto", clean=False, labels="vertex"):
         """ A method that builds and returns the shortest path matrix between all nodes
 
             algorithm_type: "auto" for "dictionary" or "all" format - Dijkstra
                                    for "adjacency" - Floyd Warshall
                             "dijkstra" - Dijkstra
                             "floyd_warshall" - Floyd Warshall
+            labels: "vertex", "edge", "all"
         """
+        if self.labels not in ['vertex', 'edge', 'all']:
+            raise ValueError('only labels for vertices and edges exist')
+        
         if clean:
             self.shortest_path_mat = None
             
@@ -405,7 +412,7 @@ class graph(object):
         
         if algorithm_type is "dijkstra":
             # all format required
-            self.desired_format("all")
+            self.desired_format("all", warn=True)
             if (bool(self.edsamic)):
                 indexes = self.edsamic
             else:
@@ -418,15 +425,18 @@ class graph(object):
                 for s in dict_fd.keys():
                     shortest_path_mat[indexes[k],indexes[s]] = dict_fd[s]
 
-            shortest_path_labels = self.get_labels()
         elif algorithm_type is "floyd_warshall":
-            self.desired_format("adjacency")
+            self.desired_format("adjacency", warn=True)
             shortest_path_mat = floyd_warshall(self.adjacency_matrix,self.n)
-            shortest_path_labels = self.get_labels()
-
+        
         self.shortest_path_mat = shortest_path_mat
-        return shortest_path_mat, shortest_path_labels
-    
+        if labels is "all":
+            return shortest_path_mat, self.get_labels(), self.get_labels("edge")
+        if labels is "edge":
+            return shortest_path_mat, self.get_labels("edge")
+        if labels is "vertex":
+            return shortest_path_mat, self.get_labels()
+            
     def get_labels(self, label_type="vertex", purpose="adjacency"):
         """ Return labels corresponding to the purpose
             
@@ -436,7 +446,7 @@ class graph(object):
                         if "edge" labels for edges
         """
         if (purpose == "adjacency"):
-            self.desired_format("adjacency")
+            self.desired_format("adjacency", warn=True)
             if label_type == "vertex":
                 if not bool(self.index_node_labels):
                     self.construct_labels(label_type, purpose)
@@ -446,7 +456,7 @@ class graph(object):
                     self.construct_labels(label_type, purpose)
                 return self.index_edge_labels
         elif (purpose == "dictionary"):
-            self.desired_format("dictionary")
+            self.desired_format("dictionary", warn=True)
             if label_type == "vertex":
                 if not bool(self.node_labels):
                     self.construct_labels(label_type, purpose)
@@ -474,7 +484,7 @@ class graph(object):
             self.label_group[(label_type,purpose)] = inv_dict(self.get_labels(label_type,purpose))
         return self.label_group[(label_type,purpose)]
                 
-    def neighbours(self, vertex, with_weights = False):
+    def neighbours(self, vertex, purpose='any', with_weights = False):
         """ Find all neighbours of a vertex
             
             vertex: a valid vertex inside the matrix
@@ -484,9 +494,26 @@ class graph(object):
                     if False: list of neighbor vertices
                     if True: dictionary between neighbour
                              vertices and edge labels 
-            
+            purpose: vertex is for 'adjacency' or 'dictionary'
+                     'any': if format is 'all' default 'dictionary'
+                            else the given format
         """
-        if self._format in ['dictionary','all']:
+        if purpose in ['adjacency', 'dictionary', 'any']:
+            if purpose is 'dictionary'
+                self.desired_format('adjacency')
+                case = 1
+            if purpose is 'adjacency':
+                self.desired_format('adjacency')
+                case = 2
+            if purpose is 'any':
+                if self._format in ['all','adjacency']:
+                    case = 1
+                else:
+                    case = 2
+        else:
+            raise ValueError('purpose is either "adjacency", "dictionary" or "any"')
+                
+        if case == 1:
             if vertex in self.edge_dictionary:
                 if not with_weights:
                     return list(self.edge_dictionary[vertex].keys())
@@ -497,23 +524,12 @@ class graph(object):
         else:
             idx = int(vertex)
             if 0 <= idx < self.n:
+                out_idx = np.where(self.adjacency_matrix[idx,:] > 0)
+                ns = out_idx[0].tolist()
                 if not with_weights:
-                    out = list()
-                    for i in range(0,self.n):
-                        if i == idx:
-                            continue
-                        if(self.adjacency_matrix[idx,i] != .0):
-                            out.append(i)
-                    return out
+                    return ns
                 else:
-                    out = dict()
-                    for i in range(idx,self.n):
-                        if i == idx:
-                            continue
-                        element = self.adjacency_matrix[idx,i]
-                        if(element != .0):
-                            out[i] = element
-                    return edge_dictionary[vertex]
+                    return dict(zip(ns,self.adjacency[idx,out_idx].tolist())[0])
             else:
                 raise ValueError("item with index "+str(idx)+" does not exist")
 
@@ -569,16 +585,14 @@ class graph(object):
         # construct a dictionary out of the adjacency
         if self._format in ["all", "dictionary"]:
             vertices = set(list(range(0, n)))
-            edge_dictionary = dict()
-            for i in range(0,n):
-                for j in range(0,n):
-                    if (adjacency_matrix[i,j] != 0):
-                        if i not in edge_dictionary:
-                            edge_dictionary[i] = dict()
-                        edge_dictionary[i][j] = adjacency_matrix[i,j]
+            
             self.vertices = vertices
-            self.edge_dictionary = edge_dictionary
-
+            self.edge_dictionary = dict(zip(range(0,n), itertools.repeat(dict())))
+            
+            idx_x, idx_y = np.where(adjacency_matrix > 0)
+            for (i,j) in zip(idx_i,idx_j):
+                self.edge_dictionary[i][j] = adjacency_matrix[i,j]
+            
             # Add labels
             self.convert_labels(target_format="dictionary", purpose="all", init=True)
             
@@ -659,7 +673,7 @@ class graph(object):
         if self.laplacian_graph is not None:
             laplacian_graph = self.laplacian_graph
         else:
-            self.desired_format("adjacency")
+            self.desired_format("adjacency", warn=True)
             laplacian_graph = laplacian(self.adjacency_matrix, self.n)
             
             if save:
@@ -808,7 +822,7 @@ class graph(object):
                     return self.metric_subgraphs_dict[(metric_type, n_samples, min_ss, max_ss)]
         
         
-        self.desired_format("adjacency")
+        self.desired_format("adjacency", warn=True)
         
         ## Calculate subsets
         samples_on_subsets = distribute_samples(self.n, subsets_size_range, n_samples)
@@ -832,8 +846,198 @@ class graph(object):
             self.metric_subgraphs_dict[(metric_type, n_samples, min_ss, max_ss)] = level_values
         
         return level_values
+    
+    
+    def get_vertices(self, purpose="adjacency"):
+        """ A method that returns an iterable of vertices. 
+            purpose: "adjacency", "dictionary"
+        """
+        if purpose not in ["adjacency", "dictionary"]:
+            raise ValueError('purpose is either "adjacency" of "dictionary"')
+        
+        if purpose is "adjacency":
+            self.desired_format("adjacency", warn=True)
+            return range(0,self.n)
+        if purpose is "dictionary":
+            self.desired_format("dictionary", warn=True)
+            return self.vertices
+        
+    def get_edges(self, purpose="adjacency", with_weights=False):
+        """ A method that returns an iterable of edges as touples.
+            purpose: "adjacency", "dictionary"
+        """
+        if desired_format not in ["adjacency", "dictionary"]:
+            raise ValueError('purpose is either "adjacency" of "dictionary"')
+        
+        if purpose is "adjacency":
+            self.desired_format("adjacency", warn=True)
+            idx_i, idx_j = np.where(self.adjacency_matrix > 0)
+            edges = zip(idx_i, idx_j)
+            if with_weights:
+                return list(zip(edges,self.adjacency_matrix[idx_i, idx_j]))
+            else:
+                return list(edges)
+        if purpose is "dictionary":
+            self.desired_format("dictionary", warn=True)
+            if with_weights:
+                return [(i,j) for i in ege_dictionary.keys() for j in edge_dictionary[i].keys()]
+            else:
+                return [((i,j),edge_dixtionary[i][j]) for i in ege_dictionary.keys() for j in edge_dictionary[i].keys()]
+    
+    def nv(self):
+        """ A method that returns the number of vertices
+            for any existing format
+        """
+        if self._format in ['all','adjacency']
+            return self.n
+        else:
+            return len(self.vertices)
+            
+    def produce_neighbourhoods(self, r=3, purpose="adjacency", with_distance=False, d=-1):
+        """ Calculates neighbourhoods for each node
+            of a Graph up to a depth c.
+            
+            G: a graph type object
+            r: neighbourhood depth
+            purpose: node symbols for "adjacency", "dictionary"
+            with_distances: a flag that defines if we need to calculate
+                            BFS distances for each pair.
+        """
+        N = dict()
+
+        if purpose not in ["adjacency", "dictionary"]:
+            raise ValueError('purpose is either "adjacency" or "dictionary"')
+            
+        if r < 0:
+            raise ValueError('r must be positive or equal to zero')
+
+        if not with_distance and d<0:
+            d = r
+            warnings.warn('negative d as input - d set to r')
+            
+        # initialization
+        N[0] = dict(zip(self.get_vertices(purpose),self.get_vertices(purpose)))
+        
+        if with_distances:
+            D[0] = set(zip(self.get_vertices(purpose),self.get_vertices(purpose)))
+            Dist_pair = {(v,v): 0 for v in self.get_vertices(purpose)
+        if r > 0:
+            N[1] = dict()
+            if with_distances and d>=1:
+                D[1] = set()
+            for i in self.get_vertices(purpose):
+                ns = list(G.neighbours(i,purpose))
+                N[1][i] = sorted([i]+ns)
+                if with_distances and d>=1:
+                    dset = {(i,n) for n in ns}
+                    Dist_pair.update(zip(dset,len(dset)*[1]))
+                    D[1] |= dset 
+            # calculate neighbourhoods
+            # by a recursive formula
+            # for all levels from 1 to r
+            for level in range(1,max(r,d)):
+                N[level+1] = dict()
+                if with_distances and level+1<=d:
+                    D[level+1] = dict()
+                for i in range(0,G.n):
+                    neighbours = set()
+                    for w in N[level][i]:
+                        neighbours |= set(N[level][w])
+                    N[level+1][i] = sorted(list(neighbours))
+                    if with_distances and level<=d-1:
+                        dset = {(i,j) in (neighbours - set(N[level][i]))}
+                        Dist_pair.update(zip(dset,len(dset)*[level+1]))
+                        D[level+1] |= dset
+            if with_distances:
+                for level in range(r,d):
+                    N.pop(level,None)
+        
+        if with_distances:     
+            return N, D, Distances
+        else:
+            return N
+        
+    def get_subgraph(vertices, subgraph_format="same"):
+        """A method that creates a graph object subgraph
+           vertices: an iterable of vertices convertable to a set
+           nodes: a subset of verices of the original graph
+        """
+        subgraph = graph()
+        vertices = set(vertices).copy()
+        if (subgraph_format == 'same'):
+            subgraph_format = self.format
+            
+        if subgraph_format is 'adjacency':
+            for v in vertices:
+                if v<0 or v>=self.n:
+                    raise ValueError('vertices are not valid for the original graph format')
+            recipe = [tuple('enum_vertices','default'), tuple('add_adjacency')]
+            
+        elif subgraph_format is 'dictionary':
+            for v in vertices:
+                if v not in self.edge_dictionary
+                    raise ValueError('vertices are not valid for the original graph format')
+            
+            recipe = [tuple('get_correct', 'default'), tuple('add_adjacency')]
+            get_correct = lambda i: i
+        else:
+            fv = False
+            fa = False
+            for v in vertices:
+                if not fv and v not in self.edge_dictionary:
+                    fv = True        
+                if not fa and (v<0 or v>=self.n):
+                    fa = True
+                if fa and fv:
+                    raise ValueError('vertices are not valid for the original graph format')
+
+            if not fa and fv:
+                recipe = [tuple('enum_vertices','default'), tuple('get_correct', 'edsamic'), tuple('add_adjacency'), tuple('add_edge_dict')]
+            elif not fa:
+                recipe = [tuple('enum_vertices','default'), tuple('get_correct', 'edsamic'), tuple('add_adjacency'), tuple('idxs_to_nodes'), tuple('add_edge_dict')]
+            elif not fv:
+                recipe = [tuple('enum_vertices','edsamic'), tuple('get_correct', 'edsamic'), tuple('add_adjacency'), tuple('add_edge_dict')]
                 
+        for ingredient in recipe:
+            if ingredient[0] is 'idxs_to_nodes':
+                vertices = {self.edsamic[i] for i in vertices}
                 
+            elif ingredient[0] is 'enum_vertices':
+                if ingredient[1] is 'edsamic':
+                    inverse_edsamic = inv_dict(self.edsamic)
+                    lov_sorted = sorted([int(inverse_edsamic[v][0]) for v in vertices])
+                    new_indexes, inv_new_indexes = {}, {}
+                    for (i,l) in enumerate(lov_sorted):
+                        new_indexes[i], inv_new_indexes[l] = l, i
+                    subgraph.edsamic = {self.edsamic[inv_new_indexes[nik]]: nik for nik in new_indexes.keys()}
+                else:
+                    lov_sorted = sorted(list(vertices))
+                    new_indexes = {l:i for (i,l) in enumerate(lov_sorted)}
+                
+            elif ingredient[0] is 'add_adjacency':
+                subgraph.adjacency_matrix = self.adjacency_matrix[lov_sorted,:][:,lov_sorted]
+                subgraph.n = len(new_indexes.keys())
+                if bool(self.index_node_labels):
+                    subgraph.index_node_labels = {new_indexes[k]: self.index_node_labels[k] for k in self.index_node_labels.keys() if k in vertices}
+                if bool(self.index_edge_labels):
+                    subgraph.index_edge_labels = {(new_indexes[i],new_indexes[j]): self.index_edge_labels[(i,j)] for (i,j) in self.index_edge_labels if (i in vertices and j in vertices)}
+                    
+            elif ingredient[0] is 'add_edge_dict':
+                subgraph.edge_dictionary = {get_correct(i):{get_correct(j): self.edge_dictionary[i][j] for j in self.edge_dictionary[i] if j in vertices} for i in self.edge_dictionary if i in vertices}
+                subgraph.vertices = vertices
+            
+                if bool(self.node_labels):
+                    subgraph.node_labels = {get_correct(k): self.node_labels[k] for k in self.node_labels.keys() if k in vertices}
+                if bool(self.edge_labels):
+                    subgraph.index_edge_labels = {(get_correct(i),get_correct(j)): self.edge_labels[(i,j)] for (i,j) in self.edge_labels if (i in vertices and j in vertices)}
+            elif ingredient[0] is 'get_correct':
+                if ingredient[1] is 'edsamic':
+                    get_correct = lambda i: self.edsamic[new_indexes[i]]
+                else:
+                    get_correct = lambda i: i
+            
+        return subgraph
+        
 def laplacian(A, n=-1):
     """ Calculates the laplacian given the adjacency matrix
         A: a numpy array of a square matrix corresponding
