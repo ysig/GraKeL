@@ -899,12 +899,12 @@ class graph(object):
         else:
             return len(self.vertices)
             
-    def produce_neighbourhoods(self, r=3, purpose="adjacency", with_distances=False, d=-1):
-        """ Calculates neighbourhoods for each node
+    def produce_neighborhoods(self, r=3, purpose="adjacency", with_distances=False, d=-1):
+        """ Calculates neighborhoods for each node
             of a Graph up to a depth c.
             
             G: a graph type object
-            r: neighbourhood depth
+            r: neighborhood depth
             purpose: node symbols for "adjacency", "dictionary"
             with_distances: a flag that defines if we need to calculate
                             BFS distances for each pair.
@@ -940,7 +940,7 @@ class graph(object):
                     dset = {(i,n) for n in ns}
                     Dist_pair.update(zip(dset,len(dset)*[1]))
                     D[1] |= dset 
-            # calculate neighbourhoods
+            # calculate neighborhoods
             # by a recursive formula
             # for all levels from 1 to r
             for level in range(1,max(r,d)):

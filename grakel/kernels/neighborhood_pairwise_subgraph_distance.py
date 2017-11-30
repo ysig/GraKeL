@@ -1,13 +1,13 @@
-""" This file contains the subgraph pairwise distance kernel
+""" This file contains the neighborhood subgraph pairwise distance kernel
     as defined in [Costa et al., 2010]
 """
 import itertools
 
 from ..graph import graph
 
-def neighbourhood_pairwise_subgraph_distance(X, Y, Lx, Ly, LEx, LEy, r=3, d=4):
-    """ The svm theta kernel as proposed
-        in [Costa et al., 2010]
+def neighborhood_pairwise_subgraph_distance(X, Y, Lx, Ly, LEx, LEy, r=3, d=4):
+    """ The neighborhood subgraph pairwise distance kernel
+        as proposed in [Costa et al., 2010]
 
         X,Y: Valid graph formats to be compared
         L{x,y}: labels for nodes for graphs X, Y
@@ -20,10 +20,10 @@ def neighbourhood_pairwise_subgraph_distance(X, Y, Lx, Ly, LEx, LEy, r=3, d=4):
     Gy = graph(Y,Ly,LEy)
     return neighbourhood_pairwise_subgraph_distance_inner(Gx, Gy, r=r, d=d)
 
-def neighbourhood_pairwise_subgraph_distance_inner(Gx, Gy, r=3, d=4):
-    """ The lovasz theta kernel as proposed
-        in [Costa et al., 2010]
-
+def neighborhood_pairwise_subgraph_distance_inner(Gx, Gy, r=3, d=4):
+    """ The neighborhood subgraph pairwise distance kernel
+        as proposed in [Costa et al., 2010]
+        
         Gx, Gy: Graph type objects
         r: radius
         d: depth
@@ -31,11 +31,11 @@ def neighbourhood_pairwise_subgraph_distance_inner(Gx, Gy, r=3, d=4):
     Gx.desired_format('adjacency')
     Gy.desired_format('adjacency')
     
-    Nx, Dx, Dx_pair = Gx.produce_neighbourhoods(r, with_distances=True, d=d)
-    Ny, Dy, Dy_pair = Gy.produce_neighbourhoods(r, with_distances=True, d=d)
+    Nx, Dx, Dx_pair = Gx.produce_neighborhoods(r, with_distances=True, d=d)
+    Ny, Dy, Dy_pair = Gy.produce_neighborhoods(r, with_distances=True, d=d)
     
-    Hx = hash_neighbourhoods(Gx, Nx, Dx_pair, r)
-    Hy = hash_neighbourhoods(Gy, Ny, Dy_pair, r)
+    Hx = hash_neighborhoods(Gx, Nx, Dx_pair, r)
+    Hy = hash_neighborhoods(Gy, Ny, Dy_pair, r)
     
     kernel = 0
     
@@ -55,7 +55,7 @@ def neighbourhood_pairwise_subgraph_distance_inner(Gx, Gy, r=3, d=4):
                               
     return kernel
     
-def hash_neighbourhoods(G, N, D_pair, r, purpose = "adjacency"):
+def hash_neighborhoods(G, N, D_pair, r, purpose = "adjacency"):
     """ A function that calculates the hash for all
         neighbourhoods and all root nodes.
         

@@ -31,5 +31,5 @@ __all__ = [
 "lovasz_theta_inner",
 "svm_theta",
 "svm_theta_inner",
-"neighbourhood_pairwise_subgraph_distance",
-"neighbourhood_pairwise_subgraph_distance_inner"]
+"neighborhood_pairwise_subgraph_distance",
+"neighborhood_pairwise_subgraph_distance_inner"]

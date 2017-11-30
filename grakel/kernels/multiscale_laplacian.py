@@ -59,8 +59,8 @@ def multiscale_laplacian_inner(Gx, Gy, L=3, gamma=0.01):
             gram_matrix[i,j] = np.dot(vec_a, vec_b)
     
     # calculate the neighboorhoods
-    Nx = Gx.produce_neighbourhoods(r=L)
-    Ny = Gy.produce_neighbourhoods(r=L)
+    Nx = Gx.produce_neighborhoods(r=L)
+    Ny = Gy.produce_neighborhoods(r=L)
     
     # a lambda that calculates indexes inside the gram matrix
     # and the corresponindg laplacian given a node and a level

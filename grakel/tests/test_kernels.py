@@ -120,9 +120,9 @@ def test_svm_theta():
     if verbose:
         print("SVM Theta:", svm_theta(D,D))
 
-def test_neighbourhood_pairwise_subgraph_distance_kernel():
+def test_neighborhood_pairwise_subgraph_distance_kernel():
     if verbose:
-        print("NSPDK:",neighbourhood_pairwise_subgraph_distance(X,X,L,L,Le,Le))
+        print("NSPDK:",neighborhood_pairwise_subgraph_distance(X,X,L,L,Le,Le))
 
 if verbose and main:
     test_dirac()
@@ -134,7 +134,7 @@ if verbose and main:
     test_weisfeiler_lehman()
     test_lovasz_theta()
     test_svm_theta()    
-    test_neighbourhood_pairwise_subgraph_distance_kernel()    
+    test_neighborhood_pairwise_subgraph_distance_kernel()    
 
 if verbose and development:
     #test_multiscale_laplacian()
