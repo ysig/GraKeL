@@ -107,6 +107,8 @@ class graph(object):
             self._format = graph_format
             if (initialization_object is not None):
                 self.build_graph(initialization_object, node_labels, edge_labels)
+            elif graph_format is "auto":
+                raise ValueError('no initialization object - format must not be auto')
         else:
             raise ValueError('Invalid graph format.\nValid graph formats are "all", "dictionary", "adjacency", "auto"')
             
@@ -163,8 +165,7 @@ class graph(object):
             self._import_dictionary(g)
 
     def change_format(self, graph_format):
-        """ Changes the format of the graph
-            from an existing to an other
+        """ Changes the format of the graph from an existing to an other
 
             graph_format: Is the internal represantation of the graph object be a dictionary as a matrix, or both
                 - for dictionary: "dictionary"
@@ -239,6 +240,7 @@ class graph(object):
                                 
     def convert_labels(self, target_format = "dictionary", purpose="all", init=False):
         """ A method that converts labels to a desired format 
+
             target_format: "dictionary" or "adjacency"
             purpose: "all", "edge" or "vertex"
         """
@@ -455,6 +457,8 @@ class graph(object):
                 if not bool(self.index_edge_labels):
                     self.construct_labels(label_type, purpose)
                 return self.index_edge_labels
+            else:
+                raise ValueError('label type can only be "vertex" or "edge"')
         elif (purpose == "dictionary"):
             self.desired_format("dictionary", warn=True)
             if label_type == "vertex":
@@ -465,6 +469,8 @@ class graph(object):
                 if not bool(self.edge_labels):
                     self.construct_labels(label_type, purpose)
                 return self.edge_labels
+            else:
+                raise ValueError('label type can only be "vertex" or "edge"')
         else:
             raise ValueError('unsupported label purpose')
     
@@ -499,7 +505,7 @@ class graph(object):
                             else the given format
         """
         if purpose in ['adjacency', 'dictionary', 'any']:
-            if purpose is 'dictionary'
+            if purpose is 'dictionary':
                 self.desired_format('adjacency')
                 case = 1
             if purpose is 'adjacency':
@@ -866,7 +872,7 @@ class graph(object):
         """ A method that returns an iterable of edges as touples.
             purpose: "adjacency", "dictionary"
         """
-        if desired_format not in ["adjacency", "dictionary"]:
+        if purpose not in ["adjacency", "dictionary"]:
             raise ValueError('purpose is either "adjacency" of "dictionary"')
         
         if purpose is "adjacency":
@@ -888,12 +894,12 @@ class graph(object):
         """ A method that returns the number of vertices
             for any existing format
         """
-        if self._format in ['all','adjacency']
+        if self._format in ['all','adjacency']:
             return self.n
         else:
             return len(self.vertices)
             
-    def produce_neighbourhoods(self, r=3, purpose="adjacency", with_distance=False, d=-1):
+    def produce_neighbourhoods(self, r=3, purpose="adjacency", with_distances=False, d=-1):
         """ Calculates neighbourhoods for each node
             of a Graph up to a depth c.
             
@@ -911,7 +917,7 @@ class graph(object):
         if r < 0:
             raise ValueError('r must be positive or equal to zero')
 
-        if not with_distance and d<0:
+        if not with_distances and d<0:
             d = r
             warnings.warn('negative d as input - d set to r')
             
@@ -919,14 +925,16 @@ class graph(object):
         N[0] = dict(zip(self.get_vertices(purpose),self.get_vertices(purpose)))
         
         if with_distances:
+            D = dict()
             D[0] = set(zip(self.get_vertices(purpose),self.get_vertices(purpose)))
-            Dist_pair = {(v,v): 0 for v in self.get_vertices(purpose)
+            Dist_pair = {(v,v): 0 for v in self.get_vertices(purpose)}
+            
         if r > 0:
             N[1] = dict()
             if with_distances and d>=1:
                 D[1] = set()
             for i in self.get_vertices(purpose):
-                ns = list(G.neighbours(i,purpose))
+                ns = list(self.neighbours(i,purpose))
                 N[1][i] = sorted([i]+ns)
                 if with_distances and d>=1:
                     dset = {(i,n) for n in ns}
@@ -937,48 +945,54 @@ class graph(object):
             # for all levels from 1 to r
             for level in range(1,max(r,d)):
                 N[level+1] = dict()
-                if with_distances and level+1<=d:
-                    D[level+1] = dict()
-                for i in range(0,G.n):
+                if with_distances and level<=d-1:
+                    D[level+1] = set()
+                for i in self.get_vertices(purpose=purpose):
                     neighbours = set()
                     for w in N[level][i]:
                         neighbours |= set(N[level][w])
                     N[level+1][i] = sorted(list(neighbours))
                     if with_distances and level<=d-1:
-                        dset = {(i,j) in (neighbours - set(N[level][i]))}
+                        dset = {(i,j) for j in (neighbours - set(N[level][i]))}
                         Dist_pair.update(zip(dset,len(dset)*[level+1]))
                         D[level+1] |= dset
             if with_distances:
-                for level in range(r,d):
+                for level in range(r+1,d):
                     N.pop(level,None)
         
         if with_distances:     
-            return N, D, Distances
+            return N, D, Dist_pair
         else:
             return N
         
-    def get_subgraph(vertices, subgraph_format="same"):
+    def get_subgraph(self, vertices):
         """A method that creates a graph object subgraph
+           in the same format as the original graph
+    
            vertices: an iterable of vertices convertable to a set
-           nodes: a subset of verices of the original graph
+                     vertices a subset of verices of the original graph
+                     
         """
-        subgraph = graph()
-        vertices = set(vertices).copy()
-        if (subgraph_format == 'same'):
-            subgraph_format = self.format
-            
-        if subgraph_format is 'adjacency':
+        if vertices is None:
+            raise ValueError('vertices must not be null')
+        if type(vertices) in [str,int]:
+            vertices = {vertices}
+        else:
+            vertices = set(vertices).copy()
+
+        subgraph = graph(graph_format=self._format)        
+        if self._format is 'adjacency':
             for v in vertices:
                 if v<0 or v>=self.n:
                     raise ValueError('vertices are not valid for the original graph format')
-            recipe = [tuple('enum_vertices','default'), tuple('add_adjacency')]
+            recipe = [tuple(['enum_vertices','default']), tuple(['add_adjacency'])]
             
-        elif subgraph_format is 'dictionary':
+        elif self._format is 'dictionary':
             for v in vertices:
-                if v not in self.edge_dictionary
+                if v not in self.edge_dictionary:
                     raise ValueError('vertices are not valid for the original graph format')
             
-            recipe = [tuple('get_correct', 'default'), tuple('add_adjacency')]
+            recipe = [tuple(['get_correct', 'default']), tuple(['add_adjacency'])]
             get_correct = lambda i: i
         else:
             fv = False
@@ -992,11 +1006,11 @@ class graph(object):
                     raise ValueError('vertices are not valid for the original graph format')
 
             if not fa and fv:
-                recipe = [tuple('enum_vertices','default'), tuple('get_correct', 'edsamic'), tuple('add_adjacency'), tuple('add_edge_dict')]
+                recipe = [tuple(['enum_vertices','default']), tuple(['get_correct', 'edsamic']), tuple(['add_adjacency']), tuple(['add_edge_dict'])]
             elif not fa:
-                recipe = [tuple('enum_vertices','default'), tuple('get_correct', 'edsamic'), tuple('add_adjacency'), tuple('idxs_to_nodes'), tuple('add_edge_dict')]
+                recipe = [tuple(['enum_vertices','default']), tuple(['get_correct', 'edsamic']), tuple(['add_adjacency']), tuple(['idxs_to_nodes']), tuple(['add_edge_dict'])]
             elif not fv:
-                recipe = [tuple('enum_vertices','edsamic'), tuple('get_correct', 'edsamic'), tuple('add_adjacency'), tuple('add_edge_dict')]
+                recipe = [tuple(['enum_vertices','edsamic']), tuple(['get_correct', 'edsamic']), tuple(['add_adjacency']), tuple(['add_edge_dict'])]
                 
         for ingredient in recipe:
             if ingredient[0] is 'idxs_to_nodes':
@@ -1040,6 +1054,7 @@ class graph(object):
         
 def laplacian(A, n=-1):
     """ Calculates the laplacian given the adjacency matrix
+    
         A: a numpy array of a square matrix corresponding
            to the adjacency matrix of a graph
         n: x dimension of the matrix [int] - optional
@@ -1058,19 +1073,20 @@ def laplacian(A, n=-1):
 
 def dijkstra(edge_dictionary, start_vertex, end_vertex=None):
     """ Implementation of the dijkstra algorithm
-    Find shortest paths from the start vertex to all
-    vertices nearer than or equal to the end_vertex.
-
-    The majority of this function code came from:
-    http://code.activestate.com/recipes/119466-dijkstras-algorithm-for-shortest-paths/ 
-
-    edge_dictionary: input a dictionary as follows:
-                         If (u,v) edge exists then edges["u"]["v"] has
-                         weight of the edge pointing from u to v
-
-    start_vertex: A valid vertex symbol that exists inside edge_dictionary as a key
     
-    end_vertex: A valid vertex symbol that exists inside edge_dictionary as a key
+        Find shortest paths from the start vertex to all
+        vertices nearer than or equal to the end_vertex.
+
+        The majority of this function code came from:
+        http://code.activestate.com/recipes/119466-dijkstras-algorithm-for-shortest-paths/ 
+
+        edge_dictionary: input a dictionary as follows:
+                             If (u,v) edge exists then edges["u"]["v"] has
+                             weight of the edge pointing from u to v
+
+        start_vertex: A valid vertex symbol that exists inside edge_dictionary as a key
+        
+        end_vertex: A valid vertex symbol that exists inside edge_dictionary as a key
     """
 
     dict_fd = {}    # dictionary of final distances
@@ -1104,7 +1120,6 @@ def floyd_warshall(adjacency_matrix, n=-1):
     if n < 0:
         n = adjacency_matrix.shape[0]
     
-
     dist = np.empty((n, n))
     # Initialization
     for i in range(0,n):
