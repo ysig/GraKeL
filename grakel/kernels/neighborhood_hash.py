@@ -25,14 +25,15 @@ def neighborhood_hash(X, Y, Lx, Ly, nh_type='simple', R=3, bytes=2) :
     """
     Gx = graph(X,Lx)
     Gy = graph(Y,Ly)
-    return float(neighborhood_hash_similarity_matrix([Gx], [Gy], nh_type=nh_type, R=R, bytes=bytes)[0,0])
+    return float(neighborhood_hash_similarity_matrix({0: Gx}, {0: Gy}, nh_type=nh_type, R=R, bytes=bytes)[0,0])
 
-def neighborhood_hash_similarity_matrix(Graph_list_x, Graph_list_y=None, nh_type='simple', R=3, bytes = 2):
+def neighborhood_hash_similarity_matrix(Graphs_x, Graphs_y=None, nh_type='simple', R=3, bytes=2):
     """ The calculate_similarity matrix function as defined
         in [Hido, Kashima, 2009]
-        
-        Graph_list_{x,y}: A list o graph type objects that
-                          are going to be compared.
+
+        Graphs_{x,y}: A dictionary o graph type objects that are
+                      going to be compared with keys from 0 to
+                      the number of values.
         R: the maximum number of neighborhood hash
         nh_type: 'simple' or 'count-sensitive'
         bytes: number of bytes for hashing of original labels
@@ -53,17 +54,17 @@ def neighborhood_hash_similarity_matrix(Graph_list_x, Graph_list_y=None, nh_type
     if bytes <= 0:
         raise ValueError('illegal number of bytes for hashing')
         
-    h_x = len(Graph_list_x)
+    h_x = len(Graphs_x.keys())
     Gs = dict()
     
-    if Graph_list_y==None:
+    if Graphs_y==None:
         h_y = h_x
-        g_iter = Graph_list_x
+        g_iter = Graphs_x.values()
         pairs = list(itertools.product(range(0,h_x), range(0, h_x)))
         ng = h_x
     else:
-        h_y = len(Graph_list_y)
-        g_iter = itertools.chain(Graph_list_x, Graph_list_y)
+        h_y = len(Graphs_y.keys())
+        g_iter = itertools.chain(Graphs_x.values(), Graphs_y.values())
         pairs = list(itertools.product(range(0,h_x), range(h_x, h_y)))
         ng = h_x+h_y
         
@@ -89,7 +90,8 @@ def neighborhood_hash_similarity_matrix(Graph_list_x, Graph_list_y=None, nh_type
         for i in range(0, ng):
             Gs[i] = NH(Gs[i])
         for (i,j) in pairs:
-            K[i,j] = nh_compare_labels(Gs[i], Gs[j])
+            # targets - y - graph take the row
+            K[j,i] = nh_compare_labels(Gs[i], Gs[j])
         S = np.add(K,S)
     return np.divide(S,R)
   

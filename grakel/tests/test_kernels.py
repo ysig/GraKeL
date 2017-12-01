@@ -143,6 +143,5 @@ if verbose and main:
     test_neighborhood_hash_kernel()
     
 if verbose and development:
-    #test_multiscale_laplacian()
-    #test_subgraph_matching()
-
+    test_multiscale_laplacian()
+    test_subgraph_matching()

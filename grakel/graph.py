@@ -4,6 +4,7 @@
 import warnings
 import collections
 import operator
+import itertools
 
 import numpy as np
 
@@ -271,10 +272,14 @@ class graph(object):
                     
                 if bool(self.edge_labels) and purpose in ['all', 'edges']:
                     warnings.warn('overriding existing edge labels, for dictionary symbols')
-                if purpose in ["all", "vertex"] and bool(self.index_node_labels):
-                    self.node_labels = self.index_node_labels
-                if purpose in ["all", "edges"] and bool(self.index_edge_labels):
-                    self.edge_labels = self.index_edge_labels
+                
+                cond_labels_nodes = purpose in ['all', 'vertex'] and bool(self.index_node_labels)
+                cond_labels_edges = purpose in ['all', 'edges'] and bool(self.index_edge_labels)
+                if cond_labels_nodes or cond_labels_edges:
+                    if cond_labels_nodes:
+                        self.node_labels = self.index_node_labels
+                    if cond_labels_nodes:
+                        self.edge_labels = self.index_edge_labels
                 else:
                     warnings.warn('no labels to convert from, for the given purpose')
             else:
@@ -505,13 +510,13 @@ class graph(object):
                             else the given format
         """
         if purpose in ['adjacency', 'dictionary', 'any']:
-            if purpose is 'dictionary':
+            if purpose == 'dictionary':
                 self.desired_format('adjacency')
                 case = 1
-            if purpose is 'adjacency':
+            if purpose == 'adjacency':
                 self.desired_format('adjacency')
                 case = 2
-            if purpose is 'any':
+            if purpose == 'any':
                 if self._format in ['all','adjacency']:
                     case = 1
                 else:
@@ -571,7 +576,8 @@ class graph(object):
             representation given its adjacency matrix
 
             adjacency_matrix: A square numpy ndarray
-            save_matrix: an override variable that allows the matrix to be stored internally
+            save_matrix: an override variable that allows
+                         the matrix to be stored internally
         """
         if adjacency_matrix is not None:
             # calculate graph size
@@ -595,7 +601,7 @@ class graph(object):
             self.vertices = vertices
             self.edge_dictionary = dict(zip(range(0,n), itertools.repeat(dict())))
             
-            idx_x, idx_y = np.where(adjacency_matrix > 0)
+            idx_i, idx_j = np.where(adjacency_matrix > 0)
             for (i,j) in zip(idx_i,idx_j):
                 self.edge_dictionary[i][j] = adjacency_matrix[i,j]
             
@@ -638,7 +644,7 @@ class graph(object):
                     raise ValueError('unsupported edge_dictionary format')
             
             # Save dictionary, vertices @self if needed        
-            if (self._format is "all" or self._format is "dictionary"):
+            if (self._format == "all" or self._format == "dictionary"):
                 self.edge_dictionary = edge_dictionary_refined
             self.vertices = vertices
         else:
@@ -658,14 +664,14 @@ class graph(object):
                 
             self.adjacency_matrix = adjacency_matrix
             
-            if self._format is "all":
+            if self._format == "all":
                 self.edsamic = edsamic
             
             # Add labels
             self.convert_labels(target_format="adjacency", purpose="all", init=True)
             
             # Prune for a certain format
-            if self._format is "adjacency":
+            if self._format == "adjacency":
                 self.edge_dictionary = None
                 self.vertices = None
                 self.node_labels = None
@@ -701,7 +707,7 @@ class graph(object):
         # sparse matrix and required graph 
         # parameters for defining the convex 
         # optimization problem
-        if self._format is "dictionary":
+        if self._format == "dictionary":
             nv = len(vertices)
             if nv == 1:
                 return 1.0
@@ -776,7 +782,7 @@ class graph(object):
         # sparse matrix and required graph 
         # parameters for defining the convex 
         # optimization problem
-        if self._format is "dictionary":
+        if self._format == "dictionary":
             nv = len(vertices)
             lov_sorted = sorted(list(vertices))
             vertices = {v: i for (i,v) in enumerate(lov_sorted)}
@@ -813,9 +819,9 @@ class graph(object):
                           already been calculated.
             save: boolean flag that determines if the output will be saved
         """
-        if metric_type is "svm":
+        if metric_type == "svm":
             metric = lambda G: G.calculate_svm_theta()
-        elif metric_type is "lovasz":
+        elif metric_type == "lovasz":
             metric = lambda G: G.calculate_lovasz_theta()            
         else:
             raise ValueError('unsupported metric type')
@@ -861,10 +867,10 @@ class graph(object):
         if purpose not in ["adjacency", "dictionary"]:
             raise ValueError('purpose is either "adjacency" of "dictionary"')
         
-        if purpose is "adjacency":
+        if purpose == "adjacency":
             self.desired_format("adjacency", warn=True)
             return range(0,self.n)
-        if purpose is "dictionary":
+        if purpose == "dictionary":
             self.desired_format("dictionary", warn=True)
             return self.vertices
         
@@ -875,7 +881,7 @@ class graph(object):
         if purpose not in ["adjacency", "dictionary"]:
             raise ValueError('purpose is either "adjacency" of "dictionary"')
         
-        if purpose is "adjacency":
+        if purpose == "adjacency":
             self.desired_format("adjacency", warn=True)
             idx_i, idx_j = np.where(self.adjacency_matrix > 0)
             edges = zip(idx_i, idx_j)
@@ -883,7 +889,7 @@ class graph(object):
                 return list(zip(edges,self.adjacency_matrix[idx_i, idx_j]))
             else:
                 return list(edges)
-        if purpose is "dictionary":
+        if purpose == "dictionary":
             self.desired_format("dictionary", warn=True)
             if with_weights:
                 return [(i,j) for i in ege_dictionary.keys() for j in edge_dictionary[i].keys()]
@@ -981,13 +987,13 @@ class graph(object):
             vertices = set(vertices).copy()
 
         subgraph = graph(graph_format=self._format)        
-        if self._format is 'adjacency':
+        if self._format == 'adjacency':
             for v in vertices:
                 if v<0 or v>=self.n:
                     raise ValueError('vertices are not valid for the original graph format')
             recipe = [tuple(['enum_vertices','default']), tuple(['add_adjacency'])]
             
-        elif self._format is 'dictionary':
+        elif self._format == 'dictionary':
             for v in vertices:
                 if v not in self.edge_dictionary:
                     raise ValueError('vertices are not valid for the original graph format')
@@ -1013,11 +1019,11 @@ class graph(object):
                 recipe = [tuple(['enum_vertices','edsamic']), tuple(['get_correct', 'edsamic']), tuple(['add_adjacency']), tuple(['add_edge_dict'])]
                 
         for ingredient in recipe:
-            if ingredient[0] is 'idxs_to_nodes':
+            if ingredient[0] == 'idxs_to_nodes':
                 vertices = {self.edsamic[i] for i in vertices}
                 
-            elif ingredient[0] is 'enum_vertices':
-                if ingredient[1] is 'edsamic':
+            elif ingredient[0] == 'enum_vertices':
+                if ingredient[1] == 'edsamic':
                     inverse_edsamic = inv_dict(self.edsamic)
                     lov_sorted = sorted([int(inverse_edsamic[v][0]) for v in vertices])
                     new_indexes, inv_new_indexes = {}, {}
@@ -1028,7 +1034,7 @@ class graph(object):
                     lov_sorted = sorted(list(vertices))
                     new_indexes = {l:i for (i,l) in enumerate(lov_sorted)}
                 
-            elif ingredient[0] is 'add_adjacency':
+            elif ingredient[0] == 'add_adjacency':
                 subgraph.adjacency_matrix = self.adjacency_matrix[lov_sorted,:][:,lov_sorted]
                 subgraph.n = len(new_indexes.keys())
                 if bool(self.index_node_labels):
@@ -1036,7 +1042,7 @@ class graph(object):
                 if bool(self.index_edge_labels):
                     subgraph.index_edge_labels = {(new_indexes[i],new_indexes[j]): self.index_edge_labels[(i,j)] for (i,j) in self.index_edge_labels if (i in vertices and j in vertices)}
                     
-            elif ingredient[0] is 'add_edge_dict':
+            elif ingredient[0] == 'add_edge_dict':
                 subgraph.edge_dictionary = {get_correct(i):{get_correct(j): self.edge_dictionary[i][j] for j in self.edge_dictionary[i] if j in vertices} for i in self.edge_dictionary if i in vertices}
                 subgraph.vertices = vertices
             
@@ -1044,8 +1050,8 @@ class graph(object):
                     subgraph.node_labels = {get_correct(k): self.node_labels[k] for k in self.node_labels.keys() if k in vertices}
                 if bool(self.edge_labels):
                     subgraph.index_edge_labels = {(get_correct(i),get_correct(j)): self.edge_labels[(i,j)] for (i,j) in self.edge_labels if (i in vertices and j in vertices)}
-            elif ingredient[0] is 'get_correct':
-                if ingredient[1] is 'edsamic':
+            elif ingredient[0] == 'get_correct':
+                if ingredient[1] == 'edsamic':
                     get_correct = lambda i: self.edsamic[new_indexes[i]]
                 else:
                     get_correct = lambda i: i

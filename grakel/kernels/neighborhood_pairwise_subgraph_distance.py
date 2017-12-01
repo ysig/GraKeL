@@ -28,6 +28,12 @@ def neighborhood_pairwise_subgraph_distance_inner(Gx, Gy, r=3, d=4):
         r: radius
         d: depth
     """
+    if r<0:
+        raise ValueError('r must be a positive integer')
+    
+    if d<0:
+        raise ValueError('d must be a positive integer')
+    
     Gx.desired_format('adjacency')
     Gy.desired_format('adjacency')
     

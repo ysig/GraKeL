@@ -9,7 +9,22 @@ from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.utils.validation import check_array
 
 from .graph import graph
-from .kernels import dirac_inner, random_walk_inner, shortest_path_inner, subtree_rg_inner, sample_graphlets, graphlet_sampling_core, weisfeiler_lehman_inner, multiscale_laplacian_inner, subgraph_matching_inner
+from .kernels import *
+
+global supported_base_kernels, supported_general_kernels
+
+supported_base_kernels = [
+"dirac","random_walk",
+"shortest_path","subtree_rg",
+"graphlets_sampling","multiscale_laplacian",
+"lovasz_theta", "svm_theta",
+"neighborhood_hash", "neighborhood_pairwise_subgraph_distance"
+]
+    
+supported_general_kernels = [
+"weisfeiler_lehman"
+]
+
 
 class GraphKernel(BaseEstimator, TransformerMixin):
     """ A general class that describes all kernels
@@ -44,11 +59,35 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                                                       (edge_x, edge_y, Lx, Ly) -> number
                                             (o) "lw": a lambda weight function for cliques
                                                       set -> number
-              
+                    - "lovasz_theta" | (o) "n_samples": [int] > 1
+                                       
+                                       (o) "subsets_size_range": [touple] of two [int]
+                                       
+                                       (o) "metric": [function]
+                                                     (number, number) -> number
+                                       
+                    - "svm_theta" | (o) "n_samples": [int] > 1
+                                    
+                                    (o) "subsets_size_range": [touple] with 2 [int] elements
+                                    
+                                    (o) "metric": [function]
+                                                  (number, number) -> number
+                                                  
+                    - "neighborhood_hash" | (o) "nh_type": [str] "simple" or "count-sensitive"
+                    
+                                            (o) "R": [int] > 0
+                                            
+                                            (o) "bytes": [int] > 0
+                                            
+                    - "neighborhood_pairwise_subgraph_distance" | (o) "r": (int) positive integer
+                    
+                                                                  (o) "d": (int) positive integer
+                    
              ii) general_kernels (this kernel will consider the next kernel on list for nesting):
                     - "weisfeiler_lehman": "niter": [int]
                 
                 where (o): stands for optional parameters
+                
     Attributes
     ----------
     X_graph: dictionary 
@@ -67,9 +106,15 @@ class GraphKernel(BaseEstimator, TransformerMixin):
         if "kernel" in kargs:
             if (type(kargs["kernel"]) is dict):
                 # allow single kernel dictionary inputs
-                self.kernel = self._make_kernel([kargs["kernel"]])
+                kernel, flag = self._make_kernel([kargs["kernel"]])
             elif (type(kargs["kernel"]) is list):
-                self.kernel = self._make_kernel(kargs["kernel"])
+                kernel, flag = self._make_kernel(kargs["kernel"])
+            else:
+                raise ValueError('unsupported kernel format')
+            if flag:
+                self.kernel = lambda y: self.calculate_kernel_matrix(kernel, y, kernel_type="pairwise")
+            else:
+                self.kernel = lambda y: self.calculate_kernel_matrix(kernel, y, kernel_type="matrix")
         else:
             raise ValueError('kernel must be defined at the __init__ function of a graph kernel')
 
@@ -84,41 +129,54 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                 Output
                 ------
                 kernel: function (of two arguments)
-                    returns the kernel function
+                        returns the kernel function
             """
             # If nesting type:
             kernel = kernel_list.pop(0)
             kernel_name = kernel.pop("name")
-            if kernel_name in ["dirac","random_walk","shortest_path","subtree_rg","graphlets_sampling"]:
+            if kernel_name in supported_base_kernels:
                 if (len(kernel_list)!=0):
                     warnings.warn('rest kernel arguments are being ignored - reached base kernel')
-                if kernel_name is "dirac":
-                    return lambda x, y: dirac_inner(x, y)
-                elif kernel_name is "random_walk":
-                    return lambda x, y: random_walk_inner(x, y, **kernel)
-                elif kernel_name is "shortest_path":
-                    return lambda x, y: shortest_path_inner(x, y, **kernel)
-                elif kernel_name is "subtree_rg":
-                    return lambda x, y: subtree_rg_inner(x, y, **kernel)
-                elif kernel_name is "graphlets_sampling":
+                if kernel_name == "dirac":
+                    return (lambda x, y: dirac_inner(x, y), False)
+                elif kernel_name == "random_walk":
+                    return (lambda x, y: random_walk_inner(x, y, **kernel), False)
+                elif kernel_name == "shortest_path":
+                    return (lambda x, y: shortest_path_inner(x, y, **kernel), False)
+                elif kernel_name == "subtree_rg":
+                    return (lambda x, y: subtree_rg_inner(x, y, **kernel), False)
+                elif kernel_name == "graphlets_sampling":
                     nsamples, graphlets, P, graph_bins, nbins = sample_graphlets(**kernel)
                     print(str(nsamples)+" graphlets sampled")
                     if "k" in kernel:
-                        return lambda x, y: graphlet_sampling_core(x, y, nsamples, graphlets, P, graph_bins, nbins, k=kernel["k"])
+                        return (lambda x, y: graphlet_sampling_core(x, y, nsamples, graphlets, P, graph_bins, nbins, k=kernel["k"]), False)
                     else:
-                        return lambda x, y: graphlet_sampling_core(x, y, nsamples, graphlets, P, graph_bins, nbins, k)
-                elif kernel_name is "multiscale_laplacian":
-                    return lambda x, y: multiscale_laplacian_inner(x, y, **kernel)
-                elif kernel_name is "subgraph_matching":
-                    return lambda x, y: subgraph_matching_inner(x, y, **kernel)
-            elif kernel_name in ["weisfeiler_lehman"]:
+                        return (lambda x, y: graphlet_sampling_core(x, y, nsamples, graphlets, P, graph_bins, nbins, k), False)
+                elif kernel_name == "multiscale_laplacian":
+                    return (lambda x, y: multiscale_laplacian_inner(x, y, **kernel), False)
+                elif kernel_name == "subgraph_matching":
+                    return (lambda x, y: subgraph_matching_inner(x, y, **kernel), False)
+                elif kernel_name == "lovasz_theta":
+                    return (lambda x, y: lovasz_theta_inner(x, y, **kernel), False)
+                elif kernel_name == "svm_theta":
+                    return (lambda x, y: svm_theta_inner(x, y, **kernel), False)
+                elif kernel_name == "neighborhood_hash":
+                    return (lambda x, y: neighborhood_hash_similarity_matrix(x, y, **kernel), True)
+                elif kernel_name == "neighborhood_pairwise_subgraph_distance":
+                    return (lambda x, y: neighborhood_pairwise_subgraph_distance_inner(x, y, **kernel), False)
+            elif kernel_name in supported_general_kernels:
                 if (len(kernel_list)==0):
                     raise ValueError(str(kernel_name)+' is not a base kernel')
-                if kernel_name is "weisfeiler_lehman":
-                    bk = self._make_kernel(kernel_list)
-                    kernel["base_kernel"] = bk
-                    return lambda x, y: weisfeiler_lehman_inner(x,y,**kernel)
-
+                if kernel_name == "weisfeiler_lehman":
+                    (bk, matrix_flag) = self._make_kernel(kernel_list)
+                    if matrix_flag:
+                        return (lambda x, y: weisfeiler_lehman_matrix(x, bk, y, **kernel), True)
+                    else:
+                        kernel["base_kernel"] = bk
+                        return (lambda x, y: weisfeiler_lehman_inner(x,y,**kernel), False)
+            else:
+                raise ValueError('unsupported kernel: '+str(kernel_name))
+                
     def fit(self, X, y=None):
         """A reference implementation of a fitting function for a transformer.
 
@@ -138,7 +196,7 @@ class GraphKernel(BaseEstimator, TransformerMixin):
             Returns self.
         """
         # Input validation
-        check_array(X)
+        #check_array(X)
         
         self.X_graph = dict()
         graph_idx = 0
@@ -176,7 +234,7 @@ class GraphKernel(BaseEstimator, TransformerMixin):
             between target an features
         """
         # Check is fit had been called
-        check_is_fitted(self, ['X_graph_'])
+        # check_is_fitted(self, ['X_graph_'])
         
         # Input validation
         check_array(X)
@@ -200,9 +258,9 @@ class GraphKernel(BaseEstimator, TransformerMixin):
         # during fit.
 
         # Calculate kernel matrix
-        return self.calculate_kernel_matrix(self.kernel, target_graph)
+        return self.kernel(target_graph)
         
-    def calculate_kernel_matrix(self, kernel, target_graph=None):
+    def calculate_kernel_matrix(self, kernel, target_graph=None, kernel_type="pairwise"):
         """
         A function that calculates the kernel matrix given
         a target_graph and a kernel
@@ -212,29 +270,37 @@ class GraphKernel(BaseEstimator, TransformerMixin):
         target_graph : A dictionary from 0 to the number of graphs
                        of target "graph objects"
         kernel: A pairwise graph kernel (between "graph" type objects)
+        kernel_type: [str] "matrix", "pairwise"
+        
+        Returns
         -------
         K : A numpy array of shape = [n_targets, n_input_graphs] corresponding
             to the kernel matrix, a calculation between all pairs of graphs 
             between target an features
         """
-        if target_graph is None:
-            target_graph = self.X_graph
-            is_symmetric = True
-            num_of_targets = self.num_of_graphs
-        else:
-            is_symmetric = False
-            num_of_targets = len(target_graph.keys())
+        if kernel_type not in ["matrix", "pairwise"]:
+            raise ValueError('unsupported "kernel_type"')
             
-        K = np.zeros(shape = (num_of_targets,self.num_of_graphs))
-        if is_symmetric:
-            for i in range(0,num_of_targets):
-                for j in range(i,self.num_of_graphs):
-                    K[i,j] = kernel(target_graph[i],self.X_graph[i])
-                    if(i!=j):
-                        K[j,i] = K[i,j]
+        if kernel_type == "pairwise":
+            if target_graph is None:
+                target_graph = self.X_graph
+                is_symmetric = True
+                num_of_targets = self.num_of_graphs
+            else:
+                is_symmetric = False
+                num_of_targets = len(target_graph.keys())
+                
+            K = np.zeros(shape = (num_of_targets,self.num_of_graphs))
+            if is_symmetric:
+                for i in range(0,num_of_targets):
+                    for j in range(i,self.num_of_graphs):
+                        K[i,j] = kernel(target_graph[i],self.X_graph[i])
+                        if(i!=j):
+                            K[j,i] = K[i,j]
+            else:
+                for i in range(0,num_of_targets):
+                    for j in range(0,self.num_of_graphs):
+                        K[i,j] = kernel(target_graph[i],self.X_graph[i])
+            return K     
         else:
-            for i in range(0,num_of_targets):
-                for j in range(0,self.num_of_graphs):
-                    K[i,j] = kernel(target_graph[i],self.X_graph[i])
-        return K     
-   
+            return kernel(self.X_graph[i], target_graph)
