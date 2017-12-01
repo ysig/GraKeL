@@ -8,7 +8,9 @@ from .multiscale_laplacian import multiscale_laplacian, multiscale_laplacian_inn
 from .subgraph_matching import subgraph_matching, subgraph_matching_inner
 from .lovasz_theta import lovasz_theta, lovasz_theta_inner
 from .svm_theta import svm_theta, svm_theta_inner
-from .neighbourhood_pairwise_subgraph_distance import neighbourhood_pairwise_subgraph_distance, neighbourhood_pairwise_subgraph_distance_inner
+from .neighborhood_pairwise_subgraph_distance import neighborhood_pairwise_subgraph_distance, neighborhood_pairwise_subgraph_distance_inner
+from .neighborhood_hash import neighborhood_hash, neighborhood_hash_similarity_matrix
+
 __all__ = [
 "dirac",
 "dirac_inner",
@@ -32,4 +34,7 @@ __all__ = [
 "svm_theta",
 "svm_theta_inner",
 "neighborhood_pairwise_subgraph_distance",
-"neighborhood_pairwise_subgraph_distance_inner"]
+"neighborhood_pairwise_subgraph_distance_inner",
+"neighborhood_hash",
+"neighborhood_hash_similarity_matrix"
+]

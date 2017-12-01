@@ -490,15 +490,15 @@ class graph(object):
             self.label_group[(label_type,purpose)] = inv_dict(self.get_labels(label_type,purpose))
         return self.label_group[(label_type,purpose)]
                 
-    def neighbours(self, vertex, purpose='any', with_weights = False):
-        """ Find all neighbours of a vertex
+    def neighbors(self, vertex, purpose='any', with_weights = False):
+        """ Find all neighbors of a vertex
             
             vertex: a valid vertex inside the matrix
                     that is not a sink
 
             with_weights: Determines the type of the output
                     if False: list of neighbor vertices
-                    if True: dictionary between neighbour
+                    if True: dictionary between neighbor
                              vertices and edge labels 
             purpose: vertex is for 'adjacency' or 'dictionary'
                      'any': if format is 'all' default 'dictionary'
@@ -782,7 +782,7 @@ class graph(object):
             vertices = {v: i for (i,v) in enumerate(lov_sorted)}
             
             K = np.zeros(shape=(nv,nv))
-            idx = zip(*[(vertices[v],vertices[n]) for v in lov_sorted for n in self.neighbours(v)])
+            idx = zip(*[(vertices[v],vertices[n]) for v in lov_sorted for n in self.neighbors(v)])
             idx1 = list(idx[0])
             idx2 = list(idx[1])
             
@@ -934,7 +934,7 @@ class graph(object):
             if with_distances and d>=1:
                 D[1] = set()
             for i in self.get_vertices(purpose):
-                ns = list(self.neighbours(i,purpose))
+                ns = list(self.neighbors(i,purpose))
                 N[1][i] = sorted([i]+ns)
                 if with_distances and d>=1:
                     dset = {(i,n) for n in ns}

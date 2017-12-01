@@ -31,7 +31,7 @@ def multiscale_laplacian_inner(Gx, Gy, L=3, gamma=0.01):
         Gx,Gy: Valid graph formats having as labels the phi_x, phi_y
         
         gamma: A small softening parameter of float value
-        L: number of neighbourhoods
+        L: number of neighborhoods
     """
     
     # Set desired format
@@ -58,7 +58,7 @@ def multiscale_laplacian_inner(Gx, Gy, L=3, gamma=0.01):
             vec_b = pick(i)
             gram_matrix[i,j] = np.dot(vec_a, vec_b)
     
-    # calculate the neighboorhoods
+    # calculate the neighborhoods
     Nx = Gx.produce_neighborhoods(r=L)
     Ny = Gy.produce_neighborhoods(r=L)
     
@@ -70,7 +70,7 @@ def multiscale_laplacian_inner(Gx, Gy, L=3, gamma=0.01):
         gm = gram_matrix
         gram_matrix = np.empty(shape=(gram_matrix_size,gram_matrix_size))
         for i in range(0, gram_matrix_size):
-            # calculate the correct indexes of neighbours
+            # calculate the correct indexes of neighbors
             # and the corresponding laplacian
             (idx_i, La) = pick(i,l)
             for j in range(0, gram_matrix_size):

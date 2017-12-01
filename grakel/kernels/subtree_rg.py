@@ -74,8 +74,8 @@ def subtree_rg_core_dynamic(u, v, g_x, g_y, h, dynamic_dict, p_u=None, p_v=None)
         lby = g_y.get_label_group()
         Rset = []
 
-        # Calculate neighbours and remove previous
-        nx = g_x.neighbours(u)
+        # Calculate neighbors and remove previous
+        nx = g_x.neighbors(u)
 
         # Avoid going back
         if (p_u is not None):
@@ -83,14 +83,14 @@ def subtree_rg_core_dynamic(u, v, g_x, g_y, h, dynamic_dict, p_u=None, p_v=None)
                 nx.remove(p_u)
 
         # do the same for y
-        ny = g_y.neighbours(v)
+        ny = g_y.neighbors(v)
 
         # Avoid going back
         if (p_v is not None):
             if p_v in ny:
                 ny.remove(p_v)
 
-        # What happens when one list has no neighbours?
+        # What happens when one list has no neighbors?
         xy_and = len(nx)*len(ny)
         xy_or = len(nx)+len(ny)
         if(xy_or == 0):

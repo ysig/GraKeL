@@ -70,8 +70,8 @@ def weisfeiler_lehman_inner(Ga, Gb, base_kernel, niter=5):
         La_temp = dict()
         for v in Ga_edge_dictionary.keys():
             nlist = list()
-            for neighbour in Ga_edge_dictionary[v].keys():
-                nlist.append(La[neighbour])
+            for neighbor in Ga_edge_dictionary[v].keys():
+                nlist.append(La[neighbor])
             credential = str(La[v])+","+str(sorted(nlist))
             La_temp[v] = credential
             label_set.add(credential)
@@ -80,8 +80,8 @@ def weisfeiler_lehman_inner(Ga, Gb, base_kernel, niter=5):
         Lb_temp = dict()
         for v in Gb_edge_dictionary.keys():
             nlist = list()
-            for neighbour in Gb_edge_dictionary[v].keys():
-                nlist.append(Lb[neighbour])
+            for neighbor in Gb_edge_dictionary[v].keys():
+                nlist.append(Lb[neighbor])
             credential = str(Lb[v])+","+str(sorted(nlist))
             Lb_temp[v] = credential
             label_set.add(credential)

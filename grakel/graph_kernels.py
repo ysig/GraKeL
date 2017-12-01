@@ -181,12 +181,7 @@ class GraphKernel(BaseEstimator, TransformerMixin):
         # Input validation
         check_array(X)
         
-        if(X is None):
-            is_symmetric = True
-            target_graph = self.X_graph
-            num_of_targets = self.num_of_graphs
-        else:
-            is_symmetric = False
+        if(X is not None):
             target_graph = dict()
             num_of_targets = 0
             for x in X:
@@ -200,23 +195,46 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                     self.X_graph[graph_idx] = graph(x[0],x[1],x[2],"all")
                 else:
                     warnings.warn('input has an empty or unrecognised element')
+                    
         # Check that the input is of the same shape as the one passed
         # during fit.
 
-        #if X.shape != self.input_shape_:
-        #    raise ValueError('Shape of input is different from what was seen'
-        #                     'in `fit`')
-        
         # Calculate kernel matrix
+        return self.calculate_kernel_matrix(self.kernel, target_graph)
+        
+    def calculate_kernel_matrix(self, kernel, target_graph=None):
+        """
+        A function that calculates the kernel matrix given
+        a target_graph and a kernel
+        
+        Parameters
+        ----------
+        target_graph : A dictionary from 0 to the number of graphs
+                       of target "graph objects"
+        kernel: A pairwise graph kernel (between "graph" type objects)
+        -------
+        K : A numpy array of shape = [n_targets, n_input_graphs] corresponding
+            to the kernel matrix, a calculation between all pairs of graphs 
+            between target an features
+        """
+        if target_graph is None:
+            target_graph = self.X_graph
+            is_symmetric = True
+            num_of_targets = self.num_of_graphs
+        else:
+            is_symmetric = False
+            num_of_targets = len(target_graph.keys())
+            
         K = np.zeros(shape = (num_of_targets,self.num_of_graphs))
         if is_symmetric:
             for i in range(0,num_of_targets):
                 for j in range(i,self.num_of_graphs):
-                    K[i,j] = self.kernel(target_graph[i],self.X_graph[i])
+                    K[i,j] = kernel(target_graph[i],self.X_graph[i])
                     if(i!=j):
                         K[j,i] = K[i,j]
         else:
             for i in range(0,num_of_targets):
                 for j in range(0,self.num_of_graphs):
-                    K[i,j] = self.kernel(target_graph[i],self.X_graph[i])
-        return K
+                    K[i,j] = kernel(target_graph[i],self.X_graph[i])
+        return K     
+   

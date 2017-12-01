@@ -122,7 +122,12 @@ def test_svm_theta():
 
 def test_neighborhood_pairwise_subgraph_distance_kernel():
     if verbose:
-        print("NSPDK:",neighborhood_pairwise_subgraph_distance(X,X,L,L,Le,Le))
+        print("NSPDK:",neighborhood_pairwise_subgraph_distance(X, X, L, L, Le, Le))
+
+def test_neighborhood_hash_kernel():
+    if verbose:
+        print("Neighborhood Hash - 'simple':",neighborhood_hash(X, X, L, L, nh_type='simple'))
+        print("Neighborhood Hash - 'count-sensitive':",neighborhood_hash(X, X, L, L, nh_type='count-sensitive'))
 
 if verbose and main:
     test_dirac()
@@ -135,7 +140,8 @@ if verbose and main:
     test_lovasz_theta()
     test_svm_theta()    
     test_neighborhood_pairwise_subgraph_distance_kernel()    
-
+    test_neighborhood_hash_kernel()
+    
 if verbose and development:
     #test_multiscale_laplacian()
     #test_subgraph_matching()

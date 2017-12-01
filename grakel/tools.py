@@ -256,4 +256,35 @@ def distribute_samples(n, subsets_size_range, n_samples):
                 samples_on_subsets[min_ss+i] = value
                
         return samples_on_subsets
+        
+def rotl(num, bits):
+    """ Rotate left binary operation
+        Code from Joel Bradshaw found on
+        https://gist.github.com/cincodenada/6557582
+    
+        num: number
+        bits: number of bits 
+    """
+    bit = num & (1 << (bits-1))
+    num <<= 1
+    if(bit):
+        num |= 1
+    num &= (2**bits-1)
 
+    return num
+
+def rotr(num, bits):
+    """ Rotate right binary operation
+        Code from Joel Bradshaw found on
+        https://gist.github.com/cincodenada/6557582
+    
+        num: number
+        bits: number of bits 
+    """
+    num &= (2**bits-1)
+    bit = num & 1
+    num >>= 1
+    if(bit):
+        num |= (1 << (bits-1))
+
+    return num

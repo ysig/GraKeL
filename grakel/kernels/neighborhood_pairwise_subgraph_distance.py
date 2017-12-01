@@ -57,12 +57,12 @@ def neighborhood_pairwise_subgraph_distance_inner(Gx, Gy, r=3, d=4):
     
 def hash_neighborhoods(G, N, D_pair, r, purpose = "adjacency"):
     """ A function that calculates the hash for all
-        neighbourhoods and all root nodes.
+        neighborhoods and all root nodes.
         
         G: graph type object of the original graph
         N: Dictionary with int keys as levels and dictionaries as values
            with symbol keys as root nodes and values a list of symbols for
-           that correspond to this neighbourhood
+           that correspond to this neighborhood
         D_pairs: a dictionary with keys as pairs of symbols corresponding to 
                  and values corresponding to element distances
     """

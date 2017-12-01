@@ -135,7 +135,7 @@ def weighted_product_graph(Gx, Gy, kv, ke):
                     Vp.add((i,j))
                     # add cost
                     c[(i,j)]= value
-                    # initialise an empty set for neighbours
+                    # initialise an empty set for neighbors
                     if (i,j) not in Ep:
                         Ep[(i,j)] = set()
                 else:
