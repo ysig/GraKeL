@@ -18,7 +18,7 @@ def neighborhood_pairwise_subgraph_distance(X, Y, Lx, Ly, LEx, LEy, r=3, d=4):
     """
     Gx = graph(X,Lx,LEx)
     Gy = graph(Y,Ly,LEy)
-    return neighbourhood_pairwise_subgraph_distance_inner(Gx, Gy, r=r, d=d)
+    return neighborhood_pairwise_subgraph_distance_inner(Gx, Gy, r=r, d=d)
 
 def neighborhood_pairwise_subgraph_distance_inner(Gx, Gy, r=3, d=4):
     """ The neighborhood subgraph pairwise distance kernel

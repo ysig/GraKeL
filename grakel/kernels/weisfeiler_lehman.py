@@ -1,6 +1,7 @@
 """ This file contains the shortest graphlte
     as defined by [Shervashize et al., 2011]
 """
+import itertools
 
 import numpy as np
 
@@ -38,8 +39,8 @@ def weisfeiler_lehman_inner(Ga, Gb, base_kernel, niter=5):
     La_original = Ga.get_labels(purpose="dictionary")
     Lb_original = Gb.get_labels(purpose="dictionary")
     
-    Ga_edge_dictionary = Ga.get_edges(purpose="dictionary")
-    Gb_edge_dictionary = Gb.get_edges(purpose="dictionary")
+    Ga_edge_dictionary = Ga.edge_dictionary
+    Gb_edge_dictionary = Gb.edge_dictionary
 
     WL_labels = dict()
     WL_labels_inverse = dict()
@@ -137,12 +138,11 @@ def weisfeiler_lehman_matrix(Graphs_a, base_kernel_matrix, Graphs_b=None,  niter
       
     if Graphs_b==None:
         g_iter = [Graphs_a[i] for i in range(0, ng_a)]
-        gs_a, gs_b = Graphs_a, Graphs_a
         pairs = list(itertools.product(range(0, ng_a), range(0, ng_a)))
         ng = ng_a
+        ng_b = ng_a
     else:
         ng_b = len(Graphs_b.keys())
-        gs_a, gs_b = Graphs_a, Graphs_b
         g_iter = itertools.chain([Graphs_a[i] for i in range(0, ng_a)], [Graphs_b[i] for i in range(0, ng_b)])
         pairs = list(itertools.product(range(0, ng_a), range(ng_a, ng_b)))
         ng = ng_a + ng_b
@@ -150,20 +150,21 @@ def weisfeiler_lehman_matrix(Graphs_a, base_kernel_matrix, Graphs_b=None,  niter
     Gs = dict()    
     G_ed = dict()
     L_orig = dict()
-    for (i, g) in enumerate(g_iter):
-        g.desired_format('dictionary')
-        Gs[i] = g
-        G_ed[i] = g.get_edges(purpose="dictionary")
-        L_orig = g.get_labels(purpose="dictionary")
-
     
+    # get all the distinct values of current labels
     WL_labels = dict()
     WL_labels_inverse = dict()
-    # get all the distinct values of current labels
     distinct_values = set()
-    for i in range(ng):
-        distinct_values |= set(L_orig[i])
+    
+    for (i, g) in enumerate(g_iter):
+        g.desired_format("dictionary")
+        Gs[i] = g
+        G_ed[i] = g.edge_dictionary
+        L_orig[i] = g.node_labels
+        # calculate all the distinct values
+        distinct_values |= set(L_orig[i].values())
     distinct_values = sorted(list(distinct_values))
+    
     
     # assign a number to each label
     label_count = 0
@@ -178,9 +179,10 @@ def weisfeiler_lehman_matrix(Graphs_a, base_kernel_matrix, Graphs_b=None,  niter
             L[k] = WL_labels_inverse[L_orig[i][k]]
 
         # add new labels
-        G[i].relabel(L)
+        Gs[i].relabel(L)
     
-    kernel = base_kernel_matrix(gs_a, gs_b)
+    kernel = np.zeros(shape=(ng_b, ng_a))
+    kernel = np.add(kernel,base_kernel_matrix(Graphs_a, Graphs_b))
         
     for i in range(niter):
         label_set = set()
@@ -192,9 +194,9 @@ def weisfeiler_lehman_matrix(Graphs_a, base_kernel_matrix, Graphs_b=None,  niter
             L_temp[j] = dict()
             for v in G_ed[i].keys():
                 nlist = list()
-                for neighbor in Ga_edge_dictionary[v].keys():
-                    nlist.append(L[j][neighbor])
-                credential = str(L[j][v])+","+str(sorted(nlist))
+                for neighbor in G_ed[j][v].keys():
+                    nlist.append(Gs[j].node_labels[neighbor])
+                credential = str(Gs[j].node_labels[v])+","+str(sorted(nlist))
                 L_temp[j][v] = credential
                 label_set.add(credential)
             
@@ -210,10 +212,10 @@ def weisfeiler_lehman_matrix(Graphs_a, base_kernel_matrix, Graphs_b=None,  niter
             for k in L_temp[j].keys():
                 L[k] = WL_labels_inverse[L_temp[j][k]]
             # relabel
-            G[j].relabel(L)
+            Gs[j].relabel(L)
             
         # calculate kernel 
-        kernel = np.add(kernel, base_kernel_matrix(gs_a, gs_b))
+        kernel = np.add(kernel, base_kernel_matrix(Graphs_a, Graphs_b))
         
     # Restore original labels  
     for i in range(ng):

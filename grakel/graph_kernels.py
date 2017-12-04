@@ -16,7 +16,8 @@ global supported_base_kernels, supported_general_kernels
 supported_base_kernels = [
 "dirac","random_walk",
 "shortest_path","subtree_rg",
-"graphlets_sampling","multiscale_laplacian",
+"graphlets_sampling","subgraph_matching",
+"multiscale_laplacian",
 "lovasz_theta", "svm_theta",
 "neighborhood_hash", "neighborhood_pairwise_subgraph_distance"
 ]
@@ -112,9 +113,9 @@ class GraphKernel(BaseEstimator, TransformerMixin):
             else:
                 raise ValueError('unsupported kernel format')
             if flag:
-                self.kernel = lambda y: self.calculate_kernel_matrix(kernel, y, kernel_type="pairwise")
+                self.kernel = lambda y: self.calculate_kernel_matrix(kernel, target_graph=y, kernel_type="matrix")
             else:
-                self.kernel = lambda y: self.calculate_kernel_matrix(kernel, y, kernel_type="matrix")
+                self.kernel = lambda y: self.calculate_kernel_matrix(kernel, target_graph=y, kernel_type="pairwise")
         else:
             raise ValueError('kernel must be defined at the __init__ function of a graph kernel')
 
@@ -196,10 +197,10 @@ class GraphKernel(BaseEstimator, TransformerMixin):
             Returns self.
         """
         # Input validation
-        #check_array(X)
+        # check_array(X)
         
         self.X_graph = dict()
-        graph_idx = 0
+        graph_idx = 0        
         for x in list(X):
             if len(x) == 1:
                 self.X_graph[graph_idx] = graph(x[0],{},{},"all")
@@ -207,10 +208,13 @@ class GraphKernel(BaseEstimator, TransformerMixin):
             elif len(x) == 2:
                 self.X_graph[graph_idx] = graph(x[0],x[1],{},"all")
                 graph_idx += 1
-            elif len(x) == 2:
+            elif len(x) == 3:
                 self.X_graph[graph_idx] = graph(x[0],x[1],x[2],"all")
+                graph_idx += 1 
             else:
                 warnings.warn('input has an empty or unrecognised element')
+        if not bool(self.X_graph):
+            raise ValueError('unrecognized input')
         self.num_of_graphs = graph_idx
 
         # Return the transformer
@@ -237,7 +241,7 @@ class GraphKernel(BaseEstimator, TransformerMixin):
         # check_is_fitted(self, ['X_graph_'])
         
         # Input validation
-        check_array(X)
+        # check_array(X)
         
         if(X is not None):
             target_graph = dict()
@@ -249,15 +253,20 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                 elif len(x) == 2:            
                     target_graph[num_of_targets] = graph(x[0],x[1],{},"all")
                     num_of_targets += 1
-                elif len(x) == 2:
+                elif len(x) == 3:
                     self.X_graph[graph_idx] = graph(x[0],x[1],x[2],"all")
+                    num_of_targets += 1
                 else:
                     warnings.warn('input has an empty or unrecognised element')
-                    
+            if not bool(target_graph):
+                raise ValueError('unrecognized input')
+        else:
+             target_graph = None           
         # Check that the input is of the same shape as the one passed
         # during fit.
 
         # Calculate kernel matrix
+
         return self.kernel(target_graph)
         
     def calculate_kernel_matrix(self, kernel, target_graph=None, kernel_type="pairwise"):
@@ -280,7 +289,7 @@ class GraphKernel(BaseEstimator, TransformerMixin):
         """
         if kernel_type not in ["matrix", "pairwise"]:
             raise ValueError('unsupported "kernel_type"')
-            
+        
         if kernel_type == "pairwise":
             if target_graph is None:
                 target_graph = self.X_graph
@@ -303,4 +312,4 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                         K[i,j] = kernel(target_graph[i],self.X_graph[i])
             return K     
         else:
-            return kernel(self.X_graph[i], target_graph)
+            return kernel(self.X_graph, target_graph)

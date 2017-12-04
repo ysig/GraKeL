@@ -6,6 +6,7 @@
 from __future__ import generators
 import operator
 import collections
+import warnings
 
 import numpy as np
 
@@ -188,9 +189,7 @@ def extract_matrix(mat, a, b):
         
         a, b: the two corresponding index lists
     """
-    if (len(a) != len(b)):
-        raise ValueError('index lists must have the same size')
-        
+    
     mat_a, mat_b = mat[a,:], mat[b,:]
     
     A = np.concatenate((mat_a[:,a], mat_a[:,b]), axis=1)

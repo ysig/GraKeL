@@ -22,6 +22,7 @@ __all__ = [
 "subtree_rg_inner",
 "graphlet_sampling",
 "graphlet_sampling_inner",
+"graphlet_sampling_core",
 "sample_graphlets",
 "weisfeiler_lehman",
 "weisfeiler_lehman_inner",

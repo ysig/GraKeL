@@ -196,7 +196,7 @@ class graph(object):
                         self.edge_labels = None
                         self.edge_dictionary = None
 
-    def desired_format(self,graph_format, warn=False):
+    def desired_format(self, graph_format, warn=False):
         """ Changes the format to include the desired
 
             graph_format: Is the internal represantation of the graph object be a dictionary as a matrix, or both
@@ -262,7 +262,8 @@ class graph(object):
                     if cond_labels_edges:
                         self.index_edge_labels = {(i,j): self.edge_labels[(k,q)] for (i,k) in zip(list(range(0,lv)),lov_sorted) for (j,q) in zip(list(range(0,lv)),lov_sorted)}
                 else:
-                    warnings.warn('no labels to convert from, for the given purpose')
+                    if not init:
+                        warnings.warn('no labels to convert from, for the given purpose')
             else:
                 warnings.warn('labels already defined for that format - nothing to convert')
         elif (target_format == "dictionary"):
@@ -281,7 +282,8 @@ class graph(object):
                     if cond_labels_nodes:
                         self.edge_labels = self.index_edge_labels
                 else:
-                    warnings.warn('no labels to convert from, for the given purpose')
+                    if not init:
+                        warnings.warn('no labels to convert from, for the given purpose')
             else:
                 warnings.warn('labels already defined for the given format')
     
@@ -291,16 +293,14 @@ class graph(object):
             obj: a valid vertex
             label_type="vertex"
         """
+        if purpose not in ["dictionary","adjacency"]:
+            raise ValueError('unrecognized purpose')
+        
         if (label_type == "vertex"):
             vertex = obj
-            if purpose == "dictionary":
-                labels = self.node_labels
-            elif purpose == "adjacency":
-                labels = self.index_node_labels
-            else:
-                raise ValueError('unrecognized purpose')
-                
-            if not bool(labels):
+            labels = self.get_labels(purpose=purpose, label_type=label_type)
+            
+            if labels is not None:
                 if (vertex in labels):
                     return labels[vertex]
                 else:
@@ -310,13 +310,8 @@ class graph(object):
                 return vertex
         elif (label_type == "edge"):
             edge = obj
-            if purpose == "dictionary":
-                labels = self.edge_labels
-            elif purpose == "adjacency":
-                labels = self.index_edge_labels
-            else:
-                raise ValueError('unrecognized purpose')
-                
+            labels = self.get_labels(purpose=purpose, label_type=label_type)
+            
             if not bool(labels):
                 if (edge in labels):
                     return labels[edge]
@@ -401,7 +396,7 @@ class graph(object):
                             "floyd_warshall" - Floyd Warshall
             labels: "vertex", "edge", "all"
         """
-        if self.labels not in ['vertex', 'edge', 'all']:
+        if labels not in ['vertex', 'edge', 'all']:
             raise ValueError('only labels for vertices and edges exist')
         
         if clean:
@@ -571,7 +566,7 @@ class graph(object):
             return None
 
 
-    def _import_adjacency(self, adjacency_matrix=None):
+    def _import_adjacency(self, adjacency_matrix=None, init=True):
         """ A function that creates a graph object
             representation given its adjacency matrix
 
@@ -599,14 +594,14 @@ class graph(object):
             vertices = set(list(range(0, n)))
             
             self.vertices = vertices
-            self.edge_dictionary = dict(zip(range(0,n), itertools.repeat(dict())))
+            self.edge_dictionary = {i: dict() for i in range(0,n)}
             
             idx_i, idx_j = np.where(adjacency_matrix > 0)
             for (i,j) in zip(idx_i,idx_j):
                 self.edge_dictionary[i][j] = adjacency_matrix[i,j]
-            
+
             # Add labels
-            self.convert_labels(target_format="dictionary", purpose="all", init=True)
+            self.convert_labels(target_format="dictionary", purpose="all", init=init)
             
             # Prune not interesting format
             if self._format is "dictionary":
@@ -615,9 +610,10 @@ class graph(object):
                 self.edsamic = None
                 self.index_node_labels = None
                 self.index_edge_labels = None
-
+            else:
+                self.edsamic = dict(zip(range(0,n),range(0,n)))
             
-    def _import_dictionary(self, edge_dictionary=None):
+    def _import_dictionary(self, edge_dictionary=None, init=True):
         """ A function that creates a graph object
             representation given its edge dictionary
 
@@ -668,7 +664,7 @@ class graph(object):
                 self.edsamic = edsamic
             
             # Add labels
-            self.convert_labels(target_format="adjacency", purpose="all", init=True)
+            self.convert_labels(target_format="adjacency", purpose="all", init=init)
             
             # Prune for a certain format
             if self._format == "adjacency":
@@ -892,9 +888,9 @@ class graph(object):
         if purpose == "dictionary":
             self.desired_format("dictionary", warn=True)
             if with_weights:
-                return [(i,j) for i in ege_dictionary.keys() for j in edge_dictionary[i].keys()]
+                return [(i,j) for i in self.edge_dictionary.keys() for j in self.edge_dictionary[i].keys()]
             else:
-                return [((i,j),edge_dixtionary[i][j]) for i in ege_dictionary.keys() for j in edge_dictionary[i].keys()]
+                return [((i,j), self.edge_dictionary[i][j]) for i in self.edge_dictionary.keys() for j in self.edge_dictionary[i].keys()]
     
     def nv(self):
         """ A method that returns the number of vertices
@@ -923,7 +919,7 @@ class graph(object):
         if r < 0:
             raise ValueError('r must be positive or equal to zero')
 
-        if not with_distances and d<0:
+        if with_distances and d<0:
             d = r
             warnings.warn('negative d as input - d set to r')
             

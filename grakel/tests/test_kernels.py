@@ -137,11 +137,12 @@ if verbose and main:
     test_subtree_RG()
     test_graphlet_sampling()
     test_weisfeiler_lehman()
+    test_subgraph_matching() 
     test_lovasz_theta()
     test_svm_theta()    
-    test_neighborhood_pairwise_subgraph_distance_kernel()    
+    test_neighborhood_pairwise_subgraph_distance_kernel()
     test_neighborhood_hash_kernel()
-    
+
 if verbose and development:
     test_multiscale_laplacian()
-    test_subgraph_matching()
+

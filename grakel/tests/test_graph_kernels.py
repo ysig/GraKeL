@@ -138,6 +138,7 @@ def gk_test_weisfeiler_lehman():
     base_kernel["shortest path"] = {"name":"shortest_path"}
     base_kernel["subtree"] = {"name":"subtree_rg"}
     
+    npt_v = dict()
     npt_v["dirac"] = 50
     npt_v["shortest path"] = 276
     npt_v["subtree"] = 15458150092069060998865743245478022133789841061117106540018232182730681287234085528132318819741260764317676931326456376488696020676136950620929717075828209329606781669103994
@@ -152,46 +153,46 @@ def gk_test_weisfeiler_lehman():
             npt.assert_array_equal(XX_correct, gkf.transform())
             
 def gk_test_multiscale_laplacian():
-    XX = list(zip(k*[X],itertools.repeat([phi],k)))
+    XX = k*[[X,phi]]
     gk = GraphKernel(kernel={"name":"multiscale_laplacian"})
     gkf = gk.fit(XX)
     
     if verbose:
         print("Multiscale Laplacian:", gkf.transform())
 
-def test_subgraph_matching():
-    XX = list(zip(zip(k*[X],k*[L]),k*[Le]))
+def gk_test_subgraph_matching():
+    XX = list(k*[[X,L,Le]])
     gk = GraphKernel(kernel={"name":"subgraph_matching"})
     gkf = gk.fit(XX)
     
     if verbose:
         print("Subgraph Matching:", gkf.transform())
 
-def test_lovasz_theta():
-    XX = k*[D]
+def gk_test_lovasz_theta():
+    XX = list(k*[[D]])
     gk = GraphKernel(kernel={"name":"lovasz_theta"})
     gkf = gk.fit(XX)
 
     if verbose:
         print("Lovasz Theta:", gkf.transform())
 
-def test_svm_theta():
-    XX = list(zip(k*[X],k*[L]))    
+def gk_test_svm_theta():
+    XX = list(k*[[D]])    
     gk = GraphKernel(kernel={"name":"svm_theta"})
     gkf = gk.fit(XX)
 
     if verbose:
         print("SVM Theta:", gkf.transform())
 
-def test_neighborhood_pairwise_subgraph_distance_kernel():
-    XX = list(zip(k*[X],k*[L],k*[Le]))
+def gk_test_neighborhood_pairwise_subgraph_distance_kernel():
+    XX = list(k*[[X,L,Le]])
     gk = GraphKernel(kernel={"name":"neighborhood_pairwise_subgraph_distance"})
     gkf = gk.fit(XX)
 
     if verbose:
         print("NSPDK:", gkf.transform())
 
-def test_neighborhood_hash_kernel():
+def gk_test_neighborhood_hash_kernel():
     XX = list(zip(k*[X],k*[L]))
     gk = GraphKernel(kernel={"name":"neighborhood_hash", "nh_type":"simple"})
     
@@ -205,7 +206,16 @@ def test_neighborhood_hash_kernel():
     if verbose:
         print("Neighborhood Hash - 'count-sensitive':", gkf.transform())
     
-
+def gk_test_wl_nh():
+    XX = list(zip(k*[X],k*[L]))
+    base_kernel = {"name":"neighborhood_hash", "nh_type":"count-sensitive"}
+    
+    gk = GraphKernel(kernel=[{"name":"weisfeiler_lehman","niter":5},base_kernel])
+    gkf = gk.fit(XX)
+    
+    if verbose:
+        print("Weisfeiler Lehman - Neighboorhood Hash:",gkf.transform())
+              
 if verbose and main:
     gk_test_dirac()
     gk_test_random_walk_simple()
@@ -214,11 +224,12 @@ if verbose and main:
     gk_test_subtree_rg()
     gk_test_graphlets_sampling()
     gk_test_weisfeiler_lehman()
+    gk_test_subgraph_matching()
     gk_test_lovasz_theta()
     gk_test_svm_theta()    
     gk_test_neighborhood_pairwise_subgraph_distance_kernel()    
     gk_test_neighborhood_hash_kernel()
-    
+    gk_test_wl_nh()
+
 if verbose and development:
     gk_test_multiscale_laplacian()
-    gk_test_subgraph_matching()
