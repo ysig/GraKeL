@@ -24,7 +24,7 @@ def svm_theta(X, Y, n_samples=50, subsets_size_range=(2,8), metric=(lambda x, y:
     return svm_theta_inner(Gx, Gy, n_samples, subsets_size_range, metric)
 
 def svm_theta_inner(Gx, Gy, n_samples=50, subsets_size_range=(2,8), metric=(lambda x, y:x*y)):
-    """ The lovasz theta kernel as proposed
+    """ The svm theta kernel as proposed
         in [Johansson et al., 2014]
 
         Gx, Gy: Graph type objects
