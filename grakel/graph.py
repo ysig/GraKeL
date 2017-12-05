@@ -448,6 +448,18 @@ class graph(object):
                         if "edge" labels for edges
         """
         if (purpose == "adjacency"):
+            case = True
+        elif (purpose == "dictionary"):
+            case = False
+        elif (purpose == "any"):
+            if self._format in ['all', 'adjacency']:
+                case = True
+            else:
+                case = False
+        else:
+            raise ValueError('unsupported label purpose')
+            
+        if case:
             self.desired_format("adjacency", warn=True)
             if label_type == "vertex":
                 if not bool(self.index_node_labels):
@@ -459,7 +471,7 @@ class graph(object):
                 return self.index_edge_labels
             else:
                 raise ValueError('label type can only be "vertex" or "edge"')
-        elif (purpose == "dictionary"):
+        else:
             self.desired_format("dictionary", warn=True)
             if label_type == "vertex":
                 if not bool(self.node_labels):
@@ -471,8 +483,6 @@ class graph(object):
                 return self.edge_labels
             else:
                 raise ValueError('label type can only be "vertex" or "edge"')
-        else:
-            raise ValueError('unsupported label purpose')
     
     def get_label_group(self, label_type="vertex", purpose="dictionary"):
         """ A function that calculates the inverse dictionary
@@ -506,20 +516,20 @@ class graph(object):
         """
         if purpose in ['adjacency', 'dictionary', 'any']:
             if purpose == 'dictionary':
-                self.desired_format('adjacency')
-                case = 1
+                self.desired_format('dictionary')
+                case = True
             if purpose == 'adjacency':
                 self.desired_format('adjacency')
-                case = 2
+                case = False
             if purpose == 'any':
                 if self._format in ['all','adjacency']:
-                    case = 1
+                    case = False
                 else:
-                    case = 2
+                    case = True
         else:
             raise ValueError('purpose is either "adjacency", "dictionary" or "any"')
                 
-        if case == 1:
+        if case:
             if vertex in self.edge_dictionary:
                 if not with_weights:
                     return list(self.edge_dictionary[vertex].keys())
@@ -858,11 +868,17 @@ class graph(object):
     
     def get_vertices(self, purpose="adjacency"):
         """ A method that returns an iterable of vertices. 
-            purpose: "adjacency", "dictionary"
+            purpose: "adjacency", "dictionary", "any"
         """
-        if purpose not in ["adjacency", "dictionary"]:
+        if purpose not in ["adjacency", "dictionary", "any"]:
             raise ValueError('purpose is either "adjacency" of "dictionary"')
-        
+
+        if purpose == 'any':
+            if self._format in ['all','adjacency']:
+                purpose = "adjacency"
+            else:
+                purpose = "dictionary"
+                
         if purpose == "adjacency":
             self.desired_format("adjacency", warn=True)
             return range(0,self.n)

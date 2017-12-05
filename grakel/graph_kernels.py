@@ -162,7 +162,7 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                 elif kernel_name == "svm_theta":
                     return (lambda x, y: svm_theta_inner(x, y, **kernel), False)
                 elif kernel_name == "neighborhood_hash":
-                    return (lambda x, y: neighborhood_hash_similarity_matrix(x, y, **kernel), True)
+                    return (lambda x, y: neighborhood_hash_matrix(x, y, **kernel), True)
                 elif kernel_name == "neighborhood_pairwise_subgraph_distance":
                     return (lambda x, y: neighborhood_pairwise_subgraph_distance_inner(x, y, **kernel), False)
             elif kernel_name in supported_general_kernels:

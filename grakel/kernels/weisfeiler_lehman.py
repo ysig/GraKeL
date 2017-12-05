@@ -138,13 +138,11 @@ def weisfeiler_lehman_matrix(Graphs_a, base_kernel_matrix, Graphs_b=None,  niter
       
     if Graphs_b==None:
         g_iter = [Graphs_a[i] for i in range(0, ng_a)]
-        pairs = list(itertools.product(range(0, ng_a), range(0, ng_a)))
         ng = ng_a
         ng_b = ng_a
     else:
         ng_b = len(Graphs_b.keys())
         g_iter = itertools.chain([Graphs_a[i] for i in range(0, ng_a)], [Graphs_b[i] for i in range(0, ng_b)])
-        pairs = list(itertools.product(range(0, ng_a), range(ng_a, ng_b)))
         ng = ng_a + ng_b
     
     Gs = dict()    
@@ -220,5 +218,9 @@ def weisfeiler_lehman_matrix(Graphs_a, base_kernel_matrix, Graphs_b=None,  niter
     # Restore original labels  
     for i in range(ng):
         Gs[i].relabel(L_orig[i])
+    
+    if Graphs_y is None:
+        kernel = np.tril(kernel) + np.tril(kernel, -1).T
+    
     return kernel
 

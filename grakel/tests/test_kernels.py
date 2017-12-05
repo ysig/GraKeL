@@ -128,6 +128,10 @@ def test_neighborhood_hash_kernel():
     if verbose:
         print("Neighborhood Hash - 'simple':",neighborhood_hash(X, X, L, L, nh_type='simple'))
         print("Neighborhood Hash - 'count-sensitive':",neighborhood_hash(X, X, L, L, nh_type='count-sensitive'))
+        
+def test_odd_sth():
+    if verbose:
+        print("ODD-STh:",odd_sth(X, X, L, L, h=None))
 
 if verbose and main:
     test_dirac()
@@ -144,5 +148,5 @@ if verbose and main:
     test_neighborhood_hash_kernel()
 
 if verbose and development:
-    test_multiscale_laplacian()
-
+#    test_multiscale_laplacian()
+    test_odd_sth()

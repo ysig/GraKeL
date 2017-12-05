@@ -27,7 +27,7 @@ def neighborhood_hash(X, Y, Lx, Ly, nh_type='simple', R=3, bytes=2) :
     Gy = graph(Y,Ly)
     return float(neighborhood_hash_similarity_matrix({0: Gx}, {0: Gy}, nh_type=nh_type, R=R, bytes=bytes)[0,0])
 
-def neighborhood_hash_similarity_matrix(Graphs_x, Graphs_y=None, nh_type='simple', R=3, bytes=2):
+def neighborhood_hash_matrix(Graphs_x, Graphs_y=None, nh_type='simple', R=3, bytes=2):
     """ The calculate_similarity matrix function as defined
         in [Hido, Kashima, 2009]
 
@@ -60,14 +60,15 @@ def neighborhood_hash_similarity_matrix(Graphs_x, Graphs_y=None, nh_type='simple
     if Graphs_y==None:
         h_y = h_x
         g_iter = Graphs_x.values()
-        pairs = list(itertools.product(range(0,h_x), range(0, h_x)))
         ng = h_x
+        pairs = [(i,j) for i in range(0,h_x) for j in range(i, h_x)]
+        offset = 0
     else:
         h_y = len(Graphs_y.keys())
         g_iter = itertools.chain(Graphs_x.values(), Graphs_y.values())
-        pairs = list(itertools.product(range(0,h_x), range(h_x, h_y)))
         ng = h_x+h_y
-        
+        pairs = list(itertools.product(range(h_x, ng), range(0,h_x)))
+        offset = h_x
     labels_hash_dict, labels_hash_set = dict(), set()
     for (i, g) in enumerate(g_iter):
         g.desired_format('adjacency')
@@ -91,9 +92,15 @@ def neighborhood_hash_similarity_matrix(Graphs_x, Graphs_y=None, nh_type='simple
             Gs[i] = NH(Gs[i])
         for (i,j) in pairs:
             # targets - y - graph take the row
-            K[j,i] = nh_compare_labels(Gs[i], Gs[j])
+            K[i-offset,j] = nh_compare_labels(Gs[i], Gs[j])
         S = np.add(K,S)
-    return np.divide(S,R)
+        
+    kernel_mat = np.divide(S,R)
+    
+    if Graphs_y is None:
+        kernel_mat = np.tril(kernel_mat) + np.tril(kernel_mat, -1).T
+        
+    return kernel_mat
   
 def hash_labels(labels, labels_hash_dict, labels_hash_set, bytes=2):
     """ A function that hashes existing labels to 16-bit
