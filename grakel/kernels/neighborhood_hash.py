@@ -98,7 +98,7 @@ def neighborhood_hash_matrix(Graphs_x, Graphs_y=None, nh_type='simple', R=3, byt
     kernel_mat = np.divide(S,R)
     
     if Graphs_y is None:
-        kernel_mat = np.tril(kernel_mat) + np.tril(kernel_mat, -1).T
+        kernel_mat = np.triu(kernel_mat) + np.triu(kernel_mat, 1).T
         
     return kernel_mat
   

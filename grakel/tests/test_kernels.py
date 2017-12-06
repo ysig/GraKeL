@@ -130,6 +130,8 @@ def test_neighborhood_hash_kernel():
         print("Neighborhood Hash - 'count-sensitive':",neighborhood_hash(X, X, L, L, nh_type='count-sensitive'))
         
 def test_odd_sth():
+    #x = np.array([[0, 1, 1, 0], [1, 0, 1, 1], [1, 1, 0, 1], [0, 1, 1, 0]])
+    #l = {0: 's', 1:'e', 2:'b', 3:'d'}
     if verbose:
         print("ODD-STh:",odd_sth(X, X, L, L, h=None))
 

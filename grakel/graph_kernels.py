@@ -19,7 +19,8 @@ supported_base_kernels = [
 "graphlets_sampling","subgraph_matching",
 "multiscale_laplacian",
 "lovasz_theta", "svm_theta",
-"neighborhood_hash", "neighborhood_pairwise_subgraph_distance"
+"neighborhood_hash", "neighborhood_pairwise_subgraph_distance",
+"odd_sth"
 ]
     
 supported_general_kernels = [
@@ -83,6 +84,7 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                     - "neighborhood_pairwise_subgraph_distance" | (o) "r": (int) positive integer
                     
                                                                   (o) "d": (int) positive integer
+                    - "odd_sth" | (o) "h": (int) positive integer
                     
              ii) general_kernels (this kernel will consider the next kernel on list for nesting):
                     - "weisfeiler_lehman": "niter": [int]
@@ -165,6 +167,8 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                     return (lambda x, y: neighborhood_hash_matrix(x, y, **kernel), True)
                 elif kernel_name == "neighborhood_pairwise_subgraph_distance":
                     return (lambda x, y: neighborhood_pairwise_subgraph_distance_inner(x, y, **kernel), False)
+                elif kernel_name == "odd_sth":
+                    return (lambda x, y: odd_sth_matrix(x, y, **kernel), True)
             elif kernel_name in supported_general_kernels:
                 if (len(kernel_list)==0):
                     raise ValueError(str(kernel_name)+' is not a base kernel')

@@ -184,7 +184,7 @@ def gk_test_svm_theta():
     if verbose:
         print("SVM Theta:", gkf.transform())
 
-def gk_test_neighborhood_pairwise_subgraph_distance_kernel():
+def gk_test_neighborhood_pairwise_subgraph_distance():
     XX = list(k*[[X,L,Le]])
     gk = GraphKernel(kernel={"name":"neighborhood_pairwise_subgraph_distance"})
     gkf = gk.fit(XX)
@@ -192,7 +192,7 @@ def gk_test_neighborhood_pairwise_subgraph_distance_kernel():
     if verbose:
         print("NSPDK:", gkf.transform())
 
-def gk_test_neighborhood_hash_kernel():
+def gk_test_neighborhood_hash():
     XX = list(zip(k*[X],k*[L]))
     gk = GraphKernel(kernel={"name":"neighborhood_hash", "nh_type":"simple"})
     
@@ -205,7 +205,17 @@ def gk_test_neighborhood_hash_kernel():
     
     if verbose:
         print("Neighborhood Hash - 'count-sensitive':", gkf.transform())
-    
+   
+def gk_test_odd_sth():
+    l = {0:'A', 1:'B', 2:'C', 3:'D', 4:'E',5:'F',6:'G'}
+
+    XX = list(k*[[X,l]])
+    gk = GraphKernel(kernel={"name":"odd_sth"})
+    gkf = gk.fit(XX)
+
+    if verbose:
+        print("ODD-STh:", gkf.transform())
+ 
 def gk_test_wl_nh():
     XX = list(zip(k*[X],k*[L]))
     base_kernel = {"name":"neighborhood_hash", "nh_type":"count-sensitive"}
@@ -226,10 +236,11 @@ if verbose and main:
     gk_test_weisfeiler_lehman()
     gk_test_subgraph_matching()
     gk_test_lovasz_theta()
-    gk_test_svm_theta()    
-    gk_test_neighborhood_pairwise_subgraph_distance_kernel()    
-    gk_test_neighborhood_hash_kernel()
+    gk_test_svm_theta()
+    gk_test_neighborhood_pairwise_subgraph_distance()    
+    gk_test_neighborhood_hash()
     gk_test_wl_nh()
 
 if verbose and development:
-    gk_test_multiscale_laplacian()
+    gk_test_odd_sth()
+#    gk_test_multiscale_laplacian()

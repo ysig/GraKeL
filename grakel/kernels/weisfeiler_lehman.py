@@ -219,8 +219,8 @@ def weisfeiler_lehman_matrix(Graphs_a, base_kernel_matrix, Graphs_b=None,  niter
     for i in range(ng):
         Gs[i].relabel(L_orig[i])
     
-    if Graphs_y is None:
-        kernel = np.tril(kernel) + np.tril(kernel, -1).T
+    if Graphs_b is None:
+        kernel = np.triu(kernel) + np.triu(kernel, 1).T
     
     return kernel
 
