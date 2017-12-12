@@ -20,7 +20,8 @@ supported_base_kernels = [
 "multiscale_laplacian",
 "lovasz_theta", "svm_theta",
 "neighborhood_hash", "neighborhood_pairwise_subgraph_distance",
-"odd_sth", "propagation"
+"odd_sth", "propagation",
+"pyramid_match"
 ]
     
 supported_general_kernels = [
@@ -95,7 +96,11 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                                       (o) w: [int] > 0
                                       
                                       (o) base_kernel: [function] x:[list[int]] , y:[list[int]] -> [number]
-                            
+                     - "pyramid_match" | (o) with_labels: [bool]
+                     
+                                         (o) d: [int] > 0
+                                         
+                                         (o) L: [int] >= 0 
              ii) general_kernels (this kernel will consider the next kernel on list for nesting):
                     - "weisfeiler_lehman": "niter": [int]
                 
@@ -181,6 +186,8 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                     return (lambda x, y: odd_sth_matrix(x, y, **kernel), True)
                 elif kernel_name == "propagation":
                     return (lambda x, y: propagation_matrix(x, y, **kernel), True)
+                elif kernel_name == "pyramid_match":
+                    return (lambda x, y: pyramid_match_matrix(x, y, **kernel), True)
             elif kernel_name in supported_general_kernels:
                 if (len(kernel_list)==0):
                     raise ValueError(str(kernel_name)+' is not a base kernel')

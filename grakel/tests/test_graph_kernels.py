@@ -233,7 +233,15 @@ def gk_test_propagation():
     
     if verbose:
         print("Propagation:", gkf.transform())
-        
+
+def gk_test_pyramid_match():
+    XX = list(zip(k*[X],k*[L]))
+    gk = GraphKernel(kernel={"name":"pyramid_match"})
+    gkf = gk.fit(XX)
+    
+    if verbose:
+        print("pyramid match:", gkf.transform())
+
 if verbose and main:
     gk_test_dirac()
     gk_test_random_walk_simple()
@@ -249,7 +257,8 @@ if verbose and main:
     gk_test_neighborhood_hash()
     gk_test_wl_nh()
     gk_test_odd_sth()
-
-if verbose and development:
     gk_test_propagation()
+    
+if verbose and development:
+    gk_test_pyramid_match()
 #    gk_test_multiscale_laplacian()

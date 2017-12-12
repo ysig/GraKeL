@@ -12,6 +12,7 @@ from .neighborhood_pairwise_subgraph_distance import neighborhood_pairwise_subgr
 from .neighborhood_hash import neighborhood_hash, neighborhood_hash_matrix
 from .odd_sth import odd_sth, odd_sth_matrix
 from .propagation import propagation, propagation_matrix
+from .pyramid_match import pyramid_match, pyramid_match_matrix
 
 __all__ = [
 "dirac",
@@ -44,5 +45,7 @@ __all__ = [
 "odd_sth",
 "odd_sth_matrix",
 "propagation",
-"propagation_matrix"
+"propagation_matrix",
+"pyramid_match",
+"pyramid_match_matrix"
 ]

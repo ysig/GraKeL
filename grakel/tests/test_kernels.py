@@ -36,6 +36,8 @@ D = np.array([
 [1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
 [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 [0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0]])
+
+LD = {0:'rock', 1:'post-punk', 2:'rock', 3:'indie', 4:'classical', 5:'pop', 6:'rock', 7:'punk', 8:'punk', 9:'indie', 10:'post-rock', 11:'post-punk', 12:'jazz', 13:'jazz', 14:'jazz', 15:'classical'}
               
 L = {0:'banana', 1:'cherry', 2:'banana', 3:'cherry', 4:'peach',5:'cherry',6:'lime'}
 
@@ -139,6 +141,10 @@ def test_propagation():
     if verbose:
         print("Propagation:", propagation(X,X,L,L))
 
+def test_pyramid_match():
+    if verbose:
+        print("Pyramid Match:", pyramid_match(D,D,LD,LD))
+
 if verbose and main:
     test_dirac()
     test_random_walk_simple()
@@ -153,7 +159,7 @@ if verbose and main:
     test_neighborhood_pairwise_subgraph_distance_kernel()
     test_neighborhood_hash_kernel()
     test_odd_sth()
-
+    test_propagation()
 if verbose and development:
 #    test_multiscale_laplacian()
-    test_propagation()
+    test_pyramid_match()

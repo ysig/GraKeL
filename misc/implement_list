@@ -13,3 +13,7 @@ TODO:
 - correct the build frame work
 - unit test by asserting the existing values
 - add new kernels to graph_kernels.py
+- support input format for dictionaries as list of tuples,
+  list of truples, dictionary of tuples
+- support sparse matrix format.
+  (maybe change adjacency mat to scipy csr_mat?)
