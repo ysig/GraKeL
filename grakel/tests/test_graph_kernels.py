@@ -225,7 +225,15 @@ def gk_test_wl_nh():
     
     if verbose:
         print("Weisfeiler Lehman - Neighboorhood Hash:",gkf.transform())
-              
+        
+def gk_test_propagation():
+    XX = list(zip(k*[X],k*[L]))
+    gk = GraphKernel(kernel={"name":"propagation"})
+    gkf = gk.fit(XX)
+    
+    if verbose:
+        print("Propagation:", gkf.transform())
+        
 if verbose and main:
     gk_test_dirac()
     gk_test_random_walk_simple()
@@ -240,7 +248,8 @@ if verbose and main:
     gk_test_neighborhood_pairwise_subgraph_distance()    
     gk_test_neighborhood_hash()
     gk_test_wl_nh()
+    gk_test_odd_sth()
 
 if verbose and development:
-    gk_test_odd_sth()
+    gk_test_propagation()
 #    gk_test_multiscale_laplacian()

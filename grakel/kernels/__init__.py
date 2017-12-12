@@ -11,6 +11,8 @@ from .svm_theta import svm_theta, svm_theta_inner
 from .neighborhood_pairwise_subgraph_distance import neighborhood_pairwise_subgraph_distance, neighborhood_pairwise_subgraph_distance_inner
 from .neighborhood_hash import neighborhood_hash, neighborhood_hash_matrix
 from .odd_sth import odd_sth, odd_sth_matrix
+from .propagation import propagation, propagation_matrix
+
 __all__ = [
 "dirac",
 "dirac_inner",
@@ -40,5 +42,7 @@ __all__ = [
 "neighborhood_hash",
 "neighborhood_hash_matrix",
 "odd_sth",
-"odd_sth_matrix"
+"odd_sth_matrix",
+"propagation",
+"propagation_matrix"
 ]

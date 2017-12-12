@@ -215,7 +215,7 @@ class graph(object):
             if self._format not in ["all","adjacency"]:
                 warnings.warn('changing format from "adjacency" to "all"')
                 self.change_format("all")
-
+    
     def construct_labels(self, label_type="vertex", purpose="adjacency"):
         """ A method that constructs labels (if user does not provide)
             
@@ -293,6 +293,12 @@ class graph(object):
             obj: a valid vertex
             label_type="vertex"
         """
+        if purpose == "any":
+            if self._format == "all":
+                purpose = "adjacency"
+            else:
+                purpose = self._format
+                
         if purpose not in ["dictionary","adjacency"]:
             raise ValueError('unrecognized purpose')
         
@@ -640,6 +646,7 @@ class graph(object):
             edge_dictionary_refined = dict()
             for u in edge_dictionary.keys():
                 vertices.add(u)
+                # TODO support list of tuples
                 if type(edge_dictionary[u]) is list:
                     vertices.union(set(edge_dictionary[u]))
                     edge_dictionary_refined[u] = dict(zip(edge_dictionary[u],len(edge_dictionary[u])*[1.0]))
@@ -907,6 +914,35 @@ class graph(object):
                 return [(i,j) for i in self.edge_dictionary.keys() for j in self.edge_dictionary[i].keys()]
             else:
                 return [((i,j), self.edge_dictionary[i][j]) for i in self.edge_dictionary.keys() for j in self.edge_dictionary[i].keys()]
+    
+    def get_adjacency_matrix(self):
+        """ A format agnostic method that returns the adjacency matrix
+        """
+        
+        if self._format is "dictionary":
+            A = np.zeros(shape=(len(self.vertices),len(self.vertices)))
+            v_map = {v:i  for (v,i) in enumerate(sorted(list(self.vertices)))}
+            for (k,v) in self.edge_dictionary.items():
+                i = v_map[k]
+                for (kv,w) in v.items():
+                    A[i,v_map[kv]] = w
+            return A
+        else:
+            return self.adjacency_matrix
+            
+    def get_edge_dictionary(self):
+        """ A format agnostic method that returns the edge dictionary
+        """
+        
+        if self._format is "dictionary":
+            idx_i, idx_j = np.where(self.adjacency_matrix > 0)
+            edge_dictionary = {i:dict() for i in range(0, self.n)}
+            for (i,j) in zip(idx_i,idx_j):
+                edge_dictionary[i][j] = self.adjacency_matrix[i,j]
+            return edge_dictionary
+        else:
+            return self.edge_dictionary
+            
     
     def nv(self):
         """ A method that returns the number of vertices

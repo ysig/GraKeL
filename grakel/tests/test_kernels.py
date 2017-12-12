@@ -135,6 +135,10 @@ def test_odd_sth():
     if verbose:
         print("ODD-STh:",odd_sth(X, X, L, L, h=None))
 
+def test_propagation():
+    if verbose:
+        print("Propagation:", propagation(X,X,L,L))
+
 if verbose and main:
     test_dirac()
     test_random_walk_simple()
@@ -148,7 +152,8 @@ if verbose and main:
     test_svm_theta()    
     test_neighborhood_pairwise_subgraph_distance_kernel()
     test_neighborhood_hash_kernel()
+    test_odd_sth()
 
 if verbose and development:
 #    test_multiscale_laplacian()
-    test_odd_sth()
+    test_propagation()

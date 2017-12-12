@@ -20,7 +20,7 @@ supported_base_kernels = [
 "multiscale_laplacian",
 "lovasz_theta", "svm_theta",
 "neighborhood_hash", "neighborhood_pairwise_subgraph_distance",
-"odd_sth"
+"odd_sth", "propagation"
 ]
     
 supported_general_kernels = [
@@ -84,8 +84,18 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                     - "neighborhood_pairwise_subgraph_distance" | (o) "r": (int) positive integer
                     
                                                                   (o) "d": (int) positive integer
-                    - "odd_sth" | (o) "h": (int) positive integer
+                    - "odd_sth" | (o) "h": [int] > 0
                     
+                    - "propagation" | (o) t_max: [int] > 0
+                    
+                                      (o) T: [dict] [int]: [np.arrays]
+           
+                                      (o) M: [str] "H", "L1", "L2", "TV"
+                                      
+                                      (o) w: [int] > 0
+                                      
+                                      (o) base_kernel: [function] x:[list[int]] , y:[list[int]] -> [number]
+                            
              ii) general_kernels (this kernel will consider the next kernel on list for nesting):
                     - "weisfeiler_lehman": "niter": [int]
                 
@@ -169,6 +179,8 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                     return (lambda x, y: neighborhood_pairwise_subgraph_distance_inner(x, y, **kernel), False)
                 elif kernel_name == "odd_sth":
                     return (lambda x, y: odd_sth_matrix(x, y, **kernel), True)
+                elif kernel_name == "propagation":
+                    return (lambda x, y: propagation_matrix(x, y, **kernel), True)
             elif kernel_name in supported_general_kernels:
                 if (len(kernel_list)==0):
                     raise ValueError(str(kernel_name)+' is not a base kernel')
@@ -270,7 +282,7 @@ class GraphKernel(BaseEstimator, TransformerMixin):
         # during fit.
 
         # Calculate kernel matrix
-
+        # TODO: support normalization - argument at init
         return self.kernel(target_graph)
         
     def calculate_kernel_matrix(self, kernel, target_graph=None, kernel_type="pairwise"):
@@ -317,3 +329,5 @@ class GraphKernel(BaseEstimator, TransformerMixin):
             return K     
         else:
             return kernel(self.X_graph, target_graph)
+    
+    # TODO: support nystrom approximation

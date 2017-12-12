@@ -25,7 +25,7 @@ def neighborhood_hash(X, Y, Lx, Ly, nh_type='simple', R=3, bytes=2) :
     """
     Gx = graph(X,Lx)
     Gy = graph(Y,Ly)
-    return float(neighborhood_hash_similarity_matrix({0: Gx}, {0: Gy}, nh_type=nh_type, R=R, bytes=bytes)[0,0])
+    return float(neighborhood_hash_matrix({0: Gx}, {0: Gy}, nh_type=nh_type, R=R, bytes=bytes)[0,0])
 
 def neighborhood_hash_matrix(Graphs_x, Graphs_y=None, nh_type='simple', R=3, bytes=2):
     """ The calculate_similarity matrix function as defined
