@@ -21,7 +21,9 @@ env:
       NUMPY_VERSION="1.10.4" SCIPY_VERSION="0.17.0" CYTHON_VERSION="0.23.4"
 
 install:
-  - pip install -r requirements.txt
+  - pip install 'nose>=1.1.2'
+  - pip install 'scikit-learn>=0.17'
+  - pip install 'cvxopt>=1.1.4'
   - ./install_pynauty.sh
   - source ci_scripts/travis/install.sh
 script: bash ci_scripts/travis/test.sh

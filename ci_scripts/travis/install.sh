@@ -34,9 +34,9 @@ if [[ "$COVERAGE" == "true" ]]; then
     pip install coverage coveralls
 fi
 
-python --version
-python -c "import numpy; print('numpy %s' % numpy.__version__)"
-python -c "import scipy; print('scipy %s' % scipy.__version__)"
-python -c "import cvxopt; print('cvxopt %s' % cvxopt.__version__)"
-python -c "import pynauty; print('pynauty %s' % pynauty.__version__)"
-python setup.py develop
+python3 --version
+python3 -c "import numpy; print('numpy %s' % numpy.__version__)"
+python3 -c "import scipy; print('scipy %s' % scipy.__version__)"
+python3 -c "import cvxopt; print('cvxopt %s' % cvxopt.__version__)"
+python3 -c "import pynauty; print('pynauty %s' % pynauty.__version__)"
+python3 setup.py develop
