@@ -34,9 +34,12 @@ if [[ "$COVERAGE" == "true" ]]; then
     pip install coverage coveralls
 fi
 
+pip install 'cvxopt>=1.1.4'
+../../install_pynauty.sh
+
 python --version
-python3.6 -c "import numpy; print('numpy %s' % numpy.__version__)"
-python3.6 -c "import scipy; print('scipy %s' % scipy.__version__)"
-python3.6 -c "import cvxopt; print('cvxopt %s' % cvxopt.__version__)"
-python3.6 -c "import pynauty; print('pynauty %s' % pynauty.__version__)"
-python3.6 setup.py develop
+python -c "import numpy; print('numpy %s' % numpy.__version__)"
+python -c "import scipy; print('scipy %s' % scipy.__version__)"
+python -c "import cvxopt; print('cvxopt %s' % cvxopt.__version__)"
+python -c "import pynauty; print('pynauty %s' % pynauty.__version__)"
+python setup.py develop
