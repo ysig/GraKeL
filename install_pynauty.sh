@@ -14,6 +14,6 @@ tar -xf nauty26r10.tar.gz
 ln -s nauty26r10 nauty
 make pynauty
 make tests
-sudo make user-ins
+make user-ins
 cd ..
 rm -rf pynauty-0.6.0
