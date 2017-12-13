@@ -1,32 +1,33 @@
-""" This file contains the neighborhood subgraph pairwise distance kernel
-    as defined in [Costa et al., 2010]
+""" This file contains the neighborhood subgraph pairwise distance kernel as defined in :cite:`Costa2010FastNS`
 """
 import itertools
 
 from ..graph import graph
 
 def neighborhood_pairwise_subgraph_distance(X, Y, Lx, Ly, LEx, LEy, r=3, d=4):
-    """ The neighborhood subgraph pairwise distance kernel
-        as proposed in [Costa et al., 2010]
+    """ The neighborhood subgraph pairwise distance kernel as proposed in :cite:`Costa2010FastNS`
 
-        X,Y: Valid graph formats to be compared
-        L{x,y}: labels for nodes for graphs X, Y
-        LE{x,y}: labels for edges for graphs X, Y
+    arguments:
+        - X,Y (valid graph format): the pair of graphs on which the kernel is applied
+        - L{x,y} (dict): coresponding graph labels for nodes
+        - LE{x,y} (dict): coresponding graph labels for edges
         
-        --- Both labels should correspond to the 
-        graph format given on X, Y.
+    returns:
+        number. The kernel value
     """
     Gx = graph(X,Lx,LEx)
     Gy = graph(Y,Ly,LEy)
     return neighborhood_pairwise_subgraph_distance_inner(Gx, Gy, r=r, d=d)
 
 def neighborhood_pairwise_subgraph_distance_inner(Gx, Gy, r=3, d=4):
-    """ The neighborhood subgraph pairwise distance kernel
-        as proposed in [Costa et al., 2010]
+    """ The neighborhood subgraph pairwise distance kernel as proposed in :cite:`Costa2010FastNS`
         
-        Gx, Gy: Graph type objects
-        r: radius
-        d: depth
+    arguments:
+        - G{x,y} (graph): the pair of graphs on which the kernel is applied
+        - r (int): radius of the 
+        - d (int): depth of the neighbourhoods
+    returns:
+        number. The kernel value
     """
     if r<0:
         raise ValueError('r must be a positive integer')
@@ -62,15 +63,14 @@ def neighborhood_pairwise_subgraph_distance_inner(Gx, Gy, r=3, d=4):
     return kernel
     
 def hash_neighborhoods(G, N, D_pair, r, purpose = "adjacency"):
-    """ A function that calculates the hash for all
-        neighborhoods and all root nodes.
-        
-        G: graph type object of the original graph
-        N: Dictionary with int keys as levels and dictionaries as values
-           with symbol keys as root nodes and values a list of symbols for
-           that correspond to this neighborhood
-        D_pairs: a dictionary with keys as pairs of symbols corresponding to 
-                 and values corresponding to element distances
+    """ A function that calculates the hash for all neighborhoods and all root nodes.
+    
+    arguments:
+        - G (graph): the original graph
+        - N (dict): neighborhoods with levels as int keys and dictionaries as values with root node symbols as keys and a list of vertex symbols as values, that belong to this neighborhood
+        - D_pairs (dict): a dictionary with keys as tuple pairs of vertex symbols and values corresponding to element distances      
+    returns:
+        dict. The hashed neighborhoods as a level 2 dict with keys radious and vertex and the hashed values           
     """
     H = {ra: dict() for ra in range(0,r+1)}
     for v in G.get_vertices(purpose):
@@ -79,12 +79,13 @@ def hash_neighborhoods(G, N, D_pair, r, purpose = "adjacency"):
     return H
 
 def hash_graph(G, D, purpose='adjacency'):
-    """ Make labels for hashing according to the proposed method
-        and produce the graph hash needed for fast comparison
+    """ Make labels for hashing according to the proposed method and produce the graph hash needed for fast comparison
         
-        G: graph type object of the original graph
-        D: a dictionary with keys as pairs of symbols corresponding to 
-           and values corresponding to element distances
+    arguments:
+        - G (graph): original graph
+        - D (dict): a dictionary with keys as tuple pairs of vertex symbols and values corresponding to element distances
+    returns:
+        int. The hash for the given graph
     """
     encoding = ""
     s = str()
@@ -112,6 +113,14 @@ global bit_ones
 bit_ones = dict()
 
 def as_n_bit(num, n):
+    """ A function that conserves the n-first digits of a given number
+        
+    arguments:
+       - num (int): the binary number
+       - n (int): the number of bits
+    returns:
+       int. The n first numbers of the integer
+    """
     n = int(n)
     
     if n<=0:
@@ -126,8 +135,12 @@ def as_n_bit(num, n):
     return x & num
 
 def APHash(string):
-    """ Arash Partov hashing as implemented in the original
-        implementation of NPSDK.
+    """ Arash Partov hashing as implemented in the original implementation of NPSDK.
+
+    arguments:
+        string (str): a string
+    returns:
+        int. The AP hash value for the given text
     """
     hash_num = (int('0xAAAAAAAA',16))
     n = 32

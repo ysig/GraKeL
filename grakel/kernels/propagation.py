@@ -1,5 +1,4 @@
-""" The propagation kernel as defined in [1]:
-' Neumann M.; Garnett R., P.A..: Propagation kernels: efficient graph kernels from propagated information. In: Springer. Mach Learn (2016) p.209–245'
+""" The propagation kernel as defined in :cite:`Neumann2015PropagationKE`
 """
 import itertools
 
@@ -9,65 +8,23 @@ from ..graph import graph
 
 np.random.seed(1235476565)
 
-def calculate_LSH(X, w, M):
-    """ A function for calculating
-        Local Sensitive Hashing needed
-        for propagation kernels defined on [1], p.12
-        
-        X: A float numpy array of shape (N, D)
-        w: Bin width
-        M: The preserved distance metric
-           "H": hellinger
-           "L1": l1-norm
-           "L2": l2-norm
-           "TV": total-variation
-    """
-    if len(X.shape)!=2:
-        raise ValueError('X must be an N x D array')
-    D = X.shape[1]
-    
-    if M not in ["H", "L1", "L2", "TV"]:
-        raise ValueError('Invalid metric type')
-    
-    if M is "H":
-        X = np.sqrt(X)
-    
-    # simple normal
-    u = np.random.randn(D)
-    if M in ["TV", "L1"]:
-        # cauchy
-        u = np.divide(u, np.random.randn(D))
-
-    # random offset
-    b = w*np.random.rand()
-    
-    # hash
-    h = np.floor((np.dot(X,u)+b)/w)
-    return np.unique(h, return_inverse=True)[1]
-
 def propagation(X, Y, Lx, Ly, Tx=None, Ty=None, t_max=5, w=10, M="TV", base_kernel=(lambda x, y: sum(a*b for (a,b) in zip(x,y)))):
-    """ The propagation kernel for fully labeled graphs
-        [1]: Algorithms 1, 3, p. 216, 221
+    """ The propagation kernel for fully labeled graphs :cite:`Neumann2015PropagationKE`: Algorithms 1, 3, p. 216, 221
 
-        X,Y: Valid graph formats to be compared
-        L{x,y}: labels for nodes for graphs X, Y
-        T{x,y}: np-arrays corresponding to Graphs X, Y
-                (if None default value is adjacency matrix)
-        
-        --- Both labels should correspond to the 
-        graph format given on X, Y.
-        
-        t_max: maximum number of iterations
-                   
-        M: The preserved distance metric (on local sensitive hashing)
-           "H": hellinger
-           "L1": l1-norm
-           "L2": l2-norm
-           "TV": total-variation
-           
-        w: bin width
-        
-        base_kernel: a base_kernel between two lists of numbers that outputs a number
+    arguments:
+        - X,Y (valid graph format): the pair of graphs on which the kernel is applied
+        - L{x,y} (dict): coresponding graph labels for nodes
+        - T{x,y} (np-array): transition matrices corresponding to Graphs X, Y (*if None default value is adjacency matrix*)        
+        - t_max (int): maximum number of iterations
+        - M (str): The preserved distance metric (on local sensitive hashing):
+            - "H": hellinger
+            - "L1": l1-norm
+            - "L2": l2-norm
+            - "TV": total-variation   
+        - w (int): bin width
+        - base_kernel (function): a base_kernel between two lists of numbers that outputs a number
+    returns:
+        number. The kernel value
     """
     Gx = graph(X,Lx)
     Gy = graph(Y,Ly)
@@ -75,28 +32,22 @@ def propagation(X, Y, Lx, Ly, Tx=None, Ty=None, t_max=5, w=10, M="TV", base_kern
     
         
 def propagation_matrix(Graphs_x, Graphs_y=None, t_max=5, T=None, w=10, M="TV", base_kernel=(lambda x, y: sum(a*b for (a,b) in zip(x,y)))):
-    """ The propagation kernel for fully labeled graphs
-        [1]: Algorithms 1, 3 p. 216, 221
+    """ The propagation kernel for fully labeled graphs :cite:`Neumann2015PropagationKE`: p. 216, 221
 
-        Graphs_{x,y}: A dictionary o graph type objects that are
-                      going to be compared with keys from 0 to
-                      the number of values.
-        
-        t_max: maximum number of iterations
-        
-        T: a dictionary of np.arrays corresponding to Graphs_x, Grpahs_y
-           in sequence keys from 0 ... len(Graphs_x) ... len(Graphs_x)+len(Graphs_y)
-           (if None default value is adjacency matrix)
-           
-        M: The preserved distance metric (on local sensitive hashing)
-           "H": hellinger
-           "L1": l1-norm
-           "L2": l2-norm
-           "TV": total-variation
-           
-        w: bin width
-        
-        base_kernel: a base_kernel between two lists of numbers that outputs a number
+    arguments:
+        - Graphs_{x,y} (dict): A dictionary of graph type objects that are going to be compared with keys from 0 ... to the dictionary length.
+        - L{x,y} (dict): coresponding graph labels for nodes
+        - T{x,y} (np-array): transition matrices corresponding to Graphs X, Y (*if None default value is adjacency matrix*)        
+        - t_max (int): maximum number of iterations
+        - M (str): The preserved distance metric (on local sensitive hashing):
+            - "H": hellinger
+            - "L1": l1-norm
+            - "L2": l2-norm
+            - "TV": total-variation   
+        - w (int): bin width
+        - base_kernel (function): a base_kernel between two lists of numbers that outputs a number
+    returns:
+        np.array. The kernel matrix
     """
     if M not in ["H", "L1", "L2", "TV"]:
         raise ValueError('Invalid metric type')
@@ -190,3 +141,41 @@ def propagation_matrix(Graphs_x, Graphs_y=None, t_max=5, T=None, w=10, M="TV", b
         K = np.triu(K) + np.triu(K, 1).T
         
     return K
+    
+def calculate_LSH(X, w, M):
+    """ A function for calculating Local Sensitive Hashing needed for propagation kernels defined in :cite:`Neumann2015PropagationKE`, p.12
+        
+    arguments:
+        - X (np.array): A float array of shape (N, D) with N vertices and D features
+        - w (int): Bin width
+        - M (str): The preserved distance metric:
+           - "H": hellinger
+           - "L1": l1-norm
+           - "L2": l2-norm
+           - "TV": total-variation
+    returns:
+        - np.array. The local sensitive hash coresponding to each vertex
+    """
+    if len(X.shape)!=2:
+        raise ValueError('X must be an N x D array')
+    D = X.shape[1]
+    
+    if M not in ["H", "L1", "L2", "TV"]:
+        raise ValueError('Invalid metric type')
+    
+    if M is "H":
+        X = np.sqrt(X)
+    
+    # simple normal
+    u = np.random.randn(D)
+    if M in ["TV", "L1"]:
+        # cauchy
+        u = np.divide(u, np.random.randn(D))
+
+    # random offset
+    b = w*np.random.rand()
+    
+    # hash
+    h = np.floor((np.dot(X,u)+b)/w)
+    return np.unique(h, return_inverse=True)[1]
+

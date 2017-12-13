@@ -1,13 +1,4 @@
-""" This file contains the pyramid match kernel
-    as defined in [1]:
-    
-    @inproceedings{
-        Nikolentzos2017MatchingNE,
-        title={Matching Node Embeddings for Graph Similarity},
-        author={Giannis Nikolentzos and Polykarpos Meladianos and Michalis Vazirgiannis},
-        booktitle={AAAI},
-        year={2017}
-    }
+""" This file contains the pyramid match kernel as defined in :cite:`Nikolentzos2017MatchingNE`
 """
 import itertools
 
@@ -19,17 +10,15 @@ from scipy.sparse import csr_matrix
 from ..graph import graph
 
 def pyramid_match(X, Y, Lx, Ly, L=4, d=6) :
-    """ The neighborhood hashing kernel as proposed
-        in [Hido, Kashima, 2009]
+    """ The pyramid match kernel as defined in :cite:`Nikolentzos2017MatchingNE`
 
-        X,Y: Valid graph formats to be compared
-        L{x,y}: labels for nodes for graphs X, Y
-        
-        --- Both labels should correspond to the 
-        graph format given on X, Y.
-        
-        d: the dimension of the hypercube
-        L: pyramid histogram level
+    arguments:
+        - X,Y (valid graph format): the pair of graphs on which the kernel is applied
+        - L{x,y} (dict): coresponding graph labels for nodes
+        - L (int): pyramid histogram level
+        - d (int): the dimension of the hypercube
+    returns:
+        number. The kernel value 
     """
     Gx = graph(X,Lx)
     Gy = graph(Y,Ly)
@@ -43,14 +32,15 @@ def pyramid_match(X, Y, Lx, Ly, L=4, d=6) :
     return float(pyramid_match_matrix({0: Gx}, {0: Gy}, with_labels=with_labels, L=L, d=d)[0,0])
 
 def pyramid_match_matrix(Graphs_x, Graphs_y=None, with_labels=True, L=4, d=6):
-    """ The calculate_similarity matrix function as defined
-        in [1], p. 4
+    """ The pyramid match kernel function as defined in :cite:`Nikolentzos2017MatchingNE`
 
-        Graphs_{x,y}: A dictionary o graph type objects that are
-                      going to be compared with keys from 0 to
-                      the number of values.
-        d: the dimension of the hypercube
-        L: pyramid histogram level
+    arguments:
+        - Graphs_{x,y} (dict): A dictionary of graph type objects that are going to be compared with keys from 0 ... to the dictionary length.
+        - with_labels (bool): A flag that determines if the kernel computation will consider labels
+        - L (int): pyramid histogram level
+        - d (int): the dimension of the hypercube
+    returns:
+        np.array. The kernel matrix.
     """
 
     # Input checks

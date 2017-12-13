@@ -1,6 +1,7 @@
-""" The Multiscale Laplacian Graph Kernel as defined
-    by [Risi Kondor, Horace Pen (2016)]
+""" The Multiscale Laplacian Graph Kernel as defined in :cite:`Kondor2016TheML`
 """
+import warnings
+
 import numpy as np
 
 from numpy.linalg import eig, inv, det
@@ -9,14 +10,16 @@ from ..graph import graph, laplacian
 from ..tools import extract_matrix
 
 def multiscale_laplacian(X, Y, Phi_x, Phi_y, L=3, gamma=0.01):
-    """ The Laplacian Graph Kernel
-        as proposed by Risi Kondor, 
-        Horace Pen at 2016
+    """ The Laplacian Graph Kernel as proposed in :cite:`Kondor2016TheML`
         
-        X,Y: Valid graph formats to be compared
-        Phi_{x,y}: The corresponding feature values dictionaries
-                    
-        gamma: A small softening parameter of float value
+    arguments:    
+        - X,Y (valid graph format): the pair of graphs on which the kernel is applied
+        - Phi_{x,y} (dict): corresponding feature vectors for nodes
+        - gamma (float): A small softening parameter of float value
+        - L (int): number of neighborhoods
+        
+    returns:
+        number. The kernel value        
     """
     Gx = graph(X, Phi_x)
     Gy = graph(Y, Phi_y)
@@ -24,15 +27,27 @@ def multiscale_laplacian(X, Y, Phi_x, Phi_y, L=3, gamma=0.01):
     
     
 def multiscale_laplacian_inner(Gx, Gy, L=3, gamma=0.01):
-    """ The Laplacian Graph Kernel
-        as proposed by Risi Kondor, 
-        Horace Pen at 2016
-        
-        Gx,Gy: Valid graph formats having as labels the phi_x, phi_y
-        
-        gamma: A small softening parameter of float value
-        L: number of neighborhoods
+    """ The Laplacian Graph Kernel as proposed in :cite:`Kondor2016TheML`
+    
+    arguments:
+        - Gx, Gy (graph): the pair of graphs on which the kernel is applied with feature vectores as node labels
+        - gamma (float): a small softening parameter
+        - L (int): number of neighborhoods
+
+    returns:
+        number. The kernel value
     """
+    if gamma > 0.05:
+        warnings.warn('gamma to big')
+    elif gamma == .0:
+        warnings.warn('with zero gamma the calculation may crash')
+    elif gamma < 0:
+        raise ValueError('gamma must be positive')
+    
+    if type(L) is not int:
+        raise ValueError('L must be an integer')
+    elif L < 0:
+        raise ValueError('L must be positive')
     
     # Set desired format
     Gx.desired_format("adjacency")
@@ -89,14 +104,25 @@ def multiscale_laplacian_inner(Gx, Gy, L=3, gamma=0.01):
     return generalized_FLG_core(Lx, Ly, gram_matrix, gamma=gamma)
     
 def generalized_FLG_core(Lx, Ly, gram_matrix, gamma=0.05, heta=0.1):
-    """ Helping function for multiscale gaussian
-       L_{x,y}: Laplacians of graph {x,y}
-                numpy arrays of size n_{x,y} times n_{x,y}
-       Gram_matrix: The corresponding gram matrix for the two graphs
-                    numpy array of size n_x + n_y
-       gamma: A smoothness parameter [float] - close to zero.
-       
+    """ Helping function for the multiscale gaussian
+    
+    arguments:
+        - L_{x,y} (np.array): Laplacians of graph {x,y}
+        - Gram_matrix (np.array): The corresponding gram matrix for the two graphs
+        - gamma (float): a small softening parameter
+        - heta (float): number of neighborhoods
+
+    returns:
+        number. The FLG core kernel value
     """
+    if heta > 0.2:
+        warnings.warn('heta to big')
+    elif gamma == .0:
+        warnings.warn('with zero heta the calculation may crash')
+    elif heta < 0:
+        raise ValueError('heta must be positive')
+ 
+ 
     nx = Lx.shape[0]
     ny = Ly.shape[0]
     

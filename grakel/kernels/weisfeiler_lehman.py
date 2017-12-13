@@ -1,5 +1,4 @@
-""" This file contains the shortest graphlte
-    as defined by [Shervashize et al., 2011]
+""" This file contains the weisfeiler lehman kernel as defined by :cite:`Shervashidze2011WeisfeilerLehmanGK`
 """
 import itertools
 
@@ -8,27 +7,30 @@ import numpy as np
 from ..graph import graph
 
 def weisfeiler_lehman(X, Y, Lx, Ly, base_kernel, niter=5):
-    """ Computes the Weisfeler Lehman as proposed
-        at 2011 by shervashize et al.
+    """ Computes the Weisfeler Lehman as proposed by :cite:`Shervashidze2011WeisfeilerLehmanGK`
 
-        X,Y: Valid graph formats to be compared
-        Lx, Ly: Valid labels for graphs
-        base_kernel: A valid base kernel
+    arguments:
+        - X,Y (valid graph format): the pair of graphs on which the kernel is applied
+        - L{x,y} (dict): coresponding graph labels for nodes
+        - base_kernel (function: (graph, graph) -> number): A valid pairwise base_kernel
+        - niter (int): the number of iterations        
+    returns:
+        number. The kernel value
+        
     """
     Ga = graph(X,Lx)
     Gb = graph(Y,Ly)
     return weisfeiler_lehman_inner(Ga, Gb, base_kernel, niter)
 
 def weisfeiler_lehman_inner(Ga, Gb, base_kernel, niter=5):
-    """ Computes the Weisfeler Lehman as proposed
-        at 2011 by shervashize et al.
+    """ Computes the Weisfeler Lehman as proposed by :cite:`Shervashidze2011WeisfeilerLehmanGK`
 
-        Ga,Gb: Graph type formats of the graphs
-               to be compared
-        Lx, Ly: Valid labels for graphs
-
-        base_kernel: A valid kernel function of the form:
-        graph_A, graph_B -> number
+    arguments:
+        - G{a,b} (graph): the pair of graphs on which the kernel is applied
+        - base_kernel (function: (graph, graph) -> number): A valid pairwise base_kernel
+        - niter (int): the number of iterations
+    returns:
+        number. The kernel value
     """
     if niter<1:
         raise ValueError('n_iter must be an integer bigger than zero')
@@ -117,17 +119,14 @@ def weisfeiler_lehman_inner(Ga, Gb, base_kernel, niter=5):
     return kernel
 
 def weisfeiler_lehman_matrix(Graphs_a, base_kernel_matrix, Graphs_b=None,  niter=5):
-    """ Computes the Weisfeler Lehman as proposed
-        at 2011 by shervashize et al.
-
-        Graphs_{a,b}: dictionary of graph type objects with keys
-                      from 0 to the number of values
-        Lx, Ly: Valid labels for graphs
-
-        base_kernel_matrix: A valid kernel function of the form:
-            graph_dict_A, graph_dict_B -> n by m np.array
-            where n = len(graph_dict_A.keys())
-              and m = len(graph_dict_B.keys())
+    """ Computes the kernel matrix, for the Weisfeler Lehman kernel proposed in :cite:`Shervashidze2011WeisfeilerLehmanGK`
+    
+    arguments:
+        - Graphs_{a,b} (dict): A dictionary of graph type objects that are going to be compared with keys from 0 ... to the dictionary length.
+        - base_kernel_matrix (function (dict(graph), dict(graph) -> np.array): rows correspond to the second dictionary of graphs and cols to the first
+        - niter (int): the number of iterations
+    returns:
+        np.array. The kernel matrix.
     """
     if niter<1:
         raise ValueError('n_iter must be an integer bigger than zero')

@@ -1,3 +1,5 @@
+#!/usr/bin/env sh
+
 # Requirements
 # sudo apt-get install python-dev
 # sudo apt-get install python-dev

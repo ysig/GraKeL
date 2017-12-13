@@ -8,7 +8,7 @@ machine:
     DOC_REPO: "GraKeL"
 
     # The base URL for the Github page where the documentation will be hosted
-    DOC_URL: ""
+    DOC_URL: "documentation"
 
     # The email is to be used for commits in the Github Page
     EMAIL: "y.siglidis@gmail.com"
@@ -29,7 +29,7 @@ dependencies:
     - sudo -E apt-get -yq --no-install-suggests --no-install-recommends --force-yes install dvipng texlive-latex-base texlive-latex-extra
     - pip install --upgrade cython numpydoc
     - pip install --upgrade scikit-learn
-	- pip install --upgrade pynauty
+    - ./install_pynauty.sh
 
   # The --user is needed to let sphinx see the source and the binaries
   # The pipefail is requested to propagate exit code

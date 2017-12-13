@@ -1,10 +1,11 @@
-""" This file contains the shortest graphlte
-    as defined by [Vishwanathan et. al., 2009]
+""" This file contains the shortest graphlet as defined in :cite:`Shervashidze2009EfficientGK`
+    
 """
 
 import math
 import itertools
 import random
+import warnings
 
 import numpy as np
 
@@ -17,14 +18,18 @@ random.seed(15487469)
 np.random.seed(15487103)
 
 def graphlet_sampling(X, Y, k=5, delta=0.05, epsilon=0.05, a=-1):
-    """ Applies the sampling random graph kernel as proposed
-        by Shervashidze, Vishwanathan at 2009 (does not consider labels)
+    """ Applies the graphlet sampling kernel as proposed in :cite:`Shervashidze2009EfficientGK`
         
-        X,Y: valid graph formats
-        k: the dimension of the given graphlets
-        delta : confidence level (typically 0.05 or 0.1)
-        epsilon : precision level (typically 0.05 or 0.1)
-        a : number of isomorphism classes of graphlets  
+    
+    arguments:    
+        - X,Y (valid graph format): the pair of graphs on which the kernel is applied
+        - k (int): the dimension of the given graphlets
+        - delta (float): confidence level (typically 0.05 or 0.1)
+        - epsilon (float): precision level (typically 0.05 or 0.1)
+        - a (int): number of isomorphism classes of graphlets  
+    
+    returns:
+        number. The kernel value        
     """
     Gx = graph(X)
     Gy = graph(Y)
@@ -32,13 +37,18 @@ def graphlet_sampling(X, Y, k=5, delta=0.05, epsilon=0.05, a=-1):
     return graphlet_sampling_inner(Gx, Gy, k=k, delta=delta, epsilon=epsilon, a=a)
     
 def graphlet_sampling_inner(Gx, Gy, k=5, delta=0.05, epsilon=0.05, a=-1):
-    """ A graphlet sampling kernel for graphs
+    """ Applies the graphlet sampling kernel, as proposed in :cite:`Shervashidze2009EfficientGK`
 
-        Gx, Gy: Graph type objects
-        k: the dimension of the given graphlets
-        delta : confidence level (typically 0.05 or 0.1)
-        epsilon : precision level (typically 0.05 or 0.1)
-        a : number of isomorphism classes of graphlets  
+    arguments:
+        - G{x,y} (graph): the pair of graphs on which the kernel is applied
+        - k (int): the dimension of the given graphlets
+        - delta (float): confidence level (typically 0.05 or 0.1)
+        - epsilon (float): precision level (typically 0.05 or 0.1)
+        - a (int): number of isomorphism classes of graphlets  
+        
+    returns:
+        number. The kernel value
+
     """
     # Steps:
     # Feature Space
@@ -48,15 +58,24 @@ def graphlet_sampling_inner(Gx, Gy, k=5, delta=0.05, epsilon=0.05, a=-1):
     return graphlet_sampling_core(Gx, Gy, nsamples, graphlets, P, graph_bins, nbins, k)
 
 def graphlet_sampling_core(Gx, Gy, nsamples, graphlets, P, graph_bins, nbins, k=5):
-    """ Applies the sampling random graph kernel as proposed
-        by Shervashidze, Vishwanathan at 2009 (does not consider labels)
+    """ Applies the graphlet sampling kernel given a graphlet feature space, as proposed in :cite:`Shervashidze2009EfficientGK`
         
-        Gx, Gy: Graph type objects
-        k: the dimension of the given graphlets
-        delta : confidence level (typically 0.05 or 0.1)
-        epsilon : precision level (typically 0.05 or 0.1)
-        a : number of isomorphism classes of graphlets
+    arguments:
+        - G{x,y} (graphs): the pair of graphs on which the kernel is applied
+        - nsamples (int): the number of samples in the graphlet feature space
+        - graphlets (dict): a dictionary of graphlets with keys from 0 ... nsamples-1
+        - P (np.array): a matrix that has zeros where the pair of indexes corresponds to isomorphic graphlets and 1 otherwise
+        - graph_bins (dict): a dictionary of bined graphlets, based on isomorphism classes
+        - nbins (int): the number of isomorphism classes
+        - k (int): graphlet dimension
+    
+    returns:
+        number. The kernel value
     """
+    if k<1:
+        raise ValueError('k must be bigger than 1')
+    
+    
     Gx.desired_format("adjacency")
     Gy.desired_format("adjacency")
     X, Y = Gx.adjacency_matrix, Gy.adjacency_matrix    
@@ -112,21 +131,48 @@ def graphlet_sampling_core(Gx, Gy, nsamples, graphlets, P, graph_bins, nbins, k=
     return kernel
  
 def sample_graphlets(k=5, delta=0.05, epsilon=0.05, a=-1):
-    """ A function that samples graphlets, based on statistic parameters
+    """ A function that samples graphlets, based on statistic parameters as proposed in :cite:`Shervashidze2009EfficientGK`
 
-        k: the dimension of the given graphlets
-        delta : confidence level (typically 0.05 or 0.1)
-        epsilon : precision level (typically 0.05 or 0.1)
-        a : number of isomorphism classes of graphlets        
+    arguments:
+        - k (int): the dimension of the given graphlets
+        - delta (float): confidence level (typically 0.05 or 0.1)
+        - epsilon (float): precision level (typically 0.05 or 0.1)
+        - a (int): number of isomorphism classes of graphlets
+        
+    returns:
+        - (int). The number of samples in the graphlet feature space
+        - (dict). A dictionary of graphlets with keys from 0 ... nsamples-1
+        - (np.array). A matrix that has zeros where the pair of indexes corresponds to isomorphic graphlets and 1 otherwise
+        - (dict). A dictionary of bined graphlets, based on isomorphism classes
+        - (int). The number of isomorphism classes
     """
+    # apply checks
+    if k>10:
+        warnings.warn('graphlets are too big - computation may be slow')
+    elif k==1:
+        warnings.warn('nonce graphlets')
+    elif k<1:
+        raise ValueError('k must be bigger than 1')
+    
+    if delta>1 or delta<0:
+        raise ValueError('delta must be in the range (0,1)')
+    
+    if epsilon>1 or epsilon<0:
+        raise ValueError('epsilon must be in the range (0,1)')
+    
     
     fallback_map = {1: 1, 2: 2, 3: 4, 4: 8, 5: 19, 6: 53, 7: 209, 8: 1253, 9: 13599}
-    if not k>=3:
-        # Raise Warning
-        exit(1)
+    
+    if type(a) is not int:
+        raise ValueError('a must be an integer')
+    elif a==0:
+        raise ValueError('a cannot be zero')
+    elif a<-1:
+        raise ValueError('negative a smaller than -1 have no meaning')
+    
     if(a==-1):
         if(k>9):
-            # Raise warning for such size number of isomorphisms is not known.
+            warnings.warn('warning for such size number of isomorphisms is not known - interpolation on know values will be used')
             # Use interpolations
             isomorphism_prediction = interp1d(list(fallback_map.keys()), list(fallback_map.values()), kind='cubic')
             a = isomorphism_prediction(k)
@@ -203,4 +249,3 @@ def sample_graphlets(k=5, delta=0.05, epsilon=0.05, a=-1):
             P[j,i]=P[j,i]
 
     return nsamples, graphlets, P, graph_bins, nbins
-

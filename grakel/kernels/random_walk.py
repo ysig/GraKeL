@@ -1,7 +1,6 @@
-""" This file contains the random walk kernel
-    as defined by [Kashima et al., 2003; Gartner et al., 2003]
+""" This file contains the random walk kernel as defined in :cite:`Kashima2003MarginalizedKB`, :cite:`Grtner2003OnGK`
 """
-
+import warnings
 import numpy as np
 
 from scipy.linalg import solve_sylvester
@@ -11,11 +10,14 @@ from ..graph import graph
 from ..tools import inv_dict
 
 def random_walk(X, Y, lamda=0.1, method_type="sylvester"):
-    """ This is a function that implements the random walk kernel.
+    """ A function calculates the random walk kernel as proposed in :cite:`Kashima2003MarginalizedKB`, :cite:`Grtner2003OnGK` and in :cite:`Vishwanathan2006FastCO`
 
-        X, Y: to valid graph types i.e. edge dictionary or adjacency_mat
-        lamda: the factor concerning summation
-        method_type: "simple" [O(|V|^6)] or "sylvester" [O(|V|^3)]
+    arguments:
+        - X,Y (valid graph format): the pair of graphs on which the kernel is applied
+        - lamda: the factor concerning summation
+        - method_type: "simple" :math:`O(|V|^6)` (see :cite:`Kashima2003MarginalizedKB`, :cite:`Grtner2003OnGK`) or "sylvester" :math:`O(|V|^3)` (see :cite:`Vishwanathan2006FastCO`)
+    returns:
+        number. The kernel value 
     """
     g_x = graph(X)
     g_y = graph(Y)
@@ -24,18 +26,23 @@ def random_walk(X, Y, lamda=0.1, method_type="sylvester"):
 
 
 def random_walk_inner(Gx, Gy,lamda=0.1, method_type="sylvester"):
-    """ This is a function that implements the random walk kernel.
-
-        Gx, Gy: are two graph type objects representing relevant graphs to 
-        be compared. Their format is a square array.
-        lamda: the factor concerning summation
-        method_type: "simple" [O(|V|^6)] or "sylvester" [O(|V|^3)]
-    """
+    """ A function calculates the random walk kernel as proposed in :cite:`Kashima2003MarginalizedKB`, :cite:`Grtner2003OnGK` and in :cite:`Vishwanathan2006FastCO`
+    
+    arguments:
+        - G{x,y} (graph): the pair of graphs on which the kernel is applied
+        - lamda: the factor concerning summation
+        - method_type: "simple" :math:`O(|V|^6)` (see :cite:`Kashima2003MarginalizedKB`, :cite:`Grtner2003OnGK`) or "sylvester" :math:`O(|V|^3)` (see :cite:`Vishwanathan2006FastCO`)
+    returns:
+        number. The kernel value
+   """
     Gx.desired_format("adjacency")
     Gy.desired_format("adjacency")
     X = Gx.adjacency_matrix
     Y = Gy.adjacency_matrix
     
+    if lamda>0.5:
+        warnings.warn('by increasing lambda the summation series may not converge')
+            
     if(method_type == "simple"):
         # calculate the product graph
         XY = np.kron(X,Y)

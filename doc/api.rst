@@ -1,4 +1,6 @@
-API Documentation
-=================
+grakel
+============================================
 
-* :doc:`template`
+* :doc:`kernels`
+* :doc:`graph_kernel`
+* :doc:`graph`
