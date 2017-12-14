@@ -34,7 +34,7 @@ if [[ "$COVERAGE" == "true" ]]; then
     pip install coverage coveralls
 fi
 
-pip install 'cvxopt>=1.1.4'
+pip install 'cvxopt>=1.1.9'
 ./install_pynauty.sh
 
 python --version
