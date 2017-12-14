@@ -3,9 +3,9 @@
 # needs root privileges
 
 # Requirements
-apt-get install python-dev
-apt-get -y install python3-pip
-pip3 install --upgrade setuptools
+sudo apt-get -y install python-dev
+sudo apt-get -y install python3-pip
+pip install --upgrade setuptools
 
 # Download library
 wget https://web.cs.dal.ca/~peter/software/pynauty/pynauty-0.6.0.tar.gz
@@ -27,7 +27,8 @@ ln -s nauty26r10 nauty
 # build pynauty
 make pynauty
 
-if $VIRTUAL_ENV then
+if [$VIRTUAL_ENV]
+then
 	make virtenv-ins
 else
 	make tests
