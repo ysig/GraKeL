@@ -1,5 +1,4 @@
-"""
-    The main graph kernel object used for creating a graph kernel object
+""" The main graph kernel class used for creating a graph kernel feature transformer object
 """
 import warnings
 
@@ -31,85 +30,94 @@ supported_general_kernels = [
 
 class GraphKernel(BaseEstimator, TransformerMixin):
     """ A general class that describes all kernels
+    
+    Parameters
+    ----------
+    kernel : list(dict(key:str, value:value))
+         a list of dictionaries, or a single dicitonary that have the following structure:
+               * "name": [str] - with the kernel name
+               * "name_of_parameter_1": value
+               * "name_of_parameter_2": value
+               *                          ...
+               * "name_of_parameter_k": value
 
-    parameters:
-        kernel : a list of dictionaries, or a single dicitonary that have the following structure:
-                    * "name": [str] - with the kernel name
-                    * "name_of_parameter_1": value
-                    * "name_of_parameter_2": value
-                                    ...
-                    * "name_of_parameter_k": value
-                 available "names" | "parametres" are:
-
-                 1.  base_kernels (the structure must always reach a base kernel):
-                        - "dirac" | 
-
-                        - "random_walk" | (o) "lamda": [float] < 1 , (o) method_type : [str] "sylvester"
-                                                                                     "simple"
-                        - "shortest_path" | (o) "algorithm_type": [str] "dijkstra"
-                                                                    "floyd_warshall"
-                        - "subtree_rg" | (o) "h": [int]
-                        
-                        - "graphlets_sampling" | (o) "k": [int], (o) "delta" : [float], (o) "epsilon" : [float], (o) "a": [int]
-                        
-                        - "multiscale_laplacian" | (o) "L": [int], (o) "gamma"
-                        
-                        - "subgraph_matching" | (o) "kv": kernel function for nodes
-                                                          (node_x, node_y, Lx, Ly) -> number
-                                                (o) "ke": kernel function for edges
-                                                          (edge_x, edge_y, Lx, Ly) -> number
-                                                (o) "lw": a lambda weight function for cliques
-                                                          set -> number
-                        - "lovasz_theta" | (o) "n_samples": [int] > 1
+               available "names" / "parametres" are:
+                   1. base_kernels (the structure must always reach a base kernel)
+                        - "dirac"
+                            *No arguments*
+                        - "random_walk"
+                            + (**o**) "lamda": [float] < 1
+                            + (**o**) method_type : [str] "sylvester", "simple"
+                            
+                        - "shortest_path"
+                            + (**o**) "algorithm_type": [str] "dijkstra", "floyd_warshall"
+                            
+                        - "subtree_rg"
+                            + (**o**) "h": [int]
+                            
+                        - "graphlets_sampling"
+                            + (**o**) "k": [int]
+                            + (**o**) "delta" : [float]
+                            + (**o**) "epsilon" : [float]
+                            + (**o**) "a": [int]                       
+                            
+                        - "multiscale_laplacian"
+                            + (**o**) "L": [int]
+                            + (**o**) "gamma"
+                            
+                        - "subgraph_matching"
+                            + (**o**) "kv": kernel function for nodes: (node_x, node_y, Lx, Ly) -> number
+                            + (**o**) "ke": kernel function for edges: (edge_x, edge_y, Lx, Ly) -> number
+                            + (**o**) "lw": a lambda weight function for cliques: set -> number
+                        - "lovasz_theta"
+                            + (**o**) "n_samples": [int] > 1              
+                            + (**o**) "subsets_size_range": [touple] of two [int]
+                            + (**o**) "metric": [function] (number, number) -> number
                                            
-                                           (o) "subsets_size_range": [touple] of two [int]
-                                           
-                                           (o) "metric": [function]
-                                                         (number, number) -> number
-                                           
-                        - "svm_theta" | (o) "n_samples": [int] > 1
-                                        
-                                        (o) "subsets_size_range": [touple] with 2 [int] elements
-                                        
-                                        (o) "metric": [function]
-                                                      (number, number) -> number
+                        - "svm_theta"
+                            + (**o**) "n_samples": [int] > 1
+                            + (**o**) "subsets_size_range": [touple] with 2 [int] elements
+                            + (**o**) "metric": [function] (number, number) -> number
                                                       
-                        - "neighborhood_hash" | (o) "nh_type": [str] "simple" or "count-sensitive"
-                        
-                                                (o) "R": [int] > 0
+                        - "neighborhood_hash"
+                            + (**o**) "nh_type": [str] "simple" or "count-sensitive"
+                            + (**o**) "R": [int] > 0
+                            + (**o**) "bytes": [int] > 0
                                                 
-                                                (o) "bytes": [int] > 0
-                                                
-                        - "neighborhood_pairwise_subgraph_distance" | (o) "r": (int) positive integer
+                        - "neighborhood_pairwise_subgraph_distance"
+                            + (**o**) "r": (int) positive integer
+                            + (**o**) "d": (int) positive integer
+                            
+                        - "odd_sth"
+                            + (**o**) "h": [int] > 0
                         
-                                                                      (o) "d": (int) positive integer
-                        - "odd_sth" | (o) "h": [int] > 0
-                        
-                        - "propagation" | (o) t_max: [int] > 0
-                        
-                                          (o) T: [dict] [int]: [np.arrays]
-               
-                                          (o) M: [str] "H", "L1", "L2", "TV"
-                                          
-                                          (o) w: [int] > 0
-                                          
-                                          (o) base_kernel: [function] x:[list[int]] , y:[list[int]] -> [number]
-                         - "pyramid_match" | (o) with_labels: [bool]
-                         
-                                             (o) d: [int] > 0
-                                             
-                                             (o) L: [int] >= 0 
-                 2. general_kernels (this kernel will consider the next kernel on list for nesting):
+                        - "propagation"
+                            + (**o**) t_max: [int] > 0
+                            + (**o**) T: [dict] [int]: [np.arrays]
+                            + (**o**) M: [str] "H", "L1", "L2", "TV"
+                            + (**o**) w: [int] > 0
+                            + (**o**) base_kernel: [function] x:[list[int]] , y:[list[int]] -> [number]
+                            
+                        - "pyramid_match"
+                            + (**o**) with_labels: [bool]
+                            + (**o**) d: [int] > 0
+                            + (**o**) L: [int] >= 0 
+                            
+                   2. general_kernels (this kernel will use the next kernel on the list as base kernel)
                         - "weisfeiler_lehman": "niter": [int]
                     
-                    where (o): stands for optional parameters
-                
-    attributes:
-        - X_graph: dictionary. Stores input graphs indexing from 0 to num__of_graphs-1
-        - num_of_graphs: int. The number of graphs given in fit input.
-        - kernel: the full kernel applied between graph objects
+               where (**o**): stands for optional parameters
+            
+    Attributes
+    ----------
+    X_graph : dict
+        Stores input graphs indexing from 0 to num_of_graphs-1.
         
+    num_of_graphs : int
+        The number of graphs given in fit input.  
         
+    kernel : function
+        The full kernel applied between graph objects.  
     """
 
     num_of_graphs = 0
@@ -134,11 +142,15 @@ class GraphKernel(BaseEstimator, TransformerMixin):
     def _make_kernel(self,kernel_list):
             """ Produces the desired kernel function.
                 
-            arguments:
-                kernel_list (list): list of kernel dictionaries as defined at the documentation of class parameters
+            Arguments
+            ---------
+            kernel_list: (list)
+                List of kernel dictionaries as defined at the documentation of class parameters.
                
-            returns:
-                function. Returns the kernel, as a function of two arguments
+            Returns
+            -------
+            function.
+            Returns the kernel, as a function of two arguments.
             """
             # If nesting type:
             kernel = kernel_list.pop(0)
@@ -195,24 +207,28 @@ class GraphKernel(BaseEstimator, TransformerMixin):
     def fit(self, X, y=None):
         """A reference implementation of a fitting function for a transformer.
 
-        arguments:
-            X : array-like or sparse matrix of shape = [n_samples, n_features]
-                There must be two features: A valid graph structure (adjacency matrix
-                or edge_dictionary, vertex_labels, node_labels) 
-                The training input samples.
-            y : None
-                There is no need of a target in a transformer, yet the pipeline API
-                requires this parameter.
+        Parameters
+        ----------
+        X : iterable
+            Each element must be an iterable with at most three features and at least one.
+            The first that is obligatory is a valid graph structure (adjacency matrix or edge_dictionary)
+            while the second is node_labels and the third edge_labels (that fitting the given graph format).
+            The train samples.
+    
+        y : None
+            There is no need of a target in a transformer, yet the pipeline API requires this parameter.
 
-        returns:
-            self : object. Returns self.
+        Returns
+        -------
+        self : object
+        Returns self.
         """
         # Input validation
         # check_array(X)
         
         self.X_graph = dict()
         graph_idx = 0        
-        for x in list(X):
+        for x in iter(X):
             if len(x) == 1:
                 self.X_graph[graph_idx] = graph(x[0],{},{},"all")
                 graph_idx += 1
@@ -234,17 +250,20 @@ class GraphKernel(BaseEstimator, TransformerMixin):
     def transform(self, X=None):
         """ The transform function calculates the kernel matrix
 
-        arguments:
-            X : array-like matrix of shape = [n_samples, n_features]
-                There must be two features: A valid graph structure (adjacency matrix
-                or edge_dictionary, edge_labels). If None the kernel matrix is calculated
-                upon fit data.
-                The training input samples.The input samples.
+        Arguments
+        ---------
+        X : iterable
+            Each element must be an iterable with at most three features and at least one.
+            The first that is obligatory is a valid graph structure (adjacency matrix or edge_dictionary)
+            while the second is node_labels and the third edge_labels (that fitting the given graph format).
+            If None the kernel matrix is calculated upon fit data.
+            The test samples.
 
-        returns:
-            K : A numpy array of shape = [n_targets, n_input_graphs] corresponding
-                to the kernel matrix, a calculation between all pairs of graphs 
-                between target an features
+        Returns
+        -------
+        K : numpy array, shape = [n_targets, n_input_graphs] 
+            corresponding to the kernel matrix, a calculation between
+            all pairs of graphs between target an features
         """
         # Check is fit had been called
         # check_is_fitted(self, ['X_graph_'])
@@ -255,7 +274,7 @@ class GraphKernel(BaseEstimator, TransformerMixin):
         if(X is not None):
             target_graph = dict()
             num_of_targets = 0
-            for x in X:
+            for x in iter(X):
                 if len(x) == 1:
                     target_graph[num_of_targets] = graph(x[0],{},{},"all")
                     num_of_targets += 1
@@ -281,15 +300,19 @@ class GraphKernel(BaseEstimator, TransformerMixin):
     def calculate_kernel_matrix(self, kernel, target_graph=None, kernel_type="pairwise"):
         """ A function that calculates the kernel matrix given a target_graph and a kernel
         
-        arguments:
-            - target_graph : A dictionary from 0 to the number of graphs of target "graph objects"
-            - kernel: A pairwise graph kernel (between "graph" type objects)
-            - kernel_type: [str] "matrix", "pairwise"
+        Arguments
+        ---------
+        target_graph : dict
+            A dictionary from 0 to the number of graphs of target "graph objects".
+        kernel: function
+            A pairwise graph kernel (between "graph" type objects).
+        kernel_type: str, valid_values={"matrix", "pairwise"}
+            Distinguishes between the two valid types for graphs.
         
-        returns:
-            K : A numpy array of shape = [n_targets, n_input_graphs] corresponding
-                to the kernel matrix, a calculation between all pairs of graphs 
-                between target an features
+        Returns
+        -------
+        K : numpy array, shape = [n_targets, n_input_graphs] 
+            The kernel matrix: a calculation between all pairs of graphs between target an features.
         """
         if kernel_type not in ["matrix", "pairwise"]:
             raise ValueError('unsupported "kernel_type"')

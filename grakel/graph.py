@@ -19,89 +19,121 @@ cvxopt.solvers.options['show_progress'] = False
 
 class graph(object):
     """ A general graph class that supports adjacency, dictionary formats while beeing memory/computationaly sustainable
+    
+    
+    Parameters
+    ----------
+    initialization_object :  dict or array-like, square 
+        The initialisation object for the graph. 
+        If given a dictionary the input can be as follows:
+            + 2-level nested dictionaries from edge symbols to weights
+            + Dictionary of symbols to list of symbols (unweighted)
+            + Dictionary of tuples to weights (weighted) #TODO
+            + Set or List of tuples (unweighted) #TODO
+            
+        If given a array the input can be as follows:
+            + array-like lists of lists #TODO
+            + np.array
+            + sparse matrix #TODO
         
-    Definition of a graph:
-    ----------------------
-        :math:`G = (V,E,W)`    
-            - :math:`V`: a set of vertices
-            - :math:`E`: a set of edges between vertices of :math:`V`
-            - :math:`W`: a set of weights between each edge in :math:`E`
+    node_labels : dict
+        A label dictionary corresponding to all vertices of the graph:
+            + for adjacency matrix labels should be given to numbers starting 
+              from 0 and ending in N-1, where the matrix has size N by N
+            + for dictionary labels should correspond to all keys
+    
+    edge_labels : dict
+        A labels dictionary corresponding to all edges of the graph keys: touples, value: label
+    
+    graph_format : str, valid_values={"dictionary", "adjacency", "all", "auto"}
+        Defines the internal representation of the graph object which can be a dictionary as a matrix, or both:
+          + for dictionary: "dictionary"
+          + for adjacency_matrix: "adjacency"
+          + for both: "all"
+          + for the current_format (if existent): "auto"
+          
+    Attributes
+    ----------
+    n : int
+        The one dimension of the (square) adjacency matrix.
+        Signifies the number of vertices.
+        
+    adjacency_matrix: np.array
+        The adjacency_matrix corresponding to the graph.
+        
+    index_node_labels : dict
+        Label dictionary for indeces, of adjacency matrix.
+        Keys are valid numbers from 0 to n-1.
+        
+    index_edge_labels : dict
+        Label dictionary for edges, of adjacency matrix.
+        Keys are tuple pairs of symbols with valid numbers from 0 to n-1, that have a positive adjacency matrix value.
+        
+    vertices: set
+        The set of vertices corresponding to the edge_dictionary representation.
+        
+    edge_dictionary: dict
+        A 2-level nested dictionary from edge symbols to weights.
+        
+    node_labels : dict
+        Label dictionary for nodes.
+        Keys are vertex symbols inside vertices.
+        
+    edge_labels : dict
+        Label dictionary for edges.
+        Keys are tuple pairs of symbols inside vertices and edges.
+        
+    edsamic : dict
+        *Edge-Dictionary-Symbols-Adjacency-Matrix-Index-Correspondance*.
+        A dictionary which translates dictionary symbols to adjacency matrix indexes, when storing both formats.
+        
+    shortest_path_mat : np.array, square
+        Holds the shortest path matrix.
+    
+    label_group : dict
+        A 2-level nested dict that after the first level of a pair tuple for purpose: "adjacency", "dictionary"
+        and "vertex","edge" specification holds the inverse map of labels.
 
+    laplacian_graph : np.array
+        Holds the graph laplacian.
+    
+    lovasz_theta : float
+        Holds the lovasz theta of the current graph.
+        
+    svm_theta : float
+        Holds the svm theta of the current graph.
+        
+    metric_subgraphs_dict : dict
+        Stores a calculation for subgraphs for each tuple consistent of:
+        ("lovasz"/"svm", the number of samples, minimum sample size, maximum sample size)
+        to avoid recalculation.
+        
+    _format: str, valid_values={"adjacency", "dictionary", "all"}
+        Private attribute that keeps the current format.
     """
-   
-    # n is the number of vertices
+    
+    # Adjacency Preset
     n = -1
-
-    # A represantation of the graph as a dictionary
-    # between vertices.
-    # If (u,v) edge exists then edges["u"]["v"] has
-    # weight of the edge pointing from u to v
-    
-    edge_dictionary = dict()
-    # A set of vertices corresponding to the edge dictionary
-    # for fast indexing
-    vertices = set()
-    
-    # adjacency matrix corresponding to current graph
     adjacency_matrix = np.empty(0)
-
-    # a labels dictionary
-    node_labels = dict()
-    edge_labels = dict()
-
-    # edge_dictionary_symbols_adjacency_matrix_index_correspondance
-    # A dictionary which links adjacency matrix numbering 
-    # with edge labels of input or existing dictionary
-    edsamic = dict()
-
-    # A direct label holder for adjoint idxs when having dictionary with symbols
-    index_node_labels = dict()    
+    index_node_labels = dict()
     index_edge_labels = dict()
     
-    # a variable holding the shortest path matrix
-    shortest_path_mat = None
-
-    # label_group: an inverse map between the labels and the nodes
-    label_group = dict()
-    
-    # keeps the laplacian graph
-    laplacian_graph = None
-    
-    # an edge labels dictionary
+    # Dictionary Preset
+    vertices = set()
+    edge_dictionary = dict()
+    node_labels = dict()
     edge_labels = dict()
+    edsamic = dict()
 
-    # lovasz theta
+    # Other Preset
+    shortest_path_mat = None
+    label_group = dict()
+    laplacian_graph = None
     lovasz_theta =  None
-    
-    # svm_theta
     svm_theta = None
-    
-    # metrics subgraphs dictionary
     metric_subgraphs_dict = dict()
     
     def __init__(self, initialization_object=None, node_labels=None, edge_labels=None, graph_format="auto"):
-        
-        """ Creates a new graph object
-
-        arguments:
-            - initialization_object: An input object given to initialise the given graph
-                - for an adjacency matrix input a square numpy array
-                - for edge_dictionary input a dictionary as follows:
-                    If (u,v) edge exists then edges["u"]["v"] has weight of the edge pointing from u to v. 
-                    If no weights for an edge (u,v) then edges[u] must be a list and v must be inside.
-            - node_labels: A label dictionary corresponding to all vertices of the graph
-                - for adjacency matrix labels should be given to numbers starting
-                  from 0 and ending in N-1, where the matrix has size N by N
-                - for dictionary labels should correspond to all keys
-            - edge_labels: A labels dictionary corresponding to all edges of the graph keys: touples, value: label
-            - graph_format: Is the internal represantation of the graph object be a dictionary as a matrix, or both
-                - for dictionary: "dictionary"
-                - for adjacency_matrix: "adjacency"
-                - for both: "all"
-                - for the current_format (if existent): "auto"
-        """
-
-
         if graph_format in ["adjacency","dictionary","auto","all"]:
             self._format = graph_format
             if (initialization_object is not None):
