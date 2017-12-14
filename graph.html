@@ -188,29 +188,120 @@ n : length of the one dimension of the ndarray [optional]</p>
 <dl class="class">
 <dt id="grakel.graph.graph">
 <em class="property">class </em><code class="descclassname">grakel.graph.</code><code class="descname">graph</code><span class="sig-paren">(</span><em>initialization_object=None</em>, <em>node_labels=None</em>, <em>edge_labels=None</em>, <em>graph_format='auto'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/graph.html#graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.graph.graph" title="Permalink to this definition">¶</a></dt>
-<dd><p>Definition of a graph</p>
-<p>G = (V,E,W)</p>
-<p>V: a set of vertices
-E: a set of edges between vertices of V
-W: a set of weights between each edge in E</p>
+<dd><p>A general graph class that supports adjacency, dictionary formats while beeing memory/computationaly sustainable</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>initialization_object</strong> :  dict or array-like, square</p>
+<blockquote>
+<div><p>The initialisation object for the graph. 
+If given a dictionary the input can be as follows:</p>
+<blockquote>
+<div><ul class="simple">
+<li>2-level nested dictionaries from edge symbols to weights</li>
+<li>Dictionary of symbols to list of symbols (unweighted)</li>
+<li>Dictionary of tuples to weights (weighted) #TODO</li>
+<li>Set or List of tuples (unweighted) #TODO</li>
+</ul>
+</div></blockquote>
+<dl class="docutils">
+<dt>If given a array the input can be as follows:</dt>
+<dd><ul class="first last simple">
+<li>array-like lists of lists #TODO</li>
+<li>np.array</li>
+<li>sparse matrix #TODO</li>
+</ul>
+</dd>
+</dl>
+</div></blockquote>
+<p><strong>node_labels</strong> : dict</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>A label dictionary corresponding to all vertices of the graph:</dt>
+<dd><ul class="first last simple">
+<li>for adjacency matrix labels should be given to numbers starting 
+from 0 and ending in N-1, where the matrix has size N by N</li>
+<li>for dictionary labels should correspond to all keys</li>
+</ul>
+</dd>
+</dl>
+</div></blockquote>
+<p><strong>edge_labels</strong> : dict</p>
+<blockquote>
+<div><p>A labels dictionary corresponding to all edges of the graph keys: touples, value: label</p>
+</div></blockquote>
+<p><strong>graph_format</strong> : str, valid_values={“dictionary”, “adjacency”, “all”, “auto”}</p>
+<blockquote class="last">
+<div><dl class="docutils">
+<dt>Defines the internal representation of the graph object which can be a dictionary as a matrix, or both:</dt>
+<dd><ul class="first last simple">
+<li>for dictionary: “dictionary”</li>
+<li>for adjacency_matrix: “adjacency”</li>
+<li>for both: “all”</li>
+<li>for the current_format (if existent): “auto”</li>
+</ul>
+</dd>
+</dl>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 <p class="rubric">Attributes</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="68%" />
-<col width="32%" />
+<col width="27%" />
+<col width="73%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><strong>laplacian_graph</strong></td>
-<td>&#160;</td>
+<tr class="row-odd"><td><strong>n</strong></td>
+<td>(int) The one dimension of the (square) adjacency matrix. Signifies the number of vertices.</td>
 </tr>
-<tr class="row-even"><td><strong>lovasz_theta</strong></td>
-<td>&#160;</td>
+<tr class="row-even"><td><strong>adjacency_matrix: np.array</strong></td>
+<td>The adjacency_matrix corresponding to the graph.</td>
 </tr>
-<tr class="row-odd"><td><strong>shortest_path_mat</strong></td>
-<td>&#160;</td>
+<tr class="row-odd"><td><strong>index_node_labels</strong></td>
+<td>(dict) Label dictionary for indeces, of adjacency matrix. Keys are valid numbers from 0 to n-1.</td>
+</tr>
+<tr class="row-even"><td><strong>index_edge_labels</strong></td>
+<td>(dict) Label dictionary for edges, of adjacency matrix. Keys are tuple pairs of symbols with valid numbers from 0 to n-1, that have a positive adjacency matrix value.</td>
+</tr>
+<tr class="row-odd"><td><strong>vertices: set</strong></td>
+<td>The set of vertices corresponding to the edge_dictionary representation.</td>
+</tr>
+<tr class="row-even"><td><strong>edge_dictionary: dict</strong></td>
+<td>A 2-level nested dictionary from edge symbols to weights.</td>
+</tr>
+<tr class="row-odd"><td><strong>node_labels</strong></td>
+<td>(dict) Label dictionary for nodes. Keys are vertex symbols inside vertices.</td>
+</tr>
+<tr class="row-even"><td><strong>edge_labels</strong></td>
+<td>(dict) Label dictionary for edges. Keys are tuple pairs of symbols inside vertices and edges.</td>
+</tr>
+<tr class="row-odd"><td><strong>edsamic</strong></td>
+<td>(dict) <em>Edge-Dictionary-Symbols-Adjacency-Matrix-Index-Correspondance</em>. A dictionary which translates dictionary symbols to adjacency matrix indexes, when storing both formats.</td>
+</tr>
+<tr class="row-even"><td><strong>shortest_path_mat</strong></td>
+<td>(np.array, square) Holds the shortest path matrix.</td>
+</tr>
+<tr class="row-odd"><td><strong>label_group</strong></td>
+<td>(dict) A 2-level nested dict that after the first level of a pair tuple for purpose: “adjacency”, “dictionary” and “vertex”,”edge” specification holds the inverse map of labels.</td>
+</tr>
+<tr class="row-even"><td><strong>laplacian_graph</strong></td>
+<td>(np.array) Holds the graph laplacian.</td>
+</tr>
+<tr class="row-odd"><td><strong>lovasz_theta</strong></td>
+<td>(float) Holds the lovasz theta of the current graph.</td>
 </tr>
 <tr class="row-even"><td><strong>svm_theta</strong></td>
-<td>&#160;</td>
+<td>(float) Holds the svm theta of the current graph.</td>
+</tr>
+<tr class="row-odd"><td><strong>metric_subgraphs_dict</strong></td>
+<td>(dict) Stores a calculation for subgraphs for each tuple consistent of: (“lovasz”/”svm”, the number of samples, minimum sample size, maximum sample size) to avoid recalculation.</td>
+</tr>
+<tr class="row-even"><td><strong>_format: str, valid_values={“adjacency”, “dictionary”, “all”}</strong></td>
+<td>Private attribute that keeps the current format.</td>
 </tr>
 </tbody>
 </table>

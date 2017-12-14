@@ -178,92 +178,122 @@
 <span class="n">cvxopt</span><span class="o">.</span><span class="n">solvers</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;show_progress&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
 
 <div class="viewcode-block" id="graph"><a class="viewcode-back" href="../../graph.html#grakel.graph.graph">[docs]</a><span class="k">class</span> <span class="nc">graph</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Definition of a graph</span>
-
-<span class="sd">    G = (V,E,W)</span>
+    <span class="sd">&quot;&quot;&quot; A general graph class that supports adjacency, dictionary formats while beeing memory/computationaly sustainable</span>
 <span class="sd">    </span>
-<span class="sd">    V: a set of vertices</span>
-<span class="sd">    E: a set of edges between vertices of V</span>
-<span class="sd">    W: a set of weights between each edge in E</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    initialization_object :  dict or array-like, square </span>
+<span class="sd">        The initialisation object for the graph. </span>
+<span class="sd">        If given a dictionary the input can be as follows:</span>
+<span class="sd">            + 2-level nested dictionaries from edge symbols to weights</span>
+<span class="sd">            + Dictionary of symbols to list of symbols (unweighted)</span>
+<span class="sd">            + Dictionary of tuples to weights (weighted) #TODO</span>
+<span class="sd">            + Set or List of tuples (unweighted) #TODO</span>
+<span class="sd">            </span>
+<span class="sd">        If given a array the input can be as follows:</span>
+<span class="sd">            + array-like lists of lists #TODO</span>
+<span class="sd">            + np.array</span>
+<span class="sd">            + sparse matrix #TODO</span>
+<span class="sd">        </span>
+<span class="sd">    node_labels : dict</span>
+<span class="sd">        A label dictionary corresponding to all vertices of the graph:</span>
+<span class="sd">            + for adjacency matrix labels should be given to numbers starting </span>
+<span class="sd">              from 0 and ending in N-1, where the matrix has size N by N</span>
+<span class="sd">            + for dictionary labels should correspond to all keys</span>
+<span class="sd">    </span>
+<span class="sd">    edge_labels : dict</span>
+<span class="sd">        A labels dictionary corresponding to all edges of the graph keys: touples, value: label</span>
+<span class="sd">    </span>
+<span class="sd">    graph_format : str, valid_values={&quot;dictionary&quot;, &quot;adjacency&quot;, &quot;all&quot;, &quot;auto&quot;}</span>
+<span class="sd">        Defines the internal representation of the graph object which can be a dictionary as a matrix, or both:</span>
+<span class="sd">          + for dictionary: &quot;dictionary&quot;</span>
+<span class="sd">          + for adjacency_matrix: &quot;adjacency&quot;</span>
+<span class="sd">          + for both: &quot;all&quot;</span>
+<span class="sd">          + for the current_format (if existent): &quot;auto&quot;</span>
+<span class="sd">          </span>
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n : int</span>
+<span class="sd">        The one dimension of the (square) adjacency matrix.</span>
+<span class="sd">        Signifies the number of vertices.</span>
+<span class="sd">        </span>
+<span class="sd">    adjacency_matrix: np.array</span>
+<span class="sd">        The adjacency_matrix corresponding to the graph.</span>
+<span class="sd">        </span>
+<span class="sd">    index_node_labels : dict</span>
+<span class="sd">        Label dictionary for indeces, of adjacency matrix.</span>
+<span class="sd">        Keys are valid numbers from 0 to n-1.</span>
+<span class="sd">        </span>
+<span class="sd">    index_edge_labels : dict</span>
+<span class="sd">        Label dictionary for edges, of adjacency matrix.</span>
+<span class="sd">        Keys are tuple pairs of symbols with valid numbers from 0 to n-1, that have a positive adjacency matrix value.</span>
+<span class="sd">        </span>
+<span class="sd">    vertices: set</span>
+<span class="sd">        The set of vertices corresponding to the edge_dictionary representation.</span>
+<span class="sd">        </span>
+<span class="sd">    edge_dictionary: dict</span>
+<span class="sd">        A 2-level nested dictionary from edge symbols to weights.</span>
+<span class="sd">        </span>
+<span class="sd">    node_labels : dict</span>
+<span class="sd">        Label dictionary for nodes.</span>
+<span class="sd">        Keys are vertex symbols inside vertices.</span>
+<span class="sd">        </span>
+<span class="sd">    edge_labels : dict</span>
+<span class="sd">        Label dictionary for edges.</span>
+<span class="sd">        Keys are tuple pairs of symbols inside vertices and edges.</span>
+<span class="sd">        </span>
+<span class="sd">    edsamic : dict</span>
+<span class="sd">        *Edge-Dictionary-Symbols-Adjacency-Matrix-Index-Correspondance*.</span>
+<span class="sd">        A dictionary which translates dictionary symbols to adjacency matrix indexes, when storing both formats.</span>
+<span class="sd">        </span>
+<span class="sd">    shortest_path_mat : np.array, square</span>
+<span class="sd">        Holds the shortest path matrix.</span>
+<span class="sd">    </span>
+<span class="sd">    label_group : dict</span>
+<span class="sd">        A 2-level nested dict that after the first level of a pair tuple for purpose: &quot;adjacency&quot;, &quot;dictionary&quot;</span>
+<span class="sd">        and &quot;vertex&quot;,&quot;edge&quot; specification holds the inverse map of labels.</span>
 
+<span class="sd">    laplacian_graph : np.array</span>
+<span class="sd">        Holds the graph laplacian.</span>
+<span class="sd">    </span>
+<span class="sd">    lovasz_theta : float</span>
+<span class="sd">        Holds the lovasz theta of the current graph.</span>
+<span class="sd">        </span>
+<span class="sd">    svm_theta : float</span>
+<span class="sd">        Holds the svm theta of the current graph.</span>
+<span class="sd">        </span>
+<span class="sd">    metric_subgraphs_dict : dict</span>
+<span class="sd">        Stores a calculation for subgraphs for each tuple consistent of:</span>
+<span class="sd">        (&quot;lovasz&quot;/&quot;svm&quot;, the number of samples, minimum sample size, maximum sample size)</span>
+<span class="sd">        to avoid recalculation.</span>
+<span class="sd">        </span>
+<span class="sd">    _format: str, valid_values={&quot;adjacency&quot;, &quot;dictionary&quot;, &quot;all&quot;}</span>
+<span class="sd">        Private attribute that keeps the current format.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-   
-    <span class="c1"># n is the number of vertices</span>
+    
+    <span class="c1"># Adjacency Preset</span>
     <span class="n">n</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-
-    <span class="c1"># A represantation of the graph as a dictionary</span>
-    <span class="c1"># between vertices.</span>
-    <span class="c1"># If (u,v) edge exists then edges[&quot;u&quot;][&quot;v&quot;] has</span>
-    <span class="c1"># weight of the edge pointing from u to v</span>
-    
-    <span class="n">edge_dictionary</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-    <span class="c1"># A set of vertices corresponding to the edge dictionary</span>
-    <span class="c1"># for fast indexing</span>
-    <span class="n">vertices</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
-    
-    <span class="c1"># adjacency matrix corresponding to current graph</span>
     <span class="n">adjacency_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-
-    <span class="c1"># a labels dictionary</span>
-    <span class="n">node_labels</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-    <span class="n">edge_labels</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-
-    <span class="c1"># edge_dictionary_symbols_adjacency_matrix_index_correspondance</span>
-    <span class="c1"># A dictionary which links adjacency matrix numbering </span>
-    <span class="c1"># with edge labels of input or existing dictionary</span>
-    <span class="n">edsamic</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-
-    <span class="c1"># A direct label holder for adjoint idxs when having dictionary with symbols</span>
-    <span class="n">index_node_labels</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>    
+    <span class="n">index_node_labels</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
     <span class="n">index_edge_labels</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
     
-    <span class="c1"># a variable holding the shortest path matrix</span>
-    <span class="n">shortest_path_mat</span> <span class="o">=</span> <span class="kc">None</span>
-
-    <span class="c1"># label_group: an inverse map between the labels and the nodes</span>
-    <span class="n">label_group</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-    
-    <span class="c1"># keeps the laplacian graph</span>
-    <span class="n">laplacian_graph</span> <span class="o">=</span> <span class="kc">None</span>
-    
-    <span class="c1"># an edge labels dictionary</span>
+    <span class="c1"># Dictionary Preset</span>
+    <span class="n">vertices</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="n">edge_dictionary</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="n">node_labels</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
     <span class="n">edge_labels</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="n">edsamic</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
 
-    <span class="c1"># lovasz theta</span>
+    <span class="c1"># Other Preset</span>
+    <span class="n">shortest_path_mat</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">label_group</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="n">laplacian_graph</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">lovasz_theta</span> <span class="o">=</span>  <span class="kc">None</span>
-    
-    <span class="c1"># svm_theta</span>
     <span class="n">svm_theta</span> <span class="o">=</span> <span class="kc">None</span>
-    
-    <span class="c1"># metrics subgraphs dictionary</span>
     <span class="n">metric_subgraphs_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
     
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">initialization_object</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">node_labels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">edge_labels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">graph_format</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">):</span>
-        
-        <span class="sd">&quot;&quot;&quot; Creates a new graph object</span>
-
-<span class="sd">            initialization_object: An input object given to initialise the given graph</span>
-<span class="sd">                - for an adjacency matrix input a square numpy array</span>
-<span class="sd">                - for edge_dictionary input a dictionary as follows:</span>
-<span class="sd">                    If (u,v) edge exists then edges[&quot;u&quot;][&quot;v&quot;] has</span>
-<span class="sd">                    weight of the edge pointing from u to v</span>
-<span class="sd">                    If no weights for an edge (u,v) then edges[u]</span>
-<span class="sd">                    must be a list and v must be inside                   </span>
-
-<span class="sd">            node_labels: A label dictionary corresponding to all vertices of the graph</span>
-<span class="sd">                - for adjacency matrix labels should be given to numbers starting</span>
-<span class="sd">                  from 0 and ending in N-1, where the matrix has size N by N</span>
-<span class="sd">                - for dictionary labels should correspond to all keys</span>
-<span class="sd">            edge_labels: A labels dictionary corresponding to all edges of the graph</span>
-<span class="sd">                         keys: touples, value: label</span>
-<span class="sd">            graph_format: Is the internal represantation of the graph object be a dictionary as a matrix, or both</span>
-<span class="sd">                - for dictionary: &quot;dictionary&quot;</span>
-<span class="sd">                - for adjacency_matrix: &quot;adjacency&quot;</span>
-<span class="sd">                - for both: &quot;all&quot;</span>
-<span class="sd">                - for the current_format (if existent): &quot;auto&quot;</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-
         <span class="k">if</span> <span class="n">graph_format</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;adjacency&quot;</span><span class="p">,</span><span class="s2">&quot;dictionary&quot;</span><span class="p">,</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span><span class="s2">&quot;all&quot;</span><span class="p">]:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_format</span> <span class="o">=</span> <span class="n">graph_format</span>
             <span class="k">if</span> <span class="p">(</span><span class="n">initialization_object</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
