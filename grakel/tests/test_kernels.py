@@ -60,12 +60,12 @@ def test_random_walk_simple():
     if verbose:
         print("Random Walk [Simple]:",random_walk(X, X, lamda=0.1, method_type="simple"))
     else:
-        npt.assert_almost_equal(-30.912616526802676, random_walk(X, X, lamda=0.1, method_type="simple"))
+        npt.assert_almost_equal(-30.912616526802676, random_walk(X, X, lamda=0.1, method_type="simple"), decimal=3)
 def test_random_walk_sylvester():
     if verbose:
         print("Random Walk [Sylvester]:",random_walk(X, X, lamda=0.1, method_type="sylvester"))
     else:
-        npt.assert_almost_equal(-30.912616526802676, random_walk(X, X, lamda=0.1, method_type="sylvester"))
+        npt.assert_almost_equal(-30.912616526802676, random_walk(X, X, lamda=0.1, method_type="sylvester"), decimal=3)
 def test_shortest_path():
     if verbose:
         print("Shortest Path [Dijkstra]:",shortest_path(X, X, L, L, "dijkstra"))

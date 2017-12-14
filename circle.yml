@@ -44,7 +44,7 @@ test:
     - cat ~/log.txt && if grep -q "Traceback (most recent call last):" ~/log.txt; then false; else true; fi
 deployment:
   push:
-    branch: development
+    branch: develop
     commands:
       - bash ci_scripts/circleci/push_doc.sh
 general:

@@ -72,7 +72,7 @@ def gk_test_random_walk_simple():
         print("Simple:",gkf.transform())
     else:
         XX_correct = np.full((k, k), -30.912616526802676)
-        npt.assert_array_almost_equal(XX_correct, gkf.transform())
+        npt.assert_array_almost_equal(XX_correct, gkf.transform(), decimal=3)
     
 def gk_test_random_walk_sylvester():
     XX = list(zip(k*[X],k*[L]))
@@ -82,7 +82,7 @@ def gk_test_random_walk_sylvester():
         print("Sylvester:",gkf.transform())
     else:
         XX_correct = np.full((k, k), -30.912616526802676)
-        npt.assert_array_almost_equal(XX_correct, gkf.transform())
+        npt.assert_array_almost_equal(XX_correct, gkf.transform(), decimal=3)
 def gk_test_shortest_path():
     XX = list(zip(k*[X],k*[L]))
     gk = GraphKernel(kernel={"name":"shortest_path", "algorithm_type":"dijkstra"})
