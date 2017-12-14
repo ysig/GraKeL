@@ -1,0 +1,445 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>grakel.kernels.subtree_rg &mdash; GraKeL 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../../genindex.html"/>
+        <link rel="search" title="Search" href="../../../search.html"/>
+    <link rel="top" title="GraKeL 0.0.1 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> GraKeL
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">grakel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html">General examples</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">GraKeL</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>grakel.kernels.subtree_rg</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for grakel.kernels.subtree_rg</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot; This file contains the subtree kernel as defined in :cite:`Ramon2003ExpressivityVE`</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">itertools</span>
+
+<span class="kn">from</span> <span class="nn">..graph</span> <span class="k">import</span> <span class="n">graph</span>
+<span class="kn">from</span> <span class="nn">..tools</span> <span class="k">import</span> <span class="n">nested_dict_get</span><span class="p">,</span> <span class="n">nested_dict_add</span>
+
+<div class="viewcode-block" id="subtree_rg"><a class="viewcode-back" href="../../../kernels.html#grakel.kernels.subtree_rg">[docs]</a><span class="k">def</span> <span class="nf">subtree_rg</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Lx</span><span class="p">,</span> <span class="n">Ly</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Computes the Ramon Gartner subtree kernel as proposed in :cite:`Ramon2003ExpressivityVE`, s. 5</span>
+
+<span class="sd">    arguments:</span>
+<span class="sd">        - X,Y (valid graph format): the pair of graphs on which the kernel is applied</span>
+<span class="sd">        - L{x,y} (dict): coresponding graph labels for nodes</span>
+<span class="sd">        - h (int): the sub-tree depth</span>
+<span class="sd">    returns:</span>
+<span class="sd">        number. The kernel value</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Gx</span> <span class="o">=</span> <span class="n">graph</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">Lx</span><span class="p">)</span>
+    <span class="n">Gy</span> <span class="o">=</span> <span class="n">graph</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span><span class="n">Ly</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">subtree_rg_inner</span><span class="p">(</span><span class="n">Gx</span><span class="p">,</span> <span class="n">Gy</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="subtree_rg_inner"><a class="viewcode-back" href="../../../kernels.html#grakel.kernels.subtree_rg_inner">[docs]</a><span class="k">def</span> <span class="nf">subtree_rg_inner</span><span class="p">(</span><span class="n">Gx</span><span class="p">,</span> <span class="n">Gy</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Calculate The Ramon Gartner subtree kernel as proposed in :cite:`Ramon2003ExpressivityVE`, s. 5</span>
+
+<span class="sd">    arguments:</span>
+<span class="sd">        - G_{x,y} (graph): the pair graphs on which the kernel is applied</span>
+<span class="sd">        - h (int): the sub-tree depth</span>
+<span class="sd">    returns:</span>
+<span class="sd">        number. The kernel value</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Gx</span><span class="o">.</span><span class="n">desired_format</span><span class="p">(</span><span class="s2">&quot;dictionary&quot;</span><span class="p">)</span>
+    <span class="n">Gy</span><span class="o">.</span><span class="n">desired_format</span><span class="p">(</span><span class="s2">&quot;dictionary&quot;</span><span class="p">)</span>
+    <span class="n">kernel</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">dynamic_dictionary</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">Gx</span><span class="o">.</span><span class="n">edge_dictionary</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">Gy</span><span class="o">.</span><span class="n">edge_dictionary</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">kernel</span> <span class="o">+=</span> <span class="n">subtree_rg_core_dynamic</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">v</span><span class="p">,</span><span class="n">Gx</span><span class="p">,</span><span class="n">Gy</span><span class="p">,</span><span class="n">h</span><span class="p">,</span><span class="n">dynamic_dictionary</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">kernel</span></div>
+
+<span class="k">def</span> <span class="nf">subtree_rg_core_dynamic</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">g_x</span><span class="p">,</span> <span class="n">g_y</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">dynamic_dict</span><span class="p">,</span> <span class="n">p_u</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">p_v</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Calculate the inside of the summation of Ramon Gartner subtree kernel as proposed on :cite:`Ramon2003ExpressivityVE`, s. 5</span>
+
+<span class="sd">    arguments:</span>
+<span class="sd">        - u,v (symbols): vertices that correspond to graphs g_x, g_y</span>
+<span class="sd">        - g_{x,y} (graph): graph formats for the corresponding graphs </span>
+<span class="sd">        - h (int): The height of the subtree exploration</span>
+<span class="sd">        - dynamic_dict (dict): a dictionary tha is used for applying dynamic programming</span>
+<span class="sd">        - p_{u,v} (symbols): parent nodes</span>
+<span class="sd">        </span>
+<span class="sd">    returns:</span>
+<span class="sd">        number. The kernel value</span>
+<span class="sd">    ------------</span>
+<span class="sd">    This is an efficiency proposal using various data structures and dynamic programming assuming that for each node you take all of its neighbors and not its preddecesor. A dictionary is being formed that holds level, u, v and pred of u and pred of v.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">if</span> <span class="n">h</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">g_x</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">u</span><span class="p">)</span><span class="o">==</span><span class="n">g_y</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
+
+    <span class="k">elif</span> <span class="n">h</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">:</span>
+        <span class="n">R</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        
+        <span class="c1"># Calculate R</span>
+        <span class="c1"># First group all nodes with the same label</span>
+        <span class="c1"># make a list of lists of all pairs for each label</span>
+        <span class="n">lbx</span> <span class="o">=</span> <span class="n">g_x</span><span class="o">.</span><span class="n">get_label_group</span><span class="p">()</span>
+        <span class="n">lby</span> <span class="o">=</span> <span class="n">g_y</span><span class="o">.</span><span class="n">get_label_group</span><span class="p">()</span>
+        <span class="n">Rset</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># Calculate neighbors and remove previous</span>
+        <span class="n">nx</span> <span class="o">=</span> <span class="n">g_x</span><span class="o">.</span><span class="n">neighbors</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+
+        <span class="c1"># Avoid going back</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">p_u</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">p_u</span> <span class="ow">in</span> <span class="n">nx</span><span class="p">:</span>
+                <span class="n">nx</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">p_u</span><span class="p">)</span>
+
+        <span class="c1"># do the same for y</span>
+        <span class="n">ny</span> <span class="o">=</span> <span class="n">g_y</span><span class="o">.</span><span class="n">neighbors</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+
+        <span class="c1"># Avoid going back</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">p_v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">p_v</span> <span class="ow">in</span> <span class="n">ny</span><span class="p">:</span>
+                <span class="n">ny</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">p_v</span><span class="p">)</span>
+
+        <span class="c1"># What happens when one list has no neighbors?</span>
+        <span class="n">xy_and</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">nx</span><span class="p">)</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">ny</span><span class="p">)</span>
+        <span class="n">xy_or</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">nx</span><span class="p">)</span><span class="o">+</span><span class="nb">len</span><span class="p">(</span><span class="n">ny</span><span class="p">)</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">xy_or</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="c1"># both trees finish at the same point</span>
+            <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">g_x</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">u</span><span class="p">)</span> <span class="o">==</span> <span class="n">g_y</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
+        <span class="k">elif</span><span class="p">(</span><span class="n">xy_and</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="c1"># else trees are different so output zero (?)</span>
+            <span class="k">return</span> <span class="mi">0</span>
+            
+        <span class="c1"># returns a list</span>
+        <span class="n">snx</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">nx</span><span class="p">)</span>
+        <span class="n">sny</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">ny</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">kx</span> <span class="ow">in</span> <span class="n">lbx</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">kx</span> <span class="ow">in</span> <span class="n">lby</span><span class="p">:</span>
+                <span class="c1"># substract from the common label </span>
+                <span class="c1"># only the valid neighbors</span>
+                <span class="n">snxk</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">lbx</span><span class="p">[</span><span class="n">kx</span><span class="p">])</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">snx</span><span class="p">))</span>
+                <span class="n">snyk</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">lby</span><span class="p">[</span><span class="n">kx</span><span class="p">])</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">sny</span><span class="p">))</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">snxk</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">snyk</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">pair</span> <span class="o">=</span> <span class="p">[</span><span class="n">lbx</span><span class="p">[</span><span class="n">kx</span><span class="p">],</span><span class="n">lby</span><span class="p">[</span><span class="n">kx</span><span class="p">]]</span>
+                    <span class="n">Rset</span> <span class="o">+=</span> <span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="o">*</span><span class="n">pair</span><span class="p">))</span>
+
+        <span class="c1"># Designate all nodes with the same start</span>
+        <span class="c1"># and all with the same finish</span>
+        <span class="n">right</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="n">left</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+
+        <span class="c1"># Dictionary to store for </span>
+        <span class="c1"># every pair the index</span>
+        <span class="n">Rset_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="n">Rset_inv_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="n">l</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="c1"># assign values to indexes</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">w</span><span class="p">,</span><span class="n">z</span><span class="p">)</span> <span class="ow">in</span> <span class="n">Rset</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">w</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">right</span><span class="p">:</span>
+                <span class="n">right</span><span class="p">[</span><span class="n">w</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">z</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">left</span><span class="p">:</span>
+                <span class="n">left</span><span class="p">[</span><span class="n">z</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+            <span class="n">right</span><span class="p">[</span><span class="n">w</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+            <span class="n">left</span><span class="p">[</span><span class="n">z</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+            <span class="n">Rset_dict</span><span class="p">[(</span><span class="n">w</span><span class="p">,</span><span class="n">z</span><span class="p">)]</span> <span class="o">=</span> <span class="n">l</span>
+            <span class="n">Rset_inv_dict</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">w</span><span class="p">,</span><span class="n">z</span><span class="p">)</span>
+            <span class="n">l</span><span class="o">+=</span><span class="mi">1</span>
+
+
+        <span class="c1"># Flatten both $right, $left to list of lists</span>
+        <span class="n">Kbins_flat_r</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="n">Kbins_flat_l</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">right</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">Kbins_flat_r</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">right</span><span class="p">[</span><span class="n">k</span><span class="p">]))</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">left</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">Kbins_flat_l</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">left</span><span class="p">[</span><span class="n">k</span><span class="p">]))</span>
+            
+        <span class="c1"># calculate all possible combinations</span>
+        <span class="c1"># product equals combinations</span>
+        <span class="c1"># because the lists are disjoint</span>
+        <span class="n">setA</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="o">*</span><span class="n">Kbins_flat_r</span><span class="p">))</span>
+        <span class="n">setB</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="o">*</span><span class="n">Kbins_flat_l</span><span class="p">))</span>
+
+        <span class="c1"># take the intersection of</span>
+        <span class="c1"># found maximal valid R sets</span>
+        <span class="c1"># all subsets of maximal sets are also valid</span>
+        <span class="n">Rmaximal</span> <span class="o">=</span> <span class="n">setA</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">setB</span><span class="p">)</span>
+        <span class="n">Valid_tuples</span> <span class="o">=</span> <span class="p">[</span><span class="n">Rset_inv_dict</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">Rmaximal</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">s</span><span class="p">]</span>
+        
+        <span class="c1"># Calculate trees for the valid tuples</span>
+        <span class="c1"># Rv assign values best on index</span>
+        <span class="n">Rv</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">w</span><span class="p">,</span><span class="n">wp</span><span class="p">)</span> <span class="ow">in</span> <span class="n">Valid_tuples</span><span class="p">:</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="n">nested_dict_get</span><span class="p">(</span><span class="n">dynamic_dict</span><span class="p">,</span> <span class="n">h</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">wp</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">r</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+                <span class="n">kh</span> <span class="o">=</span> <span class="n">subtree_rg_core_dynamic</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">wp</span><span class="p">,</span> <span class="n">g_x</span><span class="p">,</span> <span class="n">g_y</span><span class="p">,</span> <span class="n">h</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">dynamic_dict</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+                <span class="n">nested_dict_add</span><span class="p">(</span><span class="n">dynamic_dict</span><span class="p">,</span> <span class="n">kh</span><span class="p">,</span> <span class="n">h</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">wp</span><span class="p">)</span>
+                <span class="n">Rv</span><span class="p">[</span><span class="n">Rset_dict</span><span class="p">[(</span><span class="n">w</span><span class="p">,</span><span class="n">wp</span><span class="p">)]]</span> <span class="o">=</span> <span class="n">kh</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">Rv</span><span class="p">[</span><span class="n">Rset_dict</span><span class="p">[(</span><span class="n">w</span><span class="p">,</span><span class="n">wp</span><span class="p">)]]</span> <span class="o">=</span> <span class="n">r</span>
+        
+        <span class="c1"># Holds the values of all sets</span>
+        <span class="c1"># inside R, that are not zero</span>
+        <span class="n">M_values</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">Rmaximal</span><span class="p">:</span>
+            <span class="c1"># Keep only non zero elements</span>
+            <span class="c1"># (all subsets containing them will be zero)</span>
+            <span class="n">non_zero_elements</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">Rv</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">):</span>
+                    <span class="n">non_zero_elements</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="nb">bool</span><span class="p">(</span><span class="n">non_zero_elements</span><span class="p">):</span>
+                <span class="c1"># Can we calculate do calculation on subsets faster?</span>
+                <span class="c1"># The answer is yes: dynamic programming</span>
+                <span class="n">plough_subsets</span><span class="p">(</span><span class="n">non_zero_elements</span><span class="p">,</span> <span class="n">Rv</span><span class="p">,</span> <span class="n">M_values</span><span class="p">)</span>
+        
+        <span class="n">kernel</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">M_values</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+          <span class="n">kernel</span><span class="o">+=</span><span class="n">v</span>
+                
+        <span class="k">return</span> <span class="n">kernel</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Raise Warning?</span>
+        <span class="k">return</span> <span class="mi">0</span>
+
+<span class="k">def</span> <span class="nf">plough_subsets</span><span class="p">(</span><span class="n">initial_set</span><span class="p">,</span> <span class="n">Rv</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; A function that finds all subset kernel values without repeating operations</span>
+
+<span class="sd">    arguments:</span>
+<span class="sd">        - initial_set (set): The set you are operating</span>
+<span class="sd">        - Rv (dict): values for single elements (dictionary on integers)</span>
+<span class="sd">        - value (dict): keeps all sets and values</span>
+<span class="sd">    returns:</span>
+<span class="sd">        None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># If only one element return its value</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">initial_set</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">frozen_initial_set</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">(</span><span class="n">initial_set</span><span class="p">)</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">initial_set</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+        <span class="n">value</span><span class="p">[</span><span class="n">frozen_initial_set</span><span class="p">]</span> <span class="o">=</span> <span class="n">Rv</span><span class="p">[</span><span class="n">p</span><span class="p">]</span>
+    
+    <span class="k">elif</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">initial_set</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="c1"># Explore all subsets for value dictionary to fill and calculate current</span>
+        <span class="n">flag</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">frozen_initial_set</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">(</span><span class="n">initial_set</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">initial_set</span><span class="p">:</span>
+            <span class="c1"># copy set, delete element and if not calculated: plough</span>
+            <span class="n">temp_set</span> <span class="o">=</span> <span class="n">initial_set</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">temp_set</span><span class="o">.</span><span class="n">discard</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+            <span class="n">frozen_temp_set</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">(</span><span class="n">temp_set</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">frozen_temp_set</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">value</span><span class="p">:</span>
+                <span class="n">plough_subsets</span><span class="p">(</span><span class="n">temp_set</span><span class="p">,</span> <span class="n">Rv</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+            
+            <span class="k">if</span><span class="p">(</span><span class="n">flag</span><span class="p">):</span>
+                <span class="n">value</span><span class="p">[</span><span class="n">frozen_initial_set</span><span class="p">]</span> <span class="o">=</span> <span class="n">Rv</span><span class="p">[</span><span class="n">s</span><span class="p">]</span><span class="o">*</span><span class="n">value</span><span class="p">[</span><span class="n">frozen_temp_set</span><span class="p">]</span>
+                <span class="n">flag</span> <span class="o">=</span> <span class="kc">False</span>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, DaSciM.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
