@@ -18,13 +18,14 @@ np.random.seed(238537)
 cvxopt.solvers.options['show_progress'] = False
 
 class graph(object):
-    """ Definition of a graph
-
-    G = (V,E,W)
-    
-    V: a set of vertices
-    E: a set of edges between vertices of V
-    W: a set of weights between each edge in E
+    """ A general graph class that supports adjacency, dictionary formats while beeing memory/computationaly sustainable
+        
+    Definition of a graph:
+    ----------------------
+        :math:`G = (V,E,W)`    
+            - :math:`V`: a set of vertices
+            - :math:`E`: a set of edges between vertices of :math:`V`
+            - :math:`W`: a set of weights between each edge in :math:`E`
 
     """
    
@@ -82,21 +83,18 @@ class graph(object):
         
         """ Creates a new graph object
 
-            initialization_object: An input object given to initialise the given graph
+        arguments:
+            - initialization_object: An input object given to initialise the given graph
                 - for an adjacency matrix input a square numpy array
                 - for edge_dictionary input a dictionary as follows:
-                    If (u,v) edge exists then edges["u"]["v"] has
-                    weight of the edge pointing from u to v
-                    If no weights for an edge (u,v) then edges[u]
-                    must be a list and v must be inside                   
-
-            node_labels: A label dictionary corresponding to all vertices of the graph
+                    If (u,v) edge exists then edges["u"]["v"] has weight of the edge pointing from u to v. 
+                    If no weights for an edge (u,v) then edges[u] must be a list and v must be inside.
+            - node_labels: A label dictionary corresponding to all vertices of the graph
                 - for adjacency matrix labels should be given to numbers starting
                   from 0 and ending in N-1, where the matrix has size N by N
                 - for dictionary labels should correspond to all keys
-            edge_labels: A labels dictionary corresponding to all edges of the graph
-                         keys: touples, value: label
-            graph_format: Is the internal represantation of the graph object be a dictionary as a matrix, or both
+            - edge_labels: A labels dictionary corresponding to all edges of the graph keys: touples, value: label
+            - graph_format: Is the internal represantation of the graph object be a dictionary as a matrix, or both
                 - for dictionary: "dictionary"
                 - for adjacency_matrix: "adjacency"
                 - for both: "all"
