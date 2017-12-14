@@ -27,9 +27,10 @@ ln -s nauty26r10 nauty
 # build pynauty
 make pynauty
 
-if [$VIRTUAL_ENV]
+# define if insidd virtual-env and install
+if [ $(env | grep VIRTUAL_ENV |wc -l) = 1 ]
 then
-	make virtenv-ins
+    make virtenv-ins
 else
 	make tests
 	make user-ins

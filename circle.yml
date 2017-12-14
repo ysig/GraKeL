@@ -14,7 +14,7 @@ machine:
 
     # The email is to be used for commits in the Github Page
     EMAIL: "y.siglidis@gmail.com"
-
+    
 dependencies:
   # Various dependencies
   pre:
