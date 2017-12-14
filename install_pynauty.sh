@@ -27,12 +27,12 @@ ln -s nauty26r10 nauty
 # build pynauty
 make pynauty
 
-ifdef VIRTUAL_ENV
+if $VIRTUAL_ENV then
 	make virtenv-ins
 else
 	make tests
 	make user-ins
-endif
+fi
 
 # exit directory and delete
 cd ..
