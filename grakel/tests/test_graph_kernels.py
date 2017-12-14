@@ -72,7 +72,7 @@ def gk_test_random_walk_simple():
         print("Simple:",gkf.transform())
     else:
         XX_correct = np.full((k, k), -30.912616526802676)
-        npt.assert_array_equal(XX_correct, gkf.transform())
+        npt.assert_array_almost_equal(XX_correct, gkf.transform())
     
 def gk_test_random_walk_sylvester():
     XX = list(zip(k*[X],k*[L]))
@@ -128,7 +128,7 @@ def gk_test_graphlets_sampling():
     if verbose:
         print("Graphlets Sampling:", gkf.transform())
     else:
-        XX_correct = np.full((k, k), 0.49863760218)
+        XX_correct = np.full((k, k), 0.4986)
         npt.assert_array_almost_equal(XX_correct, gkf.transform())
         
 def gk_test_weisfeiler_lehman():
