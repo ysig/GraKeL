@@ -5,8 +5,8 @@ from grakel.kernels import *
 
 global verbose, main, development
 
-main = False
-verbose = True
+main = True
+verbose = False
 development = True
 
 global X, Y, L, Le, phi
