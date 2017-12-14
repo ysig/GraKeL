@@ -129,7 +129,7 @@ def gk_test_graphlets_sampling():
         print("Graphlets Sampling:", gkf.transform())
     else:
         XX_correct = np.full((k, k), 0.4986)
-        npt.assert_array_almost_equal(XX_correct, gkf.transform())
+        npt.assert_array_almost_equal(XX_correct, gkf.transform(), decimal=3)
         
 def gk_test_weisfeiler_lehman():
     XX = list(zip(k*[X],k*[L]))

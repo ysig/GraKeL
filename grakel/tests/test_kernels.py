@@ -87,7 +87,7 @@ def test_graphlet_sampling():
     if verbose:
         print("Graphlets Sampling:",graphlet_sampling(X, X, 5, 0.05, 0.05,-1))
     else:
-         npt.assert_almost_equal(0.4986,graphlet_sampling(X, X, 5, 0.05, 0.05,-1))
+         npt.assert_almost_equal(0.4986,graphlet_sampling(X, X, 5, 0.05, 0.05,-1), decimal=3)
 def test_weisfeiler_lehman():
     base_kernel = dict()
     base_kernel["dirac"] = lambda x, y: dirac_inner(x,y)
