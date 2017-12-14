@@ -7,7 +7,7 @@ from grakel.graph_kernels import GraphKernel
 
 global verbose, main, development
 
-main = False
+main = True
 verbose = True
 development = True
 
