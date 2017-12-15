@@ -158,7 +158,7 @@
            <div itemprop="articleBody">
             
   <h1>Source code for grakel.kernels.lovasz_theta</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot; This file contains the lovasz theta kernel as defined in :cite:`Johansson2015LearningWS`</span>
+<span></span><span class="sd">&quot;&quot;&quot; This file contains the lovasz theta kernel as defined in :cite:`Johansson2015LearningWS`.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">itertools</span>
@@ -168,30 +168,52 @@
 <span class="kn">from</span> <span class="nn">..graph</span> <span class="k">import</span> <span class="n">graph</span>
 
 <div class="viewcode-block" id="lovasz_theta"><a class="viewcode-back" href="../../../kernels.html#grakel.kernels.lovasz_theta">[docs]</a><span class="k">def</span> <span class="nf">lovasz_theta</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">subsets_size_range</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">8</span><span class="p">),</span> <span class="n">metric</span><span class="o">=</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span><span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="p">)):</span>
-    <span class="sd">&quot;&quot;&quot; The lovasz theta kernel as proposed in :cite:`Johansson2015LearningWS`</span>
+    <span class="sd">&quot;&quot;&quot; The lovasz theta kernel as proposed in :cite:`Johansson2015LearningWS`.</span>
 
-<span class="sd">    arguments:</span>
-<span class="sd">        - X,Y (valid graph format): the pair of graphs on which the kernel is applied</span>
-<span class="sd">        - metric (function: number, number -&gt; number): the applied metric between the lovasz_theta numbers of the two graphs</span>
-<span class="sd">        - n_samples (int): number of samples</span>
-<span class="sd">        - subsets_size_range (tuple): (min, max) size of the vertex set of sampled subgraphs</span>
-<span class="sd">    returns:</span>
-<span class="sd">        number. The kernel value</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    X,Y : *valid-graph-format*</span>
+<span class="sd">        The pair of graphs on which the kernel is applied.</span>
+<span class="sd">    </span>
+<span class="sd">    n_samples : int, default=50</span>
+<span class="sd">        The number of samples.</span>
+<span class="sd">        </span>
+<span class="sd">    subsets_size_range : tuple, len=2, default=(2,8)</span>
+<span class="sd">        (min, max) size of the vertex set of sampled subgraphs.</span>
+<span class="sd">    </span>
+<span class="sd">    metric : function (number, number -&gt; number), default=:math:`f(x,y) = x*y`</span>
+<span class="sd">        The applied metric between the lovasz_theta numbers of the two graphs.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    kernel : number</span>
+<span class="sd">        The kernel value.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">Gx</span> <span class="o">=</span> <span class="n">graph</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
     <span class="n">Gy</span> <span class="o">=</span> <span class="n">graph</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">lovasz_theta_inner</span><span class="p">(</span><span class="n">Gx</span><span class="p">,</span> <span class="n">Gy</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">,</span> <span class="n">subsets_size_range</span><span class="p">,</span> <span class="n">metric</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="lovasz_theta_inner"><a class="viewcode-back" href="../../../kernels.html#grakel.kernels.lovasz_theta_inner">[docs]</a><span class="k">def</span> <span class="nf">lovasz_theta_inner</span><span class="p">(</span><span class="n">Gx</span><span class="p">,</span> <span class="n">Gy</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">subsets_size_range</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">8</span><span class="p">),</span> <span class="n">metric</span><span class="o">=</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span><span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="p">)):</span>
-    <span class="sd">&quot;&quot;&quot; The lovasz theta kernel as proposed in :cite:`Johansson2015LearningWS`</span>
+    <span class="sd">&quot;&quot;&quot; The lovasz theta kernel as proposed in :cite:`Johansson2015LearningWS`.</span>
 
-<span class="sd">    arguments:</span>
-<span class="sd">       - Gx, Gy (graph): the pair of graphs on which the kernels is applied</span>
-<span class="sd">       - metric (function: number, number -&gt; number): the applied metric between the lovasz_theta numbers of the two graphs</span>
-<span class="sd">       - n_samples (int): number of samples</span>
-<span class="sd">       - subsets_size_range (tuple): (min, max) size of the vertex set of sampled subgraphs</span>
-<span class="sd">    returns:</span>
-<span class="sd">        number. The kernel value</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    Gx, Gy : graph</span>
+<span class="sd">        The pair of graphs on which the kernels is applied.</span>
+<span class="sd">       </span>
+<span class="sd">    n_samples : int, default=50</span>
+<span class="sd">        Number of samples.</span>
+<span class="sd">    </span>
+<span class="sd">    subsets_size_range : tuple, len=2, default=(2,8)</span>
+<span class="sd">        (min, max) size of the vertex set of sampled subgraphs.</span>
+<span class="sd">    </span>
+<span class="sd">    metric : function (number, number -&gt; number), default=:math:`f(x,y) = x*y`</span>
+<span class="sd">        The applied metric between the lovasz_theta numbers of the two graphs.</span>
+<span class="sd">       </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    kernel : number</span>
+<span class="sd">        The kernel value.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">Ldx</span> <span class="o">=</span> <span class="n">Gx</span><span class="o">.</span><span class="n">calculate_subgraph_samples_metric_dictionary</span><span class="p">(</span><span class="s2">&quot;lovasz&quot;</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">subsets_size_range</span><span class="o">=</span><span class="n">subsets_size_range</span><span class="p">)</span>
     <span class="n">Ldy</span> <span class="o">=</span> <span class="n">Gy</span><span class="o">.</span><span class="n">calculate_subgraph_samples_metric_dictionary</span><span class="p">(</span><span class="s2">&quot;lovasz&quot;</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">subsets_size_range</span><span class="o">=</span><span class="n">subsets_size_range</span><span class="p">)</span>

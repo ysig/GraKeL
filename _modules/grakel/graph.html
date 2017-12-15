@@ -158,7 +158,7 @@
            <div itemprop="articleBody">
             
   <h1>Source code for grakel.graph</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot; A python file that implements classes, functions for graphs</span>
+<span></span><span class="sd">&quot;&quot;&quot; A python file that implements a class and functions for graphs.</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
@@ -178,13 +178,12 @@
 <span class="n">cvxopt</span><span class="o">.</span><span class="n">solvers</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;show_progress&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
 
 <div class="viewcode-block" id="graph"><a class="viewcode-back" href="../../graph.html#grakel.graph.graph">[docs]</a><span class="k">class</span> <span class="nc">graph</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; A general graph class that supports adjacency, dictionary formats while beeing memory/computationaly sustainable</span>
-<span class="sd">    </span>
+    <span class="sd">&quot;&quot;&quot; A general graph class that supports adjacency, dictionary formats while beeing memory/computationaly sustainable.</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    initialization_object :  dict or array-like, square </span>
-<span class="sd">        The initialisation object for the graph. </span>
+<span class="sd">    initialization_object :  dict, list or array-like, square, default=None</span>
+<span class="sd">        The initialisation object for the graph [**valid-graph-format**]. </span>
 <span class="sd">        If given a dictionary the input can be as follows:</span>
 <span class="sd">            + 2-level nested dictionaries from edge symbols to weights</span>
 <span class="sd">            + Dictionary of symbols to list of symbols (unweighted)</span>
@@ -196,16 +195,16 @@
 <span class="sd">            + np.array</span>
 <span class="sd">            + sparse matrix #TODO</span>
 <span class="sd">        </span>
-<span class="sd">    node_labels : dict</span>
+<span class="sd">    node_labels : dict, default=None</span>
 <span class="sd">        A label dictionary corresponding to all vertices of the graph:</span>
 <span class="sd">            + for adjacency matrix labels should be given to numbers starting </span>
 <span class="sd">              from 0 and ending in N-1, where the matrix has size N by N</span>
 <span class="sd">            + for dictionary labels should correspond to all keys</span>
 <span class="sd">    </span>
-<span class="sd">    edge_labels : dict</span>
+<span class="sd">    edge_labels : dict, default=None</span>
 <span class="sd">        A labels dictionary corresponding to all edges of the graph keys: touples, value: label</span>
 <span class="sd">    </span>
-<span class="sd">    graph_format : str, valid_values={&quot;dictionary&quot;, &quot;adjacency&quot;, &quot;all&quot;, &quot;auto&quot;}</span>
+<span class="sd">    graph_format : str, valid_values={&quot;dictionary&quot;, &quot;adjacency&quot;, &quot;all&quot;, &quot;auto&quot;}, default=None</span>
 <span class="sd">        Defines the internal representation of the graph object which can be a dictionary as a matrix, or both:</span>
 <span class="sd">          + for dictionary: &quot;dictionary&quot;</span>
 <span class="sd">          + for adjacency_matrix: &quot;adjacency&quot;</span>
@@ -304,10 +303,22 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Invalid graph format.</span><span class="se">\n</span><span class="s1">Valid graph formats are &quot;all&quot;, &quot;dictionary&quot;, &quot;adjacency&quot;, &quot;auto&quot;&#39;</span><span class="p">)</span>
             
 <div class="viewcode-block" id="graph.build_graph"><a class="viewcode-back" href="../../graph.html#grakel.graph.graph.build_graph">[docs]</a>    <span class="k">def</span> <span class="nf">build_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">node_labels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">edge_labels</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; builds a graph structure given a supported graph representation</span>
+        <span class="sd">&quot;&quot;&quot; Builds a graph structure given a supported graph representation.</span>
 <span class="sd">        </span>
-<span class="sd">            g: - for an adjacency matrix input an ndarray</span>
-<span class="sd">               - for edge_dictionary input a dictionary</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        g : a valid graph format</span>
+<span class="sd">            Similar to intialization object (of ``__init__``).</span>
+<span class="sd">            </span>
+<span class="sd">        node_labels: dict, default=None</span>
+<span class="sd">            Node labels dictionary relevant to g format.</span>
+<span class="sd">            </span>
+<span class="sd">        edge_labels: dict, default=None</span>
+<span class="sd">            Edge labels dictionary relevant to g format.</span>
+<span class="sd">            </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">shortest_path_mat</span> <span class="o">=</span> <span class="kc">None</span>
@@ -356,12 +367,19 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_import_dictionary</span><span class="p">(</span><span class="n">g</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="graph.change_format"><a class="viewcode-back" href="../../graph.html#grakel.graph.graph.change_format">[docs]</a>    <span class="k">def</span> <span class="nf">change_format</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">graph_format</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Changes the format of the graph from an existing to an other</span>
+        <span class="sd">&quot;&quot;&quot; Changes the format of the graph from an existing to an other.</span>
 
-<span class="sd">            graph_format: Is the internal represantation of the graph object be a dictionary as a matrix, or both</span>
-<span class="sd">                - for dictionary: &quot;dictionary&quot;</span>
-<span class="sd">                - for adjacency_matrix: &quot;adjacency&quot;</span>
-<span class="sd">                - for both: &quot;all&quot;</span>
+<span class="sd">        Paramters</span>
+<span class="sd">        ---------</span>
+<span class="sd">        graph_format : str, valid_values={&quot;dictionary&quot;, &quot;adjacency&quot;, &quot;all&quot;}</span>
+<span class="sd">            Defines the internal representation of the graph object which can be a dictionary as a matrix, or both:</span>
+<span class="sd">              + for dictionary: &quot;dictionary&quot;</span>
+<span class="sd">              + for adjacency_matrix: &quot;adjacency&quot;</span>
+<span class="sd">              + for both: &quot;all&quot;</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">graph_format</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;all&quot;</span><span class="p">,</span> <span class="s2">&quot;dictionary&quot;</span><span class="p">,</span> <span class="s2">&quot;adjacency&quot;</span><span class="p">]:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Invalid graph format for function change format. Valid formats are &quot;all&quot;, &quot;dictionary&quot;, &quot;adjacency&quot;&#39;</span><span class="p">)</span>
@@ -387,12 +405,22 @@
                         <span class="bp">self</span><span class="o">.</span><span class="n">edge_dictionary</span> <span class="o">=</span> <span class="kc">None</span></div>
 
 <div class="viewcode-block" id="graph.desired_format"><a class="viewcode-back" href="../../graph.html#grakel.graph.graph.desired_format">[docs]</a>    <span class="k">def</span> <span class="nf">desired_format</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">graph_format</span><span class="p">,</span> <span class="n">warn</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Changes the format to include the desired</span>
+        <span class="sd">&quot;&quot;&quot; Changes the format to include the desired.</span>
 
-<span class="sd">            graph_format: Is the internal represantation of the graph object be a dictionary as a matrix, or both</span>
-<span class="sd">                - for dictionary: &quot;dictionary&quot;</span>
-<span class="sd">                - for adjacency_matrix: &quot;adjacency&quot;</span>
-<span class="sd">                - for both: &quot;all&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        graph_format : str, valid_values={&quot;dictionary&quot;, &quot;adjacency&quot;, &quot;all&quot;}</span>
+<span class="sd">            Defines the internal representation of the graph object which can be a dictionary as a matrix, or both:</span>
+<span class="sd">              + for dictionary: &quot;dictionary&quot;</span>
+<span class="sd">              + for adjacency_matrix: &quot;adjacency&quot;</span>
+<span class="sd">              + for both: &quot;all&quot;</span>
+<span class="sd">        </span>
+<span class="sd">        warn : bool, default=False</span>
+<span class="sd">            Warn the user if the format of the graph is being changed.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">graph_format</span> <span class="ow">is</span> <span class="s2">&quot;all&quot;</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">change_format</span><span class="p">(</span><span class="n">graph_format</span><span class="p">)</span>
@@ -407,9 +435,19 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">change_format</span><span class="p">(</span><span class="s2">&quot;all&quot;</span><span class="p">)</span></div>
     
 <div class="viewcode-block" id="graph.construct_labels"><a class="viewcode-back" href="../../graph.html#grakel.graph.graph.construct_labels">[docs]</a>    <span class="k">def</span> <span class="nf">construct_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label_type</span><span class="o">=</span><span class="s2">&quot;vertex&quot;</span><span class="p">,</span> <span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;adjacency&quot;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; A method that constructs labels (if user does not provide)</span>
+        <span class="sd">&quot;&quot;&quot; A method that constructs labels (if user does not provide).</span>
 <span class="sd">            </span>
-<span class="sd">            label_type: &quot;vertex&quot;, &quot;edge&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        label_type: str, valid_values={&quot;vertex&quot;, &quot;edge&quot;}, default=&quot;vertex&quot;</span>
+<span class="sd">            What kind of labels are going to be constructed</span>
+<span class="sd">            </span>
+<span class="sd">        purpose: str, valid_values={&quot;adjacency&quot;, &quot;dictionary&quot;}, default=&quot;adjacency&quot;</span>
+<span class="sd">            Defines if the labels correspond to dictionary or adjacency matrix</span>
+<span class="sd">            </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">purpose</span> <span class="o">==</span> <span class="s2">&quot;adjacency&quot;</span><span class="p">):</span>
             <span class="k">if</span> <span class="p">(</span><span class="n">label_type</span> <span class="o">==</span> <span class="s2">&quot;vertex&quot;</span><span class="p">):</span>
@@ -429,11 +467,23 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;unsupported label type&#39;</span><span class="p">)</span></div>
                                 
-<div class="viewcode-block" id="graph.convert_labels"><a class="viewcode-back" href="../../graph.html#grakel.graph.graph.convert_labels">[docs]</a>    <span class="k">def</span> <span class="nf">convert_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target_format</span> <span class="o">=</span> <span class="s2">&quot;dictionary&quot;</span><span class="p">,</span> <span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;all&quot;</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; A method that converts labels to a desired format </span>
+<div class="viewcode-block" id="graph.convert_labels"><a class="viewcode-back" href="../../graph.html#grakel.graph.graph.convert_labels">[docs]</a>    <span class="k">def</span> <span class="nf">convert_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target_format</span><span class="o">=</span><span class="s2">&quot;dictionary&quot;</span><span class="p">,</span> <span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;all&quot;</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; A method that converts labels to a desired format. </span>
 
-<span class="sd">            target_format: &quot;dictionary&quot; or &quot;adjacency&quot;</span>
-<span class="sd">            purpose: &quot;all&quot;, &quot;edge&quot; or &quot;vertex&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        target_format: str, valid_values={&quot;adjacency&quot;, &quot;dictionary&quot;}, default=&quot;dictionary&quot;</span>
+<span class="sd">            Defines what the target format for conversion will be.</span>
+<span class="sd">            </span>
+<span class="sd">        purpose: str, valid_values={&quot;adjacency&quot;, &quot;dictionary&quot;, &quot;all&quot;}, default=&quot;all&quot;</span>
+<span class="sd">            Defines if the labels will be converted for dictionary, adjacency matrix or both.</span>
+<span class="sd">       </span>
+<span class="sd">        init: bool, default=False</span>
+<span class="sd">            An override parameter for format checks, usefull for initialisation.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="p">(</span><span class="n">target_format</span> <span class="o">==</span> <span class="s2">&quot;adjacency&quot;</span><span class="p">):</span>
@@ -478,10 +528,25 @@
                 <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;labels already defined for the given format&#39;</span><span class="p">)</span></div>
     
 <div class="viewcode-block" id="graph.label"><a class="viewcode-back" href="../../graph.html#grakel.graph.graph.label">[docs]</a>    <span class="k">def</span> <span class="nf">label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">label_type</span><span class="o">=</span><span class="s2">&quot;vertex&quot;</span><span class="p">,</span> <span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;dictionary&quot;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Returns the label of a vertex</span>
+        <span class="sd">&quot;&quot;&quot; Returns the label of a vertex.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        obj : hashable</span>
+<span class="sd">            The candidate labeled object for the corresponding purpose and label type</span>
 <span class="sd">            </span>
-<span class="sd">            obj: a valid vertex</span>
-<span class="sd">            label_type=&quot;vertex&quot;</span>
+<span class="sd">        label_type : str, valid_values={&quot;vertex&quot;, &quot;edge&quot;}, default=&quot;vertex&quot;</span>
+<span class="sd">            Defines if the lookup of the label will be done for vertices or edges.</span>
+<span class="sd">        </span>
+<span class="sd">        purpose : str, valid_values={&quot;dictionary&quot;, &quot;adjacency&quot;, &quot;any&quot;}, default=&quot;dictionary&quot;</span>
+<span class="sd">            Defines if the lookup will be done on the existing (&quot;any&quot; - if &quot;all&quot; default is adjacency)</span>
+<span class="sd">            to the &quot;dictionary&quot; or to the &quot;adjacency&quot; format of the graph.</span>
+<span class="sd">            </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        label : str, list, ..., *valid-label-type*</span>
+<span class="sd">            Returns the label of the current object on the defined lookup.</span>
+<span class="sd">            </span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">purpose</span> <span class="o">==</span> <span class="s2">&quot;any&quot;</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format</span> <span class="o">==</span> <span class="s2">&quot;all&quot;</span><span class="p">:</span>
@@ -521,12 +586,31 @@
                     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">edge_dictionary</span><span class="p">[</span><span class="n">edge</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="n">edge</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span></div>
     
 <div class="viewcode-block" id="graph.relabel"><a class="viewcode-back" href="../../graph.html#grakel.graph.graph.relabel">[docs]</a>    <span class="k">def</span> <span class="nf">relabel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_labels</span><span class="p">,</span> <span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;dictionary&quot;</span><span class="p">,</span> <span class="n">label_type</span><span class="o">=</span><span class="s2">&quot;vertex&quot;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; A method to relabel the graph</span>
-<span class="sd">            </span>
-<span class="sd">            new_labels: the new_labels</span>
-<span class="sd">            label_type: &quot;vertex&quot; or &quot;edge&quot;</span>
-<span class="sd">            purpose: &quot;dicitonary&quot;, &quot;adjacency&quot;</span>
+        <span class="sd">&quot;&quot;&quot; A method relabels the graph object, supporting the current format.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------    </span>
+<span class="sd">        new_labels : dict</span>
+<span class="sd">            The new labels corresponding to the label type and purpose.</span>
+<span class="sd">        </span>
+<span class="sd">        purpose : str, valid_values={&quot;dictionary&quot;, &quot;adjacency&quot;}, default=&quot;dictionary&quot;</span>
+<span class="sd">            Defines if the new labels are given for &quot;adjacency&quot; or &quot;dictionary&quot;.</span>
+<span class="sd">        </span>
+<span class="sd">        label_type : str, valid_values={&quot;vertex&quot;, &quot;edge&quot;}, default=&quot;vertex&quot;</span>
+<span class="sd">            Defines if the new labels are for vertices or edges.</span>
+<span class="sd">               </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="c1"># checks</span>
+        <span class="k">if</span> <span class="n">purpose</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;dictionary&quot;</span><span class="p">,</span><span class="s2">&quot;adjacency&quot;</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;purpose can either be dictionary or adjacency&#39;</span><span class="p">)</span>
+            
+        <span class="k">if</span> <span class="n">label_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;vertex&quot;</span><span class="p">,</span> <span class="s2">&quot;edge&quot;</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;label_type can either be vertex or edge&#39;</span><span class="p">)</span>
+        
         <span class="k">if</span> <span class="n">new_labels</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">bool</span><span class="p">(</span><span class="n">new_labels</span><span class="p">):</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;user must provide new labels, input is None&#39;</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">label_type</span><span class="o">==</span><span class="s2">&quot;vertex&quot;</span><span class="p">:</span>
@@ -584,13 +668,33 @@
 
         
 <div class="viewcode-block" id="graph.build_shortest_path_matrix"><a class="viewcode-back" href="../../graph.html#grakel.graph.graph.build_shortest_path_matrix">[docs]</a>    <span class="k">def</span> <span class="nf">build_shortest_path_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">algorithm_type</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span> <span class="n">clean</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="s2">&quot;vertex&quot;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; A method that builds and returns the shortest path matrix between all nodes</span>
+        <span class="sd">&quot;&quot;&quot; A method that builds and returns the shortest path matrix between all nodes.</span>
 
-<span class="sd">            algorithm_type: &quot;auto&quot; for &quot;dictionary&quot; or &quot;all&quot; format - Dijkstra</span>
-<span class="sd">                                   for &quot;adjacency&quot; - Floyd Warshall</span>
-<span class="sd">                            &quot;dijkstra&quot; - Dijkstra</span>
-<span class="sd">                            &quot;floyd_warshall&quot; - Floyd Warshall</span>
-<span class="sd">            labels: &quot;vertex&quot;, &quot;edge&quot;, &quot;all&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        algorithm_type : str, valid_values={&quot;auto&quot;, &quot;adjacency&quot;, &quot;dictionary&quot;}, default=&quot;auto&quot;</span>
+<span class="sd">            Defines which shortest-path algorithm will be used for building the shortest path matrix.</span>
+<span class="sd">             + &quot;dijkstra&quot; : choses the dijkstra algorithm (Matrix computation complexity: :math:`O(|V|(|E|+|V|) \log{|V|})`</span>
+<span class="sd">             + &quot;floyd_warshall&quot; : choses the floyd-warshall algorithm (Matrix computation complexity: :math:`O(|V|^3)`)</span>
+<span class="sd">             + &quot;auto&quot; : choses the best possible algorithm for the current format</span>
+<span class="sd">        </span>
+<span class="sd">        clean : bool, default=False</span>
+<span class="sd">            Construct the shortest path matrix from scratch or output existing if exists</span>
+<span class="sd">            </span>
+<span class="sd">        labels : str, valid_values={&quot;vertex&quot;, &quot;edge&quot;, &quot;all&quot;}, default=&quot;vertex&quot; </span>
+<span class="sd">            Returns labels corresponding for the indexes of the shortest path matrix</span>
+<span class="sd">            for vertices, for edge (only for the valid ones on the original graph) or for both (&quot;all&quot;)</span>
+<span class="sd">            </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        shortest_path_matrix : np.array, shape=(:math:`|V|`,:math:`|V|`)</span>
+<span class="sd">            The produced shortest path matrix.</span>
+<span class="sd">            </span>
+<span class="sd">        vertex_labels : dict</span>
+<span class="sd">            The vertex labels, outputed only if *labels* parameter is either &quot;vertex&quot; or &quot;all&quot;.</span>
+<span class="sd">            </span>
+<span class="sd">        edge_labels : dict</span>
+<span class="sd">            The edge labels, outputed only if *labels* parameter is either &quot;edge&quot; or &quot;all&quot;.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">labels</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;vertex&#39;</span><span class="p">,</span> <span class="s1">&#39;edge&#39;</span><span class="p">,</span> <span class="s1">&#39;all&#39;</span><span class="p">]:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;only labels for vertices and edges exist&#39;</span><span class="p">)</span>
@@ -625,7 +729,7 @@
 
         <span class="k">elif</span> <span class="n">algorithm_type</span> <span class="ow">is</span> <span class="s2">&quot;floyd_warshall&quot;</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">desired_format</span><span class="p">(</span><span class="s2">&quot;adjacency&quot;</span><span class="p">,</span> <span class="n">warn</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-            <span class="n">shortest_path_mat</span> <span class="o">=</span> <span class="n">floyd_warshall</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">adjacency_matrix</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">)</span>
+            <span class="n">shortest_path_mat</span> <span class="o">=</span> <span class="n">floyd_warshall</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">adjacency_matrix</span><span class="p">)</span>
         
         <span class="bp">self</span><span class="o">.</span><span class="n">shortest_path_mat</span> <span class="o">=</span> <span class="n">shortest_path_mat</span>
         <span class="k">if</span> <span class="n">labels</span> <span class="ow">is</span> <span class="s2">&quot;all&quot;</span><span class="p">:</span>
@@ -636,12 +740,21 @@
             <span class="k">return</span> <span class="n">shortest_path_mat</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_labels</span><span class="p">()</span></div>
             
 <div class="viewcode-block" id="graph.get_labels"><a class="viewcode-back" href="../../graph.html#grakel.graph.graph.get_labels">[docs]</a>    <span class="k">def</span> <span class="nf">get_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label_type</span><span class="o">=</span><span class="s2">&quot;vertex&quot;</span><span class="p">,</span> <span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;adjacency&quot;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Return labels corresponding to the purpose</span>
-<span class="sd">            </span>
-<span class="sd">            purpose: if &quot;adjacency&quot; for indexes</span>
-<span class="sd">                     if &quot;dictionary&quot; for nodes</span>
-<span class="sd">            label_type: if &quot;vertex&quot; labels for vertices</span>
-<span class="sd">                        if &quot;edge&quot; labels for edges</span>
+        <span class="sd">&quot;&quot;&quot; Return labels corresponding to the purpose.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        label_type : str, valid_values={&quot;vertex&quot;, &quot;edge&quot;}, default=&quot;vertex&quot;</span>
+<span class="sd">            Defines if the the labels will correspond to vertices or edges.</span>
+<span class="sd">        </span>
+<span class="sd">        purpose : str, valid_values={&quot;dictionary&quot;, &quot;adjacency&quot;, &quot;any&quot;}, default=&quot;dictionary&quot;</span>
+<span class="sd">            Defines if the labels will correspond to &quot;dictionary&quot; (symbols), to &quot;adjacency&quot;</span>
+<span class="sd">            indexes, or to &quot;any&quot; valid format (if &quot;all&quot; the result is for &quot;adjacency&quot;)</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        labels : dict,</span>
+<span class="sd">            Returns the labels for the given type and purpose.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">purpose</span> <span class="o">==</span> <span class="s2">&quot;adjacency&quot;</span><span class="p">):</span>
             <span class="n">case</span> <span class="o">=</span> <span class="kc">True</span>
@@ -681,11 +794,21 @@
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;label type can only be &quot;vertex&quot; or &quot;edge&quot;&#39;</span><span class="p">)</span></div>
     
 <div class="viewcode-block" id="graph.get_label_group"><a class="viewcode-back" href="../../graph.html#grakel.graph.graph.get_label_group">[docs]</a>    <span class="k">def</span> <span class="nf">get_label_group</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label_type</span><span class="o">=</span><span class="s2">&quot;vertex&quot;</span><span class="p">,</span> <span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;dictionary&quot;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; A function that calculates the inverse dictionary</span>
-<span class="sd">            for vertex labels (once)</span>
+        <span class="sd">&quot;&quot;&quot; A function that calculates the inverse dictionary for vertex labels (once).</span>
 <span class="sd">            </span>
-<span class="sd">            label_type: &quot;vertex&quot; or &quot;edge&quot;</span>
-<span class="sd">            purpose: &quot;dictionary&quot; or &quot;adjacency&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        label_type : str, valid_values={&quot;vertex&quot;, &quot;edge&quot;}, default=&quot;vertex&quot;</span>
+<span class="sd">            Defines if the the labels-group will correspond to vertices or edges.</span>
+<span class="sd">        </span>
+<span class="sd">        purpose : str, valid_values={&quot;dictionary&quot;, &quot;adjacency&quot;, &quot;any&quot;}, default=&quot;dictionary&quot;</span>
+<span class="sd">            Defines if the labels-group will correspond to &quot;dictionary&quot; (symbols), to &quot;adjacency&quot; (indexes)</span>
+<span class="sd">            or to &quot;any&quot; valid format (if &quot;all&quot; the result is for &quot;adjacency&quot;)</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        label_group : dict</span>
+<span class="sd">            Returns the inverse label group.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label_group</span><span class="p">):</span>
            <span class="bp">self</span><span class="o">.</span><span class="n">label_group</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
@@ -696,28 +819,38 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">label_group</span><span class="p">[(</span><span class="n">label_type</span><span class="p">,</span><span class="n">purpose</span><span class="p">)]</span> <span class="o">=</span> <span class="n">inv_dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_labels</span><span class="p">(</span><span class="n">label_type</span><span class="p">,</span><span class="n">purpose</span><span class="p">))</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">label_group</span><span class="p">[(</span><span class="n">label_type</span><span class="p">,</span><span class="n">purpose</span><span class="p">)]</span></div>
                 
-<div class="viewcode-block" id="graph.neighbors"><a class="viewcode-back" href="../../graph.html#grakel.graph.graph.neighbors">[docs]</a>    <span class="k">def</span> <span class="nf">neighbors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vertex</span><span class="p">,</span> <span class="n">purpose</span><span class="o">=</span><span class="s1">&#39;any&#39;</span><span class="p">,</span> <span class="n">with_weights</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Find all neighbors of a vertex</span>
-<span class="sd">            </span>
-<span class="sd">            vertex: a valid vertex inside the matrix</span>
-<span class="sd">                    that is not a sink</span>
-
-<span class="sd">            with_weights: Determines the type of the output</span>
+<div class="viewcode-block" id="graph.neighbors"><a class="viewcode-back" href="../../graph.html#grakel.graph.graph.neighbors">[docs]</a>    <span class="k">def</span> <span class="nf">neighbors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vertex</span><span class="p">,</span> <span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;any&quot;</span><span class="p">,</span> <span class="n">with_weights</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Find all neighbors of a vertex.</span>
+<span class="sd">           </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        vertex : hashable</span>
+<span class="sd">            The vertex, which neighbors we are searching for.</span>
+<span class="sd">        </span>
+<span class="sd">        purpose : str, valid_values={&quot;adjacency&quot;, &quot;dictionary&quot;, &quot;any&quot;}, default=&quot;any&quot;</span>
+<span class="sd">            Defines if the vertex is given for the &quot;dictionary&quot; format of the graph (symbol)</span>
+<span class="sd">            to the &quot;adjacency&quot; (index) or to &quot;any&quot; existing format (if &quot;all&quot; the expected type is for &quot;adjacency&quot;)</span>
+<span class="sd">        </span>
+<span class="sd">        with_weights : bool, default=False</span>
+<span class="sd">            Defines if the neighbours will </span>
 <span class="sd">                    if False: list of neighbor vertices</span>
 <span class="sd">                    if True: dictionary between neighbor</span>
 <span class="sd">                             vertices and edge labels </span>
-<span class="sd">            purpose: vertex is for &#39;adjacency&#39; or &#39;dictionary&#39;</span>
-<span class="sd">                     &#39;any&#39;: if format is &#39;all&#39; default &#39;dictionary&#39;</span>
-<span class="sd">                            else the given format</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        neighbors : list or dict</span>
+<span class="sd">            The neighbors of the given vertex. </span>
+<span class="sd">            If with_weights is False, output is a list, else output is a dict.</span>
+<span class="sd">            </span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">purpose</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;adjacency&#39;</span><span class="p">,</span> <span class="s1">&#39;dictionary&#39;</span><span class="p">,</span> <span class="s1">&#39;any&#39;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">purpose</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;adjacency&#39;</span><span class="p">,</span> <span class="s1">&#39;dictionary&#39;</span><span class="p">,</span> <span class="s2">&quot;any&quot;</span><span class="p">]:</span>
             <span class="k">if</span> <span class="n">purpose</span> <span class="o">==</span> <span class="s1">&#39;dictionary&#39;</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">desired_format</span><span class="p">(</span><span class="s1">&#39;dictionary&#39;</span><span class="p">)</span>
                 <span class="n">case</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="k">if</span> <span class="n">purpose</span> <span class="o">==</span> <span class="s1">&#39;adjacency&#39;</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">desired_format</span><span class="p">(</span><span class="s1">&#39;adjacency&#39;</span><span class="p">)</span>
                 <span class="n">case</span> <span class="o">=</span> <span class="kc">False</span>
-            <span class="k">if</span> <span class="n">purpose</span> <span class="o">==</span> <span class="s1">&#39;any&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">purpose</span> <span class="o">==</span> <span class="s2">&quot;any&quot;</span><span class="p">:</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;all&#39;</span><span class="p">,</span><span class="s1">&#39;adjacency&#39;</span><span class="p">]:</span>
                     <span class="n">case</span> <span class="o">=</span> <span class="kc">False</span>
                 <span class="k">else</span><span class="p">:</span>
@@ -745,11 +878,26 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;item with index &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot; does not exist&quot;</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">_make_edsamic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vertices</span><span class="p">,</span> <span class="n">all_out</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; A method to produce the edge symbols</span>
-<span class="sd">            adjacency matrix correspondance dictionary</span>
+    <span class="k">def</span> <span class="nf">_make_edsamic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vertices</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; A method to produce the *edge-symbols-adjacency-matrix-correspondance-dictionary*.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        vertices : list-able, sort-able</span>
+<span class="sd">            The vertices of the graph.</span>
+<span class="sd">        </span>
+<span class="sd">        all_out : bool, default=True</span>
+<span class="sd">            A variable that defines, if everything valuable will be outputed.</span>
 <span class="sd">            </span>
-<span class="sd">            all_out: output everything valuable</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        edsamic : dict</span>
+<span class="sd">            The produced edsamic</span>
+<span class="sd">        n : int</span>
+<span class="sd">            The number of vertieces</span>
+<span class="sd">        lov_sorted : list</span>
+<span class="sd">            Sorted list of vertices.</span>
+<span class="sd">            </span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">bool</span><span class="p">(</span><span class="n">vertices</span><span class="p">):</span>
             <span class="c1"># vertices to list</span>
@@ -763,22 +911,31 @@
             
             <span class="c1"># edge_labels_adjacency_matrix_correspondance_dictionary            </span>
             <span class="n">edsamic</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">lov_sorted</span><span class="p">,</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">n</span><span class="p">))))</span>
-            <span class="k">if</span> <span class="n">all_out</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">edsamic</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">lov_sorted</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">edsamic</span><span class="p">,</span> <span class="n">n</span>
+            
+            <span class="k">return</span> <span class="n">edsamic</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">lov_sorted</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;wrong format: edge dictionary must exist&#39;</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">None</span>
 
 
     <span class="k">def</span> <span class="nf">_import_adjacency</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">adjacency_matrix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; A function that creates a graph object</span>
-<span class="sd">            representation given its adjacency matrix</span>
-
-<span class="sd">            adjacency_matrix: A square numpy ndarray</span>
-<span class="sd">            save_matrix: an override variable that allows</span>
-<span class="sd">                         the matrix to be stored internally</span>
+        <span class="sd">&quot;&quot;&quot; A function that creates a graph object representation given its adjacency matrix.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        adjacency_matrix : array-like, default=None</span>
+<span class="sd">            If given a array the input can be as follows:</span>
+<span class="sd">                + array-like lists of lists #TODO</span>
+<span class="sd">                + np.array</span>
+<span class="sd">                + sparse matrix #TODO</span>
+<span class="sd">            If None, imports the array existing inside self.adjacency_matrix</span>
+<span class="sd">        </span>
+<span class="sd">        init : bool, default=True</span>
+<span class="sd">            A parameter used to defined initialization.</span>
+<span class="sd">            </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">adjacency_matrix</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># calculate graph size</span>
@@ -820,15 +977,24 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">edsamic</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">n</span><span class="p">),</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">n</span><span class="p">)))</span>
             
     <span class="k">def</span> <span class="nf">_import_dictionary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">edge_dictionary</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; A function that creates a graph object</span>
-<span class="sd">            representation given its edge dictionary</span>
+        <span class="sd">&quot;&quot;&quot; A function that creates a graph object representation given its edge dictionary.</span>
 
-<span class="sd">            edge_dictionary: input a dictionary as follows:</span>
-<span class="sd">                                If (u,v) edge exists then edges[&quot;u&quot;][&quot;v&quot;] has</span>
-<span class="sd">                                weight of the edge pointing from u to v</span>
-
-<span class="sd">            save_dictionary: an override variable that allows the matrix to be stored internally</span>
-
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        edge_dictionary :  dict-like, default=None</span>
+<span class="sd">            The edge_dictionary the input can be as follows:</span>
+<span class="sd">                + 2-level nested dictionaries from edge symbols to weights</span>
+<span class="sd">                + Dictionary of symbols to list of symbols (unweighted)</span>
+<span class="sd">                + Dictionary of tuples to weights (weighted) #TODO</span>
+<span class="sd">                + Set or List of tuples (unweighted) #TODO</span>
+<span class="sd">            If None, imports from the existing edge_dictionary</span>
+<span class="sd">            </span>
+<span class="sd">        init : bool, default=True</span>
+<span class="sd">            A parameter used to defined initialization.</span>
+<span class="sd">            </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">edge_dictionary</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># find vertices, refine dictionary</span>
@@ -882,14 +1048,23 @@
 
 
 <div class="viewcode-block" id="graph.laplacian"><a class="viewcode-back" href="../../graph.html#grakel.graph.graph.laplacian">[docs]</a>    <span class="k">def</span> <span class="nf">laplacian</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Calculates the laplacian of the given graph</span>
-<span class="sd">            save: optional parameter to store the matrix</span>
+        <span class="sd">&quot;&quot;&quot; Calculates the laplacian of the given graph.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        save: bool, default=True</span>
+<span class="sd">            Optional parameter to store the matrix.</span>
+<span class="sd">            </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        laplacian: array-like</span>
+<span class="sd">            Returns the graph laplacian</span>
 <span class="sd">        &quot;&quot;&quot;</span> 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">laplacian_graph</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">laplacian_graph</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">laplacian_graph</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">desired_format</span><span class="p">(</span><span class="s2">&quot;adjacency&quot;</span><span class="p">,</span> <span class="n">warn</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-            <span class="n">laplacian_graph</span> <span class="o">=</span> <span class="n">laplacian</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">adjacency_matrix</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">)</span>
+            <span class="n">laplacian_graph</span> <span class="o">=</span> <span class="n">laplacian</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">adjacency_matrix</span><span class="p">)</span>
             
             <span class="k">if</span> <span class="n">save</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">laplacian_graph</span> <span class="o">=</span> <span class="n">laplacian_graph</span>
@@ -898,9 +1073,15 @@
 <div class="viewcode-block" id="graph.calculate_lovasz_theta"><a class="viewcode-back" href="../../graph.html#grakel.graph.graph.calculate_lovasz_theta">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_lovasz_theta</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">from_scratch</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Calculates the lovasz theta for the given graph.</span>
 <span class="sd">            </span>
-<span class="sd">            from_scratch: boolean flag that chooses with False to</span>
-<span class="sd">                          recalculate the lovasz number if it has</span>
-<span class="sd">                          already been calculated.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        from_scratch: bool, default=False</span>
+<span class="sd">            Defines if the the lovasz_theta will be calculated from scratch.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        lovasz_theta: float</span>
+<span class="sd">            Returns the lovasz theta number.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">from_scratch</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lovasz_theta</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -973,9 +1154,15 @@
 <div class="viewcode-block" id="graph.calculate_svm_theta"><a class="viewcode-back" href="../../graph.html#grakel.graph.graph.calculate_svm_theta">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_svm_theta</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">from_scratch</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Calculates the svm theta for the given graph.</span>
 <span class="sd">            </span>
-<span class="sd">            from_scratch: boolean flag that chooses with False to</span>
-<span class="sd">                          recalculate the svm theta number if it has</span>
-<span class="sd">                          already been calculated.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        from_scratch: bool, default=False</span>
+<span class="sd">            Defines if the the svm_theta number will be calculated from scratch.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        svm_theta: float</span>
+<span class="sd">            Returns the svm theta number.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">from_scratch</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">svm_theta</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -1010,17 +1197,26 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">svm_theta</span>        </div>
     
 <div class="viewcode-block" id="graph.calculate_subgraph_samples_metric_dictionary"><a class="viewcode-back" href="../../graph.html#grakel.graph.graph.calculate_subgraph_samples_metric_dictionary">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_subgraph_samples_metric_dictionary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metric_type</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">subsets_size_range</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">8</span><span class="p">),</span> <span class="n">from_scratch</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; A function useful for calculating a graph metric</span>
-<span class="sd">            as the lovasz theta kernel or the svm-theta kernel,</span>
-<span class="sd">            on a set of randomly sampled subgraphs, producing</span>
-<span class="sd">            a dictionary of subgraph levels and sets</span>
-<span class="sd">                        </span>
-<span class="sd">            n_samples: the number of samples that will be sampled</span>
-<span class="sd">            subsets_size_range: A touple having the min and the max subset size</span>
-<span class="sd">            from_scratch: boolean flag that chooses with False to</span>
-<span class="sd">                          recalculate the lovasz number if it has</span>
-<span class="sd">                          already been calculated.</span>
-<span class="sd">            save: boolean flag that determines if the output will be saved</span>
+        <span class="sd">&quot;&quot;&quot; A function useful for calculating a graph metric as the lovasz theta kernel or the svm-theta kernel, on a set of randomly sampled subgraphs, producing a dictionary of subgraph levels and sets.</span>
+<span class="sd">            </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        n_samples : int, default=50</span>
+<span class="sd">            The number of samples that will be sampled.</span>
+<span class="sd">            </span>
+<span class="sd">        subsets_size_range : tuple, len=2, default=(2,8)</span>
+<span class="sd">            A touple having the min and the max subset size.</span>
+<span class="sd">        </span>
+<span class="sd">        from_scratch : bool</span>
+<span class="sd">            Defines if the the metric will be calculated from scratch.</span>
+
+<span class="sd">        save : bool</span>
+<span class="sd">            Determine if the metric output will be stored.</span>
+<span class="sd">            </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        level_values : dict</span>
+<span class="sd">            Returns a dictionary with levels (subsite size) and the lovasz value of all the sampled subgraphs.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">metric_type</span> <span class="o">==</span> <span class="s2">&quot;svm&quot;</span><span class="p">:</span>
             <span class="n">metric</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">G</span><span class="p">:</span> <span class="n">G</span><span class="o">.</span><span class="n">calculate_svm_theta</span><span class="p">()</span>
@@ -1064,13 +1260,23 @@
     
     
 <div class="viewcode-block" id="graph.get_vertices"><a class="viewcode-back" href="../../graph.html#grakel.graph.graph.get_vertices">[docs]</a>    <span class="k">def</span> <span class="nf">get_vertices</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;adjacency&quot;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; A method that returns an iterable of vertices. </span>
-<span class="sd">            purpose: &quot;adjacency&quot;, &quot;dictionary&quot;, &quot;any&quot;</span>
+        <span class="sd">&quot;&quot;&quot; A method that returns an iterable of vertices.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        purpose : str, valid_values={&quot;adjacency&quot;, &quot;dictionary&quot;, &quot;any&quot;}, default=&quot;adjacency&quot;</span>
+<span class="sd">            Defines if the vertices will correspond given for the &quot;dictionary&quot; format of the graph (symbol)</span>
+<span class="sd">            to the &quot;adjacency&quot; (index) or to &quot;any&quot; existing format (if &quot;all&quot; the expected type is for &quot;adjacency&quot;)</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        vertices : iterable</span>
+<span class="sd">            Returns an iterable on vertices</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">purpose</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;adjacency&quot;</span><span class="p">,</span> <span class="s2">&quot;dictionary&quot;</span><span class="p">,</span> <span class="s2">&quot;any&quot;</span><span class="p">]:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;purpose is either &quot;adjacency&quot; of &quot;dictionary&quot;&#39;</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">purpose</span> <span class="o">==</span> <span class="s1">&#39;any&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">purpose</span> <span class="o">==</span> <span class="s2">&quot;any&quot;</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;all&#39;</span><span class="p">,</span><span class="s1">&#39;adjacency&#39;</span><span class="p">]:</span>
                 <span class="n">purpose</span> <span class="o">=</span> <span class="s2">&quot;adjacency&quot;</span>
             <span class="k">else</span><span class="p">:</span>
@@ -1085,7 +1291,16 @@
         
 <div class="viewcode-block" id="graph.get_edges"><a class="viewcode-back" href="../../graph.html#grakel.graph.graph.get_edges">[docs]</a>    <span class="k">def</span> <span class="nf">get_edges</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;adjacency&quot;</span><span class="p">,</span> <span class="n">with_weights</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; A method that returns an iterable of edges as touples.</span>
-<span class="sd">            purpose: &quot;adjacency&quot;, &quot;dictionary&quot;</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        purpose : str, valid_values={&quot;adjacency&quot;, &quot;dictionary&quot;}, default=&quot;adjacency&quot;</span>
+<span class="sd">            Defines if the edges is given for the &quot;dictionary&quot; format of the graph (symbol) to the &quot;adjacency&quot; (index).</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        vertices : list</span>
+<span class="sd">            Returns a list of tuples for edges.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">purpose</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;adjacency&quot;</span><span class="p">,</span> <span class="s2">&quot;dictionary&quot;</span><span class="p">]:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;purpose is either &quot;adjacency&quot; of &quot;dictionary&quot;&#39;</span><span class="p">)</span>
@@ -1106,9 +1321,17 @@
                 <span class="k">return</span> <span class="p">[((</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">edge_dictionary</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">edge_dictionary</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">edge_dictionary</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()]</span></div>
     
 <div class="viewcode-block" id="graph.get_adjacency_matrix"><a class="viewcode-back" href="../../graph.html#grakel.graph.graph.get_adjacency_matrix">[docs]</a>    <span class="k">def</span> <span class="nf">get_adjacency_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; A format agnostic method that returns the adjacency matrix</span>
+        <span class="sd">&quot;&quot;&quot; A format agnostic method that returns the adjacency matrix.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        None.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        adjacency_matrix : np.array</span>
+<span class="sd">            Returns the adjacency matrix of the current graph.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format</span> <span class="ow">is</span> <span class="s2">&quot;dictionary&quot;</span><span class="p">:</span>
             <span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">),</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">)))</span>
             <span class="n">v_map</span> <span class="o">=</span> <span class="p">{</span><span class="n">v</span><span class="p">:</span><span class="n">i</span>  <span class="k">for</span> <span class="p">(</span><span class="n">v</span><span class="p">,</span><span class="n">i</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">)))}</span>
@@ -1122,8 +1345,16 @@
             
 <div class="viewcode-block" id="graph.get_edge_dictionary"><a class="viewcode-back" href="../../graph.html#grakel.graph.graph.get_edge_dictionary">[docs]</a>    <span class="k">def</span> <span class="nf">get_edge_dictionary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; A format agnostic method that returns the edge dictionary</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        None.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        edge_dictionary : dict</span>
+<span class="sd">            Returns the edge_dictionary of the current graph.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format</span> <span class="ow">is</span> <span class="s2">&quot;dictionary&quot;</span><span class="p">:</span>
             <span class="n">idx_i</span><span class="p">,</span> <span class="n">idx_j</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">adjacency_matrix</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
             <span class="n">edge_dictionary</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span><span class="nb">dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">)}</span>
@@ -1135,8 +1366,16 @@
             
     
 <div class="viewcode-block" id="graph.nv"><a class="viewcode-back" href="../../graph.html#grakel.graph.graph.nv">[docs]</a>    <span class="k">def</span> <span class="nf">nv</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; A method that returns the number of vertices</span>
-<span class="sd">            for any existing format</span>
+        <span class="sd">&quot;&quot;&quot; A method that returns the number of vertices for any existing format.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        None.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        num_of_vertices : int</span>
+<span class="sd">            Returns the number of vertices.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;all&#39;</span><span class="p">,</span><span class="s1">&#39;adjacency&#39;</span><span class="p">]:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span>
@@ -1144,14 +1383,35 @@
             <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">)</span></div>
             
 <div class="viewcode-block" id="graph.produce_neighborhoods"><a class="viewcode-back" href="../../graph.html#grakel.graph.graph.produce_neighborhoods">[docs]</a>    <span class="k">def</span> <span class="nf">produce_neighborhoods</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;adjacency&quot;</span><span class="p">,</span> <span class="n">with_distances</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">d</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Calculates neighborhoods for each node</span>
-<span class="sd">            of a Graph up to a depth c.</span>
+        <span class="sd">&quot;&quot;&quot; Calculates neighborhoods for each node of a Graph up to a depth.</span>
 <span class="sd">            </span>
-<span class="sd">            G: a graph type object</span>
-<span class="sd">            r: neighborhood depth</span>
-<span class="sd">            purpose: node symbols for &quot;adjacency&quot;, &quot;dictionary&quot;</span>
-<span class="sd">            with_distances: a flag that defines if we need to calculate</span>
-<span class="sd">                            BFS distances for each pair.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        r : int</span>
+<span class="sd">            The neighborhood depth (radius).</span>
+<span class="sd">            </span>
+<span class="sd">        purpose : str, valid_values={&quot;adjacency&quot;, &quot;dictionary&quot;}, default=&quot;adjacency&quot;</span>
+<span class="sd">            Defines if the neighborhood symbols will correspond given for the &quot;dictionary&quot; </span>
+<span class="sd">            format of the graph (symbol) to the &quot;adjacency&quot; (index).</span>
+<span class="sd">            </span>
+<span class="sd">        with_distances: bool, default=False</span>
+<span class="sd">            Defines if we need to calculate BFS distances for each pair.</span>
+<span class="sd">            </span>
+<span class="sd">        d : int, default=-1</span>
+<span class="sd">            Maximum distance considered. If -1 is provided the distance is as max as the radius r.</span>
+<span class="sd">            </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        N : dict</span>
+<span class="sd">            A level, vertex nested dictionary of lists, corresponding to the neighbours of level</span>
+<span class="sd">            :math:`l` for a certain vertex :math:`v`.</span>
+<span class="sd">        </span>
+<span class="sd">        D : dict</span>
+<span class="sd">            For each level, set of tuples of nodes connected in that level.</span>
+<span class="sd">            Appears only if with_distances is *True*.</span>
+<span class="sd">            </span>
+<span class="sd">        Dist_pair : dict</span>
+<span class="sd">            A dictionary of all pairs and their distances.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">N</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
 
@@ -1210,12 +1470,17 @@
             <span class="k">return</span> <span class="n">N</span></div>
         
 <div class="viewcode-block" id="graph.get_subgraph"><a class="viewcode-back" href="../../graph.html#grakel.graph.graph.get_subgraph">[docs]</a>    <span class="k">def</span> <span class="nf">get_subgraph</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vertices</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;A method that creates a graph object subgraph</span>
-<span class="sd">           in the same format as the original graph</span>
+        <span class="sd">&quot;&quot;&quot;A method that creates a graph object subgraph in the same format as the original graph.</span>
 <span class="sd">    </span>
-<span class="sd">           vertices: an iterable of vertices convertable to a set</span>
-<span class="sd">                     vertices a subset of verices of the original graph</span>
-<span class="sd">                     </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        vertices: iterable</span>
+<span class="sd">            An iterbale vertices extracted from the original graph.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        subgraph : graph</span>
+<span class="sd">            The induced subgraph, from the input vertices.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">vertices</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;vertices must not be null&#39;</span><span class="p">)</span>
@@ -1296,17 +1561,19 @@
             
         <span class="k">return</span> <span class="n">subgraph</span></div></div>
         
-<div class="viewcode-block" id="laplacian"><a class="viewcode-back" href="../../graph.html#grakel.graph.laplacian">[docs]</a><span class="k">def</span> <span class="nf">laplacian</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">n</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Calculates the laplacian given the adjacency matrix</span>
+<div class="viewcode-block" id="laplacian"><a class="viewcode-back" href="../../graph.html#grakel.graph.laplacian">[docs]</a><span class="k">def</span> <span class="nf">laplacian</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Calculates the laplacian given the adjacency matrix.</span>
 <span class="sd">    </span>
-<span class="sd">        A: a numpy array of a square matrix corresponding</span>
-<span class="sd">           to the adjacency matrix of a graph</span>
-<span class="sd">        n: x dimension of the matrix [int] - optional</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    A : np.array, square</span>
+<span class="sd">        The adjacency matrix of a graph.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    laplacian_graph : np.array</span>
+<span class="sd">        The produced laplacian graph.    </span>
 <span class="sd">    &quot;&quot;&quot;</span>        
-
-    <span class="k">if</span> <span class="p">(</span><span class="n">n</span><span class="o">&lt;=</span><span class="mi">0</span><span class="p">):</span>
-        <span class="n">n</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        
     <span class="n">laplacian_graph</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
@@ -1316,21 +1583,27 @@
     <span class="k">return</span> <span class="n">laplacian_graph</span></div>
 
 <div class="viewcode-block" id="dijkstra"><a class="viewcode-back" href="../../graph.html#grakel.graph.dijkstra">[docs]</a><span class="k">def</span> <span class="nf">dijkstra</span><span class="p">(</span><span class="n">edge_dictionary</span><span class="p">,</span> <span class="n">start_vertex</span><span class="p">,</span> <span class="n">end_vertex</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Implementation of the dijkstra algorithm</span>
+    <span class="sd">&quot;&quot;&quot; Implementation of the dijkstra algorithm[fn:1].</span>
 <span class="sd">    </span>
-<span class="sd">        Find shortest paths from the start vertex to all</span>
-<span class="sd">        vertices nearer than or equal to the end_vertex.</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    edge_dictionary: dict</span>
+<span class="sd">        A 2-level nested dictionary of symbols, with value corresponding to the weight.</span>
 
-<span class="sd">        The majority of this function code came from:</span>
-<span class="sd">        http://code.activestate.com/recipes/119466-dijkstras-algorithm-for-shortest-paths/ </span>
-
-<span class="sd">        edge_dictionary: input a dictionary as follows:</span>
-<span class="sd">                             If (u,v) edge exists then edges[&quot;u&quot;][&quot;v&quot;] has</span>
-<span class="sd">                             weight of the edge pointing from u to v</span>
-
-<span class="sd">        start_vertex: A valid vertex symbol that exists inside edge_dictionary as a key</span>
+<span class="sd">    start_vertex: hashable</span>
+<span class="sd">        The start vertex symbol (should exists as a key inside edge_dictionary).</span>
+<span class="sd">    </span>
+<span class="sd">    end_vertex: hashable</span>
+<span class="sd">        The end vertex symbol (should exists as a key inside edge_dictionary).</span>
 <span class="sd">        </span>
-<span class="sd">        end_vertex: A valid vertex symbol that exists inside edge_dictionary as a key</span>
+<span class="sd">    Returns:</span>
+<span class="sd">    --------</span>
+<span class="sd">    dict_fd : dict</span>
+<span class="sd">        The dictionary of final distances.</span>
+<span class="sd">    dict_pred : dict</span>
+<span class="sd">        The dictionary of predecessors.</span>
+<span class="sd">        </span>
+<span class="sd">    [fn:1] The majority of this function code came from: `Link text &lt;http://code.activestate.com/recipes/119466-dijkstras-algorithm-for-shortest-paths/&gt;`_</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">dict_fd</span> <span class="o">=</span> <span class="p">{}</span>    <span class="c1"># dictionary of final distances</span>
@@ -1354,15 +1627,20 @@
     
     <span class="k">return</span> <span class="n">dict_fd</span><span class="p">,</span> <span class="n">dict_pred</span></div>
 
-<div class="viewcode-block" id="floyd_warshall"><a class="viewcode-back" href="../../graph.html#grakel.graph.floyd_warshall">[docs]</a><span class="k">def</span> <span class="nf">floyd_warshall</span><span class="p">(</span><span class="n">adjacency_matrix</span><span class="p">,</span> <span class="n">n</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Floyd Warshall calculates the matrix of shortest paths between all pairs</span>
+<div class="viewcode-block" id="floyd_warshall"><a class="viewcode-back" href="../../graph.html#grakel.graph.floyd_warshall">[docs]</a><span class="k">def</span> <span class="nf">floyd_warshall</span><span class="p">(</span><span class="n">adjacency_matrix</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Floyd Warshall calculates the matrix of shortest paths between all pairs.</span>
 
-<span class="sd">        adjacency_matrix : a square nd array</span>
-<span class="sd">        n : length of the one dimension of the ndarray [optional]</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    adjacency_matrix : np.array, square</span>
+<span class="sd">        The adjacency matrix of the graph, on which the distances are being calculated.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dist : np.array</span>
+<span class="sd">        The shortest path matrix as produced by floyd warshall</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    
-    <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">n</span> <span class="o">=</span> <span class="n">adjacency_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">adjacency_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     
     <span class="n">dist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>
     <span class="c1"># Initialization</span>

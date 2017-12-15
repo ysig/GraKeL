@@ -158,7 +158,7 @@
            <div itemprop="articleBody">
             
   <h1>Source code for grakel.kernels.neighborhood_hash</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot; This file contains the neighborhood hashing kernel as defined in :cite:`Hido2009ALG`</span>
+<span></span><span class="sd">&quot;&quot;&quot; This file contains the neighborhood hashing kernel as defined in :cite:`Hido2009ALG`.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">itertools</span>
 <span class="kn">import</span> <span class="nn">os</span>
@@ -169,31 +169,57 @@
 <span class="kn">from</span> <span class="nn">..tools</span> <span class="k">import</span> <span class="n">rotl</span><span class="p">,</span> <span class="n">rotr</span>
 
 <div class="viewcode-block" id="neighborhood_hash"><a class="viewcode-back" href="../../../kernels.html#grakel.kernels.neighborhood_hash">[docs]</a><span class="k">def</span> <span class="nf">neighborhood_hash</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Lx</span><span class="p">,</span> <span class="n">Ly</span><span class="p">,</span> <span class="n">nh_type</span><span class="o">=</span><span class="s1">&#39;simple&#39;</span><span class="p">,</span> <span class="n">R</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="nb">bytes</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span> <span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot; The neighborhood hashing kernel as proposed in :cite:`Hido2009ALG`</span>
+    <span class="sd">&quot;&quot;&quot; The neighborhood hashing kernel as proposed in :cite:`Hido2009ALG`.</span>
 
-<span class="sd">    arguments:</span>
-<span class="sd">        - X,Y (valid graph format): the pair of graphs on which the kernel is applied</span>
-<span class="sd">        - L{x,y} (dict): coresponding graph labels for nodes</span>
-<span class="sd">        - R (int): the maximum number of neighborhood hash</span>
-<span class="sd">        - nh_type (str): &#39;simple&#39; or &#39;count-sensitive&#39;</span>
-<span class="sd">        - bytes (int): number of bytes for hashing of original labels</span>
-<span class="sd">    returns:</span>
-<span class="sd">        number. The kernel value</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    X,Y : *valid-graph-format*</span>
+<span class="sd">        The pair of graphs on which the kernel is applied.</span>
+<span class="sd">        </span>
+<span class="sd">    L{x,y} : dict</span>
+<span class="sd">        Coresponding graph labels for vertices.</span>
+<span class="sd">        </span>
+<span class="sd">    R : int, default=3</span>
+<span class="sd">        The maximum number of neighborhood hash.</span>
+<span class="sd">        </span>
+<span class="sd">    nh_type : str, valid_types={&quot;simple&quot;, &quot;count_sensitive&quot;}, default=&quot;simple&quot;</span>
+<span class="sd">        The existing neighborhood hash type as defined in :cite:`Hido2009ALG`.</span>
+<span class="sd">        </span>
+<span class="sd">    bytes : int, default=2</span>
+<span class="sd">        Byte size of hashes.</span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    kernel : number</span>
+<span class="sd">        The kernel value.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">Gx</span> <span class="o">=</span> <span class="n">graph</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">Lx</span><span class="p">)</span>
     <span class="n">Gy</span> <span class="o">=</span> <span class="n">graph</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span><span class="n">Ly</span><span class="p">)</span>
     <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">neighborhood_hash_matrix</span><span class="p">({</span><span class="mi">0</span><span class="p">:</span> <span class="n">Gx</span><span class="p">},</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="n">Gy</span><span class="p">},</span> <span class="n">nh_type</span><span class="o">=</span><span class="n">nh_type</span><span class="p">,</span> <span class="n">R</span><span class="o">=</span><span class="n">R</span><span class="p">,</span> <span class="nb">bytes</span><span class="o">=</span><span class="nb">bytes</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span></div>
 
 <div class="viewcode-block" id="neighborhood_hash_matrix"><a class="viewcode-back" href="../../../kernels.html#grakel.kernels.neighborhood_hash_matrix">[docs]</a><span class="k">def</span> <span class="nf">neighborhood_hash_matrix</span><span class="p">(</span><span class="n">Graphs_x</span><span class="p">,</span> <span class="n">Graphs_y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">nh_type</span><span class="o">=</span><span class="s1">&#39;simple&#39;</span><span class="p">,</span> <span class="n">R</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="nb">bytes</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; The calculate_similarity matrix function as defined :cite:`Hido2009ALG`</span>
+    <span class="sd">&quot;&quot;&quot; The calculate_similarity matrix function as defined :cite:`Hido2009ALG`.</span>
 
-<span class="sd">    arguments:</span>
-<span class="sd">        - Graphs_{x,y} (dict): A dictionary of graph type objects that are going to be compared with keys from 0 ... to the dictionary length.</span>
-<span class="sd">        - R (int): the maximum number of neighborhood hash</span>
-<span class="sd">        - nh_type (str): &#39;simple&#39; or &#39;count-sensitive&#39;</span>
-<span class="sd">        - bytes (int): number of bytes for hashing of original labels</span>
-<span class="sd">    returns:</span>
-<span class="sd">        np.array. The kernel matrix        </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    Graphs_{x,y} : dict, default_y=None</span>
+<span class="sd">        A dictionary of graph type objects that are going to be compared with keys from 0 ... to the dictionary length.</span>
+<span class="sd">        If Graphs_y is None the kernel matrix is computed between all graphs in Graphs_x.</span>
+<span class="sd">        </span>
+<span class="sd">    R : int, default=3</span>
+<span class="sd">        The maximum number of neighborhood hash.</span>
+<span class="sd">        </span>
+<span class="sd">    nh_type : str, valid_values={&#39;simple&#39;,&#39;count-sensitive&#39;},</span>
+<span class="sd">        The existing neighborhood hash type as defined in :cite:`Hido2009ALG`.</span>
+<span class="sd">        </span>
+<span class="sd">    bytes : int, default=2</span>
+<span class="sd">        Byte size of hashes.</span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    kernel_matrix : np.array</span>
+<span class="sd">        The kernel matrix. If the Graphs_y is not None the rows correspond to Graphs_y</span>
+<span class="sd">        and the cols to the Graphs_x (based on the given order).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">R</span><span class="o">&lt;=</span><span class="mi">0</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;R must be bigger than zero&#39;</span><span class="p">)</span>
@@ -260,17 +286,29 @@
     <span class="k">return</span> <span class="n">kernel_mat</span></div>
   
 <span class="k">def</span> <span class="nf">hash_labels</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">labels_hash_dict</span><span class="p">,</span> <span class="n">labels_hash_set</span><span class="p">,</span> <span class="nb">bytes</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; A function that hashes existing labels to 16-bit integers without collisions and with consistency in same labels</span>
+    <span class="sd">&quot;&quot;&quot; A function that hashes existing labels to 16-bit integers without collisions and with consistency in same labels.</span>
 
-<span class="sd">    arguments:</span>
-<span class="sd">        - Graphs_{x,y} (dict): A dictionary of graph type objects that are going to be compared with keys from 0 ... to the dictionary length.</span>
-<span class="sd">        - labels (dict): labels for nodes</span>
-<span class="sd">        - labels_hash_dict (dict): a hash table for labels</span>
-<span class="sd">        - labels_hash_set (set): a set of all possible labels</span>
-<span class="sd">        - nh_type (str): &#39;simple&#39; or &#39;count-sensitive&#39;</span>
-<span class="sd">        - bytes (int): a positive integer denoting the size of hashes</span>
-<span class="sd">    returns:</span>
-<span class="sd">        dict. The new hashed labels for nodes</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    Graphs_{x,y} : dict</span>
+<span class="sd">        A dictionary of graph type objects that are going to be compared with keys from 0 ... to the dictionary length.</span>
+<span class="sd">        </span>
+<span class="sd">    labels : dict</span>
+<span class="sd">        Labels for vertices.</span>
+<span class="sd">        </span>
+<span class="sd">    labels_hash_dict : dict</span>
+<span class="sd">        A hash table for labels.</span>
+<span class="sd">        </span>
+<span class="sd">    nh_type : str, valid_values={&#39;simple&#39;,&#39;count-sensitive&#39;},</span>
+<span class="sd">        The existing neighborhood hash type as defined in :cite:`Hido2009ALG`.</span>
+<span class="sd">        </span>
+<span class="sd">    bytes : int, default=2</span>
+<span class="sd">        Byte size of hashes.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    new_labels : dict</span>
+<span class="sd">        The new hashed labels for vertices.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="nb">bytes</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">bytes</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">bytes</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
@@ -291,47 +329,64 @@
     <span class="k">return</span> <span class="n">new_labels</span>
             
 <span class="k">def</span> <span class="nf">radix_sort</span><span class="p">(</span><span class="n">vertices</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; sorts vertices based on labels</span>
+    <span class="sd">&quot;&quot;&quot; Sorts vertices based on labels.</span>
 <span class="sd">    </span>
-<span class="sd">        arguments:</span>
-<span class="sd">            - vertices (listable): listable of vertices</span>
-<span class="sd">            - labels (dictionary): dictionary of labels for nodes</span>
-<span class="sd">        returns:</span>
-<span class="sd">            tuple. The sorted vertices based on labels, labels for nodes</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    vertices : listable</span>
+<span class="sd">        A listable of vertices.</span>
+<span class="sd">        </span>
+<span class="sd">    labels : dict</span>
+<span class="sd">        Dictionary of labels for vertices.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    vertices_labels : tuple, len=2</span>
+<span class="sd">        The sorted vertices based on labels and labels for vertices.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     
     <span class="k">return</span> <span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">vertices</span><span class="p">),</span> <span class="n">key</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">labels</span><span class="p">[</span><span class="n">x</span><span class="p">]),</span><span class="n">labels</span><span class="p">)</span>
  
 <span class="k">def</span> <span class="nf">neighborhood_hash_simple</span><span class="p">(</span><span class="n">G</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Produces the (simple) neighborhood hash as defined in :cite:`Hido2009ALG`</span>
+    <span class="sd">&quot;&quot;&quot; Produces the (simple) neighborhood hash as defined in :cite:`Hido2009ALG`.</span>
 <span class="sd">    </span>
-<span class="sd">    arguments:</span>
-<span class="sd">        G (tuple): a tuple of three elements consisting of vertices sorted by labels, node label dictionary and edge dictionary.</span>
-<span class="sd">    returns:</span>
-<span class="sd">        tuple. a tuple of nodes, new_labels dictionary and edges</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    G : tuple</span>
+<span class="sd">        A tuple of three elements consisting of vertices sorted by labels, vertex label dictionary and edge dictionary.</span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    vertices_labels_edges : tuple</span>
+<span class="sd">        A tuple of vertices, new_labels-dictionary and edges.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">nodes</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">edges</span> <span class="o">=</span> <span class="n">G</span>
+    <span class="n">vertices</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">edges</span> <span class="o">=</span> <span class="n">G</span>
     <span class="n">new_labels</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-    <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">vertices</span><span class="p">:</span>
         <span class="n">l</span> <span class="o">=</span> <span class="n">ROT</span><span class="p">(</span><span class="n">labels</span><span class="p">[</span><span class="n">u</span><span class="p">],</span><span class="mi">1</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">[</span><span class="n">u</span><span class="p">]:</span>
             <span class="n">l</span> <span class="o">^=</span> <span class="n">labels</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
         <span class="n">new_labels</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="n">l</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">nodes</span><span class="p">,</span> <span class="n">new_labels</span><span class="p">,</span> <span class="n">edges</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">vertices</span><span class="p">,</span> <span class="n">new_labels</span><span class="p">,</span> <span class="n">edges</span><span class="p">)</span>
     
 <span class="k">def</span> <span class="nf">neighborhood_hash_count_sensitive</span><span class="p">(</span><span class="n">G</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Produce the count sensitive neighborhood hash</span>
-<span class="sd">        as defined in [Hido, Kashima et al., 2009]</span>
+    <span class="sd">&quot;&quot;&quot; Produce the count sensitive neighborhood hash as defined in [Hido, Kashima et al., 2009].</span>
 <span class="sd">    </span>
-<span class="sd">    arguments:</span>
-<span class="sd">        G (tuple): a tuple of three elements consisting of vertices sorted by labels, node label dictionary, edge dictionary and number of occurencies dictionary for labels</span>
-<span class="sd">    returns:</span>
-<span class="sd">        tuple. A tuple of three elements consisting of vertices sorted by labels, node label dictionary, edge dictionary and number of occurencies dictionary</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    G : tuple, len=3</span>
+<span class="sd">       A tuple three elements consisting of vertices sorted by labels,</span>
+<span class="sd">       vertex label dict, edge dict and number of occurencies dict for labels</span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    vertices_labels_edges_noc : tuple</span>
+<span class="sd">        A tuple of 4 elements consisting of vertices sorted by labels, vertex label dict, edge dict and number of occurencies dict.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">nodes</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">edges</span><span class="p">,</span> <span class="n">noc</span><span class="o">=</span> <span class="n">G</span>
+    <span class="n">vertices</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">edges</span><span class="p">,</span> <span class="n">noc</span><span class="o">=</span> <span class="n">G</span>
     <span class="n">new_labels</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
     <span class="n">new_noc</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-    <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">vertices</span><span class="p">:</span>
         <span class="n">l</span> <span class="o">=</span> <span class="n">ROT</span><span class="p">(</span><span class="n">labels</span><span class="p">[</span><span class="n">u</span><span class="p">],</span><span class="mi">1</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">[</span><span class="n">u</span><span class="p">]:</span>
             <span class="n">o</span> <span class="o">=</span> <span class="n">noc</span><span class="p">[</span><span class="n">labels</span><span class="p">[</span><span class="n">n</span><span class="p">]]</span>
@@ -341,16 +396,23 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">new_noc</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="n">new_labels</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="n">l</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">nodes</span><span class="p">,</span> <span class="n">new_labels</span><span class="p">,</span> <span class="n">edges</span><span class="p">,</span> <span class="n">new_noc</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">vertices</span><span class="p">,</span> <span class="n">new_labels</span><span class="p">,</span> <span class="n">edges</span><span class="p">,</span> <span class="n">new_noc</span><span class="p">)</span>
     
 <span class="k">def</span> <span class="nf">ROT</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">n</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; The rot operation for binary numbers</span>
+    <span class="sd">&quot;&quot;&quot; The rot operation for binary numbers.</span>
 <span class="sd">        </span>
-<span class="sd">    arguments:</span>
-<span class="sd">        - n (int): an integer</span>
-<span class="sd">        - l (int): a valid number</span>
-<span class="sd">    returns:</span>
-<span class="sd">        (int). The result of a rot operation</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n : int</span>
+<span class="sd">        An integer.</span>
+<span class="sd">    </span>
+<span class="sd">    l : int</span>
+<span class="sd">        A valid number.</span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    rot : int</span>
+<span class="sd">        The result of a rot operation.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">rotr</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="o">-</span><span class="n">n</span><span class="p">)</span>
@@ -360,22 +422,26 @@
         <span class="k">return</span> <span class="n">l</span>
     
 <span class="k">def</span> <span class="nf">nh_compare_labels</span><span class="p">(</span><span class="n">Gx</span><span class="p">,</span> <span class="n">Gy</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; The compared labels function as defined in :cite:`Hido2009ALG`</span>
+    <span class="sd">&quot;&quot;&quot; The compared labels function as defined in :cite:`Hido2009ALG`.</span>
 
-<span class="sd">    arguments:</span>
-<span class="sd">        G_{x,y} (tuple): graph tuples of two elements, consisting of vertices sorted by labels and node, edge label dictionary</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    G_{x,y} : tuple, len=2</span>
+<span class="sd">        Graph tuples of two elements, consisting of vertices sorted by (labels,vertices) and edge-labels dict.</span>
 
-<span class="sd">    returns:</span>
-<span class="sd">        number. The kernel value</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    kernel : Number</span>
+<span class="sd">        The kernel value.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     
     <span class="c1"># get vertices</span>
     <span class="n">vx</span><span class="p">,</span> <span class="n">vy</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">Gx</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">iter</span><span class="p">(</span><span class="n">Gy</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
     
-    <span class="c1"># get size of nodes</span>
+    <span class="c1"># get size of vertices</span>
     <span class="n">nv_x</span><span class="p">,</span> <span class="n">nv_y</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">Gx</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">len</span><span class="p">(</span><span class="n">Gy</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
     
-    <span class="c1"># get labels for nodes</span>
+    <span class="c1"># get labels for vertices</span>
     <span class="n">Lx</span><span class="p">,</span> <span class="n">Ly</span> <span class="o">=</span> <span class="n">Gx</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">Gy</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
        
     <span class="n">c</span> <span class="o">=</span> <span class="mi">0</span>

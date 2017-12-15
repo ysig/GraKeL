@@ -162,37 +162,61 @@
 <span class="target" id="module-grakel.kernels"></span><dl class="function">
 <dt id="grakel.kernels.dirac">
 <code class="descclassname">grakel.kernels.</code><code class="descname">dirac</code><span class="sig-paren">(</span><em>X</em>, <em>Y</em>, <em>Lx</em>, <em>Ly</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/kernels/dirac.html#dirac"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.dirac" title="Permalink to this definition">¶</a></dt>
-<dd><p>The simple dirac kernel for labelled graphs</p>
+<dd><p>The simple dirac kernel for labelled graphs.</p>
 <blockquote>
 <div><div class="math">
 <p><img src="_images/math/9897463f0d109f8e20b8357ef91c6d16bc0276ea.png" alt="k(X,Y) = \sum_{v \in V_{1}}\sum_{u \in V_{2}}\delta(l(v),l(u))"/></p>
 </div></div></blockquote>
-<dl class="docutils">
-<dt>arguments:</dt>
-<dd><ul class="first last simple">
-<li>X,Y (valid graph format): the pair of graphs on which the kernel is applied</li>
-<li>L{x,y} (dict): coresponding graph labels for nodes</li>
-</ul>
-</dd>
-<dt>returns:</dt>
-<dd>number. The kernel value</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X,Y</strong> : <em>valid-graph-format</em></p>
+<blockquote>
+<div><p>The pair of graphs on which the kernel is applied.</p>
+</div></blockquote>
+<p><strong>L{x,y}</strong> : dict</p>
+<blockquote>
+<div><p>Corresponding graph labels for nodes.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>kernel</strong> : number</p>
+<blockquote class="last">
+<div><p>The kernel value.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="grakel.kernels.dirac_inner">
 <code class="descclassname">grakel.kernels.</code><code class="descname">dirac_inner</code><span class="sig-paren">(</span><em>Gx</em>, <em>Gy</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/kernels/dirac.html#dirac_inner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.dirac_inner" title="Permalink to this definition">¶</a></dt>
-<dd><p>The simple dirac kernel for labelled graphs</p>
+<dd><p>The simple dirac kernel for labelled graphs.</p>
 <blockquote>
 <div><div class="math">
 <p><img src="_images/math/9897463f0d109f8e20b8357ef91c6d16bc0276ea.png" alt="k(X,Y) = \sum_{v \in V_{1}}\sum_{u \in V_{2}}\delta(l(v),l(u))"/></p>
 </div></div></blockquote>
-<dl class="docutils">
-<dt>arguments:</dt>
-<dd>G_{x,y} (graph): the pair of graphs on which the kernel is applied</dd>
-<dt>returns:</dt>
-<dd>number. The kernel value</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>G_{x,y}</strong> : graph</p>
+<blockquote>
+<div><p>The pair of graphs on which the kernel is applied</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>kernel</strong> : number</p>
+<blockquote class="last">
+<div><p>The kernel value.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
@@ -301,85 +325,187 @@
 <dl class="function">
 <dt id="grakel.kernels.graphlet_sampling">
 <code class="descclassname">grakel.kernels.</code><code class="descname">graphlet_sampling</code><span class="sig-paren">(</span><em>X</em>, <em>Y</em>, <em>k=5</em>, <em>delta=0.05</em>, <em>epsilon=0.05</em>, <em>a=-1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/kernels/graphlet_sampling.html#graphlet_sampling"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.graphlet_sampling" title="Permalink to this definition">¶</a></dt>
-<dd><p>Applies the graphlet sampling kernel as proposed in <a class="reference internal" href="#shervashidze2009efficientgk" id="id17">[SVP+09]</a></p>
-<dl class="docutils">
-<dt>arguments:    </dt>
-<dd><ul class="first last simple">
-<li>X,Y (valid graph format): the pair of graphs on which the kernel is applied</li>
-<li>k (int): the dimension of the given graphlets</li>
-<li>delta (float): confidence level (typically 0.05 or 0.1)</li>
-<li>epsilon (float): precision level (typically 0.05 or 0.1)</li>
-<li>a (int): number of isomorphism classes of graphlets</li>
-</ul>
-</dd>
-<dt>returns:</dt>
-<dd>number. The kernel value</dd>
-</dl>
+<dd><p>Applies the graphlet sampling kernel as proposed in <a class="reference internal" href="#shervashidze2009efficientgk" id="id17">[SVP+09]</a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X,Y</strong> : valid graph format</p>
+<blockquote>
+<div><p>The pair of graphs on which the kernel is applied.</p>
+</div></blockquote>
+<p><strong>k</strong> : int, default=5</p>
+<blockquote>
+<div><p>The dimension of the given graphlets.</p>
+</div></blockquote>
+<p><strong>delta</strong> : float, default=0.05</p>
+<blockquote>
+<div><p>Confidence level (typically 0.05 or 0.1).</p>
+</div></blockquote>
+<p><strong>epsilon</strong> : float, default=0.05</p>
+<blockquote>
+<div><p>Precision level (typically 0.05 or 0.1).</p>
+</div></blockquote>
+<p><strong>a</strong> : int</p>
+<blockquote>
+<div><p>Number of isomorphism classes of graphlets.
+If -1 the number is the maximum possible, from a database 1 until 9
+or else predicted through interpolation.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>kernel</strong> : number</p>
+<blockquote class="last">
+<div><p>The kernel value.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="grakel.kernels.graphlet_sampling_inner">
 <code class="descclassname">grakel.kernels.</code><code class="descname">graphlet_sampling_inner</code><span class="sig-paren">(</span><em>Gx</em>, <em>Gy</em>, <em>k=5</em>, <em>delta=0.05</em>, <em>epsilon=0.05</em>, <em>a=-1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/kernels/graphlet_sampling.html#graphlet_sampling_inner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.graphlet_sampling_inner" title="Permalink to this definition">¶</a></dt>
-<dd><p>Applies the graphlet sampling kernel, as proposed in <a class="reference internal" href="#shervashidze2009efficientgk" id="id18">[SVP+09]</a></p>
-<dl class="docutils">
-<dt>arguments:</dt>
-<dd><ul class="first last simple">
-<li>G{x,y} (graph): the pair of graphs on which the kernel is applied</li>
-<li>k (int): the dimension of the given graphlets</li>
-<li>delta (float): confidence level (typically 0.05 or 0.1)</li>
-<li>epsilon (float): precision level (typically 0.05 or 0.1)</li>
-<li>a (int): number of isomorphism classes of graphlets</li>
-</ul>
-</dd>
-<dt>returns:</dt>
-<dd>number. The kernel value</dd>
-</dl>
+<dd><p>Applies the graphlet sampling kernel, as proposed in <a class="reference internal" href="#shervashidze2009efficientgk" id="id18">[SVP+09]</a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>G{x,y}</strong> : graph</p>
+<blockquote>
+<div><p>The pair of graphs on which the kernel is applied.</p>
+</div></blockquote>
+<p><strong>k</strong> : int, default=5</p>
+<blockquote>
+<div><p>The dimension of the given graphlets.</p>
+</div></blockquote>
+<p><strong>delta</strong> : float, default=0.05</p>
+<blockquote>
+<div><p>Confidence level (typically 0.05 or 0.1).</p>
+</div></blockquote>
+<p><strong>epsilon</strong> : float, default=0.05</p>
+<blockquote>
+<div><p>Precision level (typically 0.05 or 0.1).</p>
+</div></blockquote>
+<p><strong>a</strong> : int</p>
+<blockquote>
+<div><p>Number of isomorphism classes of graphlets.
+If -1 the number is the maximum possible, from a database 1 until 9
+or else predicted through interpolation.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>kernel</strong> : number</p>
+<blockquote class="last">
+<div><p>The kernel value.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="grakel.kernels.graphlet_sampling_core">
 <code class="descclassname">grakel.kernels.</code><code class="descname">graphlet_sampling_core</code><span class="sig-paren">(</span><em>Gx</em>, <em>Gy</em>, <em>nsamples</em>, <em>graphlets</em>, <em>P</em>, <em>graph_bins</em>, <em>nbins</em>, <em>k=5</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/kernels/graphlet_sampling.html#graphlet_sampling_core"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.graphlet_sampling_core" title="Permalink to this definition">¶</a></dt>
-<dd><p>Applies the graphlet sampling kernel given a graphlet feature space, as proposed in <a class="reference internal" href="#shervashidze2009efficientgk" id="id19">[SVP+09]</a></p>
-<dl class="docutils">
-<dt>arguments:</dt>
-<dd><ul class="first last simple">
-<li>G{x,y} (graphs): the pair of graphs on which the kernel is applied</li>
-<li>nsamples (int): the number of samples in the graphlet feature space</li>
-<li>graphlets (dict): a dictionary of graphlets with keys from 0 … nsamples-1</li>
-<li>P (np.array): a matrix that has zeros where the pair of indexes corresponds to isomorphic graphlets and 1 otherwise</li>
-<li>graph_bins (dict): a dictionary of bined graphlets, based on isomorphism classes</li>
-<li>nbins (int): the number of isomorphism classes</li>
-<li>k (int): graphlet dimension</li>
-</ul>
-</dd>
-<dt>returns:</dt>
-<dd>number. The kernel value</dd>
-</dl>
+<dd><p>Applies the graphlet sampling kernel given a graphlet feature space, as proposed in <a class="reference internal" href="#shervashidze2009efficientgk" id="id19">[SVP+09]</a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>G{x,y}</strong> : graph</p>
+<blockquote>
+<div><p>The pair of graphs on which the kernel is applied.</p>
+</div></blockquote>
+<p><strong>nsamples</strong> : int</p>
+<blockquote>
+<div><p>The number of samples in the graphlet feature space.</p>
+</div></blockquote>
+<p><strong>graphlets</strong> : dict</p>
+<blockquote>
+<div><p>A dictionary of graphlets with keys from 0 … nsamples-1.</p>
+</div></blockquote>
+<p><strong>P</strong> : np.array</p>
+<blockquote>
+<div><p>A matrix that has zeros where the pair of indexes corresponds to isomorphic graphlets and 1 otherwise.</p>
+</div></blockquote>
+<p><strong>graph_bins</strong> : dict</p>
+<blockquote>
+<div><p>A dictionary of bined graphlets, based on isomorphism classes.</p>
+</div></blockquote>
+<p><strong>nbins</strong> : int</p>
+<blockquote>
+<div><p>The number of isomorphism classes.</p>
+</div></blockquote>
+<p><strong>k</strong> : int</p>
+<blockquote>
+<div><p>Graphlet dimension.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>kernel</strong> : number</p>
+<blockquote class="last">
+<div><p>The kernel value.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="grakel.kernels.sample_graphlets">
 <code class="descclassname">grakel.kernels.</code><code class="descname">sample_graphlets</code><span class="sig-paren">(</span><em>k=5</em>, <em>delta=0.05</em>, <em>epsilon=0.05</em>, <em>a=-1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/kernels/graphlet_sampling.html#sample_graphlets"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.sample_graphlets" title="Permalink to this definition">¶</a></dt>
-<dd><p>A function that samples graphlets, based on statistic parameters as proposed in <a class="reference internal" href="#shervashidze2009efficientgk" id="id20">[SVP+09]</a></p>
-<dl class="docutils">
-<dt>arguments:</dt>
-<dd><ul class="first last simple">
-<li>k (int): the dimension of the given graphlets</li>
-<li>delta (float): confidence level (typically 0.05 or 0.1)</li>
-<li>epsilon (float): precision level (typically 0.05 or 0.1)</li>
-<li>a (int): number of isomorphism classes of graphlets</li>
-</ul>
-</dd>
-<dt>returns:</dt>
-<dd><ul class="first last simple">
-<li>(int). The number of samples in the graphlet feature space</li>
-<li>(dict). A dictionary of graphlets with keys from 0 … nsamples-1</li>
-<li>(np.array). A matrix that has zeros where the pair of indexes corresponds to isomorphic graphlets and 1 otherwise</li>
-<li>(dict). A dictionary of bined graphlets, based on isomorphism classes</li>
-<li>(int). The number of isomorphism classes</li>
-</ul>
-</dd>
-</dl>
+<dd><p>A function that samples graphlets, based on statistic parameters as proposed in <a class="reference internal" href="#shervashidze2009efficientgk" id="id20">[SVP+09]</a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>k</strong> : int</p>
+<blockquote>
+<div><p>Graphlet dimension.</p>
+</div></blockquote>
+<p><strong>delta</strong> : float, default=0.05</p>
+<blockquote>
+<div><p>Confidence level (typically 0.05 or 0.1).</p>
+</div></blockquote>
+<p><strong>epsilon</strong> : float, default=0.05</p>
+<blockquote>
+<div><p>Precision level (typically 0.05 or 0.1).</p>
+</div></blockquote>
+<p><strong>a</strong> : int</p>
+<blockquote>
+<div><p>Number of isomorphism classes of graphlets.
+If -1 the number is the maximum possible, from a database 1 until 9
+or else predicted through interpolation.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>nsamples</strong> : int</p>
+<blockquote>
+<div><p>The number of samples in the graphlet feature space.</p>
+</div></blockquote>
+<p><strong>graphlets</strong> : dict</p>
+<blockquote>
+<div><p>A dictionary of graphlets with keys from 0 … nsamples-1.</p>
+</div></blockquote>
+<p><strong>P</strong> : np.array</p>
+<blockquote>
+<div><p>A matrix that has zeros where the pair of indexes corresponds to isomorphic graphlets and 1 otherwise.</p>
+</div></blockquote>
+<p><strong>graph_bins</strong> : dict</p>
+<blockquote>
+<div><p>A dictionary of bined graphlets, based on isomorphism classes.</p>
+</div></blockquote>
+<p><strong>nbins</strong> : int</p>
+<blockquote class="last">
+<div><p>The number of isomorphism classes.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
@@ -437,36 +563,69 @@
 <dl class="function">
 <dt id="grakel.kernels.multiscale_laplacian">
 <code class="descclassname">grakel.kernels.</code><code class="descname">multiscale_laplacian</code><span class="sig-paren">(</span><em>X</em>, <em>Y</em>, <em>Phi_x</em>, <em>Phi_y</em>, <em>L=3</em>, <em>gamma=0.01</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/kernels/multiscale_laplacian.html#multiscale_laplacian"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.multiscale_laplacian" title="Permalink to this definition">¶</a></dt>
-<dd><p>The Laplacian Graph Kernel as proposed in <a class="reference internal" href="#kondor2016theml" id="id24">[KP16]</a></p>
-<dl class="docutils">
-<dt>arguments:    </dt>
-<dd><ul class="first last simple">
-<li>X,Y (valid graph format): the pair of graphs on which the kernel is applied</li>
-<li>Phi_{x,y} (dict): corresponding feature vectors for nodes</li>
-<li>gamma (float): A small softening parameter of float value</li>
-<li>L (int): number of neighborhoods</li>
-</ul>
-</dd>
-<dt>returns:</dt>
-<dd>number. The kernel value</dd>
-</dl>
+<dd><p>The Laplacian Graph Kernel as proposed in <a class="reference internal" href="#kondor2016theml" id="id24">[KP16]</a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X,Y</strong> : <cite>valid-graph-format</cite></p>
+<blockquote>
+<div><p>The pair of graphs on which the kernel is applied.</p>
+</div></blockquote>
+<p><strong>Phi_{x,y}</strong> : dict</p>
+<blockquote>
+<div><p>Corresponding feature vectors for vertices.</p>
+</div></blockquote>
+<p><strong>L</strong> : int, default=3</p>
+<blockquote>
+<div><p>Number of neighborhoods.</p>
+</div></blockquote>
+<p><strong>gamma</strong> : float, default=0.01</p>
+<blockquote>
+<div><p>A small softening parameter of float value.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>kernel</strong> : number</p>
+<blockquote class="last">
+<div><p>The kernel value.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="grakel.kernels.multiscale_laplacian_inner">
 <code class="descclassname">grakel.kernels.</code><code class="descname">multiscale_laplacian_inner</code><span class="sig-paren">(</span><em>Gx</em>, <em>Gy</em>, <em>L=3</em>, <em>gamma=0.01</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/kernels/multiscale_laplacian.html#multiscale_laplacian_inner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.multiscale_laplacian_inner" title="Permalink to this definition">¶</a></dt>
-<dd><p>The Laplacian Graph Kernel as proposed in <a class="reference internal" href="#kondor2016theml" id="id25">[KP16]</a></p>
-<dl class="docutils">
-<dt>arguments:</dt>
-<dd><ul class="first last simple">
-<li>Gx, Gy (graph): the pair of graphs on which the kernel is applied with feature vectores as node labels</li>
-<li>gamma (float): a small softening parameter</li>
-<li>L (int): number of neighborhoods</li>
-</ul>
-</dd>
-<dt>returns:</dt>
-<dd>number. The kernel value</dd>
-</dl>
+<dd><p>The Laplacian Graph Kernel as proposed in <a class="reference internal" href="#kondor2016theml" id="id25">[KP16]</a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>G{x,y}</strong> : graph</p>
+<blockquote>
+<div><p>The pair of graphs on which the kernel is applied with feature vectores as node labels.</p>
+</div></blockquote>
+<p><strong>L</strong> : int, default=3</p>
+<blockquote>
+<div><p>Number of neighborhoods.</p>
+</div></blockquote>
+<p><strong>gamma</strong> : float, default=0.01</p>
+<blockquote>
+<div><p>A small softening parameter.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>kernel</strong> : number</p>
+<blockquote class="last">
+<div><p>The kernel value.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
@@ -509,37 +668,73 @@
 <dl class="function">
 <dt id="grakel.kernels.lovasz_theta">
 <code class="descclassname">grakel.kernels.</code><code class="descname">lovasz_theta</code><span class="sig-paren">(</span><em>X</em>, <em>Y</em>, <em>n_samples=50</em>, <em>subsets_size_range=(2</em>, <em>8)</em>, <em>metric=&lt;function &lt;lambda&gt;&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/kernels/lovasz_theta.html#lovasz_theta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.lovasz_theta" title="Permalink to this definition">¶</a></dt>
-<dd><p>The lovasz theta kernel as proposed in <a class="reference internal" href="#johansson2015learningws" id="id28">[JD15]</a></p>
-<dl class="docutils">
-<dt>arguments:</dt>
-<dd><ul class="first last simple">
-<li>X,Y (valid graph format): the pair of graphs on which the kernel is applied</li>
-<li>metric (function: number, number -&gt; number): the applied metric between the lovasz_theta numbers of the two graphs</li>
-<li>n_samples (int): number of samples</li>
-<li>subsets_size_range (tuple): (min, max) size of the vertex set of sampled subgraphs</li>
-</ul>
-</dd>
-<dt>returns:</dt>
-<dd>number. The kernel value</dd>
-</dl>
+<dd><p>The lovasz theta kernel as proposed in <a class="reference internal" href="#johansson2015learningws" id="id28">[JD15]</a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X,Y</strong> : <em>valid-graph-format</em></p>
+<blockquote>
+<div><p>The pair of graphs on which the kernel is applied.</p>
+</div></blockquote>
+<p><strong>n_samples</strong> : int, default=50</p>
+<blockquote>
+<div><p>The number of samples.</p>
+</div></blockquote>
+<p><strong>subsets_size_range</strong> : tuple, len=2, default=(2,8)</p>
+<blockquote>
+<div><p>(min, max) size of the vertex set of sampled subgraphs.</p>
+</div></blockquote>
+<p><strong>metric</strong> : function (number, number -&gt; number), default=:math:<cite>f(x,y) = x*y</cite></p>
+<blockquote>
+<div><p>The applied metric between the lovasz_theta numbers of the two graphs.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>kernel</strong> : number</p>
+<blockquote class="last">
+<div><p>The kernel value.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="grakel.kernels.lovasz_theta_inner">
 <code class="descclassname">grakel.kernels.</code><code class="descname">lovasz_theta_inner</code><span class="sig-paren">(</span><em>Gx</em>, <em>Gy</em>, <em>n_samples=50</em>, <em>subsets_size_range=(2</em>, <em>8)</em>, <em>metric=&lt;function &lt;lambda&gt;&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/kernels/lovasz_theta.html#lovasz_theta_inner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.lovasz_theta_inner" title="Permalink to this definition">¶</a></dt>
-<dd><p>The lovasz theta kernel as proposed in <a class="reference internal" href="#johansson2015learningws" id="id29">[JD15]</a></p>
-<dl class="docutils">
-<dt>arguments:</dt>
-<dd><ul class="first last simple">
-<li>Gx, Gy (graph): the pair of graphs on which the kernels is applied</li>
-<li>metric (function: number, number -&gt; number): the applied metric between the lovasz_theta numbers of the two graphs</li>
-<li>n_samples (int): number of samples</li>
-<li>subsets_size_range (tuple): (min, max) size of the vertex set of sampled subgraphs</li>
-</ul>
-</dd>
-<dt>returns:</dt>
-<dd>number. The kernel value</dd>
-</dl>
+<dd><p>The lovasz theta kernel as proposed in <a class="reference internal" href="#johansson2015learningws" id="id29">[JD15]</a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Gx, Gy</strong> : graph</p>
+<blockquote>
+<div><p>The pair of graphs on which the kernels is applied.</p>
+</div></blockquote>
+<p><strong>n_samples</strong> : int, default=50</p>
+<blockquote>
+<div><p>Number of samples.</p>
+</div></blockquote>
+<p><strong>subsets_size_range</strong> : tuple, len=2, default=(2,8)</p>
+<blockquote>
+<div><p>(min, max) size of the vertex set of sampled subgraphs.</p>
+</div></blockquote>
+<p><strong>metric</strong> : function (number, number -&gt; number), default=:math:<cite>f(x,y) = x*y</cite></p>
+<blockquote>
+<div><p>The applied metric between the lovasz_theta numbers of the two graphs.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>kernel</strong> : number</p>
+<blockquote class="last">
+<div><p>The kernel value.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
@@ -615,44 +810,85 @@
 <dl class="function">
 <dt id="grakel.kernels.neighborhood_hash">
 <code class="descclassname">grakel.kernels.</code><code class="descname">neighborhood_hash</code><span class="sig-paren">(</span><em>X</em>, <em>Y</em>, <em>Lx</em>, <em>Ly</em>, <em>nh_type='simple'</em>, <em>R=3</em>, <em>bytes=2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/kernels/neighborhood_hash.html#neighborhood_hash"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.neighborhood_hash" title="Permalink to this definition">¶</a></dt>
-<dd><p>The neighborhood hashing kernel as proposed in <a class="reference internal" href="#hido2009alg" id="id34">[HK09]</a></p>
-<dl class="docutils">
-<dt>arguments:</dt>
-<dd><ul class="first last simple">
-<li>X,Y (valid graph format): the pair of graphs on which the kernel is applied</li>
-<li>L{x,y} (dict): coresponding graph labels for nodes</li>
-<li>R (int): the maximum number of neighborhood hash</li>
-<li>nh_type (str): ‘simple’ or ‘count-sensitive’</li>
-<li>bytes (int): number of bytes for hashing of original labels</li>
-</ul>
-</dd>
-<dt>returns:</dt>
-<dd>number. The kernel value</dd>
-</dl>
+<dd><p>The neighborhood hashing kernel as proposed in <a class="reference internal" href="#hido2009alg" id="id34">[HK09]</a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X,Y</strong> : <em>valid-graph-format</em></p>
+<blockquote>
+<div><p>The pair of graphs on which the kernel is applied.</p>
+</div></blockquote>
+<p><strong>L{x,y}</strong> : dict</p>
+<blockquote>
+<div><p>Coresponding graph labels for vertices.</p>
+</div></blockquote>
+<p><strong>R</strong> : int, default=3</p>
+<blockquote>
+<div><p>The maximum number of neighborhood hash.</p>
+</div></blockquote>
+<p><strong>nh_type</strong> : str, valid_types={“simple”, “count_sensitive”}, default=”simple”</p>
+<blockquote>
+<div><p>The existing neighborhood hash type as defined in <a class="reference internal" href="#hido2009alg" id="id35">[HK09]</a>.</p>
+</div></blockquote>
+<p><strong>bytes</strong> : int, default=2</p>
+<blockquote>
+<div><p>Byte size of hashes.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>kernel</strong> : number</p>
+<blockquote class="last">
+<div><p>The kernel value.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="grakel.kernels.neighborhood_hash_matrix">
 <code class="descclassname">grakel.kernels.</code><code class="descname">neighborhood_hash_matrix</code><span class="sig-paren">(</span><em>Graphs_x</em>, <em>Graphs_y=None</em>, <em>nh_type='simple'</em>, <em>R=3</em>, <em>bytes=2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/kernels/neighborhood_hash.html#neighborhood_hash_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.neighborhood_hash_matrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>The calculate_similarity matrix function as defined <a class="reference internal" href="#hido2009alg" id="id35">[HK09]</a></p>
-<dl class="docutils">
-<dt>arguments:</dt>
-<dd><ul class="first last simple">
-<li>Graphs_{x,y} (dict): A dictionary of graph type objects that are going to be compared with keys from 0 … to the dictionary length.</li>
-<li>R (int): the maximum number of neighborhood hash</li>
-<li>nh_type (str): ‘simple’ or ‘count-sensitive’</li>
-<li>bytes (int): number of bytes for hashing of original labels</li>
-</ul>
-</dd>
-<dt>returns:</dt>
-<dd>np.array. The kernel matrix</dd>
-</dl>
+<dd><p>The calculate_similarity matrix function as defined <a class="reference internal" href="#hido2009alg" id="id36">[HK09]</a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Graphs_{x,y}</strong> : dict, default_y=None</p>
+<blockquote>
+<div><p>A dictionary of graph type objects that are going to be compared with keys from 0 … to the dictionary length.
+If Graphs_y is None the kernel matrix is computed between all graphs in Graphs_x.</p>
+</div></blockquote>
+<p><strong>R</strong> : int, default=3</p>
+<blockquote>
+<div><p>The maximum number of neighborhood hash.</p>
+</div></blockquote>
+<p><strong>nh_type</strong> : str, valid_values={‘simple’,’count-sensitive’},</p>
+<blockquote>
+<div><p>The existing neighborhood hash type as defined in <a class="reference internal" href="#hido2009alg" id="id37">[HK09]</a>.</p>
+</div></blockquote>
+<p><strong>bytes</strong> : int, default=2</p>
+<blockquote>
+<div><p>Byte size of hashes.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>kernel_matrix</strong> : np.array</p>
+<blockquote class="last">
+<div><p>The kernel matrix. If the Graphs_y is not None the rows correspond to Graphs_y
+and the cols to the Graphs_x (based on the given order).</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="grakel.kernels.odd_sth">
 <code class="descclassname">grakel.kernels.</code><code class="descname">odd_sth</code><span class="sig-paren">(</span><em>X</em>, <em>Y</em>, <em>Lx</em>, <em>Ly</em>, <em>h=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/kernels/odd_sth.html#odd_sth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.odd_sth" title="Permalink to this definition">¶</a></dt>
-<dd><p>The ODD-Sth kernel as proposed in <a class="reference internal" href="#martino2012atk" id="id36">[MNS12]</a></p>
+<dd><p>The ODD-Sth kernel as proposed in <a class="reference internal" href="#martino2012atk" id="id38">[MNS12]</a></p>
 <dl class="docutils">
 <dt>arguments:</dt>
 <dd><ul class="first last simple">
@@ -669,7 +905,7 @@
 <dl class="function">
 <dt id="grakel.kernels.odd_sth_matrix">
 <code class="descclassname">grakel.kernels.</code><code class="descname">odd_sth_matrix</code><span class="sig-paren">(</span><em>Graphs_x</em>, <em>Graphs_y=None</em>, <em>h=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/kernels/odd_sth.html#odd_sth_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.odd_sth_matrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>The ODD-Sth kernel as proposed in <a class="reference internal" href="#martino2012atk" id="id37">[MNS12]</a></p>
+<dd><p>The ODD-Sth kernel as proposed in <a class="reference internal" href="#martino2012atk" id="id39">[MNS12]</a></p>
 <dl class="docutils">
 <dt>arguments:</dt>
 <dd><ul class="first last simple">
@@ -685,7 +921,7 @@
 <dl class="function">
 <dt id="grakel.kernels.propagation">
 <code class="descclassname">grakel.kernels.</code><code class="descname">propagation</code><span class="sig-paren">(</span><em>X</em>, <em>Y</em>, <em>Lx</em>, <em>Ly</em>, <em>Tx=None</em>, <em>Ty=None</em>, <em>t_max=5</em>, <em>w=10</em>, <em>M='TV'</em>, <em>base_kernel=&lt;function &lt;lambda&gt;&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/kernels/propagation.html#propagation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.propagation" title="Permalink to this definition">¶</a></dt>
-<dd><p>The propagation kernel for fully labeled graphs <a class="reference internal" href="#neumann2015propagationke" id="id38">[NGBK15]</a>: Algorithms 1, 3, p. 216, 221</p>
+<dd><p>The propagation kernel for fully labeled graphs <a class="reference internal" href="#neumann2015propagationke" id="id40">[NGBK15]</a>: Algorithms 1, 3, p. 216, 221</p>
 <dl class="docutils">
 <dt>arguments:</dt>
 <dd><ul class="first last simple">
@@ -716,7 +952,7 @@
 <dl class="function">
 <dt id="grakel.kernels.propagation_matrix">
 <code class="descclassname">grakel.kernels.</code><code class="descname">propagation_matrix</code><span class="sig-paren">(</span><em>Graphs_x</em>, <em>Graphs_y=None</em>, <em>t_max=5</em>, <em>T=None</em>, <em>w=10</em>, <em>M='TV'</em>, <em>base_kernel=&lt;function &lt;lambda&gt;&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/kernels/propagation.html#propagation_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.propagation_matrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>The propagation kernel for fully labeled graphs <a class="reference internal" href="#neumann2015propagationke" id="id39">[NGBK15]</a>: p. 216, 221</p>
+<dd><p>The propagation kernel for fully labeled graphs <a class="reference internal" href="#neumann2015propagationke" id="id41">[NGBK15]</a>: p. 216, 221</p>
 <dl class="docutils">
 <dt>arguments:</dt>
 <dd><ul class="first last simple">
@@ -747,7 +983,7 @@
 <dl class="function">
 <dt id="grakel.kernels.pyramid_match">
 <code class="descclassname">grakel.kernels.</code><code class="descname">pyramid_match</code><span class="sig-paren">(</span><em>X</em>, <em>Y</em>, <em>Lx</em>, <em>Ly</em>, <em>L=4</em>, <em>d=6</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/kernels/pyramid_match.html#pyramid_match"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.pyramid_match" title="Permalink to this definition">¶</a></dt>
-<dd><p>The pyramid match kernel as defined in <a class="reference internal" href="#nikolentzos2017matchingne" id="id40">[NMV17]</a></p>
+<dd><p>The pyramid match kernel as defined in <a class="reference internal" href="#nikolentzos2017matchingne" id="id42">[NMV17]</a></p>
 <dl class="docutils">
 <dt>arguments:</dt>
 <dd><ul class="first last simple">
@@ -765,7 +1001,7 @@
 <dl class="function">
 <dt id="grakel.kernels.pyramid_match_matrix">
 <code class="descclassname">grakel.kernels.</code><code class="descname">pyramid_match_matrix</code><span class="sig-paren">(</span><em>Graphs_x</em>, <em>Graphs_y=None</em>, <em>with_labels=True</em>, <em>L=4</em>, <em>d=6</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/kernels/pyramid_match.html#pyramid_match_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.pyramid_match_matrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>The pyramid match kernel function as defined in <a class="reference internal" href="#nikolentzos2017matchingne" id="id41">[NMV17]</a></p>
+<dd><p>The pyramid match kernel function as defined in <a class="reference internal" href="#nikolentzos2017matchingne" id="id43">[NMV17]</a></p>
 <dl class="docutils">
 <dt>arguments:</dt>
 <dd><ul class="first last simple">
@@ -801,7 +1037,7 @@
 <table class="docutils citation" frame="void" id="hido2009alg" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label">[HK09]</td><td><em>(<a class="fn-backref" href="#id34">1</a>, <a class="fn-backref" href="#id35">2</a>)</em> Shohei Hido and Hisashi Kashima. A linear-time graph kernel. <em>2009 Ninth IEEE International Conference on Data Mining</em>, pages 179–188, 2009.</td></tr>
+<tr><td class="label">[HK09]</td><td><em>(<a class="fn-backref" href="#id34">1</a>, <a class="fn-backref" href="#id35">2</a>, <a class="fn-backref" href="#id36">3</a>, <a class="fn-backref" href="#id37">4</a>)</em> Shohei Hido and Hisashi Kashima. A linear-time graph kernel. <em>2009 Ninth IEEE International Conference on Data Mining</em>, pages 179–188, 2009.</td></tr>
 </tbody>
 </table>
 <table class="docutils citation" frame="void" id="johansson2015learningws" rules="none">
@@ -831,19 +1067,19 @@
 <table class="docutils citation" frame="void" id="martino2012atk" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label">[MNS12]</td><td><em>(<a class="fn-backref" href="#id36">1</a>, <a class="fn-backref" href="#id37">2</a>)</em> Giovanni Da&nbsp;San Martino, Nicolò Navarin, and Alessandro Sperduti. A tree-based kernel for graphs. In <em>SDM</em>. 2012.</td></tr>
+<tr><td class="label">[MNS12]</td><td><em>(<a class="fn-backref" href="#id38">1</a>, <a class="fn-backref" href="#id39">2</a>)</em> Giovanni Da&nbsp;San Martino, Nicolò Navarin, and Alessandro Sperduti. A tree-based kernel for graphs. In <em>SDM</em>. 2012.</td></tr>
 </tbody>
 </table>
 <table class="docutils citation" frame="void" id="neumann2015propagationke" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label">[NGBK15]</td><td><em>(<a class="fn-backref" href="#id38">1</a>, <a class="fn-backref" href="#id39">2</a>)</em> Marion Neumann, Roman Garnett, Christian Bauckhage, and Kristian Kersting. Propagation kernels: efficient graph kernels from propagated information. <em>Machine Learning</em>, 102:209–245, 2015.</td></tr>
+<tr><td class="label">[NGBK15]</td><td><em>(<a class="fn-backref" href="#id40">1</a>, <a class="fn-backref" href="#id41">2</a>)</em> Marion Neumann, Roman Garnett, Christian Bauckhage, and Kristian Kersting. Propagation kernels: efficient graph kernels from propagated information. <em>Machine Learning</em>, 102:209–245, 2015.</td></tr>
 </tbody>
 </table>
 <table class="docutils citation" frame="void" id="nikolentzos2017matchingne" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label">[NMV17]</td><td><em>(<a class="fn-backref" href="#id40">1</a>, <a class="fn-backref" href="#id41">2</a>)</em> Giannis Nikolentzos, Polykarpos Meladianos, and Michalis Vazirgiannis. Matching node embeddings for graph similarity. In <em>AAAI</em>. 2017.</td></tr>
+<tr><td class="label">[NMV17]</td><td><em>(<a class="fn-backref" href="#id42">1</a>, <a class="fn-backref" href="#id43">2</a>)</em> Giannis Nikolentzos, Polykarpos Meladianos, and Michalis Vazirgiannis. Matching node embeddings for graph similarity. In <em>AAAI</em>. 2017.</td></tr>
 </tbody>
 </table>
 <table class="docutils citation" frame="void" id="ramon2003expressivityve" rules="none">

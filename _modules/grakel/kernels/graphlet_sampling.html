@@ -178,18 +178,32 @@
 <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">15487103</span><span class="p">)</span>
 
 <div class="viewcode-block" id="graphlet_sampling"><a class="viewcode-back" href="../../../kernels.html#grakel.kernels.graphlet_sampling">[docs]</a><span class="k">def</span> <span class="nf">graphlet_sampling</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">delta</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">a</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Applies the graphlet sampling kernel as proposed in :cite:`Shervashidze2009EfficientGK`</span>
+    <span class="sd">&quot;&quot;&quot; Applies the graphlet sampling kernel as proposed in :cite:`Shervashidze2009EfficientGK`.</span>
 <span class="sd">        </span>
 <span class="sd">    </span>
-<span class="sd">    arguments:    </span>
-<span class="sd">        - X,Y (valid graph format): the pair of graphs on which the kernel is applied</span>
-<span class="sd">        - k (int): the dimension of the given graphlets</span>
-<span class="sd">        - delta (float): confidence level (typically 0.05 or 0.1)</span>
-<span class="sd">        - epsilon (float): precision level (typically 0.05 or 0.1)</span>
-<span class="sd">        - a (int): number of isomorphism classes of graphlets  </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    X,Y : valid graph format</span>
+<span class="sd">        The pair of graphs on which the kernel is applied.</span>
+<span class="sd">        </span>
+<span class="sd">    k : int, default=5</span>
+<span class="sd">        The dimension of the given graphlets.</span>
+<span class="sd">        </span>
+<span class="sd">    delta : float, default=0.05</span>
+<span class="sd">        Confidence level (typically 0.05 or 0.1).</span>
 <span class="sd">    </span>
-<span class="sd">    returns:</span>
-<span class="sd">        number. The kernel value        </span>
+<span class="sd">    epsilon : float, default=0.05</span>
+<span class="sd">        Precision level (typically 0.05 or 0.1).</span>
+<span class="sd">        </span>
+<span class="sd">    a : int</span>
+<span class="sd">        Number of isomorphism classes of graphlets.</span>
+<span class="sd">        If -1 the number is the maximum possible, from a database 1 until 9</span>
+<span class="sd">        or else predicted through interpolation.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    kernel : number</span>
+<span class="sd">        The kernel value.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">Gx</span> <span class="o">=</span> <span class="n">graph</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
     <span class="n">Gy</span> <span class="o">=</span> <span class="n">graph</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span>
@@ -197,17 +211,31 @@
     <span class="k">return</span> <span class="n">graphlet_sampling_inner</span><span class="p">(</span><span class="n">Gx</span><span class="p">,</span> <span class="n">Gy</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">delta</span><span class="o">=</span><span class="n">delta</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="n">epsilon</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="n">a</span><span class="p">)</span></div>
     
 <div class="viewcode-block" id="graphlet_sampling_inner"><a class="viewcode-back" href="../../../kernels.html#grakel.kernels.graphlet_sampling_inner">[docs]</a><span class="k">def</span> <span class="nf">graphlet_sampling_inner</span><span class="p">(</span><span class="n">Gx</span><span class="p">,</span> <span class="n">Gy</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">delta</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">a</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Applies the graphlet sampling kernel, as proposed in :cite:`Shervashidze2009EfficientGK`</span>
+    <span class="sd">&quot;&quot;&quot; Applies the graphlet sampling kernel, as proposed in :cite:`Shervashidze2009EfficientGK`.</span>
 
-<span class="sd">    arguments:</span>
-<span class="sd">        - G{x,y} (graph): the pair of graphs on which the kernel is applied</span>
-<span class="sd">        - k (int): the dimension of the given graphlets</span>
-<span class="sd">        - delta (float): confidence level (typically 0.05 or 0.1)</span>
-<span class="sd">        - epsilon (float): precision level (typically 0.05 or 0.1)</span>
-<span class="sd">        - a (int): number of isomorphism classes of graphlets  </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    G{x,y} : graph</span>
+<span class="sd">        The pair of graphs on which the kernel is applied.</span>
 <span class="sd">        </span>
-<span class="sd">    returns:</span>
-<span class="sd">        number. The kernel value</span>
+<span class="sd">    k : int, default=5</span>
+<span class="sd">        The dimension of the given graphlets.</span>
+<span class="sd">        </span>
+<span class="sd">    delta : float, default=0.05</span>
+<span class="sd">        Confidence level (typically 0.05 or 0.1).</span>
+<span class="sd">    </span>
+<span class="sd">    epsilon : float, default=0.05</span>
+<span class="sd">        Precision level (typically 0.05 or 0.1).</span>
+<span class="sd">        </span>
+<span class="sd">    a : int</span>
+<span class="sd">        Number of isomorphism classes of graphlets.</span>
+<span class="sd">        If -1 the number is the maximum possible, from a database 1 until 9</span>
+<span class="sd">        or else predicted through interpolation.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    kernel : number</span>
+<span class="sd">        The kernel value.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Steps:</span>
@@ -218,19 +246,29 @@
     <span class="k">return</span> <span class="n">graphlet_sampling_core</span><span class="p">(</span><span class="n">Gx</span><span class="p">,</span> <span class="n">Gy</span><span class="p">,</span> <span class="n">nsamples</span><span class="p">,</span> <span class="n">graphlets</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">graph_bins</span><span class="p">,</span> <span class="n">nbins</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="graphlet_sampling_core"><a class="viewcode-back" href="../../../kernels.html#grakel.kernels.graphlet_sampling_core">[docs]</a><span class="k">def</span> <span class="nf">graphlet_sampling_core</span><span class="p">(</span><span class="n">Gx</span><span class="p">,</span> <span class="n">Gy</span><span class="p">,</span> <span class="n">nsamples</span><span class="p">,</span> <span class="n">graphlets</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">graph_bins</span><span class="p">,</span> <span class="n">nbins</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Applies the graphlet sampling kernel given a graphlet feature space, as proposed in :cite:`Shervashidze2009EfficientGK`</span>
+    <span class="sd">&quot;&quot;&quot; Applies the graphlet sampling kernel given a graphlet feature space, as proposed in :cite:`Shervashidze2009EfficientGK`.</span>
 <span class="sd">        </span>
-<span class="sd">    arguments:</span>
-<span class="sd">        - G{x,y} (graphs): the pair of graphs on which the kernel is applied</span>
-<span class="sd">        - nsamples (int): the number of samples in the graphlet feature space</span>
-<span class="sd">        - graphlets (dict): a dictionary of graphlets with keys from 0 ... nsamples-1</span>
-<span class="sd">        - P (np.array): a matrix that has zeros where the pair of indexes corresponds to isomorphic graphlets and 1 otherwise</span>
-<span class="sd">        - graph_bins (dict): a dictionary of bined graphlets, based on isomorphism classes</span>
-<span class="sd">        - nbins (int): the number of isomorphism classes</span>
-<span class="sd">        - k (int): graphlet dimension</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    G{x,y} : graph</span>
+<span class="sd">        The pair of graphs on which the kernel is applied.</span>
+<span class="sd">    nsamples : int</span>
+<span class="sd">        The number of samples in the graphlet feature space.</span>
+<span class="sd">    graphlets : dict</span>
+<span class="sd">        A dictionary of graphlets with keys from 0 ... nsamples-1.</span>
+<span class="sd">    P : np.array</span>
+<span class="sd">        A matrix that has zeros where the pair of indexes corresponds to isomorphic graphlets and 1 otherwise.</span>
+<span class="sd">    graph_bins : dict</span>
+<span class="sd">        A dictionary of bined graphlets, based on isomorphism classes.</span>
+<span class="sd">    nbins : int</span>
+<span class="sd">        The number of isomorphism classes.</span>
+<span class="sd">    k : int</span>
+<span class="sd">        Graphlet dimension.</span>
 <span class="sd">    </span>
-<span class="sd">    returns:</span>
-<span class="sd">        number. The kernel value</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    kernel : number</span>
+<span class="sd">        The kernel value.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">k</span><span class="o">&lt;</span><span class="mi">1</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;k must be bigger than 1&#39;</span><span class="p">)</span>
@@ -291,20 +329,36 @@
     <span class="k">return</span> <span class="n">kernel</span></div>
  
 <div class="viewcode-block" id="sample_graphlets"><a class="viewcode-back" href="../../../kernels.html#grakel.kernels.sample_graphlets">[docs]</a><span class="k">def</span> <span class="nf">sample_graphlets</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">delta</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">a</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; A function that samples graphlets, based on statistic parameters as proposed in :cite:`Shervashidze2009EfficientGK`</span>
+    <span class="sd">&quot;&quot;&quot; A function that samples graphlets, based on statistic parameters as proposed in :cite:`Shervashidze2009EfficientGK`.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    k : int</span>
+<span class="sd">        Graphlet dimension.</span>
 
-<span class="sd">    arguments:</span>
-<span class="sd">        - k (int): the dimension of the given graphlets</span>
-<span class="sd">        - delta (float): confidence level (typically 0.05 or 0.1)</span>
-<span class="sd">        - epsilon (float): precision level (typically 0.05 or 0.1)</span>
-<span class="sd">        - a (int): number of isomorphism classes of graphlets</span>
+<span class="sd">    delta : float, default=0.05</span>
+<span class="sd">        Confidence level (typically 0.05 or 0.1).</span>
+<span class="sd">    </span>
+<span class="sd">    epsilon : float, default=0.05</span>
+<span class="sd">        Precision level (typically 0.05 or 0.1).</span>
 <span class="sd">        </span>
-<span class="sd">    returns:</span>
-<span class="sd">        - (int). The number of samples in the graphlet feature space</span>
-<span class="sd">        - (dict). A dictionary of graphlets with keys from 0 ... nsamples-1</span>
-<span class="sd">        - (np.array). A matrix that has zeros where the pair of indexes corresponds to isomorphic graphlets and 1 otherwise</span>
-<span class="sd">        - (dict). A dictionary of bined graphlets, based on isomorphism classes</span>
-<span class="sd">        - (int). The number of isomorphism classes</span>
+<span class="sd">    a : int</span>
+<span class="sd">        Number of isomorphism classes of graphlets.</span>
+<span class="sd">        If -1 the number is the maximum possible, from a database 1 until 9</span>
+<span class="sd">        or else predicted through interpolation.</span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    nsamples : int</span>
+<span class="sd">        The number of samples in the graphlet feature space.</span>
+<span class="sd">    graphlets : dict</span>
+<span class="sd">        A dictionary of graphlets with keys from 0 ... nsamples-1.</span>
+<span class="sd">    P : np.array</span>
+<span class="sd">        A matrix that has zeros where the pair of indexes corresponds to isomorphic graphlets and 1 otherwise.</span>
+<span class="sd">    graph_bins : dict</span>
+<span class="sd">        A dictionary of bined graphlets, based on isomorphism classes.</span>
+<span class="sd">    nbins : int</span>
+<span class="sd">        The number of isomorphism classes.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># apply checks</span>
     <span class="k">if</span> <span class="n">k</span><span class="o">&gt;</span><span class="mi">10</span><span class="p">:</span>

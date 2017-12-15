@@ -158,7 +158,7 @@
            <div itemprop="articleBody">
             
   <h1>Source code for grakel.graph_kernels</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot; The main graph kernel class used for creating a graph kernel feature transformer object</span>
+<span></span><span class="sd">&quot;&quot;&quot; The main graph kernel class used for creating a graph kernel feature transformer object.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
 
@@ -189,7 +189,7 @@
 
 
 <div class="viewcode-block" id="GraphKernel"><a class="viewcode-back" href="../../graph_kernel.html#grakel.graph_kernels.GraphKernel">[docs]</a><span class="k">class</span> <span class="nc">GraphKernel</span><span class="p">(</span><span class="n">BaseEstimator</span><span class="p">,</span> <span class="n">TransformerMixin</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; A general class that describes all kernels</span>
+    <span class="sd">&quot;&quot;&quot; A general class that describes all kernels.</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -302,8 +302,8 @@
     <span class="k">def</span> <span class="nf">_make_kernel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">kernel_list</span><span class="p">):</span>
             <span class="sd">&quot;&quot;&quot; Produces the desired kernel function.</span>
 <span class="sd">                </span>
-<span class="sd">            Arguments</span>
-<span class="sd">            ---------</span>
+<span class="sd">            Parameters</span>
+<span class="sd">            ----------</span>
 <span class="sd">            kernel_list: (list)</span>
 <span class="sd">                List of kernel dictionaries as defined at the documentation of class parameters.</span>
 <span class="sd">               </span>
@@ -408,10 +408,10 @@
         <span class="k">return</span> <span class="bp">self</span></div>
 
 <div class="viewcode-block" id="GraphKernel.transform"><a class="viewcode-back" href="../../graph_kernel.html#grakel.graph_kernels.GraphKernel.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; The transform function calculates the kernel matrix</span>
+        <span class="sd">&quot;&quot;&quot; The transform function calculates the kernel matrix.</span>
 
-<span class="sd">        Arguments</span>
-<span class="sd">        ---------</span>
+<span class="sd">        Paramaters</span>
+<span class="sd">        ----------</span>
 <span class="sd">        X : iterable</span>
 <span class="sd">            Each element must be an iterable with at most three features and at least one.</span>
 <span class="sd">            The first that is obligatory is a valid graph structure (adjacency matrix or edge_dictionary)</span>
@@ -458,10 +458,10 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span><span class="p">(</span><span class="n">target_graph</span><span class="p">)</span></div>
         
 <div class="viewcode-block" id="GraphKernel.calculate_kernel_matrix"><a class="viewcode-back" href="../../graph_kernel.html#grakel.graph_kernels.GraphKernel.calculate_kernel_matrix">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_kernel_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">target_graph</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">kernel_type</span><span class="o">=</span><span class="s2">&quot;pairwise&quot;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; A function that calculates the kernel matrix given a target_graph and a kernel</span>
+        <span class="sd">&quot;&quot;&quot; A function that calculates the kernel matrix given a target_graph and a kernel.</span>
 <span class="sd">        </span>
-<span class="sd">        Arguments</span>
-<span class="sd">        ---------</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
 <span class="sd">        target_graph : dict</span>
 <span class="sd">            A dictionary from 0 to the number of graphs of target &quot;graph objects&quot;.</span>
 <span class="sd">        kernel: function</span>

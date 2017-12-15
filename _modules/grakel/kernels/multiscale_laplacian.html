@@ -158,7 +158,7 @@
            <div itemprop="articleBody">
             
   <h1>Source code for grakel.kernels.multiscale_laplacian</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot; The Multiscale Laplacian Graph Kernel as defined in :cite:`Kondor2016TheML`</span>
+<span></span><span class="sd">&quot;&quot;&quot; The Multiscale Laplacian Graph Kernel as defined in :cite:`Kondor2016TheML`.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
 
@@ -170,16 +170,26 @@
 <span class="kn">from</span> <span class="nn">..tools</span> <span class="k">import</span> <span class="n">extract_matrix</span>
 
 <div class="viewcode-block" id="multiscale_laplacian"><a class="viewcode-back" href="../../../kernels.html#grakel.kernels.multiscale_laplacian">[docs]</a><span class="k">def</span> <span class="nf">multiscale_laplacian</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Phi_x</span><span class="p">,</span> <span class="n">Phi_y</span><span class="p">,</span> <span class="n">L</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">0.01</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; The Laplacian Graph Kernel as proposed in :cite:`Kondor2016TheML`</span>
+    <span class="sd">&quot;&quot;&quot; The Laplacian Graph Kernel as proposed in :cite:`Kondor2016TheML`.</span>
 <span class="sd">        </span>
-<span class="sd">    arguments:    </span>
-<span class="sd">        - X,Y (valid graph format): the pair of graphs on which the kernel is applied</span>
-<span class="sd">        - Phi_{x,y} (dict): corresponding feature vectors for nodes</span>
-<span class="sd">        - gamma (float): A small softening parameter of float value</span>
-<span class="sd">        - L (int): number of neighborhoods</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    X,Y : `valid-graph-format`</span>
+<span class="sd">        The pair of graphs on which the kernel is applied.</span>
+<span class="sd">    </span>
+<span class="sd">    Phi_{x,y} : dict</span>
+<span class="sd">        Corresponding feature vectors for vertices.</span>
+
+<span class="sd">    L : int, default=3</span>
+<span class="sd">        Number of neighborhoods.    </span>
+
+<span class="sd">    gamma : float, default=0.01</span>
+<span class="sd">        A small softening parameter of float value.</span>
 <span class="sd">        </span>
-<span class="sd">    returns:</span>
-<span class="sd">        number. The kernel value        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    kernel : number</span>
+<span class="sd">        The kernel value.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">Gx</span> <span class="o">=</span> <span class="n">graph</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Phi_x</span><span class="p">)</span>
     <span class="n">Gy</span> <span class="o">=</span> <span class="n">graph</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">Phi_y</span><span class="p">)</span>
@@ -187,15 +197,23 @@
     
     
 <div class="viewcode-block" id="multiscale_laplacian_inner"><a class="viewcode-back" href="../../../kernels.html#grakel.kernels.multiscale_laplacian_inner">[docs]</a><span class="k">def</span> <span class="nf">multiscale_laplacian_inner</span><span class="p">(</span><span class="n">Gx</span><span class="p">,</span> <span class="n">Gy</span><span class="p">,</span> <span class="n">L</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">0.01</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; The Laplacian Graph Kernel as proposed in :cite:`Kondor2016TheML`</span>
+    <span class="sd">&quot;&quot;&quot; The Laplacian Graph Kernel as proposed in :cite:`Kondor2016TheML`.</span>
 <span class="sd">    </span>
-<span class="sd">    arguments:</span>
-<span class="sd">        - Gx, Gy (graph): the pair of graphs on which the kernel is applied with feature vectores as node labels</span>
-<span class="sd">        - gamma (float): a small softening parameter</span>
-<span class="sd">        - L (int): number of neighborhoods</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    G{x,y} : graph</span>
+<span class="sd">        The pair of graphs on which the kernel is applied with feature vectores as node labels.</span>
 
-<span class="sd">    returns:</span>
-<span class="sd">        number. The kernel value</span>
+<span class="sd">    L : int, default=3</span>
+<span class="sd">        Number of neighborhoods.</span>
+
+<span class="sd">    gamma : float, default=0.01</span>
+<span class="sd">        A small softening parameter.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    kernel : number</span>
+<span class="sd">        The kernel value.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">gamma</span> <span class="o">&gt;</span> <span class="mf">0.05</span><span class="p">:</span>
         <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;gamma to big&#39;</span><span class="p">)</span>
@@ -264,16 +282,26 @@
     <span class="k">return</span> <span class="n">generalized_FLG_core</span><span class="p">(</span><span class="n">Lx</span><span class="p">,</span> <span class="n">Ly</span><span class="p">,</span> <span class="n">gram_matrix</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="n">gamma</span><span class="p">)</span></div>
     
 <span class="k">def</span> <span class="nf">generalized_FLG_core</span><span class="p">(</span><span class="n">Lx</span><span class="p">,</span> <span class="n">Ly</span><span class="p">,</span> <span class="n">gram_matrix</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">heta</span><span class="o">=</span><span class="mf">0.1</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Helping function for the multiscale gaussian</span>
+    <span class="sd">&quot;&quot;&quot; Helping function for the multiscale gaussian.</span>
 <span class="sd">    </span>
-<span class="sd">    arguments:</span>
-<span class="sd">        - L_{x,y} (np.array): Laplacians of graph {x,y}</span>
-<span class="sd">        - Gram_matrix (np.array): The corresponding gram matrix for the two graphs</span>
-<span class="sd">        - gamma (float): a small softening parameter</span>
-<span class="sd">        - heta (float): number of neighborhoods</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    L_{x,y} (np.array)</span>
+<span class="sd">        Laplacians of graph {x,y}.</span>
+<span class="sd">    </span>
+<span class="sd">    Gram_matrix : np.array</span>
+<span class="sd">        The corresponding gram matrix for the two graphs.</span>
+<span class="sd">    </span>
+<span class="sd">    gamma : float, default=0.05</span>
+<span class="sd">        A small softening parameter.</span>
+<span class="sd">    </span>
+<span class="sd">    heta : float, default=0.1</span>
+<span class="sd">        Number of neighborhoods.</span>
 
-<span class="sd">    returns:</span>
-<span class="sd">        number. The FLG core kernel value</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    kernel : number</span>
+<span class="sd">        The FLG core kernel value.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">heta</span> <span class="o">&gt;</span> <span class="mf">0.2</span><span class="p">:</span>
         <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;heta to big&#39;</span><span class="p">)</span>
