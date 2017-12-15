@@ -1,4 +1,4 @@
-""" A python file that implements classes, functions for graphs
+""" A python file that implements a class and functions for graphs.
 
 """
 import warnings
@@ -18,13 +18,12 @@ np.random.seed(238537)
 cvxopt.solvers.options['show_progress'] = False
 
 class graph(object):
-    """ A general graph class that supports adjacency, dictionary formats while beeing memory/computationaly sustainable
-    
+    """ A general graph class that supports adjacency, dictionary formats while beeing memory/computationaly sustainable.
     
     Parameters
     ----------
-    initialization_object :  dict or array-like, square 
-        The initialisation object for the graph. 
+    initialization_object :  dict, list or array-like, square, default=None
+        The initialisation object for the graph [**valid-graph-format**]. 
         If given a dictionary the input can be as follows:
             + 2-level nested dictionaries from edge symbols to weights
             + Dictionary of symbols to list of symbols (unweighted)
@@ -36,16 +35,16 @@ class graph(object):
             + np.array
             + sparse matrix #TODO
         
-    node_labels : dict
+    node_labels : dict, default=None
         A label dictionary corresponding to all vertices of the graph:
             + for adjacency matrix labels should be given to numbers starting 
               from 0 and ending in N-1, where the matrix has size N by N
             + for dictionary labels should correspond to all keys
     
-    edge_labels : dict
+    edge_labels : dict, default=None
         A labels dictionary corresponding to all edges of the graph keys: touples, value: label
     
-    graph_format : str, valid_values={"dictionary", "adjacency", "all", "auto"}
+    graph_format : str, valid_values={"dictionary", "adjacency", "all", "auto"}, default=None
         Defines the internal representation of the graph object which can be a dictionary as a matrix, or both:
           + for dictionary: "dictionary"
           + for adjacency_matrix: "adjacency"
@@ -144,10 +143,22 @@ class graph(object):
             raise ValueError('Invalid graph format.\nValid graph formats are "all", "dictionary", "adjacency", "auto"')
             
     def build_graph(self, g, node_labels=None, edge_labels=None):
-        """ builds a graph structure given a supported graph representation
+        """ Builds a graph structure given a supported graph representation.
         
-            g: - for an adjacency matrix input an ndarray
-               - for edge_dictionary input a dictionary
+        Parameters
+        ----------
+        g : a valid graph format
+            Similar to intialization object (of ``__init__``).
+            
+        node_labels: dict, default=None
+            Node labels dictionary relevant to g format.
+            
+        edge_labels: dict, default=None
+            Edge labels dictionary relevant to g format.
+            
+        Returns
+        -------
+        None.
         """
 
         self.shortest_path_mat = None
@@ -196,12 +207,19 @@ class graph(object):
             self._import_dictionary(g)
 
     def change_format(self, graph_format):
-        """ Changes the format of the graph from an existing to an other
+        """ Changes the format of the graph from an existing to an other.
 
-            graph_format: Is the internal represantation of the graph object be a dictionary as a matrix, or both
-                - for dictionary: "dictionary"
-                - for adjacency_matrix: "adjacency"
-                - for both: "all"
+        Paramters
+        ---------
+        graph_format : str, valid_values={"dictionary", "adjacency", "all"}
+            Defines the internal representation of the graph object which can be a dictionary as a matrix, or both:
+              + for dictionary: "dictionary"
+              + for adjacency_matrix: "adjacency"
+              + for both: "all"
+        
+        Returns
+        -------
+        None.
         """
         if graph_format not in ["all", "dictionary", "adjacency"]:
             raise ValueError('Invalid graph format for function change format. Valid formats are "all", "dictionary", "adjacency"')
@@ -227,12 +245,22 @@ class graph(object):
                         self.edge_dictionary = None
 
     def desired_format(self, graph_format, warn=False):
-        """ Changes the format to include the desired
+        """ Changes the format to include the desired.
 
-            graph_format: Is the internal represantation of the graph object be a dictionary as a matrix, or both
-                - for dictionary: "dictionary"
-                - for adjacency_matrix: "adjacency"
-                - for both: "all"
+        Parameters
+        ----------
+        graph_format : str, valid_values={"dictionary", "adjacency", "all"}
+            Defines the internal representation of the graph object which can be a dictionary as a matrix, or both:
+              + for dictionary: "dictionary"
+              + for adjacency_matrix: "adjacency"
+              + for both: "all"
+        
+        warn : bool, default=False
+            Warn the user if the format of the graph is being changed.
+        
+        Returns
+        -------
+        None.
         """
         if graph_format is "all":
             self.change_format(graph_format)
@@ -247,9 +275,19 @@ class graph(object):
                 self.change_format("all")
     
     def construct_labels(self, label_type="vertex", purpose="adjacency"):
-        """ A method that constructs labels (if user does not provide)
+        """ A method that constructs labels (if user does not provide).
             
-            label_type: "vertex", "edge"
+        Parameters
+        ----------
+        label_type: str, valid_values={"vertex", "edge"}, default="vertex"
+            What kind of labels are going to be constructed
+            
+        purpose: str, valid_values={"adjacency", "dictionary"}, default="adjacency"
+            Defines if the labels correspond to dictionary or adjacency matrix
+            
+        Returns
+        -------
+        None.
         """
         if (purpose == "adjacency"):
             if (label_type == "vertex"):
@@ -269,11 +307,23 @@ class graph(object):
             else:
                 warnings.warn('unsupported label type')
                                 
-    def convert_labels(self, target_format = "dictionary", purpose="all", init=False):
-        """ A method that converts labels to a desired format 
+    def convert_labels(self, target_format="dictionary", purpose="all", init=False):
+        """ A method that converts labels to a desired format. 
 
-            target_format: "dictionary" or "adjacency"
-            purpose: "all", "edge" or "vertex"
+        Parameters
+        ----------
+        target_format: str, valid_values={"adjacency", "dictionary"}, default="dictionary"
+            Defines what the target format for conversion will be.
+            
+        purpose: str, valid_values={"adjacency", "dictionary", "all"}, default="all"
+            Defines if the labels will be converted for dictionary, adjacency matrix or both.
+       
+        init: bool, default=False
+            An override parameter for format checks, usefull for initialisation.
+        
+        Returns
+        -------
+        None.
         """
 
         if (target_format == "adjacency"):
@@ -318,10 +368,25 @@ class graph(object):
                 warnings.warn('labels already defined for the given format')
     
     def label(self, obj, label_type="vertex", purpose="dictionary"):
-        """ Returns the label of a vertex
+        """ Returns the label of a vertex.
+        
+        Parameters
+        ----------
+        obj : hashable
+            The candidate labeled object for the corresponding purpose and label type
             
-            obj: a valid vertex
-            label_type="vertex"
+        label_type : str, valid_values={"vertex", "edge"}, default="vertex"
+            Defines if the lookup of the label will be done for vertices or edges.
+        
+        purpose : str, valid_values={"dictionary", "adjacency", "any"}, default="dictionary"
+            Defines if the lookup will be done on the existing ("any" - if "all" default is adjacency)
+            to the "dictionary" or to the "adjacency" format of the graph.
+            
+        Returns
+        -------
+        label : str, list, ..., *valid-label-type*
+            Returns the label of the current object on the defined lookup.
+            
         """
         if purpose == "any":
             if self._format == "all":
@@ -361,12 +426,31 @@ class graph(object):
                     return self.edge_dictionary[edge[0]][edge[1]]
     
     def relabel(self, new_labels, purpose="dictionary", label_type="vertex"):
-        """ A method to relabel the graph
-            
-            new_labels: the new_labels
-            label_type: "vertex" or "edge"
-            purpose: "dicitonary", "adjacency"
+        """ A method relabels the graph object, supporting the current format.
+        
+        Parameters
+        ----------    
+        new_labels : dict
+            The new labels corresponding to the label type and purpose.
+        
+        purpose : str, valid_values={"dictionary", "adjacency"}, default="dictionary"
+            Defines if the new labels are given for "adjacency" or "dictionary".
+        
+        label_type : str, valid_values={"vertex", "edge"}, default="vertex"
+            Defines if the new labels are for vertices or edges.
+               
+        Returns
+        -------
+        None.
         """
+        
+        # checks
+        if purpose not in ["dictionary","adjacency"]:
+            raise ValueError('purpose can either be dictionary or adjacency')
+            
+        if label_type not in ["vertex", "edge"]:
+            raise ValueError('label_type can either be vertex or edge')
+        
         if new_labels is None or not bool(new_labels):
             warnings.warn('user must provide new labels, input is None')
         elif label_type=="vertex":
@@ -424,13 +508,33 @@ class graph(object):
 
         
     def build_shortest_path_matrix(self, algorithm_type="auto", clean=False, labels="vertex"):
-        """ A method that builds and returns the shortest path matrix between all nodes
+        """ A method that builds and returns the shortest path matrix between all nodes.
 
-            algorithm_type: "auto" for "dictionary" or "all" format - Dijkstra
-                                   for "adjacency" - Floyd Warshall
-                            "dijkstra" - Dijkstra
-                            "floyd_warshall" - Floyd Warshall
-            labels: "vertex", "edge", "all"
+        Parameters
+        ----------
+        algorithm_type : str, valid_values={"auto", "adjacency", "dictionary"}, default="auto"
+            Defines which shortest-path algorithm will be used for building the shortest path matrix.
+             + "dijkstra" : choses the dijkstra algorithm (Matrix computation complexity: :math:`O(|V|(|E|+|V|) \log{|V|})`
+             + "floyd_warshall" : choses the floyd-warshall algorithm (Matrix computation complexity: :math:`O(|V|^3)`)
+             + "auto" : choses the best possible algorithm for the current format
+        
+        clean : bool, default=False
+            Construct the shortest path matrix from scratch or output existing if exists
+            
+        labels : str, valid_values={"vertex", "edge", "all"}, default="vertex" 
+            Returns labels corresponding for the indexes of the shortest path matrix
+            for vertices, for edge (only for the valid ones on the original graph) or for both ("all")
+            
+        Returns
+        -------
+        shortest_path_matrix : np.array, shape=(:math:`|V|`,:math:`|V|`)
+            The produced shortest path matrix.
+            
+        vertex_labels : dict
+            The vertex labels, outputed only if *labels* parameter is either "vertex" or "all".
+            
+        edge_labels : dict
+            The edge labels, outputed only if *labels* parameter is either "edge" or "all".
         """
         if labels not in ['vertex', 'edge', 'all']:
             raise ValueError('only labels for vertices and edges exist')
@@ -465,7 +569,7 @@ class graph(object):
 
         elif algorithm_type is "floyd_warshall":
             self.desired_format("adjacency", warn=True)
-            shortest_path_mat = floyd_warshall(self.adjacency_matrix,self.n)
+            shortest_path_mat = floyd_warshall(self.adjacency_matrix)
         
         self.shortest_path_mat = shortest_path_mat
         if labels is "all":
@@ -476,12 +580,21 @@ class graph(object):
             return shortest_path_mat, self.get_labels()
             
     def get_labels(self, label_type="vertex", purpose="adjacency"):
-        """ Return labels corresponding to the purpose
-            
-            purpose: if "adjacency" for indexes
-                     if "dictionary" for nodes
-            label_type: if "vertex" labels for vertices
-                        if "edge" labels for edges
+        """ Return labels corresponding to the purpose.
+        
+        Parameters
+        ----------
+        label_type : str, valid_values={"vertex", "edge"}, default="vertex"
+            Defines if the the labels will correspond to vertices or edges.
+        
+        purpose : str, valid_values={"dictionary", "adjacency", "any"}, default="dictionary"
+            Defines if the labels will correspond to "dictionary" (symbols), to "adjacency"
+            indexes, or to "any" valid format (if "all" the result is for "adjacency")
+        
+        Returns
+        -------
+        labels : dict,
+            Returns the labels for the given type and purpose.
         """
         if (purpose == "adjacency"):
             case = True
@@ -521,11 +634,21 @@ class graph(object):
                 raise ValueError('label type can only be "vertex" or "edge"')
     
     def get_label_group(self, label_type="vertex", purpose="dictionary"):
-        """ A function that calculates the inverse dictionary
-            for vertex labels (once)
+        """ A function that calculates the inverse dictionary for vertex labels (once).
             
-            label_type: "vertex" or "edge"
-            purpose: "dictionary" or "adjacency"
+        Parameters
+        ----------
+        label_type : str, valid_values={"vertex", "edge"}, default="vertex"
+            Defines if the the labels-group will correspond to vertices or edges.
+        
+        purpose : str, valid_values={"dictionary", "adjacency", "any"}, default="dictionary"
+            Defines if the labels-group will correspond to "dictionary" (symbols), to "adjacency" (indexes)
+            or to "any" valid format (if "all" the result is for "adjacency")
+        
+        Returns
+        -------
+        label_group : dict
+            Returns the inverse label group.
         """
         if not bool(self.label_group):
            self.label_group = dict()
@@ -536,28 +659,38 @@ class graph(object):
             self.label_group[(label_type,purpose)] = inv_dict(self.get_labels(label_type,purpose))
         return self.label_group[(label_type,purpose)]
                 
-    def neighbors(self, vertex, purpose='any', with_weights = False):
-        """ Find all neighbors of a vertex
-            
-            vertex: a valid vertex inside the matrix
-                    that is not a sink
-
-            with_weights: Determines the type of the output
+    def neighbors(self, vertex, purpose="any", with_weights = False):
+        """ Find all neighbors of a vertex.
+           
+        Parameters
+        ----------
+        vertex : hashable
+            The vertex, which neighbors we are searching for.
+        
+        purpose : str, valid_values={"adjacency", "dictionary", "any"}, default="any"
+            Defines if the vertex is given for the "dictionary" format of the graph (symbol)
+            to the "adjacency" (index) or to "any" existing format (if "all" the expected type is for "adjacency")
+        
+        with_weights : bool, default=False
+            Defines if the neighbours will 
                     if False: list of neighbor vertices
                     if True: dictionary between neighbor
                              vertices and edge labels 
-            purpose: vertex is for 'adjacency' or 'dictionary'
-                     'any': if format is 'all' default 'dictionary'
-                            else the given format
+        Returns
+        -------
+        neighbors : list or dict
+            The neighbors of the given vertex. 
+            If with_weights is False, output is a list, else output is a dict.
+            
         """
-        if purpose in ['adjacency', 'dictionary', 'any']:
+        if purpose in ['adjacency', 'dictionary', "any"]:
             if purpose == 'dictionary':
                 self.desired_format('dictionary')
                 case = True
             if purpose == 'adjacency':
                 self.desired_format('adjacency')
                 case = False
-            if purpose == 'any':
+            if purpose == "any":
                 if self._format in ['all','adjacency']:
                     case = False
                 else:
@@ -585,11 +718,26 @@ class graph(object):
             else:
                 raise ValueError("item with index "+str(idx)+" does not exist")
 
-    def _make_edsamic(self, vertices, all_out = True):
-        """ A method to produce the edge symbols
-            adjacency matrix correspondance dictionary
+    def _make_edsamic(self, vertices):
+        """ A method to produce the *edge-symbols-adjacency-matrix-correspondance-dictionary*.
+        
+        Parameters
+        ----------
+        vertices : list-able, sort-able
+            The vertices of the graph.
+        
+        all_out : bool, default=True
+            A variable that defines, if everything valuable will be outputed.
             
-            all_out: output everything valuable
+        Returns
+        -------
+        edsamic : dict
+            The produced edsamic
+        n : int
+            The number of vertieces
+        lov_sorted : list
+            Sorted list of vertices.
+            
         """
         if bool(vertices):
             # vertices to list
@@ -603,22 +751,31 @@ class graph(object):
             
             # edge_labels_adjacency_matrix_correspondance_dictionary            
             edsamic = dict(zip(lov_sorted,list(range(0,n))))
-            if all_out:
-                return edsamic, n, lov_sorted
-            else:
-                return edsamic, n
+            
+            return edsamic, n, lov_sorted
         else:
             warnings.warn('wrong format: edge dictionary must exist')
             return None
 
 
     def _import_adjacency(self, adjacency_matrix=None, init=True):
-        """ A function that creates a graph object
-            representation given its adjacency matrix
-
-            adjacency_matrix: A square numpy ndarray
-            save_matrix: an override variable that allows
-                         the matrix to be stored internally
+        """ A function that creates a graph object representation given its adjacency matrix.
+        
+        Parameters
+        ----------
+        adjacency_matrix : array-like, default=None
+            If given a array the input can be as follows:
+                + array-like lists of lists #TODO
+                + np.array
+                + sparse matrix #TODO
+            If None, imports the array existing inside self.adjacency_matrix
+        
+        init : bool, default=True
+            A parameter used to defined initialization.
+            
+        Returns
+        -------
+        None.
         """
         if adjacency_matrix is not None:
             # calculate graph size
@@ -660,15 +817,24 @@ class graph(object):
                 self.edsamic = dict(zip(range(0,n),range(0,n)))
             
     def _import_dictionary(self, edge_dictionary=None, init=True):
-        """ A function that creates a graph object
-            representation given its edge dictionary
+        """ A function that creates a graph object representation given its edge dictionary.
 
-            edge_dictionary: input a dictionary as follows:
-                                If (u,v) edge exists then edges["u"]["v"] has
-                                weight of the edge pointing from u to v
-
-            save_dictionary: an override variable that allows the matrix to be stored internally
-
+        Parameters
+        ----------
+        edge_dictionary :  dict-like, default=None
+            The edge_dictionary the input can be as follows:
+                + 2-level nested dictionaries from edge symbols to weights
+                + Dictionary of symbols to list of symbols (unweighted)
+                + Dictionary of tuples to weights (weighted) #TODO
+                + Set or List of tuples (unweighted) #TODO
+            If None, imports from the existing edge_dictionary
+            
+        init : bool, default=True
+            A parameter used to defined initialization.
+            
+        Returns
+        -------
+        None.
         """
         if edge_dictionary is not None:
             # find vertices, refine dictionary
@@ -722,14 +888,23 @@ class graph(object):
 
 
     def laplacian(self, save=True):
-        """ Calculates the laplacian of the given graph
-            save: optional parameter to store the matrix
+        """ Calculates the laplacian of the given graph.
+        
+        Parameters
+        ----------
+        save: bool, default=True
+            Optional parameter to store the matrix.
+            
+        Returns
+        -------
+        laplacian: array-like
+            Returns the graph laplacian
         """ 
         if self.laplacian_graph is not None:
             laplacian_graph = self.laplacian_graph
         else:
             self.desired_format("adjacency", warn=True)
-            laplacian_graph = laplacian(self.adjacency_matrix, self.n)
+            laplacian_graph = laplacian(self.adjacency_matrix)
             
             if save:
                 self.laplacian_graph = laplacian_graph
@@ -738,9 +913,15 @@ class graph(object):
     def calculate_lovasz_theta(self, from_scratch=False):
         """ Calculates the lovasz theta for the given graph.
             
-            from_scratch: boolean flag that chooses with False to
-                          recalculate the lovasz number if it has
-                          already been calculated.
+        Parameters
+        ----------
+        from_scratch: bool, default=False
+            Defines if the the lovasz_theta will be calculated from scratch.
+        
+        Returns
+        -------
+        lovasz_theta: float
+            Returns the lovasz theta number.
         """
         if not from_scratch:
             if self.lovasz_theta is not None:
@@ -813,9 +994,15 @@ class graph(object):
     def calculate_svm_theta(self, from_scratch=False):
         """ Calculates the svm theta for the given graph.
             
-            from_scratch: boolean flag that chooses with False to
-                          recalculate the svm theta number if it has
-                          already been calculated.
+        Parameters
+        ----------
+        from_scratch: bool, default=False
+            Defines if the the svm_theta number will be calculated from scratch.
+        
+        Returns
+        -------
+        svm_theta: float
+            Returns the svm theta number.
         """
         if not from_scratch:
             if self.svm_theta is not None:
@@ -850,17 +1037,26 @@ class graph(object):
         return self.svm_theta        
     
     def calculate_subgraph_samples_metric_dictionary(self, metric_type, n_samples=50, subsets_size_range=(2,8), from_scratch=False, save=True):
-        """ A function useful for calculating a graph metric
-            as the lovasz theta kernel or the svm-theta kernel,
-            on a set of randomly sampled subgraphs, producing
-            a dictionary of subgraph levels and sets
-                        
-            n_samples: the number of samples that will be sampled
-            subsets_size_range: A touple having the min and the max subset size
-            from_scratch: boolean flag that chooses with False to
-                          recalculate the lovasz number if it has
-                          already been calculated.
-            save: boolean flag that determines if the output will be saved
+        """ A function useful for calculating a graph metric as the lovasz theta kernel or the svm-theta kernel, on a set of randomly sampled subgraphs, producing a dictionary of subgraph levels and sets.
+            
+        Parameters
+        ----------
+        n_samples : int, default=50
+            The number of samples that will be sampled.
+            
+        subsets_size_range : tuple, len=2, default=(2,8)
+            A touple having the min and the max subset size.
+        
+        from_scratch : bool
+            Defines if the the metric will be calculated from scratch.
+
+        save : bool
+            Determine if the metric output will be stored.
+            
+        Returns
+        -------
+        level_values : dict
+            Returns a dictionary with levels (subsite size) and the lovasz value of all the sampled subgraphs.
         """
         if metric_type == "svm":
             metric = lambda G: G.calculate_svm_theta()
@@ -904,13 +1100,23 @@ class graph(object):
     
     
     def get_vertices(self, purpose="adjacency"):
-        """ A method that returns an iterable of vertices. 
-            purpose: "adjacency", "dictionary", "any"
+        """ A method that returns an iterable of vertices.
+        
+        Parameters
+        ----------
+        purpose : str, valid_values={"adjacency", "dictionary", "any"}, default="adjacency"
+            Defines if the vertices will correspond given for the "dictionary" format of the graph (symbol)
+            to the "adjacency" (index) or to "any" existing format (if "all" the expected type is for "adjacency")
+        
+        Returns
+        -------
+        vertices : iterable
+            Returns an iterable on vertices
         """
         if purpose not in ["adjacency", "dictionary", "any"]:
             raise ValueError('purpose is either "adjacency" of "dictionary"')
 
-        if purpose == 'any':
+        if purpose == "any":
             if self._format in ['all','adjacency']:
                 purpose = "adjacency"
             else:
@@ -925,7 +1131,16 @@ class graph(object):
         
     def get_edges(self, purpose="adjacency", with_weights=False):
         """ A method that returns an iterable of edges as touples.
-            purpose: "adjacency", "dictionary"
+        
+        Parameters
+        ----------
+        purpose : str, valid_values={"adjacency", "dictionary"}, default="adjacency"
+            Defines if the edges is given for the "dictionary" format of the graph (symbol) to the "adjacency" (index).
+        
+        Returns
+        -------
+        vertices : list
+            Returns a list of tuples for edges.
         """
         if purpose not in ["adjacency", "dictionary"]:
             raise ValueError('purpose is either "adjacency" of "dictionary"')
@@ -946,9 +1161,17 @@ class graph(object):
                 return [((i,j), self.edge_dictionary[i][j]) for i in self.edge_dictionary.keys() for j in self.edge_dictionary[i].keys()]
     
     def get_adjacency_matrix(self):
-        """ A format agnostic method that returns the adjacency matrix
-        """
+        """ A format agnostic method that returns the adjacency matrix.
         
+        Parameters
+        ----------
+        None.
+        
+        Returns
+        -------
+        adjacency_matrix : np.array
+            Returns the adjacency matrix of the current graph.
+        """
         if self._format is "dictionary":
             A = np.zeros(shape=(len(self.vertices),len(self.vertices)))
             v_map = {v:i  for (v,i) in enumerate(sorted(list(self.vertices)))}
@@ -962,8 +1185,16 @@ class graph(object):
             
     def get_edge_dictionary(self):
         """ A format agnostic method that returns the edge dictionary
-        """
         
+        Parameters
+        ----------
+        None.
+        
+        Returns
+        -------
+        edge_dictionary : dict
+            Returns the edge_dictionary of the current graph.
+        """
         if self._format is "dictionary":
             idx_i, idx_j = np.where(self.adjacency_matrix > 0)
             edge_dictionary = {i:dict() for i in range(0, self.n)}
@@ -975,8 +1206,16 @@ class graph(object):
             
     
     def nv(self):
-        """ A method that returns the number of vertices
-            for any existing format
+        """ A method that returns the number of vertices for any existing format.
+        
+        Parameters
+        ----------
+        None.
+        
+        Returns
+        -------
+        num_of_vertices : int
+            Returns the number of vertices.
         """
         if self._format in ['all','adjacency']:
             return self.n
@@ -984,14 +1223,35 @@ class graph(object):
             return len(self.vertices)
             
     def produce_neighborhoods(self, r=3, purpose="adjacency", with_distances=False, d=-1):
-        """ Calculates neighborhoods for each node
-            of a Graph up to a depth c.
+        """ Calculates neighborhoods for each node of a Graph up to a depth.
             
-            G: a graph type object
-            r: neighborhood depth
-            purpose: node symbols for "adjacency", "dictionary"
-            with_distances: a flag that defines if we need to calculate
-                            BFS distances for each pair.
+        Parameters
+        ----------
+        r : int
+            The neighborhood depth (radius).
+            
+        purpose : str, valid_values={"adjacency", "dictionary"}, default="adjacency"
+            Defines if the neighborhood symbols will correspond given for the "dictionary" 
+            format of the graph (symbol) to the "adjacency" (index).
+            
+        with_distances: bool, default=False
+            Defines if we need to calculate BFS distances for each pair.
+            
+        d : int, default=-1
+            Maximum distance considered. If -1 is provided the distance is as max as the radius r.
+            
+        Returns
+        -------
+        N : dict
+            A level, vertex nested dictionary of lists, corresponding to the neighbours of level
+            :math:`l` for a certain vertex :math:`v`.
+        
+        D : dict
+            For each level, set of tuples of nodes connected in that level.
+            Appears only if with_distances is *True*.
+            
+        Dist_pair : dict
+            A dictionary of all pairs and their distances.
         """
         N = dict()
 
@@ -1050,12 +1310,17 @@ class graph(object):
             return N
         
     def get_subgraph(self, vertices):
-        """A method that creates a graph object subgraph
-           in the same format as the original graph
+        """A method that creates a graph object subgraph in the same format as the original graph.
     
-           vertices: an iterable of vertices convertable to a set
-                     vertices a subset of verices of the original graph
-                     
+        Parameters
+        ----------
+        vertices: iterable
+            An iterbale vertices extracted from the original graph.
+        
+        Returns
+        -------
+        subgraph : graph
+            The induced subgraph, from the input vertices.
         """
         if vertices is None:
             raise ValueError('vertices must not be null')
@@ -1136,17 +1401,19 @@ class graph(object):
             
         return subgraph
         
-def laplacian(A, n=-1):
-    """ Calculates the laplacian given the adjacency matrix
+def laplacian(A):
+    """ Calculates the laplacian given the adjacency matrix.
     
-        A: a numpy array of a square matrix corresponding
-           to the adjacency matrix of a graph
-        n: x dimension of the matrix [int] - optional
+    Parameters
+    ----------
+    A : np.array, square
+        The adjacency matrix of a graph.
+    
+    Returns
+    -------
+    laplacian_graph : np.array
+        The produced laplacian graph.    
     """        
-
-    if (n<=0):
-        n = A.shape[0]
-        
     laplacian_graph = np.zeros(shape=(n, n))
     for i in range(0, n):
         for j in range(0, n):
@@ -1156,21 +1423,27 @@ def laplacian(A, n=-1):
     return laplacian_graph
 
 def dijkstra(edge_dictionary, start_vertex, end_vertex=None):
-    """ Implementation of the dijkstra algorithm
+    """ Implementation of the dijkstra algorithm[fn:1].
     
-        Find shortest paths from the start vertex to all
-        vertices nearer than or equal to the end_vertex.
+    Parameters
+    ----------
+    edge_dictionary: dict
+        A 2-level nested dictionary of symbols, with value corresponding to the weight.
 
-        The majority of this function code came from:
-        http://code.activestate.com/recipes/119466-dijkstras-algorithm-for-shortest-paths/ 
-
-        edge_dictionary: input a dictionary as follows:
-                             If (u,v) edge exists then edges["u"]["v"] has
-                             weight of the edge pointing from u to v
-
-        start_vertex: A valid vertex symbol that exists inside edge_dictionary as a key
+    start_vertex: hashable
+        The start vertex symbol (should exists as a key inside edge_dictionary).
+    
+    end_vertex: hashable
+        The end vertex symbol (should exists as a key inside edge_dictionary).
         
-        end_vertex: A valid vertex symbol that exists inside edge_dictionary as a key
+    Returns:
+    --------
+    dict_fd : dict
+        The dictionary of final distances.
+    dict_pred : dict
+        The dictionary of predecessors.
+        
+    [fn:1] The majority of this function code came from: `Link text <http://code.activestate.com/recipes/119466-dijkstras-algorithm-for-shortest-paths/>`_
     """
 
     dict_fd = {}    # dictionary of final distances
@@ -1194,15 +1467,20 @@ def dijkstra(edge_dictionary, start_vertex, end_vertex=None):
     
     return dict_fd, dict_pred
 
-def floyd_warshall(adjacency_matrix, n=-1):
-    """ Floyd Warshall calculates the matrix of shortest paths between all pairs
+def floyd_warshall(adjacency_matrix):
+    """ Floyd Warshall calculates the matrix of shortest paths between all pairs.
 
-        adjacency_matrix : a square nd array
-        n : length of the one dimension of the ndarray [optional]
-    """
+    Parameters
+    ----------
+    adjacency_matrix : np.array, square
+        The adjacency matrix of the graph, on which the distances are being calculated.
     
-    if n < 0:
-        n = adjacency_matrix.shape[0]
+    Returns
+    -------
+    dist : np.array
+        The shortest path matrix as produced by floyd warshall
+    """
+    n = adjacency_matrix.shape[0]
     
     dist = np.empty((n, n))
     # Initialization

@@ -18,18 +18,32 @@ random.seed(15487469)
 np.random.seed(15487103)
 
 def graphlet_sampling(X, Y, k=5, delta=0.05, epsilon=0.05, a=-1):
-    """ Applies the graphlet sampling kernel as proposed in :cite:`Shervashidze2009EfficientGK`
+    """ Applies the graphlet sampling kernel as proposed in :cite:`Shervashidze2009EfficientGK`.
         
     
-    arguments:    
-        - X,Y (valid graph format): the pair of graphs on which the kernel is applied
-        - k (int): the dimension of the given graphlets
-        - delta (float): confidence level (typically 0.05 or 0.1)
-        - epsilon (float): precision level (typically 0.05 or 0.1)
-        - a (int): number of isomorphism classes of graphlets  
+    Parameters
+    ----------
+    X,Y : valid graph format
+        The pair of graphs on which the kernel is applied.
+        
+    k : int, default=5
+        The dimension of the given graphlets.
+        
+    delta : float, default=0.05
+        Confidence level (typically 0.05 or 0.1).
     
-    returns:
-        number. The kernel value        
+    epsilon : float, default=0.05
+        Precision level (typically 0.05 or 0.1).
+        
+    a : int
+        Number of isomorphism classes of graphlets.
+        If -1 the number is the maximum possible, from a database 1 until 9
+        or else predicted through interpolation.
+    
+    Returns
+    -------
+    kernel : number
+        The kernel value.
     """
     Gx = graph(X)
     Gy = graph(Y)
@@ -37,17 +51,31 @@ def graphlet_sampling(X, Y, k=5, delta=0.05, epsilon=0.05, a=-1):
     return graphlet_sampling_inner(Gx, Gy, k=k, delta=delta, epsilon=epsilon, a=a)
     
 def graphlet_sampling_inner(Gx, Gy, k=5, delta=0.05, epsilon=0.05, a=-1):
-    """ Applies the graphlet sampling kernel, as proposed in :cite:`Shervashidze2009EfficientGK`
+    """ Applies the graphlet sampling kernel, as proposed in :cite:`Shervashidze2009EfficientGK`.
 
-    arguments:
-        - G{x,y} (graph): the pair of graphs on which the kernel is applied
-        - k (int): the dimension of the given graphlets
-        - delta (float): confidence level (typically 0.05 or 0.1)
-        - epsilon (float): precision level (typically 0.05 or 0.1)
-        - a (int): number of isomorphism classes of graphlets  
+    Parameters
+    ----------
+    G{x,y} : graph
+        The pair of graphs on which the kernel is applied.
         
-    returns:
-        number. The kernel value
+    k : int, default=5
+        The dimension of the given graphlets.
+        
+    delta : float, default=0.05
+        Confidence level (typically 0.05 or 0.1).
+    
+    epsilon : float, default=0.05
+        Precision level (typically 0.05 or 0.1).
+        
+    a : int
+        Number of isomorphism classes of graphlets.
+        If -1 the number is the maximum possible, from a database 1 until 9
+        or else predicted through interpolation.
+    
+    Returns
+    -------
+    kernel : number
+        The kernel value.
 
     """
     # Steps:
@@ -58,19 +86,29 @@ def graphlet_sampling_inner(Gx, Gy, k=5, delta=0.05, epsilon=0.05, a=-1):
     return graphlet_sampling_core(Gx, Gy, nsamples, graphlets, P, graph_bins, nbins, k)
 
 def graphlet_sampling_core(Gx, Gy, nsamples, graphlets, P, graph_bins, nbins, k=5):
-    """ Applies the graphlet sampling kernel given a graphlet feature space, as proposed in :cite:`Shervashidze2009EfficientGK`
+    """ Applies the graphlet sampling kernel given a graphlet feature space, as proposed in :cite:`Shervashidze2009EfficientGK`.
         
-    arguments:
-        - G{x,y} (graphs): the pair of graphs on which the kernel is applied
-        - nsamples (int): the number of samples in the graphlet feature space
-        - graphlets (dict): a dictionary of graphlets with keys from 0 ... nsamples-1
-        - P (np.array): a matrix that has zeros where the pair of indexes corresponds to isomorphic graphlets and 1 otherwise
-        - graph_bins (dict): a dictionary of bined graphlets, based on isomorphism classes
-        - nbins (int): the number of isomorphism classes
-        - k (int): graphlet dimension
+    Parameters
+    ----------
+    G{x,y} : graph
+        The pair of graphs on which the kernel is applied.
+    nsamples : int
+        The number of samples in the graphlet feature space.
+    graphlets : dict
+        A dictionary of graphlets with keys from 0 ... nsamples-1.
+    P : np.array
+        A matrix that has zeros where the pair of indexes corresponds to isomorphic graphlets and 1 otherwise.
+    graph_bins : dict
+        A dictionary of bined graphlets, based on isomorphism classes.
+    nbins : int
+        The number of isomorphism classes.
+    k : int
+        Graphlet dimension.
     
-    returns:
-        number. The kernel value
+    Returns
+    -------
+    kernel : number
+        The kernel value.
     """
     if k<1:
         raise ValueError('k must be bigger than 1')
@@ -131,20 +169,36 @@ def graphlet_sampling_core(Gx, Gy, nsamples, graphlets, P, graph_bins, nbins, k=
     return kernel
  
 def sample_graphlets(k=5, delta=0.05, epsilon=0.05, a=-1):
-    """ A function that samples graphlets, based on statistic parameters as proposed in :cite:`Shervashidze2009EfficientGK`
+    """ A function that samples graphlets, based on statistic parameters as proposed in :cite:`Shervashidze2009EfficientGK`.
+    
+    Parameters
+    ----------
+    k : int
+        Graphlet dimension.
 
-    arguments:
-        - k (int): the dimension of the given graphlets
-        - delta (float): confidence level (typically 0.05 or 0.1)
-        - epsilon (float): precision level (typically 0.05 or 0.1)
-        - a (int): number of isomorphism classes of graphlets
+    delta : float, default=0.05
+        Confidence level (typically 0.05 or 0.1).
+    
+    epsilon : float, default=0.05
+        Precision level (typically 0.05 or 0.1).
         
-    returns:
-        - (int). The number of samples in the graphlet feature space
-        - (dict). A dictionary of graphlets with keys from 0 ... nsamples-1
-        - (np.array). A matrix that has zeros where the pair of indexes corresponds to isomorphic graphlets and 1 otherwise
-        - (dict). A dictionary of bined graphlets, based on isomorphism classes
-        - (int). The number of isomorphism classes
+    a : int
+        Number of isomorphism classes of graphlets.
+        If -1 the number is the maximum possible, from a database 1 until 9
+        or else predicted through interpolation.
+        
+    Returns
+    -------
+    nsamples : int
+        The number of samples in the graphlet feature space.
+    graphlets : dict
+        A dictionary of graphlets with keys from 0 ... nsamples-1.
+    P : np.array
+        A matrix that has zeros where the pair of indexes corresponds to isomorphic graphlets and 1 otherwise.
+    graph_bins : dict
+        A dictionary of bined graphlets, based on isomorphism classes.
+    nbins : int
+        The number of isomorphism classes.
     """
     # apply checks
     if k>10:

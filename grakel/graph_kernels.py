@@ -1,4 +1,4 @@
-""" The main graph kernel class used for creating a graph kernel feature transformer object
+""" The main graph kernel class used for creating a graph kernel feature transformer object.
 """
 import warnings
 
@@ -29,7 +29,7 @@ supported_general_kernels = [
 
 
 class GraphKernel(BaseEstimator, TransformerMixin):
-    """ A general class that describes all kernels
+    """ A general class that describes all kernels.
     
     Parameters
     ----------
@@ -142,8 +142,8 @@ class GraphKernel(BaseEstimator, TransformerMixin):
     def _make_kernel(self,kernel_list):
             """ Produces the desired kernel function.
                 
-            Arguments
-            ---------
+            Parameters
+            ----------
             kernel_list: (list)
                 List of kernel dictionaries as defined at the documentation of class parameters.
                
@@ -248,10 +248,10 @@ class GraphKernel(BaseEstimator, TransformerMixin):
         return self
 
     def transform(self, X=None):
-        """ The transform function calculates the kernel matrix
+        """ The transform function calculates the kernel matrix.
 
-        Arguments
-        ---------
+        Paramaters
+        ----------
         X : iterable
             Each element must be an iterable with at most three features and at least one.
             The first that is obligatory is a valid graph structure (adjacency matrix or edge_dictionary)
@@ -298,10 +298,10 @@ class GraphKernel(BaseEstimator, TransformerMixin):
         return self.kernel(target_graph)
         
     def calculate_kernel_matrix(self, kernel, target_graph=None, kernel_type="pairwise"):
-        """ A function that calculates the kernel matrix given a target_graph and a kernel
+        """ A function that calculates the kernel matrix given a target_graph and a kernel.
         
-        Arguments
-        ---------
+        Parameters
+        ----------
         target_graph : dict
             A dictionary from 0 to the number of graphs of target "graph objects".
         kernel: function

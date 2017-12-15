@@ -1,4 +1,4 @@
-""" This file contains the neighborhood hashing kernel as defined in :cite:`Hido2009ALG`
+""" This file contains the neighborhood hashing kernel as defined in :cite:`Hido2009ALG`.
 """
 import itertools
 import os
@@ -9,31 +9,57 @@ from ..graph import graph
 from ..tools import rotl, rotr
 
 def neighborhood_hash(X, Y, Lx, Ly, nh_type='simple', R=3, bytes=2) :
-    """ The neighborhood hashing kernel as proposed in :cite:`Hido2009ALG`
+    """ The neighborhood hashing kernel as proposed in :cite:`Hido2009ALG`.
 
-    arguments:
-        - X,Y (valid graph format): the pair of graphs on which the kernel is applied
-        - L{x,y} (dict): coresponding graph labels for nodes
-        - R (int): the maximum number of neighborhood hash
-        - nh_type (str): 'simple' or 'count-sensitive'
-        - bytes (int): number of bytes for hashing of original labels
-    returns:
-        number. The kernel value
+    Parameters
+    ----------
+    X,Y : *valid-graph-format*
+        The pair of graphs on which the kernel is applied.
+        
+    L{x,y} : dict
+        Coresponding graph labels for vertices.
+        
+    R : int, default=3
+        The maximum number of neighborhood hash.
+        
+    nh_type : str, valid_types={"simple", "count_sensitive"}, default="simple"
+        The existing neighborhood hash type as defined in :cite:`Hido2009ALG`.
+        
+    bytes : int, default=2
+        Byte size of hashes.
+        
+    Returns
+    -------
+    kernel : number
+        The kernel value.
     """
     Gx = graph(X,Lx)
     Gy = graph(Y,Ly)
     return float(neighborhood_hash_matrix({0: Gx}, {0: Gy}, nh_type=nh_type, R=R, bytes=bytes)[0,0])
 
 def neighborhood_hash_matrix(Graphs_x, Graphs_y=None, nh_type='simple', R=3, bytes=2):
-    """ The calculate_similarity matrix function as defined :cite:`Hido2009ALG`
+    """ The calculate_similarity matrix function as defined :cite:`Hido2009ALG`.
 
-    arguments:
-        - Graphs_{x,y} (dict): A dictionary of graph type objects that are going to be compared with keys from 0 ... to the dictionary length.
-        - R (int): the maximum number of neighborhood hash
-        - nh_type (str): 'simple' or 'count-sensitive'
-        - bytes (int): number of bytes for hashing of original labels
-    returns:
-        np.array. The kernel matrix        
+    Parameters
+    ----------
+    Graphs_{x,y} : dict, default_y=None
+        A dictionary of graph type objects that are going to be compared with keys from 0 ... to the dictionary length.
+        If Graphs_y is None the kernel matrix is computed between all graphs in Graphs_x.
+        
+    R : int, default=3
+        The maximum number of neighborhood hash.
+        
+    nh_type : str, valid_values={'simple','count-sensitive'},
+        The existing neighborhood hash type as defined in :cite:`Hido2009ALG`.
+        
+    bytes : int, default=2
+        Byte size of hashes.
+        
+    Returns
+    -------
+    kernel_matrix : np.array
+        The kernel matrix. If the Graphs_y is not None the rows correspond to Graphs_y
+        and the cols to the Graphs_x (based on the given order).
     """
     if R<=0:
         raise ValueError('R must be bigger than zero')
@@ -100,17 +126,29 @@ def neighborhood_hash_matrix(Graphs_x, Graphs_y=None, nh_type='simple', R=3, byt
     return kernel_mat
   
 def hash_labels(labels, labels_hash_dict, labels_hash_set, bytes=2):
-    """ A function that hashes existing labels to 16-bit integers without collisions and with consistency in same labels
+    """ A function that hashes existing labels to 16-bit integers without collisions and with consistency in same labels.
 
-    arguments:
-        - Graphs_{x,y} (dict): A dictionary of graph type objects that are going to be compared with keys from 0 ... to the dictionary length.
-        - labels (dict): labels for nodes
-        - labels_hash_dict (dict): a hash table for labels
-        - labels_hash_set (set): a set of all possible labels
-        - nh_type (str): 'simple' or 'count-sensitive'
-        - bytes (int): a positive integer denoting the size of hashes
-    returns:
-        dict. The new hashed labels for nodes
+    Parameters
+    ----------
+    Graphs_{x,y} : dict
+        A dictionary of graph type objects that are going to be compared with keys from 0 ... to the dictionary length.
+        
+    labels : dict
+        Labels for vertices.
+        
+    labels_hash_dict : dict
+        A hash table for labels.
+        
+    nh_type : str, valid_values={'simple','count-sensitive'},
+        The existing neighborhood hash type as defined in :cite:`Hido2009ALG`.
+        
+    bytes : int, default=2
+        Byte size of hashes.
+    
+    Returns
+    -------
+    new_labels : dict
+        The new hashed labels for vertices.
     """
     bytes = int(bytes)
     if bytes <= 0:
@@ -131,47 +169,64 @@ def hash_labels(labels, labels_hash_dict, labels_hash_set, bytes=2):
     return new_labels
             
 def radix_sort(vertices, labels):
-    """ sorts vertices based on labels
+    """ Sorts vertices based on labels.
     
-        arguments:
-            - vertices (listable): listable of vertices
-            - labels (dictionary): dictionary of labels for nodes
-        returns:
-            tuple. The sorted vertices based on labels, labels for nodes
+    Parameters
+    ----------
+    vertices : listable
+        A listable of vertices.
+        
+    labels : dict
+        Dictionary of labels for vertices.
+    
+    Returns
+    -------
+    vertices_labels : tuple, len=2
+        The sorted vertices based on labels and labels for vertices.
     """
     
     return (sorted(list(vertices), key = lambda x: labels[x]),labels)
  
 def neighborhood_hash_simple(G):
-    """ Produces the (simple) neighborhood hash as defined in :cite:`Hido2009ALG`
+    """ Produces the (simple) neighborhood hash as defined in :cite:`Hido2009ALG`.
     
-    arguments:
-        G (tuple): a tuple of three elements consisting of vertices sorted by labels, node label dictionary and edge dictionary.
-    returns:
-        tuple. a tuple of nodes, new_labels dictionary and edges
+    Parameters
+    ----------
+    G : tuple
+        A tuple of three elements consisting of vertices sorted by labels, vertex label dictionary and edge dictionary.
+        
+    Returns
+    -------
+    vertices_labels_edges : tuple
+        A tuple of vertices, new_labels-dictionary and edges.
     """
-    nodes, labels, edges = G
+    vertices, labels, edges = G
     new_labels = dict()
-    for u in nodes:
+    for u in vertices:
         l = ROT(labels[u],1)
         for n in edges[u]:
             l ^= labels[n]
         new_labels[u] = l
-    return (nodes, new_labels, edges)
+    return (vertices, new_labels, edges)
     
 def neighborhood_hash_count_sensitive(G):
-    """ Produce the count sensitive neighborhood hash
-        as defined in [Hido, Kashima et al., 2009]
+    """ Produce the count sensitive neighborhood hash as defined in [Hido, Kashima et al., 2009].
     
-    arguments:
-        G (tuple): a tuple of three elements consisting of vertices sorted by labels, node label dictionary, edge dictionary and number of occurencies dictionary for labels
-    returns:
-        tuple. A tuple of three elements consisting of vertices sorted by labels, node label dictionary, edge dictionary and number of occurencies dictionary
+    Parameters
+    ----------
+    G : tuple, len=3
+       A tuple three elements consisting of vertices sorted by labels,
+       vertex label dict, edge dict and number of occurencies dict for labels
+        
+    Returns
+    -------
+    vertices_labels_edges_noc : tuple
+        A tuple of 4 elements consisting of vertices sorted by labels, vertex label dict, edge dict and number of occurencies dict.
     """
-    nodes, labels, edges, noc= G
+    vertices, labels, edges, noc= G
     new_labels = dict()
     new_noc = dict()
-    for u in nodes:
+    for u in vertices:
         l = ROT(labels[u],1)
         for n in edges[u]:
             o = noc[labels[n]]
@@ -181,16 +236,23 @@ def neighborhood_hash_count_sensitive(G):
         else:
             new_noc[l] += 1
         new_labels[u] = l
-    return (nodes, new_labels, edges, new_noc)
+    return (vertices, new_labels, edges, new_noc)
     
 def ROT(l,n):
-    """ The rot operation for binary numbers
+    """ The rot operation for binary numbers.
         
-    arguments:
-        - n (int): an integer
-        - l (int): a valid number
-    returns:
-        (int). The result of a rot operation
+    Parameters
+    ----------
+    n : int
+        An integer.
+    
+    l : int
+        A valid number.
+        
+    Returns
+    -------
+    rot : int
+        The result of a rot operation.
     """
     if n < 0:
         return rotr(l,-n)
@@ -200,22 +262,26 @@ def ROT(l,n):
         return l
     
 def nh_compare_labels(Gx, Gy):
-    """ The compared labels function as defined in :cite:`Hido2009ALG`
+    """ The compared labels function as defined in :cite:`Hido2009ALG`.
 
-    arguments:
-        G_{x,y} (tuple): graph tuples of two elements, consisting of vertices sorted by labels and node, edge label dictionary
+    Parameters
+    ----------
+    G_{x,y} : tuple, len=2
+        Graph tuples of two elements, consisting of vertices sorted by (labels,vertices) and edge-labels dict.
 
-    returns:
-        number. The kernel value
+    Returns
+    -------
+    kernel : Number
+        The kernel value.
     """
     
     # get vertices
     vx, vy = iter(Gx[0]), iter(Gy[0])
     
-    # get size of nodes
+    # get size of vertices
     nv_x, nv_y = len(Gx[0]), len(Gy[0])
     
-    # get labels for nodes
+    # get labels for vertices
     Lx, Ly = Gx[1], Gy[1]
        
     c = 0
