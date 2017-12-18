@@ -12,7 +12,6 @@ environment:
     MODULE: grakel
     PROJECT_NAME: GraKeL
     CLOUD_STORAGE: LOCAL
-    CLOUD_CONTATINER: 
 
   matrix:
     - PYTHON: "C:\\Python35"
