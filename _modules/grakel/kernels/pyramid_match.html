@@ -92,7 +92,7 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../api.html">grakel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">GraKeL</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html">General examples</a></li>
 </ul>
 
@@ -158,7 +158,7 @@
            <div itemprop="articleBody">
             
   <h1>Source code for grakel.kernels.pyramid_match</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot; This file contains the pyramid match kernel as defined in :cite:`Nikolentzos2017MatchingNE`</span>
+<span></span><span class="sd">&quot;&quot;&quot; This file contains the pyramid match kernel as defined in :cite:`Nikolentzos2017MatchingNE`.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">itertools</span>
 
@@ -170,15 +170,26 @@
 <span class="kn">from</span> <span class="nn">..graph</span> <span class="k">import</span> <span class="n">graph</span>
 
 <div class="viewcode-block" id="pyramid_match"><a class="viewcode-back" href="../../../kernels.html#grakel.kernels.pyramid_match">[docs]</a><span class="k">def</span> <span class="nf">pyramid_match</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Lx</span><span class="p">,</span> <span class="n">Ly</span><span class="p">,</span> <span class="n">L</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span> <span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot; The pyramid match kernel as defined in :cite:`Nikolentzos2017MatchingNE`</span>
+    <span class="sd">&quot;&quot;&quot; The pyramid match kernel as defined in :cite:`Nikolentzos2017MatchingNE`.</span>
 
-<span class="sd">    arguments:</span>
-<span class="sd">        - X,Y (valid graph format): the pair of graphs on which the kernel is applied</span>
-<span class="sd">        - L{x,y} (dict): coresponding graph labels for nodes</span>
-<span class="sd">        - L (int): pyramid histogram level</span>
-<span class="sd">        - d (int): the dimension of the hypercube</span>
-<span class="sd">    returns:</span>
-<span class="sd">        number. The kernel value </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    X,Y : *valid-graph-format*</span>
+<span class="sd">        The pair of graphs on which the kernel is applied.</span>
+<span class="sd">        </span>
+<span class="sd">    L{x,y} : dict</span>
+<span class="sd">        Corresponding graph labels for vertices.</span>
+<span class="sd">        </span>
+<span class="sd">    L : int, default=4</span>
+<span class="sd">        Pyramid histogram level.</span>
+<span class="sd">        </span>
+<span class="sd">    d : int, default=6</span>
+<span class="sd">        The dimension of the hypercube.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    kernel : number</span>
+<span class="sd">        The kernel value.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">Gx</span> <span class="o">=</span> <span class="n">graph</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">Lx</span><span class="p">)</span>
     <span class="n">Gy</span> <span class="o">=</span> <span class="n">graph</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span><span class="n">Ly</span><span class="p">)</span>
@@ -192,15 +203,29 @@
     <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">pyramid_match_matrix</span><span class="p">({</span><span class="mi">0</span><span class="p">:</span> <span class="n">Gx</span><span class="p">},</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="n">Gy</span><span class="p">},</span> <span class="n">with_labels</span><span class="o">=</span><span class="n">with_labels</span><span class="p">,</span> <span class="n">L</span><span class="o">=</span><span class="n">L</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="n">d</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span></div>
 
 <div class="viewcode-block" id="pyramid_match_matrix"><a class="viewcode-back" href="../../../kernels.html#grakel.kernels.pyramid_match_matrix">[docs]</a><span class="k">def</span> <span class="nf">pyramid_match_matrix</span><span class="p">(</span><span class="n">Graphs_x</span><span class="p">,</span> <span class="n">Graphs_y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">with_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">L</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="mi">6</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; The pyramid match kernel function as defined in :cite:`Nikolentzos2017MatchingNE`</span>
+    <span class="sd">&quot;&quot;&quot; The pyramid match kernel function as defined in :cite:`Nikolentzos2017MatchingNE`.</span>
 
-<span class="sd">    arguments:</span>
-<span class="sd">        - Graphs_{x,y} (dict): A dictionary of graph type objects that are going to be compared with keys from 0 ... to the dictionary length.</span>
-<span class="sd">        - with_labels (bool): A flag that determines if the kernel computation will consider labels</span>
-<span class="sd">        - L (int): pyramid histogram level</span>
-<span class="sd">        - d (int): the dimension of the hypercube</span>
-<span class="sd">    returns:</span>
-<span class="sd">        np.array. The kernel matrix.</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    Graphs_{x,y} : dict, default_y=None</span>
+<span class="sd">        Enumerative dictionary of graph type objects with keys from 0 to the number of values.</span>
+<span class="sd">        If value of Graphs_y is None the kernel matrix is computed between all pairs of Graphs_x</span>
+<span class="sd">        where in another case the kernel_matrix rows correspond to elements of Graphs_y, and columns</span>
+<span class="sd">        to the elements of Graphs_x.</span>
+<span class="sd">        </span>
+<span class="sd">    with_labels : bool, default=True</span>
+<span class="sd">        A flag that determines if the kernel computation will consider labels.</span>
+<span class="sd">        </span>
+<span class="sd">    L : int</span>
+<span class="sd">        The pyramid histogram level.</span>
+<span class="sd">        </span>
+<span class="sd">    d : int</span>
+<span class="sd">        The dimension of the hypercube.</span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    kernel_mat : np.array</span>
+<span class="sd">        The kernel matrix.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># Input checks</span>
@@ -230,7 +255,7 @@
         <span class="n">pairs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">h_x</span><span class="p">,</span> <span class="n">ng</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">h_x</span><span class="p">)))</span>
         <span class="n">offset</span> <span class="o">=</span> <span class="n">h_x</span>
     
-    <span class="c1"># hash labels</span>
+    <span class="c1"># Map labels to values between 0 and L-1 where L is the number of distinct labels</span>
     <span class="n">num_labels</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">if</span> <span class="n">with_labels</span><span class="p">:</span>
         <span class="n">labels</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
@@ -240,15 +265,17 @@
         <span class="n">num_labels</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
         <span class="n">labels</span> <span class="o">=</span> <span class="p">{</span><span class="n">l</span><span class="p">:</span><span class="n">i</span> <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">l</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">labels</span><span class="p">)}</span>
     
-    <span class="c1"># calculate eigenvalues</span>
+    <span class="c1"># Embed vertices into the d-dimensional space</span>
     <span class="n">Us</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">g_iter</span><span class="p">:</span>
         <span class="n">n</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">nv</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">n</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
             <span class="n">Us</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="n">d</span><span class="p">)))</span>
         <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Perform eigenvalue decomposition. Rows of matrix U correspond to vertex representations</span>
             <span class="n">A</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">get_adjacency_matrix</span><span class="p">()</span>
             <span class="k">if</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="n">d</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span>
+                <span class="c1"># If size of graph smaller than d, pad with zeros</span>
                 <span class="n">Lambda</span><span class="p">,</span> <span class="n">U</span> <span class="o">=</span> <span class="n">eigs</span><span class="p">(</span><span class="n">csr_matrix</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">),</span> <span class="n">k</span><span class="o">=</span><span class="n">d</span><span class="p">,</span> <span class="n">ncv</span><span class="o">=</span><span class="mi">10</span><span class="o">*</span><span class="n">d</span><span class="p">)</span>
                 <span class="n">idx</span> <span class="o">=</span> <span class="n">Lambda</span><span class="o">.</span><span class="n">argsort</span><span class="p">()[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
                 <span class="n">U</span> <span class="o">=</span> <span class="n">U</span><span class="p">[:,</span> <span class="n">idx</span><span class="p">]</span>
@@ -257,20 +284,28 @@
                 <span class="n">idx</span> <span class="o">=</span> <span class="n">Lambda</span><span class="o">.</span><span class="n">argsort</span><span class="p">()[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>   
                 <span class="n">U</span> <span class="o">=</span> <span class="n">U</span><span class="p">[:,</span><span class="n">idx</span><span class="p">]</span>
                 <span class="n">U</span> <span class="o">=</span> <span class="n">U</span><span class="p">[:,:</span><span class="n">d</span><span class="p">]</span>
+            <span class="c1"># Replace all components by their absolute values</span>
             <span class="n">U</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">absolute</span><span class="p">(</span><span class="n">U</span><span class="p">)</span>
             <span class="n">Us</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">U</span><span class="p">)</span>
     
-    <span class="c1"># calculate histograms</span>
+    <span class="c1"># Calculate histograms</span>
     <span class="n">Hs</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">g</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">g_iter</span><span class="p">):</span>
         <span class="n">n</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">nv</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">Hs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">L</span><span class="p">):</span>
+                <span class="c1"># Number of cells along each dimension at level j</span>
                 <span class="n">l</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="n">j</span>
                 <span class="k">if</span> <span class="n">with_labels</span><span class="p">:</span>
+                    <span class="c1"># To store the number of vertices that are assigned a</span>
+                    <span class="c1"># specific label and lie in each of the 2^j cells of</span>
+                    <span class="c1"># each dimension at level j</span>
                     <span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">d</span><span class="o">*</span><span class="n">num_labels</span><span class="p">,</span> <span class="n">l</span><span class="p">))</span>
                 <span class="k">else</span><span class="p">:</span>
+                    <span class="c1"># Determines the cells in which each vertex lies</span>
+                    <span class="c1"># along each dimension since nodes lie in the unit</span>
+                    <span class="c1"># hypercube in R^d </span>
                     <span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">d</span><span class="p">,</span> <span class="n">l</span><span class="p">))</span>
                 <span class="n">T</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">Us</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">l</span><span class="p">)</span>
                 <span class="n">T</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">T</span><span class="o">==</span><span class="n">l</span><span class="p">)]</span> <span class="o">=</span> <span class="n">l</span><span class="o">-</span><span class="mi">1</span>
@@ -278,6 +313,8 @@
                     <span class="k">if</span> <span class="n">p</span> <span class="o">&gt;=</span> <span class="n">n</span><span class="p">:</span>
                         <span class="k">continue</span>
                     <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">Us</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+                        <span class="c1"># Identify the cell into which the i-th vertex </span>
+                        <span class="c1"># lies and increase its value by 1</span>
                         <span class="k">if</span> <span class="n">with_labels</span><span class="p">:</span>
                             <span class="n">D</span><span class="p">[</span><span class="n">labels</span><span class="p">[</span><span class="n">g</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">purpose</span><span class="o">=</span><span class="s1">&#39;adjacency&#39;</span><span class="p">)]</span><span class="o">*</span><span class="n">d</span> <span class="o">+</span> <span class="n">q</span><span class="p">,</span><span class="nb">int</span><span class="p">(</span><span class="n">T</span><span class="p">[</span><span class="n">p</span><span class="p">,</span><span class="n">q</span><span class="p">])]</span> <span class="o">=</span> <span class="n">D</span><span class="p">[</span><span class="n">labels</span><span class="p">[</span><span class="n">g</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">purpose</span><span class="o">=</span><span class="s1">&#39;adjacency&#39;</span><span class="p">)]</span><span class="o">*</span><span class="n">d</span> <span class="o">+</span> <span class="n">q</span><span class="p">,</span><span class="nb">int</span><span class="p">(</span><span class="n">T</span><span class="p">[</span><span class="n">p</span><span class="p">,</span><span class="n">q</span><span class="p">])]</span> <span class="o">+</span> <span class="mi">1</span>
                         <span class="k">else</span><span class="p">:</span>
@@ -285,17 +322,20 @@
 
                 <span class="n">Hs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">D</span><span class="p">)</span>
         
-    <span class="c1"># calculate kernel</span>
+    <span class="c1"># Calculate kernel</span>
     <span class="n">K</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">h_x</span><span class="p">,</span><span class="n">h_y</span><span class="p">))</span>
     <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="ow">in</span> <span class="n">pairs</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">Hs</span> <span class="ow">and</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">Hs</span><span class="p">:</span>
             <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="n">intersec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">L</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">L</span><span class="p">):</span>
-                <span class="c1"># calculate histogram intersection</span>
+                <span class="c1"># Calculate histogram intersection (equation 6 in :cite:`Nikolentzos2017MatchingNE`)</span>
                 <span class="n">intersec</span><span class="p">[</span><span class="n">p</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">Hs</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">p</span><span class="p">],</span> <span class="n">Hs</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">p</span><span class="p">]))</span>
                 <span class="n">k</span> <span class="o">+=</span> <span class="n">intersec</span><span class="p">[</span><span class="n">L</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
                 <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">L</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+                    <span class="c1"># Computes the new matches that occur at level p.</span>
+                    <span class="c1"># These matches weight less than those that occur at</span>
+                    <span class="c1"># higher levels (e.g. p+1 level)</span>
                     <span class="n">k</span> <span class="o">+=</span> <span class="p">(</span><span class="mf">1.0</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="n">L</span><span class="o">-</span><span class="n">p</span><span class="o">-</span><span class="mi">1</span><span class="p">)))</span><span class="o">*</span><span class="p">(</span><span class="n">intersec</span><span class="p">[</span><span class="n">p</span><span class="p">]</span><span class="o">-</span><span class="n">intersec</span><span class="p">[</span><span class="n">p</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
             <span class="n">K</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="n">offset</span><span class="p">,</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">k</span>
         

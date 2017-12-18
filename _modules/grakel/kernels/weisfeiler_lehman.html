@@ -92,7 +92,7 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../api.html">grakel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">GraKeL</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html">General examples</a></li>
 </ul>
 
@@ -158,7 +158,7 @@
            <div itemprop="articleBody">
             
   <h1>Source code for grakel.kernels.weisfeiler_lehman</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot; This file contains the weisfeiler lehman kernel as defined by :cite:`Shervashidze2011WeisfeilerLehmanGK`</span>
+<span></span><span class="sd">&quot;&quot;&quot; This file contains the weisfeiler lehman kernel as defined by :cite:`Shervashidze2011WeisfeilerLehmanGK`.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">itertools</span>
 
@@ -167,16 +167,26 @@
 <span class="kn">from</span> <span class="nn">..graph</span> <span class="k">import</span> <span class="n">graph</span>
 
 <div class="viewcode-block" id="weisfeiler_lehman"><a class="viewcode-back" href="../../../kernels.html#grakel.kernels.weisfeiler_lehman">[docs]</a><span class="k">def</span> <span class="nf">weisfeiler_lehman</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Lx</span><span class="p">,</span> <span class="n">Ly</span><span class="p">,</span> <span class="n">base_kernel</span><span class="p">,</span> <span class="n">niter</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Computes the Weisfeler Lehman as proposed by :cite:`Shervashidze2011WeisfeilerLehmanGK`</span>
+    <span class="sd">&quot;&quot;&quot; Computes the Weisfeler Lehman as proposed by :cite:`Shervashidze2011WeisfeilerLehmanGK`.</span>
 
-<span class="sd">    arguments:</span>
-<span class="sd">        - X,Y (valid graph format): the pair of graphs on which the kernel is applied</span>
-<span class="sd">        - L{x,y} (dict): coresponding graph labels for nodes</span>
-<span class="sd">        - base_kernel (function: (graph, graph) -&gt; number): A valid pairwise base_kernel</span>
-<span class="sd">        - niter (int): the number of iterations        </span>
-<span class="sd">    returns:</span>
-<span class="sd">        number. The kernel value</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    X,Y : *valid-graph-format*</span>
+<span class="sd">        The pair of graphs on which the kernel is applied.</span>
 <span class="sd">        </span>
+<span class="sd">    L{x,y} : dict</span>
+<span class="sd">        Corresponding graph labels for vertices.</span>
+<span class="sd">        </span>
+<span class="sd">    base_kernel : function (graph, graph -&gt; number)</span>
+<span class="sd">        A valid pairwise base_kernel for graphs.</span>
+<span class="sd">        </span>
+<span class="sd">    niter : int, default=5</span>
+<span class="sd">        The number of iterations.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    kernel : number</span>
+<span class="sd">        The kernel value.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">Ga</span> <span class="o">=</span> <span class="n">graph</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">Lx</span><span class="p">)</span>
     <span class="n">Gb</span> <span class="o">=</span> <span class="n">graph</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span><span class="n">Ly</span><span class="p">)</span>
@@ -185,12 +195,21 @@
 <div class="viewcode-block" id="weisfeiler_lehman_inner"><a class="viewcode-back" href="../../../kernels.html#grakel.kernels.weisfeiler_lehman_inner">[docs]</a><span class="k">def</span> <span class="nf">weisfeiler_lehman_inner</span><span class="p">(</span><span class="n">Ga</span><span class="p">,</span> <span class="n">Gb</span><span class="p">,</span> <span class="n">base_kernel</span><span class="p">,</span> <span class="n">niter</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Computes the Weisfeler Lehman as proposed by :cite:`Shervashidze2011WeisfeilerLehmanGK`</span>
 
-<span class="sd">    arguments:</span>
-<span class="sd">        - G{a,b} (graph): the pair of graphs on which the kernel is applied</span>
-<span class="sd">        - base_kernel (function: (graph, graph) -&gt; number): A valid pairwise base_kernel</span>
-<span class="sd">        - niter (int): the number of iterations</span>
-<span class="sd">    returns:</span>
-<span class="sd">        number. The kernel value</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    G{a,b} : graph</span>
+<span class="sd">        The pair of graphs on which the kernel is applied.</span>
+<span class="sd">        </span>
+<span class="sd">    base_kernel : function (graph, graph -&gt; number)</span>
+<span class="sd">        A valid pairwise base_kernel for graphs.</span>
+<span class="sd">        </span>
+<span class="sd">    niter : int, default=5</span>
+<span class="sd">        The number of iterations.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    kernel : number</span>
+<span class="sd">        The kernel value.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">niter</span><span class="o">&lt;</span><span class="mi">1</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;n_iter must be an integer bigger than zero&#39;</span><span class="p">)</span>
@@ -279,14 +298,27 @@
     <span class="k">return</span> <span class="n">kernel</span></div>
 
 <div class="viewcode-block" id="weisfeiler_lehman_matrix"><a class="viewcode-back" href="../../../kernels.html#grakel.kernels.weisfeiler_lehman_matrix">[docs]</a><span class="k">def</span> <span class="nf">weisfeiler_lehman_matrix</span><span class="p">(</span><span class="n">Graphs_a</span><span class="p">,</span> <span class="n">base_kernel_matrix</span><span class="p">,</span> <span class="n">Graphs_b</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="n">niter</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Computes the kernel matrix, for the Weisfeler Lehman kernel proposed in :cite:`Shervashidze2011WeisfeilerLehmanGK`</span>
+    <span class="sd">&quot;&quot;&quot; Computes the kernel matrix, for the Weisfeler Lehman kernel proposed in :cite:`Shervashidze2011WeisfeilerLehmanGK`.</span>
 <span class="sd">    </span>
-<span class="sd">    arguments:</span>
-<span class="sd">        - Graphs_{a,b} (dict): A dictionary of graph type objects that are going to be compared with keys from 0 ... to the dictionary length.</span>
-<span class="sd">        - base_kernel_matrix (function (dict(graph), dict(graph) -&gt; np.array): rows correspond to the second dictionary of graphs and cols to the first</span>
-<span class="sd">        - niter (int): the number of iterations</span>
-<span class="sd">    returns:</span>
-<span class="sd">        np.array. The kernel matrix.</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    Graphs_{x,y} : dict, default_y=None</span>
+<span class="sd">        Enumerative dictionary of graph type objects with keys from 0 to the number of values.</span>
+<span class="sd">        If value of Graphs_y is None the kernel matrix is computed between all pairs of Graphs_x</span>
+<span class="sd">        where in another case the kernel_matrix rows correspond to elements of Graphs_y, and columns</span>
+<span class="sd">        to the elements of Graphs_x.</span>
+<span class="sd">                </span>
+<span class="sd">    base_kernel_matrix : function (dict(graph), dict(graph) -&gt; np.array)</span>
+<span class="sd">        Rows of the np.array should correspond to the second dictionary of graphs and cols to the first.</span>
+<span class="sd">        If the second graph is None the kernel should be computed upon itself.</span>
+<span class="sd">        </span>
+<span class="sd">    niter : int, default=5</span>
+<span class="sd">        The number of iterations.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    kernel_mat : np.array</span>
+<span class="sd">        The kernel matrix.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">niter</span><span class="o">&lt;</span><span class="mi">1</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;n_iter must be an integer bigger than zero&#39;</span><span class="p">)</span>

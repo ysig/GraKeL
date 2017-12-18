@@ -92,7 +92,7 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../api.html">grakel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">GraKeL</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html">General examples</a></li>
 </ul>
 
@@ -158,7 +158,7 @@
            <div itemprop="articleBody">
             
   <h1>Source code for grakel.kernels.subtree_rg</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot; This file contains the subtree kernel as defined in :cite:`Ramon2003ExpressivityVE`</span>
+<span></span><span class="sd">&quot;&quot;&quot; This file contains the subtree kernel as defined in :cite:`Ramon2003ExpressivityVE`.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">itertools</span>
@@ -167,27 +167,43 @@
 <span class="kn">from</span> <span class="nn">..tools</span> <span class="k">import</span> <span class="n">nested_dict_get</span><span class="p">,</span> <span class="n">nested_dict_add</span>
 
 <div class="viewcode-block" id="subtree_rg"><a class="viewcode-back" href="../../../kernels.html#grakel.kernels.subtree_rg">[docs]</a><span class="k">def</span> <span class="nf">subtree_rg</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Lx</span><span class="p">,</span> <span class="n">Ly</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Computes the Ramon Gartner subtree kernel as proposed in :cite:`Ramon2003ExpressivityVE`, s. 5</span>
+    <span class="sd">&quot;&quot;&quot; Computes the Ramon Gartner subtree kernel as proposed in :cite:`Ramon2003ExpressivityVE`, s. 5.</span>
 
-<span class="sd">    arguments:</span>
-<span class="sd">        - X,Y (valid graph format): the pair of graphs on which the kernel is applied</span>
-<span class="sd">        - L{x,y} (dict): coresponding graph labels for nodes</span>
-<span class="sd">        - h (int): the sub-tree depth</span>
-<span class="sd">    returns:</span>
-<span class="sd">        number. The kernel value</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    X,Y : *valid-graph-format*</span>
+<span class="sd">        The pair of graphs on which the kernel is applied.</span>
+<span class="sd">        </span>
+<span class="sd">    L{x,y} : dict</span>
+<span class="sd">        Corresponding graph labels for vertices.</span>
+<span class="sd">        </span>
+<span class="sd">    h : int, default=5</span>
+<span class="sd">        The sub-tree depth.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    kernel : number</span>
+<span class="sd">        The kernel value.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">Gx</span> <span class="o">=</span> <span class="n">graph</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">Lx</span><span class="p">)</span>
     <span class="n">Gy</span> <span class="o">=</span> <span class="n">graph</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span><span class="n">Ly</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">subtree_rg_inner</span><span class="p">(</span><span class="n">Gx</span><span class="p">,</span> <span class="n">Gy</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="subtree_rg_inner"><a class="viewcode-back" href="../../../kernels.html#grakel.kernels.subtree_rg_inner">[docs]</a><span class="k">def</span> <span class="nf">subtree_rg_inner</span><span class="p">(</span><span class="n">Gx</span><span class="p">,</span> <span class="n">Gy</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Calculate The Ramon Gartner subtree kernel as proposed in :cite:`Ramon2003ExpressivityVE`, s. 5</span>
+    <span class="sd">&quot;&quot;&quot; Calculate The Ramon Gartner subtree kernel as proposed in :cite:`Ramon2003ExpressivityVE`, s. 5.</span>
 
-<span class="sd">    arguments:</span>
-<span class="sd">        - G_{x,y} (graph): the pair graphs on which the kernel is applied</span>
-<span class="sd">        - h (int): the sub-tree depth</span>
-<span class="sd">    returns:</span>
-<span class="sd">        number. The kernel value</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    G_{x,y} : graph</span>
+<span class="sd">        The pair graphs on which the kernel is applied.</span>
+<span class="sd">        </span>
+<span class="sd">    h : int, default=5</span>
+<span class="sd">        The sub-tree depth.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    kernel : number</span>
+<span class="sd">        The kernel value.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">Gx</span><span class="o">.</span><span class="n">desired_format</span><span class="p">(</span><span class="s2">&quot;dictionary&quot;</span><span class="p">)</span>
     <span class="n">Gy</span><span class="o">.</span><span class="n">desired_format</span><span class="p">(</span><span class="s2">&quot;dictionary&quot;</span><span class="p">)</span>
@@ -199,19 +215,34 @@
     <span class="k">return</span> <span class="n">kernel</span></div>
 
 <span class="k">def</span> <span class="nf">subtree_rg_core_dynamic</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">g_x</span><span class="p">,</span> <span class="n">g_y</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">dynamic_dict</span><span class="p">,</span> <span class="n">p_u</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">p_v</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Calculate the inside of the summation of Ramon Gartner subtree kernel as proposed on :cite:`Ramon2003ExpressivityVE`, s. 5</span>
+    <span class="sd">&quot;&quot;&quot; Calculate the inside of the summation of Ramon Gartner subtree kernel as proposed on :cite:`Ramon2003ExpressivityVE`, s. 5.</span>
 
-<span class="sd">    arguments:</span>
-<span class="sd">        - u,v (symbols): vertices that correspond to graphs g_x, g_y</span>
-<span class="sd">        - g_{x,y} (graph): graph formats for the corresponding graphs </span>
-<span class="sd">        - h (int): The height of the subtree exploration</span>
-<span class="sd">        - dynamic_dict (dict): a dictionary tha is used for applying dynamic programming</span>
-<span class="sd">        - p_{u,v} (symbols): parent nodes</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    u,v : hashable(s)</span>
+<span class="sd">        Vertices that correspond to graphs g_x, g_y.</span>
 <span class="sd">        </span>
-<span class="sd">    returns:</span>
-<span class="sd">        number. The kernel value</span>
-<span class="sd">    ------------</span>
-<span class="sd">    This is an efficiency proposal using various data structures and dynamic programming assuming that for each node you take all of its neighbors and not its preddecesor. A dictionary is being formed that holds level, u, v and pred of u and pred of v.</span>
+<span class="sd">    g_{x,y} : graph</span>
+<span class="sd">        Graph formats for the corresponding graphs.</span>
+<span class="sd">        </span>
+<span class="sd">    h : int</span>
+<span class="sd">        The height of the subtree exploration.</span>
+<span class="sd">        </span>
+<span class="sd">    dynamic_dict : dict</span>
+<span class="sd">        A dictionary that is used for applying dynamic programming.</span>
+<span class="sd">    p_{u,v} : hashable(s) or None, default=None</span>
+<span class="sd">        Parent nodes, to avoid repeating explorations.</span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    kernel : number</span>
+<span class="sd">        The kernel value.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    ----</span>
+<span class="sd">    This is an efficiency proposal using various data structures and dynamic programming</span>
+<span class="sd">    assuming that for each node you take all of its neighbors and not its predecesor.</span>
+<span class="sd">    A dictionary is being formed that holds level, u, v and pred of u and pred of v.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     
     <span class="k">if</span> <span class="n">h</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
@@ -348,14 +379,22 @@
         <span class="k">return</span> <span class="mi">0</span>
 
 <span class="k">def</span> <span class="nf">plough_subsets</span><span class="p">(</span><span class="n">initial_set</span><span class="p">,</span> <span class="n">Rv</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; A function that finds all subset kernel values without repeating operations</span>
+    <span class="sd">&quot;&quot;&quot; A function that finds all subset kernel values without repeating operations.</span>
 
-<span class="sd">    arguments:</span>
-<span class="sd">        - initial_set (set): The set you are operating</span>
-<span class="sd">        - Rv (dict): values for single elements (dictionary on integers)</span>
-<span class="sd">        - value (dict): keeps all sets and values</span>
-<span class="sd">    returns:</span>
-<span class="sd">        None</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    initial_set : set</span>
+<span class="sd">        The set that will be ploughed further.</span>
+<span class="sd">        </span>
+<span class="sd">    Rv : dict</span>
+<span class="sd">        Values for single elements (dictionary on integers).</span>
+<span class="sd">        </span>
+<span class="sd">    value : dict</span>
+<span class="sd">        Stores all values for the relevant sets.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># If only one element return its value</span>
     <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">initial_set</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>

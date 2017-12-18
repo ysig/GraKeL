@@ -92,7 +92,7 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../api.html">grakel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">GraKeL</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html">General examples</a></li>
 </ul>
 
@@ -158,7 +158,7 @@
            <div itemprop="articleBody">
             
   <h1>Source code for grakel.kernels.propagation</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot; The propagation kernel as defined in :cite:`Neumann2015PropagationKE`</span>
+<span></span><span class="sd">&quot;&quot;&quot; The propagation kernel as defined in :cite:`Neumann2015PropagationKE`.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">itertools</span>
 
@@ -169,22 +169,39 @@
 <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1235476565</span><span class="p">)</span>
 
 <div class="viewcode-block" id="propagation"><a class="viewcode-back" href="../../../kernels.html#grakel.kernels.propagation">[docs]</a><span class="k">def</span> <span class="nf">propagation</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Lx</span><span class="p">,</span> <span class="n">Ly</span><span class="p">,</span> <span class="n">Tx</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">Ty</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">t_max</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">w</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">M</span><span class="o">=</span><span class="s2">&quot;TV&quot;</span><span class="p">,</span> <span class="n">base_kernel</span><span class="o">=</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">sum</span><span class="p">(</span><span class="n">a</span><span class="o">*</span><span class="n">b</span> <span class="k">for</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)))):</span>
-    <span class="sd">&quot;&quot;&quot; The propagation kernel for fully labeled graphs :cite:`Neumann2015PropagationKE`: Algorithms 1, 3, p. 216, 221</span>
+    <span class="sd">&quot;&quot;&quot; The propagation kernel for fully labeled graphs :cite:`Neumann2015PropagationKE`: Algorithms 1, 3, p. 216, 221.</span>
 
-<span class="sd">    arguments:</span>
-<span class="sd">        - X,Y (valid graph format): the pair of graphs on which the kernel is applied</span>
-<span class="sd">        - L{x,y} (dict): coresponding graph labels for nodes</span>
-<span class="sd">        - T{x,y} (np-array): transition matrices corresponding to Graphs X, Y (*if None default value is adjacency matrix*)        </span>
-<span class="sd">        - t_max (int): maximum number of iterations</span>
-<span class="sd">        - M (str): The preserved distance metric (on local sensitive hashing):</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    X,Y : *valid-graph-format*</span>
+<span class="sd">        The pair of graphs on which the kernel is applied.</span>
+<span class="sd">        </span>
+<span class="sd">    L{x,y} : dict</span>
+<span class="sd">        Corresponding graph labels for vertices.</span>
+<span class="sd">        </span>
+<span class="sd">    T{x,y} : np-array, default=None</span>
+<span class="sd">        Transition matrices corresponding to Graphs X, Y (*if None default value is adjacency matrix*).</span>
+<span class="sd">        </span>
+<span class="sd">    t_max : int, default=5</span>
+<span class="sd">        Maximum number of iterations.</span>
+<span class="sd">        </span>
+<span class="sd">    w : int, default=10</span>
+<span class="sd">        Bin width.</span>
+<span class="sd">        </span>
+<span class="sd">    M : str, default=&quot;TV&quot;</span>
+<span class="sd">        The preserved distance metric (on local sensitive hashing):</span>
 <span class="sd">            - &quot;H&quot;: hellinger</span>
 <span class="sd">            - &quot;L1&quot;: l1-norm</span>
 <span class="sd">            - &quot;L2&quot;: l2-norm</span>
-<span class="sd">            - &quot;TV&quot;: total-variation   </span>
-<span class="sd">        - w (int): bin width</span>
-<span class="sd">        - base_kernel (function): a base_kernel between two lists of numbers that outputs a number</span>
-<span class="sd">    returns:</span>
-<span class="sd">        number. The kernel value</span>
+<span class="sd">            - &quot;TV&quot;: total-variation</span>
+<span class="sd">            </span>
+<span class="sd">    base_kernel : function (list, list -&gt; number), default=:math:`f(x,y)=\sum_{i} x_{i}*y_{i}`</span>
+<span class="sd">        A base_kernel between two lists of numbers that outputs a number.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    kernel : number</span>
+<span class="sd">        The kernel value.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">Gx</span> <span class="o">=</span> <span class="n">graph</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">Lx</span><span class="p">)</span>
     <span class="n">Gy</span> <span class="o">=</span> <span class="n">graph</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span><span class="n">Ly</span><span class="p">)</span>
@@ -192,22 +209,42 @@
     
         
 <div class="viewcode-block" id="propagation_matrix"><a class="viewcode-back" href="../../../kernels.html#grakel.kernels.propagation_matrix">[docs]</a><span class="k">def</span> <span class="nf">propagation_matrix</span><span class="p">(</span><span class="n">Graphs_x</span><span class="p">,</span> <span class="n">Graphs_y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">t_max</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">w</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">M</span><span class="o">=</span><span class="s2">&quot;TV&quot;</span><span class="p">,</span> <span class="n">base_kernel</span><span class="o">=</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">sum</span><span class="p">(</span><span class="n">a</span><span class="o">*</span><span class="n">b</span> <span class="k">for</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)))):</span>
-    <span class="sd">&quot;&quot;&quot; The propagation kernel for fully labeled graphs :cite:`Neumann2015PropagationKE`: p. 216, 221</span>
+    <span class="sd">&quot;&quot;&quot; The propagation kernel for fully labeled graphs :cite:`Neumann2015PropagationKE`: p. 216, 221.</span>
 
-<span class="sd">    arguments:</span>
-<span class="sd">        - Graphs_{x,y} (dict): A dictionary of graph type objects that are going to be compared with keys from 0 ... to the dictionary length.</span>
-<span class="sd">        - L{x,y} (dict): coresponding graph labels for nodes</span>
-<span class="sd">        - T{x,y} (np-array): transition matrices corresponding to Graphs X, Y (*if None default value is adjacency matrix*)        </span>
-<span class="sd">        - t_max (int): maximum number of iterations</span>
-<span class="sd">        - M (str): The preserved distance metric (on local sensitive hashing):</span>
-<span class="sd">            - &quot;H&quot;: hellinger</span>
-<span class="sd">            - &quot;L1&quot;: l1-norm</span>
-<span class="sd">            - &quot;L2&quot;: l2-norm</span>
-<span class="sd">            - &quot;TV&quot;: total-variation   </span>
-<span class="sd">        - w (int): bin width</span>
-<span class="sd">        - base_kernel (function): a base_kernel between two lists of numbers that outputs a number</span>
-<span class="sd">    returns:</span>
-<span class="sd">        np.array. The kernel matrix</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    Graphs_{x,y} : dict, default_y=None</span>
+<span class="sd">        Enumerative dictionary of graph type objects with keys from 0 to the number of values.</span>
+<span class="sd">        If value of Graphs_y is None the kernel matrix is computed between all pairs of Graphs_x</span>
+<span class="sd">        where in another case the kernel_matrix rows correspond to elements of Graphs_y, and columns</span>
+<span class="sd">        to the elements of Graphs_x.</span>
+<span class="sd">        </span>
+<span class="sd">    L{x,y} : dict</span>
+<span class="sd">        Corresponding graph labels for vertices.</span>
+<span class="sd">        </span>
+<span class="sd">    t_max : int, default=5</span>
+<span class="sd">        Maximum number of iterations.</span>
+<span class="sd">        </span>
+<span class="sd">    T{x,y} : np.array,  default=None</span>
+<span class="sd">        Transition matrices corresponding to Graphs X, Y (*if None default value is adjacency matrix*).</span>
+<span class="sd">        </span>
+<span class="sd">    M : str, default=&quot;TV&quot;</span>
+<span class="sd">        The preserved distance metric (on local sensitive hashing):</span>
+<span class="sd">            + &quot;H&quot;: hellinger</span>
+<span class="sd">            + &quot;L1&quot;: l1-norm</span>
+<span class="sd">            + &quot;L2&quot;: l2-norm</span>
+<span class="sd">            + &quot;TV&quot;: total-variation</span>
+<span class="sd">            </span>
+<span class="sd">    w : int</span>
+<span class="sd">        The bin width.</span>
+<span class="sd">        </span>
+<span class="sd">    base_kernel : function (list, list -&gt; number), default=:math:`f(x,y)=\sum{i} x_{i}*y_{i}`</span>
+<span class="sd">        A base_kernel between two lists of numbers that outputs a number.</span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    kernel_mat : np.array</span>
+<span class="sd">        The kernel matrix.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">M</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;H&quot;</span><span class="p">,</span> <span class="s2">&quot;L1&quot;</span><span class="p">,</span> <span class="s2">&quot;L2&quot;</span><span class="p">,</span> <span class="s2">&quot;TV&quot;</span><span class="p">]:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Invalid metric type&#39;</span><span class="p">)</span>
@@ -303,18 +340,27 @@
     <span class="k">return</span> <span class="n">K</span></div>
     
 <span class="k">def</span> <span class="nf">calculate_LSH</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">M</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; A function for calculating Local Sensitive Hashing needed for propagation kernels defined in :cite:`Neumann2015PropagationKE`, p.12</span>
+    <span class="sd">&quot;&quot;&quot; A function for calculating Local Sensitive Hashing needed for propagation kernels defined in :cite:`Neumann2015PropagationKE`, p.12.</span>
 <span class="sd">        </span>
-<span class="sd">    arguments:</span>
-<span class="sd">        - X (np.array): A float array of shape (N, D) with N vertices and D features</span>
-<span class="sd">        - w (int): Bin width</span>
-<span class="sd">        - M (str): The preserved distance metric:</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    X : np.array</span>
+<span class="sd">        A float array of shape (N, D) with N vertices and D features.</span>
+<span class="sd">        </span>
+<span class="sd">    w : int</span>
+<span class="sd">        Bin width.</span>
+<span class="sd">        </span>
+<span class="sd">    M : str</span>
+<span class="sd">        The preserved distance metric:</span>
 <span class="sd">           - &quot;H&quot;: hellinger</span>
 <span class="sd">           - &quot;L1&quot;: l1-norm</span>
 <span class="sd">           - &quot;L2&quot;: l2-norm</span>
 <span class="sd">           - &quot;TV&quot;: total-variation</span>
-<span class="sd">    returns:</span>
-<span class="sd">        - np.array. The local sensitive hash coresponding to each vertex</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    lsh : np.array.</span>
+<span class="sd">        The local sensitive hash coresponding to each vertex.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="o">!=</span><span class="mi">2</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;X must be an N x D array&#39;</span><span class="p">)</span>

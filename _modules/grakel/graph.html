@@ -92,7 +92,7 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../api.html">grakel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">GraKeL</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html">General examples</a></li>
 </ul>
 
@@ -829,19 +829,17 @@
 <span class="sd">        </span>
 <span class="sd">        purpose : str, valid_values={&quot;adjacency&quot;, &quot;dictionary&quot;, &quot;any&quot;}, default=&quot;any&quot;</span>
 <span class="sd">            Defines if the vertex is given for the &quot;dictionary&quot; format of the graph (symbol)</span>
-<span class="sd">            to the &quot;adjacency&quot; (index) or to &quot;any&quot; existing format (if &quot;all&quot; the expected type is for &quot;adjacency&quot;)</span>
+<span class="sd">            to the &quot;adjacency&quot; (index) or to &quot;any&quot; existing format (if &quot;all&quot; the expected type is for &quot;adjacency&quot;).</span>
 <span class="sd">        </span>
 <span class="sd">        with_weights : bool, default=False</span>
-<span class="sd">            Defines if the neighbours will </span>
-<span class="sd">                    if False: list of neighbor vertices</span>
-<span class="sd">                    if True: dictionary between neighbor</span>
-<span class="sd">                             vertices and edge labels </span>
+<span class="sd">            Defines if the neighbours will be outputed with weights.</span>
+<span class="sd">                </span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        neighbors : list or dict</span>
 <span class="sd">            The neighbors of the given vertex. </span>
-<span class="sd">            If with_weights is False, output is a list, else output is a dict.</span>
-<span class="sd">            </span>
+<span class="sd">                + with_weights=False: list of neighbor vertices</span>
+<span class="sd">                + with_weights=True: dictionary between neighbor vertices and edge labels </span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">purpose</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;adjacency&#39;</span><span class="p">,</span> <span class="s1">&#39;dictionary&#39;</span><span class="p">,</span> <span class="s2">&quot;any&quot;</span><span class="p">]:</span>
             <span class="k">if</span> <span class="n">purpose</span> <span class="o">==</span> <span class="s1">&#39;dictionary&#39;</span><span class="p">:</span>

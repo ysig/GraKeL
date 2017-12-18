@@ -92,7 +92,7 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../api.html">grakel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">GraKeL</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html">General examples</a></li>
 </ul>
 
@@ -158,20 +158,28 @@
            <div itemprop="articleBody">
             
   <h1>Source code for grakel.kernels.shortest_path</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot; This file contains the shortest path kernel as defined in :cite:`Borgwardt2005ShortestpathKO`</span>
+<span></span><span class="sd">&quot;&quot;&quot; This file contains the shortest path kernel as defined in :cite:`Borgwardt2005ShortestpathKO`.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">from</span> <span class="nn">..graph</span> <span class="k">import</span> <span class="n">graph</span>
 <span class="kn">from</span> <span class="nn">..tools</span> <span class="k">import</span> <span class="n">inv_dict</span>
 
 <div class="viewcode-block" id="shortest_path"><a class="viewcode-back" href="../../../kernels.html#grakel.kernels.shortest_path">[docs]</a><span class="k">def</span> <span class="nf">shortest_path</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Lx</span><span class="p">,</span> <span class="n">Ly</span><span class="p">,</span> <span class="n">algorithm_type</span><span class="o">=</span><span class="s2">&quot;dijkstra&quot;</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; This is a function that implements shortest path kernel as proposed in :cite:`Borgwardt2005ShortestpathKO`</span>
+    <span class="sd">&quot;&quot;&quot; This is a function that implements shortest path kernel as proposed in :cite:`Borgwardt2005ShortestpathKO`.</span>
 
-<span class="sd">    arguments:</span>
-<span class="sd">        - X,Y (valid graph format): the pair of graphs on which the kernel is applied</span>
-<span class="sd">        - algorithm_type (str): &quot;dijkstra&quot; or &quot;floyd_warshall&quot; or &quot;auto&quot; (for the best concerning current format)</span>
-<span class="sd">    returns:</span>
-<span class="sd">        number. The kernel value    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    X,Y : *valid-graph-format*</span>
+<span class="sd">        The pair of graphs on which the kernel is applied.</span>
+<span class="sd">        </span>
+<span class="sd">    algorithm_type : str, default={&quot;dijkstra&quot;, &quot;floyd_warshall&quot;, &quot;auto&quot;}</span>
+<span class="sd">        Apply the dijkstra or floyd_warshall algorithm for calculating shortest path</span>
+<span class="sd">        ot for the best concerning current graph format (&quot;auto&quot;).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    kernel : number</span>
+<span class="sd">        The kernel value.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">g_x</span> <span class="o">=</span> <span class="n">graph</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">Lx</span><span class="p">)</span>
     <span class="n">g_y</span> <span class="o">=</span> <span class="n">graph</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span><span class="n">Ly</span><span class="p">)</span>
@@ -179,16 +187,26 @@
     <span class="k">return</span> <span class="n">shortest_path_inner</span><span class="p">(</span><span class="n">g_x</span><span class="p">,</span> <span class="n">g_y</span><span class="p">,</span> <span class="n">algorithm_type</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="shortest_path_inner"><a class="viewcode-back" href="../../../kernels.html#grakel.kernels.shortest_path_inner">[docs]</a><span class="k">def</span> <span class="nf">shortest_path_inner</span><span class="p">(</span><span class="n">g_x</span><span class="p">,</span> <span class="n">g_y</span><span class="p">,</span> <span class="n">algorithm_type</span><span class="o">=</span><span class="s2">&quot;dijkstra&quot;</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; A function that calculates the inner summation part of the shortest path kernel as proposed in :cite:`Borgwardt2005ShortestpathKO`</span>
+    <span class="sd">&quot;&quot;&quot; A function that calculates the inner summation part of the shortest path kernel as proposed in :cite:`Borgwardt2005ShortestpathKO`.</span>
 
-<span class="sd">    arguments:</span>
-<span class="sd">        - g_{x,y} (graph): the pair graphs on which the kernel is applied</span>
-<span class="sd">        - algorithm_type (str): &quot;dijkstra&quot; or &quot;floyd_warshall&quot; or &quot;auto&quot; (for the best concerning current format)</span>
-<span class="sd">    returns:</span>
-<span class="sd">        number. The kernel value</span>
-<span class="sd">    ----------------</span>
-<span class="sd">    Complexity: </span>
-<span class="sd">        :math:`O(n^2*min(1,m)^2)`, where the number of vertices is :math:`n` and :math:`m` the mean maximum branching factor of the surjective labeling function of the Graph.</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    g_{x,y} : graph</span>
+<span class="sd">        The pair graphs on which the kernel is applied.</span>
+<span class="sd">        </span>
+<span class="sd">    algorithm_type : str, default={&quot;dijkstra&quot;, &quot;floyd_warshall&quot;, &quot;auto&quot;}</span>
+<span class="sd">        Apply the dijkstra or floyd_warshall algorithm for calculating shortest path</span>
+<span class="sd">        ot for the best concerning current graph format (&quot;auto&quot;).</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    kernel : number.</span>
+<span class="sd">        The kernel value.</span>
+<span class="sd">        </span>
+<span class="sd">    Complexity</span>
+<span class="sd">    ----------</span>
+<span class="sd">    :math:`O(n^2*min(1,m)^2)`, where the number of vertices is :math:`n` and</span>
+<span class="sd">    :math:`m` the mean maximum branching factor of the surjective labeling function of the Graph.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># calculate shortest path matrix</span>
     <span class="n">S_x</span><span class="p">,</span> <span class="n">Lx</span> <span class="o">=</span> <span class="n">g_x</span><span class="o">.</span><span class="n">build_shortest_path_matrix</span><span class="p">(</span><span class="n">algorithm_type</span><span class="p">)</span>

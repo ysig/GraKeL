@@ -1,6 +1,6 @@
-Graph(class)
+Graph (class)
 =========================
-Documentation for the graph class
+Documentation for the graph class.
 
 .. automodule:: grakel.graph
    :members:

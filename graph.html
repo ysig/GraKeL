@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Graph(class) &mdash; GraKeL 0.0.1 documentation</title>
+  <title>Graph (class) &mdash; GraKeL 0.0.1 documentation</title>
   
 
   
@@ -91,7 +91,7 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="api.html">grakel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">GraKeL</a></li>
 <li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">General examples</a></li>
 </ul>
 
@@ -137,7 +137,7 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Graph(class)</li>
+      <li>Graph (class)</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -157,8 +157,8 @@
            <div itemprop="articleBody">
             
   <div class="section" id="graph-class">
-<h1>Graph(class)<a class="headerlink" href="#graph-class" title="Permalink to this headline">¶</a></h1>
-<p>Documentation for the graph class</p>
+<h1>Graph (class)<a class="headerlink" href="#graph-class" title="Permalink to this headline">¶</a></h1>
+<p>Documentation for the graph class.</p>
 <span class="target" id="module-grakel.graph"></span><p>A python file that implements a class and functions for graphs.</p>
 <dl class="function">
 <dt id="grakel.graph.dijkstra">
@@ -839,26 +839,24 @@ to the “dictionary” or to the “adjacency” format of the graph.</p>
 <p><strong>purpose</strong> : str, valid_values={“adjacency”, “dictionary”, “any”}, default=”any”</p>
 <blockquote>
 <div><p>Defines if the vertex is given for the “dictionary” format of the graph (symbol)
-to the “adjacency” (index) or to “any” existing format (if “all” the expected type is for “adjacency”)</p>
+to the “adjacency” (index) or to “any” existing format (if “all” the expected type is for “adjacency”).</p>
 </div></blockquote>
 <p><strong>with_weights</strong> : bool, default=False</p>
 <blockquote>
-<div><dl class="docutils">
-<dt>Defines if the neighbours will </dt>
-<dd><p class="first">if False: list of neighbor vertices
-if True: dictionary between neighbor</p>
-<blockquote class="last">
-<div><p>vertices and edge labels</p>
+<div><p>Defines if the neighbours will be outputed with weights.</p>
 </div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>neighbors</strong> : list or dict</p>
+<blockquote class="last">
+<div><dl class="docutils">
+<dt>The neighbors of the given vertex. </dt>
+<dd><ul class="first last simple">
+<li>with_weights=False: list of neighbor vertices</li>
+<li>with_weights=True: dictionary between neighbor vertices and edge labels</li>
+</ul>
 </dd>
 </dl>
-</div></blockquote>
-<p><strong>Returns</strong></p>
-<p><strong>——-</strong></p>
-<p><strong>neighbors</strong> : list or dict</p>
-<blockquote class="last">
-<div><p>The neighbors of the given vertex. 
-If with_weights is False, output is a list, else output is a dict.</p>
 </div></blockquote>
 </td>
 </tr>

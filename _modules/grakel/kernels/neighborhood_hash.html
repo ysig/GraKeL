@@ -92,7 +92,7 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../api.html">grakel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">GraKeL</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html">General examples</a></li>
 </ul>
 
@@ -177,7 +177,7 @@
 <span class="sd">        The pair of graphs on which the kernel is applied.</span>
 <span class="sd">        </span>
 <span class="sd">    L{x,y} : dict</span>
-<span class="sd">        Coresponding graph labels for vertices.</span>
+<span class="sd">        Corresponding graph labels for vertices.</span>
 <span class="sd">        </span>
 <span class="sd">    R : int, default=3</span>
 <span class="sd">        The maximum number of neighborhood hash.</span>
@@ -203,9 +203,11 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    Graphs_{x,y} : dict, default_y=None</span>
-<span class="sd">        A dictionary of graph type objects that are going to be compared with keys from 0 ... to the dictionary length.</span>
-<span class="sd">        If Graphs_y is None the kernel matrix is computed between all graphs in Graphs_x.</span>
-<span class="sd">        </span>
+<span class="sd">        Enumerative dictionary of graph type objects with keys from 0 to the number of values.</span>
+<span class="sd">        If value of Graphs_y is None the kernel matrix is computed between all pairs of Graphs_x</span>
+<span class="sd">        where in another case the kernel_matrix rows correspond to elements of Graphs_y, and columns</span>
+<span class="sd">        to the elements of Graphs_x.</span>
+
 <span class="sd">    R : int, default=3</span>
 <span class="sd">        The maximum number of neighborhood hash.</span>
 <span class="sd">        </span>
@@ -290,9 +292,6 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    Graphs_{x,y} : dict</span>
-<span class="sd">        A dictionary of graph type objects that are going to be compared with keys from 0 ... to the dictionary length.</span>
-<span class="sd">        </span>
 <span class="sd">    labels : dict</span>
 <span class="sd">        Labels for vertices.</span>
 <span class="sd">        </span>

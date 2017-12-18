@@ -92,7 +92,7 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../api.html">grakel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">GraKeL</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html">General examples</a></li>
 </ul>
 
@@ -158,36 +158,59 @@
            <div itemprop="articleBody">
             
   <h1>Source code for grakel.kernels.neighborhood_pairwise_subgraph_distance</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot; This file contains the neighborhood subgraph pairwise distance kernel as defined in :cite:`Costa2010FastNS`</span>
+<span></span><span class="sd">&quot;&quot;&quot; This file contains the neighborhood subgraph pairwise distance kernel as defined in :cite:`Costa2010FastNS`.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">itertools</span>
 
 <span class="kn">from</span> <span class="nn">..graph</span> <span class="k">import</span> <span class="n">graph</span>
 
 <div class="viewcode-block" id="neighborhood_pairwise_subgraph_distance"><a class="viewcode-back" href="../../../kernels.html#grakel.kernels.neighborhood_pairwise_subgraph_distance">[docs]</a><span class="k">def</span> <span class="nf">neighborhood_pairwise_subgraph_distance</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Lx</span><span class="p">,</span> <span class="n">Ly</span><span class="p">,</span> <span class="n">LEx</span><span class="p">,</span> <span class="n">LEy</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; The neighborhood subgraph pairwise distance kernel as proposed in :cite:`Costa2010FastNS`</span>
+    <span class="sd">&quot;&quot;&quot; The neighborhood subgraph pairwise distance kernel as proposed in :cite:`Costa2010FastNS`.</span>
 
-<span class="sd">    arguments:</span>
-<span class="sd">        - X,Y (valid graph format): the pair of graphs on which the kernel is applied</span>
-<span class="sd">        - L{x,y} (dict): coresponding graph labels for nodes</span>
-<span class="sd">        - LE{x,y} (dict): coresponding graph labels for edges</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    X,Y : valid graph format.</span>
+<span class="sd">        The pair of graphs on which the kernel is applied.</span>
 <span class="sd">        </span>
-<span class="sd">    returns:</span>
-<span class="sd">        number. The kernel value</span>
+<span class="sd">    L{x,y} : dict</span>
+<span class="sd">        Corresponding graph labels for nodes.</span>
+<span class="sd">        </span>
+<span class="sd">    LE{x,y} : dict</span>
+<span class="sd">        Corresponding graph labels for edges.</span>
+<span class="sd">        </span>
+<span class="sd">    r : int, default=3</span>
+<span class="sd">        The maximum considered radius between vertices.</span>
+<span class="sd">        </span>
+<span class="sd">    d : int, default=4</span>
+<span class="sd">        Neighborhood depth.</span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    kernel : number</span>
+<span class="sd">        The kernel value.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">Gx</span> <span class="o">=</span> <span class="n">graph</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">Lx</span><span class="p">,</span><span class="n">LEx</span><span class="p">)</span>
     <span class="n">Gy</span> <span class="o">=</span> <span class="n">graph</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span><span class="n">Ly</span><span class="p">,</span><span class="n">LEy</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">neighborhood_pairwise_subgraph_distance_inner</span><span class="p">(</span><span class="n">Gx</span><span class="p">,</span> <span class="n">Gy</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="n">r</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="n">d</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="neighborhood_pairwise_subgraph_distance_inner"><a class="viewcode-back" href="../../../kernels.html#grakel.kernels.neighborhood_pairwise_subgraph_distance_inner">[docs]</a><span class="k">def</span> <span class="nf">neighborhood_pairwise_subgraph_distance_inner</span><span class="p">(</span><span class="n">Gx</span><span class="p">,</span> <span class="n">Gy</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; The neighborhood subgraph pairwise distance kernel as proposed in :cite:`Costa2010FastNS`</span>
+    <span class="sd">&quot;&quot;&quot; The neighborhood subgraph pairwise distance kernel as proposed in :cite:`Costa2010FastNS`.</span>
 <span class="sd">        </span>
-<span class="sd">    arguments:</span>
-<span class="sd">        - G{x,y} (graph): the pair of graphs on which the kernel is applied</span>
-<span class="sd">        - r (int): radius of the </span>
-<span class="sd">        - d (int): depth of the neighbourhoods</span>
-<span class="sd">    returns:</span>
-<span class="sd">        number. The kernel value</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    G{x,y} : graph</span>
+<span class="sd">        The pair of graphs on which the kernel is applied.</span>
+<span class="sd">        </span>
+<span class="sd">    r : int </span>
+<span class="sd">        The maximum considered radius between vertices.</span>
+<span class="sd">        </span>
+<span class="sd">    d : int</span>
+<span class="sd">        Neighborhood depth.</span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    kernel : number</span>
+<span class="sd">        The kernel value.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">r</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;r must be a positive integer&#39;</span><span class="p">)</span>
@@ -225,12 +248,21 @@
 <span class="k">def</span> <span class="nf">hash_neighborhoods</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">D_pair</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">purpose</span> <span class="o">=</span> <span class="s2">&quot;adjacency&quot;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; A function that calculates the hash for all neighborhoods and all root nodes.</span>
 <span class="sd">    </span>
-<span class="sd">    arguments:</span>
-<span class="sd">        - G (graph): the original graph</span>
-<span class="sd">        - N (dict): neighborhoods with levels as int keys and dictionaries as values with root node symbols as keys and a list of vertex symbols as values, that belong to this neighborhood</span>
-<span class="sd">        - D_pairs (dict): a dictionary with keys as tuple pairs of vertex symbols and values corresponding to element distances      </span>
-<span class="sd">    returns:</span>
-<span class="sd">        dict. The hashed neighborhoods as a level 2 dict with keys radious and vertex and the hashed values           </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    G : graph</span>
+<span class="sd">        The original graph.</span>
+<span class="sd">        </span>
+<span class="sd">    N : dict</span>
+<span class="sd">        Neighborhoods that map levels (int) to dictionaries of root node symbols (keys) to list of vertex symbols, which correspond to the neighbors, that belong to this neighborhood.</span>
+<span class="sd">        </span>
+<span class="sd">    D_pairs : dict</span>
+<span class="sd">        A dictionary that maps edges (tuple pairs of vertex symbols) to element distances (int - as produced from a BFS traversal).</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    H : dict</span>
+<span class="sd">        The hashed neighborhoods as a 2-level dict from radious, vertex to the hashed values.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">H</span> <span class="o">=</span> <span class="p">{</span><span class="n">ra</span><span class="p">:</span> <span class="nb">dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">ra</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">r</span><span class="o">+</span><span class="mi">1</span><span class="p">)}</span>
     <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">get_vertices</span><span class="p">(</span><span class="n">purpose</span><span class="p">):</span>
@@ -239,13 +271,20 @@
     <span class="k">return</span> <span class="n">H</span>
 
 <span class="k">def</span> <span class="nf">hash_graph</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">purpose</span><span class="o">=</span><span class="s1">&#39;adjacency&#39;</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Make labels for hashing according to the proposed method and produce the graph hash needed for fast comparison</span>
+    <span class="sd">&quot;&quot;&quot; Make labels for hashing according to the proposed method and produce the graph hash needed for fast comparison.</span>
 <span class="sd">        </span>
-<span class="sd">    arguments:</span>
-<span class="sd">        - G (graph): original graph</span>
-<span class="sd">        - D (dict): a dictionary with keys as tuple pairs of vertex symbols and values corresponding to element distances</span>
-<span class="sd">    returns:</span>
-<span class="sd">        int. The hash for the given graph</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    G : graph</span>
+<span class="sd">        Original graph.</span>
+<span class="sd">        </span>
+<span class="sd">    D_pairs : dict</span>
+<span class="sd">        A dictionary that maps edges (tuple pairs of vertex symbols) to element distances (int - as produced from a BFS traversal).</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    hash : int.</span>
+<span class="sd">        The hash value for the given graph.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">encoding</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
     <span class="n">s</span> <span class="o">=</span> <span class="nb">str</span><span class="p">()</span>
@@ -273,13 +312,20 @@
 <span class="n">bit_ones</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
 
 <span class="k">def</span> <span class="nf">as_n_bit</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; A function that conserves the n-first digits of a given number</span>
+    <span class="sd">&quot;&quot;&quot; A function that conserves the n-first digits of a given number.</span>
 <span class="sd">        </span>
-<span class="sd">    arguments:</span>
-<span class="sd">       - num (int): the binary number</span>
-<span class="sd">       - n (int): the number of bits</span>
-<span class="sd">    returns:</span>
-<span class="sd">       int. The n first numbers of the integer</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    num : int</span>
+<span class="sd">        The binary number.</span>
+
+<span class="sd">    n : int</span>
+<span class="sd">        The number of bits.</span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    num_n : int</span>
+<span class="sd">        The n first numbers of the integer num.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">n</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
     
@@ -297,10 +343,15 @@
 <span class="k">def</span> <span class="nf">APHash</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Arash Partov hashing as implemented in the original implementation of NPSDK.</span>
 
-<span class="sd">    arguments:</span>
-<span class="sd">        string (str): a string</span>
-<span class="sd">    returns:</span>
-<span class="sd">        int. The AP hash value for the given text</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    string : str</span>
+<span class="sd">        The string that is going to be hashed.</span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    AP_hash : int</span>
+<span class="sd">        The AP hash value for the given text.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">hash_num</span> <span class="o">=</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="s1">&#39;0xAAAAAAAA&#39;</span><span class="p">,</span><span class="mi">16</span><span class="p">))</span>
     <span class="n">n</span> <span class="o">=</span> <span class="mi">32</span>

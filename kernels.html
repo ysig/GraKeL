@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>kernels &mdash; GraKeL 0.0.1 documentation</title>
+  <title>Kernels (between graphs) &mdash; GraKeL 0.0.1 documentation</title>
   
 
   
@@ -91,7 +91,7 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="api.html">grakel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">GraKeL</a></li>
 <li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">General examples</a></li>
 </ul>
 
@@ -137,7 +137,7 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>kernels</li>
+      <li>Kernels (between graphs)</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -156,8 +156,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="kernels">
-<h1>kernels<a class="headerlink" href="#kernels" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="kernels-between-graphs">
+<h1>Kernels (between graphs)<a class="headerlink" href="#kernels-between-graphs" title="Permalink to this headline">¶</a></h1>
 <p>The documentation of the <cite>kernels</cite> submodule.</p>
 <span class="target" id="module-grakel.kernels"></span><dl class="function">
 <dt id="grakel.kernels.dirac">
@@ -177,7 +177,7 @@
 </div></blockquote>
 <p><strong>L{x,y}</strong> : dict</p>
 <blockquote>
-<div><p>Corresponding graph labels for nodes.</p>
+<div><p>Corresponding graph labels for vertices.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -222,104 +222,197 @@
 <dl class="function">
 <dt id="grakel.kernels.random_walk">
 <code class="descclassname">grakel.kernels.</code><code class="descname">random_walk</code><span class="sig-paren">(</span><em>X</em>, <em>Y</em>, <em>lamda=0.1</em>, <em>method_type='sylvester'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/kernels/random_walk.html#random_walk"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.random_walk" title="Permalink to this definition">¶</a></dt>
-<dd><p>A function calculates the random walk kernel as proposed in <a class="reference internal" href="#kashima2003marginalizedkb" id="id1">[KTI03]</a>, <a class="reference internal" href="#grtner2003ongk" id="id2">[GartnerFW03]</a> and in <a class="reference internal" href="#vishwanathan2006fastco" id="id3">[VBS06]</a></p>
-<dl class="docutils">
-<dt>arguments:</dt>
+<dd><p>A function calculates the random walk kernel as proposed in <a class="reference internal" href="#kashima2003marginalizedkb" id="id1">[KTI03]</a>, <a class="reference internal" href="#grtner2003ongk" id="id2">[GartnerFW03]</a> and in <a class="reference internal" href="#vishwanathan2006fastco" id="id3">[VBS06]</a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X,Y</strong> : <em>valid-graph-format</em></p>
+<blockquote>
+<div><p>The pair of graphs on which the kernel is applied.</p>
+</div></blockquote>
+<p><strong>lamda</strong> : float</p>
+<blockquote>
+<div><p>A lambda factor concerning summation.</p>
+</div></blockquote>
+<p><strong>method_type</strong> : str, valid_values={“simple”, “sylvester”}</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>The method to use for calculating random walk kernel:</dt>
 <dd><ul class="first last simple">
-<li>X,Y (valid graph format): the pair of graphs on which the kernel is applied</li>
-<li>lamda: the factor concerning summation</li>
-<li>method_type: “simple” <img class="math" src="_images/math/330217e36d6f537efcb0f677f3149f56495a6db3.png" alt="O(|V|^6)"/> (see <a class="reference internal" href="#kashima2003marginalizedkb" id="id4">[KTI03]</a>, <a class="reference internal" href="#grtner2003ongk" id="id5">[GartnerFW03]</a>) or “sylvester” <img class="math" src="_images/math/7c46361c6fb7450ae4fd9c3e640ffb001c10aa48.png" alt="O(|V|^3)"/> (see <a class="reference internal" href="#vishwanathan2006fastco" id="id6">[VBS06]</a>)</li>
+<li>“simple” <em>Complexity</em>: <img class="math" src="_images/math/330217e36d6f537efcb0f677f3149f56495a6db3.png" alt="O(|V|^6)"/> (see <a class="reference internal" href="#kashima2003marginalizedkb" id="id4">[KTI03]</a>, <a class="reference internal" href="#grtner2003ongk" id="id5">[GartnerFW03]</a>)</li>
+<li>“sylvester” <em>Complexity</em>: <img class="math" src="_images/math/7c46361c6fb7450ae4fd9c3e640ffb001c10aa48.png" alt="O(|V|^3)"/> (see <a class="reference internal" href="#vishwanathan2006fastco" id="id6">[VBS06]</a>)</li>
 </ul>
 </dd>
-<dt>returns:</dt>
-<dd>number. The kernel value</dd>
 </dl>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>kernel</strong> : number</p>
+<blockquote class="last">
+<div><p>The kernel value.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="grakel.kernels.random_walk_inner">
 <code class="descclassname">grakel.kernels.</code><code class="descname">random_walk_inner</code><span class="sig-paren">(</span><em>Gx</em>, <em>Gy</em>, <em>lamda=0.1</em>, <em>method_type='sylvester'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/kernels/random_walk.html#random_walk_inner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.random_walk_inner" title="Permalink to this definition">¶</a></dt>
-<dd><p>A function calculates the random walk kernel as proposed in <a class="reference internal" href="#kashima2003marginalizedkb" id="id7">[KTI03]</a>, <a class="reference internal" href="#grtner2003ongk" id="id8">[GartnerFW03]</a> and in <a class="reference internal" href="#vishwanathan2006fastco" id="id9">[VBS06]</a></p>
-<dl class="docutils">
-<dt>arguments:</dt>
+<dd><p>A function calculates the random walk kernel as proposed in <a class="reference internal" href="#kashima2003marginalizedkb" id="id7">[KTI03]</a>, <a class="reference internal" href="#grtner2003ongk" id="id8">[GartnerFW03]</a> and in <a class="reference internal" href="#vishwanathan2006fastco" id="id9">[VBS06]</a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>G{x,y}</strong> : graph</p>
+<blockquote>
+<div><p>The pair of graphs on which the kernel is applied.</p>
+</div></blockquote>
+<p><strong>lamda</strong> : float</p>
+<blockquote>
+<div><p>A lambda factor concerning summation.</p>
+</div></blockquote>
+<p><strong>method_type</strong> : str, valid_values={“simple”, “sylvester”}</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>The method to use for calculating random walk kernel:</dt>
 <dd><ul class="first last simple">
-<li>G{x,y} (graph): the pair of graphs on which the kernel is applied</li>
-<li>lamda: the factor concerning summation</li>
-<li>method_type: “simple” <img class="math" src="_images/math/330217e36d6f537efcb0f677f3149f56495a6db3.png" alt="O(|V|^6)"/> (see <a class="reference internal" href="#kashima2003marginalizedkb" id="id10">[KTI03]</a>, <a class="reference internal" href="#grtner2003ongk" id="id11">[GartnerFW03]</a>) or “sylvester” <img class="math" src="_images/math/7c46361c6fb7450ae4fd9c3e640ffb001c10aa48.png" alt="O(|V|^3)"/> (see <a class="reference internal" href="#vishwanathan2006fastco" id="id12">[VBS06]</a>)</li>
+<li>“simple” <em>Complexity</em>: <img class="math" src="_images/math/330217e36d6f537efcb0f677f3149f56495a6db3.png" alt="O(|V|^6)"/> (see <a class="reference internal" href="#kashima2003marginalizedkb" id="id10">[KTI03]</a>, <a class="reference internal" href="#grtner2003ongk" id="id11">[GartnerFW03]</a>)</li>
+<li>“sylvester” <em>Complexity</em>: <img class="math" src="_images/math/7c46361c6fb7450ae4fd9c3e640ffb001c10aa48.png" alt="O(|V|^3)"/> (see <a class="reference internal" href="#vishwanathan2006fastco" id="id12">[VBS06]</a>)</li>
 </ul>
 </dd>
-<dt>returns:</dt>
-<dd>number. The kernel value</dd>
 </dl>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>kernel</strong> : number</p>
+<blockquote class="last">
+<div><p>The kernel value.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="grakel.kernels.shortest_path">
 <code class="descclassname">grakel.kernels.</code><code class="descname">shortest_path</code><span class="sig-paren">(</span><em>X</em>, <em>Y</em>, <em>Lx</em>, <em>Ly</em>, <em>algorithm_type='dijkstra'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/kernels/shortest_path.html#shortest_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.shortest_path" title="Permalink to this definition">¶</a></dt>
-<dd><p>This is a function that implements shortest path kernel as proposed in <a class="reference internal" href="#borgwardt2005shortestpathko" id="id13">[BK05]</a></p>
-<dl class="docutils">
-<dt>arguments:</dt>
-<dd><ul class="first last simple">
-<li>X,Y (valid graph format): the pair of graphs on which the kernel is applied</li>
-<li>algorithm_type (str): “dijkstra” or “floyd_warshall” or “auto” (for the best concerning current format)</li>
-</ul>
-</dd>
-<dt>returns:</dt>
-<dd>number. The kernel value</dd>
-</dl>
+<dd><p>This is a function that implements shortest path kernel as proposed in <a class="reference internal" href="#borgwardt2005shortestpathko" id="id13">[BK05]</a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X,Y</strong> : <em>valid-graph-format</em></p>
+<blockquote>
+<div><p>The pair of graphs on which the kernel is applied.</p>
+</div></blockquote>
+<p><strong>algorithm_type</strong> : str, default={“dijkstra”, “floyd_warshall”, “auto”}</p>
+<blockquote>
+<div><p>Apply the dijkstra or floyd_warshall algorithm for calculating shortest path
+ot for the best concerning current graph format (“auto”).</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>kernel</strong> : number</p>
+<blockquote class="last">
+<div><p>The kernel value.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="grakel.kernels.shortest_path_inner">
 <code class="descclassname">grakel.kernels.</code><code class="descname">shortest_path_inner</code><span class="sig-paren">(</span><em>g_x</em>, <em>g_y</em>, <em>algorithm_type='dijkstra'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/kernels/shortest_path.html#shortest_path_inner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.shortest_path_inner" title="Permalink to this definition">¶</a></dt>
-<dd><p>A function that calculates the inner summation part of the shortest path kernel as proposed in <a class="reference internal" href="#borgwardt2005shortestpathko" id="id14">[BK05]</a></p>
-<dl class="docutils">
-<dt>arguments:</dt>
-<dd><ul class="first last simple">
-<li>g_{x,y} (graph): the pair graphs on which the kernel is applied</li>
-<li>algorithm_type (str): “dijkstra” or “floyd_warshall” or “auto” (for the best concerning current format)</li>
-</ul>
-</dd>
-<dt>returns:</dt>
-<dd>number. The kernel value</dd>
-</dl>
-<dl class="docutils">
-<dt>Complexity: </dt>
-<dd><img class="math" src="_images/math/53994f49e05be682a18b2edeb84969c2ff9a3a58.png" alt="O(n^2*min(1,m)^2)"/>, where the number of vertices is <img class="math" src="_images/math/e11f2701c4a39c7fe543a6c4150b421d50f1c159.png" alt="n"/> and <img class="math" src="_images/math/edba97b4c0d864d26e92ea7ea73767fa38eef3f7.png" alt="m"/> the mean maximum branching factor of the surjective labeling function of the Graph.</dd>
-</dl>
+<dd><p>A function that calculates the inner summation part of the shortest path kernel as proposed in <a class="reference internal" href="#borgwardt2005shortestpathko" id="id14">[BK05]</a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>g_{x,y}</strong> : graph</p>
+<blockquote>
+<div><p>The pair graphs on which the kernel is applied.</p>
+</div></blockquote>
+<p><strong>algorithm_type</strong> : str, default={“dijkstra”, “floyd_warshall”, “auto”}</p>
+<blockquote>
+<div><p>Apply the dijkstra or floyd_warshall algorithm for calculating shortest path
+ot for the best concerning current graph format (“auto”).</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>kernel</strong> : number.</p>
+<blockquote class="last">
+<div><p>The kernel value.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="grakel.kernels.subtree_rg">
 <code class="descclassname">grakel.kernels.</code><code class="descname">subtree_rg</code><span class="sig-paren">(</span><em>X</em>, <em>Y</em>, <em>Lx</em>, <em>Ly</em>, <em>h=5</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/kernels/subtree_rg.html#subtree_rg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.subtree_rg" title="Permalink to this definition">¶</a></dt>
-<dd><p>Computes the Ramon Gartner subtree kernel as proposed in <a class="reference internal" href="#ramon2003expressivityve" id="id15">[RG03]</a>, s. 5</p>
-<dl class="docutils">
-<dt>arguments:</dt>
-<dd><ul class="first last simple">
-<li>X,Y (valid graph format): the pair of graphs on which the kernel is applied</li>
-<li>L{x,y} (dict): coresponding graph labels for nodes</li>
-<li>h (int): the sub-tree depth</li>
-</ul>
-</dd>
-<dt>returns:</dt>
-<dd>number. The kernel value</dd>
-</dl>
+<dd><p>Computes the Ramon Gartner subtree kernel as proposed in <a class="reference internal" href="#ramon2003expressivityve" id="id15">[RG03]</a>, s. 5.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X,Y</strong> : <em>valid-graph-format</em></p>
+<blockquote>
+<div><p>The pair of graphs on which the kernel is applied.</p>
+</div></blockquote>
+<p><strong>L{x,y}</strong> : dict</p>
+<blockquote>
+<div><p>Corresponding graph labels for vertices.</p>
+</div></blockquote>
+<p><strong>h</strong> : int, default=5</p>
+<blockquote>
+<div><p>The sub-tree depth.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>kernel</strong> : number</p>
+<blockquote class="last">
+<div><p>The kernel value.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="grakel.kernels.subtree_rg_inner">
 <code class="descclassname">grakel.kernels.</code><code class="descname">subtree_rg_inner</code><span class="sig-paren">(</span><em>Gx</em>, <em>Gy</em>, <em>h=5</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/kernels/subtree_rg.html#subtree_rg_inner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.subtree_rg_inner" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate The Ramon Gartner subtree kernel as proposed in <a class="reference internal" href="#ramon2003expressivityve" id="id16">[RG03]</a>, s. 5</p>
-<dl class="docutils">
-<dt>arguments:</dt>
-<dd><ul class="first last simple">
-<li>G_{x,y} (graph): the pair graphs on which the kernel is applied</li>
-<li>h (int): the sub-tree depth</li>
-</ul>
-</dd>
-<dt>returns:</dt>
-<dd>number. The kernel value</dd>
-</dl>
+<dd><p>Calculate The Ramon Gartner subtree kernel as proposed in <a class="reference internal" href="#ramon2003expressivityve" id="id16">[RG03]</a>, s. 5.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>G_{x,y}</strong> : graph</p>
+<blockquote>
+<div><p>The pair graphs on which the kernel is applied.</p>
+</div></blockquote>
+<p><strong>h</strong> : int, default=5</p>
+<blockquote>
+<div><p>The sub-tree depth.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>kernel</strong> : number</p>
+<blockquote class="last">
+<div><p>The kernel value.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
@@ -511,53 +604,105 @@ or else predicted through interpolation.</p>
 <dl class="function">
 <dt id="grakel.kernels.weisfeiler_lehman">
 <code class="descclassname">grakel.kernels.</code><code class="descname">weisfeiler_lehman</code><span class="sig-paren">(</span><em>X</em>, <em>Y</em>, <em>Lx</em>, <em>Ly</em>, <em>base_kernel</em>, <em>niter=5</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/kernels/weisfeiler_lehman.html#weisfeiler_lehman"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.weisfeiler_lehman" title="Permalink to this definition">¶</a></dt>
-<dd><p>Computes the Weisfeler Lehman as proposed by <a class="reference internal" href="#shervashidze2011weisfeilerlehmangk" id="id21">[SSvL+11]</a></p>
-<dl class="docutils">
-<dt>arguments:</dt>
-<dd><ul class="first last simple">
-<li>X,Y (valid graph format): the pair of graphs on which the kernel is applied</li>
-<li>L{x,y} (dict): coresponding graph labels for nodes</li>
-<li>base_kernel (function: (graph, graph) -&gt; number): A valid pairwise base_kernel</li>
-<li>niter (int): the number of iterations</li>
-</ul>
-</dd>
-<dt>returns:</dt>
-<dd>number. The kernel value</dd>
-</dl>
+<dd><p>Computes the Weisfeler Lehman as proposed by <a class="reference internal" href="#shervashidze2011weisfeilerlehmangk" id="id21">[SSvL+11]</a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X,Y</strong> : <em>valid-graph-format</em></p>
+<blockquote>
+<div><p>The pair of graphs on which the kernel is applied.</p>
+</div></blockquote>
+<p><strong>L{x,y}</strong> : dict</p>
+<blockquote>
+<div><p>Corresponding graph labels for vertices.</p>
+</div></blockquote>
+<p><strong>base_kernel</strong> : function (graph, graph -&gt; number)</p>
+<blockquote>
+<div><p>A valid pairwise base_kernel for graphs.</p>
+</div></blockquote>
+<p><strong>niter</strong> : int, default=5</p>
+<blockquote>
+<div><p>The number of iterations.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>kernel</strong> : number</p>
+<blockquote class="last">
+<div><p>The kernel value.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="grakel.kernels.weisfeiler_lehman_inner">
 <code class="descclassname">grakel.kernels.</code><code class="descname">weisfeiler_lehman_inner</code><span class="sig-paren">(</span><em>Ga</em>, <em>Gb</em>, <em>base_kernel</em>, <em>niter=5</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/kernels/weisfeiler_lehman.html#weisfeiler_lehman_inner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.weisfeiler_lehman_inner" title="Permalink to this definition">¶</a></dt>
 <dd><p>Computes the Weisfeler Lehman as proposed by <a class="reference internal" href="#shervashidze2011weisfeilerlehmangk" id="id22">[SSvL+11]</a></p>
-<dl class="docutils">
-<dt>arguments:</dt>
-<dd><ul class="first last simple">
-<li>G{a,b} (graph): the pair of graphs on which the kernel is applied</li>
-<li>base_kernel (function: (graph, graph) -&gt; number): A valid pairwise base_kernel</li>
-<li>niter (int): the number of iterations</li>
-</ul>
-</dd>
-<dt>returns:</dt>
-<dd>number. The kernel value</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>G{a,b}</strong> : graph</p>
+<blockquote>
+<div><p>The pair of graphs on which the kernel is applied.</p>
+</div></blockquote>
+<p><strong>base_kernel</strong> : function (graph, graph -&gt; number)</p>
+<blockquote>
+<div><p>A valid pairwise base_kernel for graphs.</p>
+</div></blockquote>
+<p><strong>niter</strong> : int, default=5</p>
+<blockquote>
+<div><p>The number of iterations.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>kernel</strong> : number</p>
+<blockquote class="last">
+<div><p>The kernel value.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="grakel.kernels.weisfeiler_lehman_matrix">
 <code class="descclassname">grakel.kernels.</code><code class="descname">weisfeiler_lehman_matrix</code><span class="sig-paren">(</span><em>Graphs_a</em>, <em>base_kernel_matrix</em>, <em>Graphs_b=None</em>, <em>niter=5</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/kernels/weisfeiler_lehman.html#weisfeiler_lehman_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.weisfeiler_lehman_matrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>Computes the kernel matrix, for the Weisfeler Lehman kernel proposed in <a class="reference internal" href="#shervashidze2011weisfeilerlehmangk" id="id23">[SSvL+11]</a></p>
-<dl class="docutils">
-<dt>arguments:</dt>
-<dd><ul class="first last simple">
-<li>Graphs_{a,b} (dict): A dictionary of graph type objects that are going to be compared with keys from 0 … to the dictionary length.</li>
-<li>base_kernel_matrix (function (dict(graph), dict(graph) -&gt; np.array): rows correspond to the second dictionary of graphs and cols to the first</li>
-<li>niter (int): the number of iterations</li>
-</ul>
-</dd>
-<dt>returns:</dt>
-<dd>np.array. The kernel matrix.</dd>
-</dl>
+<dd><p>Computes the kernel matrix, for the Weisfeler Lehman kernel proposed in <a class="reference internal" href="#shervashidze2011weisfeilerlehmangk" id="id23">[SSvL+11]</a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Graphs_{x,y}</strong> : dict, default_y=None</p>
+<blockquote>
+<div><p>Enumerative dictionary of graph type objects with keys from 0 to the number of values.
+If value of Graphs_y is None the kernel matrix is computed between all pairs of Graphs_x
+where in another case the kernel_matrix rows correspond to elements of Graphs_y, and columns
+to the elements of Graphs_x.</p>
+</div></blockquote>
+<p><strong>base_kernel_matrix</strong> : function (dict(graph), dict(graph) -&gt; np.array)</p>
+<blockquote>
+<div><p>Rows of the np.array should correspond to the second dictionary of graphs and cols to the first.
+If the second graph is None the kernel should be computed upon itself.</p>
+</div></blockquote>
+<p><strong>niter</strong> : int, default=5</p>
+<blockquote>
+<div><p>The number of iterations.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>kernel_mat</strong> : np.array</p>
+<blockquote class="last">
+<div><p>The kernel matrix.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
@@ -631,38 +776,77 @@ or else predicted through interpolation.</p>
 <dl class="function">
 <dt id="grakel.kernels.subgraph_matching">
 <code class="descclassname">grakel.kernels.</code><code class="descname">subgraph_matching</code><span class="sig-paren">(</span><em>X</em>, <em>Y</em>, <em>Lx</em>, <em>Ly</em>, <em>Lex</em>, <em>Ley</em>, <em>kv=&lt;function &lt;lambda&gt;&gt;</em>, <em>ke=&lt;function ke_default&gt;</em>, <em>lw=&lt;function &lt;lambda&gt;&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/kernels/subgraph_matching.html#subgraph_matching"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.subgraph_matching" title="Permalink to this definition">¶</a></dt>
-<dd><p>The subgraph matching kernel as proposed in <a class="reference internal" href="#kriege2012subgraphmk" id="id26">[KM12]</a></p>
-<dl class="docutils">
-<dt>attributes:</dt>
-<dd><ul class="first last simple">
-<li>X,Y (valid graph format): the pair of graphs on which the kernel is applied</li>
-<li>L{x,y} (dict): coresponding graph labels for nodes</li>
-<li>kv (function: (symbol, symbol, dict, dict) -&gt; number): the kernel function for two nodes based on label dictionaries</li>
-<li>ke (function: (tuple, tuple, dict, dict, dict, dict) -&gt; number): the kernel function for edges (tuples) of two graphs based on their edges (dict 1,2) and edge labels (dict 3,4)</li>
-<li>lw (function: set -&gt; number) : a lambda weight function for cliques</li>
-</ul>
-</dd>
-<dt>returns:</dt>
-<dd>number. The kernel value</dd>
-</dl>
+<dd><p>The subgraph matching kernel as proposed in <a class="reference internal" href="#kriege2012subgraphmk" id="id26">[KM12]</a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X,Y</strong> : <em>valid-graph-format</em></p>
+<blockquote>
+<div><p>The pair of graphs on which the kernel is applied.</p>
+</div></blockquote>
+<p><strong>L{x,y}</strong> : dict</p>
+<blockquote>
+<div><p>Corresponding graph labels for vertices.</p>
+</div></blockquote>
+<p><strong>kv</strong> : function (symbol, symbol, dict, dict -&gt; number), default=:math:<cite>k_{v}^{default}</cite></p>
+<blockquote>
+<div><p>The kernel function for two nodes based on label dictionaries.</p>
+</div></blockquote>
+<p><strong>ke</strong> : function (tuple, tuple, dict, dict, dict, dict -&gt; number), default=:math:<cite>k_{e}^{default}</cite></p>
+<blockquote>
+<div><p>The kernel function for edges (tuples) of two graphs based on their edges (dict 1,2) and edge labels (dict 3,4).</p>
+</div></blockquote>
+<p><strong>lw</strong> : function (set -&gt; number), default=:math:<cite>l_{w}^{default}</cite></p>
+<blockquote>
+<div><p>A lambda weight function for cliques.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>kernel</strong> : number</p>
+<blockquote class="last">
+<div><p>The kernel value.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="grakel.kernels.subgraph_matching_inner">
 <code class="descclassname">grakel.kernels.</code><code class="descname">subgraph_matching_inner</code><span class="sig-paren">(</span><em>Gx</em>, <em>Gy</em>, <em>kv=&lt;function &lt;lambda&gt;&gt;</em>, <em>ke=&lt;function ke_default&gt;</em>, <em>lw=&lt;function &lt;lambda&gt;&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/kernels/subgraph_matching.html#subgraph_matching_inner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.subgraph_matching_inner" title="Permalink to this definition">¶</a></dt>
 <dd><p>The subgraph matching kernel as proposed in <a class="reference internal" href="#kriege2012subgraphmk" id="id27">[KM12]</a></p>
-<dl class="docutils">
-<dt>attributes:</dt>
-<dd><ul class="first last simple">
-<li>G{x,y} (graph): the pair graphs on which the kernel is applied</li>
-<li>kv (function: (symbol, symbol, dict, dict) -&gt; number): the kernel function for two nodes based on label dictionaries</li>
-<li>ke (function: (tuple, tuple, dict, dict, dict, dict) -&gt; number): the kernel function for edges (tuples) of two graphs based on their edges (dict 1,2) and edge labels (dict 3,4)</li>
-<li>lw (function: set -&gt; number) : a lambda weight function for cliques</li>
-</ul>
-</dd>
-<dt>return:</dt>
-<dd>number. the kernel value</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>G{x,y}</strong> : graph</p>
+<blockquote>
+<div><p>The pair graphs on which the kernel is applied.</p>
+</div></blockquote>
+<p><strong>kv</strong> : function (symbol, symbol, dict, dict -&gt; number), default=:math:<cite>k_{v}^{default}</cite></p>
+<blockquote>
+<div><p>The kernel function for two nodes based on label dictionaries.</p>
+</div></blockquote>
+<p><strong>ke</strong> : function (tuple, tuple, dict, dict, dict, dict -&gt; number), default=:math:<cite>k_{e}^{default}</cite></p>
+<blockquote>
+<div><p>The kernel function for edges (tuples) of two graphs based on their edges (dict 1,2) and edge labels (dict 3,4).</p>
+</div></blockquote>
+<p><strong>lw</strong> : function (set -&gt; number), default=:math:<cite>l_{w}^{default}</cite></p>
+<blockquote>
+<div><p>A lambda weight function for cliques</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>kernel</strong> : number</p>
+<blockquote class="last">
+<div><p>The kernel value.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
@@ -740,71 +924,145 @@ or else predicted through interpolation.</p>
 <dl class="function">
 <dt id="grakel.kernels.svm_theta">
 <code class="descclassname">grakel.kernels.</code><code class="descname">svm_theta</code><span class="sig-paren">(</span><em>X</em>, <em>Y</em>, <em>n_samples=50</em>, <em>subsets_size_range=(2</em>, <em>8)</em>, <em>metric=&lt;function &lt;lambda&gt;&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/kernels/svm_theta.html#svm_theta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.svm_theta" title="Permalink to this definition">¶</a></dt>
-<dd><p>The svm theta kernel as proposed in <a class="reference internal" href="#johansson2015learningws" id="id30">[JD15]</a></p>
-<dl class="docutils">
-<dt>arguments:</dt>
-<dd><ul class="first last simple">
-<li>X,Y (valid graph format): the pair of graphs on which the kernel is applied</li>
-<li>metric (function: number, number -&gt; number): the applied metric between the svm_theta numbers of the two graphs</li>
-<li>n_samples (int): number of samples</li>
-<li>subsets_size_range (tuple): (min, max) size of the vertex set of sampled subgraphs</li>
-</ul>
-</dd>
-<dt>returns:</dt>
-<dd>number. The kernel value</dd>
-</dl>
+<dd><p>The svm theta kernel as proposed in <a class="reference internal" href="#johansson2015learningws" id="id30">[JD15]</a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X,Y</strong> : <em>valid-graph-format</em></p>
+<blockquote>
+<div><p>The pair of graphs on which the kernel is applied.</p>
+</div></blockquote>
+<p><strong>n_samples</strong> : int, default=50</p>
+<blockquote>
+<div><p>Number of samples.</p>
+</div></blockquote>
+<p><strong>subsets_size_range</strong> : tuple, len=2, default=(2,8)</p>
+<blockquote>
+<div><p>(min, max) size of the vertex set of sampled subgraphs.</p>
+</div></blockquote>
+<p><strong>metric</strong> : function (number, number -&gt; number), default=:math:<cite>f(x,y)=x*y</cite></p>
+<blockquote>
+<div><p>The applied metric between the svm_theta numbers of the two graphs.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>kernel</strong> : number</p>
+<blockquote class="last">
+<div><p>The kernel value.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="grakel.kernels.svm_theta_inner">
 <code class="descclassname">grakel.kernels.</code><code class="descname">svm_theta_inner</code><span class="sig-paren">(</span><em>Gx</em>, <em>Gy</em>, <em>n_samples=50</em>, <em>subsets_size_range=(2</em>, <em>8)</em>, <em>metric=&lt;function &lt;lambda&gt;&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/kernels/svm_theta.html#svm_theta_inner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.svm_theta_inner" title="Permalink to this definition">¶</a></dt>
-<dd><p>The svm theta kernel as proposed in <a class="reference internal" href="#johansson2015learningws" id="id31">[JD15]</a></p>
-<dl class="docutils">
-<dt>arguments:</dt>
-<dd><ul class="first last simple">
-<li>G_{x,y} (graph): the pair graphs on which the kernel is applied</li>
-<li>metric (function: number, number -&gt; number): the applied metric between the svm_theta numbers of the two graphs</li>
-<li>n_samples (int): number of samples</li>
-<li>subsets_size_range (tuple): (min, max) size of the vertex set of sampled subgraphs</li>
-</ul>
-</dd>
-<dt>returns:</dt>
-<dd>number. The kernel value</dd>
-</dl>
+<dd><p>The svm theta kernel as proposed in <a class="reference internal" href="#johansson2015learningws" id="id31">[JD15]</a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>G_{x,y}</strong> : graph</p>
+<blockquote>
+<div><p>The pair of graphs on which the kernel is applied.</p>
+</div></blockquote>
+<p><strong>n_samples</strong> : int, default=50</p>
+<blockquote>
+<div><p>Number of samples.</p>
+</div></blockquote>
+<p><strong>subsets_size_range</strong> : tuple, len=2, default=(2,8)</p>
+<blockquote>
+<div><p>(min, max) size of the vertex set of sampled subgraphs.</p>
+</div></blockquote>
+<p><strong>metric</strong> : function (number, number -&gt; number), default=:math:<cite>f(x,y)=x*y</cite></p>
+<blockquote>
+<div><p>The applied metric between the svm_theta numbers of the two graphs.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>kernel</strong> : number</p>
+<blockquote class="last">
+<div><p>The kernel value.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="grakel.kernels.neighborhood_pairwise_subgraph_distance">
 <code class="descclassname">grakel.kernels.</code><code class="descname">neighborhood_pairwise_subgraph_distance</code><span class="sig-paren">(</span><em>X</em>, <em>Y</em>, <em>Lx</em>, <em>Ly</em>, <em>LEx</em>, <em>LEy</em>, <em>r=3</em>, <em>d=4</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/kernels/neighborhood_pairwise_subgraph_distance.html#neighborhood_pairwise_subgraph_distance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.neighborhood_pairwise_subgraph_distance" title="Permalink to this definition">¶</a></dt>
-<dd><p>The neighborhood subgraph pairwise distance kernel as proposed in <a class="reference internal" href="#costa2010fastns" id="id32">[CG10]</a></p>
-<dl class="docutils">
-<dt>arguments:</dt>
-<dd><ul class="first last simple">
-<li>X,Y (valid graph format): the pair of graphs on which the kernel is applied</li>
-<li>L{x,y} (dict): coresponding graph labels for nodes</li>
-<li>LE{x,y} (dict): coresponding graph labels for edges</li>
-</ul>
-</dd>
-<dt>returns:</dt>
-<dd>number. The kernel value</dd>
-</dl>
+<dd><p>The neighborhood subgraph pairwise distance kernel as proposed in <a class="reference internal" href="#costa2010fastns" id="id32">[CG10]</a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X,Y</strong> : valid graph format.</p>
+<blockquote>
+<div><p>The pair of graphs on which the kernel is applied.</p>
+</div></blockquote>
+<p><strong>L{x,y}</strong> : dict</p>
+<blockquote>
+<div><p>Corresponding graph labels for nodes.</p>
+</div></blockquote>
+<p><strong>LE{x,y}</strong> : dict</p>
+<blockquote>
+<div><p>Corresponding graph labels for edges.</p>
+</div></blockquote>
+<p><strong>r</strong> : int, default=3</p>
+<blockquote>
+<div><p>The maximum considered radius between vertices.</p>
+</div></blockquote>
+<p><strong>d</strong> : int, default=4</p>
+<blockquote>
+<div><p>Neighborhood depth.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>kernel</strong> : number</p>
+<blockquote class="last">
+<div><p>The kernel value.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="grakel.kernels.neighborhood_pairwise_subgraph_distance_inner">
 <code class="descclassname">grakel.kernels.</code><code class="descname">neighborhood_pairwise_subgraph_distance_inner</code><span class="sig-paren">(</span><em>Gx</em>, <em>Gy</em>, <em>r=3</em>, <em>d=4</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/kernels/neighborhood_pairwise_subgraph_distance.html#neighborhood_pairwise_subgraph_distance_inner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.neighborhood_pairwise_subgraph_distance_inner" title="Permalink to this definition">¶</a></dt>
-<dd><p>The neighborhood subgraph pairwise distance kernel as proposed in <a class="reference internal" href="#costa2010fastns" id="id33">[CG10]</a></p>
-<dl class="docutils">
-<dt>arguments:</dt>
-<dd><ul class="first last simple">
-<li>G{x,y} (graph): the pair of graphs on which the kernel is applied</li>
-<li>r (int): radius of the</li>
-<li>d (int): depth of the neighbourhoods</li>
-</ul>
-</dd>
-<dt>returns:</dt>
-<dd>number. The kernel value</dd>
-</dl>
+<dd><p>The neighborhood subgraph pairwise distance kernel as proposed in <a class="reference internal" href="#costa2010fastns" id="id33">[CG10]</a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>G{x,y}</strong> : graph</p>
+<blockquote>
+<div><p>The pair of graphs on which the kernel is applied.</p>
+</div></blockquote>
+<p><strong>r</strong> : int</p>
+<blockquote>
+<div><p>The maximum considered radius between vertices.</p>
+</div></blockquote>
+<p><strong>d</strong> : int</p>
+<blockquote>
+<div><p>Neighborhood depth.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>kernel</strong> : number</p>
+<blockquote class="last">
+<div><p>The kernel value.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
@@ -821,7 +1079,7 @@ or else predicted through interpolation.</p>
 </div></blockquote>
 <p><strong>L{x,y}</strong> : dict</p>
 <blockquote>
-<div><p>Coresponding graph labels for vertices.</p>
+<div><p>Corresponding graph labels for vertices.</p>
 </div></blockquote>
 <p><strong>R</strong> : int, default=3</p>
 <blockquote>
@@ -857,8 +1115,10 @@ or else predicted through interpolation.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Graphs_{x,y}</strong> : dict, default_y=None</p>
 <blockquote>
-<div><p>A dictionary of graph type objects that are going to be compared with keys from 0 … to the dictionary length.
-If Graphs_y is None the kernel matrix is computed between all graphs in Graphs_x.</p>
+<div><p>Enumerative dictionary of graph type objects with keys from 0 to the number of values.
+If value of Graphs_y is None the kernel matrix is computed between all pairs of Graphs_x
+where in another case the kernel_matrix rows correspond to elements of Graphs_y, and columns
+to the elements of Graphs_x.</p>
 </div></blockquote>
 <p><strong>R</strong> : int, default=3</p>
 <blockquote>
@@ -888,50 +1148,101 @@ and the cols to the Graphs_x (based on the given order).</p>
 <dl class="function">
 <dt id="grakel.kernels.odd_sth">
 <code class="descclassname">grakel.kernels.</code><code class="descname">odd_sth</code><span class="sig-paren">(</span><em>X</em>, <em>Y</em>, <em>Lx</em>, <em>Ly</em>, <em>h=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/kernels/odd_sth.html#odd_sth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.odd_sth" title="Permalink to this definition">¶</a></dt>
-<dd><p>The ODD-Sth kernel as proposed in <a class="reference internal" href="#martino2012atk" id="id38">[MNS12]</a></p>
-<dl class="docutils">
-<dt>arguments:</dt>
-<dd><ul class="first last simple">
-<li>X,Y (valid graph format): the pair of graphs on which the kernel is applied</li>
-<li>L{x,y} (dict): coresponding graph labels for nodes</li>
-<li>h (int): maximum (single) dag height</li>
-</ul>
-</dd>
-<dt>returns:</dt>
-<dd>number. The kernel value</dd>
-</dl>
+<dd><p>The ODD-Sth kernel as proposed in <a class="reference internal" href="#martino2012atk" id="id38">[MNS12]</a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X,Y</strong> : <em>valid-graph-format</em></p>
+<blockquote>
+<div><p>The pair of graphs on which the kernel is applied.</p>
+</div></blockquote>
+<p><strong>L{x,y}</strong> : dict</p>
+<blockquote>
+<div><p>Coresponding graph labels for vertices.</p>
+</div></blockquote>
+<p><strong>h</strong> : int, default=None</p>
+<blockquote>
+<div><p>Maximum (single) dag height.
+If None there is no restriction.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>kernel</strong> : number</p>
+<blockquote class="last">
+<div><p>The kernel value.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="grakel.kernels.odd_sth_matrix">
 <code class="descclassname">grakel.kernels.</code><code class="descname">odd_sth_matrix</code><span class="sig-paren">(</span><em>Graphs_x</em>, <em>Graphs_y=None</em>, <em>h=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/kernels/odd_sth.html#odd_sth_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.odd_sth_matrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>The ODD-Sth kernel as proposed in <a class="reference internal" href="#martino2012atk" id="id39">[MNS12]</a></p>
-<dl class="docutils">
-<dt>arguments:</dt>
-<dd><ul class="first last simple">
-<li>Graphs_{x,y}: dictionary of graph type objects with keys from 0 to the number of values</li>
-<li>h (int): maximum (single) dag height</li>
-</ul>
-</dd>
-<dt>returns:</dt>
-<dd>np.array. The kernel matrix</dd>
-</dl>
+<dd><p>The ODD-Sth kernel as proposed in <a class="reference internal" href="#martino2012atk" id="id39">[MNS12]</a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Graphs_{x,y}</strong> : dict, default_y=None</p>
+<blockquote>
+<div><p>Enumerative dictionary of graph type objects with keys from 0 to the number of values.
+If value of Graphs_y is None the kernel matrix is computed between all pairs of Graphs_x
+where in another case the kernel_matrix rows correspond to elements of Graphs_y, and columns
+to the elements of Graphs_x.</p>
+</div></blockquote>
+<p><strong>h</strong> : int, default=None</p>
+<blockquote>
+<div><p>Maximum (single) dag height.
+If None there is no restriction.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>kernel_matrix</strong> : np.array</p>
+<blockquote class="last">
+<div><p>The kernel matrix.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="grakel.kernels.propagation">
 <code class="descclassname">grakel.kernels.</code><code class="descname">propagation</code><span class="sig-paren">(</span><em>X</em>, <em>Y</em>, <em>Lx</em>, <em>Ly</em>, <em>Tx=None</em>, <em>Ty=None</em>, <em>t_max=5</em>, <em>w=10</em>, <em>M='TV'</em>, <em>base_kernel=&lt;function &lt;lambda&gt;&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/kernels/propagation.html#propagation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.propagation" title="Permalink to this definition">¶</a></dt>
-<dd><p>The propagation kernel for fully labeled graphs <a class="reference internal" href="#neumann2015propagationke" id="id40">[NGBK15]</a>: Algorithms 1, 3, p. 216, 221</p>
-<dl class="docutils">
-<dt>arguments:</dt>
+<dd><p>The propagation kernel for fully labeled graphs <a class="reference internal" href="#neumann2015propagationke" id="id40">[NGBK15]</a>: Algorithms 1, 3, p. 216, 221.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X,Y</strong> : <em>valid-graph-format</em></p>
+<blockquote>
+<div><p>The pair of graphs on which the kernel is applied.</p>
+</div></blockquote>
+<p><strong>L{x,y}</strong> : dict</p>
+<blockquote>
+<div><p>Corresponding graph labels for vertices.</p>
+</div></blockquote>
+<p><strong>T{x,y}</strong> : np-array, default=None</p>
+<blockquote>
+<div><p>Transition matrices corresponding to Graphs X, Y (<em>if None default value is adjacency matrix</em>).</p>
+</div></blockquote>
+<p><strong>t_max</strong> : int, default=5</p>
+<blockquote>
+<div><p>Maximum number of iterations.</p>
+</div></blockquote>
+<p><strong>w</strong> : int, default=10</p>
+<blockquote>
+<div><p>Bin width.</p>
+</div></blockquote>
+<p><strong>M</strong> : str, default=”TV”</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>The preserved distance metric (on local sensitive hashing):</dt>
 <dd><ul class="first last simple">
-<li>X,Y (valid graph format): the pair of graphs on which the kernel is applied</li>
-<li>L{x,y} (dict): coresponding graph labels for nodes</li>
-<li>T{x,y} (np-array): transition matrices corresponding to Graphs X, Y (<em>if None default value is adjacency matrix</em>)</li>
-<li>t_max (int): maximum number of iterations</li>
-<li><dl class="first docutils">
-<dt>M (str): The preserved distance metric (on local sensitive hashing):</dt>
-<dd><ul class="first last">
 <li>“H”: hellinger</li>
 <li>“L1”: l1-norm</li>
 <li>“L2”: l2-norm</li>
@@ -939,30 +1250,55 @@ and the cols to the Graphs_x (based on the given order).</p>
 </ul>
 </dd>
 </dl>
-</li>
-<li>w (int): bin width</li>
-<li>base_kernel (function): a base_kernel between two lists of numbers that outputs a number</li>
-</ul>
-</dd>
-<dt>returns:</dt>
-<dd>number. The kernel value</dd>
-</dl>
+</div></blockquote>
+<p><strong>base_kernel</strong> : function (list, list -&gt; number), default=:math:<cite>f(x,y)=sum_{i} x_{i}*y_{i}</cite></p>
+<blockquote>
+<div><p>A base_kernel between two lists of numbers that outputs a number.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>kernel</strong> : number</p>
+<blockquote class="last">
+<div><p>The kernel value.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="grakel.kernels.propagation_matrix">
 <code class="descclassname">grakel.kernels.</code><code class="descname">propagation_matrix</code><span class="sig-paren">(</span><em>Graphs_x</em>, <em>Graphs_y=None</em>, <em>t_max=5</em>, <em>T=None</em>, <em>w=10</em>, <em>M='TV'</em>, <em>base_kernel=&lt;function &lt;lambda&gt;&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/kernels/propagation.html#propagation_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.propagation_matrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>The propagation kernel for fully labeled graphs <a class="reference internal" href="#neumann2015propagationke" id="id41">[NGBK15]</a>: p. 216, 221</p>
-<dl class="docutils">
-<dt>arguments:</dt>
+<dd><p>The propagation kernel for fully labeled graphs <a class="reference internal" href="#neumann2015propagationke" id="id41">[NGBK15]</a>: p. 216, 221.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Graphs_{x,y}</strong> : dict, default_y=None</p>
+<blockquote>
+<div><p>Enumerative dictionary of graph type objects with keys from 0 to the number of values.
+If value of Graphs_y is None the kernel matrix is computed between all pairs of Graphs_x
+where in another case the kernel_matrix rows correspond to elements of Graphs_y, and columns
+to the elements of Graphs_x.</p>
+</div></blockquote>
+<p><strong>L{x,y}</strong> : dict</p>
+<blockquote>
+<div><p>Corresponding graph labels for vertices.</p>
+</div></blockquote>
+<p><strong>t_max</strong> : int, default=5</p>
+<blockquote>
+<div><p>Maximum number of iterations.</p>
+</div></blockquote>
+<p><strong>T{x,y}</strong> : np.array,  default=None</p>
+<blockquote>
+<div><p>Transition matrices corresponding to Graphs X, Y (<em>if None default value is adjacency matrix</em>).</p>
+</div></blockquote>
+<p><strong>M</strong> : str, default=”TV”</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>The preserved distance metric (on local sensitive hashing):</dt>
 <dd><ul class="first last simple">
-<li>Graphs_{x,y} (dict): A dictionary of graph type objects that are going to be compared with keys from 0 … to the dictionary length.</li>
-<li>L{x,y} (dict): coresponding graph labels for nodes</li>
-<li>T{x,y} (np-array): transition matrices corresponding to Graphs X, Y (<em>if None default value is adjacency matrix</em>)</li>
-<li>t_max (int): maximum number of iterations</li>
-<li><dl class="first docutils">
-<dt>M (str): The preserved distance metric (on local sensitive hashing):</dt>
-<dd><ul class="first last">
 <li>“H”: hellinger</li>
 <li>“L1”: l1-norm</li>
 <li>“L2”: l2-norm</li>
@@ -970,52 +1306,110 @@ and the cols to the Graphs_x (based on the given order).</p>
 </ul>
 </dd>
 </dl>
-</li>
-<li>w (int): bin width</li>
-<li>base_kernel (function): a base_kernel between two lists of numbers that outputs a number</li>
-</ul>
-</dd>
-<dt>returns:</dt>
-<dd>np.array. The kernel matrix</dd>
-</dl>
+</div></blockquote>
+<p><strong>w</strong> : int</p>
+<blockquote>
+<div><p>The bin width.</p>
+</div></blockquote>
+<p><strong>base_kernel</strong> : function (list, list -&gt; number), default=:math:<cite>f(x,y)=sum{i} x_{i}*y_{i}</cite></p>
+<blockquote>
+<div><p>A base_kernel between two lists of numbers that outputs a number.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>kernel_mat</strong> : np.array</p>
+<blockquote class="last">
+<div><p>The kernel matrix.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="grakel.kernels.pyramid_match">
 <code class="descclassname">grakel.kernels.</code><code class="descname">pyramid_match</code><span class="sig-paren">(</span><em>X</em>, <em>Y</em>, <em>Lx</em>, <em>Ly</em>, <em>L=4</em>, <em>d=6</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/kernels/pyramid_match.html#pyramid_match"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.pyramid_match" title="Permalink to this definition">¶</a></dt>
-<dd><p>The pyramid match kernel as defined in <a class="reference internal" href="#nikolentzos2017matchingne" id="id42">[NMV17]</a></p>
-<dl class="docutils">
-<dt>arguments:</dt>
-<dd><ul class="first last simple">
-<li>X,Y (valid graph format): the pair of graphs on which the kernel is applied</li>
-<li>L{x,y} (dict): coresponding graph labels for nodes</li>
-<li>L (int): pyramid histogram level</li>
-<li>d (int): the dimension of the hypercube</li>
-</ul>
-</dd>
-<dt>returns:</dt>
-<dd>number. The kernel value</dd>
-</dl>
+<dd><p>The pyramid match kernel as defined in <a class="reference internal" href="#nikolentzos2017matchingne" id="id42">[NMV17]</a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X,Y</strong> : <em>valid-graph-format</em></p>
+<blockquote>
+<div><p>The pair of graphs on which the kernel is applied.</p>
+</div></blockquote>
+<p><strong>L{x,y}</strong> : dict</p>
+<blockquote>
+<div><p>Corresponding graph labels for vertices.</p>
+</div></blockquote>
+<p><strong>L</strong> : int, default=4</p>
+<blockquote>
+<div><p>Pyramid histogram level.</p>
+</div></blockquote>
+<p><strong>d</strong> : int, default=6</p>
+<blockquote>
+<div><p>The dimension of the hypercube.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>kernel</strong> : number</p>
+<blockquote class="last">
+<div><p>The kernel value.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="grakel.kernels.pyramid_match_matrix">
 <code class="descclassname">grakel.kernels.</code><code class="descname">pyramid_match_matrix</code><span class="sig-paren">(</span><em>Graphs_x</em>, <em>Graphs_y=None</em>, <em>with_labels=True</em>, <em>L=4</em>, <em>d=6</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/kernels/pyramid_match.html#pyramid_match_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.pyramid_match_matrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>The pyramid match kernel function as defined in <a class="reference internal" href="#nikolentzos2017matchingne" id="id43">[NMV17]</a></p>
-<dl class="docutils">
-<dt>arguments:</dt>
-<dd><ul class="first last simple">
-<li>Graphs_{x,y} (dict): A dictionary of graph type objects that are going to be compared with keys from 0 … to the dictionary length.</li>
-<li>with_labels (bool): A flag that determines if the kernel computation will consider labels</li>
-<li>L (int): pyramid histogram level</li>
-<li>d (int): the dimension of the hypercube</li>
-</ul>
-</dd>
-<dt>returns:</dt>
-<dd>np.array. The kernel matrix.</dd>
-</dl>
+<dd><p>The pyramid match kernel function as defined in <a class="reference internal" href="#nikolentzos2017matchingne" id="id43">[NMV17]</a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Graphs_{x,y}</strong> : dict, default_y=None</p>
+<blockquote>
+<div><p>Enumerative dictionary of graph type objects with keys from 0 to the number of values.
+If value of Graphs_y is None the kernel matrix is computed between all pairs of Graphs_x
+where in another case the kernel_matrix rows correspond to elements of Graphs_y, and columns
+to the elements of Graphs_x.</p>
+</div></blockquote>
+<p><strong>with_labels</strong> : bool, default=True</p>
+<blockquote>
+<div><p>A flag that determines if the kernel computation will consider labels.</p>
+</div></blockquote>
+<p><strong>L</strong> : int</p>
+<blockquote>
+<div><p>The pyramid histogram level.</p>
+</div></blockquote>
+<p><strong>d</strong> : int</p>
+<blockquote>
+<div><p>The dimension of the hypercube.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>kernel_mat</strong> : np.array</p>
+<blockquote class="last">
+<div><p>The kernel matrix.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
+<div class="section" id="a-list-of-default-functions">
+<h2>A list of default functions<a class="headerlink" href="#a-list-of-default-functions" title="Permalink to this headline">¶</a></h2>
+<p><img class="math" src="_images/math/bd0bcde9e329d44ebbc7007e7c50bfb3506b1148.png" alt="l_{v}^{default}(x) = \begin{cases} 1 &amp; x\neq \O \\ 0 &amp; \text{else} \\ \end{cases}"/></p>
+<p><img class="math" src="_images/math/35a8e96762b30b10a0b6610e4d455df86f00ea95.png" alt="k_{v}^{default}(x,y,L_{x},L_{y}) = \begin{cases} 1 &amp; L_{x}(x)= L_{y}(y) \\ 0 &amp; \text{else} \\ \end{cases}"/></p>
+<p><img class="math" src="_images/math/49bbbdb6b3522faba0d8183603111347f2f97000.png" alt="k_{e}^{default}(x, y, E_{x}, E_{y}, L^{E}_{x}, L^{E}_{y})= \begin{cases} 1 &amp; (x\in E_{x} \wedge y\in E_{y} \wedge L^{E}_{x}(x)= L^{E}_{y}) \vee (x\not\in E_{x} \wedge y\not\in E_{y}) \\ 0 &amp; \text{else} \\ \end{cases}"/></p>
+</div>
+<div class="section" id="bibliography">
+<h2>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">¶</a></h2>
 <p id="bibtex-bibliography-kernels-0"><table class="docutils citation" frame="void" id="borgwardt2005shortestpathko" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
@@ -1107,6 +1501,7 @@ and the cols to the Graphs_x (based on the given order).</p>
 </tbody>
 </table>
 </p>
+</div>
 </div>
 
 
