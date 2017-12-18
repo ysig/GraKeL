@@ -14,10 +14,10 @@ environment:
     CLOUD_STORAGE: LOCAL
 
   matrix:
-    - PYTHON: "C:\\Python35-x64"
+    - PYTHON: "C:\\Python34-x64"
       PYTHON_VERSION: "3.4.0"
       PYTHON_ARCH: "64"
-      MINICONDA: "C:\\Miniconda35-x64"
+      MINICONDA: "C:\\Miniconda34-x64"
 
 install:
   # Miniconda is pre-installed in the worker build
