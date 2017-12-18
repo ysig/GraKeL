@@ -4,7 +4,7 @@
 Welcome to grakel documentation!
 ============================================
 
-A graph-kernel module useful for classification problems of structured data
+A graph-kernel module useful for classification problems of structured data.
 
     .. toctree::
        :maxdepth: 2

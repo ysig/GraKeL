@@ -104,7 +104,8 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                             + (**o**) L: [int] >= 0 
                             
                    2. general_kernels (this kernel will use the next kernel on the list as base kernel)
-                        - "weisfeiler_lehman": "niter": [int]
+                        - "weisfeiler_lehman"
+                           + (**o**) "niter": [int]
                     
                where (**o**): stands for optional parameters
             

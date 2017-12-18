@@ -1,4 +1,4 @@
-""" This file contains the ODD-Sth kernel as defined in :cite:`Martino2012ATK`
+""" This file contains the ODD-Sth kernel as defined in :cite:`Martino2012ATK`.
 """
 
 import itertools
@@ -8,27 +8,48 @@ import numpy as np
 from ..graph import graph
 
 def odd_sth(X, Y, Lx, Ly, h=None):
-    """ The ODD-Sth kernel as proposed in :cite:`Martino2012ATK`
+    """ The ODD-Sth kernel as proposed in :cite:`Martino2012ATK`.
 
-    arguments:
-        - X,Y (valid graph format): the pair of graphs on which the kernel is applied
-        - L{x,y} (dict): coresponding graph labels for nodes
-        - h (int): maximum (single) dag height
-    returns:
-        number. The kernel value
+    Parameters
+    ----------
+    X,Y : *valid-graph-format*
+        The pair of graphs on which the kernel is applied.
+        
+    L{x,y} : dict
+        Coresponding graph labels for vertices.
+        
+    h : int, default=None
+        Maximum (single) dag height.
+        If None there is no restriction.
+    
+    Returns
+    -------
+    kernel : number
+        The kernel value.
     """
     Gx = graph(X,Lx)
     Gy = graph(Y,Ly)
     return float(odd_sth_matrix({0: Gx}, {0: Gy}, h=None)[0,0])
 
 def odd_sth_matrix(Graphs_x, Graphs_y=None, h=None):
-    """ The ODD-Sth kernel as proposed in :cite:`Martino2012ATK`
+    """ The ODD-Sth kernel as proposed in :cite:`Martino2012ATK`.
 
-    arguments:
-        - Graphs_{x,y}: dictionary of graph type objects with keys from 0 to the number of values
-        - h (int): maximum (single) dag height
-    returns:
-        np.array. The kernel matrix
+    Parameters
+    ----------
+    Graphs_{x,y} : dict, default_y=None
+        Enumerative dictionary of graph type objects with keys from 0 to the number of values.
+        If value of Graphs_y is None the kernel matrix is computed between all pairs of Graphs_x
+        where in another case the kernel_matrix rows correspond to elements of Graphs_y, and columns
+        to the elements of Graphs_x.
+        
+    h : int, default=None
+        Maximum (single) dag height.
+        If None there is no restriction.
+    
+    Returns
+    -------
+    kernel_matrix : np.array
+        The kernel matrix.
     """
     h_x = len(Graphs_x.keys())
     
@@ -71,14 +92,26 @@ def odd_sth_matrix(Graphs_x, Graphs_y=None, h=None):
 
 
 def make_big_dag(g, h=None):
-    """ A function that makes a big dag out of all dags of a graph
+    """ A function that makes a big dag out of all dags of a graph.
         
-    arguments:
-        - g (graph): a graph type object
-        - h (int): maximum dag height
+    Parameters
+    ----------
+    g : graph
+        A graph type object.
         
-    returns:
-        tuple. The big dag tuple consisting of a vertices
+    h : int, default=None
+        Maximum (single) dag height.
+        If None there is no restriction.
+        
+    Returns
+    -------
+    big_dag : tuple
+        The big dag tuple consisting of:
+            + A dictionary for vertices containing at each value the frequency the depth and the ID
+            + A hash map from each ID to a list of vertices.
+            + A list of sorted vertices based on ordering
+            + A dictionary of edges.
+            + A dictionary of labels
     """
     big_dag = None
     for v in g.get_vertices(purpose='any'):
@@ -93,30 +126,52 @@ def make_big_dag(g, h=None):
     return big_dag
     
 def make_dag_odd(v,g, h=None):
-    """ A function that both finds calculates the produced vertex dag and applies topological sorting
+    """ A function that both finds calculates the produced vertex dag and applies inverse topological sorting.
     
-    arguments:
-        - v (symbol): the dag vertex root
-        - g (graph): a graph type object from where v is coming from
-        - h (int): maximum depth of the exploration
+    Parameters
+    ----------
+    v : hashable
+        The dag vertex root.
         
-    returns:
-        tuple. set of vertices, dict of sorted edges for each node based on ordering and labels, ordering for each node as a dict, labels dict for each node
+    g : graph
+        A graph type object from where v is coming from.
+        
+    h : int, default=None
+        Maximum depth of the exploration.
+        
+    Returns
+    -------
+    odd_dag : tuple
+        A a tuple representing the topologically sorted dag:
+            + A set of vertices
+            + A dictionary of sorted edges for each node based on ordering and labels
+            + A dictionary of ordering for each node
+            + A dictionary of labels for each node
     """
     vertices, edges = dag(v, g, h=None)
     return odd(vertices, edges, g.get_labels(purpose='any'))
     
 def dag(v, g, h=None):
-    """ BFS exploration that returns a dag
+    """ BFS exploration that returns a dag.
     
-    arguments:
-        - v (symbol): the dag vertex root
-        - g (graph): a graph type object from where v is coming from
-        - h (int): maximum depth of the exploration
+    Parameters
+    ----------
+    v : hashable
+        The dag vertex root.
         
-    returns:
-        - set. dag vertices
-        - dict. dag edges
+    g : graph
+        A graph type object from where v is coming from.
+        
+    h : int, default=None
+        Maximum depth of the exploration.
+        
+    Returns
+    -------
+    vertices : set
+        The dag vertices.
+        
+    edges : dict 
+        The dictionary of edges. For each node a list of vertices.
     """
     if h is None:
         h = -1
@@ -150,17 +205,33 @@ def dag(v, g, h=None):
     return vertices, edges
 
 def odd(vertices, edges, labels):
-    """ Calculates the inverse topological order of a DAG and sorts it's edges
+    """ Calculates the inverse topological order of a DAG and sorts it's edges.
         
-    arguments:
-        - vertices (dict or set): a set of vertices
-        - edges (dict): edges between vertices
-        - labels (dict): labels for each vertex
-    returns:
-        - dict or set. vertices
-        - dict. sorted edges for each node based on ordering and labels
-        - dict. ordering for each node
-        - dict. labels for each node
+    Parameters
+    ----------
+    vertices : dict or set
+        A set of vertices.
+        
+    edges : dict
+        Edges between vertices.
+        
+    labels : dict
+        Labels for each vertex.
+        
+    Returns
+    -------
+    vertices : dict or set
+        A dictionary or a set of vertices depending on the given input.
+        
+    edges : dict
+        An edges dictionary, where for each edge the list of adjacent vertex is sorted 
+        corresponding to the given ordering or labels.
+        
+    ordering : dict
+        The inverse topological ordering for each vertex.
+        
+    labels : dict
+        The labels dictionary for each vertex.
     """
     # Kahn's algorithm for topological
     # sorting of dags
@@ -219,16 +290,24 @@ def odd(vertices, edges, labels):
     return vertices, edges, ordering, labels
 
 def hash_trees(tree):
-    """ A function that hashes trees and adds
-        frequencies and a hash map
+    """ A function that hashes trees and adds frequencies and a hash map.
      
-    arguments:
-        tree (tuple): a tuple of elements: a set of vertices, an edge dict, ordering of nodes as a dict, labels as a dict
-    returns:
-        tuple: a tuple of three elements:
-                - a dict of vertices containing level frequencies and node ID
-                - the vertices hash map as a dict 
-                - list of ordered nodes
+    Parameters
+    ----------
+    tree : tuple
+        A tuple of elements corresponding to a tree: 
+            + A set of vertices
+            + A dictionary of edges
+            + A dictionary that corresponds to an ordering of vertices
+            + A dictionary of labels
+    
+    Returns
+    -------
+    hash_tree : tuple
+        A hashed version of the tree:
+            + A dictionary from vertices to tuples containing the subtree size, frequencies and node ID
+            + A dictionary between hashes and vertices (representing a valid hash map)
+            + A list of ordered vertices, based on an the inverse topological ordering
     """
     (vertex, edge, ordering, labels) = tree
     v_ordered = sorted(list(vertex), key = lambda x: (ordering[x],labels[x]))
@@ -259,21 +338,31 @@ def hash_trees(tree):
 def big_dag_append(dag, big_dag=None, merge_features=True):
     """ Calculates the minimal DAG as defined in :cite:`Aiolli2006FastOK` and notated in :cite:`Martino2012ATK` as BigDAG.
 
-    arguments:        
-        - dag (tuple): a tuple representing a single dag containing:
-            - a dict of vertices containing level, frequencies and node ID, the vertices hash map as a dict and a list of ordered nodes
-            - a hash map of vertices
-            - a list of ordered vertices
-            - a dictionary of edges
-            - a label dict
-        - big_dag (tuple): the dag on which dag will be added. If None: builds it from dag, else big_dag is same as this function output
-        - merge_features (bool): if true increments frequencies when a same element is found, else keeps them as vectors
-    returns:
-        tuple. A tuple representing Big_Dag:
-            - a dict of vertices containing level, frequencies and node ID, the vertices hash map as a dict and a list of ordered nodes
-            - a hash map of vertices
-            - a dictionary of edges
-            - a label dict
+    Parameters
+    ----------
+    dag : tuple
+        A tuple representing a single dag containing:
+            + A dictionary from vertices to tuples containing the subtree size, frequencies and node ID
+            + A dictionary between hashes and vertices (representing a valid hash map)
+            + A list of ordered vertices, based on inverse topological ordering
+            + A dictionary corresponding to edges from vertex to a list of adjacent vertices
+            + A dictionary of labels
+            
+    big_dag : tuple, default=None
+        The dag on which the dag will be appended.
+        If None: builds it from dag, else the tuple is the same as the format of this function output.
+        
+    merge_features : bool, default=True
+        If True increments frequencies when a same element is found, else keeps them as vectors.
+    
+    Returns
+    -------
+    big_dag : tuple
+        A tuple representing Big_Dag:
+            + A dictionary from vertices to tuples containing the subtree size, frequencies and node ID
+            + A dictionary between hashes and vertices (representing a valid hash map)
+            + A dictionary corresponding to edges from vertex to a list of adjacent vertices.
+            + A dictionary of labels.
     """
     if big_dag == None:
         D_labels = dict()

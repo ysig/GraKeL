@@ -1,4 +1,4 @@
-""" This file contains the weisfeiler lehman kernel as defined by :cite:`Shervashidze2011WeisfeilerLehmanGK`
+""" This file contains the weisfeiler lehman kernel as defined by :cite:`Shervashidze2011WeisfeilerLehmanGK`.
 """
 import itertools
 
@@ -7,16 +7,26 @@ import numpy as np
 from ..graph import graph
 
 def weisfeiler_lehman(X, Y, Lx, Ly, base_kernel, niter=5):
-    """ Computes the Weisfeler Lehman as proposed by :cite:`Shervashidze2011WeisfeilerLehmanGK`
+    """ Computes the Weisfeler Lehman as proposed by :cite:`Shervashidze2011WeisfeilerLehmanGK`.
 
-    arguments:
-        - X,Y (valid graph format): the pair of graphs on which the kernel is applied
-        - L{x,y} (dict): coresponding graph labels for nodes
-        - base_kernel (function: (graph, graph) -> number): A valid pairwise base_kernel
-        - niter (int): the number of iterations        
-    returns:
-        number. The kernel value
+    Parameters
+    ----------
+    X,Y : *valid-graph-format*
+        The pair of graphs on which the kernel is applied.
         
+    L{x,y} : dict
+        Corresponding graph labels for vertices.
+        
+    base_kernel : function (graph, graph -> number)
+        A valid pairwise base_kernel for graphs.
+        
+    niter : int, default=5
+        The number of iterations.
+    
+    Returns
+    -------
+    kernel : number
+        The kernel value.
     """
     Ga = graph(X,Lx)
     Gb = graph(Y,Ly)
@@ -25,12 +35,21 @@ def weisfeiler_lehman(X, Y, Lx, Ly, base_kernel, niter=5):
 def weisfeiler_lehman_inner(Ga, Gb, base_kernel, niter=5):
     """ Computes the Weisfeler Lehman as proposed by :cite:`Shervashidze2011WeisfeilerLehmanGK`
 
-    arguments:
-        - G{a,b} (graph): the pair of graphs on which the kernel is applied
-        - base_kernel (function: (graph, graph) -> number): A valid pairwise base_kernel
-        - niter (int): the number of iterations
-    returns:
-        number. The kernel value
+    Parameters
+    ----------
+    G{a,b} : graph
+        The pair of graphs on which the kernel is applied.
+        
+    base_kernel : function (graph, graph -> number)
+        A valid pairwise base_kernel for graphs.
+        
+    niter : int, default=5
+        The number of iterations.
+
+    Returns
+    -------
+    kernel : number
+        The kernel value.
     """
     if niter<1:
         raise ValueError('n_iter must be an integer bigger than zero')
@@ -119,14 +138,27 @@ def weisfeiler_lehman_inner(Ga, Gb, base_kernel, niter=5):
     return kernel
 
 def weisfeiler_lehman_matrix(Graphs_a, base_kernel_matrix, Graphs_b=None,  niter=5):
-    """ Computes the kernel matrix, for the Weisfeler Lehman kernel proposed in :cite:`Shervashidze2011WeisfeilerLehmanGK`
+    """ Computes the kernel matrix, for the Weisfeler Lehman kernel proposed in :cite:`Shervashidze2011WeisfeilerLehmanGK`.
     
-    arguments:
-        - Graphs_{a,b} (dict): A dictionary of graph type objects that are going to be compared with keys from 0 ... to the dictionary length.
-        - base_kernel_matrix (function (dict(graph), dict(graph) -> np.array): rows correspond to the second dictionary of graphs and cols to the first
-        - niter (int): the number of iterations
-    returns:
-        np.array. The kernel matrix.
+    Parameters
+    ----------
+    Graphs_{x,y} : dict, default_y=None
+        Enumerative dictionary of graph type objects with keys from 0 to the number of values.
+        If value of Graphs_y is None the kernel matrix is computed between all pairs of Graphs_x
+        where in another case the kernel_matrix rows correspond to elements of Graphs_y, and columns
+        to the elements of Graphs_x.
+                
+    base_kernel_matrix : function (dict(graph), dict(graph) -> np.array)
+        Rows of the np.array should correspond to the second dictionary of graphs and cols to the first.
+        If the second graph is None the kernel should be computed upon itself.
+        
+    niter : int, default=5
+        The number of iterations.
+
+    Returns
+    -------
+    kernel_mat : np.array
+        The kernel matrix.
     """
     if niter<1:
         raise ValueError('n_iter must be an integer bigger than zero')

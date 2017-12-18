@@ -17,7 +17,7 @@ def neighborhood_hash(X, Y, Lx, Ly, nh_type='simple', R=3, bytes=2) :
         The pair of graphs on which the kernel is applied.
         
     L{x,y} : dict
-        Coresponding graph labels for vertices.
+        Corresponding graph labels for vertices.
         
     R : int, default=3
         The maximum number of neighborhood hash.
@@ -43,9 +43,11 @@ def neighborhood_hash_matrix(Graphs_x, Graphs_y=None, nh_type='simple', R=3, byt
     Parameters
     ----------
     Graphs_{x,y} : dict, default_y=None
-        A dictionary of graph type objects that are going to be compared with keys from 0 ... to the dictionary length.
-        If Graphs_y is None the kernel matrix is computed between all graphs in Graphs_x.
-        
+        Enumerative dictionary of graph type objects with keys from 0 to the number of values.
+        If value of Graphs_y is None the kernel matrix is computed between all pairs of Graphs_x
+        where in another case the kernel_matrix rows correspond to elements of Graphs_y, and columns
+        to the elements of Graphs_x.
+
     R : int, default=3
         The maximum number of neighborhood hash.
         
@@ -130,9 +132,6 @@ def hash_labels(labels, labels_hash_dict, labels_hash_set, bytes=2):
 
     Parameters
     ----------
-    Graphs_{x,y} : dict
-        A dictionary of graph type objects that are going to be compared with keys from 0 ... to the dictionary length.
-        
     labels : dict
         Labels for vertices.
         

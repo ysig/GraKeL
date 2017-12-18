@@ -1,17 +1,25 @@
-""" This file contains the shortest path kernel as defined in :cite:`Borgwardt2005ShortestpathKO`
+""" This file contains the shortest path kernel as defined in :cite:`Borgwardt2005ShortestpathKO`.
 """
 
 from ..graph import graph
 from ..tools import inv_dict
 
 def shortest_path(X, Y, Lx, Ly, algorithm_type="dijkstra"):
-    """ This is a function that implements shortest path kernel as proposed in :cite:`Borgwardt2005ShortestpathKO`
+    """ This is a function that implements shortest path kernel as proposed in :cite:`Borgwardt2005ShortestpathKO`.
 
-    arguments:
-        - X,Y (valid graph format): the pair of graphs on which the kernel is applied
-        - algorithm_type (str): "dijkstra" or "floyd_warshall" or "auto" (for the best concerning current format)
-    returns:
-        number. The kernel value    
+    Parameters
+    ----------
+    X,Y : *valid-graph-format*
+        The pair of graphs on which the kernel is applied.
+        
+    algorithm_type : str, default={"dijkstra", "floyd_warshall", "auto"}
+        Apply the dijkstra or floyd_warshall algorithm for calculating shortest path
+        ot for the best concerning current graph format ("auto").
+
+    Returns
+    -------
+    kernel : number
+        The kernel value.
     """
     g_x = graph(X,Lx)
     g_y = graph(Y,Ly)
@@ -19,16 +27,26 @@ def shortest_path(X, Y, Lx, Ly, algorithm_type="dijkstra"):
     return shortest_path_inner(g_x, g_y, algorithm_type)
 
 def shortest_path_inner(g_x, g_y, algorithm_type="dijkstra"):
-    """ A function that calculates the inner summation part of the shortest path kernel as proposed in :cite:`Borgwardt2005ShortestpathKO`
+    """ A function that calculates the inner summation part of the shortest path kernel as proposed in :cite:`Borgwardt2005ShortestpathKO`.
 
-    arguments:
-        - g_{x,y} (graph): the pair graphs on which the kernel is applied
-        - algorithm_type (str): "dijkstra" or "floyd_warshall" or "auto" (for the best concerning current format)
-    returns:
-        number. The kernel value
-    ----------------
-    Complexity: 
-        :math:`O(n^2*min(1,m)^2)`, where the number of vertices is :math:`n` and :math:`m` the mean maximum branching factor of the surjective labeling function of the Graph.
+    Parameters
+    ----------
+    g_{x,y} : graph
+        The pair graphs on which the kernel is applied.
+        
+    algorithm_type : str, default={"dijkstra", "floyd_warshall", "auto"}
+        Apply the dijkstra or floyd_warshall algorithm for calculating shortest path
+        ot for the best concerning current graph format ("auto").
+    
+    Returns
+    -------
+    kernel : number.
+        The kernel value.
+        
+    Complexity
+    ----------
+    :math:`O(n^2*min(1,m)^2)`, where the number of vertices is :math:`n` and
+    :math:`m` the mean maximum branching factor of the surjective labeling function of the Graph.
     """
     # calculate shortest path matrix
     S_x, Lx = g_x.build_shortest_path_matrix(algorithm_type)

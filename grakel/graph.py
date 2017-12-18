@@ -669,19 +669,17 @@ class graph(object):
         
         purpose : str, valid_values={"adjacency", "dictionary", "any"}, default="any"
             Defines if the vertex is given for the "dictionary" format of the graph (symbol)
-            to the "adjacency" (index) or to "any" existing format (if "all" the expected type is for "adjacency")
+            to the "adjacency" (index) or to "any" existing format (if "all" the expected type is for "adjacency").
         
         with_weights : bool, default=False
-            Defines if the neighbours will 
-                    if False: list of neighbor vertices
-                    if True: dictionary between neighbor
-                             vertices and edge labels 
+            Defines if the neighbours will be outputed with weights.
+                
         Returns
         -------
         neighbors : list or dict
             The neighbors of the given vertex. 
-            If with_weights is False, output is a list, else output is a dict.
-            
+                + with_weights=False: list of neighbor vertices
+                + with_weights=True: dictionary between neighbor vertices and edge labels 
         """
         if purpose in ['adjacency', 'dictionary', "any"]:
             if purpose == 'dictionary':

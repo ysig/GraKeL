@@ -16,7 +16,7 @@ def dirac(X, Y, Lx, Ly):
         The pair of graphs on which the kernel is applied.
     
     L{x,y} : dict
-        Corresponding graph labels for nodes.
+        Corresponding graph labels for vertices.
         
     Returns
     -------

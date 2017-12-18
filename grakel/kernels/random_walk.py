@@ -1,4 +1,4 @@
-""" This file contains the random walk kernel as defined in :cite:`Kashima2003MarginalizedKB`, :cite:`Grtner2003OnGK`
+""" This file contains the random walk kernel as defined in :cite:`Kashima2003MarginalizedKB`, :cite:`Grtner2003OnGK`.
 """
 import warnings
 import numpy as np
@@ -10,14 +10,25 @@ from ..graph import graph
 from ..tools import inv_dict
 
 def random_walk(X, Y, lamda=0.1, method_type="sylvester"):
-    """ A function calculates the random walk kernel as proposed in :cite:`Kashima2003MarginalizedKB`, :cite:`Grtner2003OnGK` and in :cite:`Vishwanathan2006FastCO`
+    """ A function calculates the random walk kernel as proposed in :cite:`Kashima2003MarginalizedKB`, :cite:`Grtner2003OnGK` and in :cite:`Vishwanathan2006FastCO`.
 
-    arguments:
-        - X,Y (valid graph format): the pair of graphs on which the kernel is applied
-        - lamda: the factor concerning summation
-        - method_type: "simple" :math:`O(|V|^6)` (see :cite:`Kashima2003MarginalizedKB`, :cite:`Grtner2003OnGK`) or "sylvester" :math:`O(|V|^3)` (see :cite:`Vishwanathan2006FastCO`)
-    returns:
-        number. The kernel value 
+    Parameters
+    ----------
+    X,Y : *valid-graph-format*
+        The pair of graphs on which the kernel is applied.
+        
+    lamda : float
+        A lambda factor concerning summation.
+        
+    method_type : str, valid_values={"simple", "sylvester"}
+        The method to use for calculating random walk kernel:
+            + "simple" *Complexity*: :math:`O(|V|^6)` (see :cite:`Kashima2003MarginalizedKB`, :cite:`Grtner2003OnGK`) 
+            + "sylvester" *Complexity*: :math:`O(|V|^3)` (see :cite:`Vishwanathan2006FastCO`)
+
+    Returns
+    -------
+    kernel : number
+        The kernel value.
     """
     g_x = graph(X)
     g_y = graph(Y)
@@ -26,15 +37,26 @@ def random_walk(X, Y, lamda=0.1, method_type="sylvester"):
 
 
 def random_walk_inner(Gx, Gy,lamda=0.1, method_type="sylvester"):
-    """ A function calculates the random walk kernel as proposed in :cite:`Kashima2003MarginalizedKB`, :cite:`Grtner2003OnGK` and in :cite:`Vishwanathan2006FastCO`
+    """ A function calculates the random walk kernel as proposed in :cite:`Kashima2003MarginalizedKB`, :cite:`Grtner2003OnGK` and in :cite:`Vishwanathan2006FastCO`.
     
-    arguments:
-        - G{x,y} (graph): the pair of graphs on which the kernel is applied
-        - lamda: the factor concerning summation
-        - method_type: "simple" :math:`O(|V|^6)` (see :cite:`Kashima2003MarginalizedKB`, :cite:`Grtner2003OnGK`) or "sylvester" :math:`O(|V|^3)` (see :cite:`Vishwanathan2006FastCO`)
-    returns:
-        number. The kernel value
-   """
+    Parameters
+    ----------
+    G{x,y} : graph
+        The pair of graphs on which the kernel is applied.
+        
+    lamda : float
+        A lambda factor concerning summation.
+        
+    method_type : str, valid_values={"simple", "sylvester"}
+        The method to use for calculating random walk kernel:
+            + "simple" *Complexity*: :math:`O(|V|^6)` (see :cite:`Kashima2003MarginalizedKB`, :cite:`Grtner2003OnGK`) 
+            + "sylvester" *Complexity*: :math:`O(|V|^3)` (see :cite:`Vishwanathan2006FastCO`)
+
+    Returns
+    -------
+    kernel : number
+        The kernel value.
+    """
     Gx.desired_format("adjacency")
     Gy.desired_format("adjacency")
     X = Gx.adjacency_matrix

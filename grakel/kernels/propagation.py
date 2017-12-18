@@ -1,4 +1,4 @@
-""" The propagation kernel as defined in :cite:`Neumann2015PropagationKE`
+""" The propagation kernel as defined in :cite:`Neumann2015PropagationKE`.
 """
 import itertools
 
@@ -9,22 +9,39 @@ from ..graph import graph
 np.random.seed(1235476565)
 
 def propagation(X, Y, Lx, Ly, Tx=None, Ty=None, t_max=5, w=10, M="TV", base_kernel=(lambda x, y: sum(a*b for (a,b) in zip(x,y)))):
-    """ The propagation kernel for fully labeled graphs :cite:`Neumann2015PropagationKE`: Algorithms 1, 3, p. 216, 221
+    """ The propagation kernel for fully labeled graphs :cite:`Neumann2015PropagationKE`: Algorithms 1, 3, p. 216, 221.
 
-    arguments:
-        - X,Y (valid graph format): the pair of graphs on which the kernel is applied
-        - L{x,y} (dict): coresponding graph labels for nodes
-        - T{x,y} (np-array): transition matrices corresponding to Graphs X, Y (*if None default value is adjacency matrix*)        
-        - t_max (int): maximum number of iterations
-        - M (str): The preserved distance metric (on local sensitive hashing):
+    Parameters
+    ----------
+    X,Y : *valid-graph-format*
+        The pair of graphs on which the kernel is applied.
+        
+    L{x,y} : dict
+        Corresponding graph labels for vertices.
+        
+    T{x,y} : np-array, default=None
+        Transition matrices corresponding to Graphs X, Y (*if None default value is adjacency matrix*).
+        
+    t_max : int, default=5
+        Maximum number of iterations.
+        
+    w : int, default=10
+        Bin width.
+        
+    M : str, default="TV"
+        The preserved distance metric (on local sensitive hashing):
             - "H": hellinger
             - "L1": l1-norm
             - "L2": l2-norm
-            - "TV": total-variation   
-        - w (int): bin width
-        - base_kernel (function): a base_kernel between two lists of numbers that outputs a number
-    returns:
-        number. The kernel value
+            - "TV": total-variation
+            
+    base_kernel : function (list, list -> number), default=:math:`f(x,y)=\sum_{i} x_{i}*y_{i}`
+        A base_kernel between two lists of numbers that outputs a number.
+    
+    Returns
+    -------
+    kernel : number
+        The kernel value.
     """
     Gx = graph(X,Lx)
     Gy = graph(Y,Ly)
@@ -32,22 +49,42 @@ def propagation(X, Y, Lx, Ly, Tx=None, Ty=None, t_max=5, w=10, M="TV", base_kern
     
         
 def propagation_matrix(Graphs_x, Graphs_y=None, t_max=5, T=None, w=10, M="TV", base_kernel=(lambda x, y: sum(a*b for (a,b) in zip(x,y)))):
-    """ The propagation kernel for fully labeled graphs :cite:`Neumann2015PropagationKE`: p. 216, 221
+    """ The propagation kernel for fully labeled graphs :cite:`Neumann2015PropagationKE`: p. 216, 221.
 
-    arguments:
-        - Graphs_{x,y} (dict): A dictionary of graph type objects that are going to be compared with keys from 0 ... to the dictionary length.
-        - L{x,y} (dict): coresponding graph labels for nodes
-        - T{x,y} (np-array): transition matrices corresponding to Graphs X, Y (*if None default value is adjacency matrix*)        
-        - t_max (int): maximum number of iterations
-        - M (str): The preserved distance metric (on local sensitive hashing):
-            - "H": hellinger
-            - "L1": l1-norm
-            - "L2": l2-norm
-            - "TV": total-variation   
-        - w (int): bin width
-        - base_kernel (function): a base_kernel between two lists of numbers that outputs a number
-    returns:
-        np.array. The kernel matrix
+    Parameters
+    ----------
+    Graphs_{x,y} : dict, default_y=None
+        Enumerative dictionary of graph type objects with keys from 0 to the number of values.
+        If value of Graphs_y is None the kernel matrix is computed between all pairs of Graphs_x
+        where in another case the kernel_matrix rows correspond to elements of Graphs_y, and columns
+        to the elements of Graphs_x.
+        
+    L{x,y} : dict
+        Corresponding graph labels for vertices.
+        
+    t_max : int, default=5
+        Maximum number of iterations.
+        
+    T{x,y} : np.array,  default=None
+        Transition matrices corresponding to Graphs X, Y (*if None default value is adjacency matrix*).
+        
+    M : str, default="TV"
+        The preserved distance metric (on local sensitive hashing):
+            + "H": hellinger
+            + "L1": l1-norm
+            + "L2": l2-norm
+            + "TV": total-variation
+            
+    w : int
+        The bin width.
+        
+    base_kernel : function (list, list -> number), default=:math:`f(x,y)=\sum{i} x_{i}*y_{i}`
+        A base_kernel between two lists of numbers that outputs a number.
+        
+    Returns
+    -------
+    kernel_mat : np.array
+        The kernel matrix.
     """
     if M not in ["H", "L1", "L2", "TV"]:
         raise ValueError('Invalid metric type')
@@ -143,18 +180,27 @@ def propagation_matrix(Graphs_x, Graphs_y=None, t_max=5, T=None, w=10, M="TV", b
     return K
     
 def calculate_LSH(X, w, M):
-    """ A function for calculating Local Sensitive Hashing needed for propagation kernels defined in :cite:`Neumann2015PropagationKE`, p.12
+    """ A function for calculating Local Sensitive Hashing needed for propagation kernels defined in :cite:`Neumann2015PropagationKE`, p.12.
         
-    arguments:
-        - X (np.array): A float array of shape (N, D) with N vertices and D features
-        - w (int): Bin width
-        - M (str): The preserved distance metric:
+    Parameters
+    ----------
+    X : np.array
+        A float array of shape (N, D) with N vertices and D features.
+        
+    w : int
+        Bin width.
+        
+    M : str
+        The preserved distance metric:
            - "H": hellinger
            - "L1": l1-norm
            - "L2": l2-norm
            - "TV": total-variation
-    returns:
-        - np.array. The local sensitive hash coresponding to each vertex
+
+    Returns
+    -------
+    lsh : np.array.
+        The local sensitive hash coresponding to each vertex.
     """
     if len(X.shape)!=2:
         raise ValueError('X must be an N x D array')

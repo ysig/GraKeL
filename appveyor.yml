@@ -9,12 +9,10 @@ environment:
     # See: http://stackoverflow.com/a/13751649/163740
     CMD_IN_ENV: "cmd /E:ON /V:ON /C .\\ci_scripts\\appveyor\\run_with_env.cmd"
     WHEELHOUSE_UPLOADER_USERNAME: ysig
-    WHEELHOUSE_UPLOADER_SECRET:
-      secure: XzK+Mi6Ba5frV2B/jHq7h4aD8/nox9SsI3T8Kub1L2XNevRSIurUEry3PdWESzRY
     MODULE: grakel
     PROJECT_NAME: GraKeL
-    CLOUD_STORAGE: CLOUDFILES
-    CLOUD_CONTATINER: grakel-trial
+    CLOUD_STORAGE: LOCAL
+    CLOUD_CONTATINER: 
 
   matrix:
     - PYTHON: "C:\\Python35"
@@ -36,7 +34,6 @@ install:
   - "python --version"
   - "python -c \"import struct; print(struct.calcsize('P') * 8)\""
   - "pip --version"
-
   # Remove cygwin because it clashes with conda
   # see http://help.appveyor.com/discussions/problems/3712-git-remote-https-seems-to-be-broken
   - rmdir C:\\cygwin /s /q
@@ -44,9 +41,10 @@ install:
   # Install the build and runtime dependencies of the project.
   - conda install --quiet --yes numpy scipy cython nose scikit-learn wheel
   - pip install wheelhouse_uploader nose-timer
+  - "pip install --upgrade cvxopt
   - "%CMD_IN_ENV% python setup.py bdist_wheel bdist_wininst"
   - ps: "ls dist"
-
+  - sh install_pynauty.sh
   # Install the generated wheel package to test it
   - "pip install --pre --no-index --find-links dist %PROJECT_NAME%"
 

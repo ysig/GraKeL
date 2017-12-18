@@ -1,4 +1,4 @@
-""" This file contains the subtree kernel as defined in :cite:`Ramon2003ExpressivityVE`
+""" This file contains the subtree kernel as defined in :cite:`Ramon2003ExpressivityVE`.
 """
 
 import itertools
@@ -7,27 +7,43 @@ from ..graph import graph
 from ..tools import nested_dict_get, nested_dict_add
 
 def subtree_rg(X, Y, Lx, Ly, h=5):
-    """ Computes the Ramon Gartner subtree kernel as proposed in :cite:`Ramon2003ExpressivityVE`, s. 5
+    """ Computes the Ramon Gartner subtree kernel as proposed in :cite:`Ramon2003ExpressivityVE`, s. 5.
 
-    arguments:
-        - X,Y (valid graph format): the pair of graphs on which the kernel is applied
-        - L{x,y} (dict): coresponding graph labels for nodes
-        - h (int): the sub-tree depth
-    returns:
-        number. The kernel value
+    Parameters
+    ----------
+    X,Y : *valid-graph-format*
+        The pair of graphs on which the kernel is applied.
+        
+    L{x,y} : dict
+        Corresponding graph labels for vertices.
+        
+    h : int, default=5
+        The sub-tree depth.
+
+    Returns
+    -------
+    kernel : number
+        The kernel value.
     """
     Gx = graph(X,Lx)
     Gy = graph(Y,Ly)
     return subtree_rg_inner(Gx, Gy, h=5)
 
 def subtree_rg_inner(Gx, Gy, h=5):
-    """ Calculate The Ramon Gartner subtree kernel as proposed in :cite:`Ramon2003ExpressivityVE`, s. 5
+    """ Calculate The Ramon Gartner subtree kernel as proposed in :cite:`Ramon2003ExpressivityVE`, s. 5.
 
-    arguments:
-        - G_{x,y} (graph): the pair graphs on which the kernel is applied
-        - h (int): the sub-tree depth
-    returns:
-        number. The kernel value
+    Parameters
+    ----------
+    G_{x,y} : graph
+        The pair graphs on which the kernel is applied.
+        
+    h : int, default=5
+        The sub-tree depth.
+
+    Returns
+    -------
+    kernel : number
+        The kernel value.
     """
     Gx.desired_format("dictionary")
     Gy.desired_format("dictionary")
@@ -39,19 +55,34 @@ def subtree_rg_inner(Gx, Gy, h=5):
     return kernel
 
 def subtree_rg_core_dynamic(u, v, g_x, g_y, h, dynamic_dict, p_u=None, p_v=None):
-    """ Calculate the inside of the summation of Ramon Gartner subtree kernel as proposed on :cite:`Ramon2003ExpressivityVE`, s. 5
+    """ Calculate the inside of the summation of Ramon Gartner subtree kernel as proposed on :cite:`Ramon2003ExpressivityVE`, s. 5.
 
-    arguments:
-        - u,v (symbols): vertices that correspond to graphs g_x, g_y
-        - g_{x,y} (graph): graph formats for the corresponding graphs 
-        - h (int): The height of the subtree exploration
-        - dynamic_dict (dict): a dictionary tha is used for applying dynamic programming
-        - p_{u,v} (symbols): parent nodes
+    Parameters
+    ----------
+    u,v : hashable(s)
+        Vertices that correspond to graphs g_x, g_y.
         
-    returns:
-        number. The kernel value
-    ------------
-    This is an efficiency proposal using various data structures and dynamic programming assuming that for each node you take all of its neighbors and not its preddecesor. A dictionary is being formed that holds level, u, v and pred of u and pred of v.
+    g_{x,y} : graph
+        Graph formats for the corresponding graphs.
+        
+    h : int
+        The height of the subtree exploration.
+        
+    dynamic_dict : dict
+        A dictionary that is used for applying dynamic programming.
+    p_{u,v} : hashable(s) or None, default=None
+        Parent nodes, to avoid repeating explorations.
+        
+    Returns
+    -------
+    kernel : number
+        The kernel value.
+
+    Note
+    ----
+    This is an efficiency proposal using various data structures and dynamic programming
+    assuming that for each node you take all of its neighbors and not its predecesor.
+    A dictionary is being formed that holds level, u, v and pred of u and pred of v.
     """
     
     if h==1:
@@ -188,14 +219,22 @@ def subtree_rg_core_dynamic(u, v, g_x, g_y, h, dynamic_dict, p_u=None, p_v=None)
         return 0
 
 def plough_subsets(initial_set, Rv, value):
-    """ A function that finds all subset kernel values without repeating operations
+    """ A function that finds all subset kernel values without repeating operations.
 
-    arguments:
-        - initial_set (set): The set you are operating
-        - Rv (dict): values for single elements (dictionary on integers)
-        - value (dict): keeps all sets and values
-    returns:
-        None
+    Parameters
+    ----------
+    initial_set : set
+        The set that will be ploughed further.
+        
+    Rv : dict
+        Values for single elements (dictionary on integers).
+        
+    value : dict
+        Stores all values for the relevant sets.
+
+    Returns
+    -------
+    None.
     """
     # If only one element return its value
     if (len(initial_set) == 1):
