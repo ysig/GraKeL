@@ -15,7 +15,7 @@ environment:
 
   matrix:
     - PYTHON: "C:\\Python34-x64"
-      PYTHON_VERSION: "3.4.0"
+      PYTHON_VERSION: "3.4.3"
       PYTHON_ARCH: "64"
       MINICONDA: "C:\\Miniconda34-x64"
 
