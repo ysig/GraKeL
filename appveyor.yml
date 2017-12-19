@@ -22,7 +22,7 @@ environment:
       MSYS: C:\msys64
 install:
   # Miniconda is pre-installed in the worker build
-  - "SET PATH=%MINICONDA%;%MINICONDA%\\Scripts;%PATH%"
+  - "SET PATH=%MINICONDA%;%MINICONDA%\\Scripts;MSYS%\\usr\\bin";%PATH%"
   
   # Install pip
   - python -m ensurepip
@@ -41,7 +41,6 @@ install:
   - pip install --upgrade cvxopt
   
   # Install pynauty
-  - "SET PATH=%PATH%;%MSYS%\\usr\\bin"
   - python install_pynauty.py
   
   # Install project
