@@ -32,7 +32,9 @@ install:
   # Remove cygwin because it clashes with conda
   # see http://help.appveyor.com/discussions/problems/3712-git-remote-https-seems-to-be-broken
   - rmdir C:\\cygwin /s /q
-
+  
+  
+  - dir %MinGW%
   # Install the build and runtime dependencies of the project.
   - conda install --quiet --yes numpy scipy cython nose scikit-learn wheel
   - pip install wheelhouse_uploader nose-timer
