@@ -782,7 +782,7 @@ class graph(object):
             # calculate graph size
             is_adj, adjacency_matrix = is_adjacency(adjacency_matrix, True)
             
-            if is_adj:
+            if not is_adj:
                 raise ValueError('unsupported format type for adjacency matrix')
                 
             n = adjacency_matrix.shape[0]
@@ -1419,6 +1419,7 @@ def is_adjacency(g, transform=False):
         Holds the transformed object to an np.array.
         This output appears **only** if transform parameter is True.
     """
+    
     if type(g) in [np.array, np.ndarray] and len(g.shape)==2:
         if transform:
             return True, g
