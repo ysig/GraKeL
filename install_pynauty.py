@@ -22,6 +22,7 @@ pip.main(['install', '--upgrade', 'wget'])
 if (is_windows):
     os.system('mingw-get install make')
 
+import wget
 # Download library
 wget.download('https://web.cs.dal.ca/~peter/software/pynauty/pynauty-0.6.0.tar.gz')
 
