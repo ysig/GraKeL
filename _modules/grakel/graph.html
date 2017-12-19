@@ -171,8 +171,10 @@
 <span class="kn">import</span> <span class="nn">cvxopt.base</span>
 <span class="kn">import</span> <span class="nn">cvxopt.solvers</span>
 
-<span class="kn">from</span> <span class="nn">.tools</span> <span class="k">import</span> <span class="n">priority_dict</span><span class="p">,</span> <span class="n">inv_dict</span><span class="p">,</span> <span class="n">distribute_samples</span>
 <span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="k">import</span> <span class="n">OneClassSVM</span>
+<span class="kn">from</span> <span class="nn">scipy.sparse</span> <span class="k">import</span> <span class="n">csr_matrix</span>
+
+<span class="kn">from</span> <span class="nn">.tools</span> <span class="k">import</span> <span class="n">priority_dict</span><span class="p">,</span> <span class="n">inv_dict</span><span class="p">,</span> <span class="n">distribute_samples</span><span class="p">,</span> <span class="n">nested_dict_add</span>
 
 <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">238537</span><span class="p">)</span>
 <span class="n">cvxopt</span><span class="o">.</span><span class="n">solvers</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;show_progress&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
@@ -187,14 +189,15 @@
 <span class="sd">        If given a dictionary the input can be as follows:</span>
 <span class="sd">            + 2-level nested dictionaries from edge symbols to weights</span>
 <span class="sd">            + Dictionary of symbols to list of symbols (unweighted)</span>
-<span class="sd">            + Dictionary of tuples to weights (weighted) #TODO</span>
-<span class="sd">            + Set or List of tuples (unweighted) #TODO</span>
-<span class="sd">            </span>
-<span class="sd">        If given a array the input can be as follows:</span>
-<span class="sd">            + array-like lists of lists #TODO</span>
-<span class="sd">            + np.array</span>
-<span class="sd">            + sparse matrix #TODO</span>
+<span class="sd">            + Dictionary of tuples to weights (weighted)</span>
+<span class="sd">            + Iterable of tuples of len 2 (unweighted)</span>
+<span class="sd">            + Iterable of tuples of len 3 (vertex, vertex, weight)</span>
 <span class="sd">        </span>
+<span class="sd">        If given a array the input can be as follows:</span>
+<span class="sd">            + array-like lists of lists</span>
+<span class="sd">            + np.array</span>
+<span class="sd">            + sparse matrix (scipy.sparse.csr.csr_matrix)</span>
+<span class="sd">    </span>
 <span class="sd">    node_labels : dict, default=None</span>
 <span class="sd">        A label dictionary corresponding to all vertices of the graph:</span>
 <span class="sd">            + for adjacency matrix labels should be given to numbers starting </span>
@@ -325,7 +328,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">label_group</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">case</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">if</span> <span class="n">g</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">g</span><span class="p">)</span> <span class="ow">is</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span> <span class="ow">or</span> <span class="nb">type</span><span class="p">(</span><span class="n">g</span><span class="p">)</span> <span class="ow">is</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">is_adjacency</span><span class="p">(</span><span class="n">g</span><span class="p">):</span>
                 <span class="c1"># Input is considered an adjacency matrix</span>
                 <span class="n">case</span> <span class="o">=</span> <span class="mi">1</span>
                 
@@ -337,7 +340,7 @@
                 
                 <span class="k">if</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_format</span> <span class="ow">is</span> <span class="s2">&quot;auto&quot;</span><span class="p">):</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">_format</span> <span class="o">=</span> <span class="s2">&quot;adjacency&quot;</span>
-            <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">g</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">dict</span><span class="p">:</span>
+            <span class="k">elif</span> <span class="n">is_edge_dictionary</span><span class="p">(</span><span class="n">g</span><span class="p">):</span>
                 <span class="c1"># Input is considered as an edge dictionary</span>
                 <span class="n">case</span> <span class="o">=</span> <span class="mi">2</span>
                 
@@ -350,7 +353,7 @@
                 <span class="k">if</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_format</span> <span class="ow">is</span> <span class="s2">&quot;auto&quot;</span><span class="p">):</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">_format</span> <span class="o">=</span> <span class="s2">&quot;dictionary&quot;</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Unsupported input type.</span><span class="se">\n</span><span class="s1">Valid input formats are numpy arrays and edge dictionaries.</span><span class="se">\n</span><span class="s1">For more information check the documentation&#39;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Unsupported input type. For more information check the documentation.&#39;</span><span class="p">)</span>
 
         
         <span class="c1"># If graph is of one type prune the other</span>
@@ -923,10 +926,10 @@
 <span class="sd">        ----------</span>
 <span class="sd">        adjacency_matrix : array-like, default=None</span>
 <span class="sd">            If given a array the input can be as follows:</span>
-<span class="sd">                + array-like lists of lists #TODO</span>
-<span class="sd">                + np.array</span>
-<span class="sd">                + sparse matrix #TODO</span>
-<span class="sd">            If None, imports the array existing inside self.adjacency_matrix</span>
+<span class="sd">            + array-like lists of lists</span>
+<span class="sd">            + np.array</span>
+<span class="sd">            + sparse matrix (scipy.sparse.csr.csr_matrix)</span>
+<span class="sd">            If None, imports the existing array, inside self.adjacency_matrix</span>
 <span class="sd">        </span>
 <span class="sd">        init : bool, default=True</span>
 <span class="sd">            A parameter used to defined initialization.</span>
@@ -937,8 +940,13 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">adjacency_matrix</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># calculate graph size</span>
+            <span class="n">is_adj</span><span class="p">,</span> <span class="n">adjacency_matrix</span> <span class="o">=</span> <span class="n">is_adjacency</span><span class="p">(</span><span class="n">adjacency_matrix</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+            
+            <span class="k">if</span> <span class="n">is_adj</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;unsupported format type for adjacency matrix&#39;</span><span class="p">)</span>
+                
             <span class="n">n</span> <span class="o">=</span> <span class="n">adjacency_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-
+            
             <span class="k">if</span> <span class="n">n</span> <span class="o">!=</span> <span class="n">adjacency_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;input matrix must be squared&#39;</span><span class="p">)</span>
             
@@ -983,9 +991,10 @@
 <span class="sd">            The edge_dictionary the input can be as follows:</span>
 <span class="sd">                + 2-level nested dictionaries from edge symbols to weights</span>
 <span class="sd">                + Dictionary of symbols to list of symbols (unweighted)</span>
-<span class="sd">                + Dictionary of tuples to weights (weighted) #TODO</span>
-<span class="sd">                + Set or List of tuples (unweighted) #TODO</span>
-<span class="sd">            If None, imports from the existing edge_dictionary</span>
+<span class="sd">                + Dictionary of tuples to weights (weighted)</span>
+<span class="sd">                + Iterable of tuples of len 2 (unweighted)</span>
+<span class="sd">                + Iterable of tuples of len 3 (vertex, vertex, weight)</span>
+<span class="sd">           If None, imports from the existing edge_dictionary</span>
 <span class="sd">            </span>
 <span class="sd">        init : bool, default=True</span>
 <span class="sd">            A parameter used to defined initialization.</span>
@@ -998,17 +1007,9 @@
             <span class="c1"># find vertices, refine dictionary</span>
             <span class="n">vertices</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
             <span class="n">edge_dictionary_refined</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-            <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">edge_dictionary</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-                <span class="n">vertices</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
-                <span class="c1"># TODO support list of tuples</span>
-                <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">edge_dictionary</span><span class="p">[</span><span class="n">u</span><span class="p">])</span> <span class="ow">is</span> <span class="nb">list</span><span class="p">:</span>
-                    <span class="n">vertices</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">edge_dictionary</span><span class="p">[</span><span class="n">u</span><span class="p">]))</span>
-                    <span class="n">edge_dictionary_refined</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">edge_dictionary</span><span class="p">[</span><span class="n">u</span><span class="p">],</span><span class="nb">len</span><span class="p">(</span><span class="n">edge_dictionary</span><span class="p">[</span><span class="n">u</span><span class="p">])</span><span class="o">*</span><span class="p">[</span><span class="mf">1.0</span><span class="p">]))</span>
-                <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">edge_dictionary</span><span class="p">[</span><span class="n">u</span><span class="p">])</span> <span class="ow">is</span> <span class="nb">dict</span><span class="p">:</span>
-                    <span class="n">vertices</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">edge_dictionary</span><span class="p">[</span><span class="n">u</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
-                    <span class="n">edge_dictionary_refined</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="n">edge_dictionary</span><span class="p">[</span><span class="n">u</span><span class="p">]</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;unsupported edge_dictionary format&#39;</span><span class="p">)</span>
+            <span class="n">is_edge_dict</span><span class="p">,</span> <span class="n">vertices</span><span class="p">,</span> <span class="n">edge_dictionary_refined</span> <span class="o">=</span> <span class="n">is_edge_dictionary</span><span class="p">(</span><span class="n">edge_dictionary</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">is_edge_dict</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;unsupported edge_dictionary format&#39;</span><span class="p">)</span>
             
             <span class="c1"># Save dictionary, vertices @self if needed        </span>
             <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_format</span> <span class="o">==</span> <span class="s2">&quot;all&quot;</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format</span> <span class="o">==</span> <span class="s2">&quot;dictionary&quot;</span><span class="p">):</span>
@@ -1511,7 +1512,7 @@
                     <span class="n">fa</span> <span class="o">=</span> <span class="kc">True</span>
                 <span class="k">if</span> <span class="n">fa</span> <span class="ow">and</span> <span class="n">fv</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;vertices are not valid for the original graph format&#39;</span><span class="p">)</span>
-
+    
             <span class="k">if</span> <span class="ow">not</span> <span class="n">fa</span> <span class="ow">and</span> <span class="n">fv</span><span class="p">:</span>
                 <span class="n">recipe</span> <span class="o">=</span> <span class="p">[</span><span class="nb">tuple</span><span class="p">([</span><span class="s1">&#39;enum_vertices&#39;</span><span class="p">,</span><span class="s1">&#39;default&#39;</span><span class="p">]),</span> <span class="nb">tuple</span><span class="p">([</span><span class="s1">&#39;get_correct&#39;</span><span class="p">,</span> <span class="s1">&#39;edsamic&#39;</span><span class="p">]),</span> <span class="nb">tuple</span><span class="p">([</span><span class="s1">&#39;add_adjacency&#39;</span><span class="p">]),</span> <span class="nb">tuple</span><span class="p">([</span><span class="s1">&#39;add_edge_dict&#39;</span><span class="p">])]</span>
             <span class="k">elif</span> <span class="ow">not</span> <span class="n">fa</span><span class="p">:</span>
@@ -1558,6 +1559,159 @@
                     <span class="n">get_correct</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">i</span><span class="p">:</span> <span class="n">i</span>
             
         <span class="k">return</span> <span class="n">subgraph</span></div></div>
+
+
+<div class="viewcode-block" id="is_adjacency"><a class="viewcode-back" href="../../graph.html#grakel.graph.is_adjacency">[docs]</a><span class="k">def</span> <span class="nf">is_adjacency</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; A function that defines if input is in a valid adjacency matrix format.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    g : Object</span>
+<span class="sd">        The input object.</span>
+<span class="sd">    transform : bool, default=False</span>
+<span class="sd">        Defines if the input will be transformed to the internal adjacency matrix support format.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    is_adjacency : bool</span>
+<span class="sd">        A variable that determines if the input is a valid adjacency matrix.</span>
+<span class="sd">    g_transformed : np.array</span>
+<span class="sd">        Holds the transformed object to an np.array.</span>
+<span class="sd">        This output appears **only** if transform parameter is True.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">g</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="o">==</span><span class="mi">2</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">transform</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="n">g</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">g</span><span class="p">)</span> <span class="ow">is</span> <span class="n">scipy</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">csr</span><span class="o">.</span><span class="n">csr_matrix</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">transform</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="n">g</span><span class="o">.</span><span class="n">todense</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">g</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">list</span> <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">Number</span><span class="p">)</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">g</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">l</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="n">transform</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">transform</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
+                    
+<div class="viewcode-block" id="is_edge_dictionary"><a class="viewcode-back" href="../../graph.html#grakel.graph.is_edge_dictionary">[docs]</a><span class="k">def</span> <span class="nf">is_edge_dictionary</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; A function that defines if input is in a valid edge dictionary format.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    g : Object</span>
+<span class="sd">        The input object.</span>
+<span class="sd">    transform : bool, default=False</span>
+<span class="sd">        Defines if the input will be transformed to the internal edge dictionary support format.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    is_edge_dictionary : bool</span>
+<span class="sd">        A variable that determines if the input is a valid edge dictionary.</span>
+<span class="sd">    g_transformed_vertices : set</span>
+<span class="sd">        Holds the transformed object vertices of the edge_dictionary.</span>
+<span class="sd">    g_transformed_edge_dict : dict</span>
+<span class="sd">        Holds the transformed object as a 2-level edge dict.</span>
+<span class="sd">        This output appears **only** if transform parameter is True.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">g</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="ow">is</span> <span class="n">touple</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="o">==</span><span class="mi">2</span> <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">Number</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">n</span><span class="p">)</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">items</span><span class="p">())):</span>
+            <span class="k">if</span> <span class="n">transform</span><span class="p">:</span>
+                <span class="n">vertices_key</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+                <span class="n">vertices_val</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+                <span class="n">edge_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+                <span class="k">for</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">v</span><span class="p">)</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="n">vertices_key</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">k</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                    <span class="n">vertices_val</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">k</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                    <span class="n">nested_dict_add</span><span class="p">(</span><span class="n">edge_dict</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">k</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">k</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                
+                <span class="c1"># intialise empty edges</span>
+                <span class="n">v_dif</span> <span class="o">=</span> <span class="n">vertices_val</span> <span class="o">-</span> <span class="n">vertices_key</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">v_dif</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">v_dif</span><span class="p">:</span>
+                        <span class="n">edge_dict</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+                <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="n">vertices_key</span> <span class="o">|</span> <span class="n">vertices_val</span><span class="p">,</span> <span class="n">edge_dict</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">values</span><span class="p">()):</span>
+            <span class="k">if</span> <span class="n">transform</span><span class="p">:</span>
+                <span class="n">vertices_key</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+                <span class="n">vertices_val</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+                <span class="n">edge_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+                <span class="k">for</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">v</span><span class="p">)</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="n">vertices_key</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+                    <span class="n">vertices_val</span> <span class="o">|=</span> <span class="nb">set</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">kp</span> <span class="ow">in</span> <span class="n">v</span><span class="p">:</span>
+                        <span class="n">nested_dict_add</span><span class="p">(</span><span class="n">edge_dict</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">kp</span><span class="p">)</span>
+                        
+                <span class="c1"># intialise empty edges</span>
+                <span class="n">v_dif</span> <span class="o">=</span> <span class="n">vertices_val</span> <span class="o">-</span> <span class="n">vertices_key</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">v_dif</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">v_dif</span><span class="p">:</span>
+                        <span class="n">edge_dict</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+                <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="n">vertices_key</span> <span class="o">|</span> <span class="n">vertices_val</span><span class="p">,</span> <span class="n">edge_dict</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">number</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">values</span><span class="p">()</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">values</span><span class="p">())):</span>
+            <span class="k">if</span> <span class="n">transform</span><span class="p">:</span>
+                <span class="n">vertices_key</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+                <span class="n">vertices_val</span> <span class="o">=</span> <span class="p">{</span><span class="n">kp</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">for</span> <span class="n">kp</span> <span class="ow">in</span> <span class="n">g</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()}</span>
+                <span class="n">v_dif</span> <span class="o">=</span> <span class="n">vertices_val</span> <span class="o">-</span> <span class="n">vertices_key</span>
+                
+                <span class="c1"># intialise empty edges</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">v_dif</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">v_dif</span><span class="p">:</span>
+                        <span class="n">g</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+                <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="n">vertices_key</span> <span class="o">|</span> <span class="n">vertices_val</span><span class="p">,</span> <span class="n">g</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">collections</span><span class="o">.</span><span class="n">Iterable</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">tuple</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="o">==</span><span class="mi">2</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">iter</span><span class="p">(</span><span class="n">g</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="n">transform</span><span class="p">:</span>
+                <span class="n">vertices_key</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+                <span class="n">vertices_val</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+                <span class="n">edge_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+                <span class="k">for</span> <span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">u</span><span class="p">)</span> <span class="ow">in</span> <span class="n">g</span><span class="p">:</span>
+                    <span class="n">vertices_key</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+                    <span class="n">vertices_val</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+                    <span class="n">nested_dict_add</span><span class="p">(</span><span class="n">g_transformed</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">u</span><span class="p">)</span>
+                <span class="n">v_dif</span> <span class="o">=</span> <span class="n">vertices_val</span> <span class="o">-</span> <span class="n">vertices_key</span>
+                
+                <span class="c1"># intialise empty edges</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">v_dif</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">v_dif</span><span class="p">:</span>
+                        <span class="n">edge_dict</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+                <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="n">vertices_key</span> <span class="o">|</span> <span class="n">vertices_val</span><span class="p">,</span> <span class="n">edge_dict</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">elif</span> <span class="nb">all</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">tuple</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="o">==</span><span class="mi">3</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">iter</span><span class="p">(</span><span class="n">g</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="n">transform</span><span class="p">:</span>
+                <span class="n">vertices_key</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+                <span class="n">vertices_val</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+                <span class="n">edge_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+                <span class="k">for</span> <span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span> <span class="ow">in</span> <span class="n">g</span><span class="p">:</span>
+                    <span class="n">vertices_key</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+                    <span class="n">vertices_val</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+                    <span class="n">nested_dict_add</span><span class="p">(</span><span class="n">g_transformed</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">u</span><span class="p">)</span>
+                <span class="n">v_dif</span> <span class="o">=</span> <span class="n">vertices_val</span> <span class="o">-</span> <span class="n">vertices_key</span>
+                
+                <span class="c1"># intialise empty edges</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">v_dif</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">v_dif</span><span class="p">:</span>
+                        <span class="n">edge_dict</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+                <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="n">vertices_key</span> <span class="o">|</span> <span class="n">vertices_val</span><span class="p">,</span> <span class="n">edge_dict</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">if</span> <span class="n">transform</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">None</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
         
 <div class="viewcode-block" id="laplacian"><a class="viewcode-back" href="../../graph.html#grakel.graph.laplacian">[docs]</a><span class="k">def</span> <span class="nf">laplacian</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Calculates the laplacian given the adjacency matrix.</span>
