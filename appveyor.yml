@@ -37,7 +37,7 @@ install:
   - conda install --quiet --yes numpy scipy cython nose scikit-learn wheel
   - pip install wheelhouse_uploader nose-timer
   - pip install --upgrade cvxopt
-  - sh install_pynauty.sh
+  - python install_pynauty.py
   - "%CMD_IN_ENV% python setup.py bdist_wheel bdist_wininst"
   - ps: "ls dist"
   # Install the generated wheel package to test it
