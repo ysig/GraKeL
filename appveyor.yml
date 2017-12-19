@@ -26,8 +26,8 @@ install:
   - "SET PATH=%PATH%;%MinGW%;%MinGW%\\bin"
   - "SET PATH=%PATH%;%MSYS%"
   - python -m ensurepip
-  - dir %MinGW%\\bin
-  - dir %MSYS%
+  - tree %MinGW%\\bin
+  - tree %MSYS%
   # Check that we have the expected version and architecture for Python
   - "python --version"
   - "python -c \"import struct; print(struct.calcsize('P') * 8)\""
