@@ -10,7 +10,7 @@ is_linux, is_windows = False, False
 if platform.system() == 'Linux':
     is_linux = True
 elif platform.system() == 'Windows':
-    # Warning: For a windows operating system MSYS must be installed.
+    # Warning: For a windows operating system MinGW must be installed.
     is_windows = True
 else:
     sys.stderr.write('Unsupported os for this library')
@@ -23,9 +23,7 @@ pip.main(['install', '--upgrade', 'setuptools'])
 os.system('wget https://web.cs.dal.ca/~peter/software/pynauty/pynauty-0.6.0.tar.gz')
 
 # Decompress
-tar = tarfile.open("pynauty-0.6.0.tar.gz", "r:gz")
-tar.extractall()
-tar.close()
+os.system('tar -xf pynauty-0.6.0.tar.gz')
 os.remove('pynauty-0.6.0.tar.gz')
 
 # Move inside pynauty
@@ -36,13 +34,10 @@ os.chdir("pynauty-0.6.0")
 os.system('wget http://users.cecs.anu.edu.au/~bdm/nauty/nauty26r10.tar.gz')
 
 # Decompress library
-tar = tarfile.open("nauty26r10.tar.gz", "r:gz")
-tar.extractall()
-tar.close()
+os.system('tar -xf nauty26r10.tar.gz')
 
 # make a soft link
 os.symlink('nauty26r10', 'nauty')
-
 
 # build pynauty
 os.system('make pynauty')
