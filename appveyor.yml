@@ -23,9 +23,11 @@ environment:
 install:
   # Miniconda is pre-installed in the worker build
   - "SET PATH=%MINICONDA%;%MINICONDA%\\Scripts;%PATH%"
-  - "SET PATH=%PATH%;%MinGW%;%MinGW%\\bin"
   - "SET PATH=%PATH%;%MSYS%\\usr\\bin"
+  
+  # Install pip
   - python -m ensurepip
+  
   # Check that we have the expected version and architecture for Python
   - "python --version"
   - "python -c \"import struct; print(struct.calcsize('P') * 8)\""

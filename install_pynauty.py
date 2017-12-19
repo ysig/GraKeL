@@ -10,7 +10,7 @@ is_linux, is_windows = False, False
 if platform.system() == 'Linux':
     is_linux = True
 elif platform.system() == 'Windows':
-    # Warning: For a windows operating system MinGW must be installed.
+    # Warning: For a windows operating system MSYS must be installed.
     is_windows = True
 else:
     sys.stderr.write('Unsupported os for this library')
@@ -19,8 +19,6 @@ else:
 # Dependencies
 pip.main(['install', '--upgrade', 'setuptools'])
 pip.main(['install', '--upgrade', 'wget'])
-if (is_windows):
-    os.system('mingw-get install make')
 
 import wget
 # Download library
