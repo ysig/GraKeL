@@ -28,8 +28,6 @@ install:
   # Install pip
   - python -m ensurepip
   
-  - dir %MSYS% /s
-  - dir %MINGW% /s
   # Check that we have the expected version and architecture for Python
   - "python --version"
   - "python -c \"import struct; print(struct.calcsize('P') * 8)\""

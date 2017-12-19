@@ -18,11 +18,9 @@ else:
 
 # Dependencies
 pip.main(['install', '--upgrade', 'setuptools'])
-pip.main(['install', '--upgrade', 'wget'])
 
-import wget
 # Download library
-wget.download('https://web.cs.dal.ca/~peter/software/pynauty/pynauty-0.6.0.tar.gz')
+os.system('wget https://web.cs.dal.ca/~peter/software/pynauty/pynauty-0.6.0.tar.gz')
 
 # Decompress
 tar = tarfile.open("pynauty-0.6.0.tar.gz", "r:gz")
@@ -34,7 +32,8 @@ os.remove('pynauty-0.6.0.tar.gz')
 os.chdir("pynauty-0.6.0")
 
 # Download C library
-wget.download('http://users.cecs.anu.edu.au/~bdm/nauty/nauty26r10.tar.gz')
+# wget must be installed
+os.system('wget http://users.cecs.anu.edu.au/~bdm/nauty/nauty26r10.tar.gz')
 
 # Decompress library
 tar = tarfile.open("nauty26r10.tar.gz", "r:gz")
