@@ -31,13 +31,13 @@ class graph(object):
             + Dictionary of symbols to list of symbols (unweighted)
             + Dictionary of tuples to weights (weighted)
             + Iterable of tuples of len 2 (unweighted)
-            + Iterable of tuples of len 3 (where the third argument stands for weight)
-            
+            + Iterable of tuples of len 3 (vertex, vertex, weight)
+        
         If given a array the input can be as follows:
             + array-like lists of lists
             + np.array
             + sparse matrix (scipy.sparse.csr.csr_matrix)
-        
+    
     node_labels : dict, default=None
         A label dictionary corresponding to all vertices of the graph:
             + for adjacency matrix labels should be given to numbers starting 
@@ -780,7 +780,7 @@ class graph(object):
         """
         if adjacency_matrix is not None:
             # calculate graph size
-            is_adj, adjacency_matrix = is_adjacency_matrix(adjacency_matrix, True):
+            is_adj, adjacency_matrix = is_adjacency(adjacency_matrix, True)
             
             if is_adj:
                 raise ValueError('unsupported format type for adjacency matrix')
@@ -833,8 +833,8 @@ class graph(object):
                 + Dictionary of symbols to list of symbols (unweighted)
                 + Dictionary of tuples to weights (weighted)
                 + Iterable of tuples of len 2 (unweighted)
-                + Iterable of tuples of len 3 (where the third argument stands for weight)
-            If None, imports from the existing edge_dictionary
+                + Iterable of tuples of len 3 (vertex, vertex, weight)
+           If None, imports from the existing edge_dictionary
             
         init : bool, default=True
             A parameter used to defined initialization.
@@ -1399,7 +1399,8 @@ class graph(object):
                     get_correct = lambda i: i
             
         return subgraph
-        
+
+
 def is_adjacency(g, transform=False):
     """ A function that defines if input is in a valid adjacency matrix format.
     
@@ -1428,8 +1429,7 @@ def is_adjacency(g, transform=False):
             return True, g.todense()
         else:
             return True
-        if 
-    elif type(g) is list and all(isinstance(l, list) and all(isinstance(i, Number) for i in l) for l in g)):
+    elif type(g) is list and all(isinstance(l, list) and all(isinstance(i, Number) for l in g for i in l)):
         if transform:
             return True, np.array(g)
         else:
@@ -1454,7 +1454,7 @@ def is_edge_dictionary(g, transform=True):
     -------
     is_edge_dictionary : bool
         A variable that determines if the input is a valid edge dictionary.
-    g_transformed_vertices: set
+    g_transformed_vertices : set
         Holds the transformed object vertices of the edge_dictionary.
     g_transformed_edge_dict : dict
         Holds the transformed object as a 2-level edge dict.
@@ -1479,7 +1479,7 @@ def is_edge_dictionary(g, transform=True):
                 return True, vertices_key | vertices_val, edge_dict
             else:
                 return True
-        if all(isinstance(d, list) for g.values()):
+        if all(isinstance(d, list) for d in g.values()):
             if transform:
                 vertices_key = set()
                 vertices_val = set()
@@ -1498,7 +1498,7 @@ def is_edge_dictionary(g, transform=True):
                 return True, vertices_key | vertices_val, edge_dict
             else:
                 return True
-        if all(isinstance(d, dict) and all(isinstance(n, number) for n in d.values()) for g.values()):
+        if all(isinstance(d, dict) and all(isinstance(n, number) for d in g.values() for n in d.values())):
             if transform:
                 vertices_key = set(g.keys())
                 vertices_val = {kp for k in g.keys() for kp in g[k].keys()}
@@ -1511,7 +1511,7 @@ def is_edge_dictionary(g, transform=True):
                 return True, vertices_key | vertices_val, g
             else:
                 return True
-    if isinstance(g, collections.Iterable)::
+    if isinstance(g, collections.Iterable):
         if all(type(t) is tuple and len(t)==2 for t in iter(g)):
             if transform:
                 vertices_key = set()

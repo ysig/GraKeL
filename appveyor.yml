@@ -22,6 +22,7 @@ environment:
 install:
   # Miniconda is pre-installed in the worker build
   - "SET PATH=%MINICONDA%;%MINICONDA%\\Scripts;%PATH%"
+  - "SET PATH=%MinGW%;%MinGW%\\bin;%PATH"
   - python -m ensurepip
 
   # Check that we have the expected version and architecture for Python
