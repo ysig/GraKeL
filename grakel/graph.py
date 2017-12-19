@@ -7,6 +7,7 @@ import operator
 import itertools
 
 import numpy as np
+import scipy
 
 import cvxopt.base
 import cvxopt.solvers

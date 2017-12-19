@@ -30,7 +30,7 @@ dependencies:
     - sudo -E apt-get -yq --no-install-suggests --no-install-recommends --force-yes install dvipng texlive-latex-base texlive-latex-extra
     - pip install --upgrade cython numpydoc
     - pip install --upgrade scikit-learn
-    - pip install cvxopt
+    - pip install --upgrade cvxopt
     - ./install_pynauty.sh
   # The --user is needed to let sphinx see the source and the binaries
   # The pipefail is requested to propagate exit code
