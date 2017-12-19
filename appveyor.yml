@@ -19,12 +19,15 @@ environment:
       PYTHON_ARCH: "64"
       MINICONDA: "C:\\Miniconda34-x64"
       MinGW: C:\mingw-w64\x86_64-6.3.0-posix-seh-rt_v5-rev1\mingw64
+      MSYS: C:\msys64
 install:
   # Miniconda is pre-installed in the worker build
   - "SET PATH=%MINICONDA%;%MINICONDA%\\Scripts;%PATH%"
   - "SET PATH=%PATH%;%MinGW%;%MinGW%\\bin"
+  - "SET PATH=%PATH%;%MSYS%"
   - python -m ensurepip
   - dir %MinGW%\\bin
+  - dir %MSYS%
   # Check that we have the expected version and architecture for Python
   - "python --version"
   - "python -c \"import struct; print(struct.calcsize('P') * 8)\""
