@@ -1,4 +1,5 @@
 import platform
+import pip
 import os
 import sys
 import tarfile
