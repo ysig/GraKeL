@@ -1,14 +1,14 @@
 # GraKeL: A library for graph kernels
-**!!!Warning: Project still under construction**
+**_Project - still - under construction_**
 
 [![Travis Status](https://travis-ci.org/ysig/GraKeL.svg?branch=develop)](https://travis-ci.org/ysig/GraKeL)
 [![Coverage Status](https://coveralls.io/repos/github/ysig/GraKeL/badge.svg?branch=develop)](https://coveralls.io/github/ysig/GraKeL?branch=develop)
 [![CircleCI Status](https://circleci.com/gh/ysig/GraKeL/tree/develop.svg?style=shield)](https://circleci.com/gh/ysig/GraKeL/tree/develop)
 
-**project-template** A compatible library based on a template of the project
-[scikit-learn](http://scikit-learn.org/) 
+**grakel** A compatible library of the project
+[scikit-learn](http://scikit-learn.org/)
 
-This library implements all the basic and advanced graph-kernels.
+This library implements a collection of all the basic and advanced graph-kernels.
 
 ## Installation and Usage
 To install the package one needs to have installed the packages

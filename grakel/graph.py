@@ -11,8 +11,10 @@ import numpy as np
 import cvxopt.base
 import cvxopt.solvers
 
-from .tools import priority_dict, inv_dict, distribute_samples
 from sklearn.svm import OneClassSVM
+from scipy.sparse import csr_matrix
+
+from .tools import priority_dict, inv_dict, distribute_samples, nested_dict_add
 
 np.random.seed(238537)
 cvxopt.solvers.options['show_progress'] = False
@@ -27,13 +29,14 @@ class graph(object):
         If given a dictionary the input can be as follows:
             + 2-level nested dictionaries from edge symbols to weights
             + Dictionary of symbols to list of symbols (unweighted)
-            + Dictionary of tuples to weights (weighted) #TODO
-            + Set or List of tuples (unweighted) #TODO
+            + Dictionary of tuples to weights (weighted)
+            + Iterable of tuples of len 2 (unweighted)
+            + Iterable of tuples of len 3 (where the third argument stands for weight)
             
         If given a array the input can be as follows:
-            + array-like lists of lists #TODO
+            + array-like lists of lists
             + np.array
-            + sparse matrix #TODO
+            + sparse matrix (scipy.sparse.csr.csr_matrix)
         
     node_labels : dict, default=None
         A label dictionary corresponding to all vertices of the graph:
@@ -165,7 +168,7 @@ class graph(object):
         self.label_group = None
         case = 0
         if g is not None:
-            if type(g) is np.array or type(g) is np.ndarray:
+            if is_adjacency(g):
                 # Input is considered an adjacency matrix
                 case = 1
                 
@@ -177,7 +180,7 @@ class graph(object):
                 
                 if(self._format is "auto"):
                     self._format = "adjacency"
-            elif type(g) is dict:
+            elif is_edge_dictionary(g):
                 # Input is considered as an edge dictionary
                 case = 2
                 
@@ -190,7 +193,7 @@ class graph(object):
                 if(self._format is "auto"):
                     self._format = "dictionary"
             else:
-                raise ValueError('Unsupported input type.\nValid input formats are numpy arrays and edge dictionaries.\nFor more information check the documentation')
+                raise ValueError('Unsupported input type. For more information check the documentation.')
 
         
         # If graph is of one type prune the other
@@ -763,10 +766,10 @@ class graph(object):
         ----------
         adjacency_matrix : array-like, default=None
             If given a array the input can be as follows:
-                + array-like lists of lists #TODO
-                + np.array
-                + sparse matrix #TODO
-            If None, imports the array existing inside self.adjacency_matrix
+            + array-like lists of lists
+            + np.array
+            + sparse matrix (scipy.sparse.csr.csr_matrix)
+            If None, imports the existing array, inside self.adjacency_matrix
         
         init : bool, default=True
             A parameter used to defined initialization.
@@ -777,8 +780,13 @@ class graph(object):
         """
         if adjacency_matrix is not None:
             # calculate graph size
+            is_adj, adjacency_matrix = is_adjacency_matrix(adjacency_matrix, True):
+            
+            if is_adj:
+                raise ValueError('unsupported format type for adjacency matrix')
+                
             n = adjacency_matrix.shape[0]
-
+            
             if n != adjacency_matrix.shape[1]:
                 raise ValueError('input matrix must be squared')
             
@@ -823,8 +831,9 @@ class graph(object):
             The edge_dictionary the input can be as follows:
                 + 2-level nested dictionaries from edge symbols to weights
                 + Dictionary of symbols to list of symbols (unweighted)
-                + Dictionary of tuples to weights (weighted) #TODO
-                + Set or List of tuples (unweighted) #TODO
+                + Dictionary of tuples to weights (weighted)
+                + Iterable of tuples of len 2 (unweighted)
+                + Iterable of tuples of len 3 (where the third argument stands for weight)
             If None, imports from the existing edge_dictionary
             
         init : bool, default=True
@@ -838,17 +847,9 @@ class graph(object):
             # find vertices, refine dictionary
             vertices = set()
             edge_dictionary_refined = dict()
-            for u in edge_dictionary.keys():
-                vertices.add(u)
-                # TODO support list of tuples
-                if type(edge_dictionary[u]) is list:
-                    vertices.union(set(edge_dictionary[u]))
-                    edge_dictionary_refined[u] = dict(zip(edge_dictionary[u],len(edge_dictionary[u])*[1.0]))
-                elif type(edge_dictionary[u]) is dict:
-                    vertices.union(set(edge_dictionary[u].keys()))
-                    edge_dictionary_refined[u] = edge_dictionary[u]
-                else:
-                    raise ValueError('unsupported edge_dictionary format')
+            is_edge_dict, vertices, edge_dictionary_refined = is_edge_dictionary(edge_dictionary, True)
+            if not is_edge_dict:
+                raise ValueError('unsupported edge_dictionary format')
             
             # Save dictionary, vertices @self if needed        
             if (self._format == "all" or self._format == "dictionary"):
@@ -1351,7 +1352,7 @@ class graph(object):
                     fa = True
                 if fa and fv:
                     raise ValueError('vertices are not valid for the original graph format')
-
+    
             if not fa and fv:
                 recipe = [tuple(['enum_vertices','default']), tuple(['get_correct', 'edsamic']), tuple(['add_adjacency']), tuple(['add_edge_dict'])]
             elif not fa:
@@ -1398,6 +1399,159 @@ class graph(object):
                     get_correct = lambda i: i
             
         return subgraph
+        
+def is_adjacency(g, transform=False):
+    """ A function that defines if input is in a valid adjacency matrix format.
+    
+    Parameters
+    ----------
+    g : Object
+        The input object.
+    transform : bool, default=False
+        Defines if the input will be transformed to the internal adjacency matrix support format.
+    
+    Returns
+    -------
+    is_adjacency : bool
+        A variable that determines if the input is a valid adjacency matrix.
+    g_transformed : np.array
+        Holds the transformed object to an np.array.
+        This output appears **only** if transform parameter is True.
+    """
+    if type(g) in [np.array, np.ndarray] and len(g.shape)==2:
+        if transform:
+            return True, g
+        else:
+            return True
+    elif type(g) is scipy.sparse.csr.csr_matrix:
+        if transform:
+            return True, g.todense()
+        else:
+            return True
+        if 
+    elif type(g) is list and all(isinstance(l, list) and all(isinstance(i, Number) for i in l) for l in g)):
+        if transform:
+            return True, np.array(g)
+        else:
+            return True
+    else:
+        if transform:
+            return False, None
+        else:
+            return False
+                    
+def is_edge_dictionary(g, transform=True):
+    """ A function that defines if input is in a valid edge dictionary format.
+    
+    Parameters
+    ----------
+    g : Object
+        The input object.
+    transform : bool, default=False
+        Defines if the input will be transformed to the internal edge dictionary support format.
+    
+    Returns
+    -------
+    is_edge_dictionary : bool
+        A variable that determines if the input is a valid edge dictionary.
+    g_transformed_vertices: set
+        Holds the transformed object vertices of the edge_dictionary.
+    g_transformed_edge_dict : dict
+        Holds the transformed object as a 2-level edge dict.
+        This output appears **only** if transform parameter is True.
+    """
+    if type(g) is dict:
+        if all(type(k) is touple and len(k)==2 and all(isinstance(n, Number) for (k,n) in g.items())):
+            if transform:
+                vertices_key = set()
+                vertices_val = set()
+                edge_dict = dict()
+                for (k,v) in g.items():
+                    vertices_key.add(k[0])
+                    vertices_val.add(k[1])
+                    nested_dict_add(edge_dict, v, k[0], k[1])
+                
+                # intialise empty edges
+                v_dif = vertices_val - vertices_key
+                if len(v_dif) > 0:
+                    for v in v_dif:
+                        edge_dict[v] = dict()
+                return True, vertices_key | vertices_val, edge_dict
+            else:
+                return True
+        if all(isinstance(d, list) for g.values()):
+            if transform:
+                vertices_key = set()
+                vertices_val = set()
+                edge_dict = dict()
+                for (k,v) in g.items():
+                    vertices_key.add(k)
+                    vertices_val |= set(v)
+                    for kp in v:
+                        nested_dict_add(edge_dict, 1, k, kp)
+                        
+                # intialise empty edges
+                v_dif = vertices_val - vertices_key
+                if len(v_dif) > 0:
+                    for v in v_dif:
+                        edge_dict[v] = dict()
+                return True, vertices_key | vertices_val, edge_dict
+            else:
+                return True
+        if all(isinstance(d, dict) and all(isinstance(n, number) for n in d.values()) for g.values()):
+            if transform:
+                vertices_key = set(g.keys())
+                vertices_val = {kp for k in g.keys() for kp in g[k].keys()}
+                v_dif = vertices_val - vertices_key
+                
+                # intialise empty edges
+                if len(v_dif) > 0:
+                    for v in v_dif:
+                        g[v] = dict()
+                return True, vertices_key | vertices_val, g
+            else:
+                return True
+    if isinstance(g, collections.Iterable)::
+        if all(type(t) is tuple and len(t)==2 for t in iter(g)):
+            if transform:
+                vertices_key = set()
+                vertices_val = set()
+                edge_dict = dict()
+                for (v, u) in g:
+                    vertices_key.add(v)
+                    vertices_val.add(u)
+                    nested_dict_add(g_transformed, 1, v, u)
+                v_dif = vertices_val - vertices_key
+                
+                # intialise empty edges
+                if len(v_dif) > 0:
+                    for v in v_dif:
+                        edge_dict[v] = dict()
+                return True, vertices_key | vertices_val, edge_dict
+            else:
+                return True
+        elif all(type(t) is tuple and len(t)==3 for t in iter(g)):
+            if transform:
+                vertices_key = set()
+                vertices_val = set()
+                edge_dict = dict()
+                for (v, u, w) in g:
+                    vertices_key.add(v)
+                    vertices_val.add(u)
+                    nested_dict_add(g_transformed, w, v, u)
+                v_dif = vertices_val - vertices_key
+                
+                # intialise empty edges
+                if len(v_dif) > 0:
+                    for v in v_dif:
+                        edge_dict[v] = dict()
+                return True, vertices_key | vertices_val, edge_dict
+            else:
+                return True
+    if transform:
+        return False, None
+    else:
+        return False
         
 def laplacian(A):
     """ Calculates the laplacian given the adjacency matrix.
