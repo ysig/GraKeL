@@ -23,7 +23,6 @@ environment:
 install:
   # Miniconda is pre-installed in the worker build
   - "SET PATH=%MINICONDA%;%MINICONDA%\\Scripts;%PATH%"
-  - "SET PATH=%PATH%;%MSYS%\\usr\\bin"
   
   # Install pip
   - python -m ensurepip
@@ -40,7 +39,12 @@ install:
   - conda install --quiet --yes numpy scipy cython nose scikit-learn wheel
   - pip install wheelhouse_uploader nose-timer
   - pip install --upgrade cvxopt
+  
+  # Install pynauty
+  - "SET PATH=%PATH%;%MSYS%\\usr\\bin"
   - python install_pynauty.py
+  
+  # Install project
   - "%CMD_IN_ENV% python setup.py bdist_wheel bdist_wininst"
   - ps: "ls dist"
   # Install the generated wheel package to test it
