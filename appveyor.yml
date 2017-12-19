@@ -24,7 +24,7 @@ install:
   - "SET PATH=%MINICONDA%;%MINICONDA%\\Scripts;%PATH%"
   - "SET PATH=%PATH%;%MinGW%;%MinGW%\\bin"
   - python -m ensurepip
-
+  - dir %MinGW%\\bin
   # Check that we have the expected version and architecture for Python
   - "python --version"
   - "python -c \"import struct; print(struct.calcsize('P') * 8)\""
@@ -33,8 +33,6 @@ install:
   # see http://help.appveyor.com/discussions/problems/3712-git-remote-https-seems-to-be-broken
   - rmdir C:\\cygwin /s /q
   
-  
-  - dir %MinGW%
   # Install the build and runtime dependencies of the project.
   - conda install --quiet --yes numpy scipy cython nose scikit-learn wheel
   - pip install wheelhouse_uploader nose-timer
