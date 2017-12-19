@@ -4,7 +4,7 @@ import numpy.testing as npt
 from grakel.graph import graph
 
 global verbose
-verbose = False
+verbose = True
 
 def test_graph_adjacency():
     

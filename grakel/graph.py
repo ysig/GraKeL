@@ -5,6 +5,7 @@ import warnings
 import collections
 import operator
 import itertools
+import numbers
 
 import numpy as np
 import scipy
@@ -46,7 +47,7 @@ class graph(object):
             + for dictionary labels should correspond to all keys
     
     edge_labels : dict, default=None
-        A labels dictionary corresponding to all edges of the graph keys: touples, value: label
+        A labels dictionary corresponding to all edges of the graph keys: tuples, value: label
     
     graph_format : str, valid_values={"dictionary", "adjacency", "all", "auto"}, default=None
         Defines the internal representation of the graph object which can be a dictionary as a matrix, or both:
@@ -1045,7 +1046,7 @@ class graph(object):
             The number of samples that will be sampled.
             
         subsets_size_range : tuple, len=2, default=(2,8)
-            A touple having the min and the max subset size.
+            A tuple having the min and the max subset size.
         
         from_scratch : bool
             Defines if the the metric will be calculated from scratch.
@@ -1130,7 +1131,7 @@ class graph(object):
             return self.vertices
         
     def get_edges(self, purpose="adjacency", with_weights=False):
-        """ A method that returns an iterable of edges as touples.
+        """ A method that returns an iterable of edges as tuples.
         
         Parameters
         ----------
@@ -1431,7 +1432,7 @@ def is_adjacency(g, transform=False):
             return True, g.todense()
         else:
             return True
-    elif type(g) is list and all(isinstance(l, list) and all(isinstance(i, Number) for l in g for i in l)):
+    elif type(g) is list and all(isinstance(l, list) and all(isinstance(i, numbers.Number) for l in g for i in l)):
         if transform:
             return True, np.array(g)
         else:
@@ -1463,7 +1464,7 @@ def is_edge_dictionary(g, transform=True):
         This output appears **only** if transform parameter is True.
     """
     if type(g) is dict:
-        if all(type(k) is touple and len(k)==2 and all(isinstance(n, Number) for (k,n) in g.items())):
+        if all(type(k) is tuple and len(k)==2 and isinstance(n, numbers.Number) for (k,n) in g.items()):
             if transform:
                 vertices_key = set()
                 vertices_val = set()
@@ -1500,7 +1501,7 @@ def is_edge_dictionary(g, transform=True):
                 return True, vertices_key | vertices_val, edge_dict
             else:
                 return True
-        if all(isinstance(d, dict) and all(isinstance(n, number) for d in g.values() for n in d.values())):
+        if all(isinstance(d, dict) and all(isinstance(n, numbers.Number) for n in d.values()) for d in g.values()):
             if transform:
                 vertices_key = set(g.keys())
                 vertices_val = {kp for k in g.keys() for kp in g[k].keys()}
@@ -1514,7 +1515,7 @@ def is_edge_dictionary(g, transform=True):
             else:
                 return True
     if isinstance(g, collections.Iterable):
-        if all(type(t) is tuple and len(t)==2 for t in iter(g)):
+        if all(type(t) is tuple and len(t)==2 for t in g):
             if transform:
                 vertices_key = set()
                 vertices_val = set()
@@ -1532,7 +1533,7 @@ def is_edge_dictionary(g, transform=True):
                 return True, vertices_key | vertices_val, edge_dict
             else:
                 return True
-        elif all(type(t) is tuple and len(t)==3 for t in iter(g)):
+        elif all(type(t) is tuple and len(t)==3 for t in g):
             if transform:
                 vertices_key = set()
                 vertices_val = set()
