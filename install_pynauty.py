@@ -20,7 +20,7 @@ else:
 pip.main(['install', '--upgrade', 'setuptools'])
 pip.main(['install', '--upgrade', 'wget'])
 if (is_windows):
-    os.system('mingw-get install make')
+    os.system('mingw64-get install make')
 
 import wget
 # Download library
