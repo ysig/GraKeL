@@ -53,7 +53,7 @@ if hasattr(sys, 'real_prefix'):
     os.system('make virtenv-ins')
 else:
     os.system('make tests')
-	os.system('make user-ins')
+    os.system('make user-ins')
 
 # exit directory and delete
 os.chdir("..")
