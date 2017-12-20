@@ -46,8 +46,8 @@ os.system('tar -xf nauty26r10.tar.gz')
 if (is_windows):
     # rename folder
     os.system('rename nauty26r10 nauty')
-    os.system('dir paunty')
-    regular_exp = '\"\\\\?\\'+os.path.abspath('nauty')+'\\This_is_nauty_26r10.\"'
+    os.system('dir nauty')
+    regular_exp = '\"\\\\?\\'+os.path.abspath('nauty')+'\\This_is_nauty26r10.\"'
     os.system('del '+regular_exp)
     os.system('dir nauty')
     # build pynauty
