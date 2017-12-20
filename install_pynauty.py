@@ -48,10 +48,10 @@ if (is_windows):
     os.system('rename nauty26r10 nauty')
     print(20*" AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n")
     print(3*'\n')
-    print('del "\\\\?\\'+os.path.abspath('nauty')+'\This_is_nauty_26r10."')
+    print('del "\\\\?\\'+os.path.abspath('nauty')+'\\This_is_nauty_26r10."')
     print(3*'\n')
     print(20*" AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n")
-    os.system('del "\\\\?\\'+os.path.abspath('nauty')+'\This_is_nauty_26r10."')
+    os.system('del "\\\\?\\'+os.path.abspath('nauty')+'\\This_is_nauty_26r10."')
     os.system('dir .')
     os.system('dir nauty')
 if (is_linux):
