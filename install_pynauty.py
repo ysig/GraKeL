@@ -62,7 +62,7 @@ if is_linux:
 
 print("REPRINT::")
 os.system('dir .')
-os.system('pwd')
+print(os.getcwd())
 os.system('dir C:\\projects\\grakel\\pynauty-0.6.0\\nauty\\')
     
 print("PyNauty Build Succesfully!")
