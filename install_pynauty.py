@@ -60,6 +60,11 @@ if is_windows:
 if is_linux:
     os.system('make pynauty')
 
+print("REPRINT::")
+os.system('dir .')
+os.system('pwd')
+os.system('dir C:\\projects\\grakel\\pynauty-0.6.0\\nauty\\')
+    
 print("PyNauty Build Succesfully!")
 # define if inside virtual-env and install
 if venv:
