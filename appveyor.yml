@@ -23,8 +23,6 @@ environment:
 install:
   # Miniconda is pre-installed in the worker build
   - "SET PATH=%MINICONDA%;%MINICONDA%\\Scripts;%PATH%"
-  - dir %PYTHON%\\Lib\\distutils
-  - cat %PYTHON%\\Lib\\distutils\\distutils.cfg
   
   # Install pip
   - python -m ensurepip
