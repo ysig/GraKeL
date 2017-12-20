@@ -1,16 +1,20 @@
 """ The main graph kernel class used for creating a graph kernel feature transformer object.
 """
 import warnings
+import time
 
 import numpy as np
 
 from sklearn.base import BaseEstimator, TransformerMixin
-from sklearn.utils.validation import check_array
+from sklearn.utils.validation import check_array, check_is_fitted
+from scipy.linalg import svd
 
 from .graph import graph
 from .kernels import *
 
-global supported_base_kernels, supported_general_kernels
+np.random.seed(int(time.time()))
+
+global supported_base_kernels, supported_general_kernels, default_n_components
 
 supported_base_kernels = [
 "dirac","random_walk",
@@ -27,6 +31,7 @@ supported_general_kernels = [
 "weisfeiler_lehman"
 ]
 
+default_n_components = 100
 
 class GraphKernel(BaseEstimator, TransformerMixin):
     """ A general class that describes all kernels.
@@ -108,7 +113,11 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                            + (**o**) "niter": [int]
                     
                where (**o**): stands for optional parameters
-            
+               
+    nystroem : int, optional
+        Defines the number of nystroem components.
+        To initialize the default (100 components), set -1 or 0.
+    
     Attributes
     ----------
     X_graph : dict
@@ -119,11 +128,27 @@ class GraphKernel(BaseEstimator, TransformerMixin):
         
     kernel : function
         The full kernel applied between graph objects.  
+        
+    nystroem : int
+        Holds the nystroem, number of components.
+        If not initialised, it stands as a False 
+        boolean variable.
+    
+    components_ : array, shape (n_components, n_features)
+        Subset of training graphs used to construct the feature map.
+       
+    normalization_ : array, shape=(n_components, n_components)
+        Normalization matrix needed for embedding.
+        Square root of the kernel matrix on ``components_``.
+        
+    component_indices_ : array, shape=(n_components)
+        Indices of ``components_`` in the training set.
     """
 
     num_of_graphs = 0
     X_graph = None
-
+    nystroem = False
+        
     def __init__(self, **kargs):
         if "kernel" in kargs:
             if (type(kargs["kernel"]) is dict):
@@ -139,7 +164,18 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                 self.kernel = lambda y: self.calculate_kernel_matrix(kernel, target_graph=y, kernel_type="pairwise")
         else:
             raise ValueError('kernel must be defined at the __init__ function of a graph kernel')
-
+        
+        if "Nystroem" in kargs:
+            if type(kargs["Nystroem"]) is not int:
+                raise ValueError('nystroem parameter must be an int, indicating the number of components')
+            elif kargs["Nystroem"] in [0, -1]:
+                # picking default number of components
+                self.nystroem = default_n_components
+            elif kargs["Nystroem"]<=0:
+                raise ValueError('number of nystroem components must be positive')
+            else:
+                self.nystroem = kargs["Nystroem"]
+            
     def _make_kernel(self,kernel_list):
             """ Produces the desired kernel function.
                 
@@ -227,24 +263,54 @@ class GraphKernel(BaseEstimator, TransformerMixin):
         # Input validation
         # check_array(X)
         
-        self.X_graph = dict()
+        X_graph = dict()
         graph_idx = 0        
         for x in iter(X):
             if len(x) == 1:
-                self.X_graph[graph_idx] = graph(x[0],{},{},"all")
+                X_graph[graph_idx] = graph(x[0],{},{},"all")
                 graph_idx += 1
             elif len(x) == 2:
-                self.X_graph[graph_idx] = graph(x[0],x[1],{},"all")
+                X_graph[graph_idx] = graph(x[0],x[1],{},"all")
                 graph_idx += 1
             elif len(x) == 3:
-                self.X_graph[graph_idx] = graph(x[0],x[1],x[2],"all")
+                X_graph[graph_idx] = graph(x[0],x[1],x[2],"all")
                 graph_idx += 1 
             else:
                 warnings.warn('input has an empty or unrecognised element')
-        if not bool(self.X_graph):
+        if not bool(X_graph):
             raise ValueError('unrecognized input')
-        self.num_of_graphs = graph_idx
+        num_of_graphs = graph_idx
+        
+        if bool(self.nystroem):
+            # get basis vectors
+            if self.nystroem > num_of_graphs:
+                n_components = num_of_graphs
+                warnings.warn("n_components > n_samples. This is not possible.\n"
+                          "n_components was set to n_samples, which results"
+                          " in inefficient evaluation of the full kernel.")
 
+            else:
+                n_components = self.nystroem
+            
+            n_components = min(num_of_graphs, n_components)
+            inds = np.random.permutation(num_of_graphs)
+            basis_inds = inds[:n_components]
+            basis = {i:self.X_graph[idx]  for (i,idx) in enumerate(basis_inds)}
+            
+            self.components_ = basis
+            basis_kernel = self.kernel()
+
+            # sqrt of kernel matrix on basis vectors
+            U, S, V = svd(basis_kernel)
+            S = np.maximum(S, 1e-12)
+            self.nystroem = n_components
+            self.normalization_ = np.dot(U / np.sqrt(S), V)
+            self.components_ = basis
+            self.component_indices_ = inds
+        
+        self.X_graph = X_graph
+        self.num_of_graphs = num_of_graphs
+            
         # Return the transformer
         return self
 
@@ -267,8 +333,10 @@ class GraphKernel(BaseEstimator, TransformerMixin):
             all pairs of graphs between target an features
         """
         # Check is fit had been called
-        # check_is_fitted(self, ['X_graph_'])
-        
+        check_is_fitted(self, ['X_graph'])
+        if bool(self.nystroem):
+            check_is_fitted(self, 'components_')
+
         # Input validation
         # check_array(X)
         
@@ -290,14 +358,18 @@ class GraphKernel(BaseEstimator, TransformerMixin):
             if not bool(target_graph):
                 raise ValueError('unrecognized input')
         else:
-             target_graph = None           
+             target_graph = None
+             if bool(self.nystroem):
+                target_graph = self.X_graph
         # Check that the input is of the same shape as the one passed
         # during fit.
 
         # Calculate kernel matrix
         # TODO: support normalization - argument at init
-        return self.kernel(target_graph)
-        
+        if bool(self.nystroem):
+            return np.dot(self.kernel(target_graph), self.normalization_.T)
+        else:
+            return self.kernel(target_graph)
     def calculate_kernel_matrix(self, kernel, target_graph=None, kernel_type="pairwise"):
         """ A function that calculates the kernel matrix given a target_graph and a kernel.
         
@@ -318,28 +390,32 @@ class GraphKernel(BaseEstimator, TransformerMixin):
         if kernel_type not in ["matrix", "pairwise"]:
             raise ValueError('unsupported "kernel_type"')
         
+        if bool(self.nystroem):
+            X_graph = self.components_
+            num_of_graphs = self.nystroem
+        else:
+            X_graph = self.X_graph
+            num_of_graphs = self.num_of_graphs
         if kernel_type == "pairwise":
             if target_graph is None:
-                target_graph = self.X_graph
+                target_graph = X_graph
                 is_symmetric = True
-                num_of_targets = self.num_of_graphs
+                num_of_targets = num_of_graphs
             else:
                 is_symmetric = False
                 num_of_targets = len(target_graph.keys())
                 
-            K = np.zeros(shape = (num_of_targets,self.num_of_graphs))
+            K = np.zeros(shape = (num_of_targets,num_of_graphs))
             if is_symmetric:
                 for i in range(0,num_of_targets):
-                    for j in range(i,self.num_of_graphs):
-                        K[i,j] = kernel(target_graph[i],self.X_graph[i])
+                    for j in range(i,num_of_graphs):
+                        K[i,j] = kernel(target_graph[i],X_graph[i])
                         if(i!=j):
                             K[j,i] = K[i,j]
             else:
                 for i in range(0,num_of_targets):
-                    for j in range(0,self.num_of_graphs):
-                        K[i,j] = kernel(target_graph[i],self.X_graph[i])
+                    for j in range(0,num_of_graphs):
+                        K[i,j] = kernel(target_graph[i],X_graph[i])
             return K     
         else:
-            return kernel(self.X_graph, target_graph)
-    
-    # TODO: support nystrom approximation
+            return kernel(X_graph, target_graph)
