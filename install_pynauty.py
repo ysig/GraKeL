@@ -55,7 +55,7 @@ if is_windows:
     os.system('make nauty-objects')
     os.system('dir .')
     os.system('pwd')
-    os.system('C:\\projects\\grakel\\pynauty-0.6.0\\nauty\\')
+    os.system('dir C:\\projects\\grakel\\pynauty-0.6.0\\nauty\\')
     os.system('python setup.py build --compiler=mingw32')
 if is_linux:
     os.system('make pynauty')
