@@ -42,7 +42,7 @@ install:
   - pip install --upgrade cvxopt
   
   # Install pynauty
-  - "SET PATH=%MSYS%\\usr\\bin;%PATH%"
+  - "SET PATH=%MinGW%\\bin;%MSYS%\\usr\\bin;%PATH%"
   - python install_pynauty.py --venv
   
   # Install project
