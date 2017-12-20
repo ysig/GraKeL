@@ -46,10 +46,9 @@ os.system('tar -xf nauty26r10.tar.gz')
 if (is_windows):
     # rename folder
     os.system('rename nauty26r10 nauty')
-    os.system('dir nauty')
     regular_exp = '\"\\\\?\\'+os.path.abspath('nauty')+'\\This_is_nauty26r10.\"'
+    # Delete problematic file ending with '.'
     os.system('del '+regular_exp)
-    os.system('dir nauty')
     # build pynauty
     os.system('make nauty-objects')
     os.system('python setup.py build --compiler=mingw32')
@@ -59,7 +58,6 @@ if (is_linux):
     # build pynauty
     os.system('make pynauty')
 
-print("PyNauty Build Succesfully!")
 # define if inside virtual-env and install
 if venv:
     os.system('pip install --upgrade .')
