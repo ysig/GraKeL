@@ -169,7 +169,7 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>kernel</strong> : list(dict(key:str, value:value))</p>
-<blockquote class="last">
+<blockquote>
 <div><dl class="docutils">
 <dt>a list of dictionaries, or a single dicitonary that have the following structure:</dt>
 <dd><ul class="first simple">
@@ -340,6 +340,11 @@
 </dd>
 </dl>
 </div></blockquote>
+<p><strong>nystroem</strong> : int, optional</p>
+<blockquote class="last">
+<div><p>Defines the number of nystroem components.
+To initialize the default (100 components), set -1 or 0.</p>
+</div></blockquote>
 </td>
 </tr>
 </tbody>
@@ -347,8 +352,8 @@
 <p class="rubric">Attributes</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="22%" />
-<col width="78%" />
+<col width="14%" />
+<col width="86%" />
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><strong>X_graph</strong></td>
@@ -359,6 +364,18 @@
 </tr>
 <tr class="row-odd"><td><strong>kernel</strong></td>
 <td>(function) The full kernel applied between graph objects.</td>
+</tr>
+<tr class="row-even"><td><strong>nystroem</strong></td>
+<td>(int) Holds the nystroem, number of components. If not initialised, it stands as a False boolean variable.</td>
+</tr>
+<tr class="row-odd"><td><strong>components_</strong></td>
+<td>(array, shape (n_components, n_features)) Subset of training graphs used to construct the feature map.</td>
+</tr>
+<tr class="row-even"><td><strong>normalization_</strong></td>
+<td>(array, shape=(n_components, n_components)) Normalization matrix needed for embedding. Square root of the kernel matrix on <code class="docutils literal"><span class="pre">components_</span></code>.</td>
+</tr>
+<tr class="row-odd"><td><strong>component_indices_</strong></td>
+<td>(array, shape=(n_components)) Indices of <code class="docutils literal"><span class="pre">components_</span></code> in the training set.</td>
 </tr>
 </tbody>
 </table>

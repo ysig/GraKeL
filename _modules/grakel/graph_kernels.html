@@ -161,16 +161,20 @@
 <span></span><span class="sd">&quot;&quot;&quot; The main graph kernel class used for creating a graph kernel feature transformer object.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">import</span> <span class="nn">time</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="kn">from</span> <span class="nn">sklearn.base</span> <span class="k">import</span> <span class="n">BaseEstimator</span><span class="p">,</span> <span class="n">TransformerMixin</span>
-<span class="kn">from</span> <span class="nn">sklearn.utils.validation</span> <span class="k">import</span> <span class="n">check_array</span>
+<span class="kn">from</span> <span class="nn">sklearn.utils.validation</span> <span class="k">import</span> <span class="n">check_array</span><span class="p">,</span> <span class="n">check_is_fitted</span>
+<span class="kn">from</span> <span class="nn">scipy.linalg</span> <span class="k">import</span> <span class="n">svd</span>
 
 <span class="kn">from</span> <span class="nn">.graph</span> <span class="k">import</span> <span class="n">graph</span>
 <span class="kn">from</span> <span class="nn">.kernels</span> <span class="k">import</span> <span class="o">*</span>
 
-<span class="k">global</span> <span class="n">supported_base_kernels</span><span class="p">,</span> <span class="n">supported_general_kernels</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()))</span>
+
+<span class="k">global</span> <span class="n">supported_base_kernels</span><span class="p">,</span> <span class="n">supported_general_kernels</span><span class="p">,</span> <span class="n">default_n_components</span>
 
 <span class="n">supported_base_kernels</span> <span class="o">=</span> <span class="p">[</span>
 <span class="s2">&quot;dirac&quot;</span><span class="p">,</span><span class="s2">&quot;random_walk&quot;</span><span class="p">,</span>
@@ -187,6 +191,7 @@
 <span class="s2">&quot;weisfeiler_lehman&quot;</span>
 <span class="p">]</span>
 
+<span class="n">default_n_components</span> <span class="o">=</span> <span class="mi">100</span>
 
 <div class="viewcode-block" id="GraphKernel"><a class="viewcode-back" href="../../graph_kernel.html#grakel.graph_kernels.GraphKernel">[docs]</a><span class="k">class</span> <span class="nc">GraphKernel</span><span class="p">(</span><span class="n">BaseEstimator</span><span class="p">,</span> <span class="n">TransformerMixin</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; A general class that describes all kernels.</span>
@@ -268,7 +273,11 @@
 <span class="sd">                           + (**o**) &quot;niter&quot;: [int]</span>
 <span class="sd">                    </span>
 <span class="sd">               where (**o**): stands for optional parameters</span>
-<span class="sd">            </span>
+<span class="sd">               </span>
+<span class="sd">    nystroem : int, optional</span>
+<span class="sd">        Defines the number of nystroem components.</span>
+<span class="sd">        To initialize the default (100 components), set -1 or 0.</span>
+<span class="sd">    </span>
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
 <span class="sd">    X_graph : dict</span>
@@ -279,11 +288,27 @@
 <span class="sd">        </span>
 <span class="sd">    kernel : function</span>
 <span class="sd">        The full kernel applied between graph objects.  </span>
+<span class="sd">        </span>
+<span class="sd">    nystroem : int</span>
+<span class="sd">        Holds the nystroem, number of components.</span>
+<span class="sd">        If not initialised, it stands as a False </span>
+<span class="sd">        boolean variable.</span>
+<span class="sd">    </span>
+<span class="sd">    components_ : array, shape (n_components, n_features)</span>
+<span class="sd">        Subset of training graphs used to construct the feature map.</span>
+<span class="sd">       </span>
+<span class="sd">    normalization_ : array, shape=(n_components, n_components)</span>
+<span class="sd">        Normalization matrix needed for embedding.</span>
+<span class="sd">        Square root of the kernel matrix on ``components_``.</span>
+<span class="sd">        </span>
+<span class="sd">    component_indices_ : array, shape=(n_components)</span>
+<span class="sd">        Indices of ``components_`` in the training set.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">num_of_graphs</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">X_graph</span> <span class="o">=</span> <span class="kc">None</span>
-
+    <span class="n">nystroem</span> <span class="o">=</span> <span class="kc">False</span>
+        
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">):</span>
         <span class="k">if</span> <span class="s2">&quot;kernel&quot;</span> <span class="ow">in</span> <span class="n">kargs</span><span class="p">:</span>
             <span class="k">if</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">kargs</span><span class="p">[</span><span class="s2">&quot;kernel&quot;</span><span class="p">])</span> <span class="ow">is</span> <span class="nb">dict</span><span class="p">):</span>
@@ -299,7 +324,18 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">y</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculate_kernel_matrix</span><span class="p">(</span><span class="n">kernel</span><span class="p">,</span> <span class="n">target_graph</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">kernel_type</span><span class="o">=</span><span class="s2">&quot;pairwise&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;kernel must be defined at the __init__ function of a graph kernel&#39;</span><span class="p">)</span>
-
+        
+        <span class="k">if</span> <span class="s2">&quot;Nystroem&quot;</span> <span class="ow">in</span> <span class="n">kargs</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">kargs</span><span class="p">[</span><span class="s2">&quot;Nystroem&quot;</span><span class="p">])</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">int</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;nystroem parameter must be an int, indicating the number of components&#39;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">kargs</span><span class="p">[</span><span class="s2">&quot;Nystroem&quot;</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="c1"># picking default number of components</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">nystroem</span> <span class="o">=</span> <span class="n">default_n_components</span>
+            <span class="k">elif</span> <span class="n">kargs</span><span class="p">[</span><span class="s2">&quot;Nystroem&quot;</span><span class="p">]</span><span class="o">&lt;=</span><span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;number of nystroem components must be positive&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">nystroem</span> <span class="o">=</span> <span class="n">kargs</span><span class="p">[</span><span class="s2">&quot;Nystroem&quot;</span><span class="p">]</span>
+            
     <span class="k">def</span> <span class="nf">_make_kernel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">kernel_list</span><span class="p">):</span>
             <span class="sd">&quot;&quot;&quot; Produces the desired kernel function.</span>
 <span class="sd">                </span>
@@ -387,24 +423,54 @@
         <span class="c1"># Input validation</span>
         <span class="c1"># check_array(X)</span>
         
-        <span class="bp">self</span><span class="o">.</span><span class="n">X_graph</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="n">X_graph</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
         <span class="n">graph_idx</span> <span class="o">=</span> <span class="mi">0</span>        
         <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">iter</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">X_graph</span><span class="p">[</span><span class="n">graph_idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">graph</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],{},{},</span><span class="s2">&quot;all&quot;</span><span class="p">)</span>
+                <span class="n">X_graph</span><span class="p">[</span><span class="n">graph_idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">graph</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],{},{},</span><span class="s2">&quot;all&quot;</span><span class="p">)</span>
                 <span class="n">graph_idx</span> <span class="o">+=</span> <span class="mi">1</span>
             <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">X_graph</span><span class="p">[</span><span class="n">graph_idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">graph</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],{},</span><span class="s2">&quot;all&quot;</span><span class="p">)</span>
+                <span class="n">X_graph</span><span class="p">[</span><span class="n">graph_idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">graph</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],{},</span><span class="s2">&quot;all&quot;</span><span class="p">)</span>
                 <span class="n">graph_idx</span> <span class="o">+=</span> <span class="mi">1</span>
             <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">X_graph</span><span class="p">[</span><span class="n">graph_idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">graph</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="s2">&quot;all&quot;</span><span class="p">)</span>
+                <span class="n">X_graph</span><span class="p">[</span><span class="n">graph_idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">graph</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="s2">&quot;all&quot;</span><span class="p">)</span>
                 <span class="n">graph_idx</span> <span class="o">+=</span> <span class="mi">1</span> 
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;input has an empty or unrecognised element&#39;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X_graph</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">bool</span><span class="p">(</span><span class="n">X_graph</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;unrecognized input&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">num_of_graphs</span> <span class="o">=</span> <span class="n">graph_idx</span>
+        <span class="n">num_of_graphs</span> <span class="o">=</span> <span class="n">graph_idx</span>
+        
+        <span class="k">if</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nystroem</span><span class="p">):</span>
+            <span class="c1"># get basis vectors</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">nystroem</span> <span class="o">&gt;</span> <span class="n">num_of_graphs</span><span class="p">:</span>
+                <span class="n">n_components</span> <span class="o">=</span> <span class="n">num_of_graphs</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;n_components &gt; n_samples. This is not possible.</span><span class="se">\n</span><span class="s2">&quot;</span>
+                          <span class="s2">&quot;n_components was set to n_samples, which results&quot;</span>
+                          <span class="s2">&quot; in inefficient evaluation of the full kernel.&quot;</span><span class="p">)</span>
 
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">n_components</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nystroem</span>
+            
+            <span class="n">n_components</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">num_of_graphs</span><span class="p">,</span> <span class="n">n_components</span><span class="p">)</span>
+            <span class="n">inds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="n">num_of_graphs</span><span class="p">)</span>
+            <span class="n">basis_inds</span> <span class="o">=</span> <span class="n">inds</span><span class="p">[:</span><span class="n">n_components</span><span class="p">]</span>
+            <span class="n">basis</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">X_graph</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>  <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">idx</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">basis_inds</span><span class="p">)}</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">components_</span> <span class="o">=</span> <span class="n">basis</span>
+            <span class="n">basis_kernel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span><span class="p">()</span>
+
+            <span class="c1"># sqrt of kernel matrix on basis vectors</span>
+            <span class="n">U</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">V</span> <span class="o">=</span> <span class="n">svd</span><span class="p">(</span><span class="n">basis_kernel</span><span class="p">)</span>
+            <span class="n">S</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="mf">1e-12</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">nystroem</span> <span class="o">=</span> <span class="n">n_components</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">normalization_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">U</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">S</span><span class="p">),</span> <span class="n">V</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">components_</span> <span class="o">=</span> <span class="n">basis</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">component_indices_</span> <span class="o">=</span> <span class="n">inds</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">X_graph</span> <span class="o">=</span> <span class="n">X_graph</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_of_graphs</span> <span class="o">=</span> <span class="n">num_of_graphs</span>
+            
         <span class="c1"># Return the transformer</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
@@ -427,8 +493,10 @@
 <span class="sd">            all pairs of graphs between target an features</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Check is fit had been called</span>
-        <span class="c1"># check_is_fitted(self, [&#39;X_graph_&#39;])</span>
-        
+        <span class="n">check_is_fitted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;X_graph&#39;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nystroem</span><span class="p">):</span>
+            <span class="n">check_is_fitted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;components_&#39;</span><span class="p">)</span>
+
         <span class="c1"># Input validation</span>
         <span class="c1"># check_array(X)</span>
         
@@ -450,14 +518,18 @@
             <span class="k">if</span> <span class="ow">not</span> <span class="nb">bool</span><span class="p">(</span><span class="n">target_graph</span><span class="p">):</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;unrecognized input&#39;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-             <span class="n">target_graph</span> <span class="o">=</span> <span class="kc">None</span>           
+             <span class="n">target_graph</span> <span class="o">=</span> <span class="kc">None</span>
+             <span class="k">if</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nystroem</span><span class="p">):</span>
+                <span class="n">target_graph</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_graph</span>
         <span class="c1"># Check that the input is of the same shape as the one passed</span>
         <span class="c1"># during fit.</span>
 
         <span class="c1"># Calculate kernel matrix</span>
         <span class="c1"># TODO: support normalization - argument at init</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span><span class="p">(</span><span class="n">target_graph</span><span class="p">)</span></div>
-        
+        <span class="k">if</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nystroem</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kernel</span><span class="p">(</span><span class="n">target_graph</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalization_</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span><span class="p">(</span><span class="n">target_graph</span><span class="p">)</span></div>
 <div class="viewcode-block" id="GraphKernel.calculate_kernel_matrix"><a class="viewcode-back" href="../../graph_kernel.html#grakel.graph_kernels.GraphKernel.calculate_kernel_matrix">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_kernel_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">target_graph</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">kernel_type</span><span class="o">=</span><span class="s2">&quot;pairwise&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; A function that calculates the kernel matrix given a target_graph and a kernel.</span>
 <span class="sd">        </span>
@@ -478,31 +550,35 @@
         <span class="k">if</span> <span class="n">kernel_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;matrix&quot;</span><span class="p">,</span> <span class="s2">&quot;pairwise&quot;</span><span class="p">]:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;unsupported &quot;kernel_type&quot;&#39;</span><span class="p">)</span>
         
+        <span class="k">if</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nystroem</span><span class="p">):</span>
+            <span class="n">X_graph</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">components_</span>
+            <span class="n">num_of_graphs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nystroem</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">X_graph</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_graph</span>
+            <span class="n">num_of_graphs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_of_graphs</span>
         <span class="k">if</span> <span class="n">kernel_type</span> <span class="o">==</span> <span class="s2">&quot;pairwise&quot;</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">target_graph</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">target_graph</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_graph</span>
+                <span class="n">target_graph</span> <span class="o">=</span> <span class="n">X_graph</span>
                 <span class="n">is_symmetric</span> <span class="o">=</span> <span class="kc">True</span>
-                <span class="n">num_of_targets</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_of_graphs</span>
+                <span class="n">num_of_targets</span> <span class="o">=</span> <span class="n">num_of_graphs</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">is_symmetric</span> <span class="o">=</span> <span class="kc">False</span>
                 <span class="n">num_of_targets</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">target_graph</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
                 
-            <span class="n">K</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">num_of_targets</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">num_of_graphs</span><span class="p">))</span>
+            <span class="n">K</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">num_of_targets</span><span class="p">,</span><span class="n">num_of_graphs</span><span class="p">))</span>
             <span class="k">if</span> <span class="n">is_symmetric</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">num_of_targets</span><span class="p">):</span>
-                    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">num_of_graphs</span><span class="p">):</span>
-                        <span class="n">K</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">kernel</span><span class="p">(</span><span class="n">target_graph</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">X_graph</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">num_of_graphs</span><span class="p">):</span>
+                        <span class="n">K</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">kernel</span><span class="p">(</span><span class="n">target_graph</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">X_graph</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
                         <span class="k">if</span><span class="p">(</span><span class="n">i</span><span class="o">!=</span><span class="n">j</span><span class="p">):</span>
                             <span class="n">K</span><span class="p">[</span><span class="n">j</span><span class="p">,</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">K</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">num_of_targets</span><span class="p">):</span>
-                    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">num_of_graphs</span><span class="p">):</span>
-                        <span class="n">K</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">kernel</span><span class="p">(</span><span class="n">target_graph</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">X_graph</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">num_of_graphs</span><span class="p">):</span>
+                        <span class="n">K</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">kernel</span><span class="p">(</span><span class="n">target_graph</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">X_graph</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
             <span class="k">return</span> <span class="n">K</span>     
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">kernel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X_graph</span><span class="p">,</span> <span class="n">target_graph</span><span class="p">)</span></div></div>
-    
-    <span class="c1"># TODO: support nystrom approximation</span>
+            <span class="k">return</span> <span class="n">kernel</span><span class="p">(</span><span class="n">X_graph</span><span class="p">,</span> <span class="n">target_graph</span><span class="p">)</span></div></div>
 </pre></div>
 
            </div>
