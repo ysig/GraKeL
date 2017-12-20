@@ -60,6 +60,7 @@ if is_windows:
 if is_linux:
     os.system('make pynauty')
 
+print("PyNauty Build Succesfully!")
 # define if inside virtual-env and install
 if venv:
     os.system('pip install --upgrade .')
