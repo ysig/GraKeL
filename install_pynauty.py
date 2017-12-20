@@ -48,7 +48,7 @@ if (is_windows):
     os.system('rename nauty26r10 nauty')
     os.system('dir .')
     os.system('dir nauty')
-    os.remove("nauty/This_is_nauty_26r10")
+    os.remove("nauty/This_is_nauty_26r10.")
 
 if (is_linux):
     os.system('mv nauty26r10 nauty')
