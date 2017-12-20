@@ -36,8 +36,11 @@ os.system('wget http://users.cecs.anu.edu.au/~bdm/nauty/nauty26r10.tar.gz')
 # Decompress library
 os.system('tar -xf nauty26r10.tar.gz')
 
-# make a soft link
-os.system('ln -s nauty nauty26r10')
+# rename folder
+if (is_windows):
+    os.system('rename nauty26r10 nauty')
+if (is_linux):
+    os.system('mv nauty26r10 nauty')
 
 # build pynauty
 os.system('make pynauty')
