@@ -43,8 +43,8 @@ os.system('wget http://users.cecs.anu.edu.au/~bdm/nauty/nauty26r10.tar.gz')
 # Decompress library
 os.system('tar -xf nauty26r10.tar.gz')
 
-# rename folder
 if (is_windows):
+    # rename folder
     os.system('rename nauty26r10 nauty')
     print(20*" AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n")
     print(3*'\n')
@@ -54,16 +54,15 @@ if (is_windows):
     os.system('del "\\\\?\\'+os.path.abspath('nauty')+'\\This_is_nauty_26r10."')
     os.system('dir .')
     os.system('dir nauty')
-if (is_linux):
-    os.system('mv nauty26r10 nauty')
-
-# build pynauty
-if is_windows:
+    # build pynauty
     os.system('make nauty-objects')
     os.system('python setup.py build --compiler=mingw32')
-if is_linux:
+if (is_linux):
+    # rename folder
+    os.system('mv nauty26r10 nauty')
+    # build pynauty
     os.system('make pynauty')
-    
+
 print("PyNauty Build Succesfully!")
 # define if inside virtual-env and install
 if venv:
