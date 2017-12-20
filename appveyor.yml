@@ -23,6 +23,8 @@ environment:
 install:
   # Miniconda is pre-installed in the worker build
   - "SET PATH=%MINICONDA%;%MINICONDA%\\Scripts;%PATH%"
+  - dir %PYTHON%\\Lib\\distutils
+  - cat %PYTHON%\\Lib\\distutils\\distutils.cfg
   
   # Install pip
   - python -m ensurepip
@@ -44,6 +46,7 @@ install:
   # Install pynauty
   - "SET PATH=%MSYS%\\usr\\bin;%PATH%"
   - python install_pynauty.py
+  
   # Install project
   - "%CMD_IN_ENV% python setup.py bdist_wheel bdist_wininst"
   - ps: "ls dist"
