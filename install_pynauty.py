@@ -5,6 +5,12 @@ import sys
 import tarfile
 import shutil
 import warnings
+import argparse
+
+parser = argparse.ArgumentParser(description='A program to install pynauty')
+parser.add_argument('--venv', help='define if inside a virtual environment')
+args = parser.parse_args()
+venv = bool(args.venv)
 
 # Define operating system
 is_linux, is_windows = False, False
@@ -45,12 +51,14 @@ if (is_windows):
     config_lines = '[build]\ncompiler=mingw32\n[build_ext]\ncompiler=mingw32'
 
     # For non virtual env propmpt
-    if not hasattr(sys, 'real_prefix'):
+    try: input = raw_input
+    except NameError: pass
+    if not venv:
         print('To setup pynauty the mingw32 compiler must be used.')
         print('The following lines must added or substituted to "python_install_dir"\\Lib\\distutils\\distutils.cfg')
         valid = {"yes": True, "y": True, "ye": True, "no": False, "n": False}
         sys.stdout.write("Do you want to overwrite (if exists)?" + " [y/N]")
-        choice = raw_input().lower()
+        choice = input().lower()
         if choice not in valid: 
             overwrite = False
         else:
@@ -67,7 +75,7 @@ if (is_windows):
             sys.stderr.write('The current system variable PYTHON pointing to your python installed directory is invalid\nPython Directory must contain \\Lib\\distutils ..')
         while f:
             print('SET PYTHON=')
-            choice = raw_input()
+            choice = input()
             f = os.path.exists(str(choice) + '\\Lib\\distutils')
             if not f:
                 sys.stderr.write(str(choice) + ' is not a valid Python directory\nPython Directory must contain \\Lib\\distutils ..')
@@ -90,7 +98,7 @@ if (is_linux):
 os.system('make pynauty')
 
 # define if insidd virtual-env and install
-if hasattr(sys, 'real_prefix'):
+if venv:
     os.system('make virtenv-ins')
 else:
     os.system('make tests')

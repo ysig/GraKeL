@@ -43,7 +43,7 @@ install:
   
   # Install pynauty
   - "SET PATH=%MSYS%\\usr\\bin;%PATH%"
-  - python install_pynauty.py
+  - python install_pynauty.py --venv
   
   # Install project
   - "%CMD_IN_ENV% python setup.py bdist_wheel bdist_wininst"

@@ -35,7 +35,7 @@ if [[ "$COVERAGE" == "true" ]]; then
 fi
 
 pip install 'cvxopt>=1.1.9'
-python install_pynauty.py
+python install_pynauty.py --venv
 
 python --version
 python -c "import numpy; print('numpy %s' % numpy.__version__)"
