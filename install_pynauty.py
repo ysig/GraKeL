@@ -46,9 +46,7 @@ os.system('tar -xf nauty26r10.tar.gz')
 # rename folder
 if (is_windows):
     os.system('rename nauty26r10 nauty')
-    os.system('dir .')
-    os.system('dir nauty')
-    os.remove("nauty/This_is_nauty_26r10.")
+    os.system('del \\\\?'+os.path.join(os.path.abspath("nauty"),"This_is_nauty_26r10."))
 
 if (is_linux):
     os.system('mv nauty26r10 nauty')
@@ -56,17 +54,9 @@ if (is_linux):
 # build pynauty
 if is_windows:
     os.system('make nauty-objects')
-    os.system('dir .')
-    os.system('pwd')
-    os.system('dir C:\\projects\\grakel\\pynauty-0.6.0\\nauty\\')
     os.system('python setup.py build --compiler=mingw32')
 if is_linux:
     os.system('make pynauty')
-
-print("REPRINT::")
-os.system('dir .')
-print(os.getcwd())
-os.system('dir C:\\projects\\grakel\\pynauty-0.6.0\\nauty\\')
     
 print("PyNauty Build Succesfully!")
 # define if inside virtual-env and install
