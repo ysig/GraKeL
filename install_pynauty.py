@@ -8,7 +8,7 @@ import warnings
 import argparse
 
 parser = argparse.ArgumentParser(description='A program to install pynauty')
-parser.add_argument('--venv', help='define if inside a virtual environment')
+parser.add_argument('--venv', help='define if inside a virtual environment', action="store_true")
 args = parser.parse_args()
 venv = bool(args.venv)
 
