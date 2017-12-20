@@ -59,15 +59,9 @@ if is_linux:
 
 # define if inside virtual-env and install
 if venv:
-    if is_linux:
-        os.system('make virtenv-ins')
-    if is_windows:
-        os.system('pip install --upgrade .')
+    os.system('pip install --upgrade .')
 else:
-    if is_linux:
-        os.system('make user-ins')
-    if is_windows:
-        os.system('pip install --user --upgrade .')
+    os.system('pip install --user --upgrade .')
 # exit directory and delete
 os.chdir("..")
 shutil.rmtree('pynauty-0.6.0')
