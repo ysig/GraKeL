@@ -89,7 +89,9 @@ if (is_windows):
             warning.warn('Overwriting .. [Backup saved on "distutils.cfg.bak"]')
             os.system('del ' + config_path)
             exist_cfg_bak = True
-        open(config_path, 'wb').write('[build]\ncompiler=mingw32\n[build_ext]\ncompiler=mingw32')
+        config_cfg = open(config_path, 'w+')
+        config_cfg.write('[build]\ncompiler=mingw32\n[build_ext]\ncompiler=mingw32')
+        config_cfg.close()
         
 if (is_linux):
     os.system('mv nauty26r10 nauty')
