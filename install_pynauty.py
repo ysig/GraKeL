@@ -38,17 +38,17 @@ os.chdir("pynauty-0.6.0")
 
 # Download C library
 # wget must be installed
-os.system('wget http://users.cecs.anu.edu.au/~bdm/nauty/nauty26r10.tar.gz')
+os.system('wget http://users.cecs.anu.edu.au/~bdm/nauty/nauty26r11.tar.gz')
 
 # Decompress library
-os.system('tar -xf nauty26r10.tar.gz')
+os.system('tar -xf nauty26r11.tar.gz')
 
 # rename folder
 if (is_windows):
-    os.system('rename nauty26r10 nauty')
+    os.system('rename nauty26r11 nauty')
         
 if (is_linux):
-    os.system('mv nauty26r10 nauty')
+    os.system('mv nauty26r11 nauty')
 
 # build pynauty
 if is_windows:
