@@ -46,8 +46,10 @@ os.system('tar -xf nauty26r10.tar.gz')
 # rename folder
 if (is_windows):
     os.system('rename nauty26r10 nauty')
+    print('del \\\\?'+os.path.join(os.path.abspath("nauty"),"This_is_nauty_26r10."))
     os.system('del \\\\?'+os.path.join(os.path.abspath("nauty"),"This_is_nauty_26r10."))
-
+    os.system('dir .')
+    os.system('dir nauty')
 if (is_linux):
     os.system('mv nauty26r10 nauty')
 
