@@ -37,7 +37,7 @@ os.system('wget http://users.cecs.anu.edu.au/~bdm/nauty/nauty26r10.tar.gz')
 os.system('tar -xf nauty26r10.tar.gz')
 
 # make a soft link
-os.symlink('nauty26r10', 'nauty')
+os.system('ln -s nauty26r10 nauty')
 
 # build pynauty
 os.system('make pynauty')
