@@ -26,7 +26,7 @@ install:
   - "SET PATH=%MinGW%\\bin;%MINICONDA%;%MINICONDA%\\Scripts;%PATH%"
   
   # Test wget
-  - wget "http://inventin.lautre.net/livres/MARX-Le-Capital-Livre-1.pdf"
+  - wget https://web.cs.dal.ca/~peter/software/pynauty/pynauty-0.6.0.tar.gz
   
   # Install pip
   - python -m ensurepip
@@ -40,7 +40,7 @@ install:
   - rmdir C:\\cygwin /s /q
   
   # Test again wget
-  - wget "http://inventin.lautre.net/livres/MARX-Le-Capital-Livre-2.pdf"
+  - wget http://users.cecs.anu.edu.au/~bdm/nauty/nauty26r10.tar.gz
   
   # Install the build and runtime dependencies of the project.
   - conda install --quiet --yes numpy scipy cython nose scikit-learn wheel
