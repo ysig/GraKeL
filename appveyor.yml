@@ -31,7 +31,7 @@ install:
   - del %MSYS%\usr\bin\python2.exe
   
   # Miniconda, MSYS, MinGW is pre-installed in the worker build
-  - SET PATH="%PYTHON%;%MSYS%\usr\bin\;%MinGW%\bin;%MINICONDA%;%MINICONDA%\Scripts;%PATH%"
+  - "SET PATH=%MINICONDA%;%MINICONDA%\\Scripts;%PYTHON%;%MSYS%\\usr\\bin;%MinGW%\\bin;%PATH%"
 
   # Install pip
   - python -m ensurepip
