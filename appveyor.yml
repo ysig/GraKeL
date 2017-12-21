@@ -23,12 +23,12 @@ environment:
 install:
   # make a batch file that runs make
   - mkdir local_exe
-  - echo @echo off > local_exe\make.bat
-  - echo start "" /D "%MSYS%\usr\bin\" /W "make.exe" %* >> local_exe\make.bat
+  - echo @echo off > local_exe\make.BAT
+  - echo start "" /D "%MSYS%\usr\bin\" /W "make.exe" %* >> local_exe\make.BAT
   - type local_exe\make.bat
   
   # Miniconda, MSYS, MinGW is pre-installed in the worker build
-  - SET PATH="C:\Projects\grakel\local_exe;%MinGW%\\bin;%MINICONDA%;%MINICONDA%\Scripts;%PATH%"
+  - SET PATH="C:\Projects\grakel\local_exe;%MinGW%\bin;%MINICONDA%;%MINICONDA%\Scripts;%PATH%"
   - echo %PATH%
   - echo %PathExt%
   - dir C:\Projects\grakel\local_exe
