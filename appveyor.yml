@@ -26,6 +26,7 @@ install:
   - "SET PATH=%MinGW%\\bin;%MINICONDA%;%MINICONDA%\\Scripts;%PATH%"
   
   # Test wget
+  - wget --help
   - wget https://web.cs.dal.ca/~peter/software/pynauty/pynauty-0.6.0.tar.gz
   
   # Install pip
