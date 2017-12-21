@@ -28,10 +28,10 @@ install:
   - type local_exe\make.bat
   
   # Miniconda, MSYS, MinGW is pre-installed in the worker build
-  - SET PATH="C:\\Projects\\grakel\\local_exe;%MinGW%\\bin;%MINICONDA%;%MINICONDA%\\Scripts;%PATH%"
+  - SET PATH="C:\Projects\grakel\local_exe;%MinGW%\\bin;%MINICONDA%;%MINICONDA%\Scripts;%PATH%"
   - echo %PATH%
   - echo %PathExt%
-  - dir %MinGW%\bin\
+  - dir C:\Projects\grakel\local_exe
   - make
 
   # Install pip
