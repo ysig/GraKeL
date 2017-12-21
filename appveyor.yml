@@ -12,7 +12,7 @@ environment:
     MODULE: grakel
     PROJECT_NAME: GraKeL
     CLOUD_STORAGE: LOCAL
-it
+
   matrix:
     - PYTHON: "C:\\Python34-x64"
       PYTHON_VERSION: "3.4.3"
