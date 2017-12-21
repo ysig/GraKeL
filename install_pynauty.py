@@ -41,13 +41,16 @@ os.chdir("pynauty-0.6.0")
 os.system('wget http://users.cecs.anu.edu.au/~bdm/nauty/nauty26r10.tar.gz')
 
 # Decompress library
+os.system('echo "decompressing: nauty26r10..."')
 os.system('tar -xf nauty26r10.tar.gz')
 
 if (is_windows):
     # rename folder
+    os.system('echo "rename nauty"')
     os.system('rename nauty26r10 nauty')
     regular_exp = '\"\\\\?\\'+os.path.abspath('nauty')+'\\This_is_nauty26r10.\"'
     # Delete problematic file ending with '.'
+    os.system('echo "delete config"')
     os.system('del '+regular_exp)
     # build pynauty
     os.system('make nauty-objects')
