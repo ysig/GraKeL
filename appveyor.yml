@@ -48,6 +48,7 @@ install:
   
   # Install the build and runtime dependencies of the project.
   - conda install --quiet --yes numpy scipy cython nose scikit-learn wheel
+  - pip show numpy
   - pip install wheelhouse_uploader nose-timer
   - pip install --upgrade cvxopt
   
@@ -55,6 +56,7 @@ install:
   - python install_pynauty.py --venv
   
   # Install project
+  - "%CMD_IN_ENV% pip show numpy"
   - "%CMD_IN_ENV% python setup.py bdist_wheel bdist_wininst"
   - ps: "ls dist"
   
