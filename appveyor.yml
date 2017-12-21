@@ -42,11 +42,10 @@ install:
   - pip install --upgrade cvxopt
   
   # Install pynauty
+  - "mklink %MinGW%\\bin\\wget.exe %MSYS%\\usr\\bin\\wget.exe
+  - "mklink %MinGW%\\bin\\tar.exe %MSYS%\\usr\\bin\\tar.exe;
   - "dir %MinGW%\\bin"
-  - "dir %MSYS%\\usr\\bin"
-  - "dir %MSYS%\\usr\\bin\\wget.exe"
-  - "dir %MSYS%\\usr\\bin\\tar.exe"
-  - "SET PATH=%MSYS%\\usr\\bin\\wget.exe;%MSYS%\\usr\\bin\\tar.exe;%MinGW%\\bin;%PATH%"
+  - "SET PATH%MinGW%\\bin;%PATH%"
   - python install_pynauty.py --venv
   
   # Install project
