@@ -22,12 +22,13 @@ environment:
       MSYS: C:\msys64
 install:
   # make a batch file that runs make
-  - echo @echo off > %MinGW%\bin\make.bat
-  - echo start "" /D "%MSYS%\usr\bin\" /W "make.exe" %* >> %MinGW%\bin\make.bat
-  - type %MinGW%\bin\make.bat
+  - mkdir local_exe
+  - echo @echo off > local_exe\make.bat
+  - echo start "" /D "%MSYS%\usr\bin\" /W "make.exe" %* >> local_exe\make.bat
+  - type local_exe\make.bat
   
   # Miniconda, MSYS, MinGW is pre-installed in the worker build
-  - SET PATH="%MinGW%\\bin;%MINICONDA%;%MINICONDA%\\Scripts;%PATH%"
+  - SET PATH="%CD%\\local_exe;%MinGW%\\bin;%MINICONDA%;%MINICONDA%\\Scripts;%PATH%"
   - echo %PathExt%
   - dir %MinGW%\bin\
   - make
