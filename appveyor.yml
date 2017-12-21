@@ -28,7 +28,8 @@ install:
   - type local_exe\make.bat
   
   # Miniconda, MSYS, MinGW is pre-installed in the worker build
-  - SET PATH="%CD%\\local_exe;%MinGW%\\bin;%MINICONDA%;%MINICONDA%\\Scripts;%PATH%"
+  - SET PATH="C:\\Projects\\grakel\\local_exe;%MinGW%\\bin;%MINICONDA%;%MINICONDA%\\Scripts;%PATH%"
+  - echo %PATH%
   - echo %PathExt%
   - dir %MinGW%\bin\
   - make
