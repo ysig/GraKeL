@@ -24,7 +24,7 @@ install:
   - "SET PATH=%MinGW%\\bin;%MINICONDA%;%MINICONDA%\\Scripts;%PATH%"
   - dir %MinGW%
   - dir %MinGW%\\bin
-  - dir %MinGW%\\x86_64-w64-mingw32
+  - dir %MinGW%\\x86_64-w64-mingw32\\bin
   - mingw32-get install make
   - dir %MinGW%
   - dir %MinGW%\\bin
