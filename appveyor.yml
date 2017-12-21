@@ -44,7 +44,7 @@ install:
   # Install pynauty
   - "dir %MinGW%\\bin"
   - "dir %MSYS%\\usr\\bin"
-  - "SET PATH=%MinGW%\\bin\\;%MSYS%\\usr\\bin\\tar.exe;%MSYS%\\usr\\bin\\wget.exe;%PATH%"
+  - "SET PATH=%MSYS%\\usr\\bin\\wget.exe;%MSYS%\\usr\\bin\\tar.exe;%MinGW%\\bin\\;%PATH%"
   - python install_pynauty.py --venv
   
   # Install project
