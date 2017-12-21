@@ -24,7 +24,8 @@ install:
   - "SET PATH=%MinGW%\\bin;%MINICONDA%;%MINICONDA%\\Scripts;%PATH%"
   - dir %MinGW%
   - dir %MinGW%\\bin
-  - mingw-get install make
+  - dir %MinGW%\\x86_64-w64-mingw32
+  - mingw32-get install make
   - dir %MinGW%
   - dir %MinGW%\\bin
   # Install pip
