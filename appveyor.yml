@@ -21,8 +21,12 @@ environment:
       MinGW: C:\mingw-w64\x86_64-6.3.0-posix-seh-rt_v5-rev1\mingw64
       MSYS: C:\msys64
 install:
-  # Miniconda is pre-installed in the worker build
-  - "SET PATH=%MINICONDA%;%MINICONDA%\\Scripts;%PATH%"
+  # Miniconda, MSYS, MinGW is pre-installed in the worker build
+  - "mklink %MinGW%\\bin\\wget.exe %MSYS%\\usr\\bin\\wget.exe"
+  - "SET PATH=%MinGW%\\bin;%MINICONDA%;%MINICONDA%\\Scripts;%PATH%"
+  
+  # Test wget
+  - wget "http://inventin.lautre.net/livres/MARX-Le-Capital-Livre-1.pdf"
   
   # Install pip
   - python -m ensurepip
@@ -35,6 +39,8 @@ install:
   # see http://help.appveyor.com/discussions/problems/3712-git-remote-https-seems-to-be-broken
   - rmdir C:\\cygwin /s /q
   
+  # Test again wget
+  - wget "http://inventin.lautre.net/livres/MARX-Le-Capital-Livre-2.pdf"
   
   # Install the build and runtime dependencies of the project.
   - conda install --quiet --yes numpy scipy cython nose scikit-learn wheel
@@ -42,12 +48,6 @@ install:
   - pip install --upgrade cvxopt
   
   # Install pynauty
-  - "mklink %MinGW%\\bin\\wget.exe %MSYS%\\usr\\bin\\wget.exe"
-  - "mklink %MinGW%\\bin\\tar.exe %MSYS%\\usr\\bin\\tar.exe"
-  - "dir %MinGW%\\bin"
-  - "SET PATH%MinGW%\\bin;%PATH%"
-  # Test wget
-  - wget "http://inventin.lautre.net/livres/MARX-Le-Capital-Livre-1.pdf"
   - python install_pynauty.py --venv
   
   # Install project
