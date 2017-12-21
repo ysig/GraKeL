@@ -25,13 +25,8 @@ install:
   - mklink %MinGW%\\bin\\make.exe %MSYS%\\usr\\bin\\make.exe
   - 'setx PATH "%MinGW%\\bin;%MINICONDA%;%MINICONDA%\\Scripts;%PATH%"'
   - "setx PATHEXT %pathext%;.INK"
-
-  - dir %MinGW%
   - dir %MinGW%\\bin
-  - dir %MinGW%\\x86_64-w64-mingw32\\bin
-  - mingw32-get install make
-  - dir %MinGW%
-  - dir %MinGW%\\bin
+  - make
   # Install pip
   - python -m ensurepip
   
