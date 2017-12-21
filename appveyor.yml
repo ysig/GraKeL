@@ -12,7 +12,7 @@ environment:
     MODULE: grakel
     PROJECT_NAME: GraKeL
     CLOUD_STORAGE: LOCAL
-
+it
   matrix:
     - PYTHON: "C:\\Python34-x64"
       PYTHON_VERSION: "3.4.3"
@@ -22,10 +22,9 @@ environment:
       MSYS: C:\msys64
 install:
   # Miniconda, MSYS, MinGW is pre-installed in the worker build
-  - mklink %MinGW%\\bin\\make.exe %MSYS%\\usr\\bin\\make.exe
   - 'setx PATH "%MinGW%\\bin;%MINICONDA%;%MINICONDA%\\Scripts;%PATH%"'
-  - "setx PATHEXT %pathext%;.INK"
-  - dir %MinGW%\\bin
+  - echo @echo off > %MinGW%\\bin\\make.bat
+  - echo start "make" /D "%MSYS%\usr\bin\" /W "make.exe" %*" >> %MinGW%\\bin\\make.bat
   - make
   # Install pip
   - python -m ensurepip
