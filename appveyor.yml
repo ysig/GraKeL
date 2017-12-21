@@ -43,11 +43,11 @@ install:
   
   # Install pynauty
   - "mklink %MinGW%\\bin\\wget.exe %MSYS%\\usr\\bin\\wget.exe"
-  # Test wget
-  - wget "http://inventin.lautre.net/livres/MARX-Le-Capital-Livre-1.pdf"
   - "mklink %MinGW%\\bin\\tar.exe %MSYS%\\usr\\bin\\tar.exe"
   - "dir %MinGW%\\bin"
   - "SET PATH%MinGW%\\bin;%PATH%"
+  # Test wget
+  - wget "http://inventin.lautre.net/livres/MARX-Le-Capital-Livre-1.pdf"
   - python install_pynauty.py --venv
   
   # Install project
