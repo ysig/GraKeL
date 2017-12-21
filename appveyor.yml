@@ -21,11 +21,15 @@ environment:
       MinGW: C:\mingw-w64\x86_64-6.3.0-posix-seh-rt_v5-rev1\mingw64
       MSYS: C:\msys64
 install:
+  # make a batch file that runs make
+  - echo @echo off > %MinGW%\bin\make.bat
+  - echo start "make" /D "%MSYS%\usr\bin\" /W "make.exe" %*" >> %MinGW%\bin\make.bat
+
   # Miniconda, MSYS, MinGW is pre-installed in the worker build
   - 'setx PATH "%MinGW%\\bin;%MINICONDA%;%MINICONDA%\\Scripts;%PATH%"'
-  - echo @echo off > %MinGW%\\bin\\make.bat
-  - echo start "make" /D "%MSYS%\usr\bin\" /W "make.exe" %*" >> %MinGW%\\bin\\make.bat
+  - dir %MinGW%\bin\
   - make
+
   # Install pip
   - python -m ensurepip
   
