@@ -21,17 +21,17 @@ environment:
       MinGW: C:\mingw-w64\x86_64-6.3.0-posix-seh-rt_v5-rev1\mingw64
       MSYS: C:\msys64
 install:
-  # make a batch file that runs make
-  - mkdir local_exe
-  - echo %MSYS%\usr\bin\make.exe > local_exe\make.bat
-  - type local_exe\make.bat
+  # Delete all python associated files in MSYS - to avoid clashes
+  - del %MSYS%\usr\bin\msys-python2.7.dll
+  - del %MSYS%\usr\bin\pydoc2
+  - del %MSYS%\usr\bin\python2-config
+  - del %MSYS%\usr\bin\python2.7-config
+  - del %MSYS%\usr\bin\pydoc2
+  - del %MSYS%\usr\bin\python2.7.exe 
+  - del %MSYS%\usr\bin\python2.exe
   
   # Miniconda, MSYS, MinGW is pre-installed in the worker build
-  - SET PATH="C:\Projects\grakel\local_exe;%MinGW%\bin;%MINICONDA%;%MINICONDA%\Scripts;%PATH%"
-  - echo %PATH%
-  - echo %PathExt%
-  - dir C:\Projects\grakel\local_exe
-  - make.bat
+  - SET PATH="%MSYS%\usr\bin\;%MinGW%\bin;%MINICONDA%;%MINICONDA%\Scripts;%PATH%"
 
   # Install pip
   - python -m ensurepip
@@ -55,6 +55,7 @@ install:
   # Install project
   - "%CMD_IN_ENV% python setup.py bdist_wheel bdist_wininst"
   - ps: "ls dist"
+  
   # Install the generated wheel package to test it
   - "pip install --pre --no-index --find-links dist %PROJECT_NAME%"
 
