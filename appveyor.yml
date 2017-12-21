@@ -31,7 +31,7 @@ install:
   - echo %PATH%
   - echo %PathExt%
   - dir C:\Projects\grakel\local_exe
-  - make
+  - make.bat
 
   # Install pip
   - python -m ensurepip
