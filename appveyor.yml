@@ -28,6 +28,7 @@ install:
   
   # Miniconda, MSYS, MinGW is pre-installed in the worker build
   - SET PATH="%MinGW%\\bin;%MINICONDA%;%MINICONDA%\\Scripts;%PATH%"
+  - echo %PathExt%
   - dir %MinGW%\bin\
   - make
 
