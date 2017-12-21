@@ -27,8 +27,12 @@ else:
 pip.main(['install', '--upgrade', 'setuptools'])
 
 # Download library
-os.system('wget https://web.cs.dal.ca/~peter/software/pynauty/pynauty-0.6.0.tar.gz')
-
+# for windows curl must be installed
+if is_windows:
+    os.system('curl https://web.cs.dal.ca/~peter/software/pynauty/pynauty-0.6.0.tar.gz -o pynauty-0.6.0.tar.gz')
+elif is_linux:
+    os.system('wget https://web.cs.dal.ca/~peter/software/pynauty/pynauty-0.6.0.tar.gz')
+    
 # Decompress
 os.system('tar -xf pynauty-0.6.0.tar.gz')
 os.remove('pynauty-0.6.0.tar.gz')
@@ -37,8 +41,11 @@ os.remove('pynauty-0.6.0.tar.gz')
 os.chdir("pynauty-0.6.0")
 
 # Download C library
-# wget must be installed
-os.system('wget http://users.cecs.anu.edu.au/~bdm/nauty/nauty26r10.tar.gz')
+if is_windows:
+    os.system('curl http://users.cecs.anu.edu.au/~bdm/nauty/nauty26r10.tar.gz -o nauty26r10.tar.gz')
+elif is_linux:
+    os.system('wget http://users.cecs.anu.edu.au/~bdm/nauty/nauty26r10.tar.gz')
+
 
 # Decompress library
 os.system('echo "decompressing: nauty26r10..."')

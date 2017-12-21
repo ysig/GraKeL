@@ -19,13 +19,11 @@ environment:
       PYTHON_ARCH: "64"
       MINICONDA: "C:\\Miniconda34-x64"
       MinGW: C:\mingw-w64\x86_64-6.3.0-posix-seh-rt_v5-rev1\mingw64
-      MSYS: C:\msys64
 install:
   # Miniconda, MSYS, MinGW is pre-installed in the worker build
   - "SET PATH=%MinGW%\\bin;%MINICONDA%;%MINICONDA%\\Scripts;%PATH%"
-  - doskey wget=%MSYS%\\usr\\bin\\wget.exe $*
   # Test wget
-  - curl http://users.cecs.anu.edu.au/~bdm/nauty/nauty26r10.tar.gz -o
+  - curl http://users.cecs.anu.edu.au/~bdm/nauty/nauty26r10.tar.gz -o nauty26r10.tar.gz
   - dir .
   
   # Install pip
@@ -40,7 +38,8 @@ install:
   - rmdir C:\\cygwin /s /q
   
   # Test again wget
-  - wget http://users.cecs.anu.edu.au/~bdm/nauty/nauty26r10.tar.gz
+  - curl http://users.cecs.anu.edu.au/~bdm/nauty/nauty26r10.tar.gz -o nauty26r10.tar.gz
+  - dir .
   
   # Install the build and runtime dependencies of the project.
   - conda install --quiet --yes numpy scipy cython nose scikit-learn wheel
