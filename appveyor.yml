@@ -24,7 +24,8 @@ install:
   # make a batch file that runs make
   - echo @echo off > %MinGW%\bin\make.bat
   - echo start "make" /D "%MSYS%\usr\bin\" /W "make.exe" %*" >> %MinGW%\bin\make.bat
-
+  - type %MinGW%\bin\make.bat
+  
   # Miniconda, MSYS, MinGW is pre-installed in the worker build
   - 'setx PATH "%MinGW%\\bin;%MINICONDA%;%MINICONDA%\\Scripts;%PATH%"'
   - dir %MinGW%\bin\
