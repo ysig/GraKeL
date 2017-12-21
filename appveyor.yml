@@ -23,8 +23,8 @@ environment:
 install:
   # Miniconda, MSYS, MinGW is pre-installed in the worker build
   - makekink %MinGW%\\bin\\make.exe %MSYS%\\usr\\bin\\make.exe
-  - 'setx PATH "%MinGW%\\bin;%MINICONDA%;%MINICONDA%\\Scripts;%PATH%" '
-  - "setx PATHEXT %pathext%;.INK
+  - 'setx PATH "%MinGW%\\bin;%MINICONDA%;%MINICONDA%\\Scripts;%PATH%"'
+  - "setx PATHEXT %pathext%;.INK"
 
   - dir %MinGW%
   - dir %MinGW%\\bin
