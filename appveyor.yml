@@ -22,10 +22,11 @@ environment:
 install:
   # Miniconda, MSYS, MinGW is pre-installed in the worker build
   - "SET PATH=%MinGW%\\bin;%MINICONDA%;%MINICONDA%\\Scripts;%PATH%"
-  # Test wget
-  - curl http://users.cecs.anu.edu.au/~bdm/nauty/nauty26r10.tar.gz -o nauty26r10.tar.gz
-  - dir .
-  
+  - dir %MinGW%
+  - dir %MinGW%\\bin
+  - mingw-get install make
+  - dir %MinGW%
+  - dir %MinGW%\\bin
   # Install pip
   - python -m ensurepip
   
@@ -36,10 +37,6 @@ install:
   # Remove cygwin because it clashes with conda
   # see http://help.appveyor.com/discussions/problems/3712-git-remote-https-seems-to-be-broken
   - rmdir C:\\cygwin /s /q
-  
-  # Test again wget
-  - curl http://users.cecs.anu.edu.au/~bdm/nauty/nauty26r10.tar.gz -o nauty26r10.tar.gz
-  - dir .
   
   # Install the build and runtime dependencies of the project.
   - conda install --quiet --yes numpy scipy cython nose scikit-learn wheel
