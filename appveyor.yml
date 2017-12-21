@@ -36,7 +36,7 @@ install:
   - "SET PATH=%MinGW%\\bin;%MSYS%\\usr\\bin;%MINICONDA%;%MINICONDA%\\Scripts;%PATH%"
 
   # Install pip
-  - python -m ensurepip
+  #- python -m ensurepip
   
   # Check that we have the expected version and architecture for Python
   - "python --version"
