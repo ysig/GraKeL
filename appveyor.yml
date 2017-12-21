@@ -25,10 +25,9 @@ install:
   - "SET PATH=%MinGW%\\bin;%MINICONDA%;%MINICONDA%\\Scripts;%PATH%"
   - doskey wget=%MSYS%\\usr\\bin\\wget.exe $*
   # Test wget
-  - curl --help
-  - wget --help
-  - wget https://web.cs.dal.ca/~peter/software/pynauty/pynauty-0.6.0.tar.gz
-
+  - curl http://users.cecs.anu.edu.au/~bdm/nauty/nauty26r10.tar.gz -o
+  - dir .
+  
   # Install pip
   - python -m ensurepip
   
