@@ -22,9 +22,8 @@ environment:
       MSYS: C:\msys64
 install:
   # Miniconda, MSYS, MinGW is pre-installed in the worker build
-  - "copy %MSYS%\\usr\\bin\\wget.exe %MinGW%\\bin\\wget.exe "
   - "SET PATH=%MinGW%\\bin;%MINICONDA%;%MINICONDA%\\Scripts;%PATH%"
-  
+  - doskey wget=%MSYS%\\usr\\bin\\wget.exe $*
   # Test wget
   - wget --help
   - wget https://web.cs.dal.ca/~peter/software/pynauty/pynauty-0.6.0.tar.gz
