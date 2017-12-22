@@ -46,7 +46,6 @@ if is_windows:
 elif is_linux:
     os.system('wget http://users.cecs.anu.edu.au/~bdm/nauty/nauty26r10.tar.gz')
 
-
 # Decompress library
 os.system('echo "decompressing: nauty26r10..."')
 os.system('tar -xf nauty26r10.tar.gz')
