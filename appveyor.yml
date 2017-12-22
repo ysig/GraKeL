@@ -37,7 +37,7 @@ install:
   
   # Miniconda, MSYS, MinGW is pre-installed in the worker build
   - "SET PATH=%MinGW%\\bin;%MSYS%\\usr\\bin;%MINICONDA%;%MINICONDA%\\Scripts;%PATH%"
-
+  - dir /s %MINICONDA%
   # Install pip
   - conda config --add create_default_packages pip
   - pip --version
@@ -52,7 +52,6 @@ install:
   # see http://help.appveyor.com/discussions/problems/3712-git-remote-https-seems-to-be-broken
   - rmdir C:\\cygwin /s /q
   
-  - dir /s /b %MINICONDA%
   # Install the build and runtime dependencies of the project.
   - conda install --quiet --yes numpy=1.12.0 scipy cython nose scikit-learn wheel
   - pip show numpy
