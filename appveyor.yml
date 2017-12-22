@@ -17,7 +17,6 @@ environment:
     - PYTHON: "C:\\Python34-x64"
       PYTHON_VERSION: "3.4.3"
       PYTHON_ARCH: "64"
-      MINICONDA: "C:\\Miniconda34-x64"
       MinGW: C:\mingw-w64\x86_64-6.3.0-posix-seh-rt_v5-rev1\mingw64
       MSYS: C:\msys64
 install:
@@ -30,10 +29,10 @@ install:
   - del %MSYS%\usr\bin\python2.7.exe 
   - del %MSYS%\usr\bin\python2.exe
   
-  - dir %MINICONDA%
-  - dir %MINICONDA%\\Scripts
+  - dir %PYTHON%
+  - dir %PYTHON%\bin
   # Miniconda, MSYS, MinGW is pre-installed in the worker build
-  - "SET PATH=%MinGW%\\bin;%MSYS%\\usr\\bin;%MINICONDA%;%MINICONDA%\\Scripts;%PATH%"
+  - "SET PATH=%MinGW%\\bin;%MSYS%\\usr\\bin;%PYTHON%\\bin%PATH%"
 
   # Install pip
   #- python -m ensurepip
