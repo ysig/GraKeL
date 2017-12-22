@@ -62,11 +62,10 @@ if (is_windows):
     # build pynauty
     os.system('make nauty-objects')
     os.system('python setup.py build --compiler=mingw32')
-    os.system('python setup.py bdist_wheel bdist_wininst')
     if venv:
-        os.system('pip install --pre --no-index --find-links dist pynauty')
+        os.system('pip install --upgrade .')
     else:
-        os.system('pip install --user --pre --no-index --find-links dist pynauty')
+        os.system('pip install --user --upgrade .')
 if (is_linux):
     # rename folder
     os.system('mv nauty26r10 nauty')
