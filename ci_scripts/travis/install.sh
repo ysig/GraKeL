@@ -26,15 +26,15 @@ popd
 # provided versions
 conda create -n testenv --yes python=$PYTHON_VERSION pip nose \
       numpy=$NUMPY_VERSION scipy=$SCIPY_VERSION cython=$CYTHON_VERSION
-
+      
 source activate testenv
-
 
 if [[ "$COVERAGE" == "true" ]]; then
     pip install coverage coveralls
 fi
 
 pip install 'cvxopt>=1.1.9'
+pip install --upgrade setuptools
 python install_pynauty.py --venv
 
 python --version
