@@ -17,6 +17,7 @@ environment:
     - PYTHON: "C:\\Python34-x64"
       PYTHON_VERSION: "3.4.3"
       PYTHON_ARCH: "64"
+      MINICONDA: "C:\\Miniconda34-x64"
       MinGW: C:\mingw-w64\x86_64-6.3.0-posix-seh-rt_v5-rev1\mingw64
       MSYS: C:\msys64
 install:
@@ -25,13 +26,19 @@ install:
   - del %MSYS%\usr\bin\pydoc2
   - del %MSYS%\usr\bin\python2-config
   - del %MSYS%\usr\bin\python2.7-config
+  - del %MSYS%\usr\bin\pydoc2
   - del %MSYS%\usr\bin\python2.7.exe 
-  - del %MSYS%\usr\bin\python2.exe
+  - del %MSYS%\usr\bin\python2.exe  
   
+  - dir %MINICONDA%
+  - dir %MINICONDA%\\Scripts
+  # Delete python27 to avoid clashes
   - del /s /q C:\python27 >nul 2>&1
-
+  
   # Miniconda, MSYS, MinGW is pre-installed in the worker build
-  - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%MinGW%\\bin;%MSYS%\\usr\\bin;%PATH%"
+  - "SET PATH=%MinGW%\\bin;%MSYS%\\usr\\bin;%MINICONDA%;%MINICONDA%\\Scripts;%PATH%"
+
+  # Install pip
   - python -m ensurepip --upgrade
   
   # Check that we have the expected version and architecture for Python
@@ -39,22 +46,22 @@ install:
   - "python -c \"import struct; print(struct.calcsize('P') * 8)\""
   - "pip --version"
   
+  # Remove cygwin because it clashes with conda
+  # see http://help.appveyor.com/discussions/problems/3712-git-remote-https-seems-to-be-broken
+  - rmdir C:\\cygwin /s /q
+  
   # Install the build and runtime dependencies of the project.
-  - pip install numpy
-  - pip install scipy
-  - pip install cython
-  - pip install nose
-  - pip install scikit-learn
-  - pip install wheel
-  - pip install cvxopt
+  - conda install --quiet --yes numpy=1.12.0 scipy cython nose scikit-learn wheel
+  - pip show numpy
   - pip install wheelhouse_uploader nose-timer
-
+  - pip install --upgrade cvxopt
+  
   # Install pynauty
   - python install_pynauty.py --venv
   
   # Install project
-  - "%CMD_IN_ENV% pip show pynauty"
-  - '%CMD_IN_ENV% python -c "import pynauty"'
+  - "%CMD_IN_ENV% pip show numpy"
+  - '%CMD_IN_ENV% python -c "import numpy"'
   - "%CMD_IN_ENV% python setup.py bdist_wheel bdist_wininst"
   - ps: "ls dist"
   
