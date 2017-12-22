@@ -34,8 +34,8 @@ except ImportError:
 setup(name='grakel',
       version='0.0.1',
       description='A scikit-learn compatible library for graph kernels',
-      author='mary et.al.',
+      author='Ioannis Siglidis [LiX / DaSciM]',
       packages=find_packages(),
       install_requires=INSTALL_REQUIRES,
-      author_email='mary@dev.null',
+      author_email='',
       )
