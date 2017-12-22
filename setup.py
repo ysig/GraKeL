@@ -28,7 +28,7 @@ import pynauty
 try:
     import pynauty
 except ImportError:
-    print('pynauty is required during installation')
+    print('pynauty is required during installation !')
     sys.exit(1)
 
 setup(name='grakel',
