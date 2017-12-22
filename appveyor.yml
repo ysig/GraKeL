@@ -30,10 +30,10 @@ install:
   
   - del /s /q C:\python27 >nul 2>&1
 
-  - dir %PYTHON%\Lib\site-packages
+  - dir %PYTHON%\Lib\site-packages\pip
   # Miniconda, MSYS, MinGW is pre-installed in the worker build
-  - "SET PATH=%PYTHON%;%PYTHON%\\Lib\\site-packages;%MinGW%\\bin;%MSYS%\\usr\\bin;%PATH%"
-  - python -m ensurepip
+  - "SET PATH=%PYTHON%;%PYTHON%\\Lib\\site-packages\\pip;%MinGW%\\bin;%MSYS%\\usr\\bin;%PATH%"
+  - python -m ensurepip --upgrade
   
   # Check that we have the expected version and architecture for Python
   - "python --version"
