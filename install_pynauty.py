@@ -61,18 +61,20 @@ if (is_windows):
     os.system('del '+regular_exp)
     # build pynauty
     os.system('make nauty-objects')
-    os.system('python setup.py build --compiler=mingw32')
+    if venv:
+        os.system('python setup.py bdist_wheel bdist_wininst --compiler=mingw32')        
+    else:
+        os.system('python setup.py bdist_wheel bdist_wininst --user --compiler=mingw32')
 if (is_linux):
     # rename folder
     os.system('mv nauty26r10 nauty')
     # build pynauty
     os.system('make pynauty')
+    if venv:
+        os.system('pip install --upgrade .')
+    else:
+        os.system('pip install --user --upgrade .')
 
-# define if inside virtual-env and install
-if venv:
-    os.system('pip install --upgrade .')
-else:
-    os.system('pip install --user --upgrade .')
 # exit directory and delete
 os.chdir("..")
 shutil.rmtree('pynauty-0.6.0')
