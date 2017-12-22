@@ -28,7 +28,6 @@ install:
   - del %MSYS%\usr\bin\python2.7.exe 
   - del %MSYS%\usr\bin\python2.exe
   
-  - dir %PYTHON%
   # Miniconda, MSYS, MinGW is pre-installed in the worker build
   - "SET PATH=%PYTHON%;%MinGW%\\bin;%MSYS%\\usr\\bin;%PATH%"
 
@@ -39,9 +38,6 @@ install:
   - "python --version"
   - "python -c \"import struct; print(struct.calcsize('P') * 8)\""
   - "pip --version"
-  # Remove cygwin because it clashes with conda
-  # see http://help.appveyor.com/discussions/problems/3712-git-remote-https-seems-to-be-broken
-  - rmdir C:\\cygwin /s /q
   
   # Install the build and runtime dependencies of the project.
   - pip install numpy
