@@ -31,9 +31,9 @@ install:
   # Miniconda, MSYS, MinGW is pre-installed in the worker build
   - "SET PATH=%PYTHON%;%MinGW%\\bin;%MSYS%\\usr\\bin;%PATH%"
 
-  - dir %PYTHON%\Lib
+  - dir %PYTHON%\Lib\site-packages
   - dir %PYTHON%\libs
-  - rmdir C:\\python2.7 /s /q
+  - rmdir C:\python2.7 /s /q
   # Install pip
   - python -m ensurepip
   
