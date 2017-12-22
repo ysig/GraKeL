@@ -53,8 +53,8 @@ install:
   - python install_pynauty.py --venv
   
   # Install project
-  - "%CMD_IN_ENV% pip show numpy"
-  - '%CMD_IN_ENV% python -c "import numpy"'
+  - "%CMD_IN_ENV% pip show pynauty"
+  - '%CMD_IN_ENV% python -c "import pynauty"'
   - "%CMD_IN_ENV% python setup.py bdist_wheel bdist_wininst"
   - ps: "ls dist"
   
