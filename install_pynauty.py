@@ -24,7 +24,10 @@ else:
     sys.exit(1)
 
 # Dependencies
+os.system('python --version')
+os.system('pip --version')
 pip.main(['install', '--upgrade', 'setuptools'])
+pip.main(['install', '--upgrade', 'wheel'])
 
 # Download library
 # for windows curl must be installed
