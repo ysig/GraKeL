@@ -25,13 +25,12 @@ install:
   - del %MSYS%\usr\bin\pydoc2
   - del %MSYS%\usr\bin\python2-config
   - del %MSYS%\usr\bin\python2.7-config
-  - del %MSYS%\usr\bin\pydoc2
   - del %MSYS%\usr\bin\python2.7.exe 
   - del %MSYS%\usr\bin\python2.exe
   
   - dir %PYTHON%
   # Miniconda, MSYS, MinGW is pre-installed in the worker build
-  - "SET PATH=%MinGW%\\bin;%MSYS%\\usr\\bin;%PYTHON%\\bin%PATH%"
+  - "SET PATH=%PYTHON%;%MinGW%\\bin;%MSYS%\\usr\\bin;%PATH%"
 
   # Install pip
   - python -m ensurepip
