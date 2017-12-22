@@ -28,8 +28,8 @@ install:
   - del %MSYS%\usr\bin\python2.7.exe 
   - del %MSYS%\usr\bin\python2.exe
   
-  - del C:\python27 /q /s
-  - echo %PATH%
+  - del /s /q C:\python27
+
   - dir %PYTHON%\Lib\site-packages
   # Miniconda, MSYS, MinGW is pre-installed in the worker build
   - "SET PATH=%PYTHON%;%PYTHON%\\Lib\\site-packages;%MinGW%\\bin;%MSYS%\\usr\\bin;%PATH%"
