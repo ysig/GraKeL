@@ -29,14 +29,8 @@ install:
   - del %MSYS%\usr\bin\python2.exe
   
   # Miniconda, MSYS, MinGW is pre-installed in the worker build
-  - "SET PATH=%PYTHON%;%MinGW%\\bin;%MSYS%\\usr\\bin;%PATH%"
+  - "SET PATH=%PYTHON%;%PYTHON%\\libs;%MinGW%\\bin;%MSYS%\\usr\\bin;%PATH%"
 
-  - dir %PYTHON%\Lib\site-packages
-  - dir %PYTHON%\libs
-  - rmdir C:\python2.7 /s /q
-  # Install pip
-  - python -m ensurepip
-  
   # Check that we have the expected version and architecture for Python
   - "python --version"
   - "python -c \"import struct; print(struct.calcsize('P') * 8)\""
