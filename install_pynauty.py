@@ -61,7 +61,6 @@ if (is_windows):
     os.system('del '+regular_exp)
     # build pynauty
     os.system('make nauty-objects')
-    os.system('pip show wheel')
     os.system('python setup.py build --compiler=mingw32')
     os.system('python setup.py bdist_wheel bdist_wininst')
     if venv:
