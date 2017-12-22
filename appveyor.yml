@@ -30,12 +30,11 @@ install:
   - del %MSYS%\usr\bin\python2.exe
   
   - dir %PYTHON%
-  - dir %PYTHON%\bin
   # Miniconda, MSYS, MinGW is pre-installed in the worker build
   - "SET PATH=%MinGW%\\bin;%MSYS%\\usr\\bin;%PYTHON%\\bin%PATH%"
 
   # Install pip
-  #- python -m ensurepip
+  - python -m ensurepip
   
   # Check that we have the expected version and architecture for Python
   - "python --version"
@@ -46,11 +45,15 @@ install:
   - rmdir C:\\cygwin /s /q
   
   # Install the build and runtime dependencies of the project.
-  - conda install --quiet --yes numpy=1.12.0 scipy cython nose scikit-learn wheel
-  - pip show numpy
+  - pip install numpy
+  - pip install scipy
+  - pip install cython
+  - pip install nose
+  - pip install scikit-learn
+  - pip install wheel
+  - pip install cvxopt
   - pip install wheelhouse_uploader nose-timer
-  - pip install --upgrade cvxopt
-  
+
   # Install pynauty
   - python install_pynauty.py --venv
   
