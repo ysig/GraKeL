@@ -39,14 +39,7 @@ install:
   - "pip --version"
   
   # Install the build and runtime dependencies of the project.
-  - pip install numpy
-  - pip install scipy
-  - pip install cython
-  - pip install nose
-  - pip install scikit-learn
-  - pip install wheel
-  - pip install cvxopt
-  - pip install wheelhouse_uploader nose-timer
+  - pip install numpy scipy cython nose scikit-learn setuptools wheel cvxopt wheelhouse_uploader nose-timer
 
   # Install pynauty
   - python install_pynauty.py --venv
