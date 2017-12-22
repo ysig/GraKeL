@@ -40,11 +40,14 @@ install:
 
   # Install pip
   - python -m ensurepip --upgrade
-  
+
   # Check that we have the expected version and architecture for Python
   - "python --version"
   - "python -c \"import struct; print(struct.calcsize('P') * 8)\""
   - "pip --version"
+  # Remove cygwin because it clashes with conda
+  # see http://help.appveyor.com/discussions/problems/3712-git-remote-https-seems-to-be-broken
+  - rmdir C:\\cygwin /s /q
   
   # Remove cygwin because it clashes with conda
   # see http://help.appveyor.com/discussions/problems/3712-git-remote-https-seems-to-be-broken
