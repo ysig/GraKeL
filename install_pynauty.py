@@ -66,16 +66,16 @@ if (is_windows):
     # Installing pynauty
     if venv:
         os.system('pip install --upgrade .')
-    	# Leaving a line
-    	# os.system('echo.')
-        try:
-        	import pynauty
-        	os.system('echo succesful import of pynauty!')
-        except ImportError as inst:
-        	os.system('echo exception [upon import of pynauty]: '+str(inst))
     else:
         os.system('pip install --user --upgrade .')
     
+    # Trying an import on pynauty
+    try:
+        import pynauty
+        os.system('echo succesful import of pynauty!')
+    except ImportError as inst:
+        os.system('echo exception [upon import of pynauty]: '+str(inst))
+        
 if (is_linux):
     # rename folder
     os.system('mv nauty26r10 nauty')
