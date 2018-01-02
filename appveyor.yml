@@ -23,6 +23,7 @@ install:
   - "SET PATH=C:\\Windows\\system32;C:\\Windows\\System32;C:\\Windows\\system32\\WindowsPowerShell\\v1.0\\"
 
   - "dir %PYTHON%"
+  - "dir %PYTHON%\\DLLs"
   # Delete python from MSYS to avoid clashes
   - del %MSYS%\usr\bin\pydoc2
   - del %MSYS%\usr\bin\python2-config
