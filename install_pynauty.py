@@ -62,15 +62,23 @@ if (is_windows):
     # build pynauty
     os.system('make nauty-objects')
     os.system('python setup.py build --compiler=mingw32')
+
+    # Installing pynauty
     if venv:
         os.system('pip install --upgrade .')
-        try:
-            import pynauty
-            os.system('echo "succesful import of pynauty!"')
-        except Exception as inst:
-            os.system('echo "exception: '+str(inst)+'"')
     else:
         os.system('pip install --user --upgrade .')
+    
+    # Leaving a line
+    os.system('echo.')
+    
+    # Importing pynauty
+    try:
+	    import pynauty
+            os.system('echo  succesful import of pynauty!')
+        except Exception as inst:
+            os.system('echo  exception [upon import of pynauty]: '+str(inst))
+
 if (is_linux):
     # rename folder
     os.system('mv nauty26r10 nauty')
