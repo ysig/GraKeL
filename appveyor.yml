@@ -60,7 +60,12 @@ install:
   - "python install_pynauty.py --venv"
   
   # Install project
-  - "%CMD_IN_ENV% python setup.py install"
+  - "%CMD_IN_ENV% python setup.py bdist_wheel bdist_wininst"
+  - ps: "ls dist"
+  
+  # Install the generated wheel package to test it
+  - "pip install --pre --no-index --find-links dist %PROJECT_NAME%"
+
 
 # Not a .NET project, we build scikit-learn in the install step instead
 build: false
@@ -69,6 +74,14 @@ build: false
 artifacts:
   # Archive the generated wheel package in the ci.appveyor.com build report.
   - path: dist\*
+
+
+on_success:
+  # Upload the generated wheel package to Rackspace
+  # On Windows, Apache Libcloud cannot find a standard CA cert bundle so we
+  # disable the ssl checks.
+  - "python -m wheelhouse_uploader upload provider=%CLOUD_STORAGE% --no-ssl-check --local-folder=dist %CLOUD_CONTAINER%"
+
 
 test_script:
   # Change to a non-source folder to make sure we run the tests on the
