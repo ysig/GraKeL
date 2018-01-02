@@ -18,7 +18,7 @@ environment:
       PYTHON_ARCH: "64"
       MSYS: C:\msys64
 install:
-  - "%MSYS%\\usr\\bin\\pacman.exe -Syu mingw-w64-x86_64-gcc"
+  - "%MSYS%\\usr\\bin\\yes.exe | %MSYS%\\usr\\bin\\pacman.exe -S mingw-w64-x86_64-gcc"
   - "SET MGW=%MSYS%\\mingw64"
 
   # Set to the Path variable binaries for linux like commands make, tar
