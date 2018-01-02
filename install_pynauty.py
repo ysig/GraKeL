@@ -75,9 +75,9 @@ if (is_windows):
     # Importing pynauty
     try:
         import pynauty
-            os.system('echo succesful import of pynauty!')
-        except Exception as inst:
-            os.system('echo exception [upon import of pynauty]: '+str(inst))
+        os.system('echo succesful import of pynauty!')
+    except ImportError as inst:
+        os.system('echo exception [upon import of pynauty]: '+str(inst))
 
 if (is_linux):
     # rename folder
