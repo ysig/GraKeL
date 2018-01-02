@@ -16,32 +16,28 @@ environment:
     - PYTHON: "C:\\Python34-x64"
       PYTHON_VERSION: "3.4.3"
       PYTHON_ARCH: "64"
-      MinGW: C:\mingw-w64\x86_64-6.3.0-posix-seh-rt_v5-rev1\mingw64
       MSYS: C:\msys64
 install:
-  # Delete all python associated files in MSYS - to avoid clashes
-  - del %MSYS%\usr\bin\msys-python2.7.dll
-  - del %MSYS%\usr\bin\pydoc2
-  - del %MSYS%\usr\bin\python2-config
-  - del %MSYS%\usr\bin\python2.7-config
-  - del %MSYS%\usr\bin\python2.7.exe 
-  - del %MSYS%\usr\bin\python2.exe
-  
-  - del /s /q C:\python27 >nul 2>&1
+  - "%MSYS%\\usr\\bin\\pacman.exe -S mingw-w64-x86_64-gcc"
+  - "SET MGW=%MSYS%\\mingw64"
 
-  # Miniconda, MSYS, MinGW is pre-installed in the worker build
-  - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%MinGW%\\bin;%MSYS%\\usr\\bin;%PATH%"
+  # Set to the Path variable binaries for linux like commands make, tar
+  # and also add gcc, g++ support plus python, pip
+  - "SET PATH=%MSYS%\\usr\\bin;%MGW%\\bin;%PATH%;%PYTHON%;%PYTHON%\\Scripts;%PATH%"
   
+  # print path variable
+  - "echo %PATH%"
+
   # Check that we have the expected version and architecture for Python
   - "python --version"
   - "python -c \"import struct; print(struct.calcsize('P') * 8)\""
   - "pip --version"
   
   # Install the build and runtime dependencies of the project.
-  - pip install numpy scipy cython nose scikit-learn setuptools wheel cvxopt wheelhouse_uploader nose-timer
+  - "pip install numpy scipy cython nose scikit-learn setuptools wheel cvxopt wheelhouse_uploader nose-timer"
 
   # Install pynauty
-  - python install_pynauty.py --venv"
+  - "python install_pynauty.py --venv"
   
   # Install project
   - "%CMD_IN_ENV% python setup.py bdist_wheel bdist_wininst"
