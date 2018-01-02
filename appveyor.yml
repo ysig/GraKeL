@@ -22,8 +22,6 @@ install:
   # Path initialisation
   - "SET PATH=C:\\Windows\\system32;C:\\Windows\\System32;C:\\Windows\\system32\\WindowsPowerShell\\v1.0\\"
 
-  - "dir %PYTHON%"
-  - "dir %PYTHON%\\DLLs"
   # Delete python from MSYS to avoid clashes
   - del %MSYS%\usr\bin\pydoc2
   - del %MSYS%\usr\bin\python2-config
@@ -42,10 +40,10 @@ install:
   - del %MSYS%\usr\bin\g++.exe
 
   - "SET MGW=%MSYS%\\mingw64"
-
+  - "dir %MSYS%\\usr\\bin\\"
   # Set to the Path variable binaries for linux like commands make, tar
   # and also add gcc, g++ support plus python, pip
-  - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%MGW%\\bin;%MSYS%\\usr\\bin;%PATH%;%PATH%"
+  - "SET PATH=%PATH%;%PYTHON%;%PYTHON%\\Scripts;%MGW%\\bin;%MSYS%\\usr\\bin"
   
   # print path variable
   - "echo %PATH%"
@@ -61,6 +59,7 @@ install:
   # Install pynauty
   - "python install_pynauty.py --venv"
   
+  - "python -v -c \"import pynauty\""
   # Install project
   - "%CMD_IN_ENV% python setup.py bdist_wheel bdist_wininst"
   - ps: "ls dist"
