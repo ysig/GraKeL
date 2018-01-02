@@ -19,6 +19,10 @@ environment:
       PYTHON_ARCH: "64"
       MSYS: C:\msys64
 install:
+  # Path initialisation
+  - "SET PATH=C:\\Windows\\system32;C:\\Windows\\System32;C:\\Windows\\system32\\WindowsPowerShell\\v1.0\\"
+
+  # Delete python from MSYS to avoid clashes
   - del %MSYS%\usr\bin\pydoc2
   - del %MSYS%\usr\bin\python2-config
   - del %MSYS%\usr\bin\python2.7-config
@@ -27,10 +31,11 @@ install:
    
   # Delete python27 to avoid clashes
   - del /s /q C:\python27 >nul 2>&1
+
   # Delete mingw-64 to avoid clashes
   - del /s /q C:\mingw-w64 >nul 2>&1
 
-  - dir %MSYS%
+  # Delete gcc from MSYS to avoid clashes with mingw dcc, g++
   - del %MSYS%\usr\bin\gcc.exe
   - del %MSYS%\usr\bin\g++.exe
 
