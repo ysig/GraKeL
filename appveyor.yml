@@ -57,9 +57,8 @@ install:
   - "pip install numpy scipy cython nose scikit-learn setuptools wheel cvxopt wheelhouse_uploader nose-timer"
 
   # Install pynauty
-  - "python install_pynauty.py --venv"
+  - "python -v install_pynauty.py --venv"
   
-  - "python -v -c \"import pynauty\""
   # Install project
   - "%CMD_IN_ENV% python setup.py bdist_wheel bdist_wininst"
   - ps: "ls dist"
