@@ -30,7 +30,7 @@ install:
   # Delete mingw-64 to avoid clashes
   - del /s /q C:\mingw-w64 >nul 2>&1
 
-  - dir %MSYS%\usr\bin
+  - dir %MSYS%
   - del %MSYS%\usr\bin\gcc.exe
   - del %MSYS%\usr\bin\g++.exe
 
