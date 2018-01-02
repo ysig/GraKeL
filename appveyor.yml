@@ -32,7 +32,7 @@ install:
 
   # Set to the Path variable binaries for linux like commands make, tar
   # and also add gcc, g++ support plus python, pip
-  - "SET PATH=%MSYS%\\usr\\bin;%MGW%\\bin;%PATH%;%PYTHON%;%PYTHON%\\Scripts;%PATH%"
+  - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%MSYS%\\usr\\bin;%MGW%\\bin;%PATH%;%PATH%"
   
   # print path variable
   - "echo %PATH%"
