@@ -34,12 +34,11 @@ install:
   - del %MSYS%\usr\bin\gcc.exe
   - del %MSYS%\usr\bin\g++.exe
 
-  - "%MSYS%\\usr\\bin\\yes.exe | %MSYS%\\usr\\bin\\pacman.exe -S mingw-w64-x86_64-gcc"
   - "SET MGW=%MSYS%\\mingw64"
 
   # Set to the Path variable binaries for linux like commands make, tar
   # and also add gcc, g++ support plus python, pip
-  - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%MSYS%\\usr\\bin;%MGW%\\bin;%PATH%;%PATH%"
+  - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%MGW%\\bin;%MSYS%\\usr\\bin;%PATH%;%PATH%"
   
   # print path variable
   - "echo %PATH%"
