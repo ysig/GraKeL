@@ -3,7 +3,6 @@
 
 environment:
   global:
-    CMD_LOC: ".\\ci_scripts\\appveyor\\run_with_env.cmd"
     CMD_IN_ENV: "cmd /E:ON /V:ON /C .\\ci_scripts\\appveyor\\run_with_env.cmd"
     # SDK v7.0 MSVC Express 2008's SetEnv.cmd script will fail if the
     # /E:ON and /V:ON options are not enabled in the batch script interpreter
@@ -53,7 +52,7 @@ install:
 
   # Install pynauty (in a correct environment)
   # See: https://packaging.python.org/guides/supporting-windows-using-appveyor/
-  - "python install_pynauty.py --venv --env_cmd \"%CMD_LOC%\""
+  - "%CMD_IN_ENV% python install_pynauty.py --venv"
   
   # Check import of pynauty here and on env
   - "python %ENSURE_PYNAUTY%"

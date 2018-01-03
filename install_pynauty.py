@@ -10,10 +10,8 @@ import traceback
 
 parser = argparse.ArgumentParser(description='A program to install pynauty')
 parser.add_argument('--venv', help='define if inside a virtual environment', action="store_true")
-parser.add_argument('--env_cmd', help='environment cmd for building pynauty in a correct environment [windows]')
 args = parser.parse_args()
 venv = bool(args.venv)
-env_cmd = str(args.env_cmd)
 
 # Define operating system
 is_linux, is_windows = False, False
@@ -65,10 +63,7 @@ if (is_windows):
     os.system('del '+regular_exp)
     # build pynauty
     os.system('make nauty-objects')
-    print("~~~~~~~~~~~~~~~~~~~~~~~~")
-    print('cmd /C "' + env_cmd + ' && ' + python_executable_address + ' setup.py build"')
-    print("~~~~~~~~~~~~~~~~~~~~~~~~")
-    os.system('cmd /C "' + env_cmd + ' && ' + python_executable_address + ' setup.py build"')
+    os.system(python_executable_address + ' setup.py build')
 
 if (is_linux):
     # rename folder
