@@ -5,7 +5,6 @@ from setuptools import setup, find_packages
 with open('requirements.txt') as f:
     INSTALL_REQUIRES = [l.strip() for l in f.readlines() if l]
 
-
 try:
     import numpy
 except ImportError:
@@ -24,11 +23,10 @@ except ImportError:
     print('cvxopt is required during installation')
     sys.exit(1)
 
-import pynauty
 try:
     import pynauty
-except ImportError:
-    print('pynauty is required during installation !')
+except ImportError as ie:
+    print('Import Error [pynauty]:',ie)
     sys.exit(1)
 
 setup(name='grakel',
