@@ -14,15 +14,11 @@ environment:
     CLOUD_STORAGE: LOCAL
 
   matrix:
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2010
-      PYTHON: C:\python34-x64
+    - PYTHON: C:\python34-x64
       PYTHON_VERSION: "3.4.3"
       PYTHON_ARCH: "64"
       MSYS: C:\msys64
 install:
-  # Path initialisation
-  - "SET PATH=C:\\Windows\\system32;C:\\Windows\\System32\\Wbem;C:\\Windows\\system32\\WindowsPowerShell\\v1.0\\"
-
   # Delete python from MSYS to avoid clashes
   - del %MSYS%\usr\bin\pydoc2
   - del %MSYS%\usr\bin\python2-config
@@ -44,7 +40,7 @@ install:
 
   # Set to the Path variable binaries for linux like commands make, tar
   # and also add gcc, g++ support plus python, pip
-  - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%;%MGW%\\bin;%MSYS%\\usr\\bin"
+  - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%MGW%\\bin;%MSYS%\\usr\\bin;%PATH%"
   
   # Check that we have the expected version and architecture for Python
   - "python --version"
@@ -54,12 +50,12 @@ install:
   # Install the build and runtime dependencies of the project.
   - "pip install numpy scipy cvxopt cython nose scikit-learn setuptools wheel wheelhouse_uploader nose-timer"
 
-  # Install pynauty
-  - "python install_pynauty.py --venv"
+  # Install pynauty (in a correct environment)
+  # See: https://packaging.python.org/guides/supporting-windows-using-appveyor/
+  - "python install_pynauty.py --venv --env_cmd %CMD_IN_ENV%"
   
   # Check import of pynauty here and on env
   - "python %ENSURE_PYNAUTY%"
-  - "%CMD_IN_ENV% python %ENSURE_PYNAUTY%"
 
   # Install project
   - "%CMD_IN_ENV% python setup.py bdist_wheel bdist_wininst"
