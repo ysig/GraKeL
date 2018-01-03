@@ -1,7 +1,6 @@
 # AppVeyor.com is a Continuous Integration service to build and run tests under
 # Windows
 
-
 environment:
   global:
     CMD_IN_ENV: "cmd /E:ON /V:ON /C .\\ci_scripts\\appveyor\\run_with_env.cmd"
@@ -15,7 +14,8 @@ environment:
     CLOUD_STORAGE: LOCAL
 
   matrix:
-    - PYTHON: C:\python34-x64
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2010
+      PYTHON: C:\python34-x64
       PYTHON_VERSION: "3.4.3"
       PYTHON_ARCH: "64"
       MSYS: C:\msys64
