@@ -66,14 +66,19 @@ if (is_windows):
     os.system('del '+regular_exp)
 
     # build pynauty
+    os.system('echo Making nauty object files ..')
     os.system('make nauty-objects')
+    os.system('echo Object Files made ..')
     if cmd_env:
         # Set environment variables
         pv = platform.python_version()
         old_pv = os.environ.get('PYTHON_VERSION','')
         os.environ['PYTHON_VERSION'] = pv
 
-        # execute in env
+        os.system('echo Building inside environment')
+        # Execute with the correct environment
+        os.system('echo aouuu')
+        os.system('cmd /E:ON /V:ON /C .\\ci_scripts\\appveyor\\run_with_env.cmd echo ouuua')
         os.system('cmd /E:ON /V:ON /C .\\ci_scripts\\appveyor\\run_with_env.cmd ' + python_executable_address + ' setup.py build')
         
         # Restore
