@@ -65,6 +65,9 @@ if (is_windows):
     os.system('del '+regular_exp)
     # build pynauty
     os.system('make nauty-objects')
+    print("~~~~~~~~~~~~~~~~~~~~~~~~")
+    print(env_cmd + ' ' + python_executable_address + ' setup.py build')
+    print("~~~~~~~~~~~~~~~~~~~~~~~~")
     os.system(env_cmd + ' ' + python_executable_address + ' setup.py build')
 
 if (is_linux):
