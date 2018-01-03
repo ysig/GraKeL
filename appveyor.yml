@@ -21,7 +21,7 @@ environment:
       MSYS: C:\msys64
 install:
   # Path initialisation
-  - "SET PATH=C:\\Windows\\system32;C:\\Windows\\System32;C:\\Windows\\system32\\WindowsPowerShell\\v1.0\\"
+  - "SET PATH=C:\\Windows\\system32;C:\\Windows\\System32\\Wbem;C:\\Windows\\system32\\WindowsPowerShell\\v1.0\\"
 
   # Delete python from MSYS to avoid clashes
   - del %MSYS%\usr\bin\pydoc2
@@ -44,7 +44,7 @@ install:
 
   # Set to the Path variable binaries for linux like commands make, tar
   # and also add gcc, g++ support plus python, pip
-  - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%MGW%\\bin;%MSYS%\\usr\\bin;%PATH%"
+  - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%;%MGW%\\bin;%MSYS%\\usr\\bin"
   
   # Check that we have the expected version and architecture for Python
   - "python --version"
