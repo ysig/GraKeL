@@ -6,6 +6,7 @@ import tarfile
 import shutil
 import warnings
 import argparse
+import traceback
 
 parser = argparse.ArgumentParser(description='A program to install pynauty')
 parser.add_argument('--venv', help='define if inside a virtual environment', action="store_true")
@@ -66,9 +67,10 @@ if (is_windows):
         os.system('pip install --upgrade .')
         try:
             import pynauty
-            os.system('echo "succesful import of pynauty!"')
-        except Exception as inst:
-            os.system('echo "exception: '+str(inst)+'"')
+            os.system('echo Succesful import of pynauty!')
+        except ImportError as ierr:
+            os.system('echo Import-Error: '+str(ierr)+'..')
+            os.system('echo '+ str(traceback.print_exc()))
     else:
         os.system('pip install --user --upgrade .')
 if (is_linux):

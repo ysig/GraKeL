@@ -43,24 +43,21 @@ install:
 
   # Set to the Path variable binaries for linux like commands make, tar
   # and also add gcc, g++ support plus python, pip
-  - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%MGW%\\bin;%MSYS%\\usr\\bin;%PATH%;%PATH%"
+  - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%MGW%\\bin;%MSYS%\\usr\\bin;%PATH%"
   
-  # print path variable
-  - "echo %PATH%"
-
   # Check that we have the expected version and architecture for Python
   - "python --version"
   - "python -c \"import struct; print(struct.calcsize('P') * 8)\""
   - "pip --version"
   
   # Install the build and runtime dependencies of the project.
-  - "pip install numpy scipy cython nose scikit-learn setuptools wheel cvxopt wheelhouse_uploader nose-timer"
+  - "pip install numpy scipy cvxopt cython nose scikit-learn setuptools wheel wheelhouse_uploader nose-timer"
 
   # Install pynauty
   - "python install_pynauty.py --venv"
   
   # Install project
-  - "python setup.py bdist_wheel bdist_wininst"
+  - "%CMD_IN_ENV% python setup.py bdist_wheel bdist_wininst"
   - ps: "ls dist"
   
   # Install the generated wheel package to test it
