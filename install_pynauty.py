@@ -24,9 +24,10 @@ else:
     sys.stderr.write('Unsupported os for this library')
     sys.exit(1)
 
-# Dependencies
-os.system('python --version')
-os.system('pip --version')
+# Running python version
+print('python',platform.python_version())
+print('pip',pip.__version__)
+python_executable_address = str(sys.executable)
 
 # Download library
 # for windows curl must be installed
@@ -62,20 +63,20 @@ if (is_windows):
     os.system('del '+regular_exp)
     # build pynauty
     os.system('make nauty-objects')
-    os.system('python setup.py build --compiler=mingw32')
-    if venv:
-        os.system('pip install --upgrade .')
-    else:
-        os.system('pip install --user --upgrade .')
+    os.system(python_executable_address + ' setup.py build --compiler=mingw32')
+
 if (is_linux):
     # rename folder
     os.system('mv nauty26r10 nauty')
     # build pynauty
-    os.system('make pynauty')
-    if venv:
-        os.system('pip install --upgrade .')
-    else:
-        os.system('pip install --user --upgrade .')
+    os.system('make nauty-objects')
+    os.system(python_executable_address + ' setup.py build')
+
+# Install pynauty
+if venv:
+    pip.main(['install','--upgrade','.'])
+else:
+    pip.main(['install','--user','--upgrade','.'])
 
 # exit directory and delete
 os.chdir("..")
