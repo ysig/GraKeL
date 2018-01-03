@@ -58,7 +58,7 @@ install:
   - "python install_pynauty.py --venv"
   
   # Check import of pynauty here and on env
-  - python %ENSURE_PYNAUTY%
+  - "python %ENSURE_PYNAUTY%"
   - "%CMD_IN_ENV% python %ENSURE_PYNAUTY%"
 
   # Install project
