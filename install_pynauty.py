@@ -65,12 +65,6 @@ if (is_windows):
     os.system('python setup.py build --compiler=mingw32')
     if venv:
         os.system('pip install --upgrade .')
-        try:
-            import pynauty
-            os.system('echo Succesful import of pynauty!')
-        except ImportError as ierr:
-            os.system('echo Import-Error: '+str(ierr)+'..')
-            os.system('echo '+ str(traceback.print_exc()))
     else:
         os.system('pip install --user --upgrade .')
 if (is_linux):
