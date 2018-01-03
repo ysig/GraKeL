@@ -52,7 +52,7 @@ install:
 
   # Install pynauty (in a correct environment)
   # See: https://packaging.python.org/guides/supporting-windows-using-appveyor/
-  - "%CMD_IN_ENV% python install_pynauty.py --venv"
+  - "python install_pynauty.py --venv --cmd_env"
   
   # Check import of pynauty here and on env
   - "python %ENSURE_PYNAUTY%"
