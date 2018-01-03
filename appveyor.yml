@@ -8,13 +8,14 @@ environment:
     # SDK v7.0 MSVC Express 2008's SetEnv.cmd script will fail if the
     # /E:ON and /V:ON options are not enabled in the batch script interpreter
     # See: http://stackoverflow.com/a/13751649/163740
+    ENSURE_PYNAUTY: .\ci_scripts\appveyor\ensure_pynauty.py
     WHEELHOUSE_UPLOADER_USERNAME: ysig
     MODULE: grakel
     PROJECT_NAME: GraKeL
     CLOUD_STORAGE: LOCAL
 
   matrix:
-    - PYTHON: "C:\\Python34-x64"
+    - PYTHON: C:\python34-x64
       PYTHON_VERSION: "3.4.3"
       PYTHON_ARCH: "64"
       MSYS: C:\msys64
@@ -56,8 +57,9 @@ install:
   # Install pynauty
   - "python install_pynauty.py --venv"
   
-  # Check import of pynauty
-  - "%CMD_IN_ENV% python check_for_pynauty.py"
+  # Check import of pynauty here and on env
+  - python %ENSURE_PYNAUTY%
+  - "%CMD_IN_ENV% python %ENSURE_PYNAUTY%"
 
   # Install project
   - "%CMD_IN_ENV% python setup.py bdist_wheel bdist_wininst"
