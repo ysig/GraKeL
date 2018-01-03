@@ -78,6 +78,8 @@ if (is_windows):
         os.system('echo Building inside environment')
         # Execute with the correct environment
         os.system('echo aouuu')
+        os.system('echo cwd = ' + str(os.getcwd()))
+        os.system('echo isfile is '+str(os.path.isfile('.\\ci_scripts\\appveyor\\run_with_env.cmd')))
         os.system('cmd /E:ON /V:ON /C .\\ci_scripts\\appveyor\\run_with_env.cmd echo ouuua')
         os.system('cmd /E:ON /V:ON /C .\\ci_scripts\\appveyor\\run_with_env.cmd ' + python_executable_address + ' setup.py build')
         
