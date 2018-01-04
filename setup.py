@@ -5,7 +5,6 @@ from setuptools import setup, find_packages
 with open('requirements.txt') as f:
     INSTALL_REQUIRES = [l.strip() for l in f.readlines() if l]
 
-
 try:
     import numpy
 except ImportError:
@@ -19,16 +18,22 @@ except ImportError:
     sys.exit(1)
 
 try:
-	import pynauty
+    import cvxopt
 except ImportError:
-    print('pynauty is required during installation')
+    print('cvxopt is required during installation')
+    sys.exit(1)
+
+try:
+    import pynauty
+except ImportError as ie:
+    print('Import Error [pynauty]:',ie)
     sys.exit(1)
 
 setup(name='grakel',
       version='0.0.1',
       description='A scikit-learn compatible library for graph kernels',
-      author='mary et.al.',
+      author='Ioannis Siglidis [LiX / DaSciM]',
       packages=find_packages(),
       install_requires=INSTALL_REQUIRES,
-      author_email='mary@dev.null',
+      author_email='',
       )

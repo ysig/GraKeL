@@ -1,6 +1,7 @@
-""" The Multiscale Laplacian Graph Kernel as defined
-    by [Risi Kondor, Horace Pen (2016)]
+""" The Multiscale Laplacian Graph Kernel as defined in :cite:`Kondor2016TheML`.
 """
+import warnings
+
 import numpy as np
 
 from numpy.linalg import eig, inv, det
@@ -9,14 +10,26 @@ from ..graph import graph, laplacian
 from ..tools import extract_matrix
 
 def multiscale_laplacian(X, Y, Phi_x, Phi_y, L=3, gamma=0.01):
-    """ The Laplacian Graph Kernel
-        as proposed by Risi Kondor, 
-        Horace Pen at 2016
+    """ The Laplacian Graph Kernel as proposed in :cite:`Kondor2016TheML`.
         
-        X,Y: Valid graph formats to be compared
-        Phi_{x,y}: The corresponding feature values dictionaries
-                    
-        gamma: A small softening parameter of float value
+    Parameters
+    ----------
+    X,Y : `valid-graph-format`
+        The pair of graphs on which the kernel is applied.
+    
+    Phi_{x,y} : dict
+        Corresponding feature vectors for vertices.
+
+    L : int, default=3
+        Number of neighborhoods.    
+
+    gamma : float, default=0.01
+        A small softening parameter of float value.
+        
+    Returns
+    -------
+    kernel : number
+        The kernel value.
     """
     Gx = graph(X, Phi_x)
     Gy = graph(Y, Phi_y)
@@ -24,15 +37,35 @@ def multiscale_laplacian(X, Y, Phi_x, Phi_y, L=3, gamma=0.01):
     
     
 def multiscale_laplacian_inner(Gx, Gy, L=3, gamma=0.01):
-    """ The Laplacian Graph Kernel
-        as proposed by Risi Kondor, 
-        Horace Pen at 2016
-        
-        Gx,Gy: Valid graph formats having as labels the phi_x, phi_y
-        
-        gamma: A small softening parameter of float value
-        L: number of neighbourhoods
+    """ The Laplacian Graph Kernel as proposed in :cite:`Kondor2016TheML`.
+    
+    Parameters
+    ----------
+    G{x,y} : graph
+        The pair of graphs on which the kernel is applied with feature vectores as node labels.
+
+    L : int, default=3
+        Number of neighborhoods.
+
+    gamma : float, default=0.01
+        A small softening parameter.
+
+    Returns
+    -------
+    kernel : number
+        The kernel value.
     """
+    if gamma > 0.05:
+        warnings.warn('gamma to big')
+    elif gamma == .0:
+        warnings.warn('with zero gamma the calculation may crash')
+    elif gamma < 0:
+        raise ValueError('gamma must be positive')
+    
+    if type(L) is not int:
+        raise ValueError('L must be an integer')
+    elif L < 0:
+        raise ValueError('L must be positive')
     
     # Set desired format
     Gx.desired_format("adjacency")
@@ -58,19 +91,19 @@ def multiscale_laplacian_inner(Gx, Gy, L=3, gamma=0.01):
             vec_b = pick(i)
             gram_matrix[i,j] = np.dot(vec_a, vec_b)
     
-    # calculate the neighboorhoods
-    Nx = make_nested_neighbourhoods(Gx, L=L)
-    Ny = make_nested_neighbourhoods(Gy, L=L)
+    # calculate the neighborhoods
+    Nx = Gx.produce_neighborhoods(r=L)
+    Ny = Gy.produce_neighborhoods(r=L)
     
     # a lambda that calculates indexes inside the gram matrix
     # and the corresponindg laplacian given a node and a level
-    pick = lambda node, level: (Nx[node][level], laplacian(Ax[Nx[node][level],:][:,Nx[node][level]])) if node<Gx.n else ([idx+Gx.n for idx in Ny[node-Gx.n][level]], laplacian(Ay[Ny[node-Gx.n][level],:][:,Ny[node-Gx.n][level]]))
+    pick = lambda node, level: (Nx[level][node], laplacian(Ax[Nx[level][node],:][:,Nx[level][node]])) if node<Gx.n else ([idx+Gx.n for idx in Ny[level][node-Gx.n]], laplacian(Ay[Ny[level][node-Gx.n],:][:,Ny[level][node-Gx.n]]))
 
     for l in range(1,L+1):
         gm = gram_matrix
         gram_matrix = np.empty(shape=(gram_matrix_size,gram_matrix_size))
         for i in range(0, gram_matrix_size):
-            # calculate the correct indexes of neighbours
+            # calculate the correct indexes of neighbors
             # and the corresponding laplacian
             (idx_i, La) = pick(i,l)
             for j in range(0, gram_matrix_size):
@@ -89,14 +122,35 @@ def multiscale_laplacian_inner(Gx, Gy, L=3, gamma=0.01):
     return generalized_FLG_core(Lx, Ly, gram_matrix, gamma=gamma)
     
 def generalized_FLG_core(Lx, Ly, gram_matrix, gamma=0.05, heta=0.1):
-    """ Helping function for multiscale gaussian
-       L_{x,y}: Laplacians of graph {x,y}
-                numpy arrays of size n_{x,y} times n_{x,y}
-       Gram_matrix: The corresponding gram matrix for the two graphs
-                    numpy array of size n_x + n_y
-       gamma: A smoothness parameter [float] - close to zero.
-       
+    """ Helping function for the multiscale gaussian.
+    
+    Parameters
+    ----------
+    L_{x,y} (np.array)
+        Laplacians of graph {x,y}.
+    
+    Gram_matrix : np.array
+        The corresponding gram matrix for the two graphs.
+    
+    gamma : float, default=0.05
+        A small softening parameter.
+    
+    heta : float, default=0.1
+        Number of neighborhoods.
+
+    Returns
+    -------
+    kernel : number
+        The FLG core kernel value.
     """
+    if heta > 0.2:
+        warnings.warn('heta to big')
+    elif gamma == .0:
+        warnings.warn('with zero heta the calculation may crash')
+    elif heta < 0:
+        raise ValueError('heta must be positive')
+ 
+ 
     nx = Lx.shape[0]
     ny = Ly.shape[0]
     
@@ -136,29 +190,3 @@ def generalized_FLG_core(Lx, Ly, gram_matrix, gamma=0.05, heta=0.1):
     k_denom = quatre(abs(det(Sx)*det(Sy)))
     
     return k_nom/k_denom
-
-def make_nested_neighbourhoods(G, L):
-    """ Calculates nested neighborhoods needed
-        for multiscale laplacian calculation
-        
-        G: a graph type object
-        L: number of neighbourhoods for nesting
-    """
-    N = dict()
-    
-    # initialization
-    for i in range(0,G.n):
-        N[i] = dict()
-        N[i][1] = sorted([i]+list(G.neighbours(i)))
-        
-    # calculate neighbourhoods
-    # by a recursive formula
-    # for all levels from 2 to L
-    for level in range(1,L):
-        for i in range(0,G.n):
-            neighbours = set()
-            for w in N[i][level]:
-                neighbours = neighbours.union(set(N[w][level]))
-            N[i][level+1] = sorted(list(neighbours))
-    
-    return N

@@ -5,8 +5,13 @@
 
 from __future__ import generators
 import operator
+import collections
+import warnings
 
 import numpy as np
+
+from scipy.special import binom as binomial
+
         
 class priority_dict(dict,object):
     def __init__(self):
@@ -129,9 +134,8 @@ def inv_dict(d):
             elif type(k) is set:
                 k = frozenset(k)
             else:
-                # check for hashability
-                # if not raise error
-                pass
+                if not isinstance(k, collections.Hashable):
+                    raise ValueError('in order to calculate inverse dictionary, values must be hashable')
             if k not in inv:
                inv[k] = list()
             inv[k].append(a)
@@ -163,8 +167,7 @@ def matrix_to_dict(matrix, op='==', const_value=0, s=-1, allow_diagonal=False):
                         at input
     """
     if op not in ['>', '<', '>=', '<=', '==']:
-        # Raise exception unsupported operator?
-        pass
+        raise ValueError('unsupported operator')
 
     opr = ops[op]
     
@@ -186,13 +189,101 @@ def extract_matrix(mat, a, b):
         
         a, b: the two corresponding index lists
     """
-    if (len(a) != len(b)):
-        # Raise exception: Index lists must have the same size
-        pass
-        
+    
     mat_a, mat_b = mat[a,:], mat[b,:]
     
     A = np.concatenate((mat_a[:,a], mat_a[:,b]), axis=1)
     B = np.concatenate((mat_b[:,a], mat_b[:,b]), axis=1)
     
     return np.concatenate((A,B),axis=0)
+    
+def distribute_samples(n, subsets_size_range, n_samples):
+        """ A function that is used in order to 
+            distribute evenly, the amount of samples
+            that will be drawn from a range of subset
+            size, from an original set of given size.
+            
+            n: set size
+            subsets_size_range: A touple having the min and the max subset size
+            n_samples: the number of samples
+        """
+        # Check input
+        min_ss, max_ss = subsets_size_range[0], subsets_size_range[1]
+        
+        if min_ss <= 1:
+            raise ValueError('minimum subset size must be bigger than one')
+        if min_ss > max_ss:
+            raise ValueError('minimum subset size must be smaller than maximum')
+        if min_ss > n:
+            raise ValueError('minimum subset size must not exceed graph size')
+        if max_ss > n:
+            warnings.warn('maximum subset size to big - adjusting to set size')
+            max_ss = n
+        
+        # Distribute samples to subset groups
+        availabilities_on_subsets = sorted([(k,int(binomial(n,k))) for k in range(min_ss,max_ss+1)], key = lambda x: x[1])
+        n_availabilities = sum(item[1] for item in availabilities_on_subsets)
+        
+        # Semantic Exception
+        if n_availabilities < n_samples:
+            raise ValueError('number of samples cannot be drown from that range of subsets - for the same range user must provide a smaller number of samples')
+        
+        samples_on_subsets = dict()
+        available_samples = n_samples
+        # a variable that helps distributing equally
+        cache = 0
+        for (i,n) in availabilities_on_subsets:
+            a = round((n/n_availabilities)*n_samples)
+            value = -1
+            if a < n:
+                if a > 0:
+                    q = a + cache - n
+                    if q >= 0:
+                        cache = q                    
+                        value = n
+                    else:
+                        value = a + cache
+            elif (a >= n):
+                cache += a-n
+                value = n
+                
+            # If maximum number of samples is reached break
+            if value >= available_samples:
+                samples_on_subsets[min_ss+i] = available_samples
+                break
+            elif value != -1:
+                samples_on_subsets[min_ss+i] = value
+               
+        return samples_on_subsets
+        
+def rotl(num, bits):
+    """ Rotate left binary operation
+        Code from Joel Bradshaw found on
+        https://gist.github.com/cincodenada/6557582
+    
+        num: number
+        bits: number of bits 
+    """
+    bit = num & (1 << (bits-1))
+    num <<= 1
+    if(bit):
+        num |= 1
+    num &= (2**bits-1)
+
+    return num
+
+def rotr(num, bits):
+    """ Rotate right binary operation
+        Code from Joel Bradshaw found on
+        https://gist.github.com/cincodenada/6557582
+    
+        num: number
+        bits: number of bits 
+    """
+    num &= (2**bits-1)
+    bit = num & 1
+    num >>= 1
+    if(bit):
+        num |= (1 << (bits-1))
+
+    return num

@@ -1,5 +1,4 @@
-""" This file contains the subtree kernel
-    as defined by [Shervashize et. al., 2011]
+""" This file contains the subtree kernel as defined in :cite:`Ramon2003ExpressivityVE`.
 """
 
 import itertools
@@ -8,30 +7,43 @@ from ..graph import graph
 from ..tools import nested_dict_get, nested_dict_add
 
 def subtree_rg(X, Y, Lx, Ly, h=5):
-    """ Computes the Ramon Gartner subtree kernel
-        as proposed at 2011 by shervashize et. al.
+    """ Computes the Ramon Gartner subtree kernel as proposed in :cite:`Ramon2003ExpressivityVE`, s. 5.
 
-        X, Y: Valid graph formats to be compared
-        Lx, Ly: Valid labels for graphs
-        base_kernel: A valid base kernel
+    Parameters
+    ----------
+    X,Y : *valid-graph-format*
+        The pair of graphs on which the kernel is applied.
+        
+    L{x,y} : dict
+        Corresponding graph labels for vertices.
+        
+    h : int, default=5
+        The sub-tree depth.
+
+    Returns
+    -------
+    kernel : number
+        The kernel value.
     """
     Gx = graph(X,Lx)
     Gy = graph(Y,Ly)
     return subtree_rg_inner(Gx, Gy, h=5)
 
 def subtree_rg_inner(Gx, Gy, h=5):
-    """ Calculate The Ramon Gartner subtree kernel
-        as proposed on [Ramon & Gartner, 2003]
+    """ Calculate The Ramon Gartner subtree kernel as proposed in :cite:`Ramon2003ExpressivityVE`, s. 5.
 
-        X_edge_dict, Y_edge_dict: The two graphs
-            whose kernel is going to be computed
-            as a dictionary of edges as follows:
-                If (u,v) edge exists then edges["u"]["v"] has
-                weight of the edge pointing from u to v
+    Parameters
+    ----------
+    G_{x,y} : graph
+        The pair graphs on which the kernel is applied.
+        
+    h : int, default=5
+        The sub-tree depth.
 
-        Gx, Gy: Graph types objects
-
-        height: The height of the subtree exploration         
+    Returns
+    -------
+    kernel : number
+        The kernel value.
     """
     Gx.desired_format("dictionary")
     Gy.desired_format("dictionary")
@@ -43,22 +55,34 @@ def subtree_rg_inner(Gx, Gy, h=5):
     return kernel
 
 def subtree_rg_core_dynamic(u, v, g_x, g_y, h, dynamic_dict, p_u=None, p_v=None):
-    """ Calculate the inside of the summation
-        of Ramon Gartner subtree kernel
-        as proposed on [Ramon & Gartner, 2003]
+    """ Calculate the inside of the summation of Ramon Gartner subtree kernel as proposed on :cite:`Ramon2003ExpressivityVE`, s. 5.
 
-        u,v: vertices that correspond to graphs g_x, g_y
-        g_x, g_y: graph formats for the corresponding
-        graphs 
-        h: The height of the subtree exploration
-        p_u, p_v: Needed for not to backtrack        
+    Parameters
+    ----------
+    u,v : hashable(s)
+        Vertices that correspond to graphs g_x, g_y.
         
-        This is an efficiency proposal using various
-        data structures and dynamic programming
-        assuming that for each node you take all 
-        of its neighbors and not its preddecesor.
-        A dictionary is being formed that holds
-        level, u, v and pred of u and pred of v
+    g_{x,y} : graph
+        Graph formats for the corresponding graphs.
+        
+    h : int
+        The height of the subtree exploration.
+        
+    dynamic_dict : dict
+        A dictionary that is used for applying dynamic programming.
+    p_{u,v} : hashable(s) or None, default=None
+        Parent nodes, to avoid repeating explorations.
+        
+    Returns
+    -------
+    kernel : number
+        The kernel value.
+
+    Note
+    ----
+    This is an efficiency proposal using various data structures and dynamic programming
+    assuming that for each node you take all of its neighbors and not its predecesor.
+    A dictionary is being formed that holds level, u, v and pred of u and pred of v.
     """
     
     if h==1:
@@ -74,8 +98,8 @@ def subtree_rg_core_dynamic(u, v, g_x, g_y, h, dynamic_dict, p_u=None, p_v=None)
         lby = g_y.get_label_group()
         Rset = []
 
-        # Calculate neighbours and remove previous
-        nx = g_x.neighbours(u)
+        # Calculate neighbors and remove previous
+        nx = g_x.neighbors(u)
 
         # Avoid going back
         if (p_u is not None):
@@ -83,14 +107,14 @@ def subtree_rg_core_dynamic(u, v, g_x, g_y, h, dynamic_dict, p_u=None, p_v=None)
                 nx.remove(p_u)
 
         # do the same for y
-        ny = g_y.neighbours(v)
+        ny = g_y.neighbors(v)
 
         # Avoid going back
         if (p_v is not None):
             if p_v in ny:
                 ny.remove(p_v)
 
-        # What happens when one list has no neighbours?
+        # What happens when one list has no neighbors?
         xy_and = len(nx)*len(ny)
         xy_or = len(nx)+len(ny)
         if(xy_or == 0):
@@ -195,12 +219,22 @@ def subtree_rg_core_dynamic(u, v, g_x, g_y, h, dynamic_dict, p_u=None, p_v=None)
         return 0
 
 def plough_subsets(initial_set, Rv, value):
-    """ A function that finds all subset kernel
-        values without repeating operations
+    """ A function that finds all subset kernel values without repeating operations.
 
-        initial_set: The set you are operating (set)
-        Rv: values for single elements (dictionary on integers)
-        value: The dictionary of all sets and values (dictionary on frozensets)
+    Parameters
+    ----------
+    initial_set : set
+        The set that will be ploughed further.
+        
+    Rv : dict
+        Values for single elements (dictionary on integers).
+        
+    value : dict
+        Stores all values for the relevant sets.
+
+    Returns
+    -------
+    None.
     """
     # If only one element return its value
     if (len(initial_set) == 1):

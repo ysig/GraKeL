@@ -6,10 +6,10 @@ from grakel.kernels import *
 global verbose, main, development
 
 main = True
-verbose = True
-development = False
+verbose = False 
+development = True
 
-global X, L, Le, phi
+global X, Y, L, Le, phi
 
 X = np.array([[0,1,2,1,0,0.5,0],
               [1,0,0,0,1,2,0.5],
@@ -18,6 +18,26 @@ X = np.array([[0,1,2,1,0,0.5,0],
               [0,1,0,0,0,3,1],
               [0.5,2,0,0,3,0,0],
               [0,0.5,2,0,1,0,0]])
+ 
+# Route May 2001 map of Spirit Airlines
+# Atlantic City, Chicago (O'Hare), Detroit, Fort Lauderdale, Fort Myers, Los Angeles, Melbourne, Myrtle Beach, Newark, New York (LaGuardia), Oakland, Orlando, Tampa, and Washington (Reagan National).
+D = np.array([
+[0, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0],
+[1, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0],
+[0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0],
+[1, 1, 1, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 1],
+[1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+[0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1],
+[1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0],
+[0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0],
+[0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0],
+[0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+[1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+[1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0]])
+
+LD = {0:'rock', 1:'post-punk', 2:'rock', 3:'indie', 4:'classical', 5:'pop', 6:'rock', 7:'punk', 8:'punk', 9:'indie', 10:'post-rock', 11:'post-punk', 12:'jazz', 13:'jazz', 14:'jazz', 15:'classical'}
               
 L = {0:'banana', 1:'cherry', 2:'banana', 3:'cherry', 4:'peach',5:'cherry',6:'lime'}
 
@@ -40,12 +60,12 @@ def test_random_walk_simple():
     if verbose:
         print("Random Walk [Simple]:",random_walk(X, X, lamda=0.1, method_type="simple"))
     else:
-        npt.assert_almost_equal(-30.912616526802676, random_walk(X, X, lamda=0.1, method_type="simple"))
+        npt.assert_almost_equal(-30.912616526802676, random_walk(X, X, lamda=0.1, method_type="simple"), decimal=3)
 def test_random_walk_sylvester():
     if verbose:
         print("Random Walk [Sylvester]:",random_walk(X, X, lamda=0.1, method_type="sylvester"))
     else:
-        npt.assert_almost_equal(-30.912616526802676, random_walk(X, X, lamda=0.1, method_type="sylvester"))
+        npt.assert_almost_equal(-30.912616526802676, random_walk(X, X, lamda=0.1, method_type="sylvester"), decimal=3)
 def test_shortest_path():
     if verbose:
         print("Shortest Path [Dijkstra]:",shortest_path(X, X, L, L, "dijkstra"))
@@ -67,7 +87,7 @@ def test_graphlet_sampling():
     if verbose:
         print("Graphlets Sampling:",graphlet_sampling(X, X, 5, 0.05, 0.05,-1))
     else:
-         npt.assert_almost_equal(0.49863760218,graphlet_sampling(X, X, 5, 0.05, 0.05,-1))
+         npt.assert_almost_equal(0.4986,graphlet_sampling(X, X, 5, 0.05, 0.05,-1), decimal=3)
 def test_weisfeiler_lehman():
     base_kernel = dict()
     base_kernel["dirac"] = lambda x, y: dirac_inner(x,y)
@@ -94,6 +114,37 @@ def test_subgraph_matching():
     if verbose:
         print("Subgraph Matching:",subgraph_matching(X,X,L,L,Le,Le))
 
+def test_lovasz_theta():
+    if verbose:
+        print("Lovasz Theta:", lovasz_theta(D,D))
+
+def test_svm_theta():
+    if verbose:
+        print("SVM Theta:", svm_theta(D,D))
+
+def test_neighborhood_pairwise_subgraph_distance_kernel():
+    if verbose:
+        print("NSPDK:",neighborhood_pairwise_subgraph_distance(X, X, L, L, Le, Le))
+
+def test_neighborhood_hash_kernel():
+    if verbose:
+        print("Neighborhood Hash - 'simple':",neighborhood_hash(X, X, L, L, nh_type='simple'))
+        print("Neighborhood Hash - 'count-sensitive':",neighborhood_hash(X, X, L, L, nh_type='count-sensitive'))
+        
+def test_odd_sth():
+    #x = np.array([[0, 1, 1, 0], [1, 0, 1, 1], [1, 1, 0, 1], [0, 1, 1, 0]])
+    #l = {0: 's', 1:'e', 2:'b', 3:'d'}
+    if verbose:
+        print("ODD-STh:",odd_sth(X, X, L, L, h=None))
+
+def test_propagation():
+    if verbose:
+        print("Propagation:", propagation(X,X,L,L))
+
+def test_pyramid_match():
+    if verbose:
+        print("Pyramid Match:", pyramid_match(D,D,LD,LD))
+
 if verbose and main:
     test_dirac()
     test_random_walk_simple()
@@ -102,6 +153,13 @@ if verbose and main:
     test_subtree_RG()
     test_graphlet_sampling()
     test_weisfeiler_lehman()
+    test_subgraph_matching() 
+    test_lovasz_theta()
+    test_svm_theta()    
+    test_neighborhood_pairwise_subgraph_distance_kernel()
+    test_neighborhood_hash_kernel()
+    test_odd_sth()
+    test_propagation()
 if verbose and development:
-    test_multiscale_laplacian()
-    test_subgraph_matching()
+#    test_multiscale_laplacian()
+    test_pyramid_match()

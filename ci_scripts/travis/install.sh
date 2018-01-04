@@ -26,15 +26,21 @@ popd
 # provided versions
 conda create -n testenv --yes python=$PYTHON_VERSION pip nose \
       numpy=$NUMPY_VERSION scipy=$SCIPY_VERSION cython=$CYTHON_VERSION
-
+      
 source activate testenv
-
 
 if [[ "$COVERAGE" == "true" ]]; then
     pip install coverage coveralls
 fi
 
+pip install 'cvxopt>=1.1.9'
+# If setuptools are not installed -- upgraded, travis crashes
+pip install --upgrade setuptools
+python install_pynauty.py --venv
+
 python --version
 python -c "import numpy; print('numpy %s' % numpy.__version__)"
 python -c "import scipy; print('scipy %s' % scipy.__version__)"
+python -c "import cvxopt; print('cvxopt %s' % cvxopt.__version__)"
+python -c "import pynauty; print('pynauty %s' % pynauty.__version__)"
 python setup.py develop

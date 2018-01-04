@@ -1,3 +1,5 @@
+version: 1
+
 machine:
   environment:
     # The github organization or username of the repository which hosts the
@@ -12,9 +14,8 @@ machine:
 
     # The email is to be used for commits in the Github Page
     EMAIL: "y.siglidis@gmail.com"
-
+    
 dependencies:
-
   # Various dependencies
   pre:
     - sudo -E apt-get -yq remove texlive-binaries --purge
@@ -23,14 +24,14 @@ dependencies:
     - sudo apt-get install build-essential python-dev python-setuptools
     # install numpy first as it is a compile time dependency for other packages
     - pip install --upgrade numpy
-    - pip install --upgrade scipy matplotlib setuptools nose coverage sphinx pillow sphinx-gallery sphinx_rtd_theme
+    - pip install --upgrade scipy matplotlib setuptools nose coverage sphinx pillow sphinx-gallery sphinx_rtd_theme sphinxcontrib-bibtex
     # Installing required packages for `make -C doc check command` to work.
     - sudo -E apt-get -yq update
     - sudo -E apt-get -yq --no-install-suggests --no-install-recommends --force-yes install dvipng texlive-latex-base texlive-latex-extra
     - pip install --upgrade cython numpydoc
     - pip install --upgrade scikit-learn
-	- pip install --upgrade pynauty
-
+    - pip install --upgrade cvxopt
+    - python install_pynauty.py --venv
   # The --user is needed to let sphinx see the source and the binaries
   # The pipefail is requested to propagate exit code
   override:
