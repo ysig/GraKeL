@@ -51,8 +51,13 @@ install:
   - "pip install numpy scipy cvxopt cython nose scikit-learn setuptools wheel wheelhouse_uploader nose-timer"
 
   # Install pynauty (in a correct environment)
-  # See: https://packaging.python.org/guides/supporting-windows-using-appveyor/
-  - "python install_pynauty.py --venv --cmd_env"
+  # See: https://packaging.python.org/guides/supprting-windows-using-appveyor/
+  # MinGW build is the only valid. Bypassing gcc dependencies
+  # seems tough for the non native developer of the pynauty library.
+  # Installation will be done with mingw. Propably will lead to error inside appveyor
+  # because of 4GB memory overhead on a x64 3.4 python, upon library import
+  # See: https://github.com/ContinuumIO/anaconda-issues/issues/271#issue-58658137
+  - "python install_pynauty.py --venv --use_mingw"
   
   # Check import of pynauty here and on env
   - "python %ENSURE_PYNAUTY%"
