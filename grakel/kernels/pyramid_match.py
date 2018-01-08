@@ -86,13 +86,13 @@ def pyramid_match_matrix(Graphs_x, Graphs_y=None, with_labels=True, L=4, d=6):
         h_y = h_x
         g_iter = list(Graphs_x.values())
         ng = h_x
-        pairs = [(i,j) for i in range(0,h_x) for j in range(i, h_x)]
+        pairs = [(i,j) for i in range(0, h_x) for j in range(i, h_x)]
         offset = 0
     else:
         h_y = len(Graphs_y.keys())
         g_iter = list(itertools.chain(Graphs_x.values(), Graphs_y.values()))
         ng = h_x+h_y
-        pairs = list(itertools.product(range(h_x, ng), range(0,h_x)))
+        pairs = list(itertools.product(range(h_x, ng), range(0, h_x)))
         offset = h_x
     
     # Map labels to values between 0 and L-1 where L is the number of distinct labels
@@ -163,7 +163,8 @@ def pyramid_match_matrix(Graphs_x, Graphs_y=None, with_labels=True, L=4, d=6):
                 Hs[i].append(D)
         
     # Calculate kernel
-    K = np.zeros(shape=(h_x,h_y))
+    K = np.zeros(shape=(h_y,h_x))
+    
     for (i,j) in pairs:
         if i in Hs and j in Hs:
             k = 0
@@ -178,7 +179,7 @@ def pyramid_match_matrix(Graphs_x, Graphs_y=None, with_labels=True, L=4, d=6):
                     # higher levels (e.g. p+1 level)
                     k += (1.0/(2**(L-p-1)))*(intersec[p]-intersec[p+1])
             K[i-offset,j] = k
-        
+
     if Graphs_y is None:
         K = np.triu(K) + np.triu(K, 1).T
     

@@ -13,6 +13,7 @@ from .neighborhood_hash import neighborhood_hash, neighborhood_hash_matrix
 from .odd_sth import odd_sth, odd_sth_matrix
 from .propagation import propagation, propagation_matrix
 from .pyramid_match import pyramid_match, pyramid_match_matrix
+from .hadamard_code import hadamard_code, hadamard_code_matrix
 
 __all__ = [
 "dirac",
@@ -47,5 +48,7 @@ __all__ = [
 "propagation",
 "propagation_matrix",
 "pyramid_match",
-"pyramid_match_matrix"
+"pyramid_match_matrix",
+"hadamard_code",
+"hadamard_code_matrix"
 ]

@@ -5,8 +5,8 @@ from grakel.kernels import *
 
 global verbose, main, development
 
-main = True
-verbose = False 
+main = False
+verbose = True
 development = True
 
 global X, Y, L, Le, phi
@@ -145,6 +145,11 @@ def test_pyramid_match():
     if verbose:
         print("Pyramid Match:", pyramid_match(D,D,LD,LD))
 
+def test_hadamard_code():
+	if verbose:
+		print("Hadamard Code [simple]:", hadamard_code(X, X, L, L, dirac_inner))
+		print("Hadamard Code [shortened]:", hadamard_code(X, X, L, L, dirac_inner, hc_type='shortened'))
+
 if verbose and main:
     test_dirac()
     test_random_walk_simple()
@@ -160,6 +165,7 @@ if verbose and main:
     test_neighborhood_hash_kernel()
     test_odd_sth()
     test_propagation()
+    test_pyramid_match()
 if verbose and development:
 #    test_multiscale_laplacian()
-    test_pyramid_match()
+	test_hadamard_code()

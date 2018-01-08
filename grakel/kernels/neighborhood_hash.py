@@ -109,7 +109,6 @@ def neighborhood_hash_matrix(Graphs_x, Graphs_y=None, nh_type='simple', R=3, byt
                     noc[labels[k]] += 1
             Gs[i] += (noc,)
         
-    K = dict()
     S = np.zeros(shape=(h_x,h_y))
     for r in range(0,R):
         K = np.eye(h_x,h_y)
