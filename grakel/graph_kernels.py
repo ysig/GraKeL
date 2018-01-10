@@ -460,21 +460,20 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                 is_symmetric = True
                 target_graph = X_graph
                 num_of_targets = num_of_graphs
+                pairs = [(i,j) for i in range(0,num_of_targets) for j in range(i, num_of_graphs)]
             else:
                 is_symmetric = False
                 num_of_targets = len(target_graph.keys())
-                
+                pairs = list(itertools.product(range(0, num_of_targets), range(0, num_of_graphs)))
+
             K = np.zeros(shape = (num_of_targets,num_of_graphs))
+            
+            for (i,j) in pairs:
+                K[i,j] = self._pairwise_kernel_executor(kernel, target_graph[i], X_graph[j])
+
             if is_symmetric:
-                for i in range(0,num_of_targets):
-                    for j in range(i,num_of_graphs):
-                        K[i,j] = self._pairwise_kernel_executor(kernel, target_graph[i], X_graph[i])
-                        if(i!=j):
-                            K[j,i] = K[i,j]
-            else:
-                for i in range(0,num_of_targets):
-                    for j in range(0,num_of_graphs):
-                        K[i,j] = self._pairwise_kernel_executor(kernel, target_graph[i], X_graph[i])
+                K = np.triu(K) + np.triu(K, 1).T
+
             return K     
         else:
             return kernel(X_graph, target_graph)
