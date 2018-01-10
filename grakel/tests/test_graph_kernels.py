@@ -242,6 +242,15 @@ def gk_test_pyramid_match():
     if verbose:
         print("pyramid match:", gkf.transform())
 
+def gk_test_jsm():
+    XX = list(k*[[D]])
+    gk = GraphKernel(kernel={"name":"jsm"}, concurrency=2, normalize=True)
+    gkf = gk.fit(XX)
+    
+    if verbose:
+        print("Jensen Shannon Representation Kernel:", gkf.transform())
+
+
 if verbose and main:
     gk_test_dirac()
     gk_test_random_walk_simple()
@@ -258,7 +267,8 @@ if verbose and main:
     gk_test_wl_nh()
     gk_test_odd_sth()
     gk_test_propagation()
-    
-if verbose and development:
     gk_test_pyramid_match()
+
+if verbose and development:
+    gk_test_jsm()
 #    gk_test_multiscale_laplacian()

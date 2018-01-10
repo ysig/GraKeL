@@ -150,6 +150,10 @@ def test_hadamard_code():
 		print("Hadamard Code [simple]:", hadamard_code(X, X, L, L, dirac_inner))
 		print("Hadamard Code [shortened]:", hadamard_code(X, X, L, L, dirac_inner, hc_type='shortened'))
 
+def test_jsm():
+    if verbose:
+        print("Jensen Shannon Representation Kernel:", jsm(D,D))
+
 if verbose and main:
     test_dirac()
     test_random_walk_simple()
@@ -166,6 +170,7 @@ if verbose and main:
     test_odd_sth()
     test_propagation()
     test_pyramid_match()
+    test_hadamard_code()
 if verbose and development:
 #    test_multiscale_laplacian()
-	test_hadamard_code()
+    test_jsm()

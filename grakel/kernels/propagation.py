@@ -78,7 +78,7 @@ def propagation_matrix(Graphs_x, Graphs_y=None, t_max=5, T=None, w=10, M="TV", b
     w : int
         The bin width.
         
-    base_kernel : function (list, list -> number), default=:math:`f(x,y)=\sum{i} x_{i}*y_{i}`
+    base_kernel : function (list, list -> number), default=:math:`f(x,y)=\sum_{i} x_{i}*y_{i}`
         A base_kernel between two lists of numbers that outputs a number.
         
     Returns

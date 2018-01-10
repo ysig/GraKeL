@@ -83,7 +83,7 @@ def hadamard_code_matrix(Graphs_x, base_kernel_matrix, Graphs_y=None, niter=5, h
         and the cols to the Graphs_x (based on the given order).
     """
 
-    # parmatrise and extract more arguments based on the input of hc_type
+    # parametrise and extract more arguments based on the input of hc_type
     if hc_type == 'simple':
         shortened = False
         add = np.add

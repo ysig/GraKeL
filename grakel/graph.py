@@ -173,7 +173,6 @@ class graph(object):
             if is_adjacency(g):
                 # Input is considered an adjacency matrix
                 case = 1
-                
                 # Assign labels for nodes
                 self.index_node_labels = node_labels
 
@@ -195,9 +194,8 @@ class graph(object):
                 if(self._format is "auto"):
                     self._format = "dictionary"
             else:
-                raise ValueError('Unsupported input type. For more information check the documentation.')
+                raise ValueError('Unsupported input type. For more information check the documentation, concerning valid input types for graph type object.')
 
-        
         # If graph is of one type prune the other
         if self._format is "adjacency":
             edge_dictionary = None
@@ -1267,7 +1265,7 @@ class graph(object):
             warnings.warn('negative d as input - d set to r')
             
         # initialization
-        N[0] = dict(zip(self.get_vertices(purpose),self.get_vertices(purpose)))
+        N[0] = {i: {i} for i in self.get_vertices(purpose)}
         
         if with_distances:
             D = dict()

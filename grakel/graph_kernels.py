@@ -25,7 +25,7 @@ supported_base_kernels = [
 "lovasz_theta", "svm_theta",
 "neighborhood_hash", "neighborhood_pairwise_subgraph_distance",
 "odd_sth", "propagation",
-"pyramid_match"
+"pyramid_match", "jsm"
 ]
     
 supported_general_kernels = [
@@ -109,7 +109,11 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                             + (**o**) with_labels: [bool]
                             + (**o**) d: [int] > 0
                             + (**o**) L: [int] >= 0 
-                            
+
+                        - "jsm"
+                            + (**o**) M: [int] > 0
+                            + (**o**) h: [int] > 0
+
                    2. general_kernels (this kernel will use the next kernel on the list as base kernel)
                         - "weisfeiler_lehman"
                             + (**o**) "niter" : [int]
@@ -128,6 +132,10 @@ class GraphKernel(BaseEstimator, TransformerMixin):
         Defines the number of workers for kernel matrix calculation using concurrency.
         To intialise the default (all possible), set -1 or 0.
     
+    normalize : bool, optional
+        Normalize the output of the graph kernel.
+        Ignored when Nystroem GraphKernel object is instanciated.
+
     Attributes
     ----------
     X_graph : dict
@@ -144,10 +152,13 @@ class GraphKernel(BaseEstimator, TransformerMixin):
         If not initialised, it stands as a False 
         boolean variable.
 
+    normalize : bool
+        Normalize the output of the graph kernel.
+
     components_ : array, shape (n_components, n_features)
         Subset of training graphs used to construct the feature map.
        
-    normalization_ : array, shape=(n_components, n_components)
+    nystroem_normalization_ : array, shape=(n_components, n_components)
         Normalization matrix needed for embedding.
         Square root of the kernel matrix on ``components_``.
         
@@ -158,12 +169,13 @@ class GraphKernel(BaseEstimator, TransformerMixin):
         The final executor destined for a single kernel calculation.
 
     _concurrent_executor : ThreadPoolExecutor
-        An executor for applying concurrenxy, for the fast pairwise computations of the kernel matrix calculation.
+        An executor for applying concurrency, for the fast pairwise computations of the kernel matrix calculation.
     """
 
     num_of_graphs = 0
     X_graph = None
     nystroem = False
+    normalize = False
 
     def __init__(self, **kargs):
         if "kernel" in kargs:
@@ -205,6 +217,9 @@ class GraphKernel(BaseEstimator, TransformerMixin):
             self._pairwise_kernel_executor = lambda fn, *eargs, **ekargs: self._concurrent_executor.submit(fn, *eargs, **ekargs).result()
         else:
             self._pairwise_kernel_executor = lambda fn, *eargs, **ekargs: fn(*eargs,**ekargs)
+
+        self.normalize = kargs.get("normalize",False)
+        
     def _make_kernel(self,kernel_list):
             """ Produces the desired kernel function.
                 
@@ -257,6 +272,8 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                     return (lambda x, y: propagation_matrix(x, y, **kernel), True)
                 elif kernel_name == "pyramid_match":
                     return (lambda x, y: pyramid_match_matrix(x, y, **kernel), True)
+                elif kernel_name == "jsm":
+                    return (lambda x, y: jsm_inner(x, y, **kernel), False)
             elif kernel_name in supported_general_kernels:
                 if (len(kernel_list)==0):
                     raise ValueError(str(kernel_name)+' is not a base kernel')
@@ -339,7 +356,7 @@ class GraphKernel(BaseEstimator, TransformerMixin):
             U, S, V = svd(basis_kernel)
             S = np.maximum(S, 1e-12)
             self.nystroem = n_components
-            self.normalization_ = np.dot(U / np.sqrt(S), V)
+            self.nystroem_normalization_ = np.dot(U / np.sqrt(S), V)
             self.components_ = basis
             self.component_indices_ = inds
         
@@ -402,9 +419,14 @@ class GraphKernel(BaseEstimator, TransformerMixin):
         # Calculate kernel matrix
         # TODO: support normalization - argument at init
         if bool(self.nystroem):
-            return np.dot(self.kernel(target_graph), self.normalization_.T)
+            return np.dot(self.kernel(target_graph), self.nystroem_normalization_.T)
         else:
-            return self.kernel(target_graph)
+            km = self.kernel(target_graph)
+            if self.normalize:
+                km_diag = np.diagonal(km)
+                km_diag = km_diag.reshape(km_diag.shape[0],1)
+                km /= np.sqrt(np.dot(km_diag.T,km_diag))
+            return km
 
     def calculate_kernel_matrix(self, kernel, target_graph=None, kernel_type="pairwise"):
         """ A function that calculates the kernel matrix given a target_graph and a kernel.
@@ -446,13 +468,13 @@ class GraphKernel(BaseEstimator, TransformerMixin):
             if is_symmetric:
                 for i in range(0,num_of_targets):
                     for j in range(i,num_of_graphs):
-                        K[i,j] = self._pairwise_kernel_executor(kernel(target_graph[i],X_graph[i]))
+                        K[i,j] = self._pairwise_kernel_executor(kernel, target_graph[i], X_graph[i])
                         if(i!=j):
                             K[j,i] = K[i,j]
             else:
                 for i in range(0,num_of_targets):
                     for j in range(0,num_of_graphs):
-                        K[i,j] = self._pairwise_kernel_executor(kernel(target_graph[i],X_graph[i]))
+                        K[i,j] = self._pairwise_kernel_executor(kernel, target_graph[i], X_graph[i])
             return K     
         else:
             return kernel(X_graph, target_graph)
@@ -496,7 +518,7 @@ def pairwise_to_matrix_kernel(x, pairwise_kernel, y=None):
     for (i,j) in pairs:
         # TODO: maybe apply parallelization?
         # targets - y - graph take the row
-        kernel_mat[i-offset,j] = self._pairwise_kernel_executor(pairwise_kernel(Gs[i], Gs[j]))
+        kernel_mat[i-offset,j] = self._pairwise_kernel_executor(pairwise_kernel, Gs[i], Gs[j])
                 
     if Graphs_y is None:
         kernel_mat = np.triu(kernel_mat) + np.triu(kernel_mat, 1).T

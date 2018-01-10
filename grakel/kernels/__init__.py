@@ -14,6 +14,7 @@ from .odd_sth import odd_sth, odd_sth_matrix
 from .propagation import propagation, propagation_matrix
 from .pyramid_match import pyramid_match, pyramid_match_matrix
 from .hadamard_code import hadamard_code, hadamard_code_matrix
+from .jsm import jsm, jsm_inner
 
 __all__ = [
 "dirac",
@@ -50,5 +51,7 @@ __all__ = [
 "pyramid_match",
 "pyramid_match_matrix",
 "hadamard_code",
-"hadamard_code_matrix"
+"hadamard_code_matrix",
+"jsm",
+"jsm_inner"
 ]
