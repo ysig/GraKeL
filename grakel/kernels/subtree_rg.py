@@ -89,34 +89,21 @@ def subtree_rg_core_dynamic(u, v, g_x, g_y, h, dynamic_dict, p_u=None, p_v=None)
         return int(g_x.label(u)==g_y.label(v))
 
     elif h>1:
-        R = list()
-        
-        # Calculate R
-        # First group all nodes with the same label
-        # make a list of lists of all pairs for each label
-        lbx = g_x.get_label_group()
-        lby = g_y.get_label_group()
-        Rset = []
+        # Calculate R-maximal: First group all nodes with the same label make a list of lists of all pairs for each label.
+        lbx, lby = g_x.get_label_group(), g_y.get_label_group()
 
-        # Calculate neighbors and remove previous
+        # Calculate neighbors and remove previous. Avoid backtracking to father.
         nx = g_x.neighbors(u)
+        if p_u is not None and p_u in nx:
+            nx.remove(p_u)
 
-        # Avoid going back
-        if (p_u is not None):
-            if p_u in nx:
-                nx.remove(p_u)
-
-        # do the same for y
+        # Do the same for y.
         ny = g_y.neighbors(v)
-
-        # Avoid going back
-        if (p_v is not None):
-            if p_v in ny:
-                ny.remove(p_v)
+        if p_v is not None and p_v in ny:
+            ny.remove(p_v)
 
         # What happens when one list has no neighbors?
-        xy_and = len(nx)*len(ny)
-        xy_or = len(nx)+len(ny)
+        xy_and, xy_or = len(nx)*len(ny), len(nx)+len(ny)
         if(xy_or == 0):
             # both trees finish at the same point
             return int(g_x.label(u) == g_y.label(v))
@@ -124,67 +111,57 @@ def subtree_rg_core_dynamic(u, v, g_x, g_y, h, dynamic_dict, p_u=None, p_v=None)
             # else trees are different so output zero (?)
             return 0
             
-        # returns a list
+        # Calculate the set of neighbours with common labels.
+        Rset = []
         snx = set(nx)
         sny = set(ny)
         for kx in lbx:
             if kx in lby:
-                # substract from the common label 
-                # only the valid neighbors
+                # Substract from the common label only the valid neighbors.
                 snxk = list(set(lbx[kx]).intersection(snx))
                 snyk = list(set(lby[kx]).intersection(sny))
+                # If both sets are bigger than zero calculate all the possibel pairs and add to the Rset
                 if len(snxk) > 0 and len(snyk) > 0:
                     pair = [lbx[kx],lby[kx]]
                     Rset += list(itertools.product(*pair))
 
-        # Designate all nodes with the same start
-        # and all with the same finish
-        right = dict()
-        left = dict()
+        # Designate all nodes with the same start and all with the same finish.
+        right, left = dict(), dict()
 
-        # Dictionary to store for 
-        # every pair the index
-        Rset_dict = dict()
-        Rset_inv_dict = dict()
-        l = 0
+        # Dictionary to store for every pair the index.
+        Rset_dict, Rset_inv_dict = dict(), dict()
 
-        # assign values to indexes
+        # Enumerate all index pairs.
         for (w,z) in Rset:
             if w not in right:
                 right[w] = list()
             if z not in left:
                 left[z] = list()
-            right[w].append(l)
-            left[z].append(l)
-            Rset_dict[(w,z)] = l
-            Rset_inv_dict[l] = (w,z)
-            l+=1
+            right[w].append(len(Rset_dict))
+            left[z].append(len(Rset_dict))
+            Rset_inv_dict[len(Rset_dict)] = (w,z)
+            Rset_dict[(w,z)] = len(Rset_dict)
 
 
-        # Flatten both $right, $left to list of lists
-        Kbins_flat_r = list()
-        Kbins_flat_l = list()
+        # For each tuple of indexes store to left and to right bins
+        # according with the fact that they have the same left or right indexes.
+        Kbins_flat_r, Kbins_flat_l = list(), list()
         for k in right.keys():
             Kbins_flat_r.append(list(right[k]))
         for k in left.keys():
             Kbins_flat_l.append(list(left[k]))
             
-        # calculate all possible combinations
-        # product equals combinations
-        # because the lists are disjoint
-        setA = set(itertools.product(*Kbins_flat_r))
-        setB = set(itertools.product(*Kbins_flat_l))
+        # Calculate all possible combinations between all the different bins.
+        # Product equals combinations because the lists are disjoint.
+        setA, setB = set(itertools.product(*Kbins_flat_r)), set(itertools.product(*Kbins_flat_l))
 
-        # take the intersection of
-        # found maximal valid R sets
-        # all subsets of maximal sets are also valid
+        # Produce R-maximal by taking the intersection between all valid subsets.
         Rmaximal = setA.intersection(setB)
-        Valid_tuples = [Rset_inv_dict[i] for s in Rmaximal for i in s]
         
-        # Calculate trees for the valid tuples
-        # Rv assign values best on index
+        # Calculate for all the valid tuples, their kernel values by using
+        # dynamic programming on level, nodes, predecessors.
         Rv = dict()
-        for (w,wp) in Valid_tuples:
+        for (w,wp) in {Rset_inv_dict[i] for s in Rmaximal for i in s}:
             r = nested_dict_get(dynamic_dict, h-1, u, v, w, wp)
             if (r is None):
                 kh = subtree_rg_core_dynamic(w, wp, g_x, g_y, h-1, dynamic_dict, u, v)
@@ -193,30 +170,23 @@ def subtree_rg_core_dynamic(u, v, g_x, g_y, h, dynamic_dict, p_u=None, p_v=None)
             else:
                 Rv[Rset_dict[(w,wp)]] = r
         
-        # Holds the values of all sets
-        # inside R, that are not zero
+        # Holds the values of all sets inside R, that are not zero
         M_values = dict()
         for s in Rmaximal:
-            # Keep only non zero elements
-            # (all subsets containing them will be zero)
+            # Keep only non zero elements (all subsets containing zero-elements will be zero)
             non_zero_elements = set()
             for i in s:
                 if(Rv[i] != 0):
                     non_zero_elements.add(i)
 
             if bool(non_zero_elements):
-                # Can we calculate do calculation on subsets faster?
-                # The answer is yes: dynamic programming
+                # Calculate all the subset values faster using dynamic programming
                 plough_subsets(non_zero_elements, Rv, M_values)
         
-        kernel = 0
-        for v in M_values.values():
-          kernel+=v
-                
-        return kernel
+        return sum(M_values.values())
+
     else:
-        # Raise Warning?
-        return 0
+        raise ValueError('h must pe a positive integer')
 
 def plough_subsets(initial_set, Rv, value):
     """ A function that finds all subset kernel values without repeating operations.
