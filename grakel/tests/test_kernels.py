@@ -1,3 +1,4 @@
+import argparse
 import numpy as np
 import numpy.testing as npt
 
@@ -5,9 +6,28 @@ from grakel.kernels import *
 
 global verbose, main, development
 
-main = False
-verbose = True
-development = True
+# Create an argument parser for the installer of pynauty
+parser = argparse.ArgumentParser(description='A test file for all kernels')
+parser.add_argument('--verbose', help='print kernels with their outputs on stdout', action="store_true")
+meg = parser.add_mutually_exclusive_group()
+meg.add_argument('--develop', help='execute only tests connected with current development', action="store_true")
+meg.add_argument('--all', help='execute all tests', action="store_true")
+meg.add_argument('--main', help='execute the main tests [default]')
+parser.add_argument('--problematic', help='allow execution of problematic test cases in development', action="store_true")
+
+args = parser.parse_args()
+
+verbose = bool(args.verbose)
+if args.all:
+    main = True
+    develop = True
+elif args.develop:
+    main = False
+    develop = True
+else:
+    main = True
+    develop = False
+problematic = bool(args.problematic)
 
 global X, Y, L, Le, phi
 
@@ -71,6 +91,7 @@ def test_shortest_path():
         print("Shortest Path [Dijkstra]:",shortest_path(X, X, L, L, "dijkstra"))
         print("Shortest Path [Floyd Warshall]:",(shortest_path(X, X, L, L, "floyd_warshall")))
         print("Shortest Path [Auto]:",shortest_path(X, X, L, L, "auto"))
+        print("Shortest path Attributes [Dijkstra]:",shortest_path(X, X, phi, phi, as_attributes=True))
     else:
         npt.assert_equal(66, shortest_path(X, X, L, L, "dijkstra")) 
         npt.assert_equal(66, shortest_path(X, X, L, L, "floyd_warshall")) 
@@ -91,7 +112,7 @@ def test_graphlet_sampling():
 def test_weisfeiler_lehman():
     base_kernel = dict()
     base_kernel["dirac"] = lambda x, y: dirac_inner(x,y)
-    base_kernel["shortest path"] = lambda x, y: shortest_path_inner(x,y)
+    base_kernel["shortest path"] = lambda x, y: shortest_path_matrix({0: x},{0: y})[0,0]
     base_kernel["subtree"] = lambda x, y: subtree_rg_inner(x,y)
     
     if not verbose:
@@ -171,6 +192,7 @@ if verbose and main:
     test_propagation()
     test_pyramid_match()
     test_hadamard_code()
-if verbose and development:
-#    test_multiscale_laplacian()
     test_jsm()
+if verbose and develop:
+    if problematic:
+        test_multiscale_laplacian()

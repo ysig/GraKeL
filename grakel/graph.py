@@ -510,7 +510,7 @@ class graph(object):
             warnings.warn('unrecognized label type')
 
         
-    def build_shortest_path_matrix(self, algorithm_type="auto", clean=False, labels="vertex"):
+    def build_shortest_path_matrix(self, algorithm_type="auto", clean=False,labels="vertex"):
         """ A method that builds and returns the shortest path matrix between all nodes.
 
         Parameters
@@ -520,7 +520,7 @@ class graph(object):
              + "dijkstra" : choses the dijkstra algorithm (Matrix computation complexity: :math:`O(|V|(|E|+|V|) \log{|V|})`
              + "floyd_warshall" : choses the floyd-warshall algorithm (Matrix computation complexity: :math:`O(|V|^3)`)
              + "auto" : choses the best possible algorithm for the current format
-        
+
         clean : bool, default=False
             Construct the shortest path matrix from scratch or output existing if exists
             
@@ -1566,7 +1566,8 @@ def laplacian(A):
     -------
     laplacian_graph : np.array
         The produced laplacian graph.    
-    """        
+    """
+    n = A.shape[0]
     laplacian_graph = np.zeros(shape=(n, n))
     for i in range(0, n):
         for j in range(0, n):

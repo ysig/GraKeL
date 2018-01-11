@@ -58,6 +58,8 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                             
                         - "shortest_path"
                             + (**o**) "algorithm_type" : [str] "dijkstra", "floyd_warshall"
+                            + (**o**) "as_attributes" : [bool]
+                            + (**o**) "attribute_kernel" : [function] : (attribute_x, attribute_y) -> number
                             
                         - "subtree_rg"
                             + (**o**) "h" : [int]
@@ -73,9 +75,10 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                             + (**o**) "gamma"
                             
                         - "subgraph_matching"
-                            + (**o**) "kv" : kernel function for nodes: (node_x, node_y, Lx, Ly) -> number
-                            + (**o**) "ke" : kernel function for edges: (edge_x, edge_y, Lx, Ly) -> number
+                            + (**o**) "kv" : [function] : (node_x, node_y, Lx, Ly) -> number
+                            + (**o**) "ke" : [function] : (edge_x, edge_y, Lx, Ly) -> number
                             + (**o**) "lw" : a lambda weight function for cliques: set -> number
+
                         - "lovasz_theta"
                             + (**o**) "n_samples" : [int] > 1              
                             + (**o**) "subsets_size_range" : [touple] of two [int]
@@ -244,7 +247,12 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                 elif kernel_name == "random_walk":
                     return (lambda x, y: random_walk_inner(x, y, **kernel), False)
                 elif kernel_name == "shortest_path":
-                    return (lambda x, y: shortest_path_inner(x, y, **kernel), False)
+                	at = kernel.get("algorithm_type", "dijkstra")
+                	if kernel.get("as_attributes",False):
+                		ak = kargs.get("attribute_kernel", lambda x, y: np.dot(x,y))
+                		return (lambda x, y: shortest_path_inner_attributes(x, y, algorithm_type=at, attribute_kernel=ak), False)
+	                else:
+	                	return (lambda x, y: shortest_path_matrix(x, y, algorithm_type=at), True)
                 elif kernel_name == "subtree_rg":
                     return (lambda x, y: subtree_rg_inner(x, y, **kernel), False)
                 elif kernel_name == "graphlets_sampling":
@@ -277,18 +285,16 @@ class GraphKernel(BaseEstimator, TransformerMixin):
             elif kernel_name in supported_general_kernels:
                 if (len(kernel_list)==0):
                     raise ValueError(str(kernel_name)+' is not a base kernel')
+                
+                (bkp, matrix_flag) = self._make_kernel(kernel_list)
+                if not matrix_flag:
+                    bk = lambda x, y=None: pairwise_to_matrix_kernel(x=x, pairwise_kernel=bkp, kernel_executor=self._pairwise_kernel_executor, y=y)
+                else:
+                    bk = bkp
+
                 if kernel_name == "weisfeiler_lehman":
-                    (bk, matrix_flag) = self._make_kernel(kernel_list)
-                    if matrix_flag:
-                        return (lambda x, y: weisfeiler_lehman_matrix(x, bk, y, **kernel), True)
-                    else:
-                        kernel["base_kernel"] = bk
-                        return (lambda x, y: weisfeiler_lehman_inner(x, y, **kernel), False)
+                    return (lambda x, y: weisfeiler_lehman_matrix(x, bk, y, **kernel), True)
                 if kernel_name == "hadamard_code":
-                    (bk, matrix_flag) = self._make_kernel(kernel_list)
-                    if not matrix_flag:
-                        bk = lambda x, y: pairwise_to_matrix_kernel(x, bk, y)
-                    
                     return (lambda x, y: hadamard_code_matrix(x, bk, y, **kernel), True)
             else:
                 raise ValueError('unsupported kernel: ' + str(kernel_name))
@@ -478,9 +484,9 @@ class GraphKernel(BaseEstimator, TransformerMixin):
         else:
             return kernel(X_graph, target_graph)
 
-def pairwise_to_matrix_kernel(x, pairwise_kernel, y=None):
+def pairwise_to_matrix_kernel(x, pairwise_kernel, kernel_executor, y=None):
     """ A wrapping function that converts a pairwise-kernel to a matrix-kernel.
-
+    
     Parameters
     ----------
     x,y : dict, default_y=None
@@ -492,6 +498,9 @@ def pairwise_to_matrix_kernel(x, pairwise_kernel, y=None):
     pairwise_kernel : function
         A pairwise graph kernel (between "graph" type objects)
 
+    kernel_excutor : Executor
+        An executor for functions to allow concurrency speedups.
+
     Returns
     -------
     kernel_matrix : np.array
@@ -500,26 +509,25 @@ def pairwise_to_matrix_kernel(x, pairwise_kernel, y=None):
     """
     nx = len(x.keys())
     
-    if Graphs_y==None:
+    if y==None:
         ny = nx
         ng = nx
         pairs = [(i,j) for i in range(0,nx) for j in range(i, ny)]
         offset = 0
         Gs = x
     else:
-        ny = len(Graphs_y.keys())
+        ny = len(y.keys())
         ng = nx + ny
         pairs = list(itertools.product(range(nx, ng), range(0,nx)))
-        offset = h_x
-        Gs = {i: g for (i,g) in enumerate(itertools.chain(Graphs_x.values(), Graphs_y.values()))}
+        offset = nx
+        Gs = {i: g for (i,g) in enumerate(itertools.chain(x.values(), y.values()))}
 
     kernel_mat = np.zeros(shape=(ny, nx))
+    
     for (i,j) in pairs:
-        # TODO: maybe apply parallelization?
-        # targets - y - graph take the row
-        kernel_mat[i-offset,j] = self._pairwise_kernel_executor(pairwise_kernel, Gs[i], Gs[j])
+        kernel_mat[i-offset,j] = kernel_executor(pairwise_kernel, Gs[i], Gs[j])
                 
-    if Graphs_y is None:
+    if y is None:
         kernel_mat = np.triu(kernel_mat) + np.triu(kernel_mat, 1).T
         
     return kernel_mat

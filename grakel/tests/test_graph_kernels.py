@@ -1,3 +1,4 @@
+import argparse
 import itertools
 
 import numpy as np
@@ -7,11 +8,29 @@ from grakel.graph_kernels import GraphKernel
 
 global verbose, main, development
 
-main = False
-verbose = True
-development = True
+# Create an argument parser for the installer of pynauty
+parser = argparse.ArgumentParser(description='A test file for all kernels')
+parser.add_argument('--verbose', help='print kernels with their outputs on stdout', action="store_true")
+meg = parser.add_mutually_exclusive_group()
+meg.add_argument('--develop', help='execute only tests connected with current development', action="store_true")
+meg.add_argument('--all', help='execute all tests', action="store_true")
+meg.add_argument('--main', help='execute the main tests [default]')
+parser.add_argument('--problematic', help='allow execution of problematic test cases in development', action="store_true")
 
+args = parser.parse_args()
 
+verbose = bool(args.verbose)
+if args.all:
+    main = True
+    develop = True
+elif args.develop:
+    main = False
+    develop = True
+else:
+    main = True
+    develop = False
+problematic = bool(args.problematic)
+    
 global X, L, k
 
 X = np.array([[0,1,2,1,0,0.5,0],
@@ -268,7 +287,8 @@ if verbose and main:
     gk_test_odd_sth()
     gk_test_propagation()
     gk_test_pyramid_match()
-
-if verbose and development:
     gk_test_jsm()
-#    gk_test_multiscale_laplacian()
+
+if verbose and develop:
+    if problematic:
+        gk_test_multiscale_laplacian()

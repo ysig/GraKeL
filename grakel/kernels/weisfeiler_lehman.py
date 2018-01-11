@@ -30,112 +30,8 @@ def weisfeiler_lehman(X, Y, Lx, Ly, base_kernel, niter=5):
     """
     Ga = graph(X,Lx)
     Gb = graph(Y,Ly)
-    return weisfeiler_lehman_inner(Ga, Gb, base_kernel, niter)
-
-def weisfeiler_lehman_inner(Ga, Gb, base_kernel, niter=5):
-    """ Computes the Weisfeler Lehman as proposed by :cite:`Shervashidze2011WeisfeilerLehmanGK`
-
-    Parameters
-    ----------
-    G{a,b} : graph
-        The pair of graphs on which the kernel is applied.
-        
-    base_kernel : function (graph, graph -> number)
-        A valid pairwise base_kernel for graphs.
-        
-    niter : int, default=5
-        The number of iterations.
-
-    Returns
-    -------
-    kernel : number
-        The kernel value.
-    """
-    if niter<1:
-        raise ValueError('n_iter must be an integer bigger than zero')
-    
-    Ga.desired_format("dictionary")
-    Gb.desired_format("dictionary")
-    
-    La_original = Ga.get_labels(purpose="dictionary")
-    Lb_original = Gb.get_labels(purpose="dictionary")
-    
-    Ga_edge_dictionary = Ga.edge_dictionary
-    Gb_edge_dictionary = Gb.edge_dictionary
-
-    WL_labels = dict()
-    WL_labels_inverse = dict()
-    # get all the distinct values of current labels
-    distinct_values = sorted(list(set(La_original.values()).union(set(Lb_original.values()))))
-    # assign a number to each label
-    label_count = 0
-    for dv in distinct_values:
-        WL_labels[label_count] = dv
-        WL_labels_inverse[dv] = label_count
-        label_count +=1
-
-    La = dict()
-    Lb = dict()
-    for k in La_original.keys():
-        La[k] = WL_labels_inverse[La_original[k]]
-    for k in Lb_original.keys():
-        Lb[k] = WL_labels_inverse[Lb_original[k]]
-
-    # add new labels
-    Ga.relabel(La)
-    Gb.relabel(Lb)
-
-    kernel = base_kernel(Ga, Gb)
-    for i in range(niter):
-        label_set = set()
-       
-        # Find unique labels and sort
-        # them for both graphs
-        # Keep for each node the temporary
-        La_temp = dict()
-        for v in Ga_edge_dictionary.keys():
-            nlist = list()
-            for neighbor in Ga_edge_dictionary[v].keys():
-                nlist.append(La[neighbor])
-            credential = str(La[v])+","+str(sorted(nlist))
-            La_temp[v] = credential
-            label_set.add(credential)
-            
-        # Dictionary for second graph
-        Lb_temp = dict()
-        for v in Gb_edge_dictionary.keys():
-            nlist = list()
-            for neighbor in Gb_edge_dictionary[v].keys():
-                nlist.append(Lb[neighbor])
-            credential = str(Lb[v])+","+str(sorted(nlist))
-            Lb_temp[v] = credential
-            label_set.add(credential)
-
-        label_list = sorted(list(label_set))
-        for dv in label_list:
-            WL_labels[label_count] = dv
-            WL_labels_inverse[dv] = label_count
-            label_count +=1
-
-        # Recalculate labels
-        La = dict()
-        Lb = dict()
-        for k in La_temp.keys():
-            La[k] = WL_labels_inverse[La_temp[k]]
-        for k in Lb_temp.keys():
-            Lb[k] = WL_labels_inverse[Lb_temp[k]]        
-            
-        # relabel
-        Ga.relabel(La)
-        Gb.relabel(Lb)
-
-        # calculate kernel 
-        kernel += base_kernel(Ga, Gb)
-        
-    # Restore original labels  
-    Ga.relabel(La_original)
-    Gb.relabel(Lb_original)
-    return kernel
+    bkm = lambda x, y: np.array([[base_kernel(x[0], y[0])]])
+    return weisfeiler_lehman_matrix({0: Ga}, bkm, {0: Gb}, niter)[0,0]
 
 def weisfeiler_lehman_matrix(Graphs_a, base_kernel_matrix, Graphs_b=None,  niter=5):
     """ Computes the kernel matrix, for the Weisfeler Lehman kernel proposed in :cite:`Shervashidze2011WeisfeilerLehmanGK`.
@@ -211,8 +107,8 @@ def weisfeiler_lehman_matrix(Graphs_a, base_kernel_matrix, Graphs_b=None,  niter
         Gs[i].relabel(L)
     
     kernel = np.zeros(shape=(ng_b, ng_a))
-    kernel = np.add(kernel,base_kernel_matrix(Graphs_a, Graphs_b))
-        
+    kernel = np.add(kernel, base_kernel_matrix(Graphs_a, Graphs_b))
+    
     for i in range(niter):
         label_set = set()
         L_temp=dict()
@@ -221,7 +117,7 @@ def weisfeiler_lehman_matrix(Graphs_a, base_kernel_matrix, Graphs_b=None,  niter
             # them for both graphs
             # Keep for each node the temporary
             L_temp[j] = dict()
-            for v in G_ed[i].keys():
+            for v in G_ed[j].keys():
                 nlist = list()
                 for neighbor in G_ed[j][v].keys():
                     nlist.append(Gs[j].node_labels[neighbor])
