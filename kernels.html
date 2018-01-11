@@ -299,7 +299,7 @@
 
 <dl class="function">
 <dt id="grakel.kernels.shortest_path">
-<code class="descclassname">grakel.kernels.</code><code class="descname">shortest_path</code><span class="sig-paren">(</span><em>X</em>, <em>Y</em>, <em>Lx</em>, <em>Ly</em>, <em>algorithm_type='dijkstra'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/kernels/shortest_path.html#shortest_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.shortest_path" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">grakel.kernels.</code><code class="descname">shortest_path</code><span class="sig-paren">(</span><em>X</em>, <em>Y</em>, <em>Lx</em>, <em>Ly</em>, <em>algorithm_type='dijkstra'</em>, <em>**kargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/kernels/shortest_path.html#shortest_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.shortest_path" title="Permalink to this definition">¶</a></dt>
 <dd><p>This is a function that implements shortest path kernel as proposed in <a class="reference internal" href="#borgwardt2005shortestpathko" id="id13">[BK05]</a>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -314,6 +314,16 @@
 <div><p>Apply the dijkstra or floyd_warshall algorithm for calculating shortest path
 ot for the best concerning current graph format (“auto”).</p>
 </div></blockquote>
+<p><strong>as_attributes</strong> : bool, default=False</p>
+<blockquote>
+<div><p>The labels are considered as attributes. The computational
+efficiency is decreased to <img class="math" src="_images/math/80e0d6370087ff9491436c3f3d2f9c82360f91df.png" alt="O(|V|^4)"/></p>
+</div></blockquote>
+<p><strong>attribute_kernel</strong> : function, default=:math:<cite>f(x,y)=sum_{i}x_{i}*y_{i}</cite>, case_of_existence=(as_attributes==True)</p>
+<blockquote>
+<div><p>The kernel applied between attributes of the graph labels.
+The user must provide a kernel based on the format of the provided labels (considered as attributes).</p>
+</div></blockquote>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>kernel</strong> : number</p>
@@ -327,14 +337,47 @@ ot for the best concerning current graph format (“auto”).</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="grakel.kernels.shortest_path_inner">
-<code class="descclassname">grakel.kernels.</code><code class="descname">shortest_path_inner</code><span class="sig-paren">(</span><em>g_x</em>, <em>g_y</em>, <em>algorithm_type='dijkstra'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/kernels/shortest_path.html#shortest_path_inner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.shortest_path_inner" title="Permalink to this definition">¶</a></dt>
+<dt id="grakel.kernels.shortest_path_matrix">
+<code class="descclassname">grakel.kernels.</code><code class="descname">shortest_path_matrix</code><span class="sig-paren">(</span><em>Graphs_x</em>, <em>Graphs_y=None</em>, <em>algorithm_type='dijkstra'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/kernels/shortest_path.html#shortest_path_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.shortest_path_matrix" title="Permalink to this definition">¶</a></dt>
 <dd><p>A function that calculates the inner summation part of the shortest path kernel as proposed in <a class="reference internal" href="#borgwardt2005shortestpathko" id="id14">[BK05]</a>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>g_{x,y}</strong> : graph</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Graphs_{x,y}</strong> : dict, default_y=None</p>
+<blockquote>
+<div><p>Enumerative dictionary of graph type objects with keys from 0 to the number of values.
+If value of Graphs_y is None the kernel matrix is computed between all pairs of Graphs_x
+where in another case the kernel_matrix rows correspond to elements of Graphs_y, and columns66ertfgv 
+to the elements of Graphs_x.</p>
+</div></blockquote>
+<p><strong>algorithm_type</strong> : str, default={“dijkstra”, “floyd_warshall”, “auto”}</p>
+<blockquote>
+<div><p>Apply the dijkstra or floyd_warshall algorithm for calculating shortest path
+ot for the best concerning current graph format (“auto”).</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>kernel_matrix</strong> : np.array</p>
+<blockquote class="last">
+<div><p>The kernel matrix. If the Graphs_y is not None the rows correspond to Graphs_y
+and the cols to the Graphs_x (based on the given order).</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="grakel.kernels.shortest_path_inner_attributes">
+<code class="descclassname">grakel.kernels.</code><code class="descname">shortest_path_inner_attributes</code><span class="sig-paren">(</span><em>gx</em>, <em>gy</em>, <em>algorithm_type='dijkstra'</em>, <em>attribute_kernel=&lt;function &lt;lambda&gt;&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/kernels/shortest_path.html#shortest_path_inner_attributes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.shortest_path_inner_attributes" title="Permalink to this definition">¶</a></dt>
+<dd><p>A function that calculates the shortest path kernel (<a class="reference internal" href="#borgwardt2005shortestpathko" id="id15">[BK05]</a>) for graphs with labels considered as attributes.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>g{x,y}</strong> : graph</p>
 <blockquote>
 <div><p>The pair graphs on which the kernel is applied.</p>
 </div></blockquote>
@@ -358,7 +401,7 @@ ot for the best concerning current graph format (“auto”).</p>
 <dl class="function">
 <dt id="grakel.kernels.subtree_rg">
 <code class="descclassname">grakel.kernels.</code><code class="descname">subtree_rg</code><span class="sig-paren">(</span><em>X</em>, <em>Y</em>, <em>Lx</em>, <em>Ly</em>, <em>h=5</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/kernels/subtree_rg.html#subtree_rg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.subtree_rg" title="Permalink to this definition">¶</a></dt>
-<dd><p>Computes the Ramon Gartner subtree kernel as proposed in <a class="reference internal" href="#ramon2003expressivityve" id="id15">[RG03]</a>, s. 5.</p>
+<dd><p>Computes the Ramon Gartner subtree kernel as proposed in <a class="reference internal" href="#ramon2003expressivityve" id="id16">[RG03]</a>, s. 5.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -390,7 +433,7 @@ ot for the best concerning current graph format (“auto”).</p>
 <dl class="function">
 <dt id="grakel.kernels.subtree_rg_inner">
 <code class="descclassname">grakel.kernels.</code><code class="descname">subtree_rg_inner</code><span class="sig-paren">(</span><em>Gx</em>, <em>Gy</em>, <em>h=5</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/kernels/subtree_rg.html#subtree_rg_inner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.subtree_rg_inner" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate The Ramon Gartner subtree kernel as proposed in <a class="reference internal" href="#ramon2003expressivityve" id="id16">[RG03]</a>, s. 5.</p>
+<dd><p>Calculate The Ramon Gartner subtree kernel as proposed in <a class="reference internal" href="#ramon2003expressivityve" id="id17">[RG03]</a>, s. 5.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -418,7 +461,7 @@ ot for the best concerning current graph format (“auto”).</p>
 <dl class="function">
 <dt id="grakel.kernels.graphlet_sampling">
 <code class="descclassname">grakel.kernels.</code><code class="descname">graphlet_sampling</code><span class="sig-paren">(</span><em>X</em>, <em>Y</em>, <em>k=5</em>, <em>delta=0.05</em>, <em>epsilon=0.05</em>, <em>a=-1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/kernels/graphlet_sampling.html#graphlet_sampling"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.graphlet_sampling" title="Permalink to this definition">¶</a></dt>
-<dd><p>Applies the graphlet sampling kernel as proposed in <a class="reference internal" href="#shervashidze2009efficientgk" id="id17">[SVP+09]</a>.</p>
+<dd><p>Applies the graphlet sampling kernel as proposed in <a class="reference internal" href="#shervashidze2009efficientgk" id="id18">[SVP+09]</a>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -460,7 +503,7 @@ or else predicted through interpolation.</p>
 <dl class="function">
 <dt id="grakel.kernels.graphlet_sampling_inner">
 <code class="descclassname">grakel.kernels.</code><code class="descname">graphlet_sampling_inner</code><span class="sig-paren">(</span><em>Gx</em>, <em>Gy</em>, <em>k=5</em>, <em>delta=0.05</em>, <em>epsilon=0.05</em>, <em>a=-1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/kernels/graphlet_sampling.html#graphlet_sampling_inner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.graphlet_sampling_inner" title="Permalink to this definition">¶</a></dt>
-<dd><p>Applies the graphlet sampling kernel, as proposed in <a class="reference internal" href="#shervashidze2009efficientgk" id="id18">[SVP+09]</a>.</p>
+<dd><p>Applies the graphlet sampling kernel, as proposed in <a class="reference internal" href="#shervashidze2009efficientgk" id="id19">[SVP+09]</a>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -502,7 +545,7 @@ or else predicted through interpolation.</p>
 <dl class="function">
 <dt id="grakel.kernels.graphlet_sampling_core">
 <code class="descclassname">grakel.kernels.</code><code class="descname">graphlet_sampling_core</code><span class="sig-paren">(</span><em>Gx</em>, <em>Gy</em>, <em>nsamples</em>, <em>graphlets</em>, <em>P</em>, <em>graph_bins</em>, <em>nbins</em>, <em>k=5</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/kernels/graphlet_sampling.html#graphlet_sampling_core"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.graphlet_sampling_core" title="Permalink to this definition">¶</a></dt>
-<dd><p>Applies the graphlet sampling kernel given a graphlet feature space, as proposed in <a class="reference internal" href="#shervashidze2009efficientgk" id="id19">[SVP+09]</a>.</p>
+<dd><p>Applies the graphlet sampling kernel given a graphlet feature space, as proposed in <a class="reference internal" href="#shervashidze2009efficientgk" id="id20">[SVP+09]</a>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -550,7 +593,7 @@ or else predicted through interpolation.</p>
 <dl class="function">
 <dt id="grakel.kernels.sample_graphlets">
 <code class="descclassname">grakel.kernels.</code><code class="descname">sample_graphlets</code><span class="sig-paren">(</span><em>k=5</em>, <em>delta=0.05</em>, <em>epsilon=0.05</em>, <em>a=-1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/kernels/graphlet_sampling.html#sample_graphlets"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.sample_graphlets" title="Permalink to this definition">¶</a></dt>
-<dd><p>A function that samples graphlets, based on statistic parameters as proposed in <a class="reference internal" href="#shervashidze2009efficientgk" id="id20">[SVP+09]</a>.</p>
+<dd><p>A function that samples graphlets, based on statistic parameters as proposed in <a class="reference internal" href="#shervashidze2009efficientgk" id="id21">[SVP+09]</a>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -604,7 +647,7 @@ or else predicted through interpolation.</p>
 <dl class="function">
 <dt id="grakel.kernels.weisfeiler_lehman">
 <code class="descclassname">grakel.kernels.</code><code class="descname">weisfeiler_lehman</code><span class="sig-paren">(</span><em>X</em>, <em>Y</em>, <em>Lx</em>, <em>Ly</em>, <em>base_kernel</em>, <em>niter=5</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/kernels/weisfeiler_lehman.html#weisfeiler_lehman"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.weisfeiler_lehman" title="Permalink to this definition">¶</a></dt>
-<dd><p>Computes the Weisfeler Lehman as proposed by <a class="reference internal" href="#shervashidze2011weisfeilerlehmangk" id="id21">[SSvL+11]</a>.</p>
+<dd><p>Computes the Weisfeler Lehman as proposed by <a class="reference internal" href="#shervashidze2011weisfeilerlehmangk" id="id22">[SSvL+11]</a>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -616,38 +659,6 @@ or else predicted through interpolation.</p>
 <p><strong>L{x,y}</strong> : dict</p>
 <blockquote>
 <div><p>Corresponding graph labels for vertices.</p>
-</div></blockquote>
-<p><strong>base_kernel</strong> : function (graph, graph -&gt; number)</p>
-<blockquote>
-<div><p>A valid pairwise base_kernel for graphs.</p>
-</div></blockquote>
-<p><strong>niter</strong> : int, default=5</p>
-<blockquote>
-<div><p>The number of iterations.</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>kernel</strong> : number</p>
-<blockquote class="last">
-<div><p>The kernel value.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="grakel.kernels.weisfeiler_lehman_inner">
-<code class="descclassname">grakel.kernels.</code><code class="descname">weisfeiler_lehman_inner</code><span class="sig-paren">(</span><em>Ga</em>, <em>Gb</em>, <em>base_kernel</em>, <em>niter=5</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/kernels/weisfeiler_lehman.html#weisfeiler_lehman_inner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.weisfeiler_lehman_inner" title="Permalink to this definition">¶</a></dt>
-<dd><p>Computes the Weisfeler Lehman as proposed by <a class="reference internal" href="#shervashidze2011weisfeilerlehmangk" id="id22">[SSvL+11]</a></p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>G{a,b}</strong> : graph</p>
-<blockquote>
-<div><p>The pair of graphs on which the kernel is applied.</p>
 </div></blockquote>
 <p><strong>base_kernel</strong> : function (graph, graph -&gt; number)</p>
 <blockquote>
@@ -1311,7 +1322,7 @@ to the elements of Graphs_x.</p>
 <blockquote>
 <div><p>The bin width.</p>
 </div></blockquote>
-<p><strong>base_kernel</strong> : function (list, list -&gt; number), default=:math:<cite>f(x,y)=sum{i} x_{i}*y_{i}</cite></p>
+<p><strong>base_kernel</strong> : function (list, list -&gt; number), default=:math:<cite>f(x,y)=sum_{i} x_{i}*y_{i}</cite></p>
 <blockquote>
 <div><p>A base_kernel between two lists of numbers that outputs a number.</p>
 </div></blockquote>
@@ -1402,6 +1413,169 @@ to the elements of Graphs_x.</p>
 </table>
 </dd></dl>
 
+<dl class="function">
+<dt id="grakel.kernels.hadamard_code">
+<code class="descclassname">grakel.kernels.</code><code class="descname">hadamard_code</code><span class="sig-paren">(</span><em>X</em>, <em>Y</em>, <em>Lx</em>, <em>Ly</em>, <em>base_kernel</em>, <em>niter=5</em>, <em>hc_type='simple'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/kernels/hadamard_code.html#hadamard_code"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.hadamard_code" title="Permalink to this definition">¶</a></dt>
+<dd><p>The hadamard code kernel as proposed in <a class="reference internal" href="#icpram16" id="id44">[KI16]</a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X,Y</strong> : <em>valid-graph-format</em></p>
+<blockquote>
+<div><p>The pair of graphs on which the kernel is applied.</p>
+</div></blockquote>
+<p><strong>L{x,y}</strong> : dict</p>
+<blockquote>
+<div><p>Corresponding graph labels for vertices.</p>
+</div></blockquote>
+<p><strong>base_kernel</strong> : function (graph, graph -&gt; number)</p>
+<blockquote>
+<div><p>A valid pairwise base_kernel for graphs.</p>
+</div></blockquote>
+<p><strong>hc_type</strong> : str, valid_inputs={“simple”, “shortened”}, default=”simple”</p>
+<blockquote>
+<div><p>The hadamard code kernel type as defined in <a class="reference internal" href="#icpram16" id="id45">[KI16]</a>.</p>
+</div></blockquote>
+<p><strong>rho</strong> : int, condition_of_appearance: hc_type==”shortened”, default=-1</p>
+<blockquote>
+<div><p>The size of each single bit arrays. If -1 is chosen r is calculated as
+the biggest possible that satisfies an equal division.</p>
+</div></blockquote>
+<p><strong>L</strong> : int, condition_of_appearance: hc_type==”shortened”, default=4</p>
+<blockquote>
+<div><p>The number of bytes to store the bitarray of each label.</p>
+</div></blockquote>
+<p><strong>niter</strong> : int, default=5</p>
+<blockquote>
+<div><p>The number of iterations.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>kernel</strong> : number</p>
+<blockquote class="last">
+<div><p>The kernel value.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="grakel.kernels.hadamard_code_matrix">
+<code class="descclassname">grakel.kernels.</code><code class="descname">hadamard_code_matrix</code><span class="sig-paren">(</span><em>Graphs_x</em>, <em>base_kernel_matrix</em>, <em>Graphs_y=None</em>, <em>niter=5</em>, <em>hc_type='simple'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/kernels/hadamard_code.html#hadamard_code_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.hadamard_code_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>The hadamard code kernel for matrices as derived from <a class="reference internal" href="#icpram16" id="id46">[KI16]</a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Graphs_{x,y}</strong> : dict, default_y=None</p>
+<blockquote>
+<div><p>Enumerative dictionary of graph type objects with keys from 0 to the number of values.
+If value of Graphs_y is None the kernel matrix is computed between all pairs of Graphs_x
+where in another case the kernel_matrix rows correspond to elements of Graphs_y, and columns66ertfgv 
+to the elements of Graphs_x.</p>
+</div></blockquote>
+<p><strong>base_kernel_matrix</strong> : function (dict(graph), dict(graph) -&gt; np.array)</p>
+<blockquote>
+<div><p>Rows of the np.array should correspond to the second dictionary of graphs and cols to the first.
+If the second graph is None the kernel should be computed upon itself.</p>
+</div></blockquote>
+<p><strong>hc_type</strong> : str, valid_inputs={“simple”, “shortened”}, default=”simple”</p>
+<blockquote>
+<div><p>The hadamard code kernel type as defined in <a class="reference internal" href="#icpram16" id="id47">[KI16]</a>.</p>
+</div></blockquote>
+<p><strong>rho</strong> : int, condition_of_appearance: hc_type==”shortened”, default=-1</p>
+<blockquote>
+<div><p>The size of each single bit arrays. If -1 is chosen r is calculated as
+the biggest possible that satisfies an equal division.</p>
+</div></blockquote>
+<p><strong>L</strong> : int, condition_of_appearance: hc_type==”shortened”, default=4</p>
+<blockquote>
+<div><p>The number of bytes to store the bitarray of each label</p>
+</div></blockquote>
+<p><strong>niter</strong> : int, default=5</p>
+<blockquote>
+<div><p>The number of iterations.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>kernel_matrix</strong> : np.array</p>
+<blockquote class="last">
+<div><p>The kernel matrix. If the Graphs_y is not None the rows correspond to Graphs_y
+and the cols to the Graphs_x (based on the given order).</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="grakel.kernels.jsm">
+<code class="descclassname">grakel.kernels.</code><code class="descname">jsm</code><span class="sig-paren">(</span><em>X</em>, <em>Y</em>, <em>M=3</em>, <em>h=3</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/kernels/jsm.html#jsm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.jsm" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Jensen-Shannon Representation Alignment kernel as proposed in <a class="reference internal" href="#bai2015agk" id="id48">[BZW+15]</a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X,Y</strong> : <em>valid-graph-format</em></p>
+<blockquote>
+<div><p>The pair of graphs on which the kernel is applied.</p>
+</div></blockquote>
+<p><strong>M</strong> : int, default=3</p>
+<blockquote>
+<div><p>The maximum number of JS-representations considered.</p>
+</div></blockquote>
+<p><strong>h</strong> : int, default=3</p>
+<blockquote>
+<div><p>The number of layers of DB representations.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>kernel</strong> : number</p>
+<blockquote class="last">
+<div><p>The kernel value.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="grakel.kernels.jsm_inner">
+<code class="descclassname">grakel.kernels.</code><code class="descname">jsm_inner</code><span class="sig-paren">(</span><em>Gx</em>, <em>Gy</em>, <em>M=3</em>, <em>h=3</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/kernels/jsm.html#jsm_inner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.jsm_inner" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Jensen-Shannon Representation Alignment kernel for matrices as derived from <a class="reference internal" href="#bai2015agk" id="id49">[BZW+15]</a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>G{x,y}</strong> : graph</p>
+<blockquote>
+<div><p>The pair of graphs on which the kernel is applied.</p>
+</div></blockquote>
+<p><strong>M</strong> : int, default=3</p>
+<blockquote>
+<div><p>The maximum number of JS-representations considered.</p>
+</div></blockquote>
+<p><strong>h</strong> : int, default=3</p>
+<blockquote>
+<div><p>The number of layers of DB representations.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>kernel</strong> : number</p>
+<blockquote class="last">
+<div><p>The kernel value.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 <div class="section" id="a-list-of-default-functions">
 <h2>A list of default functions<a class="headerlink" href="#a-list-of-default-functions" title="Permalink to this headline">¶</a></h2>
 <p><img class="math" src="_images/math/bd0bcde9e329d44ebbc7007e7c50bfb3506b1148.png" alt="l_{v}^{default}(x) = \begin{cases} 1 &amp; x\neq \O \\ 0 &amp; \text{else} \\ \end{cases}"/></p>
@@ -1410,10 +1584,16 @@ to the elements of Graphs_x.</p>
 </div>
 <div class="section" id="bibliography">
 <h2>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">¶</a></h2>
-<p id="bibtex-bibliography-kernels-0"><table class="docutils citation" frame="void" id="borgwardt2005shortestpathko" rules="none">
+<p id="bibtex-bibliography-kernels-0"><table class="docutils citation" frame="void" id="bai2015agk" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label">[BK05]</td><td><em>(<a class="fn-backref" href="#id13">1</a>, <a class="fn-backref" href="#id14">2</a>)</em> Karsten&nbsp;M. Borgwardt and Hans-Peter Kriegel. Shortest-path kernels on graphs. <em>Fifth IEEE International Conference on Data Mining (ICDM‘05)</em>, pages 8 pp.–, 2005.</td></tr>
+<tr><td class="label">[BZW+15]</td><td><em>(<a class="fn-backref" href="#id48">1</a>, <a class="fn-backref" href="#id49">2</a>)</em> Lu&nbsp;Bai, Zhihong Zhang, Chaoyan Wang, Xiao Bai, and Edwin&nbsp;R. Hancock. A graph kernel based on the jensen-shannon representation alignment. In <em>IJCAI</em>. 2015.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="borgwardt2005shortestpathko" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[BK05]</td><td><em>(<a class="fn-backref" href="#id13">1</a>, <a class="fn-backref" href="#id14">2</a>, <a class="fn-backref" href="#id15">3</a>)</em> Karsten&nbsp;M. Borgwardt and Hans-Peter Kriegel. Shortest-path kernels on graphs. <em>Fifth IEEE International Conference on Data Mining (ICDM‘05)</em>, pages 8 pp.–, 2005.</td></tr>
 </tbody>
 </table>
 <table class="docutils citation" frame="void" id="costa2010fastns" rules="none">
@@ -1444,6 +1624,12 @@ to the elements of Graphs_x.</p>
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label">[KTI03]</td><td><em>(<a class="fn-backref" href="#id1">1</a>, <a class="fn-backref" href="#id4">2</a>, <a class="fn-backref" href="#id7">3</a>, <a class="fn-backref" href="#id10">4</a>)</em> Hisashi Kashima, Koji Tsuda, and Akihiro Inokuchi. Marginalized kernels between labeled graphs. In <em>ICML</em>. 2003.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="icpram16" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[KI16]</td><td><em>(<a class="fn-backref" href="#id44">1</a>, <a class="fn-backref" href="#id45">2</a>, <a class="fn-backref" href="#id46">3</a>, <a class="fn-backref" href="#id47">4</a>)</em> Tetsuya Kataoka and Akihiro Inokuchi. Hadamard code graph kernels for classifying graphs. In <em>Proceedings of the 5th International Conference on Pattern Recognition Applications and Methods - Volume 1: ICPRAM,</em>, 24–32. INSTICC, SciTePress, 2016. <a class="reference external" href="https://doi.org/10.5220/0005634700240032">doi:10.5220/0005634700240032</a>.</td></tr>
 </tbody>
 </table>
 <table class="docutils citation" frame="void" id="kondor2016theml" rules="none">
@@ -1479,19 +1665,19 @@ to the elements of Graphs_x.</p>
 <table class="docutils citation" frame="void" id="ramon2003expressivityve" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label">[RG03]</td><td><em>(<a class="fn-backref" href="#id15">1</a>, <a class="fn-backref" href="#id16">2</a>)</em> Jan Ramon and Thomas Gärtner. Expressivity versus efficiency of graph kernels. In <em>Proceedings of the First International Workshop on Mining Graphs, Trees and Sequences</em>, 65–74. 2003.</td></tr>
+<tr><td class="label">[RG03]</td><td><em>(<a class="fn-backref" href="#id16">1</a>, <a class="fn-backref" href="#id17">2</a>)</em> Jan Ramon and Thomas Gärtner. Expressivity versus efficiency of graph kernels. In <em>Proceedings of the First International Workshop on Mining Graphs, Trees and Sequences</em>, 65–74. 2003.</td></tr>
 </tbody>
 </table>
 <table class="docutils citation" frame="void" id="shervashidze2011weisfeilerlehmangk" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label">[SSvL+11]</td><td><em>(<a class="fn-backref" href="#id21">1</a>, <a class="fn-backref" href="#id22">2</a>, <a class="fn-backref" href="#id23">3</a>)</em> Nino Shervashidze, Pascal Schweitzer, Erik&nbsp;Jan van Leeuwen, Kurt Mehlhorn, and Karsten&nbsp;M. Borgwardt. Weisfeiler-lehman graph kernels. <em>Journal of Machine Learning Research</em>, 12:2539–2561, 2011.</td></tr>
+<tr><td class="label">[SSvL+11]</td><td><em>(<a class="fn-backref" href="#id22">1</a>, <a class="fn-backref" href="#id23">2</a>)</em> Nino Shervashidze, Pascal Schweitzer, Erik&nbsp;Jan van Leeuwen, Kurt Mehlhorn, and Karsten&nbsp;M. Borgwardt. Weisfeiler-lehman graph kernels. <em>Journal of Machine Learning Research</em>, 12:2539–2561, 2011.</td></tr>
 </tbody>
 </table>
 <table class="docutils citation" frame="void" id="shervashidze2009efficientgk" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label">[SVP+09]</td><td><em>(<a class="fn-backref" href="#id17">1</a>, <a class="fn-backref" href="#id18">2</a>, <a class="fn-backref" href="#id19">3</a>, <a class="fn-backref" href="#id20">4</a>)</em> Nino Shervashidze, S.&nbsp;V.&nbsp;N. Vishwanathan, Tobias Petri, Kurt Mehlhorn, and Karsten&nbsp;M. Borgwardt. Efficient graphlet kernels for large graph comparison. In <em>AISTATS</em>. 2009.</td></tr>
+<tr><td class="label">[SVP+09]</td><td><em>(<a class="fn-backref" href="#id18">1</a>, <a class="fn-backref" href="#id19">2</a>, <a class="fn-backref" href="#id20">3</a>, <a class="fn-backref" href="#id21">4</a>)</em> Nino Shervashidze, S.&nbsp;V.&nbsp;N. Vishwanathan, Tobias Petri, Kurt Mehlhorn, and Karsten&nbsp;M. Borgwardt. Efficient graphlet kernels for large graph comparison. In <em>AISTATS</em>. 2009.</td></tr>
 </tbody>
 </table>
 <table class="docutils citation" frame="void" id="vishwanathan2006fastco" rules="none">

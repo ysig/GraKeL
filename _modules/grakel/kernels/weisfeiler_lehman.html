@@ -190,112 +190,8 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">Ga</span> <span class="o">=</span> <span class="n">graph</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">Lx</span><span class="p">)</span>
     <span class="n">Gb</span> <span class="o">=</span> <span class="n">graph</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span><span class="n">Ly</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">weisfeiler_lehman_inner</span><span class="p">(</span><span class="n">Ga</span><span class="p">,</span> <span class="n">Gb</span><span class="p">,</span> <span class="n">base_kernel</span><span class="p">,</span> <span class="n">niter</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="weisfeiler_lehman_inner"><a class="viewcode-back" href="../../../kernels.html#grakel.kernels.weisfeiler_lehman_inner">[docs]</a><span class="k">def</span> <span class="nf">weisfeiler_lehman_inner</span><span class="p">(</span><span class="n">Ga</span><span class="p">,</span> <span class="n">Gb</span><span class="p">,</span> <span class="n">base_kernel</span><span class="p">,</span> <span class="n">niter</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Computes the Weisfeler Lehman as proposed by :cite:`Shervashidze2011WeisfeilerLehmanGK`</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    G{a,b} : graph</span>
-<span class="sd">        The pair of graphs on which the kernel is applied.</span>
-<span class="sd">        </span>
-<span class="sd">    base_kernel : function (graph, graph -&gt; number)</span>
-<span class="sd">        A valid pairwise base_kernel for graphs.</span>
-<span class="sd">        </span>
-<span class="sd">    niter : int, default=5</span>
-<span class="sd">        The number of iterations.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    kernel : number</span>
-<span class="sd">        The kernel value.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">niter</span><span class="o">&lt;</span><span class="mi">1</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;n_iter must be an integer bigger than zero&#39;</span><span class="p">)</span>
-    
-    <span class="n">Ga</span><span class="o">.</span><span class="n">desired_format</span><span class="p">(</span><span class="s2">&quot;dictionary&quot;</span><span class="p">)</span>
-    <span class="n">Gb</span><span class="o">.</span><span class="n">desired_format</span><span class="p">(</span><span class="s2">&quot;dictionary&quot;</span><span class="p">)</span>
-    
-    <span class="n">La_original</span> <span class="o">=</span> <span class="n">Ga</span><span class="o">.</span><span class="n">get_labels</span><span class="p">(</span><span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;dictionary&quot;</span><span class="p">)</span>
-    <span class="n">Lb_original</span> <span class="o">=</span> <span class="n">Gb</span><span class="o">.</span><span class="n">get_labels</span><span class="p">(</span><span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;dictionary&quot;</span><span class="p">)</span>
-    
-    <span class="n">Ga_edge_dictionary</span> <span class="o">=</span> <span class="n">Ga</span><span class="o">.</span><span class="n">edge_dictionary</span>
-    <span class="n">Gb_edge_dictionary</span> <span class="o">=</span> <span class="n">Gb</span><span class="o">.</span><span class="n">edge_dictionary</span>
-
-    <span class="n">WL_labels</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-    <span class="n">WL_labels_inverse</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-    <span class="c1"># get all the distinct values of current labels</span>
-    <span class="n">distinct_values</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">La_original</span><span class="o">.</span><span class="n">values</span><span class="p">())</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">Lb_original</span><span class="o">.</span><span class="n">values</span><span class="p">()))))</span>
-    <span class="c1"># assign a number to each label</span>
-    <span class="n">label_count</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">for</span> <span class="n">dv</span> <span class="ow">in</span> <span class="n">distinct_values</span><span class="p">:</span>
-        <span class="n">WL_labels</span><span class="p">[</span><span class="n">label_count</span><span class="p">]</span> <span class="o">=</span> <span class="n">dv</span>
-        <span class="n">WL_labels_inverse</span><span class="p">[</span><span class="n">dv</span><span class="p">]</span> <span class="o">=</span> <span class="n">label_count</span>
-        <span class="n">label_count</span> <span class="o">+=</span><span class="mi">1</span>
-
-    <span class="n">La</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-    <span class="n">Lb</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">La_original</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-        <span class="n">La</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">WL_labels_inverse</span><span class="p">[</span><span class="n">La_original</span><span class="p">[</span><span class="n">k</span><span class="p">]]</span>
-    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">Lb_original</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-        <span class="n">Lb</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">WL_labels_inverse</span><span class="p">[</span><span class="n">Lb_original</span><span class="p">[</span><span class="n">k</span><span class="p">]]</span>
-
-    <span class="c1"># add new labels</span>
-    <span class="n">Ga</span><span class="o">.</span><span class="n">relabel</span><span class="p">(</span><span class="n">La</span><span class="p">)</span>
-    <span class="n">Gb</span><span class="o">.</span><span class="n">relabel</span><span class="p">(</span><span class="n">Lb</span><span class="p">)</span>
-
-    <span class="n">kernel</span> <span class="o">=</span> <span class="n">base_kernel</span><span class="p">(</span><span class="n">Ga</span><span class="p">,</span> <span class="n">Gb</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">niter</span><span class="p">):</span>
-        <span class="n">label_set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
-       
-        <span class="c1"># Find unique labels and sort</span>
-        <span class="c1"># them for both graphs</span>
-        <span class="c1"># Keep for each node the temporary</span>
-        <span class="n">La_temp</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-        <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">Ga_edge_dictionary</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="n">nlist</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-            <span class="k">for</span> <span class="n">neighbor</span> <span class="ow">in</span> <span class="n">Ga_edge_dictionary</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-                <span class="n">nlist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">La</span><span class="p">[</span><span class="n">neighbor</span><span class="p">])</span>
-            <span class="n">credential</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">La</span><span class="p">[</span><span class="n">v</span><span class="p">])</span><span class="o">+</span><span class="s2">&quot;,&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">nlist</span><span class="p">))</span>
-            <span class="n">La_temp</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">credential</span>
-            <span class="n">label_set</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">credential</span><span class="p">)</span>
-            
-        <span class="c1"># Dictionary for second graph</span>
-        <span class="n">Lb_temp</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-        <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">Gb_edge_dictionary</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="n">nlist</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-            <span class="k">for</span> <span class="n">neighbor</span> <span class="ow">in</span> <span class="n">Gb_edge_dictionary</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-                <span class="n">nlist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Lb</span><span class="p">[</span><span class="n">neighbor</span><span class="p">])</span>
-            <span class="n">credential</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">Lb</span><span class="p">[</span><span class="n">v</span><span class="p">])</span><span class="o">+</span><span class="s2">&quot;,&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">nlist</span><span class="p">))</span>
-            <span class="n">Lb_temp</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">credential</span>
-            <span class="n">label_set</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">credential</span><span class="p">)</span>
-
-        <span class="n">label_list</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">label_set</span><span class="p">))</span>
-        <span class="k">for</span> <span class="n">dv</span> <span class="ow">in</span> <span class="n">label_list</span><span class="p">:</span>
-            <span class="n">WL_labels</span><span class="p">[</span><span class="n">label_count</span><span class="p">]</span> <span class="o">=</span> <span class="n">dv</span>
-            <span class="n">WL_labels_inverse</span><span class="p">[</span><span class="n">dv</span><span class="p">]</span> <span class="o">=</span> <span class="n">label_count</span>
-            <span class="n">label_count</span> <span class="o">+=</span><span class="mi">1</span>
-
-        <span class="c1"># Recalculate labels</span>
-        <span class="n">La</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-        <span class="n">Lb</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">La_temp</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="n">La</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">WL_labels_inverse</span><span class="p">[</span><span class="n">La_temp</span><span class="p">[</span><span class="n">k</span><span class="p">]]</span>
-        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">Lb_temp</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="n">Lb</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">WL_labels_inverse</span><span class="p">[</span><span class="n">Lb_temp</span><span class="p">[</span><span class="n">k</span><span class="p">]]</span>        
-            
-        <span class="c1"># relabel</span>
-        <span class="n">Ga</span><span class="o">.</span><span class="n">relabel</span><span class="p">(</span><span class="n">La</span><span class="p">)</span>
-        <span class="n">Gb</span><span class="o">.</span><span class="n">relabel</span><span class="p">(</span><span class="n">Lb</span><span class="p">)</span>
-
-        <span class="c1"># calculate kernel </span>
-        <span class="n">kernel</span> <span class="o">+=</span> <span class="n">base_kernel</span><span class="p">(</span><span class="n">Ga</span><span class="p">,</span> <span class="n">Gb</span><span class="p">)</span>
-        
-    <span class="c1"># Restore original labels  </span>
-    <span class="n">Ga</span><span class="o">.</span><span class="n">relabel</span><span class="p">(</span><span class="n">La_original</span><span class="p">)</span>
-    <span class="n">Gb</span><span class="o">.</span><span class="n">relabel</span><span class="p">(</span><span class="n">Lb_original</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">kernel</span></div>
+    <span class="n">bkm</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">base_kernel</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">])]])</span>
+    <span class="k">return</span> <span class="n">weisfeiler_lehman_matrix</span><span class="p">({</span><span class="mi">0</span><span class="p">:</span> <span class="n">Ga</span><span class="p">},</span> <span class="n">bkm</span><span class="p">,</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="n">Gb</span><span class="p">},</span> <span class="n">niter</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span></div>
 
 <div class="viewcode-block" id="weisfeiler_lehman_matrix"><a class="viewcode-back" href="../../../kernels.html#grakel.kernels.weisfeiler_lehman_matrix">[docs]</a><span class="k">def</span> <span class="nf">weisfeiler_lehman_matrix</span><span class="p">(</span><span class="n">Graphs_a</span><span class="p">,</span> <span class="n">base_kernel_matrix</span><span class="p">,</span> <span class="n">Graphs_b</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="n">niter</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Computes the kernel matrix, for the Weisfeler Lehman kernel proposed in :cite:`Shervashidze2011WeisfeilerLehmanGK`.</span>
@@ -371,8 +267,8 @@
         <span class="n">Gs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">relabel</span><span class="p">(</span><span class="n">L</span><span class="p">)</span>
     
     <span class="n">kernel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">ng_b</span><span class="p">,</span> <span class="n">ng_a</span><span class="p">))</span>
-    <span class="n">kernel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">kernel</span><span class="p">,</span><span class="n">base_kernel_matrix</span><span class="p">(</span><span class="n">Graphs_a</span><span class="p">,</span> <span class="n">Graphs_b</span><span class="p">))</span>
-        
+    <span class="n">kernel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">kernel</span><span class="p">,</span> <span class="n">base_kernel_matrix</span><span class="p">(</span><span class="n">Graphs_a</span><span class="p">,</span> <span class="n">Graphs_b</span><span class="p">))</span>
+    
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">niter</span><span class="p">):</span>
         <span class="n">label_set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
         <span class="n">L_temp</span><span class="o">=</span><span class="nb">dict</span><span class="p">()</span>
@@ -381,7 +277,7 @@
             <span class="c1"># them for both graphs</span>
             <span class="c1"># Keep for each node the temporary</span>
             <span class="n">L_temp</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-            <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">G_ed</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">G_ed</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
                 <span class="n">nlist</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
                 <span class="k">for</span> <span class="n">neighbor</span> <span class="ow">in</span> <span class="n">G_ed</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
                     <span class="n">nlist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Gs</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">node_labels</span><span class="p">[</span><span class="n">neighbor</span><span class="p">])</span>

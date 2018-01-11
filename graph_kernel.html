@@ -173,11 +173,11 @@
 <div><dl class="docutils">
 <dt>a list of dictionaries, or a single dicitonary that have the following structure:</dt>
 <dd><ul class="first simple">
-<li>“name”: [str] - with the kernel name</li>
-<li>“name_of_parameter_1”: value</li>
-<li>“name_of_parameter_2”: value</li>
+<li>“name” : [str] - with the kernel name</li>
+<li>“name_of_parameter_1” : value</li>
+<li>“name_of_parameter_2” : value</li>
 <li>…</li>
-<li>“name_of_parameter_k”: value</li>
+<li>“name_of_parameter_k” : value</li>
 </ul>
 <dl class="docutils">
 <dt>available “names” / “parametres” are:</dt>
@@ -193,7 +193,7 @@
 <li><dl class="first docutils">
 <dt>“random_walk”</dt>
 <dd><ul class="first last">
-<li>(<strong>o</strong>) “lamda”: [float] &lt; 1</li>
+<li>(<strong>o</strong>) “lamda” : [float] &lt; 1</li>
 <li>(<strong>o</strong>) method_type : [str] “sylvester”, “simple”</li>
 </ul>
 </dd>
@@ -202,7 +202,9 @@
 <li><dl class="first docutils">
 <dt>“shortest_path”</dt>
 <dd><ul class="first last">
-<li>(<strong>o</strong>) “algorithm_type”: [str] “dijkstra”, “floyd_warshall”</li>
+<li>(<strong>o</strong>) “algorithm_type” : [str] “dijkstra”, “floyd_warshall”</li>
+<li>(<strong>o</strong>) “as_attributes” : [bool]</li>
+<li>(<strong>o</strong>) “attribute_kernel” : [function] : (attribute_x, attribute_y) -&gt; number</li>
 </ul>
 </dd>
 </dl>
@@ -210,7 +212,7 @@
 <li><dl class="first docutils">
 <dt>“subtree_rg”</dt>
 <dd><ul class="first last">
-<li>(<strong>o</strong>) “h”: [int]</li>
+<li>(<strong>o</strong>) “h” : [int]</li>
 </ul>
 </dd>
 </dl>
@@ -218,10 +220,10 @@
 <li><dl class="first docutils">
 <dt>“graphlets_sampling”</dt>
 <dd><ul class="first last">
-<li>(<strong>o</strong>) “k”: [int]</li>
+<li>(<strong>o</strong>) “k” : [int]</li>
 <li>(<strong>o</strong>) “delta” : [float]</li>
 <li>(<strong>o</strong>) “epsilon” : [float]</li>
-<li>(<strong>o</strong>) “a”: [int]</li>
+<li>(<strong>o</strong>) “a” : [int]</li>
 </ul>
 </dd>
 </dl>
@@ -229,7 +231,7 @@
 <li><dl class="first docutils">
 <dt>“multiscale_laplacian”</dt>
 <dd><ul class="first last">
-<li>(<strong>o</strong>) “L”: [int]</li>
+<li>(<strong>o</strong>) “L” : [int]</li>
 <li>(<strong>o</strong>) “gamma”</li>
 </ul>
 </dd>
@@ -238,9 +240,9 @@
 <li><dl class="first docutils">
 <dt>“subgraph_matching”</dt>
 <dd><ul class="first last">
-<li>(<strong>o</strong>) “kv”: kernel function for nodes: (node_x, node_y, Lx, Ly) -&gt; number</li>
-<li>(<strong>o</strong>) “ke”: kernel function for edges: (edge_x, edge_y, Lx, Ly) -&gt; number</li>
-<li>(<strong>o</strong>) “lw”: a lambda weight function for cliques: set -&gt; number</li>
+<li>(<strong>o</strong>) “kv” : [function] : (node_x, node_y, Lx, Ly) -&gt; number</li>
+<li>(<strong>o</strong>) “ke” : [function] : (edge_x, edge_y, Lx, Ly) -&gt; number</li>
+<li>(<strong>o</strong>) “lw” : a lambda weight function for cliques: set -&gt; number</li>
 </ul>
 </dd>
 </dl>
@@ -248,9 +250,9 @@
 <li><dl class="first docutils">
 <dt>“lovasz_theta”</dt>
 <dd><ul class="first last">
-<li>(<strong>o</strong>) “n_samples”: [int] &gt; 1</li>
-<li>(<strong>o</strong>) “subsets_size_range”: [touple] of two [int]</li>
-<li>(<strong>o</strong>) “metric”: [function] (number, number) -&gt; number</li>
+<li>(<strong>o</strong>) “n_samples” : [int] &gt; 1</li>
+<li>(<strong>o</strong>) “subsets_size_range” : [touple] of two [int]</li>
+<li>(<strong>o</strong>) “metric” : [function] (number, number) -&gt; number</li>
 </ul>
 </dd>
 </dl>
@@ -258,9 +260,9 @@
 <li><dl class="first docutils">
 <dt>“svm_theta”</dt>
 <dd><ul class="first last">
-<li>(<strong>o</strong>) “n_samples”: [int] &gt; 1</li>
-<li>(<strong>o</strong>) “subsets_size_range”: [touple] with 2 [int] elements</li>
-<li>(<strong>o</strong>) “metric”: [function] (number, number) -&gt; number</li>
+<li>(<strong>o</strong>) “n_samples” : [int] &gt; 1</li>
+<li>(<strong>o</strong>) “subsets_size_range” : [touple] with 2 [int] elements</li>
+<li>(<strong>o</strong>) “metric” : [function] (number, number) -&gt; number</li>
 </ul>
 </dd>
 </dl>
@@ -268,9 +270,9 @@
 <li><dl class="first docutils">
 <dt>“neighborhood_hash”</dt>
 <dd><ul class="first last">
-<li>(<strong>o</strong>) “nh_type”: [str] “simple” or “count-sensitive”</li>
-<li>(<strong>o</strong>) “R”: [int] &gt; 0</li>
-<li>(<strong>o</strong>) “bytes”: [int] &gt; 0</li>
+<li>(<strong>o</strong>) “nh_type” : [str] “simple” or “count-sensitive”</li>
+<li>(<strong>o</strong>) “R” : [int] &gt; 0</li>
+<li>(<strong>o</strong>) “bytes” : [int] &gt; 0</li>
 </ul>
 </dd>
 </dl>
@@ -278,8 +280,8 @@
 <li><dl class="first docutils">
 <dt>“neighborhood_pairwise_subgraph_distance”</dt>
 <dd><ul class="first last">
-<li>(<strong>o</strong>) “r”: (int) positive integer</li>
-<li>(<strong>o</strong>) “d”: (int) positive integer</li>
+<li>(<strong>o</strong>) “r” : (int) positive integer</li>
+<li>(<strong>o</strong>) “d” : (int) positive integer</li>
 </ul>
 </dd>
 </dl>
@@ -287,7 +289,7 @@
 <li><dl class="first docutils">
 <dt>“odd_sth”</dt>
 <dd><ul class="first last">
-<li>(<strong>o</strong>) “h”: [int] &gt; 0</li>
+<li>(<strong>o</strong>) “h” : [int] &gt; 0</li>
 </ul>
 </dd>
 </dl>
@@ -314,6 +316,15 @@
 </dd>
 </dl>
 </li>
+<li><dl class="first docutils">
+<dt>“jsm”</dt>
+<dd><ul class="first last">
+<li>(<strong>o</strong>) M: [int] &gt; 0</li>
+<li>(<strong>o</strong>) h: [int] &gt; 0</li>
+</ul>
+</dd>
+</dl>
+</li>
 </ul>
 </dd>
 </dl>
@@ -324,7 +335,18 @@
 <li><dl class="first docutils">
 <dt>“weisfeiler_lehman”</dt>
 <dd><ul class="first last">
-<li>(<strong>o</strong>) “niter”: [int]</li>
+<li>(<strong>o</strong>) “niter” : [int]</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>“hadamard_code”</dt>
+<dd><ul class="first last">
+<li>(<strong>o</strong>) “niter” : [int]</li>
+<li>(<strong>o</strong>) “hc_type” : [str] “simple”, “shortened”</li>
+<li>(<strong>o</strong>) “rho” : [int] &gt; 0 or -1</li>
+<li>(<strong>o</strong>) “L” : int, condition_of_appearance: hc_type==”shortened”, default=4</li>
 </ul>
 </dd>
 </dl>
@@ -340,10 +362,20 @@
 </dd>
 </dl>
 </div></blockquote>
-<p><strong>nystroem</strong> : int, optional</p>
-<blockquote class="last">
+<p><strong>Nystroem</strong> : int, optional</p>
+<blockquote>
 <div><p>Defines the number of nystroem components.
 To initialize the default (100 components), set -1 or 0.</p>
+</div></blockquote>
+<p><strong>concurrency</strong> : int, optional</p>
+<blockquote>
+<div><p>Defines the number of workers for kernel matrix calculation using concurrency.
+To intialise the default (all possible), set -1 or 0.</p>
+</div></blockquote>
+<p><strong>normalize</strong> : bool, optional</p>
+<blockquote class="last">
+<div><p>Normalize the output of the graph kernel.
+Ignored when Nystroem GraphKernel object is instanciated.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -352,8 +384,8 @@ To initialize the default (100 components), set -1 or 0.</p>
 <p class="rubric">Attributes</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="14%" />
-<col width="86%" />
+<col width="17%" />
+<col width="83%" />
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><strong>X_graph</strong></td>
@@ -368,14 +400,23 @@ To initialize the default (100 components), set -1 or 0.</p>
 <tr class="row-even"><td><strong>nystroem</strong></td>
 <td>(int) Holds the nystroem, number of components. If not initialised, it stands as a False boolean variable.</td>
 </tr>
-<tr class="row-odd"><td><strong>components_</strong></td>
+<tr class="row-odd"><td><strong>normalize</strong></td>
+<td>(bool) Normalize the output of the graph kernel.</td>
+</tr>
+<tr class="row-even"><td><strong>components_</strong></td>
 <td>(array, shape (n_components, n_features)) Subset of training graphs used to construct the feature map.</td>
 </tr>
-<tr class="row-even"><td><strong>normalization_</strong></td>
+<tr class="row-odd"><td><strong>nystroem_normalization_</strong></td>
 <td>(array, shape=(n_components, n_components)) Normalization matrix needed for embedding. Square root of the kernel matrix on <code class="docutils literal"><span class="pre">components_</span></code>.</td>
 </tr>
-<tr class="row-odd"><td><strong>component_indices_</strong></td>
+<tr class="row-even"><td><strong>component_indices_</strong></td>
 <td>(array, shape=(n_components)) Indices of <code class="docutils literal"><span class="pre">components_</span></code> in the training set.</td>
+</tr>
+<tr class="row-odd"><td><strong>_pairwise_kernel_executor</strong></td>
+<td>(function) The final executor destined for a single kernel calculation.</td>
+</tr>
+<tr class="row-even"><td><strong>_concurrent_executor</strong></td>
+<td>(ThreadPoolExecutor) An executor for applying concurrency, for the fast pairwise computations of the kernel matrix calculation.</td>
 </tr>
 </tbody>
 </table>
@@ -394,7 +435,8 @@ To initialize the default (100 components), set -1 or 0.</p>
 </div></blockquote>
 <p><strong>kernel: function</strong></p>
 <blockquote>
-<div><p>A pairwise graph kernel (between “graph” type objects).</p>
+<div><p>A pairwise graph kernel (between “graph” type objects)
+or a matrix graph kernel (between enumerative dictionaries - starting from 0 - for graph type objects)</p>
 </div></blockquote>
 <p><strong>kernel_type: str, valid_values={“matrix”, “pairwise”}</strong></p>
 <blockquote>
@@ -460,6 +502,42 @@ all pairs of graphs between target an features</p>
 </table>
 </dd></dl>
 
+</dd></dl>
+
+<dl class="function">
+<dt id="grakel.graph_kernels.pairwise_to_matrix_kernel">
+<code class="descclassname">grakel.graph_kernels.</code><code class="descname">pairwise_to_matrix_kernel</code><span class="sig-paren">(</span><em>x</em>, <em>pairwise_kernel</em>, <em>kernel_executor</em>, <em>y=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/graph_kernels.html#pairwise_to_matrix_kernel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.graph_kernels.pairwise_to_matrix_kernel" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapping function that converts a pairwise-kernel to a matrix-kernel.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>x,y</strong> : dict, default_y=None</p>
+<blockquote>
+<div><p>Enumerative dictionary of graph type objects with keys from 0 to the number of values.
+If value of Graphs_y is None the kernel matrix is computed between all pairs of Graphs_x
+where in another case the kernel_matrix rows correspond to elements of Graphs_y, and columns
+to the elements of Graphs_x.</p>
+</div></blockquote>
+<p><strong>pairwise_kernel</strong> : function</p>
+<blockquote>
+<div><p>A pairwise graph kernel (between “graph” type objects)</p>
+</div></blockquote>
+<p><strong>kernel_excutor</strong> : Executor</p>
+<blockquote>
+<div><p>An executor for functions to allow concurrency speedups.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>kernel_matrix</strong> : np.array</p>
+<blockquote class="last">
+<div><p>The kernel matrix. If the Graphs_y is not None the rows correspond to Graphs_y
+and the cols to the Graphs_x (based on the given order).</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </div>
