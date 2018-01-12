@@ -279,7 +279,7 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                     if "k" in kernel:
                         return (lambda x, y: graphlet_sampling_core(x, y, nsamples, graphlets, P, graph_bins, nbins, k=kernel["k"]), False)
                     else:
-                        return (lambda x, y: graphlet_sampling_core(x, y, nsamples, graphlets, P, graph_bins, nbins, k), False)
+                        return (lambda x, y: graphlet_sampling_core(x, y, nsamples, graphlets, P, graph_bins, nbins), False)
                 elif kernel_name == "multiscale_laplacian":
                     return (lambda x, y: multiscale_laplacian_inner(x, y, **kernel), False)
                 elif kernel_name == "subgraph_matching":
