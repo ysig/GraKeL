@@ -373,9 +373,62 @@ To initialize the default (100 components), set -1 or 0.</p>
 To intialise the default (all possible), set -1 or 0.</p>
 </div></blockquote>
 <p><strong>normalize</strong> : bool, optional</p>
-<blockquote class="last">
+<blockquote>
 <div><p>Normalize the output of the graph kernel.
 Ignored when Nystroem GraphKernel object is instanciated.</p>
+</div></blockquote>
+<p><strong>verbose</strong> : bool, optional</p>
+<blockquote>
+<div><p>Define if messages will be printed on stdout.</p>
+</div></blockquote>
+<p><strong>Attributes</strong></p>
+<p><strong>———-</strong></p>
+<p><strong>X_graph</strong> : dict</p>
+<blockquote>
+<div><p>Stores input graphs indexing from 0 to num_of_graphs-1.</p>
+</div></blockquote>
+<p><strong>num_of_graphs</strong> : int</p>
+<blockquote>
+<div><p>The number of graphs given in fit input.</p>
+</div></blockquote>
+<p><strong>kernel</strong> : function</p>
+<blockquote>
+<div><p>The full kernel applied between graph objects.</p>
+</div></blockquote>
+<p><strong>nystroem</strong> : int</p>
+<blockquote>
+<div><p>Holds the nystroem, number of components.
+If not initialised, it stands as a False 
+boolean variable.</p>
+</div></blockquote>
+<p><strong>normalize</strong> : bool</p>
+<blockquote>
+<div><p>Normalize the output of the graph kernel.</p>
+</div></blockquote>
+<p><strong>components_</strong> : array, shape (n_components, n_features)</p>
+<blockquote>
+<div><p>Subset of training graphs used to construct the feature map.</p>
+</div></blockquote>
+<p><strong>nystroem_normalization_</strong> : array, shape=(n_components, n_components)</p>
+<blockquote>
+<div><p>Normalization matrix needed for embedding.
+Square root of the kernel matrix on <code class="docutils literal"><span class="pre">components_</span></code>.</p>
+</div></blockquote>
+<p><strong>component_indices_</strong> : array, shape=(n_components)</p>
+<blockquote>
+<div><p>Indices of <code class="docutils literal"><span class="pre">components_</span></code> in the training set.</p>
+</div></blockquote>
+<p><strong>_verbose</strong> : bool, default=False</p>
+<blockquote>
+<div><p>Print messages in on stdout.</p>
+</div></blockquote>
+<p><strong>_pairwise_kernel_executor</strong> : function</p>
+<blockquote>
+<div><p>The final executor destined for a single kernel calculation.</p>
+</div></blockquote>
+<p><strong>_concurrent_executor</strong> : ThreadPoolExecutor</p>
+<blockquote class="last">
+<div><p>An executor for applying concurrency, for the fast pairwise computations of the kernel matrix calculation.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -384,39 +437,12 @@ Ignored when Nystroem GraphKernel object is instanciated.</p>
 <p class="rubric">Attributes</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="17%" />
-<col width="83%" />
+<col width="52%" />
+<col width="48%" />
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><strong>X_graph</strong></td>
-<td>(dict) Stores input graphs indexing from 0 to num_of_graphs-1.</td>
-</tr>
-<tr class="row-even"><td><strong>num_of_graphs</strong></td>
-<td>(int) The number of graphs given in fit input.</td>
-</tr>
-<tr class="row-odd"><td><strong>kernel</strong></td>
-<td>(function) The full kernel applied between graph objects.</td>
-</tr>
-<tr class="row-even"><td><strong>nystroem</strong></td>
-<td>(int) Holds the nystroem, number of components. If not initialised, it stands as a False boolean variable.</td>
-</tr>
-<tr class="row-odd"><td><strong>normalize</strong></td>
-<td>(bool) Normalize the output of the graph kernel.</td>
-</tr>
-<tr class="row-even"><td><strong>components_</strong></td>
-<td>(array, shape (n_components, n_features)) Subset of training graphs used to construct the feature map.</td>
-</tr>
-<tr class="row-odd"><td><strong>nystroem_normalization_</strong></td>
-<td>(array, shape=(n_components, n_components)) Normalization matrix needed for embedding. Square root of the kernel matrix on <code class="docutils literal"><span class="pre">components_</span></code>.</td>
-</tr>
-<tr class="row-even"><td><strong>component_indices_</strong></td>
-<td>(array, shape=(n_components)) Indices of <code class="docutils literal"><span class="pre">components_</span></code> in the training set.</td>
-</tr>
-<tr class="row-odd"><td><strong>_pairwise_kernel_executor</strong></td>
-<td>(function) The final executor destined for a single kernel calculation.</td>
-</tr>
-<tr class="row-even"><td><strong>_concurrent_executor</strong></td>
-<td>(ThreadPoolExecutor) An executor for applying concurrency, for the fast pairwise computations of the kernel matrix calculation.</td>
+<td>&#160;</td>
 </tr>
 </tbody>
 </table>

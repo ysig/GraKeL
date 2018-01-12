@@ -177,6 +177,8 @@
 
 <span class="k">global</span> <span class="n">supported_base_kernels</span><span class="p">,</span> <span class="n">supported_general_kernels</span><span class="p">,</span> <span class="n">default_n_components</span>
 
+<span class="n">valid_parameters</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;kernel&quot;</span><span class="p">,</span> <span class="s2">&quot;Nystroem&quot;</span><span class="p">,</span> <span class="s2">&quot;concurrency&quot;</span><span class="p">,</span> <span class="s2">&quot;normalize&quot;</span><span class="p">,</span> <span class="s2">&quot;verbose&quot;</span><span class="p">}</span>
+
 <span class="n">supported_base_kernels</span> <span class="o">=</span> <span class="p">[</span>
 <span class="s2">&quot;dirac&quot;</span><span class="p">,</span><span class="s2">&quot;random_walk&quot;</span><span class="p">,</span>
 <span class="s2">&quot;shortest_path&quot;</span><span class="p">,</span><span class="s2">&quot;subtree_rg&quot;</span><span class="p">,</span>
@@ -192,6 +194,8 @@
 <span class="s2">&quot;weisfeiler_lehman&quot;</span><span class="p">,</span>
 <span class="s2">&quot;hadamard_code&quot;</span>
 <span class="p">]</span>
+
+<span class="n">default_verbose_value</span> <span class="o">=</span> <span class="kc">True</span>
 
 <span class="n">default_n_components</span> <span class="o">=</span> <span class="mi">100</span>
 
@@ -299,6 +303,8 @@
 <span class="sd">        Normalize the output of the graph kernel.</span>
 <span class="sd">        Ignored when Nystroem GraphKernel object is instanciated.</span>
 
+<span class="sd">    verbose : bool, optional</span>
+<span class="sd">        Define if messages will be printed on stdout.</span>
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
 <span class="sd">    X_graph : dict</span>
@@ -306,7 +312,7 @@
 <span class="sd">        </span>
 <span class="sd">    num_of_graphs : int</span>
 <span class="sd">        The number of graphs given in fit input.  </span>
-<span class="sd">        </span>
+
 <span class="sd">    kernel : function</span>
 <span class="sd">        The full kernel applied between graph objects.  </span>
 <span class="sd">        </span>
@@ -328,6 +334,9 @@
 <span class="sd">    component_indices_ : array, shape=(n_components)</span>
 <span class="sd">        Indices of ``components_`` in the training set.</span>
 
+<span class="sd">    _verbose : bool, default=False</span>
+<span class="sd">        Print messages in on stdout.</span>
+
 <span class="sd">    _pairwise_kernel_executor : function</span>
 <span class="sd">        The final executor destined for a single kernel calculation.</span>
 
@@ -341,6 +350,9 @@
     <span class="n">normalize</span> <span class="o">=</span> <span class="kc">False</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_verbose</span> <span class="o">=</span> <span class="n">kargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;verbose&quot;</span><span class="p">,</span> <span class="n">default_verbose_value</span><span class="p">)</span>
+        
         <span class="k">if</span> <span class="s2">&quot;kernel&quot;</span> <span class="ow">in</span> <span class="n">kargs</span><span class="p">:</span>
             <span class="k">if</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">kargs</span><span class="p">[</span><span class="s2">&quot;kernel&quot;</span><span class="p">])</span> <span class="ow">is</span> <span class="nb">dict</span><span class="p">):</span>
                 <span class="c1"># allow single kernel dictionary inputs</span>
@@ -383,6 +395,11 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">normalize</span> <span class="o">=</span> <span class="n">kargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;normalize&quot;</span><span class="p">,</span><span class="kc">False</span><span class="p">)</span>
         
+        <span class="n">unrecognised_args</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">kargs</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">-</span> <span class="n">valid_parameters</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">unrecognised_args</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;Ignoring unrecognised arguments:&#39;</span><span class="p">,</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">unrecognised_args</span><span class="p">))</span>
+
     <span class="k">def</span> <span class="nf">_make_kernel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">kernel_list</span><span class="p">):</span>
             <span class="sd">&quot;&quot;&quot; Produces the desired kernel function.</span>
 <span class="sd">                </span>
@@ -417,7 +434,8 @@
                     <span class="k">return</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">subtree_rg_inner</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">kernel</span><span class="p">),</span> <span class="kc">False</span><span class="p">)</span>
                 <span class="k">elif</span> <span class="n">kernel_name</span> <span class="o">==</span> <span class="s2">&quot;graphlets_sampling&quot;</span><span class="p">:</span>
                     <span class="n">nsamples</span><span class="p">,</span> <span class="n">graphlets</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">graph_bins</span><span class="p">,</span> <span class="n">nbins</span> <span class="o">=</span> <span class="n">sample_graphlets</span><span class="p">(</span><span class="o">**</span><span class="n">kernel</span><span class="p">)</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">nsamples</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot; graphlets sampled&quot;</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_verbose</span><span class="p">:</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">nsamples</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot; graphlets sampled&quot;</span><span class="p">)</span>
                     <span class="k">if</span> <span class="s2">&quot;k&quot;</span> <span class="ow">in</span> <span class="n">kernel</span><span class="p">:</span>
                         <span class="k">return</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">graphlet_sampling_core</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">nsamples</span><span class="p">,</span> <span class="n">graphlets</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">graph_bins</span><span class="p">,</span> <span class="n">nbins</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">kernel</span><span class="p">[</span><span class="s2">&quot;k&quot;</span><span class="p">]),</span> <span class="kc">False</span><span class="p">)</span>
                     <span class="k">else</span><span class="p">:</span>
