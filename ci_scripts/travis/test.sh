@@ -9,7 +9,7 @@ cd $TEST_DIR
 if [[ "$COVERAGE" == "true" ]]; then
     pwd
     ls
-    nosetests grakel/tests --with-coverage --cover-package=$MODULE $MODULE
+    nosetests --with-coverage --cover-package=$MODULE $MODULE
 else
-    nosetests grakel/tests $MODULE
+    nosetests $MODULE
 fi

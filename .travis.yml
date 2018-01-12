@@ -2,8 +2,7 @@ dist: trusty
 sudo: required
 
 language: python
-python: 
-    - "3.5"
+
 cache:
   apt: true
   # We use three different cache directory
