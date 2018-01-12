@@ -2,7 +2,7 @@ import argparse
 import numpy as np
 import numpy.testing as npt
 
-from ..graph import graph
+from grakel.graph import graph
 
 global verbose
 
@@ -10,9 +10,14 @@ global verbose
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='A test file for all graph type objects')
     parser.add_argument('--verbose', help='verbose outputs on stdout', action="store_true")
+    parser.add_argument('--ignore_warnings', help='ignore warnings produced by kernel executions', action="store_true")
 
     args = parser.parse_args()
     verbose = bool(args.verbose)
+
+    if bool(args.ignore_warnings):
+        import warnings
+        warnings.filterwarnings('ignore', category=UserWarning)
 else:
     import warnings
     warnings.filterwarnings('ignore', category=UserWarning)
@@ -99,6 +104,5 @@ def test_graph_edge_dictionary():
             npt.assert_array_equal(spm,spm_do)
             npt.assert_equal(spl,desired_labels)
 
-if verbose:
-    test_graph_adjacency()
-    test_graph_edge_dictionary()
+test_graph_adjacency()
+test_graph_edge_dictionary()

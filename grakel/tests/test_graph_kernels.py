@@ -11,13 +11,16 @@ global verbose, main, development
 if __name__=='__main__':
     # Create an argument parser for the installer of pynauty
     parser = argparse.ArgumentParser(description='A test file for all kernels')
+    
     parser.add_argument('--verbose', help='print kernels with their outputs on stdout', action="store_true")
+    parser.add_argument('--problematic', help='allow execution of problematic test cases in development', action="store_true")
+    parser.add_argument('--ignore_warnings', help='ignore warnings produced by kernel executions', action="store_true")
+
     meg = parser.add_mutually_exclusive_group()
     meg.add_argument('--develop', help='execute only tests connected with current development', action="store_true")
     meg.add_argument('--all', help='execute all tests', action="store_true")
     meg.add_argument('--main', help='execute the main tests [default]', action="store_true")
-    parser.add_argument('--problematic', help='allow execution of problematic test cases in development', action="store_true")
-
+    
     args = parser.parse_args()
 
     verbose = bool(args.verbose)
@@ -29,6 +32,10 @@ if __name__=='__main__':
         main, develop = True, False
     problematic = bool(args.problematic)
 
+    if bool(args.ignore_warnings):
+        import warnings
+        warnings.filterwarnings('ignore', category=UserWarning)
+    
 else:
     import warnings
     warnings.filterwarnings('ignore', category=UserWarning)
