@@ -6,28 +6,31 @@ from grakel.kernels import *
 
 global verbose, main, development
 
-# Create an argument parser for the installer of pynauty
-parser = argparse.ArgumentParser(description='A test file for all kernels')
-parser.add_argument('--verbose', help='print kernels with their outputs on stdout', action="store_true")
-meg = parser.add_mutually_exclusive_group()
-meg.add_argument('--develop', help='execute only tests connected with current development', action="store_true")
-meg.add_argument('--all', help='execute all tests', action="store_true")
-meg.add_argument('--main', help='execute the main tests [default]')
-parser.add_argument('--problematic', help='allow execution of problematic test cases in development', action="store_true")
+if __name__ == '__main__':
+    # Create an argument parser for the installer of pynauty
+    parser = argparse.ArgumentParser(description='A test file for all kernels')
+    parser.add_argument('--verbose', help='print kernels with their outputs on stdout', action="store_true")
+    meg = parser.add_mutually_exclusive_group()
+    meg.add_argument('--develop', help='execute only tests connected with current development', action="store_true")
+    meg.add_argument('--all', help='execute all tests', action="store_true")
+    meg.add_argument('--main', help='execute the main tests [default]', action="store_true")
+    parser.add_argument('--problematic', help='allow execution of problematic test cases in development', action="store_true")
 
-args = parser.parse_args()
+    args = parser.parse_args()
 
-verbose = bool(args.verbose)
-if args.all:
-    main = True
-    develop = True
-elif args.develop:
-    main = False
-    develop = True
+    verbose = bool(args.verbose)
+    if args.all:
+        main, develop = True, True
+    elif args.develop:
+        main, develop = False, True
+    else:
+        main, develop = True, False
+    problematic = bool(args.problematic)
+
 else:
-    main = True
-    develop = False
-problematic = bool(args.problematic)
+    import warnings
+    warnings.filterwarnings('ignore', category=UserWarning)
+    main, develop, verbose = True, False, False
 
 global X, Y, L, Le, phi
 
@@ -119,7 +122,7 @@ def test_weisfeiler_lehman():
         npt_v = dict()
         npt_v["dirac"] = 50
         npt_v["shortest path"] = 276
-        npt_v["subtree"] = 15458150092069060998865743245478022133789841061117106540018232182730681287234085528132318819741260764317676931326456376488696020676136950620929717075828209329606781669103994
+        npt_v["subtree"] = float(15458150092069060998865743245478022133789841061117106540018232182730681287234085528132318819741260764317676931326456376488696020676136950620929717075828209329606781669103994)
     
     for k in base_kernel.keys():
         if verbose:

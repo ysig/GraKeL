@@ -17,6 +17,8 @@ np.random.seed(int(time.time()))
 
 global supported_base_kernels, supported_general_kernels, default_n_components
 
+valid_parameters = {"kernel", "Nystroem", "concurrency", "normalize", "verbose"}
+
 supported_base_kernels = [
 "dirac","random_walk",
 "shortest_path","subtree_rg",
@@ -32,6 +34,8 @@ supported_general_kernels = [
 "weisfeiler_lehman",
 "hadamard_code"
 ]
+
+default_verbose_value = True
 
 default_n_components = 100
 
@@ -139,6 +143,8 @@ class GraphKernel(BaseEstimator, TransformerMixin):
         Normalize the output of the graph kernel.
         Ignored when Nystroem GraphKernel object is instanciated.
 
+    verbose : bool, optional
+        Define if messages will be printed on stdout.
     Attributes
     ----------
     X_graph : dict
@@ -146,7 +152,7 @@ class GraphKernel(BaseEstimator, TransformerMixin):
         
     num_of_graphs : int
         The number of graphs given in fit input.  
-        
+
     kernel : function
         The full kernel applied between graph objects.  
         
@@ -168,6 +174,9 @@ class GraphKernel(BaseEstimator, TransformerMixin):
     component_indices_ : array, shape=(n_components)
         Indices of ``components_`` in the training set.
 
+    _verbose : bool, default=False
+        Print messages in on stdout.
+
     _pairwise_kernel_executor : function
         The final executor destined for a single kernel calculation.
 
@@ -181,6 +190,9 @@ class GraphKernel(BaseEstimator, TransformerMixin):
     normalize = False
 
     def __init__(self, **kargs):
+
+        self._verbose = kargs.get("verbose", default_verbose_value)
+        
         if "kernel" in kargs:
             if (type(kargs["kernel"]) is dict):
                 # allow single kernel dictionary inputs
@@ -223,6 +235,11 @@ class GraphKernel(BaseEstimator, TransformerMixin):
 
         self.normalize = kargs.get("normalize",False)
         
+        unrecognised_args = set(kargs.keys()) - valid_parameters
+
+        if len(unrecognised_args)>0:
+            warnings.warn('Ignoring unrecognised arguments:',', '.join('"' + str(arg) + '"' for arg in unrecognised_args))
+
     def _make_kernel(self,kernel_list):
             """ Produces the desired kernel function.
                 
@@ -257,7 +274,8 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                     return (lambda x, y: subtree_rg_inner(x, y, **kernel), False)
                 elif kernel_name == "graphlets_sampling":
                     nsamples, graphlets, P, graph_bins, nbins = sample_graphlets(**kernel)
-                    print(str(nsamples)+" graphlets sampled")
+                    if self._verbose:
+                        print(str(nsamples)+" graphlets sampled")
                     if "k" in kernel:
                         return (lambda x, y: graphlet_sampling_core(x, y, nsamples, graphlets, P, graph_bins, nbins, k=kernel["k"]), False)
                     else:

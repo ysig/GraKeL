@@ -1,10 +1,22 @@
+import argparse
 import numpy as np
 import numpy.testing as npt
 
-from grakel.graph import graph
+from ..graph import graph
 
 global verbose
-verbose = True
+
+# Add extra arguments for allowing unit testing
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='A test file for all graph type objects')
+    parser.add_argument('--verbose', help='verbose outputs on stdout', action="store_true")
+
+    args = parser.parse_args()
+    verbose = bool(args.verbose)
+else:
+    import warnings
+    warnings.filterwarnings('ignore', category=UserWarning)
+    verbose = False
 
 def test_graph_adjacency():
     

@@ -8,29 +8,32 @@ from grakel.graph_kernels import GraphKernel
 
 global verbose, main, development
 
-# Create an argument parser for the installer of pynauty
-parser = argparse.ArgumentParser(description='A test file for all kernels')
-parser.add_argument('--verbose', help='print kernels with their outputs on stdout', action="store_true")
-meg = parser.add_mutually_exclusive_group()
-meg.add_argument('--develop', help='execute only tests connected with current development', action="store_true")
-meg.add_argument('--all', help='execute all tests', action="store_true")
-meg.add_argument('--main', help='execute the main tests [default]')
-parser.add_argument('--problematic', help='allow execution of problematic test cases in development', action="store_true")
+if __name__=='__main__':
+    # Create an argument parser for the installer of pynauty
+    parser = argparse.ArgumentParser(description='A test file for all kernels')
+    parser.add_argument('--verbose', help='print kernels with their outputs on stdout', action="store_true")
+    meg = parser.add_mutually_exclusive_group()
+    meg.add_argument('--develop', help='execute only tests connected with current development', action="store_true")
+    meg.add_argument('--all', help='execute all tests', action="store_true")
+    meg.add_argument('--main', help='execute the main tests [default]', action="store_true")
+    parser.add_argument('--problematic', help='allow execution of problematic test cases in development', action="store_true")
 
-args = parser.parse_args()
+    args = parser.parse_args()
 
-verbose = bool(args.verbose)
-if args.all:
-    main = True
-    develop = True
-elif args.develop:
-    main = False
-    develop = True
+    verbose = bool(args.verbose)
+    if args.all:
+        main, develop = True, True
+    elif args.develop:
+        main, develop = False, True
+    else:
+        main, develop = True, False
+    problematic = bool(args.problematic)
+
 else:
-    main = True
-    develop = False
-problematic = bool(args.problematic)
-    
+    import warnings
+    warnings.filterwarnings('ignore', category=UserWarning)
+    main, develop, verbose = True, False, False
+        
 global X, L, k
 
 X = np.array([[0,1,2,1,0,0.5,0],
@@ -75,7 +78,7 @@ k = 5
 
 def gk_test_dirac():
     XX = list(zip(k*[X],k*[L]))
-    gk = GraphKernel(kernel={"name":"dirac"})
+    gk = GraphKernel(verbose=verbose, kernel={"name":"dirac"})
     gkf = gk.fit(XX)
     if verbose:
         print("Dirac:", gkf.transform())
@@ -85,7 +88,7 @@ def gk_test_dirac():
 
 def gk_test_random_walk_simple():
     XX = list(zip(k*[X],k*[L]))
-    gk = GraphKernel(kernel={"name":"random_walk", "lamda":0.1, "method_type":"simple"})
+    gk = GraphKernel(verbose=verbose, kernel={"name":"random_walk", "lamda":0.1, "method_type":"simple"})
     gkf = gk.fit(XX)
     if verbose:
         print("Simple:",gkf.transform())
@@ -95,7 +98,7 @@ def gk_test_random_walk_simple():
     
 def gk_test_random_walk_sylvester():
     XX = list(zip(k*[X],k*[L]))
-    gk = GraphKernel(kernel={"name":"random_walk", "lamda":0.1, "method_type":"sylvester"})
+    gk = GraphKernel(verbose=verbose, kernel={"name":"random_walk", "lamda":0.1, "method_type":"sylvester"})
     gkf = gk.fit(XX)
     if verbose:
         print("Sylvester:",gkf.transform())
@@ -104,7 +107,7 @@ def gk_test_random_walk_sylvester():
         npt.assert_array_almost_equal(XX_correct, gkf.transform(), decimal=3)
 def gk_test_shortest_path():
     XX = list(zip(k*[X],k*[L]))
-    gk = GraphKernel(kernel={"name":"shortest_path", "algorithm_type":"dijkstra"})
+    gk = GraphKernel(verbose=verbose, kernel={"name":"shortest_path", "algorithm_type":"dijkstra"})
     gkf = gk.fit(XX)
     if verbose:
         print("Dijkstra:", gkf.transform())
@@ -112,7 +115,7 @@ def gk_test_shortest_path():
         XX_correct = np.full((k, k), 66)
         npt.assert_array_equal(XX_correct, gkf.transform())
         
-    gk = GraphKernel(kernel={"name":"shortest_path", "algorithm_type":"floyd_warshall"})
+    gk = GraphKernel(verbose=verbose, kernel={"name":"shortest_path", "algorithm_type":"floyd_warshall"})
     gkf = gk.fit(XX)
     if verbose:
         print("Floyd Warshall:", gkf.transform())
@@ -121,7 +124,7 @@ def gk_test_shortest_path():
         npt.assert_array_equal(XX_correct, gkf.transform())
 
     
-    gk = GraphKernel(kernel={"name":"shortest_path", "algorithm_type":"auto"})
+    gk = GraphKernel(verbose=verbose, kernel={"name":"shortest_path", "algorithm_type":"auto"})
     gkf = gk.fit(XX)
     if verbose:
         print("Auto:", gkf.transform())
@@ -131,18 +134,18 @@ def gk_test_shortest_path():
 
 def gk_test_subtree_rg():
     XX = list(zip(k*[X],k*[L]))
-    gk = GraphKernel(kernel={"name":"subtree_rg", "h":5})
+    gk = GraphKernel(verbose=verbose, kernel={"name":"subtree_rg", "h":5})
     gkf = gk.fit(XX)
     if verbose:
         print("Subtree [RG]:", gkf.transform())
     else:
-        bign = 15458150092069060998865743245478022133789841061117106540018232182730681287234085528132318819741260764317676931326456376488696020676136950620929717075828209329592328934916049        
+        bign = float(15458150092069060998865743245478022133789841061117106540018232182730681287234085528132318819741260764317676931326456376488696020676136950620929717075828209329592328934916049)
         XX_correct = np.full((k, k), bign)
         npt.assert_array_equal(XX_correct, gkf.transform())
 
 def gk_test_graphlets_sampling():
     XX = list(zip(k*[X],k*[L]))
-    gk = GraphKernel(kernel={"name":"graphlets_sampling", "k": 5, "delta" : 0.05, "epsilon" : 0.05, "a": -1})
+    gk = GraphKernel(verbose=verbose, kernel={"name":"graphlets_sampling", "k": 5, "delta" : 0.05, "epsilon" : 0.05, "a": -1})
     gkf = gk.fit(XX)
     if verbose:
         print("Graphlets Sampling:", gkf.transform())
@@ -160,10 +163,10 @@ def gk_test_weisfeiler_lehman():
     npt_v = dict()
     npt_v["dirac"] = 50
     npt_v["shortest path"] = 276
-    npt_v["subtree"] = 15458150092069060998865743245478022133789841061117106540018232182730681287234085528132318819741260764317676931326456376488696020676136950620929717075828209329606781669103994
+    npt_v["subtree"] = float(15458150092069060998865743245478022133789841061117106540018232182730681287234085528132318819741260764317676931326456376488696020676136950620929717075828209329606781669103994)
 
     for key in base_kernel.keys():
-        gk = GraphKernel(kernel=[{"name":"weisfeiler_lehman","niter":5},base_kernel[key]])
+        gk = GraphKernel(verbose=verbose, kernel=[{"name":"weisfeiler_lehman","niter":5},base_kernel[key]])
         gkf = gk.fit(XX)
         if verbose:
             print("Weisfeiler_lehman - "+str(key)+":",gkf.transform())
@@ -173,7 +176,7 @@ def gk_test_weisfeiler_lehman():
             
 def gk_test_multiscale_laplacian():
     XX = k*[[X,phi]]
-    gk = GraphKernel(kernel={"name":"multiscale_laplacian"})
+    gk = GraphKernel(verbose=verbose, kernel={"name":"multiscale_laplacian"})
     gkf = gk.fit(XX)
     
     if verbose:
@@ -181,7 +184,7 @@ def gk_test_multiscale_laplacian():
 
 def gk_test_subgraph_matching():
     XX = list(k*[[X,L,Le]])
-    gk = GraphKernel(kernel={"name":"subgraph_matching"})
+    gk = GraphKernel(verbose=verbose, kernel={"name":"subgraph_matching"})
     gkf = gk.fit(XX)
     
     if verbose:
@@ -189,7 +192,7 @@ def gk_test_subgraph_matching():
 
 def gk_test_lovasz_theta():
     XX = list(k*[[D]])
-    gk = GraphKernel(kernel={"name":"lovasz_theta"})
+    gk = GraphKernel(verbose=verbose, kernel={"name":"lovasz_theta"})
     gkf = gk.fit(XX)
 
     if verbose:
@@ -197,7 +200,7 @@ def gk_test_lovasz_theta():
 
 def gk_test_svm_theta():
     XX = list(k*[[D]])    
-    gk = GraphKernel(kernel={"name":"svm_theta"})
+    gk = GraphKernel(verbose=verbose, kernel={"name":"svm_theta"})
     gkf = gk.fit(XX)
 
     if verbose:
@@ -205,7 +208,7 @@ def gk_test_svm_theta():
 
 def gk_test_neighborhood_pairwise_subgraph_distance():
     XX = list(k*[[X,L,Le]])
-    gk = GraphKernel(kernel={"name":"neighborhood_pairwise_subgraph_distance"})
+    gk = GraphKernel(verbose=verbose, kernel={"name":"neighborhood_pairwise_subgraph_distance"})
     gkf = gk.fit(XX)
 
     if verbose:
@@ -213,13 +216,13 @@ def gk_test_neighborhood_pairwise_subgraph_distance():
 
 def gk_test_neighborhood_hash():
     XX = list(zip(k*[X],k*[L]))
-    gk = GraphKernel(kernel={"name":"neighborhood_hash", "nh_type":"simple"})
+    gk = GraphKernel(verbose=verbose, kernel={"name":"neighborhood_hash", "nh_type":"simple"})
     
     gkf = gk.fit(XX)
     if verbose:
         print("Neighborhood Hash - 'simple':", gkf.transform())
     
-    gk = GraphKernel(kernel={"name":"neighborhood_hash", "nh_type":"count-sensitive"})
+    gk = GraphKernel(verbose=verbose, kernel={"name":"neighborhood_hash", "nh_type":"count-sensitive"})
     gkf = gk.fit(XX)
     
     if verbose:
@@ -229,7 +232,7 @@ def gk_test_odd_sth():
     l = {0:'A', 1:'B', 2:'C', 3:'D', 4:'E',5:'F',6:'G'}
 
     XX = list(k*[[X,l]])
-    gk = GraphKernel(kernel={"name":"odd_sth"})
+    gk = GraphKernel(verbose=verbose, kernel={"name":"odd_sth"})
     gkf = gk.fit(XX)
 
     if verbose:
@@ -239,7 +242,7 @@ def gk_test_wl_nh():
     XX = list(zip(k*[X],k*[L]))
     base_kernel = {"name":"neighborhood_hash", "nh_type":"count-sensitive"}
     
-    gk = GraphKernel(kernel=[{"name":"weisfeiler_lehman","niter":5},base_kernel])
+    gk = GraphKernel(verbose=verbose, kernel=[{"name":"weisfeiler_lehman","niter":5},base_kernel])
     gkf = gk.fit(XX)
     
     if verbose:
@@ -247,7 +250,7 @@ def gk_test_wl_nh():
         
 def gk_test_propagation():
     XX = list(zip(k*[X],k*[L]))
-    gk = GraphKernel(kernel={"name":"propagation"})
+    gk = GraphKernel(verbose=verbose, kernel={"name":"propagation"})
     gkf = gk.fit(XX)
     
     if verbose:
@@ -255,7 +258,7 @@ def gk_test_propagation():
 
 def gk_test_pyramid_match():
     XX = list(zip(k*[X],k*[L]))
-    gk = GraphKernel(kernel={"name":"pyramid_match"})
+    gk = GraphKernel(verbose=verbose, kernel={"name":"pyramid_match"})
     gkf = gk.fit(XX)
     
     if verbose:
@@ -263,7 +266,7 @@ def gk_test_pyramid_match():
 
 def gk_test_jsm():
     XX = list(k*[[D]])
-    gk = GraphKernel(kernel={"name":"jsm"}, concurrency=2, normalize=True)
+    gk = GraphKernel(verbose=verbose, kernel={"name":"jsm"}, concurrency=2, normalize=True)
     gkf = gk.fit(XX)
     
     if verbose:
