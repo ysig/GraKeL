@@ -92,7 +92,7 @@ elif is_linux:
 
 # Decompress library
 call(['echo', "decompressing: nauty26r10..."])
-call(['tar -xf', 'nauty26r10.tar.gz'])
+call(['tar', '-xf', 'nauty26r10.tar.gz'])
 
 if (is_windows):
     # rename folder
