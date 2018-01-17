@@ -302,19 +302,19 @@
             <span class="n">Hs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">L</span><span class="p">):</span>
                 <span class="c1"># Number of cells along each dimension at level j</span>
-                <span class="n">l</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="n">j</span>
+                <span class="n">k</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="n">j</span>
                 <span class="k">if</span> <span class="n">with_labels</span><span class="p">:</span>
                     <span class="c1"># To store the number of vertices that are assigned a</span>
                     <span class="c1"># specific label and lie in each of the 2^j cells of</span>
                     <span class="c1"># each dimension at level j</span>
-                    <span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">d</span><span class="o">*</span><span class="n">num_labels</span><span class="p">,</span> <span class="n">l</span><span class="p">))</span>
+                    <span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">d</span><span class="o">*</span><span class="n">num_labels</span><span class="p">,</span> <span class="n">k</span><span class="p">))</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="c1"># Determines the cells in which each vertex lies</span>
                     <span class="c1"># along each dimension since nodes lie in the unit</span>
                     <span class="c1"># hypercube in R^d</span>
-                    <span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">d</span><span class="p">,</span> <span class="n">l</span><span class="p">))</span>
-                <span class="n">T</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">Us</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">l</span><span class="p">)</span>
-                <span class="n">T</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">T</span> <span class="o">==</span> <span class="n">l</span><span class="p">)]</span> <span class="o">=</span> <span class="n">l</span><span class="o">-</span><span class="mi">1</span>
+                    <span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">d</span><span class="p">,</span> <span class="n">k</span><span class="p">))</span>
+                <span class="n">T</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">Us</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">k</span><span class="p">)</span>
+                <span class="n">T</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">T</span> <span class="o">==</span> <span class="n">k</span><span class="p">)]</span> <span class="o">=</span> <span class="n">k</span><span class="o">-</span><span class="mi">1</span>
                 <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">Us</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
                     <span class="k">if</span> <span class="n">p</span> <span class="o">&gt;=</span> <span class="n">n</span><span class="p">:</span>
                         <span class="k">continue</span>

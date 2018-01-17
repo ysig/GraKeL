@@ -287,16 +287,16 @@
 
     <span class="k">if</span> <span class="s2">&quot;n_samples&quot;</span> <span class="ow">in</span> <span class="n">kargs</span><span class="p">:</span>
         <span class="n">n_samples</span> <span class="o">=</span> <span class="n">kargs</span><span class="p">[</span><span class="s2">&quot;n_samples&quot;</span><span class="p">]</span>
-        <span class="n">l</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">if</span> <span class="s2">&quot;delta&quot;</span> <span class="ow">in</span> <span class="n">kargs</span><span class="p">:</span>
-            <span class="n">l</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&quot;delta&quot;&#39;</span><span class="p">)</span>
+            <span class="n">a</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&quot;delta&quot;&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="s2">&quot;epsilon&quot;</span> <span class="ow">in</span> <span class="n">kargs</span><span class="p">:</span>
-            <span class="n">l</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&quot;epsilon&quot;&#39;</span><span class="p">)</span>
+            <span class="n">a</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&quot;epsilon&quot;&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="s2">&quot;a&quot;</span> <span class="ow">in</span> <span class="n">kargs</span><span class="p">:</span>
-            <span class="n">l</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&quot;a&quot;&#39;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">l</span><span class="p">):</span>
+            <span class="n">a</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&quot;a&quot;&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;Number of samples defined as input, </span><span class="se">\</span>
-<span class="s1">            ignoring arguments:&#39;</span><span class="p">,</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">l</span><span class="p">))</span>
+<span class="s1">            ignoring arguments:&#39;</span><span class="p">,</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
         <span class="n">sample_graphlets</span> <span class="o">=</span> <span class="n">sample_graphlets_probabilistic</span>
     <span class="k">elif</span> <span class="s2">&quot;delta&quot;</span> <span class="ow">in</span> <span class="n">kargs</span> <span class="ow">or</span> <span class="s2">&quot;epsilon&quot;</span> <span class="ow">in</span> <span class="n">kargs</span> <span class="ow">or</span> <span class="s2">&quot;a&quot;</span> <span class="ow">in</span> <span class="n">kargs</span><span class="p">:</span>
         <span class="n">sample_graphlets</span> <span class="o">=</span> <span class="n">sample_graphlets_probabilistic</span>
