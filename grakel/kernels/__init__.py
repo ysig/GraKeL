@@ -6,8 +6,8 @@ from grakel.kernels.random_walk import random_walk
 from grakel.kernels.random_walk import random_walk_pair
 
 from grakel.kernels.shortest_path import shortest_path
-from grakel.kernels.shortest_path import shortest_path_pair_attributes
 from grakel.kernels.shortest_path import shortest_path_matrix
+from grakel.kernels.shortest_path import shortest_path_pair_attributes
 
 from grakel.kernels.subtree_rg import subtree_rg
 from grakel.kernels.subtree_rg import subtree_rg_pair
