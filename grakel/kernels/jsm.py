@@ -1,47 +1,44 @@
-""" This file contains the Jensen-Shannon Representation Alignment kernel as defined in :cite:`Bai2015AGK`.
-"""
-import itertools
-import os
+"""The Jensen-Shannon Representation Alignment kernel :cite:`Bai2015AGK`."""
 import math
 
 import numpy as np
 
-from scipy.linalg import hadamard
+from grakel.graph import graph
 
-from ..graph import graph
-from ..tools import rotl, rotr
 
 def jsm(X, Y, M=3, h=3):
-    """ The Jensen-Shannon Representation Alignment kernel as proposed in :cite:`Bai2015AGK`.
+    """Jensen-Shannon Representation Alignment kernel :cite:`Bai2015AGK`.
 
     Parameters
     ----------
     X,Y : *valid-graph-format*
         The pair of graphs on which the kernel is applied.
-        
+
     M : int, default=3
         The maximum number of JS-representations considered.
 
     h : int, default=3
         The number of layers of DB representations.
-    
+
     Returns
     -------
     kernel : number
         The kernel value.
+
     """
     Gx = graph(X, {})
     Gy = graph(Y, {})
-    return jsm_inner(Gx, Gy, M=M, h=h)
+    return jsm_pair(Gx, Gy, M=M, h=h)
 
-def jsm_inner(Gx, Gy, M=3, h=3):
-    """ The Jensen-Shannon Representation Alignment kernel for matrices as derived from :cite:`Bai2015AGK`.
+
+def jsm_pair(Gx, Gy, M=3, h=3):
+    """Jensen-Shannon Representation Alignment, matrices :cite:`Bai2015AGK`.
 
     Parameters
     ----------
     G{x,y} : graph
         The pair of graphs on which the kernel is applied.
-    
+
     M : int, default=3
         The maximum number of JS-representations considered.
 
@@ -52,11 +49,12 @@ def jsm_inner(Gx, Gy, M=3, h=3):
     -------
     kernel : number
         The kernel value.
+
     """
-    if h<=0:
+    if h <= 0:
         raise ValueError("h must be a positive integer")
 
-    if M<=0:
+    if M <= 0:
         raise ValueError("M must be a positive integer")
 
     Nx, Dx, _ = Gx.produce_neighborhoods(h, "adjacency", True, max(h, M))
@@ -76,21 +74,23 @@ def jsm_inner(Gx, Gy, M=3, h=3):
         R = np.empty(shape=(nx, ny))
         for i in range(nx):
             for j in range(ny):
-                R[i,j] = np.linalg.norm(JG_mh_x[i,:] - JG_mh_y[j,:], ord=2)
+                R[i, j] = np.linalg.norm(JG_mh_x[i, :] - JG_mh_y[j, :], ord=2)
 
         min_row = np.min(R, axis=1)
         min_col = np.min(R, axis=0)
         k = 0
         for i in range(nx):
             for j in range(ny):
-                if R[i,j]==min_row[i] and R[i,j]==min_col[j] and len(m_spherex[i])==len(m_spherey[j]):
-                    k+=1
+                if (R[i, j] == min_row[i] and R[i, j] == min_col[j]
+                        and len(m_spherex[i]) == len(m_spherey[j])):
+                    k += 1
         kernel += k
 
     return kernel
 
+
 def get_level_edges(D, N, h, nv):
-    """ Derive the graph edges for all the given K_expansions.
+    """Derive the graph edges for all the given K_expansions.
 
     Parameters
     ----------
@@ -114,20 +114,21 @@ def get_level_edges(D, N, h, nv):
     E : dict
         An edge dictionary for edges, with the same structure as
         the N dictionary, except having sets of touples as values.
-    """
 
+    """
     E = {i: {j: set() for j in range(nv)} for i in range(h)}
     for level in range(h):
         for node in range(nv):
-            if level>0:
+            if level > 0:
                 E[level][node] = E[level-1][node].copy()
-            for (i,j) in D[level]:
+            for (i, j) in D[level]:
                 if N[level][node]:
-                    E[level][node].add((i,j))
+                    E[level][node].add((i, j))
     return E
 
+
 def calculate_m_sphere(D, nv):
-    """  Calculate the m sphere.
+    """Calculate the m sphere.
 
     Paramaters
     ----------
@@ -143,26 +144,28 @@ def calculate_m_sphere(D, nv):
     X : dict
         Dictionary of sets of nodes for each nodes corresponding
         to the all the nodes discovered by each node at level m.
+
     """
     X = {j: set() for j in range(nv)}
-    for (v,u) in D:
+    for (v, u) in D:
         X[v].add(u)
-    
+
     return X
 
+
 def JS_representation(K_exp_nodes, K_exp_edges, m_sphere, h, nv):
-    """ The m-layer Jensen Shannon representation as shown in p. 2, 3 of :cite:`Bai2015AGK`.
+    """m-layer Jensen Shannon representation p. 2, 3 of :cite:`Bai2015AGK`.
 
     Parameters
     ----------
     K_exp_nodes : dict
-		The set of nodes on a given K expansion.
+        The set of nodes on a given K expansion.
 
     K_exp_edges : dict
-    	The set of edges on a given K expansion.
+        The set of edges on a given K expansion.
 
     m_sphere ; dict
-    	The nodes of the current m-sphere.
+        The nodes of the current m-sphere.
 
     h : int
         The number of layers of DB representations.
@@ -174,34 +177,38 @@ def JS_representation(K_exp_nodes, K_exp_edges, m_sphere, h, nv):
 
     nv : int
         The number of vertices.
-    
+
     Returns
     -------
     J : np.array, shape=(nv,h)
-        The Jensen Shanon matrix as produced for all the vertices and at height h.
-        See eq. (7) p. 3 of :cite:`Bai2015AGK`.
+        The Jensen Shanon matrix as produced for all the vertices
+        and at height h. See eq. (7) p. 3 of :cite:`Bai2015AGK`.
 
     """
-    J = np.empty(shape = (nv, h))
+    J = np.empty(shape=(nv, h))
 
     for j in range(nv):
         for k in range(h):
-            G = [(K_exp_edges[k][j],len(K_exp_nodes[k][j]))]
+            G = [(K_exp_edges[k][j], len(K_exp_nodes[k][j]))]
             for q in m_sphere[j]:
-                G.append((K_exp_edges[k][q],len(K_exp_nodes[k][j])))
-            J[j,k] = entropy_calculation(G)
+                G.append((K_exp_edges[k][q], len(K_exp_nodes[k][j])))
+            J[j, k] = entropy_calculation(G)
 
     return J
 
+
 def entropy_calculation(m_neighbor_graph_set):
-    """ Calculate the entropy as instructed by eq. (1,2,3) for eq. (7), form eq. (5,6) of :cite:`Bai2015AGK`, for a single vertex.
+    r"""Entropy calculation for a single vertex.
+
+    See eq. (1,2,3) for eq. (7) and eq. (5,6) of :cite:`Bai2015AGK`.
 
     Parameters
     ----------
     m_neighbor_graph_set : list
-        A list of graphs touples corresponding to k_expansions of the m_neighbor edges
-        and the number of vertices on this expansion, as :math:`\mathbf{G}^{K}_{\hat{N}^{m}_{v}}`
-        explained in the firt line of p. 3 for eq. (6) of :cite:`Bai2015AGK`.
+        A list of graphs touples corresponding to k_expansions of the
+        m_neighbor edges and the number of vertices on this expansion,
+        as :math:`\mathbf{G}^{K}_{\hat{N}^{m}_{v}}` explained in the firt
+        line of p. 3 for eq. (6) of :cite:`Bai2015AGK`.
         The root node should correspond to the first element of the list.
 
     Returns
@@ -213,18 +220,21 @@ def entropy_calculation(m_neighbor_graph_set):
     hdu = 0
     shs = 0
     snv = 0
-    for (i,(edges,nv)) in enumerate(m_neighbor_graph_set):
+    for (i, (edges, nv)) in enumerate(m_neighbor_graph_set):
         P = calculate_P(edges)
         hs = sum(-p*math.log(p) for p in P.values())
-        if i==0:
+        if i == 0:
             root_entropy = hs
         shs += hs
         hdu += nv*hs
         snv += nv
     return root_entropy + ((hdu/snv) - (shs/len(m_neighbor_graph_set)))
 
+
 def calculate_P(edges):
-    """ Calculates the probabilities of steady state random walks for each vertex as defined after eq. (2) on p. 2 of :cite:`Bai2015AGK`.
+    """Probability calculation of steady state random walks for each vertex.
+
+    As defined after eq. (2) on p. 2 of :cite:`Bai2015AGK`.
 
     Parameters
     ----------
@@ -234,11 +244,12 @@ def calculate_P(edges):
     Returns
     -------
     P : dict
-        For dictionary between all nodes (that have outgoing edges) and their probabilities.
+        For dictionary between all nodes (that have outgoing edges)
+        and their probabilities.
 
     """
     P = dict()
-    for (i,j) in edges:
+    for (i, j) in edges:
         if i not in P:
             P[i] = 0
         P[i] += 1
@@ -246,4 +257,3 @@ def calculate_P(edges):
     for k in P.keys():
         P[k] /= NP
     return P
-

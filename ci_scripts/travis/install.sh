@@ -34,6 +34,7 @@ if [[ "$COVERAGE" == "true" ]]; then
 fi
 
 pip install 'cvxopt>=1.1.9'
+pip install flake8
 # If setuptools are not installed -- upgraded, travis crashes
 pip install --upgrade setuptools
 python install_pynauty.py --venv

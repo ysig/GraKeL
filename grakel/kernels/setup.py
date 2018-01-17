@@ -1,1 +1,1 @@
-# setup file for kernels package
+"""Setup file for kernels package."""
