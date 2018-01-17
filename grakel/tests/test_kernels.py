@@ -201,7 +201,7 @@ def test_graphlet_sampling():
     else:
         npt.assert_almost_equal(
             2575290,
-            graphlet_sampling(X, X, 5, 0.05, 0.05, -1),
+            graphlet_sampling(X, X, k=5, delta=0.05, epsilon=0.05, a=-1),
             decimal=3)
 
 

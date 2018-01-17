@@ -21,6 +21,7 @@ env:
 
 install:
   - source ci_scripts/travis/install.sh
+  - flake8 --version
   - flake8 grakel
 script: bash ci_scripts/travis/test.sh
 after_success: source ci_scripts/travis/success.sh
