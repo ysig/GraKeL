@@ -159,7 +159,7 @@
   <div class="section" id="graphkernel-class">
 <h1>GraphKernel (class)<a class="headerlink" href="#graphkernel-class" title="Permalink to this headline">¶</a></h1>
 <p>Documentation for the graph-kernel class.</p>
-<span class="target" id="module-grakel.graph_kernels"></span><p>The main graph kernel class used for creating a graph kernel feature transformer object.</p>
+<span class="target" id="module-grakel.graph_kernels"></span><p>The main graph kernel class, implemented as a sci-kit transformer.</p>
 <dl class="class">
 <dt id="grakel.graph_kernels.GraphKernel">
 <em class="property">class </em><code class="descclassname">grakel.graph_kernels.</code><code class="descname">GraphKernel</code><span class="sig-paren">(</span><em>**kargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/graph_kernels.html#GraphKernel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.graph_kernels.GraphKernel" title="Permalink to this definition">¶</a></dt>
@@ -170,9 +170,10 @@
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>kernel</strong> : list(dict(key:str, value:value))</p>
 <blockquote>
-<div><dl class="docutils">
-<dt>a list of dictionaries, or a single dicitonary that have the following structure:</dt>
-<dd><ul class="first simple">
+<div><p>a list of dictionaries, or a single dicitonary that have the following
+structure:</p>
+<blockquote>
+<div><ul class="simple">
 <li>“name” : [str] - with the kernel name</li>
 <li>“name_of_parameter_1” : value</li>
 <li>“name_of_parameter_2” : value</li>
@@ -181,18 +182,19 @@
 </ul>
 <dl class="docutils">
 <dt>available “names” / “parametres” are:</dt>
-<dd><ol class="first last arabic simple">
-<li><dl class="first docutils">
-<dt>base_kernels (the structure must always reach a base kernel)</dt>
-<dd><ul class="first last">
+<dd><p class="first">1. base_kernels (the structure must always reach a
+base kernel)</p>
+<blockquote>
+<div><ul>
 <li><dl class="first docutils">
 <dt>“dirac”</dt>
-<dd><em>No arguments</em></dd>
+<dd><p class="first last"><em>No arguments</em></p>
+</dd>
 </dl>
 </li>
 <li><dl class="first docutils">
 <dt>“random_walk”</dt>
-<dd><ul class="first last">
+<dd><ul class="first last simple">
 <li>(<strong>o</strong>) “lamda” : [float] &lt; 1</li>
 <li>(<strong>o</strong>) method_type : [str] “sylvester”, “simple”</li>
 </ul>
@@ -201,17 +203,20 @@
 </li>
 <li><dl class="first docutils">
 <dt>“shortest_path”</dt>
-<dd><ul class="first last">
-<li>(<strong>o</strong>) “algorithm_type” : [str] “dijkstra”, “floyd_warshall”</li>
-<li>(<strong>o</strong>) “as_attributes” : [bool]</li>
-<li>(<strong>o</strong>) “attribute_kernel” : [function] : (attribute_x, attribute_y) -&gt; number</li>
+<dd><ul class="first simple">
+<li>(<strong>o</strong>) “algorithm_type” : [str] “dijkstra”,</li>
 </ul>
+<p class="last">“floyd_warshall”
++ (<strong>o</strong>) “as_attributes” : [bool]
++ (<strong>o</strong>) “attribute_kernel” : [function] :
+(attribute_x, attribute_y) -&gt; number
++ (<strong>o</strong>) “with_labels” : [bool]</p>
 </dd>
 </dl>
 </li>
 <li><dl class="first docutils">
 <dt>“subtree_rg”</dt>
-<dd><ul class="first last">
+<dd><ul class="first last simple">
 <li>(<strong>o</strong>) “h” : [int]</li>
 </ul>
 </dd>
@@ -219,18 +224,19 @@
 </li>
 <li><dl class="first docutils">
 <dt>“graphlets_sampling”</dt>
-<dd><ul class="first last">
+<dd><ul class="first last simple">
 <li>(<strong>o</strong>) “k” : [int]</li>
 <li>(<strong>o</strong>) “delta” : [float]</li>
 <li>(<strong>o</strong>) “epsilon” : [float]</li>
 <li>(<strong>o</strong>) “a” : [int]</li>
+<li>(<strong>o</strong>) “n_samples” : [int]</li>
 </ul>
 </dd>
 </dl>
 </li>
 <li><dl class="first docutils">
 <dt>“multiscale_laplacian”</dt>
-<dd><ul class="first last">
+<dd><ul class="first last simple">
 <li>(<strong>o</strong>) “L” : [int]</li>
 <li>(<strong>o</strong>) “gamma”</li>
 </ul>
@@ -239,47 +245,55 @@
 </li>
 <li><dl class="first docutils">
 <dt>“subgraph_matching”</dt>
-<dd><ul class="first last">
-<li>(<strong>o</strong>) “kv” : [function] : (node_x, node_y, Lx, Ly) -&gt; number</li>
-<li>(<strong>o</strong>) “ke” : [function] : (edge_x, edge_y, Lx, Ly) -&gt; number</li>
-<li>(<strong>o</strong>) “lw” : a lambda weight function for cliques: set -&gt; number</li>
+<dd><ul class="first simple">
+<li>(<strong>o</strong>) “kv” : [function] :</li>
 </ul>
+<p class="last">(node_x, node_y, Lx, Ly) -&gt; number
++ (<strong>o</strong>) “ke” : [function] :
+(edge_x, edge_y, Lx, Ly) -&gt; number
++ (<strong>o</strong>) “lw” :
+a lambda weight function for cliques: set -&gt; number</p>
 </dd>
 </dl>
 </li>
 <li><dl class="first docutils">
 <dt>“lovasz_theta”</dt>
-<dd><ul class="first last">
+<dd><ul class="first simple">
 <li>(<strong>o</strong>) “n_samples” : [int] &gt; 1</li>
-<li>(<strong>o</strong>) “subsets_size_range” : [touple] of two [int]</li>
-<li>(<strong>o</strong>) “metric” : [function] (number, number) -&gt; number</li>
+<li>(<strong>o</strong>) “subsets_size_range” :</li>
 </ul>
+<p class="last">[touple] of two [int]
++ (<strong>o</strong>) “metric” :
+[function] (number, number) -&gt; number</p>
 </dd>
 </dl>
 </li>
 <li><dl class="first docutils">
 <dt>“svm_theta”</dt>
-<dd><ul class="first last">
+<dd><ul class="first simple">
 <li>(<strong>o</strong>) “n_samples” : [int] &gt; 1</li>
-<li>(<strong>o</strong>) “subsets_size_range” : [touple] with 2 [int] elements</li>
-<li>(<strong>o</strong>) “metric” : [function] (number, number) -&gt; number</li>
+<li>(<strong>o</strong>) “subsets_size_range” :</li>
 </ul>
+<p class="last">[touple] with 2 [int] elements
++ (<strong>o</strong>) “metric” :
+[function] (number, number) -&gt; number</p>
 </dd>
 </dl>
 </li>
 <li><dl class="first docutils">
 <dt>“neighborhood_hash”</dt>
-<dd><ul class="first last">
-<li>(<strong>o</strong>) “nh_type” : [str] “simple” or “count-sensitive”</li>
-<li>(<strong>o</strong>) “R” : [int] &gt; 0</li>
-<li>(<strong>o</strong>) “bytes” : [int] &gt; 0</li>
+<dd><ul class="first simple">
+<li>(<strong>o</strong>) “nh_type” :</li>
 </ul>
+<p class="last">[str] “simple” or “count-sensitive”
++ (<strong>o</strong>) “R” : [int] &gt; 0
++ (<strong>o</strong>) “bytes” : [int] &gt; 0</p>
 </dd>
 </dl>
 </li>
 <li><dl class="first docutils">
-<dt>“neighborhood_pairwise_subgraph_distance”</dt>
-<dd><ul class="first last">
+<dt>“neighborhood_subgraph_pairwise_distance”</dt>
+<dd><ul class="first last simple">
 <li>(<strong>o</strong>) “r” : (int) positive integer</li>
 <li>(<strong>o</strong>) “d” : (int) positive integer</li>
 </ul>
@@ -288,7 +302,7 @@
 </li>
 <li><dl class="first docutils">
 <dt>“odd_sth”</dt>
-<dd><ul class="first last">
+<dd><ul class="first last simple">
 <li>(<strong>o</strong>) “h” : [int] &gt; 0</li>
 </ul>
 </dd>
@@ -296,19 +310,20 @@
 </li>
 <li><dl class="first docutils">
 <dt>“propagation”</dt>
-<dd><ul class="first last">
+<dd><ul class="first simple">
 <li>(<strong>o</strong>) t_max: [int] &gt; 0</li>
 <li>(<strong>o</strong>) T: [dict] [int]: [np.arrays]</li>
 <li>(<strong>o</strong>) M: [str] “H”, “L1”, “L2”, “TV”</li>
 <li>(<strong>o</strong>) w: [int] &gt; 0</li>
-<li>(<strong>o</strong>) base_kernel: [function] x:[list[int]] , y:[list[int]] -&gt; [number]</li>
+<li>(<strong>o</strong>) base_kernel: [function]</li>
 </ul>
+<p class="last">x:[list[int]] , y:[list[int]] -&gt; [number]</p>
 </dd>
 </dl>
 </li>
 <li><dl class="first docutils">
 <dt>“pyramid_match”</dt>
-<dd><ul class="first last">
+<dd><ul class="first last simple">
 <li>(<strong>o</strong>) with_labels: [bool]</li>
 <li>(<strong>o</strong>) d: [int] &gt; 0</li>
 <li>(<strong>o</strong>) L: [int] &gt;= 0</li>
@@ -318,7 +333,7 @@
 </li>
 <li><dl class="first docutils">
 <dt>“jsm”</dt>
-<dd><ul class="first last">
+<dd><ul class="first last simple">
 <li>(<strong>o</strong>) M: [int] &gt; 0</li>
 <li>(<strong>o</strong>) h: [int] &gt; 0</li>
 </ul>
@@ -326,15 +341,14 @@
 </dl>
 </li>
 </ul>
-</dd>
-</dl>
-</li>
-<li><dl class="first docutils">
-<dt>general_kernels (this kernel will use the next kernel on the list as base kernel)</dt>
-<dd><ul class="first last">
+</div></blockquote>
+<p>2. general_kernels (this kernel will use the next kernel
+on the list as base kernel)</p>
+<blockquote class="last">
+<div><ul>
 <li><dl class="first docutils">
 <dt>“weisfeiler_lehman”</dt>
-<dd><ul class="first last">
+<dd><ul class="first last simple">
 <li>(<strong>o</strong>) “niter” : [int]</li>
 </ul>
 </dd>
@@ -342,25 +356,22 @@
 </li>
 <li><dl class="first docutils">
 <dt>“hadamard_code”</dt>
-<dd><ul class="first last">
+<dd><ul class="first simple">
 <li>(<strong>o</strong>) “niter” : [int]</li>
 <li>(<strong>o</strong>) “hc_type” : [str] “simple”, “shortened”</li>
 <li>(<strong>o</strong>) “rho” : [int] &gt; 0 or -1</li>
-<li>(<strong>o</strong>) “L” : int, condition_of_appearance: hc_type==”shortened”, default=4</li>
+<li>(<strong>o</strong>) “L” : int, condition_of_appearance:</li>
 </ul>
+<p class="last">hc_type==”shortened”, default=4</p>
 </dd>
 </dl>
 </li>
 </ul>
+</div></blockquote>
 </dd>
 </dl>
-</li>
-</ol>
-</dd>
-</dl>
-<p class="last">where (<strong>o</strong>): stands for optional parameters</p>
-</dd>
-</dl>
+<p>where (<strong>o</strong>): stands for optional parameters</p>
+</div></blockquote>
 </div></blockquote>
 <p><strong>Nystroem</strong> : int, optional</p>
 <blockquote>
@@ -369,8 +380,8 @@ To initialize the default (100 components), set -1 or 0.</p>
 </div></blockquote>
 <p><strong>concurrency</strong> : int, optional</p>
 <blockquote>
-<div><p>Defines the number of workers for kernel matrix calculation using concurrency.
-To intialise the default (all possible), set -1 or 0.</p>
+<div><p>Defines the number of workers for kernel matrix calculation using
+concurrency. To intialise the default (all possible), set -1 or 0.</p>
 </div></blockquote>
 <p><strong>normalize</strong> : bool, optional</p>
 <blockquote>
@@ -398,7 +409,7 @@ Ignored when Nystroem GraphKernel object is instanciated.</p>
 <p><strong>nystroem</strong> : int</p>
 <blockquote>
 <div><p>Holds the nystroem, number of components.
-If not initialised, it stands as a False 
+If not initialised, it stands as a False
 boolean variable.</p>
 </div></blockquote>
 <p><strong>normalize</strong> : bool</p>
@@ -428,7 +439,8 @@ Square root of the kernel matrix on <code class="docutils literal"><span class="
 </div></blockquote>
 <p><strong>_concurrent_executor</strong> : ThreadPoolExecutor</p>
 <blockquote class="last">
-<div><p>An executor for applying concurrency, for the fast pairwise computations of the kernel matrix calculation.</p>
+<div><p>An executor for applying concurrency, for the fast pairwise
+computations of the kernel matrix calculation.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -449,30 +461,50 @@ Square root of the kernel matrix on <code class="docutils literal"><span class="
 <p class="rubric">Methods</p>
 <dl class="method">
 <dt id="grakel.graph_kernels.GraphKernel.calculate_kernel_matrix">
-<code class="descname">calculate_kernel_matrix</code><span class="sig-paren">(</span><em>kernel</em>, <em>target_graph=None</em>, <em>kernel_type='pairwise'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/graph_kernels.html#GraphKernel.calculate_kernel_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.graph_kernels.GraphKernel.calculate_kernel_matrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>A function that calculates the kernel matrix given a target_graph and a kernel.</p>
+<code class="descname">calculate_kernel_matrix</code><span class="sig-paren">(</span><em>kernel</em>, <em>target_graph=None</em>, <em>diagonal_only=False</em>, <em>kernel_type='pairwise'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/graph_kernels.html#GraphKernel.calculate_kernel_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.graph_kernels.GraphKernel.calculate_kernel_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the kernel matrix given a target_graph and a kernel.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>target_graph</strong> : dict</p>
 <blockquote>
-<div><p>A dictionary from 0 to the number of graphs of target “graph objects”.</p>
+<div><p>A dictionary from 0 to the number of graphs of
+target “graph objects”.</p>
 </div></blockquote>
 <p><strong>kernel: function</strong></p>
 <blockquote>
 <div><p>A pairwise graph kernel (between “graph” type objects)
-or a matrix graph kernel (between enumerative dictionaries - starting from 0 - for graph type objects)</p>
+or a matrix graph kernel (between enumerative dictionaries -
+starting from 0 - for graph type objects)</p>
 </div></blockquote>
 <p><strong>kernel_type: str, valid_values={“matrix”, “pairwise”}</strong></p>
 <blockquote>
 <div><p>Distinguishes between the two valid types for graphs.</p>
 </div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>K</strong> : numpy array, shape = [n_targets, n_input_graphs]</p>
+<p><strong>diagonal_only</strong> : bool, default=False</p>
+<blockquote>
+<div><p>Calculate only the diagonal.</p>
+</div></blockquote>
+<p><strong>Returns</strong></p>
+<p><strong>——-</strong></p>
+<p><strong>K</strong> : numpy array, shape = [n_targets, n_input_graphs], case_of_existence</p>
+<p><strong>=(diagonal_only==False)</strong></p>
+<blockquote>
+<div><p>The kernel matrix: a calculation between all pairs of graphs
+between target an features.</p>
+</div></blockquote>
+<p><strong>diag_X</strong> : numpy array, shape = [n_input_graphs], case_of_existence=</p>
+<p><strong>(diagonal_only==True)</strong></p>
+<blockquote>
+<div><p>Returns the kernel values of each element of the input_graph
+with itself. Useful for normalization.</p>
+</div></blockquote>
+<p><strong>diag_T</strong> : numpy array, shape = [n_targets], case_of_existence=</p>
+<p><strong>(diagonal_only==True)</strong></p>
 <blockquote class="last">
-<div><p>The kernel matrix: a calculation between all pairs of graphs between target an features.</p>
+<div><p>Returns the kernel values of each element of the input_graph
+with itself. Useful for normalization.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -483,21 +515,23 @@ or a matrix graph kernel (between enumerative dictionaries - starting from 0 - f
 <dl class="method">
 <dt id="grakel.graph_kernels.GraphKernel.fit">
 <code class="descname">fit</code><span class="sig-paren">(</span><em>X</em>, <em>y=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/graph_kernels.html#GraphKernel.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.graph_kernels.GraphKernel.fit" title="Permalink to this definition">¶</a></dt>
-<dd><p>A reference implementation of a fitting function for a transformer.</p>
+<dd><p>Fit a dataset, for a transformer.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X</strong> : iterable</p>
 <blockquote>
-<div><p>Each element must be an iterable with at most three features and at least one.
-The first that is obligatory is a valid graph structure (adjacency matrix or edge_dictionary)
-while the second is node_labels and the third edge_labels (that fitting the given graph format).
-The train samples.</p>
+<div><p>Each element must be an iterable with at most three features and at
+least one. The first that is obligatory is a valid graph structure
+(adjacency matrix or edge_dictionary) while the second is
+node_labels and the third edge_labels (that fitting the given grap
+format). The train samples.</p>
 </div></blockquote>
 <p><strong>y</strong> : None</p>
 <blockquote>
-<div><p>There is no need of a target in a transformer, yet the pipeline API requires this parameter.</p>
+<div><p>There is no need of a target in a transformer, yet the pipeline API
+requires this parameter.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -510,9 +544,28 @@ The train samples.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="grakel.graph_kernels.GraphKernel.fit_transform">
+<code class="descname">fit_transform</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/graph_kernels.html#GraphKernel.fit_transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.graph_kernels.GraphKernel.fit_transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit and transform, on the same dataset.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>K</strong> : numpy array, shape = [n_targets, n_input_graphs]</p>
+<blockquote class="last">
+<div><p>corresponding to the kernel matrix, a calculation between
+all pairs of graphs between target an features</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
 <dt id="grakel.graph_kernels.GraphKernel.transform">
-<code class="descname">transform</code><span class="sig-paren">(</span><em>X=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/graph_kernels.html#GraphKernel.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.graph_kernels.GraphKernel.transform" title="Permalink to this definition">¶</a></dt>
-<dd><p>The transform function calculates the kernel matrix.</p>
+<code class="descname">transform</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/graph_kernels.html#GraphKernel.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.graph_kernels.GraphKernel.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the kernel matrix, between given and fitted dataset.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -533,16 +586,17 @@ all pairs of graphs between target an features</p>
 <dl class="function">
 <dt id="grakel.graph_kernels.pairwise_to_matrix_kernel">
 <code class="descclassname">grakel.graph_kernels.</code><code class="descname">pairwise_to_matrix_kernel</code><span class="sig-paren">(</span><em>x</em>, <em>pairwise_kernel</em>, <em>kernel_executor</em>, <em>y=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/graph_kernels.html#pairwise_to_matrix_kernel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.graph_kernels.pairwise_to_matrix_kernel" title="Permalink to this definition">¶</a></dt>
-<dd><p>A wrapping function that converts a pairwise-kernel to a matrix-kernel.</p>
+<dd><p>Convert a pairwise-kernel to a matrix-kernel.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>x,y</strong> : dict, default_y=None</p>
 <blockquote>
-<div><p>Enumerative dictionary of graph type objects with keys from 0 to the number of values.
-If value of Graphs_y is None the kernel matrix is computed between all pairs of Graphs_x
-where in another case the kernel_matrix rows correspond to elements of Graphs_y, and columns
+<div><p>Enumerative dictionary of graph type objects with keys from 0 to the
+number of values. If value of Graphs_y is None the kernel matrix is
+computed between all pairs of Graphs_x, where in another case the
+kernel_matrix rows correspond to elements of Graphs_y, and columns
 to the elements of Graphs_x.</p>
 </div></blockquote>
 <p><strong>pairwise_kernel</strong> : function</p>
@@ -557,8 +611,39 @@ to the elements of Graphs_x.</p>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>kernel_matrix</strong> : np.array</p>
 <blockquote class="last">
-<div><p>The kernel matrix. If the Graphs_y is not None the rows correspond to Graphs_y
-and the cols to the Graphs_x (based on the given order).</p>
+<div><p>The kernel matrix. If the Graphs_y is not None the rows correspond to
+Graphs_y and the cols to the Graphs_x (based on the given order).</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="grakel.graph_kernels.parse_input">
+<code class="descclassname">grakel.graph_kernels.</code><code class="descname">parse_input</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/graph_kernels.html#parse_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.graph_kernels.parse_input" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse the given input and raise errors if it is invalid.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X</strong> : object</p>
+<blockquote>
+<div><p>For the input to pass the test, we must have:
+Each element must be an iterable with at most three features and at
+least one. The first that is obligatory is a valid graph structure
+(adjacency matrix or edge_dictionary) while the second is node_labels
+and the third edge_labels (that fitting the given graph format).
+If None the kernel matrix is calculated upon fit data.
+The test samples.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>X_graph</strong> : dict</p>
+<blockquote class="last">
+<div><p>Enumerative dictionary of graph type objects with keys from 0 to the
+number of values.</p>
 </div></blockquote>
 </td>
 </tr>

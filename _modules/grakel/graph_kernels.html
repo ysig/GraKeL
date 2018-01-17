@@ -158,54 +158,80 @@
            <div itemprop="articleBody">
             
   <h1>Source code for grakel.graph_kernels</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot; The main graph kernel class used for creating a graph kernel feature transformer object.</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">import</span> <span class="nn">warnings</span>
+<span></span><span class="sd">&quot;&quot;&quot;The main graph kernel class, implemented as a sci-kit transformer.&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">collections</span>
+<span class="kn">import</span> <span class="nn">itertools</span>
 <span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">sklearn.base</span> <span class="k">import</span> <span class="n">BaseEstimator</span><span class="p">,</span> <span class="n">TransformerMixin</span>
-<span class="kn">from</span> <span class="nn">sklearn.utils.validation</span> <span class="k">import</span> <span class="n">check_array</span><span class="p">,</span> <span class="n">check_is_fitted</span>
-<span class="kn">from</span> <span class="nn">scipy.linalg</span> <span class="k">import</span> <span class="n">svd</span>
 <span class="kn">from</span> <span class="nn">concurrent.futures</span> <span class="k">import</span> <span class="n">ThreadPoolExecutor</span>
+<span class="kn">from</span> <span class="nn">scipy.linalg</span> <span class="k">import</span> <span class="n">svd</span>
+<span class="kn">from</span> <span class="nn">sklearn.base</span> <span class="k">import</span> <span class="n">BaseEstimator</span>
+<span class="kn">from</span> <span class="nn">sklearn.base</span> <span class="k">import</span> <span class="n">TransformerMixin</span>
+<span class="kn">from</span> <span class="nn">sklearn.utils.validation</span> <span class="k">import</span> <span class="n">check_is_fitted</span>
 
-<span class="kn">from</span> <span class="nn">.graph</span> <span class="k">import</span> <span class="n">graph</span>
-<span class="kn">from</span> <span class="nn">.kernels</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">grakel.graph</span> <span class="k">import</span> <span class="n">graph</span>
+<span class="kn">from</span> <span class="nn">grakel.kernels.dirac</span> <span class="k">import</span> <span class="n">dirac_pair</span>
+<span class="kn">from</span> <span class="nn">grakel.kernels.graphlet_sampling</span> <span class="k">import</span> <span class="n">graphlet_sampling_matrix</span>
+<span class="kn">from</span> <span class="nn">grakel.kernels.hadamard_code</span> <span class="k">import</span> <span class="n">hadamard_code_matrix</span>
+<span class="kn">from</span> <span class="nn">grakel.kernels.jsm</span> <span class="k">import</span> <span class="n">jsm_pair</span>
+<span class="kn">from</span> <span class="nn">grakel.kernels.lovasz_theta</span> <span class="k">import</span> <span class="n">lovasz_theta_pair</span>
+<span class="kn">from</span> <span class="nn">grakel.kernels.multiscale_laplacian</span> <span class="k">import</span> <span class="n">multiscale_laplacian_pair</span>
+<span class="kn">from</span> <span class="nn">grakel.kernels.neighborhood_hash</span> <span class="k">import</span> <span class="n">neighborhood_hash_matrix</span>
+<span class="kn">from</span> <span class="nn">grakel.kernels.neighborhood_subgraph_pairwise_distance</span>\
+    <span class="kn">import</span> <span class="nn">neighborhood_subgraph_pairwise_distance_pair</span>
+<span class="kn">from</span> <span class="nn">grakel.kernels.odd_sth</span> <span class="k">import</span> <span class="n">odd_sth_matrix</span>
+<span class="kn">from</span> <span class="nn">grakel.kernels.propagation</span> <span class="k">import</span> <span class="n">propagation_matrix</span>
+<span class="kn">from</span> <span class="nn">grakel.kernels.pyramid_match</span> <span class="k">import</span> <span class="n">pyramid_match_matrix</span>
+<span class="kn">from</span> <span class="nn">grakel.kernels.random_walk</span> <span class="k">import</span> <span class="n">random_walk_pair</span>
+<span class="kn">from</span> <span class="nn">grakel.kernels.shortest_path</span> <span class="k">import</span> <span class="n">shortest_path_matrix</span>
+<span class="kn">from</span> <span class="nn">grakel.kernels.shortest_path</span> <span class="k">import</span> <span class="n">shortest_path_pair_attributes</span>
+<span class="kn">from</span> <span class="nn">grakel.kernels.subgraph_matching</span> <span class="k">import</span> <span class="n">subgraph_matching_pair</span>
+<span class="kn">from</span> <span class="nn">grakel.kernels.subtree_rg</span> <span class="k">import</span> <span class="n">subtree_rg_pair</span>
+<span class="kn">from</span> <span class="nn">grakel.kernels.svm_theta</span> <span class="k">import</span> <span class="n">svm_theta_pair</span>
+<span class="kn">from</span> <span class="nn">grakel.kernels.weisfeiler_lehman</span> <span class="k">import</span> <span class="n">weisfeiler_lehman_matrix</span>
 
 <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()))</span>
 
 <span class="k">global</span> <span class="n">supported_base_kernels</span><span class="p">,</span> <span class="n">supported_general_kernels</span><span class="p">,</span> <span class="n">default_n_components</span>
 
-<span class="n">valid_parameters</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;kernel&quot;</span><span class="p">,</span> <span class="s2">&quot;Nystroem&quot;</span><span class="p">,</span> <span class="s2">&quot;concurrency&quot;</span><span class="p">,</span> <span class="s2">&quot;normalize&quot;</span><span class="p">,</span> <span class="s2">&quot;verbose&quot;</span><span class="p">}</span>
+<span class="n">valid_parameters</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;kernel&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;Nystroem&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;concurrency&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;normalize&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;verbose&quot;</span><span class="p">}</span>
 
 <span class="n">supported_base_kernels</span> <span class="o">=</span> <span class="p">[</span>
-<span class="s2">&quot;dirac&quot;</span><span class="p">,</span><span class="s2">&quot;random_walk&quot;</span><span class="p">,</span>
-<span class="s2">&quot;shortest_path&quot;</span><span class="p">,</span><span class="s2">&quot;subtree_rg&quot;</span><span class="p">,</span>
-<span class="s2">&quot;graphlets_sampling&quot;</span><span class="p">,</span><span class="s2">&quot;subgraph_matching&quot;</span><span class="p">,</span>
-<span class="s2">&quot;multiscale_laplacian&quot;</span><span class="p">,</span>
-<span class="s2">&quot;lovasz_theta&quot;</span><span class="p">,</span> <span class="s2">&quot;svm_theta&quot;</span><span class="p">,</span>
-<span class="s2">&quot;neighborhood_hash&quot;</span><span class="p">,</span> <span class="s2">&quot;neighborhood_pairwise_subgraph_distance&quot;</span><span class="p">,</span>
-<span class="s2">&quot;odd_sth&quot;</span><span class="p">,</span> <span class="s2">&quot;propagation&quot;</span><span class="p">,</span>
-<span class="s2">&quot;pyramid_match&quot;</span><span class="p">,</span> <span class="s2">&quot;jsm&quot;</span>
-<span class="p">]</span>
-    
+    <span class="s2">&quot;dirac&quot;</span><span class="p">,</span> <span class="s2">&quot;random_walk&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;shortest_path&quot;</span><span class="p">,</span> <span class="s2">&quot;subtree_rg&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;graphlets_sampling&quot;</span><span class="p">,</span> <span class="s2">&quot;subgraph_matching&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;multiscale_laplacian&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;lovasz_theta&quot;</span><span class="p">,</span> <span class="s2">&quot;svm_theta&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;neighborhood_hash&quot;</span><span class="p">,</span> <span class="s2">&quot;neighborhood_subgraph_pairwise_distance&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;odd_sth&quot;</span><span class="p">,</span> <span class="s2">&quot;propagation&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;pyramid_match&quot;</span><span class="p">,</span> <span class="s2">&quot;jsm&quot;</span>
+    <span class="p">]</span>
+
 <span class="n">supported_general_kernels</span> <span class="o">=</span> <span class="p">[</span>
-<span class="s2">&quot;weisfeiler_lehman&quot;</span><span class="p">,</span>
-<span class="s2">&quot;hadamard_code&quot;</span>
-<span class="p">]</span>
+    <span class="s2">&quot;weisfeiler_lehman&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;hadamard_code&quot;</span>
+    <span class="p">]</span>
 
 <span class="n">default_verbose_value</span> <span class="o">=</span> <span class="kc">True</span>
 
 <span class="n">default_n_components</span> <span class="o">=</span> <span class="mi">100</span>
 
+
 <div class="viewcode-block" id="GraphKernel"><a class="viewcode-back" href="../../graph_kernel.html#grakel.graph_kernels.GraphKernel">[docs]</a><span class="k">class</span> <span class="nc">GraphKernel</span><span class="p">(</span><span class="n">BaseEstimator</span><span class="p">,</span> <span class="n">TransformerMixin</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; A general class that describes all kernels.</span>
-<span class="sd">    </span>
+    <span class="sd">&quot;&quot;&quot;A general class that describes all kernels.</span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    kernel : list(dict(key:str, value:value))</span>
-<span class="sd">         a list of dictionaries, or a single dicitonary that have the following structure:</span>
+<span class="sd">         a list of dictionaries, or a single dicitonary that have the following</span>
+<span class="sd">         structure:</span>
 <span class="sd">               * &quot;name&quot; : [str] - with the kernel name</span>
 <span class="sd">               * &quot;name_of_parameter_1&quot; : value</span>
 <span class="sd">               * &quot;name_of_parameter_2&quot; : value</span>
@@ -213,92 +239,108 @@
 <span class="sd">               * &quot;name_of_parameter_k&quot; : value</span>
 
 <span class="sd">               available &quot;names&quot; / &quot;parametres&quot; are:</span>
-<span class="sd">                   1. base_kernels (the structure must always reach a base kernel)</span>
+<span class="sd">                   1. base_kernels (the structure must always reach a</span>
+<span class="sd">                   base kernel)</span>
 <span class="sd">                        - &quot;dirac&quot;</span>
 <span class="sd">                            *No arguments*</span>
 <span class="sd">                        - &quot;random_walk&quot;</span>
 <span class="sd">                            + (**o**) &quot;lamda&quot; : [float] &lt; 1</span>
 <span class="sd">                            + (**o**) method_type : [str] &quot;sylvester&quot;, &quot;simple&quot;</span>
-<span class="sd">                            </span>
+
 <span class="sd">                        - &quot;shortest_path&quot;</span>
-<span class="sd">                            + (**o**) &quot;algorithm_type&quot; : [str] &quot;dijkstra&quot;, &quot;floyd_warshall&quot;</span>
+<span class="sd">                            + (**o**) &quot;algorithm_type&quot; : [str] &quot;dijkstra&quot;,</span>
+<span class="sd">                            &quot;floyd_warshall&quot;</span>
 <span class="sd">                            + (**o**) &quot;as_attributes&quot; : [bool]</span>
-<span class="sd">                            + (**o**) &quot;attribute_kernel&quot; : [function] : (attribute_x, attribute_y) -&gt; number</span>
-<span class="sd">                            </span>
+<span class="sd">                            + (**o**) &quot;attribute_kernel&quot; : [function] :</span>
+<span class="sd">                            (attribute_x, attribute_y) -&gt; number</span>
+<span class="sd">                            + (**o**) &quot;with_labels&quot; : [bool]</span>
+
 <span class="sd">                        - &quot;subtree_rg&quot;</span>
 <span class="sd">                            + (**o**) &quot;h&quot; : [int]</span>
-<span class="sd">                            </span>
+
 <span class="sd">                        - &quot;graphlets_sampling&quot;</span>
 <span class="sd">                            + (**o**) &quot;k&quot; : [int]</span>
 <span class="sd">                            + (**o**) &quot;delta&quot; : [float]</span>
 <span class="sd">                            + (**o**) &quot;epsilon&quot; : [float]</span>
-<span class="sd">                            + (**o**) &quot;a&quot; : [int]                       </span>
-<span class="sd">                            </span>
+<span class="sd">                            + (**o**) &quot;a&quot; : [int]</span>
+<span class="sd">                            + (**o**) &quot;n_samples&quot; : [int]</span>
+
 <span class="sd">                        - &quot;multiscale_laplacian&quot;</span>
 <span class="sd">                            + (**o**) &quot;L&quot; : [int]</span>
 <span class="sd">                            + (**o**) &quot;gamma&quot;</span>
-<span class="sd">                            </span>
+
 <span class="sd">                        - &quot;subgraph_matching&quot;</span>
-<span class="sd">                            + (**o**) &quot;kv&quot; : [function] : (node_x, node_y, Lx, Ly) -&gt; number</span>
-<span class="sd">                            + (**o**) &quot;ke&quot; : [function] : (edge_x, edge_y, Lx, Ly) -&gt; number</span>
-<span class="sd">                            + (**o**) &quot;lw&quot; : a lambda weight function for cliques: set -&gt; number</span>
+<span class="sd">                            + (**o**) &quot;kv&quot; : [function] :</span>
+<span class="sd">                            (node_x, node_y, Lx, Ly) -&gt; number</span>
+<span class="sd">                            + (**o**) &quot;ke&quot; : [function] :</span>
+<span class="sd">                            (edge_x, edge_y, Lx, Ly) -&gt; number</span>
+<span class="sd">                            + (**o**) &quot;lw&quot; :</span>
+<span class="sd">                            a lambda weight function for cliques: set -&gt; number</span>
 
 <span class="sd">                        - &quot;lovasz_theta&quot;</span>
-<span class="sd">                            + (**o**) &quot;n_samples&quot; : [int] &gt; 1              </span>
-<span class="sd">                            + (**o**) &quot;subsets_size_range&quot; : [touple] of two [int]</span>
-<span class="sd">                            + (**o**) &quot;metric&quot; : [function] (number, number) -&gt; number</span>
-<span class="sd">                                           </span>
+<span class="sd">                            + (**o**) &quot;n_samples&quot; : [int] &gt; 1</span>
+<span class="sd">                            + (**o**) &quot;subsets_size_range&quot; :</span>
+<span class="sd">                            [touple] of two [int]</span>
+<span class="sd">                            + (**o**) &quot;metric&quot; :</span>
+<span class="sd">                            [function] (number, number) -&gt; number</span>
+
 <span class="sd">                        - &quot;svm_theta&quot;</span>
 <span class="sd">                            + (**o**) &quot;n_samples&quot; : [int] &gt; 1</span>
-<span class="sd">                            + (**o**) &quot;subsets_size_range&quot; : [touple] with 2 [int] elements</span>
-<span class="sd">                            + (**o**) &quot;metric&quot; : [function] (number, number) -&gt; number</span>
-<span class="sd">                                                      </span>
+<span class="sd">                            + (**o**) &quot;subsets_size_range&quot; :</span>
+<span class="sd">                            [touple] with 2 [int] elements</span>
+<span class="sd">                            + (**o**) &quot;metric&quot; :</span>
+<span class="sd">                            [function] (number, number) -&gt; number</span>
+
 <span class="sd">                        - &quot;neighborhood_hash&quot;</span>
-<span class="sd">                            + (**o**) &quot;nh_type&quot; : [str] &quot;simple&quot; or &quot;count-sensitive&quot;</span>
+<span class="sd">                            + (**o**) &quot;nh_type&quot; :</span>
+<span class="sd">                            [str] &quot;simple&quot; or &quot;count-sensitive&quot;</span>
 <span class="sd">                            + (**o**) &quot;R&quot; : [int] &gt; 0</span>
 <span class="sd">                            + (**o**) &quot;bytes&quot; : [int] &gt; 0</span>
-<span class="sd">                                                </span>
-<span class="sd">                        - &quot;neighborhood_pairwise_subgraph_distance&quot;</span>
+
+<span class="sd">                        - &quot;neighborhood_subgraph_pairwise_distance&quot;</span>
 <span class="sd">                            + (**o**) &quot;r&quot; : (int) positive integer</span>
 <span class="sd">                            + (**o**) &quot;d&quot; : (int) positive integer</span>
-<span class="sd">                            </span>
+
 <span class="sd">                        - &quot;odd_sth&quot;</span>
 <span class="sd">                            + (**o**) &quot;h&quot; : [int] &gt; 0</span>
-<span class="sd">                        </span>
+
 <span class="sd">                        - &quot;propagation&quot;</span>
 <span class="sd">                            + (**o**) t_max: [int] &gt; 0</span>
 <span class="sd">                            + (**o**) T: [dict] [int]: [np.arrays]</span>
 <span class="sd">                            + (**o**) M: [str] &quot;H&quot;, &quot;L1&quot;, &quot;L2&quot;, &quot;TV&quot;</span>
 <span class="sd">                            + (**o**) w: [int] &gt; 0</span>
-<span class="sd">                            + (**o**) base_kernel: [function] x:[list[int]] , y:[list[int]] -&gt; [number]</span>
-<span class="sd">                            </span>
+<span class="sd">                            + (**o**) base_kernel: [function]</span>
+<span class="sd">                            x:[list[int]] , y:[list[int]] -&gt; [number]</span>
+
 <span class="sd">                        - &quot;pyramid_match&quot;</span>
 <span class="sd">                            + (**o**) with_labels: [bool]</span>
 <span class="sd">                            + (**o**) d: [int] &gt; 0</span>
-<span class="sd">                            + (**o**) L: [int] &gt;= 0 </span>
+<span class="sd">                            + (**o**) L: [int] &gt;= 0</span>
 
 <span class="sd">                        - &quot;jsm&quot;</span>
 <span class="sd">                            + (**o**) M: [int] &gt; 0</span>
 <span class="sd">                            + (**o**) h: [int] &gt; 0</span>
 
-<span class="sd">                   2. general_kernels (this kernel will use the next kernel on the list as base kernel)</span>
+<span class="sd">                   2. general_kernels (this kernel will use the next kernel</span>
+<span class="sd">                   on the list as base kernel)</span>
 <span class="sd">                        - &quot;weisfeiler_lehman&quot;</span>
 <span class="sd">                            + (**o**) &quot;niter&quot; : [int]</span>
 <span class="sd">                        - &quot;hadamard_code&quot;</span>
 <span class="sd">                            + (**o**) &quot;niter&quot; : [int]</span>
 <span class="sd">                            + (**o**) &quot;hc_type&quot; : [str] &quot;simple&quot;, &quot;shortened&quot;</span>
 <span class="sd">                            + (**o**) &quot;rho&quot; : [int] &gt; 0 or -1</span>
-<span class="sd">                            + (**o**) &quot;L&quot; : int, condition_of_appearance: hc_type==&quot;shortened&quot;, default=4</span>
+<span class="sd">                            + (**o**) &quot;L&quot; : int, condition_of_appearance:</span>
+<span class="sd">                            hc_type==&quot;shortened&quot;, default=4</span>
 <span class="sd">               where (**o**): stands for optional parameters</span>
-<span class="sd">               </span>
+
 <span class="sd">    Nystroem : int, optional</span>
 <span class="sd">        Defines the number of nystroem components.</span>
 <span class="sd">        To initialize the default (100 components), set -1 or 0.</span>
 
 <span class="sd">    concurrency : int, optional</span>
-<span class="sd">        Defines the number of workers for kernel matrix calculation using concurrency.</span>
-<span class="sd">        To intialise the default (all possible), set -1 or 0.</span>
-<span class="sd">    </span>
+<span class="sd">        Defines the number of workers for kernel matrix calculation using</span>
+<span class="sd">        concurrency. To intialise the default (all possible), set -1 or 0.</span>
+
 <span class="sd">    normalize : bool, optional</span>
 <span class="sd">        Normalize the output of the graph kernel.</span>
 <span class="sd">        Ignored when Nystroem GraphKernel object is instanciated.</span>
@@ -309,16 +351,16 @@
 <span class="sd">    ----------</span>
 <span class="sd">    X_graph : dict</span>
 <span class="sd">        Stores input graphs indexing from 0 to num_of_graphs-1.</span>
-<span class="sd">        </span>
+
 <span class="sd">    num_of_graphs : int</span>
-<span class="sd">        The number of graphs given in fit input.  </span>
+<span class="sd">        The number of graphs given in fit input.</span>
 
 <span class="sd">    kernel : function</span>
-<span class="sd">        The full kernel applied between graph objects.  </span>
-<span class="sd">        </span>
+<span class="sd">        The full kernel applied between graph objects.</span>
+
 <span class="sd">    nystroem : int</span>
 <span class="sd">        Holds the nystroem, number of components.</span>
-<span class="sd">        If not initialised, it stands as a False </span>
+<span class="sd">        If not initialised, it stands as a False</span>
 <span class="sd">        boolean variable.</span>
 
 <span class="sd">    normalize : bool</span>
@@ -326,11 +368,11 @@
 
 <span class="sd">    components_ : array, shape (n_components, n_features)</span>
 <span class="sd">        Subset of training graphs used to construct the feature map.</span>
-<span class="sd">       </span>
+
 <span class="sd">    nystroem_normalization_ : array, shape=(n_components, n_components)</span>
 <span class="sd">        Normalization matrix needed for embedding.</span>
 <span class="sd">        Square root of the kernel matrix on ``components_``.</span>
-<span class="sd">        </span>
+
 <span class="sd">    component_indices_ : array, shape=(n_components)</span>
 <span class="sd">        Indices of ``components_`` in the training set.</span>
 
@@ -341,7 +383,9 @@
 <span class="sd">        The final executor destined for a single kernel calculation.</span>
 
 <span class="sd">    _concurrent_executor : ThreadPoolExecutor</span>
-<span class="sd">        An executor for applying concurrency, for the fast pairwise computations of the kernel matrix calculation.</span>
+<span class="sd">        An executor for applying concurrency, for the fast pairwise</span>
+<span class="sd">        computations of the kernel matrix calculation.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">num_of_graphs</span> <span class="o">=</span> <span class="mi">0</span>
@@ -350,9 +394,9 @@
     <span class="n">normalize</span> <span class="o">=</span> <span class="kc">False</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">):</span>
-
+        <span class="sd">&quot;&quot;&quot;`__init__` for `GraphKernel` object.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_verbose</span> <span class="o">=</span> <span class="n">kargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;verbose&quot;</span><span class="p">,</span> <span class="n">default_verbose_value</span><span class="p">)</span>
-        
+
         <span class="k">if</span> <span class="s2">&quot;kernel&quot;</span> <span class="ow">in</span> <span class="n">kargs</span><span class="p">:</span>
             <span class="k">if</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">kargs</span><span class="p">[</span><span class="s2">&quot;kernel&quot;</span><span class="p">])</span> <span class="ow">is</span> <span class="nb">dict</span><span class="p">):</span>
                 <span class="c1"># allow single kernel dictionary inputs</span>
@@ -362,176 +406,216 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;unsupported kernel format&#39;</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">flag</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculate_kernel_matrix</span><span class="p">(</span><span class="n">kernel</span><span class="p">,</span> <span class="n">target_graph</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">kernel_type</span><span class="o">=</span><span class="s2">&quot;matrix&quot;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">diagonal_only</span><span class="o">=</span><span class="kc">False</span><span class="p">:</span> \
+                    <span class="bp">self</span><span class="o">.</span><span class="n">calculate_kernel_matrix</span><span class="p">(</span>
+                        <span class="n">kernel</span><span class="p">,</span>
+                        <span class="n">target_graph</span><span class="o">=</span><span class="n">y</span><span class="p">,</span>
+                        <span class="n">kernel_type</span><span class="o">=</span><span class="s2">&quot;matrix&quot;</span><span class="p">,</span>
+                        <span class="n">diagonal_only</span><span class="o">=</span><span class="n">diagonal_only</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculate_kernel_matrix</span><span class="p">(</span><span class="n">kernel</span><span class="p">,</span> <span class="n">target_graph</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">kernel_type</span><span class="o">=</span><span class="s2">&quot;pairwise&quot;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">diagonal_only</span><span class="o">=</span><span class="kc">False</span><span class="p">:</span>\
+                    <span class="bp">self</span><span class="o">.</span><span class="n">calculate_kernel_matrix</span><span class="p">(</span>
+                        <span class="n">kernel</span><span class="p">,</span>
+                        <span class="n">target_graph</span><span class="o">=</span><span class="n">y</span><span class="p">,</span>
+                        <span class="n">kernel_type</span><span class="o">=</span><span class="s2">&quot;pairwise&quot;</span><span class="p">,</span>
+                        <span class="n">diagonal_only</span><span class="o">=</span><span class="n">diagonal_only</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;kernel must be defined at the __init__ function of a graph kernel&#39;</span><span class="p">)</span>
-        
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;kernel must be defined at the __init__ function </span><span class="se">\</span>
+<span class="s1">                              of a graph kernel&#39;</span><span class="p">)</span>
+
         <span class="k">if</span> <span class="s2">&quot;Nystroem&quot;</span> <span class="ow">in</span> <span class="n">kargs</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">kargs</span><span class="p">[</span><span class="s2">&quot;Nystroem&quot;</span><span class="p">])</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">int</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;nystroem parameter must be an int, indicating the number of components&#39;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;nystroem parameter must be an int, </span><span class="se">\</span>
+<span class="s1">                                  indicating the number of components&#39;</span><span class="p">)</span>
             <span class="k">elif</span> <span class="n">kargs</span><span class="p">[</span><span class="s2">&quot;Nystroem&quot;</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
                 <span class="c1"># picking default number of components</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">nystroem</span> <span class="o">=</span> <span class="n">default_n_components</span>
-            <span class="k">elif</span> <span class="n">kargs</span><span class="p">[</span><span class="s2">&quot;Nystroem&quot;</span><span class="p">]</span><span class="o">&lt;=</span><span class="mi">0</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;number of nystroem components must be positive&#39;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">kargs</span><span class="p">[</span><span class="s2">&quot;Nystroem&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;number of nystroem components </span><span class="se">\</span>
+<span class="s1">                                  must be positive&#39;</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">nystroem</span> <span class="o">=</span> <span class="n">kargs</span><span class="p">[</span><span class="s2">&quot;Nystroem&quot;</span><span class="p">]</span>
 
         <span class="k">if</span> <span class="s2">&quot;concurrency&quot;</span> <span class="ow">in</span> <span class="n">kargs</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">kargs</span><span class="p">[</span><span class="s2">&quot;concurrency&quot;</span><span class="p">])</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">int</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;concurrency parameter must be an int, indicating the number of components&#39;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;concurrency parameter must be an int, </span><span class="se">\</span>
+<span class="s1">                                  indicating the number of components&#39;</span><span class="p">)</span>
             <span class="k">elif</span> <span class="n">kargs</span><span class="p">[</span><span class="s2">&quot;concurrency&quot;</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
                 <span class="c1"># Initialise an executor</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_concurrent_executor</span> <span class="o">=</span> <span class="n">ThreadPoolExecutor</span><span class="p">()</span>
-            <span class="k">elif</span> <span class="n">kargs</span><span class="p">[</span><span class="s2">&quot;concurrency&quot;</span><span class="p">]</span><span class="o">&lt;=</span><span class="mi">0</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;number of concurrency workers must be positive&#39;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">kargs</span><span class="p">[</span><span class="s2">&quot;concurrency&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;number of concurrency workers </span><span class="se">\</span>
+<span class="s1">                                  must be positive&#39;</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_concurrent_executor</span> <span class="o">=</span> <span class="n">ThreadPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="n">kargs</span><span class="p">[</span><span class="s2">&quot;concurrency&quot;</span><span class="p">])</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_pairwise_kernel_executor</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">fn</span><span class="p">,</span> <span class="o">*</span><span class="n">eargs</span><span class="p">,</span> <span class="o">**</span><span class="n">ekargs</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_concurrent_executor</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="o">*</span><span class="n">eargs</span><span class="p">,</span> <span class="o">**</span><span class="n">ekargs</span><span class="p">)</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_concurrent_executor</span> <span class="o">=</span> <span class="n">ThreadPoolExecutor</span><span class="p">(</span>
+                    <span class="n">max_workers</span><span class="o">=</span><span class="n">kargs</span><span class="p">[</span><span class="s2">&quot;concurrency&quot;</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_pairwise_kernel_executor</span> <span class="o">=</span> \
+                <span class="k">lambda</span> <span class="n">fn</span><span class="p">,</span> <span class="o">*</span><span class="n">eargs</span><span class="p">,</span> <span class="o">**</span><span class="n">ekargs</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_concurrent_executor</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span>
+                    <span class="n">fn</span><span class="p">,</span> <span class="o">*</span><span class="n">eargs</span><span class="p">,</span> <span class="o">**</span><span class="n">ekargs</span><span class="p">)</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_pairwise_kernel_executor</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">fn</span><span class="p">,</span> <span class="o">*</span><span class="n">eargs</span><span class="p">,</span> <span class="o">**</span><span class="n">ekargs</span><span class="p">:</span> <span class="n">fn</span><span class="p">(</span><span class="o">*</span><span class="n">eargs</span><span class="p">,</span><span class="o">**</span><span class="n">ekargs</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_pairwise_kernel_executor</span> <span class="o">=</span> \
+                <span class="k">lambda</span> <span class="n">fn</span><span class="p">,</span> <span class="o">*</span><span class="n">eargs</span><span class="p">,</span> <span class="o">**</span><span class="n">ekargs</span><span class="p">:</span> <span class="n">fn</span><span class="p">(</span><span class="o">*</span><span class="n">eargs</span><span class="p">,</span> <span class="o">**</span><span class="n">ekargs</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">normalize</span> <span class="o">=</span> <span class="n">kargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;normalize&quot;</span><span class="p">,</span><span class="kc">False</span><span class="p">)</span>
-        
+        <span class="bp">self</span><span class="o">.</span><span class="n">normalize</span> <span class="o">=</span> <span class="n">kargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;normalize&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+
         <span class="n">unrecognised_args</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">kargs</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">-</span> <span class="n">valid_parameters</span>
 
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">unrecognised_args</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;Ignoring unrecognised arguments:&#39;</span><span class="p">,</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">unrecognised_args</span><span class="p">))</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">unrecognised_args</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s1">&#39;Ignoring unrecognised arguments:&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span> <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">unrecognised_args</span><span class="p">))</span>
 
-    <span class="k">def</span> <span class="nf">_make_kernel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">kernel_list</span><span class="p">):</span>
-            <span class="sd">&quot;&quot;&quot; Produces the desired kernel function.</span>
-<span class="sd">                </span>
+    <span class="k">def</span> <span class="nf">_make_kernel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kernel_list</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;Produce the desired kernel function.</span>
+
 <span class="sd">            Parameters</span>
 <span class="sd">            ----------</span>
 <span class="sd">            kernel_list: (list)</span>
-<span class="sd">                List of kernel dictionaries as defined at the documentation of class parameters.</span>
-<span class="sd">               </span>
+<span class="sd">                List of kernel dictionaries as defined at the documentation</span>
+<span class="sd">                of class parameters.</span>
+
 <span class="sd">            Returns</span>
 <span class="sd">            -------</span>
 <span class="sd">            function.</span>
 <span class="sd">            Returns the kernel, as a function of two arguments.</span>
+
 <span class="sd">            &quot;&quot;&quot;</span>
             <span class="c1"># If nesting type:</span>
             <span class="n">kernel</span> <span class="o">=</span> <span class="n">kernel_list</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
             <span class="n">kernel_name</span> <span class="o">=</span> <span class="n">kernel</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">kernel_name</span> <span class="ow">in</span> <span class="n">supported_base_kernels</span><span class="p">:</span>
-                <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">kernel_list</span><span class="p">)</span><span class="o">!=</span><span class="mi">0</span><span class="p">):</span>
-                    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;rest kernel arguments are being ignored - reached base kernel&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">kernel_list</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">):</span>
+                    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;rest kernel arguments are being ignored</span><span class="se">\</span>
+<span class="s1">                                   - reached base kernel&#39;</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">kernel_name</span> <span class="o">==</span> <span class="s2">&quot;dirac&quot;</span><span class="p">:</span>
-                    <span class="k">return</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">dirac_inner</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="kc">False</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">dirac_pair</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="kc">False</span><span class="p">)</span>
                 <span class="k">elif</span> <span class="n">kernel_name</span> <span class="o">==</span> <span class="s2">&quot;random_walk&quot;</span><span class="p">:</span>
-                    <span class="k">return</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">random_walk_inner</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">kernel</span><span class="p">),</span> <span class="kc">False</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">random_walk_pair</span><span class="p">(</span>
+                        <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">kernel</span><span class="p">),</span> <span class="kc">False</span><span class="p">)</span>
                 <span class="k">elif</span> <span class="n">kernel_name</span> <span class="o">==</span> <span class="s2">&quot;shortest_path&quot;</span><span class="p">:</span>
-                	<span class="n">at</span> <span class="o">=</span> <span class="n">kernel</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;algorithm_type&quot;</span><span class="p">,</span> <span class="s2">&quot;dijkstra&quot;</span><span class="p">)</span>
-                	<span class="k">if</span> <span class="n">kernel</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;as_attributes&quot;</span><span class="p">,</span><span class="kc">False</span><span class="p">):</span>
-                		<span class="n">ak</span> <span class="o">=</span> <span class="n">kargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;attribute_kernel&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">))</span>
-                		<span class="k">return</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">shortest_path_inner_attributes</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">algorithm_type</span><span class="o">=</span><span class="n">at</span><span class="p">,</span> <span class="n">attribute_kernel</span><span class="o">=</span><span class="n">ak</span><span class="p">),</span> <span class="kc">False</span><span class="p">)</span>
-	                <span class="k">else</span><span class="p">:</span>
-	                	<span class="k">return</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">shortest_path_matrix</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">algorithm_type</span><span class="o">=</span><span class="n">at</span><span class="p">),</span> <span class="kc">True</span><span class="p">)</span>
-                <span class="k">elif</span> <span class="n">kernel_name</span> <span class="o">==</span> <span class="s2">&quot;subtree_rg&quot;</span><span class="p">:</span>
-                    <span class="k">return</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">subtree_rg_inner</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">kernel</span><span class="p">),</span> <span class="kc">False</span><span class="p">)</span>
-                <span class="k">elif</span> <span class="n">kernel_name</span> <span class="o">==</span> <span class="s2">&quot;graphlets_sampling&quot;</span><span class="p">:</span>
-                    <span class="n">nsamples</span><span class="p">,</span> <span class="n">graphlets</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">graph_bins</span><span class="p">,</span> <span class="n">nbins</span> <span class="o">=</span> <span class="n">sample_graphlets</span><span class="p">(</span><span class="o">**</span><span class="n">kernel</span><span class="p">)</span>
-                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_verbose</span><span class="p">:</span>
-                        <span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">nsamples</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot; graphlets sampled&quot;</span><span class="p">)</span>
-                    <span class="k">if</span> <span class="s2">&quot;k&quot;</span> <span class="ow">in</span> <span class="n">kernel</span><span class="p">:</span>
-                        <span class="k">return</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">graphlet_sampling_core</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">nsamples</span><span class="p">,</span> <span class="n">graphlets</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">graph_bins</span><span class="p">,</span> <span class="n">nbins</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">kernel</span><span class="p">[</span><span class="s2">&quot;k&quot;</span><span class="p">]),</span> <span class="kc">False</span><span class="p">)</span>
+                    <span class="n">at</span> <span class="o">=</span> <span class="n">kernel</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;algorithm_type&quot;</span><span class="p">,</span> <span class="s2">&quot;dijkstra&quot;</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">kernel</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;as_attributes&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+                        <span class="n">ak</span> <span class="o">=</span> <span class="n">kernel</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;attribute_kernel&quot;</span><span class="p">,</span>
+                                        <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
+                        <span class="k">return</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span>
+                                <span class="n">shortest_path_pair_attributes</span><span class="p">(</span>
+                                    <span class="n">x</span><span class="p">,</span>
+                                    <span class="n">y</span><span class="p">,</span>
+                                    <span class="n">algorithm_type</span><span class="o">=</span><span class="n">at</span><span class="p">,</span>
+                                    <span class="n">attribute_kernel</span><span class="o">=</span><span class="n">ak</span><span class="p">),</span> <span class="kc">False</span><span class="p">)</span>
                     <span class="k">else</span><span class="p">:</span>
-                        <span class="k">return</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">graphlet_sampling_core</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">nsamples</span><span class="p">,</span> <span class="n">graphlets</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">graph_bins</span><span class="p">,</span> <span class="n">nbins</span><span class="p">),</span> <span class="kc">False</span><span class="p">)</span>
+                        <span class="n">wl</span> <span class="o">=</span> <span class="n">kernel</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;with_labels&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+                        <span class="k">return</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span>
+                                <span class="n">shortest_path_matrix</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span>
+                                                     <span class="n">algorithm_type</span><span class="o">=</span><span class="n">at</span><span class="p">,</span>
+                                                     <span class="n">with_labels</span><span class="o">=</span><span class="n">wl</span><span class="p">),</span>
+                                <span class="kc">True</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">kernel_name</span> <span class="o">==</span> <span class="s2">&quot;subtree_rg&quot;</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span>
+                            <span class="n">subtree_rg_pair</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">kernel</span><span class="p">),</span> <span class="kc">False</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">kernel_name</span> <span class="o">==</span> <span class="s2">&quot;graphlets_sampling&quot;</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span>
+                            <span class="n">graphlet_sampling_matrix</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">kernel</span><span class="p">),</span> <span class="kc">True</span><span class="p">)</span>
                 <span class="k">elif</span> <span class="n">kernel_name</span> <span class="o">==</span> <span class="s2">&quot;multiscale_laplacian&quot;</span><span class="p">:</span>
-                    <span class="k">return</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">multiscale_laplacian_inner</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">kernel</span><span class="p">),</span> <span class="kc">False</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span>
+                            <span class="n">multiscale_laplacian_pair</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">kernel</span><span class="p">),</span> <span class="kc">False</span><span class="p">)</span>
                 <span class="k">elif</span> <span class="n">kernel_name</span> <span class="o">==</span> <span class="s2">&quot;subgraph_matching&quot;</span><span class="p">:</span>
-                    <span class="k">return</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">subgraph_matching_inner</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">kernel</span><span class="p">),</span> <span class="kc">False</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span>
+                            <span class="n">subgraph_matching_pair</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">kernel</span><span class="p">),</span> <span class="kc">False</span><span class="p">)</span>
                 <span class="k">elif</span> <span class="n">kernel_name</span> <span class="o">==</span> <span class="s2">&quot;lovasz_theta&quot;</span><span class="p">:</span>
-                    <span class="k">return</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">lovasz_theta_inner</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">kernel</span><span class="p">),</span> <span class="kc">False</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span>
+                            <span class="n">lovasz_theta_pair</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">kernel</span><span class="p">),</span> <span class="kc">False</span><span class="p">)</span>
                 <span class="k">elif</span> <span class="n">kernel_name</span> <span class="o">==</span> <span class="s2">&quot;svm_theta&quot;</span><span class="p">:</span>
-                    <span class="k">return</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">svm_theta_inner</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">kernel</span><span class="p">),</span> <span class="kc">False</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span>
+                            <span class="n">svm_theta_pair</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">kernel</span><span class="p">),</span> <span class="kc">False</span><span class="p">)</span>
                 <span class="k">elif</span> <span class="n">kernel_name</span> <span class="o">==</span> <span class="s2">&quot;neighborhood_hash&quot;</span><span class="p">:</span>
-                    <span class="k">return</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">neighborhood_hash_matrix</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">kernel</span><span class="p">),</span> <span class="kc">True</span><span class="p">)</span>
-                <span class="k">elif</span> <span class="n">kernel_name</span> <span class="o">==</span> <span class="s2">&quot;neighborhood_pairwise_subgraph_distance&quot;</span><span class="p">:</span>
-                    <span class="k">return</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">neighborhood_pairwise_subgraph_distance_inner</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">kernel</span><span class="p">),</span> <span class="kc">False</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span>
+                            <span class="n">neighborhood_hash_matrix</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">kernel</span><span class="p">),</span> <span class="kc">True</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">kernel_name</span> <span class="o">==</span> <span class="s2">&quot;neighborhood_subgraph_pairwise_distance&quot;</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span>
+                            <span class="n">neighborhood_subgraph_pairwise_distance_pair</span><span class="p">(</span>
+                                <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">kernel</span><span class="p">),</span> <span class="kc">False</span><span class="p">)</span>
                 <span class="k">elif</span> <span class="n">kernel_name</span> <span class="o">==</span> <span class="s2">&quot;odd_sth&quot;</span><span class="p">:</span>
-                    <span class="k">return</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">odd_sth_matrix</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">kernel</span><span class="p">),</span> <span class="kc">True</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span>
+                            <span class="n">odd_sth_matrix</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">kernel</span><span class="p">),</span> <span class="kc">True</span><span class="p">)</span>
                 <span class="k">elif</span> <span class="n">kernel_name</span> <span class="o">==</span> <span class="s2">&quot;propagation&quot;</span><span class="p">:</span>
-                    <span class="k">return</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">propagation_matrix</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">kernel</span><span class="p">),</span> <span class="kc">True</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span>
+                            <span class="n">propagation_matrix</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">kernel</span><span class="p">),</span> <span class="kc">True</span><span class="p">)</span>
                 <span class="k">elif</span> <span class="n">kernel_name</span> <span class="o">==</span> <span class="s2">&quot;pyramid_match&quot;</span><span class="p">:</span>
-                    <span class="k">return</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">pyramid_match_matrix</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">kernel</span><span class="p">),</span> <span class="kc">True</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span>
+                            <span class="n">pyramid_match_matrix</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">kernel</span><span class="p">),</span> <span class="kc">True</span><span class="p">)</span>
                 <span class="k">elif</span> <span class="n">kernel_name</span> <span class="o">==</span> <span class="s2">&quot;jsm&quot;</span><span class="p">:</span>
-                    <span class="k">return</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">jsm_inner</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">kernel</span><span class="p">),</span> <span class="kc">False</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span>
+                            <span class="n">jsm_pair</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">kernel</span><span class="p">),</span> <span class="kc">False</span><span class="p">)</span>
             <span class="k">elif</span> <span class="n">kernel_name</span> <span class="ow">in</span> <span class="n">supported_general_kernels</span><span class="p">:</span>
-                <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">kernel_list</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span><span class="p">):</span>
+                <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">kernel_list</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">kernel_name</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39; is not a base kernel&#39;</span><span class="p">)</span>
-                
+
                 <span class="p">(</span><span class="n">bkp</span><span class="p">,</span> <span class="n">matrix_flag</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_kernel</span><span class="p">(</span><span class="n">kernel_list</span><span class="p">)</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="n">matrix_flag</span><span class="p">:</span>
-                    <span class="n">bk</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">:</span> <span class="n">pairwise_to_matrix_kernel</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">pairwise_kernel</span><span class="o">=</span><span class="n">bkp</span><span class="p">,</span> <span class="n">kernel_executor</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_pairwise_kernel_executor</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
+                    <span class="n">bk</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">:</span> \
+                        <span class="n">pairwise_to_matrix_kernel</span><span class="p">(</span>
+                            <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span>
+                            <span class="n">pairwise_kernel</span><span class="o">=</span><span class="n">bkp</span><span class="p">,</span>
+                            <span class="n">kernel_executor</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_pairwise_kernel_executor</span><span class="p">,</span>
+                            <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">bk</span> <span class="o">=</span> <span class="n">bkp</span>
 
                 <span class="k">if</span> <span class="n">kernel_name</span> <span class="o">==</span> <span class="s2">&quot;weisfeiler_lehman&quot;</span><span class="p">:</span>
-                    <span class="k">return</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">weisfeiler_lehman_matrix</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">bk</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">kernel</span><span class="p">),</span> <span class="kc">True</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span>
+                            <span class="n">weisfeiler_lehman_matrix</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">bk</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">kernel</span><span class="p">),</span> <span class="kc">True</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">kernel_name</span> <span class="o">==</span> <span class="s2">&quot;hadamard_code&quot;</span><span class="p">:</span>
-                    <span class="k">return</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">hadamard_code_matrix</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">bk</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">kernel</span><span class="p">),</span> <span class="kc">True</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span>
+                            <span class="n">hadamard_code_matrix</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">bk</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">kernel</span><span class="p">),</span> <span class="kc">True</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;unsupported kernel: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">kernel_name</span><span class="p">))</span>
-                
+
 <div class="viewcode-block" id="GraphKernel.fit"><a class="viewcode-back" href="../../graph_kernel.html#grakel.graph_kernels.GraphKernel.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;A reference implementation of a fitting function for a transformer.</span>
+        <span class="sd">&quot;&quot;&quot;Fit a dataset, for a transformer.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        X : iterable</span>
-<span class="sd">            Each element must be an iterable with at most three features and at least one.</span>
-<span class="sd">            The first that is obligatory is a valid graph structure (adjacency matrix or edge_dictionary)</span>
-<span class="sd">            while the second is node_labels and the third edge_labels (that fitting the given graph format).</span>
-<span class="sd">            The train samples.</span>
-<span class="sd">    </span>
+<span class="sd">            Each element must be an iterable with at most three features and at</span>
+<span class="sd">            least one. The first that is obligatory is a valid graph structure</span>
+<span class="sd">            (adjacency matrix or edge_dictionary) while the second is</span>
+<span class="sd">            node_labels and the third edge_labels (that fitting the given grap</span>
+<span class="sd">            format). The train samples.</span>
+
 <span class="sd">        y : None</span>
-<span class="sd">            There is no need of a target in a transformer, yet the pipeline API requires this parameter.</span>
+<span class="sd">            There is no need of a target in a transformer, yet the pipeline API</span>
+<span class="sd">            requires this parameter.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        self : object</span>
 <span class="sd">        Returns self.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># Input validation</span>
-        <span class="c1"># check_array(X)</span>
-        
-        <span class="n">X_graph</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-        <span class="n">graph_idx</span> <span class="o">=</span> <span class="mi">0</span>        
-        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">iter</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="n">X_graph</span><span class="p">[</span><span class="n">graph_idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">graph</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],{},{},</span><span class="s2">&quot;all&quot;</span><span class="p">)</span>
-                <span class="n">graph_idx</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-                <span class="n">X_graph</span><span class="p">[</span><span class="n">graph_idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">graph</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],{},</span><span class="s2">&quot;all&quot;</span><span class="p">)</span>
-                <span class="n">graph_idx</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
-                <span class="n">X_graph</span><span class="p">[</span><span class="n">graph_idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">graph</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="s2">&quot;all&quot;</span><span class="p">)</span>
-                <span class="n">graph_idx</span> <span class="o">+=</span> <span class="mi">1</span> 
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;input has an empty or unrecognised element&#39;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">bool</span><span class="p">(</span><span class="n">X_graph</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;unrecognized input&#39;</span><span class="p">)</span>
-        <span class="n">num_of_graphs</span> <span class="o">=</span> <span class="n">graph_idx</span>
-        
+        <span class="c1"># Input validation and parsing</span>
+        <span class="k">if</span> <span class="n">X</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;fit input cannot be None&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">X_graph</span> <span class="o">=</span> <span class="n">parse_input</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+            <span class="n">num_of_graphs</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">X_graph</span><span class="p">)</span>
+
         <span class="k">if</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nystroem</span><span class="p">):</span>
             <span class="c1"># get basis vectors</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">nystroem</span> <span class="o">&gt;</span> <span class="n">num_of_graphs</span><span class="p">:</span>
                 <span class="n">n_components</span> <span class="o">=</span> <span class="n">num_of_graphs</span>
-                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;n_components &gt; n_samples. This is not possible.</span><span class="se">\n</span><span class="s2">&quot;</span>
-                          <span class="s2">&quot;n_components was set to n_samples, which results&quot;</span>
-                          <span class="s2">&quot; in inefficient evaluation of the full kernel.&quot;</span><span class="p">)</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;n_components &gt; n_samples. This is not </span><span class="se">\</span>
+<span class="s2">                              possible.</span><span class="se">\n</span><span class="s2">n_components was set to n_samples, </span><span class="se">\</span>
+<span class="s2">                              which results in inefficient evaluation of the </span><span class="se">\</span>
+<span class="s2">                              full kernel.&quot;</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">n_components</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nystroem</span>
-            
+
             <span class="n">n_components</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">num_of_graphs</span><span class="p">,</span> <span class="n">n_components</span><span class="p">)</span>
             <span class="n">inds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="n">num_of_graphs</span><span class="p">)</span>
             <span class="n">basis_inds</span> <span class="o">=</span> <span class="n">inds</span><span class="p">[:</span><span class="n">n_components</span><span class="p">]</span>
-            <span class="n">basis</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="n">X_graph</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>  <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">idx</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">basis_inds</span><span class="p">)}</span>
-            
+            <span class="n">basis</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="n">X_graph</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">idx</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">basis_inds</span><span class="p">)}</span>
+
             <span class="bp">self</span><span class="o">.</span><span class="n">components_</span> <span class="o">=</span> <span class="n">basis</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">nystroem</span> <span class="o">=</span> <span class="n">n_components</span>
             <span class="n">basis_kernel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span><span class="p">()</span>
@@ -543,96 +627,134 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">nystroem_normalization_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">U</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">S</span><span class="p">),</span> <span class="n">V</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">components_</span> <span class="o">=</span> <span class="n">basis</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">component_indices_</span> <span class="o">=</span> <span class="n">inds</span>
-        
+
         <span class="bp">self</span><span class="o">.</span><span class="n">X_graph</span> <span class="o">=</span> <span class="n">X_graph</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">num_of_graphs</span> <span class="o">=</span> <span class="n">num_of_graphs</span>
-            
+
         <span class="c1"># Return the transformer</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="GraphKernel.transform"><a class="viewcode-back" href="../../graph_kernel.html#grakel.graph_kernels.GraphKernel.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; The transform function calculates the kernel matrix.</span>
+<div class="viewcode-block" id="GraphKernel.transform"><a class="viewcode-back" href="../../graph_kernel.html#grakel.graph_kernels.GraphKernel.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Calculate the kernel matrix, between given and fitted dataset.</span>
 
 <span class="sd">        Paramaters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        X : iterable</span>
-<span class="sd">            Each element must be an iterable with at most three features and at least one.</span>
-<span class="sd">            The first that is obligatory is a valid graph structure (adjacency matrix or edge_dictionary)</span>
-<span class="sd">            while the second is node_labels and the third edge_labels (that fitting the given graph format).</span>
-<span class="sd">            If None the kernel matrix is calculated upon fit data.</span>
+<span class="sd">            Each element must be an iterable with at most three features and at</span>
+<span class="sd">            least one. The first that is obligatory is a valid graph structure</span>
+<span class="sd">            (adjacency matrix or edge_dictionary) while the second is</span>
+<span class="sd">            node_labels and the third edge_labels (that fitting the given graph</span>
+<span class="sd">            format). If None the kernel matrix is calculated upon fit data.</span>
 <span class="sd">            The test samples.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        K : numpy array, shape = [n_targets, n_input_graphs] </span>
+<span class="sd">        K : numpy array, shape = [n_targets, n_input_graphs]</span>
 <span class="sd">            corresponding to the kernel matrix, a calculation between</span>
 <span class="sd">            all pairs of graphs between target an features</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Check is fit had been called</span>
         <span class="n">check_is_fitted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;X_graph&#39;</span><span class="p">])</span>
         <span class="k">if</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nystroem</span><span class="p">):</span>
             <span class="n">check_is_fitted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;components_&#39;</span><span class="p">)</span>
 
-        <span class="c1"># Input validation</span>
-        <span class="c1"># check_array(X)</span>
-        
-        <span class="k">if</span><span class="p">(</span><span class="n">X</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
-            <span class="n">target_graph</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-            <span class="n">num_of_targets</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">iter</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
-                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-                    <span class="n">target_graph</span><span class="p">[</span><span class="n">num_of_targets</span><span class="p">]</span> <span class="o">=</span> <span class="n">graph</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],{},{},</span><span class="s2">&quot;all&quot;</span><span class="p">)</span>
-                    <span class="n">num_of_targets</span> <span class="o">+=</span> <span class="mi">1</span>
-                <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>            
-                    <span class="n">target_graph</span><span class="p">[</span><span class="n">num_of_targets</span><span class="p">]</span> <span class="o">=</span> <span class="n">graph</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],{},</span><span class="s2">&quot;all&quot;</span><span class="p">)</span>
-                    <span class="n">num_of_targets</span> <span class="o">+=</span> <span class="mi">1</span>
-                <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">X_graph</span><span class="p">[</span><span class="n">graph_idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">graph</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="s2">&quot;all&quot;</span><span class="p">)</span>
-                    <span class="n">num_of_targets</span> <span class="o">+=</span> <span class="mi">1</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;input has an empty or unrecognised element&#39;</span><span class="p">)</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="nb">bool</span><span class="p">(</span><span class="n">target_graph</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;unrecognized input&#39;</span><span class="p">)</span>
+        <span class="c1"># Input validation and parsing</span>
+        <span class="k">if</span> <span class="n">X</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;transform input cannot be None&#39;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-             <span class="n">target_graph</span> <span class="o">=</span> <span class="kc">None</span>
-             <span class="k">if</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nystroem</span><span class="p">):</span>
-                <span class="n">target_graph</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_graph</span>
-        <span class="c1"># Check that the input is of the same shape as the one passed</span>
-        <span class="c1"># during fit.</span>
+            <span class="n">target_graph</span> <span class="o">=</span> <span class="n">parse_input</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 
-        <span class="c1"># Calculate kernel matrix</span>
-        <span class="c1"># TODO: support normalization - argument at init</span>
+        <span class="c1"># Transform - calculate kernel matrix</span>
         <span class="k">if</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nystroem</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kernel</span><span class="p">(</span><span class="n">target_graph</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">nystroem_normalization_</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span><span class="p">(</span><span class="n">target_graph</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">nystroem_normalization_</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">km</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span><span class="p">(</span><span class="n">target_graph</span><span class="p">)</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalize</span><span class="p">:</span>
-                <span class="n">km_diag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diagonal</span><span class="p">(</span><span class="n">km</span><span class="p">)</span>
-                <span class="n">km_diag</span> <span class="o">=</span> <span class="n">km_diag</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">km_diag</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="mi">1</span><span class="p">)</span>
-                <span class="n">km</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">km_diag</span><span class="o">.</span><span class="n">T</span><span class="p">,</span><span class="n">km_diag</span><span class="p">))</span>
+                <span class="n">dX</span><span class="p">,</span> <span class="n">dT</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">target_graph</span><span class="p">,</span> <span class="n">diagonal_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="n">km</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">dT</span><span class="p">,</span> <span class="n">dX</span><span class="o">.</span><span class="n">T</span><span class="p">))</span>
             <span class="k">return</span> <span class="n">km</span></div>
 
-<div class="viewcode-block" id="GraphKernel.calculate_kernel_matrix"><a class="viewcode-back" href="../../graph_kernel.html#grakel.graph_kernels.GraphKernel.calculate_kernel_matrix">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_kernel_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">target_graph</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">kernel_type</span><span class="o">=</span><span class="s2">&quot;pairwise&quot;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; A function that calculates the kernel matrix given a target_graph and a kernel.</span>
-<span class="sd">        </span>
+<div class="viewcode-block" id="GraphKernel.fit_transform"><a class="viewcode-back" href="../../graph_kernel.html#grakel.graph_kernels.GraphKernel.fit_transform">[docs]</a>    <span class="k">def</span> <span class="nf">fit_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Fit and transform, on the same dataset.</span>
+
+<span class="sd">        Paramaters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : iterable</span>
+<span class="sd">            Each element must be an iterable with at most three features and at</span>
+<span class="sd">            least one. The first that is obligatory is a valid graph structure</span>
+<span class="sd">            (adjacency matrix or edge_dictionary) while the second is</span>
+<span class="sd">            node_labels and the third edge_labels (that fitting the given graph</span>
+<span class="sd">            format). If None the kernel matrix is calculated upon fit data.</span>
+<span class="sd">            The test samples.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        K : numpy array, shape = [n_targets, n_input_graphs]</span>
+<span class="sd">            corresponding to the kernel matrix, a calculation between</span>
+<span class="sd">            all pairs of graphs between target an features</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+        <span class="c1"># Transform - calculate kernel matrix</span>
+        <span class="k">if</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nystroem</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kernel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X_graph</span><span class="p">),</span>
+                          <span class="bp">self</span><span class="o">.</span><span class="n">nystroem_normalization_</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">km</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span><span class="p">()</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalize</span><span class="p">:</span>
+                <span class="n">km_diag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diagonal</span><span class="p">(</span><span class="n">km</span><span class="p">)</span>
+                <span class="n">km_diag</span> <span class="o">=</span> <span class="n">km_diag</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">km_diag</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">km</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">km_diag</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">km_diag</span><span class="p">))</span>
+            <span class="k">return</span> <span class="n">km</span></div>
+
+<div class="viewcode-block" id="GraphKernel.calculate_kernel_matrix"><a class="viewcode-back" href="../../graph_kernel.html#grakel.graph_kernels.GraphKernel.calculate_kernel_matrix">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_kernel_matrix</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">kernel</span><span class="p">,</span>
+            <span class="n">target_graph</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">diagonal_only</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">kernel_type</span><span class="o">=</span><span class="s2">&quot;pairwise&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Calculate the kernel matrix given a target_graph and a kernel.</span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        target_graph : dict</span>
-<span class="sd">            A dictionary from 0 to the number of graphs of target &quot;graph objects&quot;.</span>
+<span class="sd">            A dictionary from 0 to the number of graphs of</span>
+<span class="sd">            target &quot;graph objects&quot;.</span>
+
 <span class="sd">        kernel: function</span>
 <span class="sd">            A pairwise graph kernel (between &quot;graph&quot; type objects)</span>
-<span class="sd">            or a matrix graph kernel (between enumerative dictionaries - starting from 0 - for graph type objects)</span>
+<span class="sd">            or a matrix graph kernel (between enumerative dictionaries -</span>
+<span class="sd">            starting from 0 - for graph type objects)</span>
+
 <span class="sd">        kernel_type: str, valid_values={&quot;matrix&quot;, &quot;pairwise&quot;}</span>
 <span class="sd">            Distinguishes between the two valid types for graphs.</span>
-<span class="sd">        </span>
+
+<span class="sd">        diagonal_only : bool, default=False</span>
+<span class="sd">            Calculate only the diagonal.</span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        K : numpy array, shape = [n_targets, n_input_graphs] </span>
-<span class="sd">            The kernel matrix: a calculation between all pairs of graphs between target an features.</span>
+<span class="sd">        K : numpy array, shape = [n_targets, n_input_graphs], case_of_existence</span>
+<span class="sd">        =(diagonal_only==False)</span>
+<span class="sd">            The kernel matrix: a calculation between all pairs of graphs</span>
+<span class="sd">            between target an features.</span>
+
+<span class="sd">        diag_X : numpy array, shape = [n_input_graphs], case_of_existence=</span>
+<span class="sd">        (diagonal_only==True)</span>
+<span class="sd">            Returns the kernel values of each element of the input_graph</span>
+<span class="sd">            with itself. Useful for normalization.</span>
+
+<span class="sd">        diag_T : numpy array, shape = [n_targets], case_of_existence=</span>
+<span class="sd">        (diagonal_only==True)</span>
+<span class="sd">            Returns the kernel values of each element of the input_graph</span>
+<span class="sd">            with itself. Useful for normalization.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">kernel_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;matrix&quot;</span><span class="p">,</span> <span class="s2">&quot;pairwise&quot;</span><span class="p">]:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;unsupported &quot;kernel_type&quot;&#39;</span><span class="p">)</span>
-        
+
         <span class="k">if</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nystroem</span><span class="p">):</span>
             <span class="n">X_graph</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">components_</span>
             <span class="n">num_of_graphs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nystroem</span>
@@ -640,37 +762,78 @@
             <span class="n">X_graph</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_graph</span>
             <span class="n">num_of_graphs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_of_graphs</span>
         <span class="k">if</span> <span class="n">kernel_type</span> <span class="o">==</span> <span class="s2">&quot;pairwise&quot;</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">target_graph</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">is_symmetric</span> <span class="o">=</span> <span class="kc">True</span>
-                <span class="n">target_graph</span> <span class="o">=</span> <span class="n">X_graph</span>
-                <span class="n">num_of_targets</span> <span class="o">=</span> <span class="n">num_of_graphs</span>
-                <span class="n">pairs</span> <span class="o">=</span> <span class="p">[(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">num_of_targets</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">num_of_graphs</span><span class="p">)]</span>
+            <span class="k">if</span> <span class="n">diagonal_only</span><span class="p">:</span>
+                <span class="n">diag_X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">num_of_graphs</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_of_graphs</span><span class="p">):</span>
+                    <span class="n">diag_X</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pairwise_kernel_executor</span><span class="p">(</span><span class="n">kernel</span><span class="p">,</span>
+                                                               <span class="n">X_graph</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                                                               <span class="n">X_graph</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                <span class="k">if</span> <span class="n">target_graph</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">diag_X</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">diag_T</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">target_graph</span><span class="p">),</span> <span class="mi">1</span><span class="p">))</span>
+                    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">target_graph</span><span class="p">)):</span>
+                        <span class="n">diag_T</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pairwise_kernel_executor</span><span class="p">(</span>
+                            <span class="n">kernel</span><span class="p">,</span>
+                            <span class="n">target_graph</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                            <span class="n">target_graph</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                    <span class="k">return</span> <span class="n">diag_X</span><span class="p">,</span> <span class="n">diag_T</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">is_symmetric</span> <span class="o">=</span> <span class="kc">False</span>
-                <span class="n">num_of_targets</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">target_graph</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
-                <span class="n">pairs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">num_of_targets</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">num_of_graphs</span><span class="p">)))</span>
+                <span class="k">if</span> <span class="n">target_graph</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">is_symmetric</span> <span class="o">=</span> <span class="kc">True</span>
+                    <span class="n">target_graph</span> <span class="o">=</span> <span class="n">X_graph</span>
+                    <span class="n">num_of_targets</span> <span class="o">=</span> <span class="n">num_of_graphs</span>
+                    <span class="n">pairs</span> <span class="o">=</span> <span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">num_of_targets</span><span class="p">)</span>
+                             <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">num_of_graphs</span><span class="p">)]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">is_symmetric</span> <span class="o">=</span> <span class="kc">False</span>
+                    <span class="n">num_of_targets</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">target_graph</span><span class="p">)</span>
+                    <span class="n">pairs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">num_of_targets</span><span class="p">),</span>
+                                                   <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">num_of_graphs</span><span class="p">)))</span>
 
-            <span class="n">K</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">num_of_targets</span><span class="p">,</span><span class="n">num_of_graphs</span><span class="p">))</span>
-            
-            <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="ow">in</span> <span class="n">pairs</span><span class="p">:</span>
-                <span class="n">K</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pairwise_kernel_executor</span><span class="p">(</span><span class="n">kernel</span><span class="p">,</span> <span class="n">target_graph</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">X_graph</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+                <span class="n">K</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">num_of_targets</span><span class="p">,</span> <span class="n">num_of_graphs</span><span class="p">))</span>
 
-            <span class="k">if</span> <span class="n">is_symmetric</span><span class="p">:</span>
-                <span class="n">K</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">triu</span><span class="p">(</span><span class="n">K</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">triu</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+                <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="ow">in</span> <span class="n">pairs</span><span class="p">:</span>
+                    <span class="n">K</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pairwise_kernel_executor</span><span class="p">(</span><span class="n">kernel</span><span class="p">,</span>
+                                                             <span class="n">target_graph</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                                                             <span class="n">X_graph</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
 
-            <span class="k">return</span> <span class="n">K</span>     
+                <span class="k">if</span> <span class="n">is_symmetric</span><span class="p">:</span>
+                    <span class="n">K</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">triu</span><span class="p">(</span><span class="n">K</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">triu</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+
+            <span class="k">return</span> <span class="n">K</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">kernel</span><span class="p">(</span><span class="n">X_graph</span><span class="p">,</span> <span class="n">target_graph</span><span class="p">)</span></div></div>
+            <span class="k">if</span> <span class="n">diagonal_only</span><span class="p">:</span>
+                <span class="n">diag_X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">num_of_graphs</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_of_graphs</span><span class="p">):</span>
+                    <span class="n">diag_X</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pairwise_kernel_executor</span><span class="p">(</span>
+                        <span class="n">kernel</span><span class="p">,</span>
+                        <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="n">X_graph</span><span class="p">[</span><span class="n">i</span><span class="p">]},</span>
+                        <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="n">X_graph</span><span class="p">[</span><span class="n">i</span><span class="p">]})[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">target_graph</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">diag_X</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">diag_T</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">target_graph</span><span class="p">),</span> <span class="mi">1</span><span class="p">))</span>
+                    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">target_graph</span><span class="p">)):</span>
+                        <span class="n">diag_T</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pairwise_kernel_executor</span><span class="p">(</span>
+                            <span class="n">kernel</span><span class="p">,</span>
+                            <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="n">target_graph</span><span class="p">[</span><span class="n">i</span><span class="p">]},</span>
+                            <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="n">target_graph</span><span class="p">[</span><span class="n">i</span><span class="p">]})[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+                    <span class="k">return</span> <span class="n">diag_X</span><span class="p">,</span> <span class="n">diag_T</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">kernel</span><span class="p">(</span><span class="n">X_graph</span><span class="p">,</span> <span class="n">target_graph</span><span class="p">)</span></div></div>
+
 
 <div class="viewcode-block" id="pairwise_to_matrix_kernel"><a class="viewcode-back" href="../../graph_kernel.html#grakel.graph_kernels.pairwise_to_matrix_kernel">[docs]</a><span class="k">def</span> <span class="nf">pairwise_to_matrix_kernel</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">pairwise_kernel</span><span class="p">,</span> <span class="n">kernel_executor</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; A wrapping function that converts a pairwise-kernel to a matrix-kernel.</span>
-<span class="sd">    </span>
+    <span class="sd">&quot;&quot;&quot;Convert a pairwise-kernel to a matrix-kernel.</span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    x,y : dict, default_y=None</span>
-<span class="sd">        Enumerative dictionary of graph type objects with keys from 0 to the number of values.</span>
-<span class="sd">        If value of Graphs_y is None the kernel matrix is computed between all pairs of Graphs_x</span>
-<span class="sd">        where in another case the kernel_matrix rows correspond to elements of Graphs_y, and columns</span>
+<span class="sd">        Enumerative dictionary of graph type objects with keys from 0 to the</span>
+<span class="sd">        number of values. If value of Graphs_y is None the kernel matrix is</span>
+<span class="sd">        computed between all pairs of Graphs_x, where in another case the</span>
+<span class="sd">        kernel_matrix rows correspond to elements of Graphs_y, and columns</span>
 <span class="sd">        to the elements of Graphs_x.</span>
 
 <span class="sd">    pairwise_kernel : function</span>
@@ -682,33 +845,79 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    kernel_matrix : np.array</span>
-<span class="sd">        The kernel matrix. If the Graphs_y is not None the rows correspond to Graphs_y</span>
-<span class="sd">        and the cols to the Graphs_x (based on the given order).</span>
+<span class="sd">        The kernel matrix. If the Graphs_y is not None the rows correspond to</span>
+<span class="sd">        Graphs_y and the cols to the Graphs_x (based on the given order).</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">nx</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
-    
-    <span class="k">if</span> <span class="n">y</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
+
+    <span class="k">if</span> <span class="n">y</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">ny</span> <span class="o">=</span> <span class="n">nx</span>
         <span class="n">ng</span> <span class="o">=</span> <span class="n">nx</span>
-        <span class="n">pairs</span> <span class="o">=</span> <span class="p">[(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">nx</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">ny</span><span class="p">)]</span>
+        <span class="n">pairs</span> <span class="o">=</span> <span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">nx</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">ny</span><span class="p">)]</span>
         <span class="n">offset</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="n">Gs</span> <span class="o">=</span> <span class="n">x</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">ny</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
         <span class="n">ng</span> <span class="o">=</span> <span class="n">nx</span> <span class="o">+</span> <span class="n">ny</span>
-        <span class="n">pairs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">nx</span><span class="p">,</span> <span class="n">ng</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">nx</span><span class="p">)))</span>
+        <span class="n">pairs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">nx</span><span class="p">,</span> <span class="n">ng</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">nx</span><span class="p">)))</span>
         <span class="n">offset</span> <span class="o">=</span> <span class="n">nx</span>
-        <span class="n">Gs</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="n">g</span> <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">g</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">chain</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">y</span><span class="o">.</span><span class="n">values</span><span class="p">()))}</span>
+        <span class="n">Gs</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="n">g</span> <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">g</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">chain</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span>
+                                           <span class="n">y</span><span class="o">.</span><span class="n">values</span><span class="p">()))}</span>
 
     <span class="n">kernel_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">ny</span><span class="p">,</span> <span class="n">nx</span><span class="p">))</span>
-    
-    <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="ow">in</span> <span class="n">pairs</span><span class="p">:</span>
-        <span class="n">kernel_mat</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="n">offset</span><span class="p">,</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">kernel_executor</span><span class="p">(</span><span class="n">pairwise_kernel</span><span class="p">,</span> <span class="n">Gs</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">Gs</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
-                
+
+    <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="ow">in</span> <span class="n">pairs</span><span class="p">:</span>
+        <span class="n">kernel_mat</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="n">offset</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> \
+            <span class="n">kernel_executor</span><span class="p">(</span><span class="n">pairwise_kernel</span><span class="p">,</span> <span class="n">Gs</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">Gs</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+
     <span class="k">if</span> <span class="n">y</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">kernel_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">triu</span><span class="p">(</span><span class="n">kernel_mat</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">triu</span><span class="p">(</span><span class="n">kernel_mat</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
-        
+
     <span class="k">return</span> <span class="n">kernel_mat</span></div>
+
+
+<div class="viewcode-block" id="parse_input"><a class="viewcode-back" href="../../graph_kernel.html#grakel.graph_kernels.parse_input">[docs]</a><span class="k">def</span> <span class="nf">parse_input</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Parse the given input and raise errors if it is invalid.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    X : object</span>
+<span class="sd">        For the input to pass the test, we must have:</span>
+<span class="sd">        Each element must be an iterable with at most three features and at</span>
+<span class="sd">        least one. The first that is obligatory is a valid graph structure</span>
+<span class="sd">        (adjacency matrix or edge_dictionary) while the second is node_labels</span>
+<span class="sd">        and the third edge_labels (that fitting the given graph format).</span>
+<span class="sd">        If None the kernel matrix is calculated upon fit data.</span>
+<span class="sd">        The test samples.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    X_graph : dict</span>
+<span class="sd">        Enumerative dictionary of graph type objects with keys from 0 to the</span>
+<span class="sd">        number of values.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">collections</span><span class="o">.</span><span class="n">Iterable</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;input must be an iterable</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="c1"># Not a dictionary</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">X_graph</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">X</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;Ignoring empty element on index: &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">X_graph</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">X_graph</span><span class="p">)]</span> <span class="o">=</span> <span class="n">graph</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">{},</span> <span class="p">{},</span> <span class="s2">&quot;all&quot;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">X_graph</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">X_graph</span><span class="p">)]</span> <span class="o">=</span> <span class="n">graph</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="p">{},</span> <span class="s2">&quot;all&quot;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="n">X_graph</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">X_graph</span><span class="p">)]</span> <span class="o">=</span> <span class="n">graph</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s2">&quot;all&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;each element of X must have at least one </span><span class="se">\</span>
+<span class="s1">                                  and at most 3 elements</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">X_graph</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;parsed input is empty&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">X_graph</span></div>
 </pre></div>
 
            </div>

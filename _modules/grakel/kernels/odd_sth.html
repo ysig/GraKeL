@@ -158,250 +158,264 @@
            <div itemprop="articleBody">
             
   <h1>Source code for grakel.kernels.odd_sth</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot; This file contains the ODD-Sth kernel as defined in :cite:`Martino2012ATK`.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">&quot;&quot;&quot;The ODD-Sth kernel as defined in :cite:`Martino2012ATK`.&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">itertools</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">..graph</span> <span class="k">import</span> <span class="n">graph</span>
+<span class="kn">from</span> <span class="nn">grakel.graph</span> <span class="k">import</span> <span class="n">graph</span>
+
 
 <div class="viewcode-block" id="odd_sth"><a class="viewcode-back" href="../../../kernels.html#grakel.kernels.odd_sth">[docs]</a><span class="k">def</span> <span class="nf">odd_sth</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Lx</span><span class="p">,</span> <span class="n">Ly</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; The ODD-Sth kernel as proposed in :cite:`Martino2012ATK`.</span>
+    <span class="sd">&quot;&quot;&quot;ODD-Sth kernel as proposed in :cite:`Martino2012ATK`.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    X,Y : *valid-graph-format*</span>
 <span class="sd">        The pair of graphs on which the kernel is applied.</span>
-<span class="sd">        </span>
+
 <span class="sd">    L{x,y} : dict</span>
 <span class="sd">        Coresponding graph labels for vertices.</span>
-<span class="sd">        </span>
+
 <span class="sd">    h : int, default=None</span>
 <span class="sd">        Maximum (single) dag height.</span>
 <span class="sd">        If None there is no restriction.</span>
-<span class="sd">    </span>
+
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    kernel : number</span>
 <span class="sd">        The kernel value.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">Gx</span> <span class="o">=</span> <span class="n">graph</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">Lx</span><span class="p">)</span>
-    <span class="n">Gy</span> <span class="o">=</span> <span class="n">graph</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span><span class="n">Ly</span><span class="p">)</span>
-    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">odd_sth_matrix</span><span class="p">({</span><span class="mi">0</span><span class="p">:</span> <span class="n">Gx</span><span class="p">},</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="n">Gy</span><span class="p">},</span> <span class="n">h</span><span class="o">=</span><span class="kc">None</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span></div>
+    <span class="n">Gx</span> <span class="o">=</span> <span class="n">graph</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Lx</span><span class="p">)</span>
+    <span class="n">Gy</span> <span class="o">=</span> <span class="n">graph</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">Ly</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">odd_sth_matrix</span><span class="p">({</span><span class="mi">0</span><span class="p">:</span> <span class="n">Gx</span><span class="p">},</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="n">Gy</span><span class="p">},</span> <span class="n">h</span><span class="o">=</span><span class="kc">None</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span></div>
+
 
 <div class="viewcode-block" id="odd_sth_matrix"><a class="viewcode-back" href="../../../kernels.html#grakel.kernels.odd_sth_matrix">[docs]</a><span class="k">def</span> <span class="nf">odd_sth_matrix</span><span class="p">(</span><span class="n">Graphs_x</span><span class="p">,</span> <span class="n">Graphs_y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; The ODD-Sth kernel as proposed in :cite:`Martino2012ATK`.</span>
+    <span class="sd">&quot;&quot;&quot;ODD-Sth kernel, as proposed in :cite:`Martino2012ATK`.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    Graphs_{x,y} : dict, default_y=None</span>
-<span class="sd">        Enumerative dictionary of graph type objects with keys from 0 to the number of values.</span>
-<span class="sd">        If value of Graphs_y is None the kernel matrix is computed between all pairs of Graphs_x</span>
-<span class="sd">        where in another case the kernel_matrix rows correspond to elements of Graphs_y, and columns</span>
-<span class="sd">        to the elements of Graphs_x.</span>
-<span class="sd">        </span>
+<span class="sd">        Enumerative dictionary of graph type objects with keys from 0</span>
+<span class="sd">        to the number of values. If value of Graphs_y is None the kernel</span>
+<span class="sd">        matrix is computed between all pairs of Graphs_x where in another</span>
+<span class="sd">        case the kernel_matrix rows correspond to elements of Graphs_y</span>
+<span class="sd">        and columns to the elements of Graphs_x.</span>
+
 <span class="sd">    h : int, default=None</span>
 <span class="sd">        Maximum (single) dag height.</span>
 <span class="sd">        If None there is no restriction.</span>
-<span class="sd">    </span>
+
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    kernel_matrix : np.array</span>
 <span class="sd">        The kernel matrix.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">h_x</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">Graphs_x</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
-    
-    <span class="k">if</span> <span class="n">Graphs_y</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
+
+    <span class="k">if</span> <span class="n">Graphs_y</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">h_y</span> <span class="o">=</span> <span class="n">h_x</span>
         <span class="n">g_iter</span> <span class="o">=</span> <span class="n">Graphs_x</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
         <span class="n">ng</span> <span class="o">=</span> <span class="n">h_x</span>
-        <span class="n">pairs</span> <span class="o">=</span> <span class="p">[(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">h_x</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">h_x</span><span class="p">)]</span>
+        <span class="n">pairs</span> <span class="o">=</span> <span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">h_x</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">h_x</span><span class="p">)]</span>
         <span class="n">offset</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">h_y</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">Graphs_y</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
         <span class="n">g_iter</span> <span class="o">=</span> <span class="n">itertools</span><span class="o">.</span><span class="n">chain</span><span class="p">(</span><span class="n">Graphs_x</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">Graphs_y</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
         <span class="n">ng</span> <span class="o">=</span> <span class="n">h_x</span><span class="o">+</span><span class="n">h_y</span>
-        <span class="n">pairs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">h_x</span><span class="p">,</span> <span class="n">ng</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">h_x</span><span class="p">)))</span>
+        <span class="n">pairs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">h_x</span><span class="p">,</span> <span class="n">ng</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">h_x</span><span class="p">)))</span>
         <span class="n">offset</span> <span class="o">=</span> <span class="n">h_x</span>
-        
+
     <span class="n">big2Dag</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">g_iter</span><span class="p">:</span>
         <span class="n">big_dag</span> <span class="o">=</span> <span class="n">make_big_dag</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="n">h</span><span class="p">)</span>
         <span class="n">big2Dag</span> <span class="o">=</span> <span class="n">big_dag_append</span><span class="p">(</span><span class="n">big_dag</span><span class="p">,</span> <span class="n">big2Dag</span><span class="p">,</span> <span class="n">merge_features</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-        
-        
+
     <span class="n">C</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">big2Dag</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
         <span class="c1"># number of identical subtrees</span>
         <span class="c1"># equal the D element</span>
         <span class="n">C</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">big2Dag</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">v</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">K</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">h_y</span><span class="p">,</span> <span class="n">h_x</span><span class="p">))</span>
-    <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="ow">in</span> <span class="n">pairs</span><span class="p">:</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="ow">in</span> <span class="n">pairs</span><span class="p">:</span>
         <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">C</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="c1">#TODO write K calculation in terms of matrix multiplication</span>
+            <span class="c1"># TODO(write K calculation in terms of matrix multiplication)</span>
             <span class="n">k</span> <span class="o">+=</span> <span class="n">big2Dag</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">v</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">big2Dag</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">v</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">*</span><span class="n">C</span><span class="p">[</span><span class="n">v</span><span class="p">]</span>
-        <span class="n">K</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="n">offset</span><span class="p">,</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">k</span>
-    
+        <span class="n">K</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="n">offset</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">k</span>
+
     <span class="k">if</span> <span class="n">Graphs_y</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">K</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">triu</span><span class="p">(</span><span class="n">K</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">triu</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
-    
+
     <span class="k">return</span> <span class="n">K</span></div>
 
 
 <span class="k">def</span> <span class="nf">make_big_dag</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; A function that makes a big dag out of all dags of a graph.</span>
-<span class="sd">        </span>
+    <span class="sd">&quot;&quot;&quot;Compose a big dag out of all dags of a graph.</span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    g : graph</span>
 <span class="sd">        A graph type object.</span>
-<span class="sd">        </span>
+
 <span class="sd">    h : int, default=None</span>
 <span class="sd">        Maximum (single) dag height.</span>
 <span class="sd">        If None there is no restriction.</span>
-<span class="sd">        </span>
+
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    big_dag : tuple</span>
 <span class="sd">        The big dag tuple consisting of:</span>
-<span class="sd">            + A dictionary for vertices containing at each value the frequency the depth and the ID</span>
+<span class="sd">            + A dictionary for vertices containing at each value the frequency</span>
+<span class="sd">              the depth and the ID</span>
 <span class="sd">            + A hash map from each ID to a list of vertices.</span>
 <span class="sd">            + A list of sorted vertices based on ordering</span>
 <span class="sd">            + A dictionary of edges.</span>
 <span class="sd">            + A dictionary of labels</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">big_dag</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">get_vertices</span><span class="p">(</span><span class="n">purpose</span><span class="o">=</span><span class="s1">&#39;any&#39;</span><span class="p">):</span>
         <span class="n">dag_odd</span> <span class="o">=</span> <span class="n">make_dag_odd</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="n">h</span><span class="p">)</span>
-        <span class="n">dag</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">hash_trees</span><span class="p">(</span><span class="n">dag_odd</span><span class="p">))</span><span class="o">+</span><span class="nb">tuple</span><span class="p">([])</span><span class="o">+</span><span class="p">(</span><span class="n">dag_odd</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">dag_odd</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+        <span class="n">dag</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">hash_trees</span><span class="p">(</span><span class="n">dag_odd</span><span class="p">))</span><span class="o">+</span><span class="nb">tuple</span><span class="p">([])</span><span class="o">+</span><span class="p">(</span><span class="n">dag_odd</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">dag_odd</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
         <span class="n">big_dag</span> <span class="o">=</span> <span class="n">big_dag_append</span><span class="p">(</span><span class="n">dag</span><span class="p">,</span> <span class="n">big_dag</span><span class="p">)</span>
-    
+
     <span class="n">_</span><span class="p">,</span> <span class="n">D_edges</span><span class="p">,</span> <span class="n">D_ordering</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">odd</span><span class="p">(</span><span class="n">big_dag</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">big_dag</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">big_dag</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
-    
-    <span class="n">big_dag</span> <span class="o">=</span> <span class="p">(</span><span class="n">big_dag</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">big_dag</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">big_dag</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()),</span> <span class="n">key</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="n">D_ordering</span><span class="p">[</span><span class="n">x</span><span class="p">],</span><span class="n">big_dag</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="n">x</span><span class="p">])),</span> <span class="n">D_edges</span><span class="p">,</span> <span class="n">big_dag</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
-    
+
+    <span class="n">big_dag</span> <span class="o">=</span> <span class="p">(</span><span class="n">big_dag</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+               <span class="n">big_dag</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+               <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">big_dag</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()),</span>
+               <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span>
+                      <span class="p">(</span><span class="n">D_ordering</span><span class="p">[</span><span class="n">x</span><span class="p">],</span> <span class="n">big_dag</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="n">x</span><span class="p">])),</span> <span class="n">D_edges</span><span class="p">,</span> <span class="n">big_dag</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+
     <span class="k">return</span> <span class="n">big_dag</span>
-    
-<span class="k">def</span> <span class="nf">make_dag_odd</span><span class="p">(</span><span class="n">v</span><span class="p">,</span><span class="n">g</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; A function that both finds calculates the produced vertex dag and applies inverse topological sorting.</span>
-<span class="sd">    </span>
+
+
+<span class="k">def</span> <span class="nf">make_dag_odd</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calculate the vertex rooted dag and apply inverse topological sorting.</span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    v : hashable</span>
 <span class="sd">        The dag vertex root.</span>
-<span class="sd">        </span>
+
 <span class="sd">    g : graph</span>
 <span class="sd">        A graph type object from where v is coming from.</span>
-<span class="sd">        </span>
+
 <span class="sd">    h : int, default=None</span>
 <span class="sd">        Maximum depth of the exploration.</span>
-<span class="sd">        </span>
+
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    odd_dag : tuple</span>
 <span class="sd">        A a tuple representing the topologically sorted dag:</span>
 <span class="sd">            + A set of vertices</span>
-<span class="sd">            + A dictionary of sorted edges for each node based on ordering and labels</span>
+<span class="sd">            + A dictionary of sorted edges for each node based on ordering</span>
+<span class="sd">              and labels</span>
 <span class="sd">            + A dictionary of ordering for each node</span>
 <span class="sd">            + A dictionary of labels for each node</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">vertices</span><span class="p">,</span> <span class="n">edges</span> <span class="o">=</span> <span class="n">dag</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">odd</span><span class="p">(</span><span class="n">vertices</span><span class="p">,</span> <span class="n">edges</span><span class="p">,</span> <span class="n">g</span><span class="o">.</span><span class="n">get_labels</span><span class="p">(</span><span class="n">purpose</span><span class="o">=</span><span class="s1">&#39;any&#39;</span><span class="p">))</span>
-    
+
+
 <span class="k">def</span> <span class="nf">dag</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; BFS exploration that returns a dag.</span>
-<span class="sd">    </span>
+    <span class="sd">&quot;&quot;&quot;BFS exploration that returns a dag.</span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    v : hashable</span>
 <span class="sd">        The dag vertex root.</span>
-<span class="sd">        </span>
+
 <span class="sd">    g : graph</span>
 <span class="sd">        A graph type object from where v is coming from.</span>
-<span class="sd">        </span>
+
 <span class="sd">    h : int, default=None</span>
 <span class="sd">        Maximum depth of the exploration.</span>
-<span class="sd">        </span>
+
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    vertices : set</span>
 <span class="sd">        The dag vertices.</span>
-<span class="sd">        </span>
-<span class="sd">    edges : dict </span>
+
+<span class="sd">    edges : dict</span>
 <span class="sd">        The dictionary of edges. For each node a list of vertices.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">h</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">h</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">h</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">h</span><span class="o">&lt;=</span><span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">h</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;depth of visits must be bigger than zero&#39;</span><span class="p">)</span>
-        
-    <span class="n">q</span> <span class="o">=</span> <span class="p">[(</span><span class="n">v</span><span class="p">,</span><span class="mi">0</span><span class="p">)]</span>
+
+    <span class="n">q</span> <span class="o">=</span> <span class="p">[(</span><span class="n">v</span><span class="p">,</span> <span class="mi">0</span><span class="p">)]</span>
     <span class="n">vertices</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
     <span class="n">edges</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-    
+
     <span class="n">vertices</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">q</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
-        <span class="n">u</span><span class="p">,</span><span class="n">level</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-        
+    <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">q</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">u</span><span class="p">,</span> <span class="n">level</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
         <span class="k">if</span> <span class="n">level</span> <span class="o">==</span> <span class="n">h</span><span class="p">:</span>
             <span class="k">break</span>
-            
+
         <span class="k">if</span> <span class="n">u</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">:</span>
             <span class="n">edges</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">neighbors</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">purpose</span><span class="o">=</span><span class="s1">&#39;any&#39;</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">n</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">vertices</span><span class="p">:</span>
                 <span class="n">edges</span><span class="p">[</span><span class="n">u</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
-                <span class="n">q</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">n</span><span class="p">,</span><span class="n">level</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+                <span class="n">q</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="n">level</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
                 <span class="n">vertices</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">level</span><span class="o">+</span><span class="mi">1</span>
             <span class="k">elif</span> <span class="n">vertices</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">level</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span>
                 <span class="n">edges</span><span class="p">[</span><span class="n">u</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
-    
+
     <span class="n">vertices</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">vertices</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
     <span class="k">return</span> <span class="n">vertices</span><span class="p">,</span> <span class="n">edges</span>
 
+
 <span class="k">def</span> <span class="nf">odd</span><span class="p">(</span><span class="n">vertices</span><span class="p">,</span> <span class="n">edges</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Calculates the inverse topological order of a DAG and sorts it&#39;s edges.</span>
-<span class="sd">        </span>
+    <span class="sd">&quot;&quot;&quot;Calculate the inverse topological order of a DAG and sorts it&#39;s edges.</span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    vertices : dict or set</span>
 <span class="sd">        A set of vertices.</span>
-<span class="sd">        </span>
+
 <span class="sd">    edges : dict</span>
 <span class="sd">        Edges between vertices.</span>
-<span class="sd">        </span>
+
 <span class="sd">    labels : dict</span>
 <span class="sd">        Labels for each vertex.</span>
-<span class="sd">        </span>
+
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    vertices : dict or set</span>
 <span class="sd">        A dictionary or a set of vertices depending on the given input.</span>
-<span class="sd">        </span>
+
 <span class="sd">    edges : dict</span>
-<span class="sd">        An edges dictionary, where for each edge the list of adjacent vertex is sorted </span>
-<span class="sd">        corresponding to the given ordering or labels.</span>
-<span class="sd">        </span>
+<span class="sd">        An edges dictionary, where for each edge the list of adjacent vertex</span>
+<span class="sd">        is sorted corresponding to the given ordering or labels.</span>
+
 <span class="sd">    ordering : dict</span>
 <span class="sd">        The inverse topological ordering for each vertex.</span>
-<span class="sd">        </span>
+
 <span class="sd">    labels : dict</span>
 <span class="sd">        The labels dictionary for each vertex.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Kahn&#39;s algorithm for topological</span>
-    <span class="c1"># sorting of dags</span>
-    <span class="c1"># order graph:</span>
-    
-    <span class="c1"># Step-1: Compute in-degree (number of incoming edges) </span>
+    <span class="c1"># Kahn&#39;s algorithm for topological sorting of dags</span>
+
+    <span class="c1"># Step-1: Compute in-degree (number of incoming edges)</span>
     <span class="c1"># for each of the vertex present in the DAG and initialize</span>
     <span class="c1"># the count of visited nodes as 0.</span>
     <span class="n">indegrees</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-    
+
     <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">vertices</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">set</span><span class="p">:</span>
         <span class="n">zero_indegrees</span> <span class="o">=</span> <span class="n">vertices</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
         <span class="n">visited_nodes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">vertices</span><span class="p">)</span>
@@ -410,121 +424,137 @@
         <span class="n">visited_nodes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">vertices</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;unsupported vertices type&#39;</span><span class="p">)</span>
-        
+
     <span class="k">for</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span> <span class="ow">in</span> <span class="n">edges</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">v</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">indegrees</span><span class="p">:</span>
                 <span class="n">indegrees</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">indegrees</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">+=</span><span class="mi">1</span>
+                <span class="n">indegrees</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
             <span class="n">zero_indegrees</span><span class="o">.</span><span class="n">discard</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
-    
-    <span class="c1"># Step-2: Pick all the vertices with in-degree as </span>
-    <span class="c1"># 0 and add them into a queue</span>
 
+    <span class="c1"># Step-2: Pick all the vertices with in-degree as</span>
+    <span class="c1"># 0 and add them into a queue</span>
     <span class="n">q</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">zero_indegrees</span><span class="p">)</span>
     <span class="n">ordering</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-    <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">q</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+    <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">q</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="c1"># Step-3: Remove a vertex from the queue and then</span>
         <span class="c1"># Increment count of visited nodes by 1.</span>
         <span class="c1"># Decrease in-degree by 1 for all its neighboring nodes.</span>
         <span class="c1"># If in-degree of a neighboring nodes is reduced to zero,</span>
         <span class="c1"># then add it to the queue.</span>
-    
-        <span class="n">q</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">labels</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
+
+        <span class="n">q</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">labels</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
         <span class="n">e</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
         <span class="n">ordering</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="o">=</span> <span class="n">visited_nodes</span>
         <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">[</span><span class="n">e</span><span class="p">]:</span>
             <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">indegrees</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">indegrees</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">indegrees</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
                     <span class="n">indegrees</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
                     <span class="n">q</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="n">indegrees</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">-=</span><span class="mi">1</span>
+                    <span class="n">indegrees</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
         <span class="n">visited_nodes</span> <span class="o">-=</span> <span class="mi">1</span>
-    
-    <span class="c1"># apply the ordering                </span>
+
+    <span class="c1"># apply the ordering</span>
     <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">edges</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-        <span class="n">edges</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="n">ordering</span><span class="p">[</span><span class="n">x</span><span class="p">],</span><span class="n">labels</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
-    
+        <span class="n">edges</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="n">ordering</span><span class="p">[</span><span class="n">x</span><span class="p">],</span> <span class="n">labels</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
+
     <span class="k">return</span> <span class="n">vertices</span><span class="p">,</span> <span class="n">edges</span><span class="p">,</span> <span class="n">ordering</span><span class="p">,</span> <span class="n">labels</span>
 
+
 <span class="k">def</span> <span class="nf">hash_trees</span><span class="p">(</span><span class="n">tree</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; A function that hashes trees and adds frequencies and a hash map.</span>
-<span class="sd">     </span>
+    <span class="sd">&quot;&quot;&quot;Hashes trees and adds frequencies and a hash map.</span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    tree : tuple</span>
-<span class="sd">        A tuple of elements corresponding to a tree: </span>
+<span class="sd">        A tuple of elements corresponding to a tree:</span>
 <span class="sd">            + A set of vertices</span>
 <span class="sd">            + A dictionary of edges</span>
 <span class="sd">            + A dictionary that corresponds to an ordering of vertices</span>
 <span class="sd">            + A dictionary of labels</span>
-<span class="sd">    </span>
+
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    hash_tree : tuple</span>
 <span class="sd">        A hashed version of the tree:</span>
-<span class="sd">            + A dictionary from vertices to tuples containing the subtree size, frequencies and node ID</span>
-<span class="sd">            + A dictionary between hashes and vertices (representing a valid hash map)</span>
-<span class="sd">            + A list of ordered vertices, based on an the inverse topological ordering</span>
+<span class="sd">            + A dictionary from vertices to tuples containing the subtree size,</span>
+<span class="sd">              frequencies and node ID</span>
+<span class="sd">            + A dictionary between hashes and vertices</span>
+<span class="sd">              (representing a valid hash map)</span>
+<span class="sd">            + A list of ordered vertices, based on an the inverse</span>
+<span class="sd">              topological ordering</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="p">(</span><span class="n">vertex</span><span class="p">,</span> <span class="n">edge</span><span class="p">,</span> <span class="n">ordering</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span> <span class="o">=</span> <span class="n">tree</span>
-    <span class="n">v_ordered</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">vertex</span><span class="p">),</span> <span class="n">key</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="n">ordering</span><span class="p">[</span><span class="n">x</span><span class="p">],</span><span class="n">labels</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
+    <span class="n">v_ordered</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">vertex</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="n">ordering</span><span class="p">[</span><span class="n">x</span><span class="p">],</span> <span class="n">labels</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
     <span class="n">vertices_hash_map</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
     <span class="n">vertices</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">v_ordered</span><span class="p">:</span>            
-        <span class="k">if</span> <span class="n">v</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">edge</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">edge</span><span class="p">[</span><span class="n">v</span><span class="p">])</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">v_ordered</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">v</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">edge</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">edge</span><span class="p">[</span><span class="n">v</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">labels</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">vertices_hash_map</span><span class="p">:</span>
                 <span class="n">vertices_hash_map</span><span class="p">[</span><span class="n">labels</span><span class="p">[</span><span class="n">v</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
             <span class="n">vertices_hash_map</span><span class="p">[</span><span class="n">labels</span><span class="p">[</span><span class="n">v</span><span class="p">]]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
-            <span class="n">vertices</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="n">labels</span><span class="p">[</span><span class="n">v</span><span class="p">])]</span>
+            <span class="n">vertices</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">labels</span><span class="p">[</span><span class="n">v</span><span class="p">])]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">neighbors_ids</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="n">d</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">edge</span><span class="p">[</span><span class="n">v</span><span class="p">]:</span>
                 <span class="n">d</span> <span class="o">+=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">vertices</span><span class="p">[</span><span class="n">n</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
                 <span class="n">neighbors_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vertices</span><span class="p">[</span><span class="n">n</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span>
-                
+
             <span class="n">ID</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">labels</span><span class="p">[</span><span class="n">v</span><span class="p">])</span><span class="o">+</span><span class="s1">&#39;(&#39;</span><span class="o">+</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">neighbors_ids</span><span class="p">))</span><span class="o">+</span><span class="s1">&#39;)&#39;</span>
-                
-            <span class="n">vertices</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">=</span><span class="p">[</span><span class="n">d</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">ID</span><span class="p">]</span>
+
+            <span class="n">vertices</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">ID</span><span class="p">]</span>
             <span class="k">if</span> <span class="n">ID</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">vertices_hash_map</span><span class="p">:</span>
                 <span class="n">vertices_hash_map</span><span class="p">[</span><span class="n">ID</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
             <span class="n">vertices_hash_map</span><span class="p">[</span><span class="n">ID</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
-            
+
     <span class="k">return</span> <span class="p">(</span><span class="n">vertices</span><span class="p">,</span> <span class="n">vertices_hash_map</span><span class="p">,</span> <span class="n">v_ordered</span><span class="p">)</span>
-            
+
+
 <span class="k">def</span> <span class="nf">big_dag_append</span><span class="p">(</span><span class="n">dag</span><span class="p">,</span> <span class="n">big_dag</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">merge_features</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Calculates the minimal DAG as defined in :cite:`Aiolli2006FastOK` and notated in :cite:`Martino2012ATK` as BigDAG.</span>
+    <span class="sd">&quot;&quot;&quot;Calculate the *minimal DAG* or *BigDAG*.</span>
+
+<span class="sd">    See :cite:`Aiolli2006FastOK` and notated in :cite:`Martino2012ATK`.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    dag : tuple</span>
 <span class="sd">        A tuple representing a single dag containing:</span>
-<span class="sd">            + A dictionary from vertices to tuples containing the subtree size, frequencies and node ID</span>
-<span class="sd">            + A dictionary between hashes and vertices (representing a valid hash map)</span>
+<span class="sd">            + A dictionary from vertices to tuples containing the subtree size,</span>
+<span class="sd">              frequencies and node ID</span>
+<span class="sd">            + A dictionary between hashes and vertices</span>
+<span class="sd">              (representing a valid hash map)</span>
 <span class="sd">            + A list of ordered vertices, based on inverse topological ordering</span>
-<span class="sd">            + A dictionary corresponding to edges from vertex to a list of adjacent vertices</span>
+<span class="sd">            + A dictionary corresponding to edges from vertex to a list of</span>
+<span class="sd">              adjacent vertices</span>
 <span class="sd">            + A dictionary of labels</span>
-<span class="sd">            </span>
+
 <span class="sd">    big_dag : tuple, default=None</span>
 <span class="sd">        The dag on which the dag will be appended.</span>
-<span class="sd">        If None: builds it from dag, else the tuple is the same as the format of this function output.</span>
-<span class="sd">        </span>
+<span class="sd">        If None: builds it from dag, else the tuple is the same as the format</span>
+<span class="sd">        of this function output.</span>
+
 <span class="sd">    merge_features : bool, default=True</span>
-<span class="sd">        If True increments frequencies when a same element is found, else keeps them as vectors.</span>
-<span class="sd">    </span>
+<span class="sd">        If True increments frequencies when a same element is found, else keeps</span>
+<span class="sd">        them as vectors.</span>
+
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    big_dag : tuple</span>
 <span class="sd">        A tuple representing Big_Dag:</span>
-<span class="sd">            + A dictionary from vertices to tuples containing the subtree size, frequencies and node ID</span>
-<span class="sd">            + A dictionary between hashes and vertices (representing a valid hash map)</span>
-<span class="sd">            + A dictionary corresponding to edges from vertex to a list of adjacent vertices.</span>
+<span class="sd">            + A dictionary from vertices to tuples containing the subtree size,</span>
+<span class="sd">              frequencies and node ID</span>
+<span class="sd">            + A dictionary between hashes and vertices</span>
+<span class="sd">              (representing a valid hash map)</span>
+<span class="sd">            + A dictionary corresponding to edges from vertex to a list of</span>
+<span class="sd">              adjacent vertices.</span>
 <span class="sd">            + A dictionary of labels.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">big_dag</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">big_dag</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">D_labels</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
         <span class="n">D_hash_map</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
         <span class="n">D_vertices</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
@@ -543,7 +573,7 @@
                     <span class="n">f</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="k">if</span> <span class="n">f</span><span class="p">:</span>
                 <span class="n">nf</span> <span class="o">=</span> <span class="mi">1</span>
-                
+
     <span class="p">(</span><span class="n">vertices</span><span class="p">,</span> <span class="n">vertices_hash_map</span><span class="p">,</span> <span class="n">v_ordered</span><span class="p">,</span> <span class="n">edges</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span> <span class="o">=</span> <span class="n">dag</span>
     <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">v_ordered</span><span class="p">:</span>
         <span class="n">key</span> <span class="o">=</span> <span class="n">vertices</span><span class="p">[</span><span class="n">q</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span>
@@ -567,7 +597,7 @@
                     <span class="k">if</span> <span class="n">node</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">v_nodes</span><span class="p">:</span>
                         <span class="n">d_edges</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
                         <span class="n">v_nodes</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
-            
+
             <span class="n">D_edges</span><span class="p">[</span><span class="n">nodes_idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">d_edges</span>
             <span class="n">D_hash_map</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">nodes_idx</span><span class="p">]</span>
 
@@ -575,16 +605,19 @@
                 <span class="n">freq</span> <span class="o">=</span> <span class="n">vertices</span><span class="p">[</span><span class="n">q</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">freq</span> <span class="o">=</span> <span class="p">(</span><span class="n">nf</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="p">[</span><span class="n">vertices</span><span class="p">[</span><span class="n">q</span><span class="p">][</span><span class="mi">1</span><span class="p">]]</span>
-                
+
             <span class="n">D_vertices</span><span class="p">[</span><span class="n">nodes_idx</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">vertices</span><span class="p">[</span><span class="n">q</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">freq</span><span class="p">,</span> <span class="n">key</span><span class="p">]</span>
             <span class="n">nodes_idx</span> <span class="o">+=</span> <span class="mi">1</span>
-    
+
     <span class="k">return</span> <span class="p">(</span><span class="n">D_vertices</span><span class="p">,</span> <span class="n">D_hash_map</span><span class="p">,</span> <span class="n">D_edges</span><span class="p">,</span> <span class="n">D_labels</span><span class="p">)</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd"># Dag Example from original paper</span>
-<span class="sd">tree_a = ({0,1,2,3}, {0:[1,2], 1:[3], 2:[], 3:[]}, {0:&#39;a&#39;, 1:&#39;b&#39;, 2:&#39;d&#39;, 3:&#39;c&#39;})</span>
-<span class="sd">tree_b = ({0,1,2,3,4}, {0:[1,2], 1:[3], 2:[4], 3:[], 4:[]}, {0:&#39;a&#39;, 1:&#39;b&#39;, 2:&#39;c&#39;, 3:&#39;c&#39;, 4:&#39;d&#39;})</span>
+<span class="sd">tree_a = \</span>
+<span class="sd">    ({0,1,2,3}, {0:[1,2], 1:[3], 2:[], 3:[]}, {0:&#39;a&#39;, 1:&#39;b&#39;, 2:&#39;d&#39;, 3:&#39;c&#39;})</span>
+<span class="sd">tree_b = \</span>
+<span class="sd">    ({0,1,2,3,4}, {0:[1,2], 1:[3], 2:[4], 3:[], 4:[]},</span>
+<span class="sd">        {0:&#39;a&#39;, 1:&#39;b&#39;, 2:&#39;c&#39;, 3:&#39;c&#39;, 4:&#39;d&#39;})</span>
 
 <span class="sd">todd_a = odd(tree_a[0], tree_a[1], tree_a[2])</span>
 <span class="sd">todd_b = odd(tree_b[0], tree_b[1], tree_b[2])</span>

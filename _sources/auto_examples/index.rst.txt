@@ -15,9 +15,9 @@ Introductory examples.
 
 .. only:: html
 
-    .. figure:: /auto_examples/images/thumb/sphx_glr_wl_dirac_thumb.png
+    .. figure:: /auto_examples/images/thumb/sphx_glr_wld_MUTAG_thumb.png
 
-        :ref:`sphx_glr_auto_examples_wl_dirac.py`
+        :ref:`sphx_glr_auto_examples_wld_MUTAG.py`
 
 .. raw:: html
 
@@ -27,7 +27,7 @@ Introductory examples.
 .. toctree::
    :hidden:
 
-   /auto_examples/wl_dirac
+   /auto_examples/wld_MUTAG
 .. raw:: html
 
     <div style='clear:both'></div>

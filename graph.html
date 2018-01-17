@@ -163,18 +163,20 @@
 <dl class="function">
 <dt id="grakel.graph.dijkstra">
 <code class="descclassname">grakel.graph.</code><code class="descname">dijkstra</code><span class="sig-paren">(</span><em>edge_dictionary</em>, <em>start_vertex</em>, <em>end_vertex=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/graph.html#dijkstra"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.graph.dijkstra" title="Permalink to this definition">¶</a></dt>
-<dd><p>Implementation of the dijkstra algorithm[fn:1].</p>
+<dd><p>Calculate the dijkstra algorithm <a href="#id1"><span class="problematic" id="id2">`see`_</span></a>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>edge_dictionary: dict</strong></p>
 <blockquote>
-<div><p>A 2-level nested dictionary of symbols, with value corresponding to the weight.</p>
+<div><p>A 2-level nested dictionary of symbols, with value corresponding to
+the weight.</p>
 </div></blockquote>
 <p><strong>start_vertex: hashable</strong></p>
 <blockquote>
-<div><p>The start vertex symbol (should exists as a key inside edge_dictionary).</p>
+<div><p>The start vertex symbol
+(should exists as a key inside edge_dictionary).</p>
 </div></blockquote>
 <p><strong>end_vertex: hashable</strong></p>
 <blockquote class="last">
@@ -189,14 +191,15 @@
 <dl class="function">
 <dt id="grakel.graph.floyd_warshall">
 <code class="descclassname">grakel.graph.</code><code class="descname">floyd_warshall</code><span class="sig-paren">(</span><em>adjacency_matrix</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/graph.html#floyd_warshall"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.graph.floyd_warshall" title="Permalink to this definition">¶</a></dt>
-<dd><p>Floyd Warshall calculates the matrix of shortest paths between all pairs.</p>
+<dd><p>Calculate the Floyd Warshall, shortest path matrix.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>adjacency_matrix</strong> : np.array, square</p>
 <blockquote>
-<div><p>The adjacency matrix of the graph, on which the distances are being calculated.</p>
+<div><p>The adjacency matrix of the graph, on which the distances are being
+calculated.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -213,14 +216,16 @@
 <dl class="class">
 <dt id="grakel.graph.graph">
 <em class="property">class </em><code class="descclassname">grakel.graph.</code><code class="descname">graph</code><span class="sig-paren">(</span><em>initialization_object=None</em>, <em>node_labels=None</em>, <em>edge_labels=None</em>, <em>graph_format='auto'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/graph.html#graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.graph.graph" title="Permalink to this definition">¶</a></dt>
-<dd><p>A general graph class that supports adjacency, dictionary formats while beeing memory/computationaly sustainable.</p>
+<dd><p>The general <cite>graph</cite> class.</p>
+<p>A general graph class that supports adjacency, dictionary formats
+while beeing memory/computationaly sustainable.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>initialization_object</strong> :  dict, list or array-like, square, default=None</p>
 <blockquote>
-<div><p>The initialisation object for the graph [<strong>valid-graph-format</strong>]. 
+<div><p>The initialisation object for the graph [<strong>valid-graph-format</strong>].
 If given a dictionary the input can be as follows:</p>
 <blockquote>
 <div><ul class="simple">
@@ -246,7 +251,7 @@ If given a dictionary the input can be as follows:</p>
 <div><dl class="docutils">
 <dt>A label dictionary corresponding to all vertices of the graph:</dt>
 <dd><ul class="first last simple">
-<li>for adjacency matrix labels should be given to numbers starting 
+<li>for adjacency matrix labels should be given to numbers starting
 from 0 and ending in N-1, where the matrix has size N by N</li>
 <li>for dictionary labels should correspond to all keys</li>
 </ul>
@@ -255,20 +260,22 @@ from 0 and ending in N-1, where the matrix has size N by N</li>
 </div></blockquote>
 <p><strong>edge_labels</strong> : dict, default=None</p>
 <blockquote>
-<div><p>A labels dictionary corresponding to all edges of the graph keys: tuples, value: label</p>
+<div><p>A labels dictionary corresponding to all edges of the graph keys:
+tuples, value: label</p>
 </div></blockquote>
-<p><strong>graph_format</strong> : str, valid_values={“dictionary”, “adjacency”, “all”, “auto”}, default=None</p>
+<p><strong>graph_format</strong> : str, valid_values={“dictionary”, “adjacency”, “all”, “auto”}</p>
+<p><strong>, default=None</strong></p>
 <blockquote class="last">
-<div><dl class="docutils">
-<dt>Defines the internal representation of the graph object which can be a dictionary as a matrix, or both:</dt>
-<dd><ul class="first last simple">
+<div><p>Defines the internal representation of the graph object which can be
+a dictionary as a matrix, or both:</p>
+<blockquote>
+<div><ul class="simple">
 <li>for dictionary: “dictionary”</li>
 <li>for adjacency_matrix: “adjacency”</li>
 <li>for both: “all”</li>
 <li>for the current_format (if existent): “auto”</li>
 </ul>
-</dd>
-</dl>
+</div></blockquote>
 </div></blockquote>
 </td>
 </tr>
@@ -335,7 +342,7 @@ from 0 and ending in N-1, where the matrix has size N by N</li>
 <dl class="method">
 <dt id="grakel.graph.graph.build_graph">
 <code class="descname">build_graph</code><span class="sig-paren">(</span><em>g</em>, <em>node_labels=None</em>, <em>edge_labels=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/graph.html#graph.build_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.graph.graph.build_graph" title="Permalink to this definition">¶</a></dt>
-<dd><p>Builds a graph structure given a supported graph representation.</p>
+<dd><p>Build a graph structure, given a supported graph representation.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -364,31 +371,38 @@ from 0 and ending in N-1, where the matrix has size N by N</li>
 <dl class="method">
 <dt id="grakel.graph.graph.build_shortest_path_matrix">
 <code class="descname">build_shortest_path_matrix</code><span class="sig-paren">(</span><em>algorithm_type='auto'</em>, <em>clean=False</em>, <em>labels='vertex'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/graph.html#graph.build_shortest_path_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.graph.graph.build_shortest_path_matrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>A method that builds and returns the shortest path matrix between all nodes.</p>
+<dd><p>Build and return the shortest path matrix between all nodes.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>algorithm_type</strong> : str, valid_values={“auto”, “adjacency”, “dictionary”}, default=”auto”</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>algorithm_type</strong> : str, valid_values={“auto”, “adjacency”, “dictionary”},</p>
+<p><strong>default=”auto”</strong></p>
 <blockquote>
-<div><dl class="docutils">
-<dt>Defines which shortest-path algorithm will be used for building the shortest path matrix.</dt>
-<dd><ul class="first last simple">
-<li>“dijkstra” : choses the dijkstra algorithm (Matrix computation complexity: <img class="math" src="_images/math/ea47a71c72052fbab18ded5de61dceb2348b1f18.png" alt="O(|V|(|E|+|V|) \log{|V|})"/></li>
-<li>“floyd_warshall” : choses the floyd-warshall algorithm (Matrix computation complexity: <img class="math" src="_images/math/7c46361c6fb7450ae4fd9c3e640ffb001c10aa48.png" alt="O(|V|^3)"/>)</li>
-<li>“auto” : choses the best possible algorithm for the current format</li>
+<div><p>Defines which shortest-path algorithm will be used for building the
+shortest path matrix.</p>
+<blockquote>
+<div><ul class="simple">
+<li>“dijkstra” : choses the dijkstra algorithm (Matrix computation</li>
 </ul>
-</dd>
-</dl>
+<p>complexity: <img class="math" src="_images/math/7de2d7c135c5bd9b3db3c31bfa91bc1cadeb35eb.png" alt="O(|V|(|E|+|V|)log(|V|))"/>
++ “floyd_warshall” : choses the floyd-warshall algorithm (Matrix
+computation complexity: <img class="math" src="_images/math/7c46361c6fb7450ae4fd9c3e640ffb001c10aa48.png" alt="O(|V|^3)"/>
++ “auto” : choses the best possible algorithm for the current
+format</p>
+</div></blockquote>
 </div></blockquote>
 <p><strong>clean</strong> : bool, default=False</p>
 <blockquote>
-<div><p>Construct the shortest path matrix from scratch or output existing if exists</p>
+<div><p>Construct the shortest path matrix from scratch or output existing
+if exists</p>
 </div></blockquote>
-<p><strong>labels</strong> : str, valid_values={“vertex”, “edge”, “all”}, default=”vertex”</p>
+<p><strong>labels</strong> : str, valid_values={“vertex”, “edge”, “all”, “none”},</p>
+<p><strong>default=”vertex”</strong></p>
 <blockquote>
-<div><p>Returns labels corresponding for the indexes of the shortest path matrix
-for vertices, for edge (only for the valid ones on the original graph) or for both (“all”)</p>
+<div><p>Returns labels corresponding for the indexes of the shortest path
+matrix for vertices, for edge (only for the valid ones on the
+original graph), for both (“all”) and for no labels (“none”)</p>
 </div></blockquote>
 </td>
 </tr>
@@ -398,11 +412,13 @@ for vertices, for edge (only for the valid ones on the original graph) or for bo
 </div></blockquote>
 <p><strong>vertex_labels</strong> : dict</p>
 <blockquote>
-<div><p>The vertex labels, outputed only if <em>labels</em> parameter is either “vertex” or “all”.</p>
+<div><p>The vertex labels, outputed only if <em>labels</em> parameter is either
+“vertex” or “all”.</p>
 </div></blockquote>
 <p><strong>edge_labels</strong> : dict</p>
 <blockquote class="last">
-<div><p>The edge labels, outputed only if <em>labels</em> parameter is either “edge” or “all”.</p>
+<div><p>The edge labels, outputed only if <em>labels</em> parameter is
+either “edge” or “all”.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -413,7 +429,7 @@ for vertices, for edge (only for the valid ones on the original graph) or for bo
 <dl class="method">
 <dt id="grakel.graph.graph.calculate_lovasz_theta">
 <code class="descname">calculate_lovasz_theta</code><span class="sig-paren">(</span><em>from_scratch=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/graph.html#graph.calculate_lovasz_theta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.graph.graph.calculate_lovasz_theta" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculates the lovasz theta for the given graph.</p>
+<dd><p>Calculate the lovasz theta for the given graph.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -437,7 +453,10 @@ for vertices, for edge (only for the valid ones on the original graph) or for bo
 <dl class="method">
 <dt id="grakel.graph.graph.calculate_subgraph_samples_metric_dictionary">
 <code class="descname">calculate_subgraph_samples_metric_dictionary</code><span class="sig-paren">(</span><em>metric_type</em>, <em>n_samples=50</em>, <em>subsets_size_range=(2</em>, <em>8)</em>, <em>from_scratch=False</em>, <em>save=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/graph.html#graph.calculate_subgraph_samples_metric_dictionary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.graph.graph.calculate_subgraph_samples_metric_dictionary" title="Permalink to this definition">¶</a></dt>
-<dd><p>A function useful for calculating a graph metric as the lovasz theta kernel or the svm-theta kernel, on a set of randomly sampled subgraphs, producing a dictionary of subgraph levels and sets.</p>
+<dd><p>Calculate a graph metric.</p>
+<p>Calculates a graph metric as the lovasz theta kernel or the svm-theta
+kernel, on a set of randomly sampled subgraphs, producing a dictionary
+of subgraph levels and sets.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -462,7 +481,8 @@ for vertices, for edge (only for the valid ones on the original graph) or for bo
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>level_values</strong> : dict</p>
 <blockquote class="last">
-<div><p>Returns a dictionary with levels (subsite size) and the lovasz value of all the sampled subgraphs.</p>
+<div><p>Returns a dictionary with levels (subsite size) and the lovasz
+value of all the sampled subgraphs.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -473,14 +493,15 @@ for vertices, for edge (only for the valid ones on the original graph) or for bo
 <dl class="method">
 <dt id="grakel.graph.graph.calculate_svm_theta">
 <code class="descname">calculate_svm_theta</code><span class="sig-paren">(</span><em>from_scratch=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/graph.html#graph.calculate_svm_theta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.graph.graph.calculate_svm_theta" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculates the svm theta for the given graph.</p>
+<dd><p>Calculate the svm theta for the given graph.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>from_scratch: bool, default=False</strong></p>
 <blockquote>
-<div><p>Defines if the the svm_theta number will be calculated from scratch.</p>
+<div><p>Defines if the the svm_theta number
+will be calculated from scratch.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -497,7 +518,7 @@ for vertices, for edge (only for the valid ones on the original graph) or for bo
 <dl class="method">
 <dt id="grakel.graph.graph.change_format">
 <code class="descname">change_format</code><span class="sig-paren">(</span><em>graph_format</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/graph.html#graph.change_format"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.graph.graph.change_format" title="Permalink to this definition">¶</a></dt>
-<dd><p>Changes the format of the graph from an existing to an other.</p>
+<dd><p>Change the format of the graph from an existing to an other.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -511,7 +532,7 @@ for vertices, for edge (only for the valid ones on the original graph) or for bo
 <dl class="method">
 <dt id="grakel.graph.graph.construct_labels">
 <code class="descname">construct_labels</code><span class="sig-paren">(</span><em>label_type='vertex'</em>, <em>purpose='adjacency'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/graph.html#graph.construct_labels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.graph.graph.construct_labels" title="Permalink to this definition">¶</a></dt>
-<dd><p>A method that constructs labels (if user does not provide).</p>
+<dd><p>Construct labels (if user does not provide).</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -520,7 +541,8 @@ for vertices, for edge (only for the valid ones on the original graph) or for bo
 <blockquote>
 <div><p>What kind of labels are going to be constructed</p>
 </div></blockquote>
-<p><strong>purpose: str, valid_values={“adjacency”, “dictionary”}, default=”adjacency”</strong></p>
+<p><strong>purpose: str, valid_values={“adjacency”, “dictionary”},</strong></p>
+<p><strong>default=”adjacency”</strong></p>
 <blockquote>
 <div><p>Defines if the labels correspond to dictionary or adjacency matrix</p>
 </div></blockquote>
@@ -536,22 +558,26 @@ for vertices, for edge (only for the valid ones on the original graph) or for bo
 <dl class="method">
 <dt id="grakel.graph.graph.convert_labels">
 <code class="descname">convert_labels</code><span class="sig-paren">(</span><em>target_format='dictionary'</em>, <em>purpose='all'</em>, <em>init=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/graph.html#graph.convert_labels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.graph.graph.convert_labels" title="Permalink to this definition">¶</a></dt>
-<dd><p>A method that converts labels to a desired format.</p>
+<dd><p>Convert labels to a desired format.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>target_format: str, valid_values={“adjacency”, “dictionary”}, default=”dictionary”</strong></p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>target_format: str, valid_values={“adjacency”, “dictionary”},</strong></p>
+<p><strong>default=”dictionary”</strong></p>
 <blockquote>
 <div><p>Defines what the target format for conversion will be.</p>
 </div></blockquote>
-<p><strong>purpose: str, valid_values={“adjacency”, “dictionary”, “all”}, default=”all”</strong></p>
+<p><strong>purpose: str, valid_values={“adjacency”, “dictionary”, “all”},</strong></p>
+<p><strong>default=”all”</strong></p>
 <blockquote>
-<div><p>Defines if the labels will be converted for dictionary, adjacency matrix or both.</p>
+<div><p>Defines if the labels will be converted for dictionary, adjacency
+matrix or both.</p>
 </div></blockquote>
 <p><strong>init: bool, default=False</strong></p>
 <blockquote>
-<div><p>An override parameter for format checks, usefull for initialisation.</p>
+<div><p>An override parameter for format checks,
+usefull for initialisation.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -565,22 +591,22 @@ for vertices, for edge (only for the valid ones on the original graph) or for bo
 <dl class="method">
 <dt id="grakel.graph.graph.desired_format">
 <code class="descname">desired_format</code><span class="sig-paren">(</span><em>graph_format</em>, <em>warn=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/graph.html#graph.desired_format"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.graph.graph.desired_format" title="Permalink to this definition">¶</a></dt>
-<dd><p>Changes the format to include the desired.</p>
+<dd><p>Change the format to include the desired.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>graph_format</strong> : str, valid_values={“dictionary”, “adjacency”, “all”}</p>
 <blockquote>
-<div><dl class="docutils">
-<dt>Defines the internal representation of the graph object which can be a dictionary as a matrix, or both:</dt>
-<dd><ul class="first last simple">
+<div><p>Defines the internal representation of the graph object which
+can be a dictionary as a matrix, or both:</p>
+<blockquote>
+<div><ul class="simple">
 <li>for dictionary: “dictionary”</li>
 <li>for adjacency_matrix: “adjacency”</li>
 <li>for both: “all”</li>
 </ul>
-</dd>
-</dl>
+</div></blockquote>
 </div></blockquote>
 <p><strong>warn</strong> : bool, default=False</p>
 <blockquote>
@@ -598,7 +624,8 @@ for vertices, for edge (only for the valid ones on the original graph) or for bo
 <dl class="method">
 <dt id="grakel.graph.graph.get_adjacency_matrix">
 <code class="descname">get_adjacency_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/graph.html#graph.get_adjacency_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.graph.graph.get_adjacency_matrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>A format agnostic method that returns the adjacency matrix.</p>
+<dd><p>Get the adjacency matrix.</p>
+<p>Format agnostic method.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -619,7 +646,8 @@ for vertices, for edge (only for the valid ones on the original graph) or for bo
 <dl class="method">
 <dt id="grakel.graph.graph.get_edge_dictionary">
 <code class="descname">get_edge_dictionary</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/graph.html#graph.get_edge_dictionary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.graph.graph.get_edge_dictionary" title="Permalink to this definition">¶</a></dt>
-<dd><p>A format agnostic method that returns the edge dictionary</p>
+<dd><p>Get the edge dictionary.</p>
+<p>Format agnostic method.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -640,14 +668,16 @@ for vertices, for edge (only for the valid ones on the original graph) or for bo
 <dl class="method">
 <dt id="grakel.graph.graph.get_edges">
 <code class="descname">get_edges</code><span class="sig-paren">(</span><em>purpose='adjacency'</em>, <em>with_weights=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/graph.html#graph.get_edges"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.graph.graph.get_edges" title="Permalink to this definition">¶</a></dt>
-<dd><p>A method that returns an iterable of edges as tuples.</p>
+<dd><p>Create an iterable of edges as tuples.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>purpose</strong> : str, valid_values={“adjacency”, “dictionary”}, default=”adjacency”</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>purpose</strong> : str, valid_values={“adjacency”, “dictionary”},</p>
+<p><strong>default=”adjacency”</strong></p>
 <blockquote>
-<div><p>Defines if the edges is given for the “dictionary” format of the graph (symbol) to the “adjacency” (index).</p>
+<div><p>Defines if the edges is given for the “dictionary” format of the
+graph (symbol) to the “adjacency” (index).</p>
 </div></blockquote>
 </td>
 </tr>
@@ -664,19 +694,22 @@ for vertices, for edge (only for the valid ones on the original graph) or for bo
 <dl class="method">
 <dt id="grakel.graph.graph.get_label_group">
 <code class="descname">get_label_group</code><span class="sig-paren">(</span><em>label_type='vertex'</em>, <em>purpose='dictionary'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/graph.html#graph.get_label_group"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.graph.graph.get_label_group" title="Permalink to this definition">¶</a></dt>
-<dd><p>A function that calculates the inverse dictionary for vertex labels (once).</p>
+<dd><p>Calculate the inverse dictionary for vertex labels (once).</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>label_type</strong> : str, valid_values={“vertex”, “edge”}, default=”vertex”</p>
 <blockquote>
-<div><p>Defines if the the labels-group will correspond to vertices or edges.</p>
+<div><p>Defines if the the labels-group will correspond
+to vertices or edges.</p>
 </div></blockquote>
-<p><strong>purpose</strong> : str, valid_values={“dictionary”, “adjacency”, “any”}, default=”dictionary”</p>
+<p><strong>purpose</strong> : str, valid_values={“dictionary”, “adjacency”, “any”},</p>
+<p><strong>default=”dictionary”</strong></p>
 <blockquote>
-<div><p>Defines if the labels-group will correspond to “dictionary” (symbols), to “adjacency” (indexes)
-or to “any” valid format (if “all” the result is for “adjacency”)</p>
+<div><p>Defines if the labels-group will correspond to “dictionary”
+(symbols), to “adjacency” (indexes) or to “any” valid format
+(if “all” the result is for “adjacency”).</p>
 </div></blockquote>
 </td>
 </tr>
@@ -693,7 +726,7 @@ or to “any” valid format (if “all” the result is for “adjacency”)</p
 <dl class="method">
 <dt id="grakel.graph.graph.get_labels">
 <code class="descname">get_labels</code><span class="sig-paren">(</span><em>label_type='vertex'</em>, <em>purpose='adjacency'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/graph.html#graph.get_labels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.graph.graph.get_labels" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return labels corresponding to the purpose.</p>
+<dd><p>Get labels corresponding to the purpose.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -702,10 +735,12 @@ or to “any” valid format (if “all” the result is for “adjacency”)</p
 <blockquote>
 <div><p>Defines if the the labels will correspond to vertices or edges.</p>
 </div></blockquote>
-<p><strong>purpose</strong> : str, valid_values={“dictionary”, “adjacency”, “any”}, default=”dictionary”</p>
+<p><strong>purpose</strong> : str, valid_values={“dictionary”, “adjacency”, “any”},</p>
+<p><strong>default=”dictionary”</strong></p>
 <blockquote>
-<div><p>Defines if the labels will correspond to “dictionary” (symbols), to “adjacency”
-indexes, or to “any” valid format (if “all” the result is for “adjacency”)</p>
+<div><p>Defines if the labels will correspond to “dictionary” (symbols),
+to “adjacency” indexes, or to “any” valid format (if “all” the
+result is for “adjacency”).</p>
 </div></blockquote>
 </td>
 </tr>
@@ -722,7 +757,7 @@ indexes, or to “any” valid format (if “all” the result is for “adjacen
 <dl class="method">
 <dt id="grakel.graph.graph.get_subgraph">
 <code class="descname">get_subgraph</code><span class="sig-paren">(</span><em>vertices</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/graph.html#graph.get_subgraph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.graph.graph.get_subgraph" title="Permalink to this definition">¶</a></dt>
-<dd><p>A method that creates a graph object subgraph in the same format as the original graph.</p>
+<dd><p>Calculate the subgraph of object in the same format as the original.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -746,15 +781,17 @@ indexes, or to “any” valid format (if “all” the result is for “adjacen
 <dl class="method">
 <dt id="grakel.graph.graph.get_vertices">
 <code class="descname">get_vertices</code><span class="sig-paren">(</span><em>purpose='adjacency'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/graph.html#graph.get_vertices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.graph.graph.get_vertices" title="Permalink to this definition">¶</a></dt>
-<dd><p>A method that returns an iterable of vertices.</p>
+<dd><p>Create an iterable of vertices.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>purpose</strong> : str, valid_values={“adjacency”, “dictionary”, “any”}, default=”adjacency”</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>purpose</strong> : str, valid_values={“adjacency”, “dictionary”, “any”},</p>
+<p><strong>default=”adjacency”</strong></p>
 <blockquote>
-<div><p>Defines if the vertices will correspond given for the “dictionary” format of the graph (symbol)
-to the “adjacency” (index) or to “any” existing format (if “all” the expected type is for “adjacency”)</p>
+<div><p>Defines if the vertices will correspond given for the “dictionary”
+format of the graph (symbol) to the “adjacency” (index) or to “any”
+existing format (if “all” the expected type is for “adjacency”).</p>
 </div></blockquote>
 </td>
 </tr>
@@ -771,23 +808,27 @@ to the “adjacency” (index) or to “any” existing format (if “all” the
 <dl class="method">
 <dt id="grakel.graph.graph.label">
 <code class="descname">label</code><span class="sig-paren">(</span><em>obj</em>, <em>label_type='vertex'</em>, <em>purpose='dictionary'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/graph.html#graph.label"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.graph.graph.label" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the label of a vertex.</p>
+<dd><p>Get the label of a vertex.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>obj</strong> : hashable</p>
 <blockquote>
-<div><p>The candidate labeled object for the corresponding purpose and label type</p>
+<div><p>The candidate labeled object for the corresponding purpose
+and label type.</p>
 </div></blockquote>
 <p><strong>label_type</strong> : str, valid_values={“vertex”, “edge”}, default=”vertex”</p>
 <blockquote>
-<div><p>Defines if the lookup of the label will be done for vertices or edges.</p>
+<div><p>Defines if the lookup of the label
+will be done for vertices or edges.</p>
 </div></blockquote>
-<p><strong>purpose</strong> : str, valid_values={“dictionary”, “adjacency”, “any”}, default=”dictionary”</p>
+<p><strong>purpose</strong> : str, valid_values={“dictionary”, “adjacency”, “any”},</p>
+<p><strong>default=”dictionary”</strong></p>
 <blockquote>
-<div><p>Defines if the lookup will be done on the existing (“any” - if “all” default is adjacency)
-to the “dictionary” or to the “adjacency” format of the graph.</p>
+<div><p>Defines if the lookup will be done on the existing
+(“any” - if “all” default is adjacency) to the “dictionary”
+or to the “adjacency” format of the graph.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -804,7 +845,7 @@ to the “dictionary” or to the “adjacency” format of the graph.</p>
 <dl class="method">
 <dt id="grakel.graph.graph.laplacian">
 <code class="descname">laplacian</code><span class="sig-paren">(</span><em>save=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/graph.html#graph.laplacian"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.graph.graph.laplacian" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculates the laplacian of the given graph.</p>
+<dd><p>Calculate the laplacian of the given graph.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -837,10 +878,12 @@ to the “dictionary” or to the “adjacency” format of the graph.</p>
 <blockquote>
 <div><p>The vertex, which neighbors we are searching for.</p>
 </div></blockquote>
-<p><strong>purpose</strong> : str, valid_values={“adjacency”, “dictionary”, “any”}, default=”any”</p>
+<p><strong>purpose</strong> : str, valid_values={“adjacency”, “dictionary”, “any”},</p>
+<p><strong>default=”any”</strong></p>
 <blockquote>
-<div><p>Defines if the vertex is given for the “dictionary” format of the graph (symbol)
-to the “adjacency” (index) or to “any” existing format (if “all” the expected type is for “adjacency”).</p>
+<div><p>Defines if the vertex is given for the “dictionary” format of
+the graph (symbol) to the “adjacency” (index) or to “any”
+existing format (if “all” the expected type is for “adjacency”).</p>
 </div></blockquote>
 <p><strong>with_weights</strong> : bool, default=False</p>
 <blockquote>
@@ -851,10 +894,11 @@ to the “adjacency” (index) or to “any” existing format (if “all” the
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>neighbors</strong> : list or dict</p>
 <blockquote class="last">
 <div><dl class="docutils">
-<dt>The neighbors of the given vertex. </dt>
+<dt>The neighbors of the given vertex.</dt>
 <dd><ul class="first last simple">
 <li>with_weights=False: list of neighbor vertices</li>
-<li>with_weights=True: dictionary between neighbor vertices and edge labels</li>
+<li>with_weights=True: dictionary between neighbor vertices and
+edge labels</li>
 </ul>
 </dd>
 </dl>
@@ -868,7 +912,7 @@ to the “adjacency” (index) or to “any” existing format (if “all” the
 <dl class="method">
 <dt id="grakel.graph.graph.nv">
 <code class="descname">nv</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/graph.html#graph.nv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.graph.graph.nv" title="Permalink to this definition">¶</a></dt>
-<dd><p>A method that returns the number of vertices for any existing format.</p>
+<dd><p>Get the number of vertices for any existing format.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -889,7 +933,7 @@ to the “adjacency” (index) or to “any” existing format (if “all” the
 <dl class="method">
 <dt id="grakel.graph.graph.produce_neighborhoods">
 <code class="descname">produce_neighborhoods</code><span class="sig-paren">(</span><em>r=3</em>, <em>purpose='adjacency'</em>, <em>with_distances=False</em>, <em>d=-1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/graph.html#graph.produce_neighborhoods"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.graph.graph.produce_neighborhoods" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculates neighborhoods for each node of a Graph up to a depth.</p>
+<dd><p>Calculate neighborhoods for each node of a Graph, up to a depth.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -898,10 +942,12 @@ to the “adjacency” (index) or to “any” existing format (if “all” the
 <blockquote>
 <div><p>The neighborhood depth (radius).</p>
 </div></blockquote>
-<p><strong>purpose</strong> : str, valid_values={“adjacency”, “dictionary”}, default=”adjacency”</p>
+<p><strong>purpose</strong> : str, valid_values={“adjacency”, “dictionary”},</p>
+<p><strong>default=”adjacency”</strong></p>
 <blockquote>
-<div><p>Defines if the neighborhood symbols will correspond given for the “dictionary” 
-format of the graph (symbol) to the “adjacency” (index).</p>
+<div><p>Defines if the neighborhood symbols will correspond given
+for the “dictionary” format of the graph (symbol) to the
+“adjacency” (index).</p>
 </div></blockquote>
 <p><strong>with_distances: bool, default=False</strong></p>
 <blockquote>
@@ -909,14 +955,15 @@ format of the graph (symbol) to the “adjacency” (index).</p>
 </div></blockquote>
 <p><strong>d</strong> : int, default=-1</p>
 <blockquote>
-<div><p>Maximum distance considered. If -1 is provided the distance is as max as the radius r.</p>
+<div><p>Maximum distance considered. If -1 is provided the distance is as
+max as the radius r.</p>
 </div></blockquote>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>N</strong> : dict</p>
 <blockquote>
-<div><p>A level, vertex nested dictionary of lists, corresponding to the neighbours of level
-<img class="math" src="_images/math/b359488b993294ebbc2c7b30ab8f749dcbc6826d.png" alt="l"/> for a certain vertex <img class="math" src="_images/math/8d230554a01423c4c6560104b2918b65607c9406.png" alt="v"/>.</p>
+<div><p>A level, vertex nested dictionary of lists, corresponding to the
+neighbors of level <img class="math" src="_images/math/b359488b993294ebbc2c7b30ab8f749dcbc6826d.png" alt="l"/> for a certain vertex <img class="math" src="_images/math/8d230554a01423c4c6560104b2918b65607c9406.png" alt="v"/>.</p>
 </div></blockquote>
 <p><strong>D</strong> : dict</p>
 <blockquote>
@@ -936,7 +983,7 @@ Appears only if with_distances is <em>True</em>.</p>
 <dl class="method">
 <dt id="grakel.graph.graph.relabel">
 <code class="descname">relabel</code><span class="sig-paren">(</span><em>new_labels</em>, <em>purpose='dictionary'</em>, <em>label_type='vertex'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/graph.html#graph.relabel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.graph.graph.relabel" title="Permalink to this definition">¶</a></dt>
-<dd><p>A method relabels the graph object, supporting the current format.</p>
+<dd><p>Relabel the graph object, supporting the current format.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -945,9 +992,11 @@ Appears only if with_distances is <em>True</em>.</p>
 <blockquote>
 <div><p>The new labels corresponding to the label type and purpose.</p>
 </div></blockquote>
-<p><strong>purpose</strong> : str, valid_values={“dictionary”, “adjacency”}, default=”dictionary”</p>
+<p><strong>purpose</strong> : str, valid_values={“dictionary”, “adjacency”},</p>
+<p><strong>default=”dictionary”</strong></p>
 <blockquote>
-<div><p>Defines if the new labels are given for “adjacency” or “dictionary”.</p>
+<div><p>Defines if the new labels are given for
+“adjacency” or “dictionary”.</p>
 </div></blockquote>
 <p><strong>label_type</strong> : str, valid_values={“vertex”, “edge”}, default=”vertex”</p>
 <blockquote>
@@ -967,7 +1016,7 @@ Appears only if with_distances is <em>True</em>.</p>
 <dl class="function">
 <dt id="grakel.graph.is_adjacency">
 <code class="descclassname">grakel.graph.</code><code class="descname">is_adjacency</code><span class="sig-paren">(</span><em>g</em>, <em>transform=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/graph.html#is_adjacency"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.graph.is_adjacency" title="Permalink to this definition">¶</a></dt>
-<dd><p>A function that defines if input is in a valid adjacency matrix format.</p>
+<dd><p>Define if input is in a valid adjacency matrix format.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -978,7 +1027,8 @@ Appears only if with_distances is <em>True</em>.</p>
 </div></blockquote>
 <p><strong>transform</strong> : bool, default=False</p>
 <blockquote>
-<div><p>Defines if the input will be transformed to the internal adjacency matrix support format.</p>
+<div><p>Defines if the input will be transformed to the internal adjacency
+matrix support format.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -999,8 +1049,8 @@ This output appears <strong>only</strong> if transform parameter is True.</p>
 
 <dl class="function">
 <dt id="grakel.graph.is_edge_dictionary">
-<code class="descclassname">grakel.graph.</code><code class="descname">is_edge_dictionary</code><span class="sig-paren">(</span><em>g</em>, <em>transform=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/graph.html#is_edge_dictionary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.graph.is_edge_dictionary" title="Permalink to this definition">¶</a></dt>
-<dd><p>A function that defines if input is in a valid edge dictionary format.</p>
+<code class="descclassname">grakel.graph.</code><code class="descname">is_edge_dictionary</code><span class="sig-paren">(</span><em>g</em>, <em>transform=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/graph.html#is_edge_dictionary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.graph.is_edge_dictionary" title="Permalink to this definition">¶</a></dt>
+<dd><p>Define if input is in a valid edge dictionary format.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1011,7 +1061,8 @@ This output appears <strong>only</strong> if transform parameter is True.</p>
 </div></blockquote>
 <p><strong>transform</strong> : bool, default=False</p>
 <blockquote>
-<div><p>Defines if the input will be transformed to the internal edge dictionary support format.</p>
+<div><p>Defines if the input will be transformed to the internal
+edge dictionary support format.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -1037,7 +1088,7 @@ This output appears <strong>only</strong> if transform parameter is True.</p>
 <dl class="function">
 <dt id="grakel.graph.laplacian">
 <code class="descclassname">grakel.graph.</code><code class="descname">laplacian</code><span class="sig-paren">(</span><em>A</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/graph.html#laplacian"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.graph.laplacian" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculates the laplacian given the adjacency matrix.</p>
+<dd><p>Calculate the laplacian given the adjacency matrix.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />

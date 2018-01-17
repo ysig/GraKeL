@@ -158,73 +158,82 @@
            <div itemprop="articleBody">
             
   <h1>Source code for grakel.kernels.svm_theta</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot; This file contains the svm theta kernel as defined in :cite:`Johansson2015LearningWS`.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">&quot;&quot;&quot;The svm theta kernel as defined in :cite:`Johansson2015LearningWS`.&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">itertools</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">grakel.graph</span> <span class="k">import</span> <span class="n">graph</span>
 
-<span class="kn">from</span> <span class="nn">..graph</span> <span class="k">import</span> <span class="n">graph</span>
 
-<div class="viewcode-block" id="svm_theta"><a class="viewcode-back" href="../../../kernels.html#grakel.kernels.svm_theta">[docs]</a><span class="k">def</span> <span class="nf">svm_theta</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">subsets_size_range</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">8</span><span class="p">),</span> <span class="n">metric</span><span class="o">=</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span><span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="p">)):</span>
-    <span class="sd">&quot;&quot;&quot; The svm theta kernel as proposed in :cite:`Johansson2015LearningWS`.</span>
+<div class="viewcode-block" id="svm_theta"><a class="viewcode-back" href="../../../kernels.html#grakel.kernels.svm_theta">[docs]</a><span class="k">def</span> <span class="nf">svm_theta</span><span class="p">(</span>
+        <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">subsets_size_range</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span>
+        <span class="n">metric</span><span class="o">=</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="p">)):</span>
+    <span class="sd">&quot;&quot;&quot;Calculate the SVM theta kernel.</span>
+
+<span class="sd">    See :cite:`Johansson2015LearningWS`.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    X,Y : *valid-graph-format*</span>
 <span class="sd">        The pair of graphs on which the kernel is applied.</span>
-<span class="sd">        </span>
+
 <span class="sd">    n_samples : int, default=50</span>
 <span class="sd">        Number of samples.</span>
-<span class="sd">        </span>
+
 <span class="sd">    subsets_size_range : tuple, len=2, default=(2,8)</span>
 <span class="sd">        (min, max) size of the vertex set of sampled subgraphs.</span>
-<span class="sd">        </span>
+
 <span class="sd">    metric : function (number, number -&gt; number), default=:math:`f(x,y)=x*y`</span>
 <span class="sd">        The applied metric between the svm_theta numbers of the two graphs.</span>
-<span class="sd">    </span>
+
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    kernel : number</span>
 <span class="sd">        The kernel value.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">Gx</span> <span class="o">=</span> <span class="n">graph</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
     <span class="n">Gy</span> <span class="o">=</span> <span class="n">graph</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">svm_theta_inner</span><span class="p">(</span><span class="n">Gx</span><span class="p">,</span> <span class="n">Gy</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">,</span> <span class="n">subsets_size_range</span><span class="p">,</span> <span class="n">metric</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">svm_theta_pair</span><span class="p">(</span><span class="n">Gx</span><span class="p">,</span> <span class="n">Gy</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">,</span> <span class="n">subsets_size_range</span><span class="p">,</span> <span class="n">metric</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="svm_theta_inner"><a class="viewcode-back" href="../../../kernels.html#grakel.kernels.svm_theta_inner">[docs]</a><span class="k">def</span> <span class="nf">svm_theta_inner</span><span class="p">(</span><span class="n">Gx</span><span class="p">,</span> <span class="n">Gy</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">subsets_size_range</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">8</span><span class="p">),</span> <span class="n">metric</span><span class="o">=</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span><span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="p">)):</span>
-    <span class="sd">&quot;&quot;&quot; The svm theta kernel as proposed in :cite:`Johansson2015LearningWS`.</span>
+
+<div class="viewcode-block" id="svm_theta_pair"><a class="viewcode-back" href="../../../kernels.html#grakel.kernels.svm_theta_pair">[docs]</a><span class="k">def</span> <span class="nf">svm_theta_pair</span><span class="p">(</span>
+        <span class="n">Gx</span><span class="p">,</span> <span class="n">Gy</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">subsets_size_range</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span>
+        <span class="n">metric</span><span class="o">=</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="p">)):</span>
+    <span class="sd">&quot;&quot;&quot;SVM theta kernel as proposed in :cite:`Johansson2015LearningWS`.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    G_{x,y} : graph</span>
 <span class="sd">        The pair of graphs on which the kernel is applied.</span>
-<span class="sd">        </span>
+
 <span class="sd">    n_samples : int, default=50</span>
 <span class="sd">        Number of samples.</span>
-<span class="sd">        </span>
+
 <span class="sd">    subsets_size_range : tuple, len=2, default=(2,8)</span>
 <span class="sd">        (min, max) size of the vertex set of sampled subgraphs.</span>
-<span class="sd">        </span>
+
 <span class="sd">    metric : function (number, number -&gt; number), default=:math:`f(x,y)=x*y`</span>
 <span class="sd">        The applied metric between the svm_theta numbers of the two graphs.</span>
-<span class="sd">    </span>
+
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    kernel : number</span>
 <span class="sd">        The kernel value.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
-    
-    <span class="n">Ldx</span> <span class="o">=</span> <span class="n">Gx</span><span class="o">.</span><span class="n">calculate_subgraph_samples_metric_dictionary</span><span class="p">(</span><span class="s2">&quot;svm&quot;</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">subsets_size_range</span><span class="o">=</span><span class="n">subsets_size_range</span><span class="p">)</span>
-    <span class="n">Ldy</span> <span class="o">=</span> <span class="n">Gy</span><span class="o">.</span><span class="n">calculate_subgraph_samples_metric_dictionary</span><span class="p">(</span><span class="s2">&quot;svm&quot;</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">subsets_size_range</span><span class="o">=</span><span class="n">subsets_size_range</span><span class="p">)</span>
-    
+    <span class="n">Ldx</span> <span class="o">=</span> <span class="n">Gx</span><span class="o">.</span><span class="n">calculate_subgraph_samples_metric_dictionary</span><span class="p">(</span>
+        <span class="s2">&quot;svm&quot;</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">subsets_size_range</span><span class="o">=</span><span class="n">subsets_size_range</span><span class="p">)</span>
+    <span class="n">Ldy</span> <span class="o">=</span> <span class="n">Gy</span><span class="o">.</span><span class="n">calculate_subgraph_samples_metric_dictionary</span><span class="p">(</span>
+        <span class="s2">&quot;svm&quot;</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">subsets_size_range</span><span class="o">=</span><span class="n">subsets_size_range</span><span class="p">)</span>
+
     <span class="n">kernel</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">for</span> <span class="n">level</span> <span class="ow">in</span> <span class="n">Ldx</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
         <span class="k">if</span> <span class="n">level</span> <span class="ow">in</span> <span class="n">Ldy</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">bool</span><span class="p">(</span><span class="n">Ldx</span><span class="p">[</span><span class="n">level</span><span class="p">])</span> <span class="ow">and</span> <span class="nb">bool</span><span class="p">(</span><span class="n">Ldy</span><span class="p">[</span><span class="n">level</span><span class="p">]):</span>
                 <span class="n">Z</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">Ldx</span><span class="p">[</span><span class="n">level</span><span class="p">])</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">Ldy</span><span class="p">[</span><span class="n">level</span><span class="p">])</span>
-                <span class="n">kernel</span> <span class="o">+=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">metric</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">Ldx</span><span class="p">[</span><span class="n">level</span><span class="p">],</span><span class="n">Ldy</span><span class="p">[</span><span class="n">level</span><span class="p">]))</span>
+                <span class="n">kernel</span> <span class="o">+=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">metric</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="ow">in</span>
+                              <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">Ldx</span><span class="p">[</span><span class="n">level</span><span class="p">],</span> <span class="n">Ldy</span><span class="p">[</span><span class="n">level</span><span class="p">]))</span><span class="o">/</span><span class="n">Z</span>
 
     <span class="k">return</span> <span class="n">kernel</span></div>
 </pre></div>

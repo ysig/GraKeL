@@ -158,63 +158,64 @@
            <div itemprop="articleBody">
             
   <h1>Source code for grakel.kernels.dirac</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot; This file contains the standard and simple dirac kernel.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">&quot;&quot;&quot;This file contains the standard and simple dirac kernel.&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">..graph</span> <span class="k">import</span> <span class="n">graph</span>
-<span class="kn">from</span> <span class="nn">..tools</span> <span class="k">import</span> <span class="n">inv_dict</span>
+<span class="kn">from</span> <span class="nn">grakel.graph</span> <span class="k">import</span> <span class="n">graph</span>
+<span class="kn">from</span> <span class="nn">grakel.tools</span> <span class="k">import</span> <span class="n">inv_dict</span>
+
 
 <div class="viewcode-block" id="dirac"><a class="viewcode-back" href="../../../kernels.html#grakel.kernels.dirac">[docs]</a><span class="k">def</span> <span class="nf">dirac</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Lx</span><span class="p">,</span> <span class="n">Ly</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; The simple dirac kernel for labelled graphs.</span>
-<span class="sd">    </span>
-<span class="sd">        .. math::</span>
-<span class="sd">            k(X,Y) = \sum_{v \in V_{1}}\sum_{u \in V_{2}}\delta(l(v),l(u))</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Labelled graph dirac kernel.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    X,Y : *valid-graph-format*</span>
 <span class="sd">        The pair of graphs on which the kernel is applied.</span>
-<span class="sd">    </span>
+
 <span class="sd">    L{x,y} : dict</span>
 <span class="sd">        Corresponding graph labels for vertices.</span>
-<span class="sd">        </span>
+
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    kernel : number</span>
 <span class="sd">        The kernel value.</span>
+<span class="sd">        .. math::</span>
+<span class="sd">            k(X,Y) = \sum_{v \in V_{1}}\sum_{u \in V_{2}}\delta(l(v),l(u))</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">Gx</span> <span class="o">=</span> <span class="n">graph</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Lx</span><span class="p">)</span>
     <span class="n">Gy</span> <span class="o">=</span> <span class="n">graph</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">Ly</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">dirac_inner</span><span class="p">(</span><span class="n">Gx</span><span class="p">,</span><span class="n">Gy</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">dirac_pair</span><span class="p">(</span><span class="n">Gx</span><span class="p">,</span> <span class="n">Gy</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="dirac_inner"><a class="viewcode-back" href="../../../kernels.html#grakel.kernels.dirac_inner">[docs]</a><span class="k">def</span> <span class="nf">dirac_inner</span><span class="p">(</span><span class="n">Gx</span><span class="p">,</span><span class="n">Gy</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; The simple dirac kernel for labelled graphs.</span>
-<span class="sd">    </span>
-<span class="sd">        .. math::</span>
-<span class="sd">            k(X,Y) = \sum_{v \in V_{1}}\sum_{u \in V_{2}}\delta(l(v),l(u))</span>
+
+<div class="viewcode-block" id="dirac_pair"><a class="viewcode-back" href="../../../kernels.html#grakel.kernels.dirac_pair">[docs]</a><span class="k">def</span> <span class="nf">dirac_pair</span><span class="p">(</span><span class="n">Gx</span><span class="p">,</span> <span class="n">Gy</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Labelled graph dirac kernel.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    G_{x,y} : graph</span>
 <span class="sd">        The pair of graphs on which the kernel is applied</span>
-<span class="sd">        </span>
+
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    kernel : number</span>
 <span class="sd">        The kernel value.</span>
+<span class="sd">        .. math::</span>
+<span class="sd">            k(X,Y) = \sum_{v \in V_{1}}\sum_{u \in V_{2}}\delta(l(v),l(u))</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">Gx</span><span class="o">.</span><span class="n">desired_format</span><span class="p">(</span><span class="s2">&quot;dictionary&quot;</span><span class="p">)</span>
     <span class="n">Gy</span><span class="o">.</span><span class="n">desired_format</span><span class="p">(</span><span class="s2">&quot;dictionary&quot;</span><span class="p">)</span>
-    
+
     <span class="c1"># Calculate kernel</span>
     <span class="n">linv_x</span> <span class="o">=</span> <span class="n">inv_dict</span><span class="p">(</span><span class="n">Gx</span><span class="o">.</span><span class="n">get_labels</span><span class="p">(</span><span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;dictionary&quot;</span><span class="p">))</span>
     <span class="n">linv_y</span> <span class="o">=</span> <span class="n">inv_dict</span><span class="p">(</span><span class="n">Gy</span><span class="o">.</span><span class="n">get_labels</span><span class="p">(</span><span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;dictionary&quot;</span><span class="p">))</span>
-    
+
     <span class="n">kernel</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">for</span> <span class="n">lx</span> <span class="ow">in</span> <span class="n">linv_x</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">lx</span> <span class="ow">in</span> <span class="n">linv_y</span><span class="p">:</span>
-            <span class="n">kernel</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">linv_x</span><span class="p">[</span><span class="n">lx</span><span class="p">])</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">linv_y</span><span class="p">[</span><span class="n">lx</span><span class="p">])</span>   
-    
+            <span class="n">kernel</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">linv_x</span><span class="p">[</span><span class="n">lx</span><span class="p">])</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">linv_y</span><span class="p">[</span><span class="n">lx</span><span class="p">])</span>
+
     <span class="k">return</span> <span class="n">kernel</span></div>
 </pre></div>
 

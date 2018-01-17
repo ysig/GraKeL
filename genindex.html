@@ -223,7 +223,7 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="kernels.html#grakel.kernels.dirac">dirac() (in module grakel.kernels)</a>
 </li>
-      <li><a href="kernels.html#grakel.kernels.dirac_inner">dirac_inner() (in module grakel.kernels)</a>
+      <li><a href="kernels.html#grakel.kernels.dirac_pair">dirac_pair() (in module grakel.kernels)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -235,6 +235,8 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="graph_kernel.html#grakel.graph_kernels.GraphKernel.fit_transform">fit_transform() (grakel.graph_kernels.GraphKernel method)</a>
+</li>
       <li><a href="graph.html#grakel.graph.floyd_warshall">floyd_warshall() (in module grakel.graph)</a>
 </li>
   </ul></td>
@@ -271,9 +273,7 @@
 </li>
       <li><a href="kernels.html#grakel.kernels.graphlet_sampling">graphlet_sampling() (in module grakel.kernels)</a>
 </li>
-      <li><a href="kernels.html#grakel.kernels.graphlet_sampling_core">graphlet_sampling_core() (in module grakel.kernels)</a>
-</li>
-      <li><a href="kernels.html#grakel.kernels.graphlet_sampling_inner">graphlet_sampling_inner() (in module grakel.kernels)</a>
+      <li><a href="kernels.html#grakel.kernels.graphlet_sampling_matrix">graphlet_sampling_matrix() (in module grakel.kernels)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -309,7 +309,7 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="kernels.html#grakel.kernels.jsm_inner">jsm_inner() (in module grakel.kernels)</a>
+      <li><a href="kernels.html#grakel.kernels.jsm_pair">jsm_pair() (in module grakel.kernels)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -329,7 +329,7 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="kernels.html#grakel.kernels.lovasz_theta">lovasz_theta() (in module grakel.kernels)</a>
 </li>
-      <li><a href="kernels.html#grakel.kernels.lovasz_theta_inner">lovasz_theta_inner() (in module grakel.kernels)</a>
+      <li><a href="kernels.html#grakel.kernels.lovasz_theta_pair">lovasz_theta_pair() (in module grakel.kernels)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -341,7 +341,7 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="kernels.html#grakel.kernels.multiscale_laplacian_inner">multiscale_laplacian_inner() (in module grakel.kernels)</a>
+      <li><a href="kernels.html#grakel.kernels.multiscale_laplacian_pair">multiscale_laplacian_pair() (in module grakel.kernels)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -353,11 +353,11 @@
 </li>
       <li><a href="kernels.html#grakel.kernels.neighborhood_hash_matrix">neighborhood_hash_matrix() (in module grakel.kernels)</a>
 </li>
-      <li><a href="kernels.html#grakel.kernels.neighborhood_pairwise_subgraph_distance">neighborhood_pairwise_subgraph_distance() (in module grakel.kernels)</a>
+      <li><a href="kernels.html#grakel.kernels.neighborhood_subgraph_pairwise_distance">neighborhood_subgraph_pairwise_distance() (in module grakel.kernels)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="kernels.html#grakel.kernels.neighborhood_pairwise_subgraph_distance_inner">neighborhood_pairwise_subgraph_distance_inner() (in module grakel.kernels)</a>
+      <li><a href="kernels.html#grakel.kernels.neighborhood_subgraph_pairwise_distance_pair">neighborhood_subgraph_pairwise_distance_pair() (in module grakel.kernels)</a>
 </li>
       <li><a href="graph.html#grakel.graph.graph.neighbors">neighbors() (grakel.graph.graph method)</a>
 </li>
@@ -383,12 +383,14 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="graph_kernel.html#grakel.graph_kernels.pairwise_to_matrix_kernel">pairwise_to_matrix_kernel() (in module grakel.graph_kernels)</a>
 </li>
-      <li><a href="graph.html#grakel.graph.graph.produce_neighborhoods">produce_neighborhoods() (grakel.graph.graph method)</a>
+      <li><a href="graph_kernel.html#grakel.graph_kernels.parse_input">parse_input() (in module grakel.graph_kernels)</a>
 </li>
-      <li><a href="kernels.html#grakel.kernels.propagation">propagation() (in module grakel.kernels)</a>
+      <li><a href="graph.html#grakel.graph.graph.produce_neighborhoods">produce_neighborhoods() (grakel.graph.graph method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="kernels.html#grakel.kernels.propagation">propagation() (in module grakel.kernels)</a>
+</li>
       <li><a href="kernels.html#grakel.kernels.propagation_matrix">propagation_matrix() (in module grakel.kernels)</a>
 </li>
       <li><a href="kernels.html#grakel.kernels.pyramid_match">pyramid_match() (in module grakel.kernels)</a>
@@ -405,7 +407,7 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="kernels.html#grakel.kernels.random_walk_inner">random_walk_inner() (in module grakel.kernels)</a>
+      <li><a href="kernels.html#grakel.kernels.random_walk_pair">random_walk_pair() (in module grakel.kernels)</a>
 </li>
       <li><a href="graph.html#grakel.graph.graph.relabel">relabel() (grakel.graph.graph method)</a>
 </li>
@@ -415,27 +417,25 @@
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="kernels.html#grakel.kernels.sample_graphlets">sample_graphlets() (in module grakel.kernels)</a>
-</li>
       <li><a href="kernels.html#grakel.kernels.shortest_path">shortest_path() (in module grakel.kernels)</a>
 </li>
-      <li><a href="kernels.html#grakel.kernels.shortest_path_inner_attributes">shortest_path_inner_attributes() (in module grakel.kernels)</a>
-</li>
       <li><a href="kernels.html#grakel.kernels.shortest_path_matrix">shortest_path_matrix() (in module grakel.kernels)</a>
+</li>
+      <li><a href="kernels.html#grakel.kernels.shortest_path_pair_attributes">shortest_path_pair_attributes() (in module grakel.kernels)</a>
 </li>
       <li><a href="kernels.html#grakel.kernels.subgraph_matching">subgraph_matching() (in module grakel.kernels)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="kernels.html#grakel.kernels.subgraph_matching_inner">subgraph_matching_inner() (in module grakel.kernels)</a>
+      <li><a href="kernels.html#grakel.kernels.subgraph_matching_pair">subgraph_matching_pair() (in module grakel.kernels)</a>
 </li>
       <li><a href="kernels.html#grakel.kernels.subtree_rg">subtree_rg() (in module grakel.kernels)</a>
 </li>
-      <li><a href="kernels.html#grakel.kernels.subtree_rg_inner">subtree_rg_inner() (in module grakel.kernels)</a>
+      <li><a href="kernels.html#grakel.kernels.subtree_rg_pair">subtree_rg_pair() (in module grakel.kernels)</a>
 </li>
       <li><a href="kernels.html#grakel.kernels.svm_theta">svm_theta() (in module grakel.kernels)</a>
 </li>
-      <li><a href="kernels.html#grakel.kernels.svm_theta_inner">svm_theta_inner() (in module grakel.kernels)</a>
+      <li><a href="kernels.html#grakel.kernels.svm_theta_pair">svm_theta_pair() (in module grakel.kernels)</a>
 </li>
   </ul></td>
 </tr></table>

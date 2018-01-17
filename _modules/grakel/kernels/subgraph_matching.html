@@ -158,216 +158,237 @@
            <div itemprop="articleBody">
             
   <h1>Source code for grakel.kernels.subgraph_matching</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot; This file contains the sugraph mathing kernel as defined by :cite:`Kriege2012SubgraphMK`.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">&quot;&quot;&quot;The sugraph mathing kernel as defined by :cite:`Kriege2012SubgraphMK`.&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">..graph</span> <span class="k">import</span> <span class="n">graph</span>
-<span class="kn">from</span> <span class="nn">..tools</span> <span class="k">import</span> <span class="n">inv_dict</span>
+<span class="kn">from</span> <span class="nn">grakel.graph</span> <span class="k">import</span> <span class="n">graph</span>
 
 <span class="k">global</span> <span class="n">kv_default</span><span class="p">,</span> <span class="n">ke_default</span><span class="p">,</span> <span class="n">lw_default</span>
 
 <span class="c1"># Define default vertex, edge and lambda weight functions</span>
-<span class="n">kv_default</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">Lx</span><span class="p">,</span> <span class="n">Ly</span><span class="p">:</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">Lx</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="o">==</span><span class="n">Ly</span><span class="p">[</span><span class="n">y</span><span class="p">]</span> <span class="k">else</span> <span class="mi">0</span>
+<span class="n">kv_default</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">Lx</span><span class="p">,</span> <span class="n">Ly</span><span class="p">:</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">Lx</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">==</span> <span class="n">Ly</span><span class="p">[</span><span class="n">y</span><span class="p">]</span> <span class="k">else</span> <span class="mi">0</span>
+
 
 <span class="k">def</span> <span class="nf">ke_default</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">Ex</span><span class="p">,</span> <span class="n">Ey</span><span class="p">,</span> <span class="n">Lex</span><span class="p">,</span> <span class="n">Ley</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; The default edge kernel :eq:`sm_ke_def`.</span>
-<span class="sd">    </span>
-<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Calculate the default edge kernel :eq:`sm_ke_def`.&quot;&quot;&quot;</span>
     <span class="n">cond_a</span><span class="p">,</span> <span class="n">cond_b</span> <span class="o">=</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">Ex</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">Ey</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">cond_a</span> <span class="ow">and</span> <span class="n">cond_b</span> <span class="ow">and</span> <span class="n">Lex</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="o">==</span><span class="n">Ley</span><span class="p">[</span><span class="n">y</span><span class="p">])</span> <span class="ow">or</span> <span class="p">((</span><span class="ow">not</span> <span class="n">cond_a</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="ow">not</span> <span class="n">cond_b</span><span class="p">)):</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">cond_a</span> <span class="ow">and</span> <span class="n">cond_b</span> <span class="ow">and</span> <span class="n">Lex</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">==</span> <span class="n">Ley</span><span class="p">[</span><span class="n">y</span><span class="p">])</span> <span class="ow">or</span> \
+            <span class="p">((</span><span class="ow">not</span> <span class="n">cond_a</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="ow">not</span> <span class="n">cond_b</span><span class="p">)):</span>
         <span class="k">return</span> <span class="mi">1</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="mi">0</span>
 
 <span class="n">lw_default</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="nb">bool</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
 
-<div class="viewcode-block" id="subgraph_matching"><a class="viewcode-back" href="../../../kernels.html#grakel.kernels.subgraph_matching">[docs]</a><span class="k">def</span> <span class="nf">subgraph_matching</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Lx</span><span class="p">,</span> <span class="n">Ly</span><span class="p">,</span> <span class="n">Lex</span><span class="p">,</span> <span class="n">Ley</span><span class="p">,</span> <span class="n">kv</span><span class="o">=</span><span class="n">kv_default</span><span class="p">,</span> <span class="n">ke</span><span class="o">=</span><span class="n">ke_default</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="n">lw_default</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; The subgraph matching kernel as proposed in :cite:`Kriege2012SubgraphMK`.</span>
-<span class="sd">    </span>
+
+<div class="viewcode-block" id="subgraph_matching"><a class="viewcode-back" href="../../../kernels.html#grakel.kernels.subgraph_matching">[docs]</a><span class="k">def</span> <span class="nf">subgraph_matching</span><span class="p">(</span>
+        <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Lx</span><span class="p">,</span> <span class="n">Ly</span><span class="p">,</span> <span class="n">Lex</span><span class="p">,</span> <span class="n">Ley</span><span class="p">,</span> <span class="n">kv</span><span class="o">=</span><span class="n">kv_default</span><span class="p">,</span> <span class="n">ke</span><span class="o">=</span><span class="n">ke_default</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="n">lw_default</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calculate the subgraph matching kernel.</span>
+
+<span class="sd">    See :cite:`Kriege2012SubgraphMK`.</span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    X,Y : *valid-graph-format*</span>
 <span class="sd">        The pair of graphs on which the kernel is applied.</span>
-<span class="sd">    </span>
+
 <span class="sd">    L{x,y} : dict</span>
 <span class="sd">        Corresponding graph labels for vertices.</span>
-<span class="sd">    </span>
-<span class="sd">    kv : function (symbol, symbol, dict, dict -&gt; number), default=:math:`k_{v}^{default}`</span>
+
+<span class="sd">    kv : function (symbol, symbol, dict, dict -&gt; number),</span>
+<span class="sd">    default=:math:`k_{v}^{default}`</span>
 <span class="sd">        The kernel function for two nodes based on label dictionaries.</span>
-<span class="sd">        </span>
-<span class="sd">    ke : function (tuple, tuple, dict, dict, dict, dict -&gt; number), default=:math:`k_{e}^{default}`</span>
-<span class="sd">        The kernel function for edges (tuples) of two graphs based on their edges (dict 1,2) and edge labels (dict 3,4).</span>
-<span class="sd">        </span>
+
+<span class="sd">    ke : function (tuple, tuple, dict, dict, dict, dict -&gt; number),</span>
+<span class="sd">    default=:math:`k_{e}^{default}`</span>
+<span class="sd">        The kernel function for edges (tuples) of two graphs based on their</span>
+<span class="sd">        edges (dict 1,2) and edge labels (dict 3,4).</span>
+
 <span class="sd">    lw : function (set -&gt; number), default=:math:`l_{w}^{default}`</span>
 <span class="sd">        A lambda weight function for cliques.</span>
-<span class="sd">        </span>
+
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    kernel : number</span>
 <span class="sd">        The kernel value.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">Gx</span> <span class="o">=</span> <span class="n">graph</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Lx</span><span class="p">,</span> <span class="n">Ley</span><span class="p">)</span>
     <span class="n">Gy</span> <span class="o">=</span> <span class="n">graph</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">Ly</span><span class="p">,</span> <span class="n">Ley</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">subgraph_matching_inner</span><span class="p">(</span><span class="n">Gx</span><span class="p">,</span> <span class="n">Gy</span><span class="p">,</span> <span class="n">kv</span><span class="o">=</span><span class="n">kv</span><span class="p">,</span> <span class="n">ke</span><span class="o">=</span><span class="n">ke</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="n">lw</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">subgraph_matching_pair</span><span class="p">(</span><span class="n">Gx</span><span class="p">,</span> <span class="n">Gy</span><span class="p">,</span> <span class="n">kv</span><span class="o">=</span><span class="n">kv</span><span class="p">,</span> <span class="n">ke</span><span class="o">=</span><span class="n">ke</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="n">lw</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="subgraph_matching_inner"><a class="viewcode-back" href="../../../kernels.html#grakel.kernels.subgraph_matching_inner">[docs]</a><span class="k">def</span> <span class="nf">subgraph_matching_inner</span><span class="p">(</span><span class="n">Gx</span><span class="p">,</span> <span class="n">Gy</span><span class="p">,</span> <span class="n">kv</span><span class="o">=</span><span class="n">kv_default</span><span class="p">,</span> <span class="n">ke</span><span class="o">=</span><span class="n">ke_default</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="n">lw_default</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; The subgraph matching kernel as proposed in :cite:`Kriege2012SubgraphMK`</span>
-<span class="sd">    </span>
+
+<div class="viewcode-block" id="subgraph_matching_pair"><a class="viewcode-back" href="../../../kernels.html#grakel.kernels.subgraph_matching_pair">[docs]</a><span class="k">def</span> <span class="nf">subgraph_matching_pair</span><span class="p">(</span>
+        <span class="n">Gx</span><span class="p">,</span> <span class="n">Gy</span><span class="p">,</span> <span class="n">kv</span><span class="o">=</span><span class="n">kv_default</span><span class="p">,</span> <span class="n">ke</span><span class="o">=</span><span class="n">ke_default</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="n">lw_default</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calculate the subgraph matching kernel.</span>
+
+<span class="sd">    See :cite:`Kriege2012SubgraphMK`.</span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    G{x,y} : graph</span>
 <span class="sd">        The pair graphs on which the kernel is applied.</span>
-<span class="sd">        </span>
-<span class="sd">    kv : function (symbol, symbol, dict, dict -&gt; number), default=:math:`k_{v}^{default}`</span>
+
+<span class="sd">    kv : function (symbol, symbol, dict, dict -&gt; number),</span>
+<span class="sd">    default=:math:`k_{v}^{default}`</span>
 <span class="sd">        The kernel function for two nodes based on label dictionaries.</span>
-<span class="sd">        </span>
-<span class="sd">    ke : function (tuple, tuple, dict, dict, dict, dict -&gt; number), default=:math:`k_{e}^{default}`</span>
-<span class="sd">        The kernel function for edges (tuples) of two graphs based on their edges (dict 1,2) and edge labels (dict 3,4).</span>
-<span class="sd">        </span>
+
+<span class="sd">    ke : function (tuple, tuple, dict, dict, dict, dict -&gt; number),</span>
+<span class="sd">    default=:math:`k_{e}^{default}`</span>
+<span class="sd">        The kernel function for edges (tuples) of two graphs based on their</span>
+<span class="sd">        edges (dict 1,2) and edge labels (dict 3,4).</span>
+
 <span class="sd">    lw : function (set -&gt; number), default=:math:`l_{w}^{default}`</span>
 <span class="sd">        A lambda weight function for cliques</span>
-<span class="sd">        </span>
+
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    kernel : number</span>
 <span class="sd">        The kernel value.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Calculate product graph</span>
     <span class="n">Vp</span><span class="p">,</span> <span class="n">Ep</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="n">weighted_product_graph</span><span class="p">(</span><span class="n">Gx</span><span class="p">,</span> <span class="n">Gy</span><span class="p">,</span> <span class="n">kv</span><span class="o">=</span><span class="n">kv</span><span class="p">,</span> <span class="n">ke</span><span class="o">=</span><span class="n">ke</span><span class="p">)</span>
-    
+
     <span class="c1"># Initialize values</span>
     <span class="n">C</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
     <span class="n">value</span> <span class="o">=</span> <span class="p">[</span><span class="o">.</span><span class="mi">0</span><span class="p">]</span>
-    
+
     <span class="n">subgraph_matching_core</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">Vp</span><span class="p">,</span> <span class="n">Ep</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">lw</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
-    
+
+
 <span class="k">def</span> <span class="nf">subgraph_matching_core</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">Ep</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">lw</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; The core algorithm of the subgraph matching kernel as proposed in :cite:`Kriege2012SubgraphMK` (p.5, Algorithm 1).</span>
+    <span class="sd">&quot;&quot;&quot;Calculate the core algorithm of the subgraph matching kernel.</span>
+
+<span class="sd">    See :cite:`Kriege2012SubgraphMK` (p.5, Algorithm 1).</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    G{x,y} : graph</span>
 <span class="sd">        The pair graphs on which the kernel is applied.</span>
-<span class="sd">        </span>
+
 <span class="sd">    w : number</span>
 <span class="sd">        The current weight.</span>
-<span class="sd">        </span>
-<span class="sd">    C : set </span>
+
+<span class="sd">    C : set</span>
 <span class="sd">        The current clique.</span>
-<span class="sd">        </span>
+
 <span class="sd">    P : set</span>
 <span class="sd">        Current vertices.</span>
-<span class="sd">        </span>
+
 <span class="sd">    c : dict</span>
 <span class="sd">        Costs of vertices, edges.</span>
-<span class="sd">        </span>
+
 <span class="sd">    lw : function: (set -&gt; number)</span>
 <span class="sd">        A lambda weight function for cliques.</span>
-<span class="sd">        </span>
+
 <span class="sd">    value : list</span>
-<span class="sd">        One element list used as mutable global variable for the recursion of the algorithm.</span>
+<span class="sd">        One element list used as mutable global variable for</span>
+<span class="sd">        the recursion of the algorithm.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    None.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">P</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+    <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">P</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">v</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
         <span class="n">w</span> <span class="o">=</span> <span class="n">w</span><span class="o">*</span><span class="n">c</span><span class="p">[</span><span class="n">v</span><span class="p">]</span>
-        
+
         <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">C</span><span class="p">):</span>
-            <span class="n">w</span> <span class="o">=</span> <span class="n">w</span><span class="o">*</span><span class="n">c</span><span class="p">[(</span><span class="n">u</span><span class="p">,</span><span class="n">v</span><span class="p">)]</span>
+            <span class="n">w</span> <span class="o">=</span> <span class="n">w</span><span class="o">*</span><span class="n">c</span><span class="p">[(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)]</span>
         <span class="n">C</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
         <span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="n">w</span><span class="o">*</span><span class="n">lw</span><span class="p">(</span><span class="n">C</span><span class="p">)</span>
-        
+
         <span class="c1"># Create the new P</span>
         <span class="n">Pp</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
         <span class="n">Pp</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
         <span class="n">Pp</span> <span class="o">&amp;=</span> <span class="n">Ep</span><span class="p">[</span><span class="n">v</span><span class="p">]</span>
-        
+
         <span class="c1"># apply subgraph matching for the new clique</span>
         <span class="n">subgraph_matching_core</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">Pp</span><span class="p">,</span> <span class="n">Ep</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">lw</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-        
+
+
 <span class="k">def</span> <span class="nf">weighted_product_graph</span><span class="p">(</span><span class="n">Gx</span><span class="p">,</span> <span class="n">Gy</span><span class="p">,</span> <span class="n">kv</span><span class="p">,</span> <span class="n">ke</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Calculates the weighted product graph as defined in :cite:`Kriege2012SubgraphMK` (p.5, Definition 5).</span>
-<span class="sd">        </span>
+    <span class="sd">&quot;&quot;&quot;Calculate the weighted product graph.</span>
+
+<span class="sd">    For a definition see :cite:`Kriege2012SubgraphMK` (p.5, Definition 5).</span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    G{x,y} : graph</span>
 <span class="sd">        The pair graphs on which the kernel is applied.</span>
-<span class="sd">        </span>
+
 <span class="sd">    kv : function (symbol, symbol, dict, dict -&gt; number)</span>
 <span class="sd">        The kernel function for two nodes based on label dictionaries.</span>
-<span class="sd">        </span>
+
 <span class="sd">    ke : function (tuple, tuple, dict, dict, dict, dict -&gt; number)</span>
-<span class="sd">        The kernel function for edges (tuples) of two graphs based on their edges (dict 1,2) and edge labels (dict 3,4).</span>
-<span class="sd">    </span>
+<span class="sd">        The kernel function for edges (tuples) of two graphs based</span>
+<span class="sd">        on their edges (dict 1,2) and edge labels (dict 3,4).</span>
+
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    Vp : set </span>
+<span class="sd">    Vp : set</span>
 <span class="sd">        The vertices of the weighted product graph.</span>
-<span class="sd">        </span>
+
 <span class="sd">    Ep : dict</span>
 <span class="sd">        The edges of the weighted product graph.</span>
-<span class="sd">        </span>
+
 <span class="sd">    c : dict</span>
 <span class="sd">        The cost dictionary for vertices and edges.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">Gx</span><span class="o">.</span><span class="n">desired_format</span><span class="p">(</span><span class="s2">&quot;all&quot;</span><span class="p">)</span>
     <span class="n">Gy</span><span class="o">.</span><span class="n">desired_format</span><span class="p">(</span><span class="s2">&quot;all&quot;</span><span class="p">)</span>
-    
+
     <span class="n">Lx</span> <span class="o">=</span> <span class="n">Gx</span><span class="o">.</span><span class="n">get_labels</span><span class="p">()</span>
     <span class="n">Ly</span> <span class="o">=</span> <span class="n">Gy</span><span class="o">.</span><span class="n">get_labels</span><span class="p">()</span>
     <span class="n">Lex</span> <span class="o">=</span> <span class="n">Gx</span><span class="o">.</span><span class="n">get_labels</span><span class="p">(</span><span class="s2">&quot;edge&quot;</span><span class="p">)</span>
     <span class="n">Ley</span> <span class="o">=</span> <span class="n">Gy</span><span class="o">.</span><span class="n">get_labels</span><span class="p">(</span><span class="s2">&quot;edge&quot;</span><span class="p">)</span>
     <span class="n">Ex</span> <span class="o">=</span> <span class="n">Gx</span><span class="o">.</span><span class="n">edge_dictionary</span>
     <span class="n">Ey</span> <span class="o">=</span> <span class="n">Gy</span><span class="o">.</span><span class="n">edge_dictionary</span>
-        
-    <span class="n">Kv</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">kv</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">Lx</span><span class="p">,</span><span class="n">Ly</span><span class="p">)</span>
-    <span class="n">Ke</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">ke</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">Ex</span><span class="p">,</span><span class="n">Ey</span><span class="p">,</span><span class="n">Lex</span><span class="p">,</span><span class="n">Ley</span><span class="p">)</span>
+
+    <span class="n">Kv</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">kv</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">Lx</span><span class="p">,</span> <span class="n">Ly</span><span class="p">)</span>
+    <span class="n">Ke</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">ke</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">Ex</span><span class="p">,</span> <span class="n">Ey</span><span class="p">,</span> <span class="n">Lex</span><span class="p">,</span> <span class="n">Ley</span><span class="p">)</span>
 
     <span class="c1"># initialise cost function</span>
     <span class="n">c</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
     <span class="c1"># Calculate valid vertices</span>
     <span class="n">Vp</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
     <span class="n">Ep</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-    
+
     <span class="c1"># calculate product graph vertex set</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Gx</span><span class="o">.</span><span class="n">n</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Gy</span><span class="o">.</span><span class="n">n</span><span class="p">):</span>
-            <span class="k">if</span><span class="p">(</span><span class="n">i</span><span class="o">!=</span><span class="n">j</span><span class="p">):</span>
-                <span class="n">value</span> <span class="o">=</span> <span class="n">Kv</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
-                <span class="k">if</span><span class="p">(</span><span class="n">value</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">):</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">i</span> <span class="o">!=</span> <span class="n">j</span><span class="p">):</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="n">Kv</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">value</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
                     <span class="c1"># add to vertex set</span>
-                    <span class="n">Vp</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">))</span>
+                    <span class="n">Vp</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">))</span>
                     <span class="c1"># add cost</span>
-                    <span class="n">c</span><span class="p">[(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)]</span><span class="o">=</span> <span class="n">value</span>
+                    <span class="n">c</span><span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)]</span> <span class="o">=</span> <span class="n">value</span>
                     <span class="c1"># initialise an empty set for neighbors</span>
-                    <span class="k">if</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">Ep</span><span class="p">:</span>
-                        <span class="n">Ep</span><span class="p">[(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">Ep</span><span class="p">:</span>
+                        <span class="n">Ep</span><span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="n">c</span><span class="p">[(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">0</span>
+                    <span class="n">c</span><span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">c</span><span class="p">[(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">0</span>
-            
-                    
-    
-    <span class="n">np</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">Vp</span><span class="p">)</span>
+                <span class="n">c</span><span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">0</span>
+
     <span class="c1"># calculate product graph valid edges</span>
     <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">Vp</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">Vp</span><span class="p">):</span>
-            <span class="k">if</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">!=</span><span class="n">w</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">and</span> <span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">!=</span><span class="n">w</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
-                <span class="n">value</span> <span class="o">=</span> <span class="n">Ke</span><span class="p">(</span><span class="n">v</span><span class="p">,</span><span class="n">w</span><span class="p">)</span>
-                <span class="k">if</span><span class="p">(</span><span class="n">value</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">):</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">w</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">and</span> <span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">w</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="n">Ke</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">value</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
                     <span class="c1"># add edge</span>
                     <span class="n">Ep</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
                     <span class="c1"># store value</span>
-                    <span class="n">c</span><span class="p">[(</span><span class="n">v</span><span class="p">,</span><span class="n">w</span><span class="p">)]</span> <span class="o">=</span> <span class="n">value</span>
+                    <span class="n">c</span><span class="p">[(</span><span class="n">v</span><span class="p">,</span> <span class="n">w</span><span class="p">)]</span> <span class="o">=</span> <span class="n">value</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="n">c</span><span class="p">[(</span><span class="n">v</span><span class="p">,</span><span class="n">w</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">0</span>
+                    <span class="n">c</span><span class="p">[(</span><span class="n">v</span><span class="p">,</span> <span class="n">w</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">c</span><span class="p">[(</span><span class="n">v</span><span class="p">,</span><span class="n">w</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">c</span><span class="p">[(</span><span class="n">v</span><span class="p">,</span> <span class="n">w</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">return</span> <span class="n">Vp</span><span class="p">,</span> <span class="n">Ep</span><span class="p">,</span> <span class="n">c</span>
 </pre></div>
 

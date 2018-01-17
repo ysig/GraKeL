@@ -158,50 +158,47 @@
            <div itemprop="articleBody">
             
   <h1>Source code for grakel.kernels.jsm</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot; This file contains the Jensen-Shannon Representation Alignment kernel as defined in :cite:`Bai2015AGK`.</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">import</span> <span class="nn">itertools</span>
-<span class="kn">import</span> <span class="nn">os</span>
+<span></span><span class="sd">&quot;&quot;&quot;The Jensen-Shannon Representation Alignment kernel :cite:`Bai2015AGK`.&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">math</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">scipy.linalg</span> <span class="k">import</span> <span class="n">hadamard</span>
+<span class="kn">from</span> <span class="nn">grakel.graph</span> <span class="k">import</span> <span class="n">graph</span>
 
-<span class="kn">from</span> <span class="nn">..graph</span> <span class="k">import</span> <span class="n">graph</span>
-<span class="kn">from</span> <span class="nn">..tools</span> <span class="k">import</span> <span class="n">rotl</span><span class="p">,</span> <span class="n">rotr</span>
 
 <div class="viewcode-block" id="jsm"><a class="viewcode-back" href="../../../kernels.html#grakel.kernels.jsm">[docs]</a><span class="k">def</span> <span class="nf">jsm</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">M</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; The Jensen-Shannon Representation Alignment kernel as proposed in :cite:`Bai2015AGK`.</span>
+    <span class="sd">&quot;&quot;&quot;Jensen-Shannon Representation Alignment kernel :cite:`Bai2015AGK`.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    X,Y : *valid-graph-format*</span>
 <span class="sd">        The pair of graphs on which the kernel is applied.</span>
-<span class="sd">        </span>
+
 <span class="sd">    M : int, default=3</span>
 <span class="sd">        The maximum number of JS-representations considered.</span>
 
 <span class="sd">    h : int, default=3</span>
 <span class="sd">        The number of layers of DB representations.</span>
-<span class="sd">    </span>
+
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    kernel : number</span>
 <span class="sd">        The kernel value.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">Gx</span> <span class="o">=</span> <span class="n">graph</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="p">{})</span>
     <span class="n">Gy</span> <span class="o">=</span> <span class="n">graph</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="p">{})</span>
-    <span class="k">return</span> <span class="n">jsm_inner</span><span class="p">(</span><span class="n">Gx</span><span class="p">,</span> <span class="n">Gy</span><span class="p">,</span> <span class="n">M</span><span class="o">=</span><span class="n">M</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="n">h</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">jsm_pair</span><span class="p">(</span><span class="n">Gx</span><span class="p">,</span> <span class="n">Gy</span><span class="p">,</span> <span class="n">M</span><span class="o">=</span><span class="n">M</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="n">h</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="jsm_inner"><a class="viewcode-back" href="../../../kernels.html#grakel.kernels.jsm_inner">[docs]</a><span class="k">def</span> <span class="nf">jsm_inner</span><span class="p">(</span><span class="n">Gx</span><span class="p">,</span> <span class="n">Gy</span><span class="p">,</span> <span class="n">M</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; The Jensen-Shannon Representation Alignment kernel for matrices as derived from :cite:`Bai2015AGK`.</span>
+
+<div class="viewcode-block" id="jsm_pair"><a class="viewcode-back" href="../../../kernels.html#grakel.kernels.jsm_pair">[docs]</a><span class="k">def</span> <span class="nf">jsm_pair</span><span class="p">(</span><span class="n">Gx</span><span class="p">,</span> <span class="n">Gy</span><span class="p">,</span> <span class="n">M</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Jensen-Shannon Representation Alignment, matrices :cite:`Bai2015AGK`.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    G{x,y} : graph</span>
 <span class="sd">        The pair of graphs on which the kernel is applied.</span>
-<span class="sd">    </span>
+
 <span class="sd">    M : int, default=3</span>
 <span class="sd">        The maximum number of JS-representations considered.</span>
 
@@ -212,11 +209,12 @@
 <span class="sd">    -------</span>
 <span class="sd">    kernel : number</span>
 <span class="sd">        The kernel value.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">h</span><span class="o">&lt;=</span><span class="mi">0</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">h</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;h must be a positive integer&quot;</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">M</span><span class="o">&lt;=</span><span class="mi">0</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">M</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;M must be a positive integer&quot;</span><span class="p">)</span>
 
     <span class="n">Nx</span><span class="p">,</span> <span class="n">Dx</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">Gx</span><span class="o">.</span><span class="n">produce_neighborhoods</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="s2">&quot;adjacency&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">M</span><span class="p">))</span>
@@ -236,21 +234,23 @@
         <span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">nx</span><span class="p">,</span> <span class="n">ny</span><span class="p">))</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nx</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ny</span><span class="p">):</span>
-                <span class="n">R</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">JG_mh_x</span><span class="p">[</span><span class="n">i</span><span class="p">,:]</span> <span class="o">-</span> <span class="n">JG_mh_y</span><span class="p">[</span><span class="n">j</span><span class="p">,:],</span> <span class="nb">ord</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+                <span class="n">R</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">JG_mh_x</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="o">-</span> <span class="n">JG_mh_y</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="p">:],</span> <span class="nb">ord</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 
         <span class="n">min_row</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
         <span class="n">min_col</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
         <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nx</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ny</span><span class="p">):</span>
-                <span class="k">if</span> <span class="n">R</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span><span class="o">==</span><span class="n">min_row</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="ow">and</span> <span class="n">R</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span><span class="o">==</span><span class="n">min_col</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">m_spherex</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">==</span><span class="nb">len</span><span class="p">(</span><span class="n">m_spherey</span><span class="p">[</span><span class="n">j</span><span class="p">]):</span>
-                    <span class="n">k</span><span class="o">+=</span><span class="mi">1</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">R</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="n">min_row</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="ow">and</span> <span class="n">R</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="n">min_col</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+                        <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">m_spherex</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">m_spherey</span><span class="p">[</span><span class="n">j</span><span class="p">])):</span>
+                    <span class="n">k</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="n">kernel</span> <span class="o">+=</span> <span class="n">k</span>
 
     <span class="k">return</span> <span class="n">kernel</span></div>
 
+
 <span class="k">def</span> <span class="nf">get_level_edges</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">nv</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Derive the graph edges for all the given K_expansions.</span>
+    <span class="sd">&quot;&quot;&quot;Derive the graph edges for all the given K_expansions.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -274,20 +274,21 @@
 <span class="sd">    E : dict</span>
 <span class="sd">        An edge dictionary for edges, with the same structure as</span>
 <span class="sd">        the N dictionary, except having sets of touples as values.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
 
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">E</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="p">{</span><span class="n">j</span><span class="p">:</span> <span class="nb">set</span><span class="p">()</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nv</span><span class="p">)}</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">h</span><span class="p">)}</span>
     <span class="k">for</span> <span class="n">level</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">h</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nv</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">level</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">level</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="n">E</span><span class="p">[</span><span class="n">level</span><span class="p">][</span><span class="n">node</span><span class="p">]</span> <span class="o">=</span> <span class="n">E</span><span class="p">[</span><span class="n">level</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">node</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-            <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="ow">in</span> <span class="n">D</span><span class="p">[</span><span class="n">level</span><span class="p">]:</span>
+            <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="ow">in</span> <span class="n">D</span><span class="p">[</span><span class="n">level</span><span class="p">]:</span>
                 <span class="k">if</span> <span class="n">N</span><span class="p">[</span><span class="n">level</span><span class="p">][</span><span class="n">node</span><span class="p">]:</span>
-                    <span class="n">E</span><span class="p">[</span><span class="n">level</span><span class="p">][</span><span class="n">node</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">))</span>
+                    <span class="n">E</span><span class="p">[</span><span class="n">level</span><span class="p">][</span><span class="n">node</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">E</span>
 
+
 <span class="k">def</span> <span class="nf">calculate_m_sphere</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">nv</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;  Calculate the m sphere.</span>
+    <span class="sd">&quot;&quot;&quot;Calculate the m sphere.</span>
 
 <span class="sd">    Paramaters</span>
 <span class="sd">    ----------</span>
@@ -303,26 +304,28 @@
 <span class="sd">    X : dict</span>
 <span class="sd">        Dictionary of sets of nodes for each nodes corresponding</span>
 <span class="sd">        to the all the nodes discovered by each node at level m.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">X</span> <span class="o">=</span> <span class="p">{</span><span class="n">j</span><span class="p">:</span> <span class="nb">set</span><span class="p">()</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nv</span><span class="p">)}</span>
-    <span class="k">for</span> <span class="p">(</span><span class="n">v</span><span class="p">,</span><span class="n">u</span><span class="p">)</span> <span class="ow">in</span> <span class="n">D</span><span class="p">:</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">u</span><span class="p">)</span> <span class="ow">in</span> <span class="n">D</span><span class="p">:</span>
         <span class="n">X</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
-    
+
     <span class="k">return</span> <span class="n">X</span>
 
+
 <span class="k">def</span> <span class="nf">JS_representation</span><span class="p">(</span><span class="n">K_exp_nodes</span><span class="p">,</span> <span class="n">K_exp_edges</span><span class="p">,</span> <span class="n">m_sphere</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">nv</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; The m-layer Jensen Shannon representation as shown in p. 2, 3 of :cite:`Bai2015AGK`.</span>
+    <span class="sd">&quot;&quot;&quot;m-layer Jensen Shannon representation p. 2, 3 of :cite:`Bai2015AGK`.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    K_exp_nodes : dict</span>
-<span class="sd">		The set of nodes on a given K expansion.</span>
+<span class="sd">        The set of nodes on a given K expansion.</span>
 
 <span class="sd">    K_exp_edges : dict</span>
-<span class="sd">    	The set of edges on a given K expansion.</span>
+<span class="sd">        The set of edges on a given K expansion.</span>
 
 <span class="sd">    m_sphere ; dict</span>
-<span class="sd">    	The nodes of the current m-sphere.</span>
+<span class="sd">        The nodes of the current m-sphere.</span>
 
 <span class="sd">    h : int</span>
 <span class="sd">        The number of layers of DB representations.</span>
@@ -334,34 +337,38 @@
 
 <span class="sd">    nv : int</span>
 <span class="sd">        The number of vertices.</span>
-<span class="sd">    </span>
+
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    J : np.array, shape=(nv,h)</span>
-<span class="sd">        The Jensen Shanon matrix as produced for all the vertices and at height h.</span>
-<span class="sd">        See eq. (7) p. 3 of :cite:`Bai2015AGK`.</span>
+<span class="sd">        The Jensen Shanon matrix as produced for all the vertices</span>
+<span class="sd">        and at height h. See eq. (7) p. 3 of :cite:`Bai2015AGK`.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">J</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">nv</span><span class="p">,</span> <span class="n">h</span><span class="p">))</span>
+    <span class="n">J</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">nv</span><span class="p">,</span> <span class="n">h</span><span class="p">))</span>
 
     <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nv</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">h</span><span class="p">):</span>
-            <span class="n">G</span> <span class="o">=</span> <span class="p">[(</span><span class="n">K_exp_edges</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">],</span><span class="nb">len</span><span class="p">(</span><span class="n">K_exp_nodes</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">]))]</span>
+            <span class="n">G</span> <span class="o">=</span> <span class="p">[(</span><span class="n">K_exp_edges</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">],</span> <span class="nb">len</span><span class="p">(</span><span class="n">K_exp_nodes</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">]))]</span>
             <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">m_sphere</span><span class="p">[</span><span class="n">j</span><span class="p">]:</span>
-                <span class="n">G</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">K_exp_edges</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">q</span><span class="p">],</span><span class="nb">len</span><span class="p">(</span><span class="n">K_exp_nodes</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">])))</span>
-            <span class="n">J</span><span class="p">[</span><span class="n">j</span><span class="p">,</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">entropy_calculation</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+                <span class="n">G</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">K_exp_edges</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">q</span><span class="p">],</span> <span class="nb">len</span><span class="p">(</span><span class="n">K_exp_nodes</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">])))</span>
+            <span class="n">J</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">entropy_calculation</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">J</span>
 
+
 <span class="k">def</span> <span class="nf">entropy_calculation</span><span class="p">(</span><span class="n">m_neighbor_graph_set</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Calculate the entropy as instructed by eq. (1,2,3) for eq. (7), form eq. (5,6) of :cite:`Bai2015AGK`, for a single vertex.</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Entropy calculation for a single vertex.</span>
+
+<span class="sd">    See eq. (1,2,3) for eq. (7) and eq. (5,6) of :cite:`Bai2015AGK`.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    m_neighbor_graph_set : list</span>
-<span class="sd">        A list of graphs touples corresponding to k_expansions of the m_neighbor edges</span>
-<span class="sd">        and the number of vertices on this expansion, as :math:`\mathbf{G}^{K}_{\hat{N}^{m}_{v}}`</span>
-<span class="sd">        explained in the firt line of p. 3 for eq. (6) of :cite:`Bai2015AGK`.</span>
+<span class="sd">        A list of graphs touples corresponding to k_expansions of the</span>
+<span class="sd">        m_neighbor edges and the number of vertices on this expansion,</span>
+<span class="sd">        as :math:`\mathbf{G}^{K}_{\hat{N}^{m}_{v}}` explained in the firt</span>
+<span class="sd">        line of p. 3 for eq. (6) of :cite:`Bai2015AGK`.</span>
 <span class="sd">        The root node should correspond to the first element of the list.</span>
 
 <span class="sd">    Returns</span>
@@ -373,18 +380,21 @@
     <span class="n">hdu</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">shs</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">snv</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,(</span><span class="n">edges</span><span class="p">,</span><span class="n">nv</span><span class="p">))</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">m_neighbor_graph_set</span><span class="p">):</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">edges</span><span class="p">,</span> <span class="n">nv</span><span class="p">))</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">m_neighbor_graph_set</span><span class="p">):</span>
         <span class="n">P</span> <span class="o">=</span> <span class="n">calculate_P</span><span class="p">(</span><span class="n">edges</span><span class="p">)</span>
         <span class="n">hs</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="o">-</span><span class="n">p</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">P</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
-        <span class="k">if</span> <span class="n">i</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">root_entropy</span> <span class="o">=</span> <span class="n">hs</span>
         <span class="n">shs</span> <span class="o">+=</span> <span class="n">hs</span>
         <span class="n">hdu</span> <span class="o">+=</span> <span class="n">nv</span><span class="o">*</span><span class="n">hs</span>
         <span class="n">snv</span> <span class="o">+=</span> <span class="n">nv</span>
     <span class="k">return</span> <span class="n">root_entropy</span> <span class="o">+</span> <span class="p">((</span><span class="n">hdu</span><span class="o">/</span><span class="n">snv</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">shs</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">m_neighbor_graph_set</span><span class="p">)))</span>
 
+
 <span class="k">def</span> <span class="nf">calculate_P</span><span class="p">(</span><span class="n">edges</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Calculates the probabilities of steady state random walks for each vertex as defined after eq. (2) on p. 2 of :cite:`Bai2015AGK`.</span>
+    <span class="sd">&quot;&quot;&quot;Probability calculation of steady state random walks for each vertex.</span>
+
+<span class="sd">    As defined after eq. (2) on p. 2 of :cite:`Bai2015AGK`.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -394,11 +404,12 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    P : dict</span>
-<span class="sd">        For dictionary between all nodes (that have outgoing edges) and their probabilities.</span>
+<span class="sd">        For dictionary between all nodes (that have outgoing edges)</span>
+<span class="sd">        and their probabilities.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">P</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-    <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">:</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">i</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">P</span><span class="p">:</span>
             <span class="n">P</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="n">P</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
@@ -406,7 +417,6 @@
     <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">P</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
         <span class="n">P</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">/=</span> <span class="n">NP</span>
     <span class="k">return</span> <span class="n">P</span>
-
 </pre></div>
 
            </div>
