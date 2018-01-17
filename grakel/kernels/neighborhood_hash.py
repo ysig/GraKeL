@@ -220,10 +220,10 @@ def neighborhood_hash_simple(G):
     vertices, labels, edges = G
     new_labels = dict()
     for u in vertices:
-        l = ROT(labels[u], 1)
+        label = ROT(labels[u], 1)
         for n in edges[u]:
-            l ^= labels[n]
-        new_labels[u] = l
+            label ^= labels[n]
+        new_labels[u] = label
     return (vertices, new_labels, edges)
 
 
@@ -247,15 +247,15 @@ def neighborhood_hash_count_sensitive(G):
     new_labels = dict()
     new_noc = dict()
     for u in vertices:
-        l = ROT(labels[u], 1)
+        label = ROT(labels[u], 1)
         for n in edges[u]:
             o = noc[labels[n]]
-            l ^= ROT(labels[n] ^ o, o)
-        if l not in new_noc:
-            new_noc[l] = 1
+            label ^= ROT(labels[n] ^ o, o)
+        if label not in new_noc:
+            new_noc[label] = 1
         else:
-            new_noc[l] += 1
-        new_labels[u] = l
+            new_noc[label] += 1
+        new_labels[u] = label
     return (vertices, new_labels, edges, new_noc)
 
 

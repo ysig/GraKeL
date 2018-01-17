@@ -88,8 +88,9 @@ def random_walk_pair(Gx, Gy, lamda=0.1, method_type="sylvester"):
 
         # XY is a square matrix
         s = XY.shape[0]
-        I = np.identity(s)
-        k = np.dot(np.dot(np.ones(s), inv(I - lamda*XY)).T, np.ones(shape=(s)))
+        Id = np.identity(s)
+        k = np.dot(np.dot(np.ones(s), inv(Id - lamda*XY)).T,
+                   np.ones(shape=(s)))
     elif(method_type == "sylvester"):
         # algorithm presented in [Vishwanathan et al., 2006]
         # complexity of O(|V|^3)

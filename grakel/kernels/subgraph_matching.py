@@ -17,6 +17,7 @@ def ke_default(x, y, Ex, Ey, Lex, Ley):
     else:
         return 0
 
+
 lw_default = lambda x: int(bool(x))
 
 

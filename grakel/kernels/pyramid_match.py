@@ -142,19 +142,19 @@ def pyramid_match_matrix(Graphs_x, Graphs_y=None, with_labels=True, L=4, d=6):
             Hs[i] = []
             for j in range(L):
                 # Number of cells along each dimension at level j
-                l = 2**j
+                k = 2**j
                 if with_labels:
                     # To store the number of vertices that are assigned a
                     # specific label and lie in each of the 2^j cells of
                     # each dimension at level j
-                    D = np.zeros((d*num_labels, l))
+                    D = np.zeros((d*num_labels, k))
                 else:
                     # Determines the cells in which each vertex lies
                     # along each dimension since nodes lie in the unit
                     # hypercube in R^d
-                    D = np.zeros((d, l))
-                T = np.floor(Us[i]*l)
-                T[np.where(T == l)] = l-1
+                    D = np.zeros((d, k))
+                T = np.floor(Us[i]*k)
+                T[np.where(T == k)] = k-1
                 for p in range(Us[i].shape[0]):
                     if p >= n:
                         continue

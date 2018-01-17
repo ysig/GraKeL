@@ -451,6 +451,7 @@ def big_dag_append(dag, big_dag=None, merge_features=True):
 
     return (D_vertices, D_hash_map, D_edges, D_labels)
 
+
 """
 # Dag Example from original paper
 tree_a = \

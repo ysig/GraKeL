@@ -127,16 +127,16 @@ def graphlet_sampling_matrix(Graphs_x, Graphs_y, k=5, **kargs):
 
     if "n_samples" in kargs:
         n_samples = kargs["n_samples"]
-        l = []
+        a = []
         if "delta" in kargs:
-            l.append('"delta"')
+            a.append('"delta"')
         if "epsilon" in kargs:
-            l.append('"epsilon"')
+            a.append('"epsilon"')
         if "a" in kargs:
-            l.append('"a"')
-        if len(l):
+            a.append('"a"')
+        if len(a):
             warnings.warn('Number of samples defined as input, \
-            ignoring arguments:', ', '.join(l))
+            ignoring arguments:', ', '.join(a))
         sample_graphlets = sample_graphlets_probabilistic
     elif "delta" in kargs or "epsilon" in kargs or "a" in kargs:
         sample_graphlets = sample_graphlets_probabilistic

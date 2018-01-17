@@ -128,5 +128,6 @@ def test_graph_edge_dictionary():
             npt.assert_array_equal(spm, spm_do)
             npt.assert_equal(spl, desired_labels)
 
+
 test_graph_adjacency()
 test_graph_edge_dictionary()

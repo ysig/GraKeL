@@ -172,6 +172,7 @@ def inv_dict(d):
         # returns a dictionary of lists
     return inv
 
+
 global ops
 ops = {
     '>': operator.gt,

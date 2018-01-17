@@ -144,10 +144,10 @@ def hash_graph(G, D, purpose='adjacency'):
     Lv = dict()
     glv = G.get_labels(label_type="vertex", purpose=purpose)
     for i in sorted(G.get_vertices(purpose=purpose)):
-        l = sorted([(str(D[(i, j)])+str(',')+str(glv[j]))
-                    for j in G.get_vertices() if j != i])
-        encoding += str(l)+"."
-        Lv[i] = l
+        label = sorted([(str(D[(i, j)])+str(',')+str(glv[j]))
+                        for j in G.get_vertices() if j != i])
+        encoding += str(label)+"."
+        Lv[i] = label
     encoding = encoding[:-1]+":"
 
     # Expand to labels for edges
@@ -155,7 +155,7 @@ def hash_graph(G, D, purpose='adjacency'):
     gle = G.get_labels(label_type="edge", purpose=purpose)
     for (i, j) in sorted(list(G.get_edges(purpose=purpose))):
         Le[(i, j)] = str(Lv[i])+str(',')+str(Lv[j])+str(',')+str(gle[(i, j)])
-        encoding += str(l)+"_"
+        encoding += str(Le[(i, j)])+"_"
 
     return APHash(encoding)
 

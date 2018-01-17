@@ -183,9 +183,9 @@ def gk_test_subtree_rg():
         print("Subtree [RG]:", gk.fit_transform(XX))
     else:
         bign = float(
-            """154581500920690609988657432454780221337898410611171065400182321
-            827306812872340855281323188197412607643176769313264563764886960206
-            76136950620929717075828209329592328934916049""".replace("\n", ""))
+            "154581500920690609988657432454780221337898410611171065400182321" +
+            "827306812872340855281323188197412607643176769313264563764886960" +
+            "20676136950620929717075828209329592328934916049")
         XX_correct = np.full((k, k), bign)
         npt.assert_array_equal(XX_correct, gk.fit_transform(XX))
 
@@ -317,9 +317,9 @@ def gk_test_neighborhood_hash():
 
 def gk_test_odd_sth():
     """Test the ODD-STh Kernel inside GraphKernel."""
-    l = {0: 'A', 1: 'B', 2: 'C', 3: 'D', 4: 'E', 5: 'F', 6: 'G'}
+    labels = {0: 'A', 1: 'B', 2: 'C', 3: 'D', 4: 'E', 5: 'F', 6: 'G'}
 
-    XX = list(k*[[X, l]])
+    XX = list(k*[[X, labels]])
     gk = GraphKernel(verbose=verbose,
                      kernel={"name": "odd_sth"})
 
