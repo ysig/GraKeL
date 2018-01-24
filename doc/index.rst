@@ -10,12 +10,12 @@ area in data-mining and machine learning, known as graph kernels.
 GrakeL provides
 
     .. toctree::
-       :maxdepth: 2
-        
-       api       
+       :maxdepth: 3
+       
+       api
        auto_examples/index
 
-See the `README <https://github.com/ysig/GraKeL/blob/master/README.md>`_
+See the `README <https://github.com/ysig/GraKeL/blob/develop/README.md>`_
 for more information.
 
 Documentation

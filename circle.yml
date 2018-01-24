@@ -12,7 +12,7 @@ machine:
     DOC_REPO: "GraKeL"
 
     # The base URL for the Github page where the documentation will be hosted
-    DOC_URL: ""
+    DOC_URL: "dev"
 
     # The email is to be used for commits in the Github Page
     EMAIL: "y.siglidis@gmail.com"
@@ -33,6 +33,7 @@ dependencies:
     - pip install --upgrade cython numpydoc
     - pip install --upgrade scikit-learn
     - pip install --upgrade cvxopt
+    - pip install --upgrade matplotlib
     - python install_pynauty.py --venv
   # The --user is needed to let sphinx see the source and the binaries
   # The pipefail is requested to propagate exit code

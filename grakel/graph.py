@@ -1355,7 +1355,7 @@ class graph(object):
             Returns the edge_dictionary of the current graph.
 
         """
-        if self._format is "dictionary":
+        if self._format != "dictionary":
             idx_i, idx_j = np.where(self.adjacency_matrix > 0)
             edge_dictionary = {i: dict() for i in range(0, self.n)}
             for (i, j) in zip(idx_i, idx_j):

@@ -317,7 +317,7 @@ def load_dataset(
     .. _gd: https://ls11-www.cs.tu-dortmund.de/staff/morris/graphkerneldatasets
 
     Parameters
-    ---------
+    ----------
     name : str
         The name of the dataset (as found in `gd`_).
 
@@ -349,16 +349,18 @@ def load_dataset(
     if name in dataset_metadata:
         if verbose:
             print("Downloading dataset for", str(name) + "..")
-        print('curl',
-              dataset_metadata[str(name)]["link"],
-              '-LOk',
-              '-o',
-              str(name) + '.zip')
-        call(['curl',
-              dataset_metadata[str(name)]["link"],
-              '-LOk',
-              '-o',
-              str(name) + '.zip'])
+            print('curl',
+                  dataset_metadata[str(name)]["link"],
+                  '-LOk',
+                  '-o',
+                  str(name) + '.zip')
+
+        if verbose:
+            call(['curl', dataset_metadata[str(name)]["link"],
+                  '-LOk', '-o', str(name) + '.zip'])
+        else:
+            call(['curl', '--silent', dataset_metadata[str(name)]["link"],
+                  '-LOk', '-o', str(name) + '.zip'])
 
         with zipfile.ZipFile(str(name) + '.zip', "r") as zip_ref:
             if verbose:
@@ -377,6 +379,8 @@ def load_dataset(
         if verbose:
             print("Parse was succesful..")
 
+        # Delete zip and extracted folder
+        os.remove(str(name) + '.zip')
         shutil.rmtree(str(name))
 
         if verbose:
@@ -384,9 +388,10 @@ def load_dataset(
 
         return data
     else:
-        raise ValueError('Dataset: "'+str(name)+'" is currently unsupported.\n\
-                          Supported datasets come from https://ls11-www.cs.tu\
-                          -dortmund.de/staff/morris/graphkerneldatasets. If \
-                          your dataset name appears them send us a pm, to\
-                          explain you either why we don\'t support it, or\
-                          to update are dataset database.')
+        raise ValueError('Dataset: "'+str(name)+'" is currently unsupported.' +
+                         '\nSupported datasets come from '
+                         'https://ls11-www.cs.tu-dortmund.de/staff/morris/' +
+                         'graphkerneldatasets. If your dataset name appears' +
+                         ' them send us a pm, to explain you either why we ' +
+                         'don\'t support it, or to update are dataset ' +
+                         'database.')

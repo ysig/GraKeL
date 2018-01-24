@@ -1,161 +1,363 @@
 """The weisfeiler lehman kernel :cite:`Shervashidze2011WeisfeilerLehmanGK`."""
-
-import itertools
+import collections
+import warnings
 
 import numpy as np
 
+from sklearn.exceptions import NotFittedError
+from sklearn.utils.validation import check_is_fitted
+
 from grakel.graph import graph
+from grakel.kernels import kernel
 
 
-def weisfeiler_lehman(X, Y, Lx, Ly, base_kernel, niter=5):
+class weisfeiler_lehman(kernel):
     """Compute the Weisfeiler Lehman Kernel.
 
      See :cite:`Shervashidze2011WeisfeilerLehmanGK`.
 
     Parameters
     ----------
-    X,Y : *valid-graph-format*
-        The pair of graphs on which the kernel is applied.
-
-    L{x,y} : dict
-        Corresponding graph labels for vertices.
-
-    base_kernel : function (graph, graph -> number)
-        A valid pairwise base_kernel for graphs.
+    base_kernel : `grakel.kernels.kernel` or tuple
+        If tuple it must consist of a valid kernel object and a
+        dictionary of parameters. General parameters concrening
+        normalization, concurrency, .. will be ignored, and the
+        ones of given on `__init__` will be passed in case it is needed.
 
     niter : int, default=5
         The number of iterations.
 
-    Returns
-    -------
-    kernel : number
-        The kernel value.
-
-    """
-    Ga = graph(X, Lx)
-    Gb = graph(Y, Ly)
-    bkm = lambda x, y: np.array([[base_kernel(x[0], y[0])]])
-    return weisfeiler_lehman_matrix({0: Ga}, bkm, {0: Gb}, niter)[0, 0]
-
-
-def weisfeiler_lehman_matrix(
-        Graphs_a, base_kernel_matrix, Graphs_b=None,  niter=5):
-    """Compute the Weisfeler Lehman Kernel Matrix.
-
-    See :cite:`Shervashidze2011WeisfeilerLehmanGK`.
-
-    Parameters
+    Attributes
     ----------
-    Graphs_{x,y} : dict, default_y=None
-        Enumerative dictionary of graph type objects with keys from 0 to the
-        number of values. If value of Graphs_y is None the kernel matrix is
-        computed between all pairs of Graphs_x where in another case the
-        kernel_matrix rows correspond to elements of Graphs_y, and columns
-        to the elements of Graphs_x.
+    X : dict
+     Holds a dictionary of fitted subkernel modules for all levels.
 
-    base_kernel_matrix : function (dict(graph), dict(graph) -> np.array)
-        Rows of the np.array should correspond to the second dictionary of
-        graphs and cols to the first. If the second graph is None the kernel
-        should be computed upon itself.
+    _nx : number
+        Holds the number of inputs.
 
-    niter : int, default=5
-        The number of iterations.
+    _niter : int
+        Holds the number, of iterations.
 
-    Returns
-    -------
-    kernel_mat : np.array
-        The kernel matrix.
+    _base_kernel : function
+        A void function that initializes a base kernel object.
+
+    _inv_labels : dict
+        An inverse dictionary, used for relabeling on each iteration.
 
     """
-    if niter < 1:
-        raise ValueError('n_iter must be an integer bigger than zero')
 
-    ng_a = len(Graphs_a.keys())
+    _graph_format = "auto"
 
-    if Graphs_b is None:
-        g_iter = [Graphs_a[i] for i in range(0, ng_a)]
-        ng = ng_a
-        ng_b = ng_a
-    else:
-        ng_b = len(Graphs_b.keys())
-        g_iter = itertools.chain([Graphs_a[i] for i in range(0, ng_a)],
-                                 [Graphs_b[i] for i in range(0, ng_b)])
-        ng = ng_a + ng_b
+    def __init__(self, **kargs):
+        """Initialise a `weisfeiler_lehman` kernel."""
+        base_params = self._valid_parameters.copy()
+        self._valid_parameters |= {"base_kernel", "niter"}
+        super(weisfeiler_lehman, self).__init__(**kargs)
 
-    Gs = dict()
-    G_ed = dict()
-    L_orig = dict()
+        self._niter = kargs.get("niter", 5)
+        if self._niter <= 0:
+            raise ValueError('number of iterations must be greater than zero')
+        self._niter += 1
 
-    # get all the distinct values of current labels
-    WL_labels = dict()
-    WL_labels_inverse = dict()
-    distinct_values = set()
+        if "base_kernel" not in kargs:
+            raise ValueError('User must provide a base kernel.')
+        else:
+            if type(kargs["base_kernel"]) is type and \
+                    issubclass(kargs["base_kernel"], kernel):
+                base_kernel = kargs["base_kernel"]
+                params = dict()
+            else:
+                try:
+                    base_kernel, params = kargs["base_kernel"]
+                except Exception:
+                    raise ValueError('Base kernel was not provided in the' +
+                                     ' correct way. Check documentation.')
 
-    for (i, g) in enumerate(g_iter):
-        g.desired_format("dictionary")
-        Gs[i] = g
-        G_ed[i] = g.edge_dictionary
-        L_orig[i] = g.node_labels
-        # calculate all the distinct values
-        distinct_values |= set(L_orig[i].values())
-    distinct_values = sorted(list(distinct_values))
+                if not (type(base_kernel) is type and
+                        issubclass(base_kernel, kernel)):
+                    raise ValueError('The first argument must be a valid ' +
+                                     'grakel.kernel.kernel Object')
+                if type(params) is not dict:
+                    raise ValueError('If the second argument of base' +
+                                     ' kernel exists, it must be a diction' +
+                                     'ary between parameters names and values')
+                params.pop("normalize", None)
+                for p in base_params:
+                        params.pop(p, None)
+            params["normalize"] = False
+            params["verbose"] = self._verbose
+            params["executor"] = self._executor
+            self._base_kernel = lambda *args: base_kernel(**params)
 
-    # assign a number to each label
-    label_count = 0
-    for dv in distinct_values:
-        WL_labels[label_count] = dv
-        WL_labels_inverse[dv] = label_count
-        label_count += 1
+    def parse_input(self, X):
+        """Parse input for weisfeiler lehman.
 
-    for i in range(ng):
-        L = dict()
-        for k in L_orig[i].keys():
-            L[k] = WL_labels_inverse[L_orig[i][k]]
+        Parameters
+        ----------
+        X : iterable
+            Each element must be an iterable with at most three features and at
+            least one. The first that is obligatory is a valid graph structure
+            (adjacency matrix or edge_dictionary) while the second is
+            node_labels and the third edge_labels (that fitting the given grap
+            format). The train samples.
 
-        # add new labels
-        Gs[i].relabel(L)
+        Returns
+        -------
+        base_kernel : object
+        Returns base_kernel.
 
-    kernel = np.zeros(shape=(ng_b, ng_a))
-    kernel = np.add(kernel, base_kernel_matrix(Graphs_a, Graphs_b))
+        """
+        if self._method_calling not in [1, 2]:
+            raise ValueError('method call must be called either from fit ' +
+                             'or transform')
+        # Input validation and parsing
+        if not isinstance(X, collections.Iterable):
+            raise ValueError('input must be an iterable\n')
+            # Not a dictionary
+        else:
+            nx = 0
+            Gs_ed, L, distinct_values = dict(), dict(), set()
+            for (i, x) in enumerate(iter(X)):
+                if len(x) == 0:
+                    warnings.warn('Ignoring empty element on index: '+str(i))
+                if len(x) == 1:
+                    if type(x) is not graph:
+                        raise ValueError('weisfeiler_lehman requires labels')
+                    Gs_ed[nx] = x.get_edge_dictionary()
+                    L[nx] = x.get_labels(purpose="dictionary")
+                    distinct_values |= set(L.values())
+                    nx += 1
+                elif len(x) in [2, 3]:
+                    x = graph(x[0], x[1], {},
+                              graph_format=self._graph_format)
+                    Gs_ed[nx] = x.get_edge_dictionary()
+                    L[nx] = x.get_labels(purpose="dictionary")
+                    distinct_values |= set(L[nx].values())
+                    nx += 1
+                else:
+                    raise ValueError('each element of X must have at least' +
+                                     ' one and at most 3 elements\n')
 
-    for i in range(niter):
-        label_set = set()
-        L_temp = dict()
-        for j in range(ng):
-            # Find unique labels and sort
-            # them for both graphs
-            # Keep for each node the temporary
-            L_temp[j] = dict()
-            for v in G_ed[j].keys():
-                nlist = list()
-                for neighbor in G_ed[j][v].keys():
-                    nlist.append(Gs[j].node_labels[neighbor])
-                credential = str(Gs[j].node_labels[v])+","+str(sorted(nlist))
-                L_temp[j][v] = credential
-                label_set.add(credential)
+            distinct_values = sorted(list(distinct_values))
+            if nx == 0:
+                raise ValueError('parsed input is empty')
+        # DSave the numebr of graphs of x.
+        self._nx = nx
 
-        label_list = sorted(list(label_set))
-        for dv in label_list:
+        # get all the distinct values of current labels
+        WL_labels, WL_labels_inverse = dict(), dict()
+
+        # assign a number to each label
+        label_count = 0
+        WL_labels_inverse = dict()
+        for dv in distinct_values:
             WL_labels[label_count] = dv
             WL_labels_inverse[dv] = label_count
             label_count += 1
 
-        # Recalculate labels
-        for j in range(ng):
-            L = dict()
-            for k in L_temp[j].keys():
-                L[k] = WL_labels_inverse[L_temp[j][k]]
-            # relabel
-            Gs[j].relabel(L)
+        # Initalize an inverse dictionary of labels for all iterations
+        self._inv_labels = dict()
+        self._inv_labels[0] = WL_labels_inverse
 
-        # calculate kernel
-        kernel = np.add(kernel, base_kernel_matrix(Graphs_a, Graphs_b))
+        new_graphs = list()
+        for j in range(nx):
+            for k in L[j].keys():
+                L[j][k] = WL_labels_inverse[L[j][k]]
 
-    # Restore original labels
-    for i in range(ng):
-        Gs[i].relabel(L_orig[i])
+            # add new labels
+            new_graphs.append([Gs_ed[j], L[j]])
 
-    if Graphs_b is None:
-        kernel = np.triu(kernel) + np.triu(kernel, 1).T
+        base_kernel = dict()
+        base_kernel[0] = self._base_kernel()
 
-    return kernel
+        if self._method_calling == 1:
+            base_kernel[0].fit(new_graphs)
+        elif self._method_calling == 2:
+            K = np.zeros(shape=(nx, nx))
+            K += base_kernel[0].fit_transform(new_graphs)
+
+        for i in range(1, self._niter):
+            label_set, WL_labels_inverse, L_temp = set(), dict(), dict()
+            for j in range(nx):
+                # Find unique labels and sort
+                # them for both graphs
+                # Keep for each node the temporary
+                L_temp[j] = dict()
+                for v in Gs_ed[j].keys():
+                    nlist = list()
+                    for neighbor in Gs_ed[j][v].keys():
+                        nlist.append(L[j][neighbor])
+                    credential = str(L[j][v]) + "," + str(sorted(nlist))
+                    L_temp[j][v] = credential
+                    label_set.add(credential)
+
+            label_list = sorted(list(label_set))
+            for dv in label_list:
+                WL_labels[label_count] = dv
+                WL_labels_inverse[dv] = label_count
+                label_count += 1
+
+            # Recalculate labels
+            new_graphs = list()
+            for j in range(nx):
+                for k in L_temp[j].keys():
+                    L[j][k] = WL_labels_inverse[L_temp[j][k]]
+                # relabel
+                new_graphs.append([Gs_ed[j], L[j]])
+
+            # calculate kernel
+            base_kernel[i] = self._base_kernel()
+            self._inv_labels[i] = WL_labels_inverse
+            if self._method_calling == 1:
+                base_kernel[i].fit(new_graphs)
+            elif self._method_calling == 2:
+                K += base_kernel[i].fit_transform(new_graphs)
+
+        if self._method_calling == 1:
+            return base_kernel
+        elif self._method_calling == 2:
+            return K, base_kernel
+
+    def fit_transform(self, X):
+        """Fit and transform, on the same dataset.
+
+        Paramaters
+        ----------
+        X : iterable
+            Each element must be an iterable with at most three features and at
+            least one. The first that is obligatory is a valid graph structure
+            (adjacency matrix or edge_dictionary) while the second is
+            node_labels and the third edge_labels (that fitting the given graph
+            format). If None the kernel matrix is calculated upon fit data.
+            The test samples.
+
+        Returns
+        -------
+        K : numpy array, shape = [n_targets, n_input_graphs]
+            corresponding to the kernel matrix, a calculation between
+            all pairs of graphs between target an features
+
+        """
+        self._method_calling = 2
+        if X is None:
+            raise ValueError('transform input cannot be None')
+        else:
+            km, self.X = self.parse_input(X)
+
+        self._X_diag = np.reshape(np.diagonal(km), (km.shape[0], 1))
+        if self._normalize:
+            self._X_diag = np.copy(self._X_diag)
+            km /= np.sqrt(np.multiply(self._X_diag, self._X_diag.T))
+        return km
+
+    def transform(self, X):
+        """Calculate the kernel matrix, between given and fitted dataset.
+
+        Paramaters
+        ----------
+        X : iterable
+            Each element must be an iterable with at most three features and at
+            least one. The first that is obligatory is a valid graph structure
+            (adjacency matrix or edge_dictionary) while the second is
+            node_labels and the third edge_labels (that fitting the given graph
+            format). If None the kernel matrix is calculated upon fit data.
+            The test samples.
+
+        Returns
+        -------
+        K : numpy array, shape = [n_targets, n_input_graphs]
+            corresponding to the kernel matrix, a calculation between
+            all pairs of graphs between target an features
+
+        """
+        self._method_calling = 3
+        # Check is fit had been called
+        check_is_fitted(self, ['X', '_nx', '_inv_labels'])
+
+        # Input validation and parsing
+        if X is None:
+            raise ValueError('transform input cannot be None')
+        else:
+            if not isinstance(X, collections.Iterable):
+                raise ValueError('input must be an iterable\n')
+                # Not a dictionary
+            else:
+                nx = 0
+                Gs_ed, L = dict(), dict()
+                for (i, x) in enumerate(iter(X)):
+                    if len(x) == 0:
+                        warnings.warn('Ignoring empty element on index: '
+                                      + str(i))
+                    if len(x) == 1:
+                        if type(x) is not graph:
+                            raise ValueError('weisfeiler_lehman ' +
+                                             'requires labels')
+                        Gs_ed[nx] = x.get_edge_dictionary()
+                        L[nx] = x.get_labels(purpose="dictionary")
+                        nx += 1
+                    elif len(x) in [2, 3]:
+                        x = graph(x[0], x[1], {})
+                        Gs_ed[nx] = x.get_edge_dictionary()
+                        L[nx] = x.get_labels(purpose="dictionary")
+                        nx += 1
+                    else:
+                        raise ValueError('each element of X must have at ' +
+                                         'least one and at most 3 elements\n')
+                if nx == 0:
+                    raise ValueError('parsed input is empty')
+
+        K = np.zeros(shape=(nx, self._nx))
+        for i in range(self._niter):
+            new_graphs = []
+            for j in range(nx):
+                for k in L.keys():
+                    L[j][k] = self._inv_labels[i].get(k, -1)
+                # make the transform graph input
+                new_graphs.append([Gs_ed[j], L[j]])
+            K += self.X[i].transform(new_graphs)
+
+        # Define if normalization will happen
+        if self._normalize:
+            X_diag, Y_diag = self.diagonal()
+            K /= np.sqrt(np.dot(Y_diag, X_diag.T))
+        return K
+
+    def diagonal(self):
+        """Calculate the kernel matrix diagonal for fitted data.
+
+        A funtion called on transform on a seperate dataset to apply
+        normalization on the exterior.
+
+        Parameters
+        ----------
+        None.
+
+        Returns
+        -------
+        X_diag : np.array
+            The diagonal of the kernel matrix, of the fitted data.
+            This consists of kernel calculation for each element with itself.
+
+        Y_diag : np.array
+            The diagonal of the kernel matrix, of the transformed data.
+            This consists of kernel calculation for each element with itself.
+
+        """
+        # Check if fit had been called
+        check_is_fitted(self, ['X'])
+        try:
+            check_is_fitted(self, ['_X_diag'])
+            Y_diag = self.X[0].diagonal()[1]
+            for i in range(1, self._niter):
+                Y_diag += self.X[i].diagonal()[1]
+        except NotFittedError:
+            # Calculate diagonal of X
+            X_diag, Y_diag = self.X[0].diagonal()
+            X_diag.flags.writeable = True
+            for i in range(1, self._niter):
+                x, y = self.X[i].diagonal()
+                X_diag += x
+                Y_diag += y
+            self._X_diag = X_diag
+
+        return self._X_diag, Y_diag

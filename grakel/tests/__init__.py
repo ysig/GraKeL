@@ -1,1 +1,1 @@
-"""__init__ file for tests sub-module."""
+"""`__init__` file for tests sub-module."""

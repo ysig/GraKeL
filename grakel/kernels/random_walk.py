@@ -1,133 +1,231 @@
 """RW-ker. as in :cite:`Kashima2003MarginalizedKB`, :cite:`Grtner2003OnGK`."""
-
+import collections
 import warnings
 
 import numpy as np
 
+from numpy import ComplexWarning
 from numpy.linalg import inv
-from scipy.linalg import solve_sylvester
+from numpy.linalg import eig
+from scipy.linalg import expm
 
+from grakel.kernels import kernel
 from grakel.graph import graph
 
 
-def random_walk(X, Y, lamda=0.1, method_type="sylvester"):
-    """Calculate the random walk kernel.
+class random_walk(kernel):
+    """The random walk kernel class.
 
     See :cite:`Kashima2003MarginalizedKB`, :cite:`Grtner2003OnGK`
     and :cite:`Vishwanathan2006FastCO`.
 
     Parameters
     ----------
-    X,Y : *valid-graph-format*
-        The pair of graphs on which the kernel is applied.
-
-    lamda : float
+    lambda : float
         A lambda factor concerning summation.
 
-    method_type : str, valid_values={"simple", "sylvester"}
+    method_type : str, valid_values={"simple", "fast"}
         The method to use for calculating random walk kernel:
-            + "simple" *Complexity*: :math:`O(|V|^6)`
+            + "baseline" *Complexity*: :math:`O(|V|^6)`
               (see :cite:`Kashima2003MarginalizedKB`, :cite:`Grtner2003OnGK`)
-            + "sylvester" *Complexity*: :math:`O(|V|^3)`
+            + "fast" *Complexity*: :math:`O((|E|+|V|)|V||M|)`
               (see :cite:`Vishwanathan2006FastCO`)
 
-    Returns
-    -------
-    kernel : number
-        The kernel value.
+    kernel_type : str, valid_values={"geometric", "exponential"}
+        Defines how inner summation will be applied.
 
-    """
-    g_x = graph(X)
-    g_y = graph(Y)
+    p : int, optional
+        If initialised defines the number of steps.
 
-    return random_walk_pair(g_x, g_y, lamda, method_type)
-
-
-def random_walk_pair(Gx, Gy, lamda=0.1, method_type="sylvester"):
-    """Calculate the random walk kernel.
-
-    See :cite:`Kashima2003MarginalizedKB`, :cite:`Grtner2003OnGK`
-    and in :cite:`Vishwanathan2006FastCO`.
-
-    Parameters
+    Attributes
     ----------
-    G{x,y} : graph
-        The pair of graphs on which the kernel is applied.
-
-    lamda : float
+    _lambda : float
         A lambda factor concerning summation.
 
-    method_type : str, valid_values={"simple", "sylvester"}
+    _kernel_type : str, valid_values={"geometric", "exponential"}
+        Defines how inner summation will be applied.
+
+    _method_type : str valid_values={"simple", "sylvester"}
         The method to use for calculating random walk kernel:
-            + "simple" *Complexity*: :math:`O(|V|^6)`
+            + "baseline" *Complexity*: :math:`O(|V|^6)`
               (see :cite:`Kashima2003MarginalizedKB`, :cite:`Grtner2003OnGK`)
-            + "sylvester" *Complexity*: :math:`O(|V|^3)`
+            + "fast" *Complexity*: :math:`O((|E|+|V|)|V||M|)`
               (see :cite:`Vishwanathan2006FastCO`)
 
-    Returns
-    -------
-    kernel : number
-        The kernel value.
+    _p : int
+        If not -1, the number of steps of the random walk kernel.
 
     """
-    Gx.desired_format("adjacency")
-    Gy.desired_format("adjacency")
-    X = Gx.adjacency_matrix
-    Y = Gy.adjacency_matrix
 
-    if lamda > 0.5:
-        warnings.warn('by increasing lambda the \
-            summation series may not converge')
+    _graph_format = "adjacency"
 
-    if(method_type == "simple"):
-        # calculate the product graph
-        XY = np.kron(X, Y)
+    _method_type = "fast"
+    _kernel_type = "geometric"
+    _p = -1
+    _lambda = 0.1
 
-        # algorithm presented in [Kashima et al., 2003; Gartner et al., 2003]
-        # complexity of O(|V|^6)
+    def __init__(self, **kargs):
+        """Initialise a random_walk kernel."""
+        # setup valid parameters and initialise from parent
+        self._valid_parameters |= {"lambda", "method_type"}
+        super(random_walk, self).__init__(**kargs)
 
-        # XY is a square matrix
-        s = XY.shape[0]
-        Id = np.identity(s)
-        k = np.dot(np.dot(np.ones(s), inv(Id - lamda*XY)).T,
-                   np.ones(shape=(s)))
-    elif(method_type == "sylvester"):
-        # algorithm presented in [Vishwanathan et al., 2006]
-        # complexity of O(|V|^3)
+        warnings.filterwarnings('ignore', category=ComplexWarning)
 
-        X_dimension = X.shape[0]
-        Y_dimension = Y.shape[0]
+        # Setup method type and define operation.
+        method_type = kargs.get("method_type", "fast")
+        if method_type == "fast":
+            invert = lambda n, w, v: (np.sum(v, axis=0)/n,
+                                      w,
+                                      np.sum(inv(v), axis=1)/n)
+            self._add_input = lambda x: invert(x.shape[0], *eig(x))
+        else:
+            self._add_input = lambda x: x
 
-        # For efficiency reasons multiply lambda
-        # with the smallest e_{x,y} in dimension
-        e_x = np.ones(shape=(X_dimension, 1))
-        e_y = np.ones(shape=(1, Y_dimension))
+        self._kernel_type = kargs.get("kernel_type", "geometric")
+        if self._kernel_type not in ["geometric", "exponential"]:
+            raise ValueError('unsupported kernel type: either "geometric" ' +
+                             'or "exponential"')
 
-        # Prepare parameters for sylvester equation
-        A = Y
+        if "p" in kargs:
+            if kargs["p"] > 0:
+                self._p = kargs["p"]
+                if self._kernel_type == "geometric":
+                    self._mu = [1]
+                    fact = 1
+                    power = 1
+                    for k in range(1, self._p + 1):
+                        fact *= k
+                        power *= self._lambda
+                        self._mu.append(fact/power)
+                else:
+                    self._mu = [1]
+                    power = 1
+                    for k in range(1, self._p + 1):
+                        power *= self._lambda
+                        self._mu.append(power)
 
-        try:
-            B = np.divide(inv(X.T), -lamda)
-        except np.linalg.LinAlgError as err:
-            if 'Singular matrix' in err.message:
-                raise ValueError('Adjacency matrix of the first graph \
-                                is not invertible')
+        self._lambda = kargs.get("lambda", 0.1)
+        if self._lambda <= 0:
+            raise ValueError('lambda must be positive bigger than equal')
+        elif self._lambda > 0.5 and self._p == -1:
+                warnings.warn('ranodm-walk series may fail to converge')
+
+    def parse_input(self, X):
+        """Parse and create features for graphlet_sampling kernel.
+
+        Parameters
+        ----------
+        X : object
+            For the input to pass the test, we must have:
+            Each element must be an iterable with at most three features and at
+            least one. The first that is obligatory is a valid graph structure
+            (adjacency matrix or edge_dictionary) while the second is
+            node_labels and the third edge_labels (that fitting the given graph
+            format). If None the kernel matrix is calculated upon fit data.
+            The test samples.
+
+        Returns
+        -------
+        out : list
+            The extracted adjacency matrices for any given input.
+
+        """
+        if not isinstance(X, collections.Iterable):
+            raise ValueError('input must be an iterable\n')
+            # Not a dictionary
+        else:
+            i = 0
+            out = list()
+            for x in iter(X):
+                if len(x) == 0:
+                    warnings.warn('Ignoring empty element on index: '+str(i))
+                if len(x) in [1, 2, 3]:
+                    if len(x) == 1 and type(x) is graph:
+                        A = x.get_adjacency_matrix()
+                    else:
+                        A = graph(x[0], {}, {},
+                                  self._graph_format).get_adjacency_matrix()
+                    i += 1
+                    out.append(self._add_input(A))
+                else:
+                    raise ValueError('each element of X must have at least' +
+                                     ' one and at most 3 elements\n')
+
+            if i == 0:
+                raise ValueError('parsed input is empty')
+
+            return out
+
+    def pairwise_operation(self, X, Y):
+        """Calculate the random walk kernel.
+
+        Fast:
+        Spectral demoposition algorithm as presented in
+        :cite:`Vishwanathan2006FastCO` p.13, s.4.4, with
+        complexity of :math:`O((|E|+|V|)|E||V|^2)` for graphs witout labels.
+
+        Baseline:
+        Algorithm presented in :cite:`Kashima2003MarginalizedKB`,
+        :cite:`Grtner2003OnGK` with complexity of :math:`O(|V|^6)`
+
+        Parameters
+        ----------
+        X, Y : Objects
+            Objects as produced from parse_input.
+
+        Returns
+        -------
+        kernel : number
+            The kernel value.
+
+        """
+        if(self._method_type == "baseline"):
+            # calculate the product graph
+            XY = np.kron(X, Y)
+
+            # algorithm presented in
+            # [Kashima et al., 2003; Gartner et al., 2003]
+            # complexity of O(|V|^6)
+
+            # XY is a square matrix
+            s = XY.shape[0]
+            Id = np.identity(s)
+
+            if self._kernel_type == "geometric":
+                return np.dot(np.dot(np.ones(s), inv(Id - self._lambda*XY)).T,
+                              np.ones(shape=(s)))
+            elif self._kernel_type == "exponential":
+                return np.dot(np.dot(np.ones(s), expm(self._lambda*XY)).T,
+                              np.ones(shape=(s)))
+
+        else:
+            # Spectral demoposition algorithm as presented in
+            # [Vishwanathan et al., 2006] p.13, s.4.4, with
+            # complexity of O((|E|+|V|)|E||V|^2) for graphs
+            # witout labels
+
+            # calculate kernel
+            qi_Pi, wi, Pi_inv_pi = X
+            qj_Pj, wj, Pj_inv_pj = Y
+
+            # calculate left right flanking factors
+            fl = np.kron(qi_Pi, qj_Pj)
+            fr = np.kron(Pi_inv_pi, Pj_inv_pj)
+
+            # calculate D based on the method
+            Dij = np.kron(wi, wj)
+            if self._p > 0:
+                Q = np.diagonal(Dij)
+                D = np.eye(Q.shape[0])
+                S = self._mu[0] * Q
+                for k in self._mu[1:]:
+                    D *= Q
+                    S += k*D
+
             else:
-                raise
-
-        C = -np.dot(e_x, np.dot(e_y, B))
-
-        try:
-            R = solve_sylvester(A, B, C)
-        except np.linalg.LinAlgError as err:
-            raise ValueError('Solution was not found for the Sylvester \
-                    Equation. Check Input!')
-
-        # calculate kernel
-        k = - np.sum(np.sum(R, axis=1), axis=0)
-    else:
-        pass
-        # raise exception?
-        # such method does not exist
-
-    return k
+                if self._kernel_type == "geometric":
+                    D = np.diagflat(1/(1-self._lambda*Dij))
+                elif self._kernel_type == "exponential":
+                    D = np.diagflat(np.exp(self._lambda*Dij))
+            return np.dot(fl, np.dot(D, fr))
