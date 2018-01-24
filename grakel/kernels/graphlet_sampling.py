@@ -253,11 +253,14 @@ class graphlet_sampling(kernel):
         # Transform - calculate kernel matrix
         self._phi_X = phi_x
         km = np.dot(phi_x, phi_x.T)
-        self._X_diag = np.reshape(np.diagonal(km), (km.shape[0], 1))
+
+        self._X_diag = np.diagonal(km).reshape(km.shape[0], 1)
         if self._normalize:
-            self._X_diag = np.copy(self._X_diag)
-            km /= np.sqrt(np.multiply(self._X_diag.T, self._X_diag))
-        return km
+            return np.divide(km,
+                             np.sqrt(np.multiply(self._X_diag.T,
+                                                 self._X_diag)))
+        else:
+            return km
 
     def diagonal(self):
         """Calculate the kernel matrix diagonal for fitted data.

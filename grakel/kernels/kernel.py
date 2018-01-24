@@ -185,11 +185,14 @@ class kernel(BaseEstimator, TransformerMixin):
 
         # Transform - calculate kernel matrix
         km = self._calculate_kernel_matrix()
+
         self._X_diag = np.diagonal(km).reshape(km.shape[0], 1)
         if self._normalize:
-            self._X_diag = np.copy(self._X_diag)
-            km /= np.sqrt(np.multiply(self._X_diag.T, self._X_diag))
-        return km
+            return np.divide(km,
+                             np.sqrt(np.multiply(self._X_diag.T,
+                                                 self._X_diag)))
+        else:
+            return km
 
     def _calculate_kernel_matrix(self, Y=None):
         """Calculate the kernel matrix given a target_graph and a kernel.
@@ -221,7 +224,7 @@ class kernel(BaseEstimator, TransformerMixin):
                     K[j, i] = self._executor(self.pairwise_operation, y, x)
                 cache.append(x)
 
-                K = np.triu(K) + np.triu(K, 1).T
+            K = np.triu(K) + np.triu(K, 1).T
 
         else:
             K = np.zeros(shape=(len(Y), len(self.X)))

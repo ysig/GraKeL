@@ -7,6 +7,8 @@ from grakel.kernels.subtree_wl import subtree_wl
 from grakel.kernels.shortest_path import shortest_path
 from grakel.kernels.shortest_path import shortest_path_attr
 from grakel.kernels.weisfeiler_lehman import weisfeiler_lehman
+from grakel.kernels.neighborhood_hash import neighborhood_hash
+from grakel.kernels.pyramid_match import pyramid_match
 
 __all__ = [
     "kernel",
@@ -15,5 +17,7 @@ __all__ = [
     "subtree_wl",
     "shortest_path",
     "shortest_path_attr",
-    "weisfeiler_lehman"
+    "weisfeiler_lehman",
+    "neighborhood_hash",
+    "pyramid_match"
 ]

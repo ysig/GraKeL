@@ -21,23 +21,23 @@ import grakel.graph_kernels as gkl
 def sec_to_time(sec):
     """Print time in a correct format."""
     dt = list()
-    days = sec // 86400
+    days = int(sec // 86400)
     if days > 0:
         sec -= 86400*days
         dt.append(str(days) + " d")
 
-    hrs = sec // 3600
+    hrs = int(sec // 3600)
     if hrs > 0:
         sec -= 3600*hrs
         dt.append(str(hrs) + " h")
 
-    mins = sec // 60
+    mins = int(sec // 60)
     if mins > 0:
         sec -= 60*mins
         dt.append(str(mins) + " m")
 
     if sec > 0:
-        dt.append(str(sec) + " s")
+        dt.append(str(round(sec, 2)) + " s")
     return " ".join(dt)
 
 # Loads the MUTAG, ENZYMES dataset from:

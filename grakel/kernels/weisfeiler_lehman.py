@@ -125,7 +125,7 @@ class weisfeiler_lehman(kernel):
                         raise ValueError('weisfeiler_lehman requires labels')
                     Gs_ed[nx] = x.get_edge_dictionary()
                     L[nx] = x.get_labels(purpose="dictionary")
-                    distinct_values |= set(L.values())
+                    distinct_values |= set(L[nx].values())
                     nx += 1
                 elif len(x) in [2, 3]:
                     x = graph(x[0], x[1], {},
@@ -161,9 +161,10 @@ class weisfeiler_lehman(kernel):
 
         new_graphs = list()
         for j in range(nx):
+            new_labels = dict()
             for k in L[j].keys():
-                L[j][k] = WL_labels_inverse[L[j][k]]
-
+                new_labels[k] = WL_labels_inverse[L[j][k]]
+            L[j] = new_labels
             # add new labels
             new_graphs.append([Gs_ed[j], L[j]])
 
@@ -200,8 +201,10 @@ class weisfeiler_lehman(kernel):
             # Recalculate labels
             new_graphs = list()
             for j in range(nx):
+                new_labels = dict()
                 for k in L_temp[j].keys():
-                    L[j][k] = WL_labels_inverse[L_temp[j][k]]
+                    new_labels[k] = WL_labels_inverse[L_temp[j][k]]
+                L[j] = new_labels
                 # relabel
                 new_graphs.append([Gs_ed[j], L[j]])
 
@@ -246,9 +249,11 @@ class weisfeiler_lehman(kernel):
 
         self._X_diag = np.reshape(np.diagonal(km), (km.shape[0], 1))
         if self._normalize:
-            self._X_diag = np.copy(self._X_diag)
-            km /= np.sqrt(np.multiply(self._X_diag, self._X_diag.T))
-        return km
+            return np.divide(km,
+                             np.sqrt(np.multiply(self._X_diag.T,
+                                                 self._X_diag)))
+        else:
+            return km
 
     def transform(self, X):
         """Calculate the kernel matrix, between given and fitted dataset.
@@ -310,8 +315,10 @@ class weisfeiler_lehman(kernel):
         for i in range(self._niter):
             new_graphs = []
             for j in range(nx):
+                new_labels = dict()
                 for k in L.keys():
-                    L[j][k] = self._inv_labels[i].get(k, -1)
+                    new_labels[k] = self._inv_labels[i].get(k, -1)
+                L[j] = new_labels
                 # make the transform graph input
                 new_graphs.append([Gs_ed[j], L[j]])
             K += self.X[i].transform(new_graphs)
@@ -319,8 +326,9 @@ class weisfeiler_lehman(kernel):
         # Define if normalization will happen
         if self._normalize:
             X_diag, Y_diag = self.diagonal()
-            K /= np.sqrt(np.dot(Y_diag, X_diag.T))
-        return K
+            return np.divide(K, np.sqrt(np.dot(Y_diag, X_diag.T)))
+        else:
+            return K
 
     def diagonal(self):
         """Calculate the kernel matrix diagonal for fitted data.

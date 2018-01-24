@@ -17,6 +17,8 @@ from grakel.kernels import subtree_wl
 from grakel.kernels import shortest_path
 from grakel.kernels import shortest_path_attr
 from grakel.kernels import weisfeiler_lehman
+from grakel.kernels import pyramid_match
+from grakel.kernels import neighborhood_hash
 
 np.random.seed(int(time.time()))
 
@@ -94,7 +96,11 @@ class GraphKernel(BaseEstimator, TransformerMixin):
 
                         - "multiscale_laplacian"
                             + (**o**) "L" : [int]
-                            + (**o**) "gamma"
+                            + (**o**) lambda : float
+                            + (**o**) method_type : [str], "baseline", "fast"
+                            + (**o**) kernel_type : [str], "geometric",
+                            "exponential"
+                            + (**o**) p : [int] > 0
 
                         - "subgraph_matching"
                             + (**o**) "kv" : [function] :
@@ -344,7 +350,7 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                 elif kernel_name == "svm_theta":
                     raise ValueError('still developing')
                 elif kernel_name == "neighborhood_hash":
-                    raise ValueError('still developing')
+                    return (neighborhood_hash, kernel)
                 elif kernel_name == "neighborhood_subgraph_pairwise_distance":
                     raise ValueError('still developing')
                 elif kernel_name == "odd_sth":
@@ -352,7 +358,7 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                 elif kernel_name == "propagation":
                     raise ValueError('still developing')
                 elif kernel_name == "pyramid_match":
-                    raise ValueError('still developing')
+                    return (pyramid_match, kernel)
                 elif kernel_name == "jsm":
                     raise ValueError('still developing')
             elif kernel_name in supported_general_kernels:

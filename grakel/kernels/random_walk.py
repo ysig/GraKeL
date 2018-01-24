@@ -24,7 +24,7 @@ class random_walk(kernel):
     lambda : float
         A lambda factor concerning summation.
 
-    method_type : str, valid_values={"simple", "fast"}
+    method_type : str, valid_values={"baseline", "fast"}
         The method to use for calculating random walk kernel:
             + "baseline" *Complexity*: :math:`O(|V|^6)`
               (see :cite:`Kashima2003MarginalizedKB`, :cite:`Grtner2003OnGK`)
@@ -45,7 +45,7 @@ class random_walk(kernel):
     _kernel_type : str, valid_values={"geometric", "exponential"}
         Defines how inner summation will be applied.
 
-    _method_type : str valid_values={"simple", "sylvester"}
+    _method_type : str valid_values={"baseline", "fast"}
         The method to use for calculating random walk kernel:
             + "baseline" *Complexity*: :math:`O(|V|^6)`
               (see :cite:`Kashima2003MarginalizedKB`, :cite:`Grtner2003OnGK`)

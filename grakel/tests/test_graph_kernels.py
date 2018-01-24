@@ -14,8 +14,16 @@ if __name__ == '__main__':
                         stdout', action="store_true")
     parser.add_argument('--problematic', help='allow execution of problematic\
                         test cases in development', action="store_true")
+    parser.add_argument('--normalize', help='normalize the kernel output',
+                        action="store_true")
     parser.add_argument('--ignore_warnings', help='ignore warnings produced by\
                         kernel executions', action="store_true")
+    parser.add_argument(
+        '--dataset',
+        help='chose the datset you want the tests to be executed',
+        type=str,
+        default="MUTAG"
+    )
 
     meg = parser.add_mutually_exclusive_group()
     meg.add_argument('--develop', help='execute only tests connected with\
@@ -39,60 +47,85 @@ if __name__ == '__main__':
         import warnings
         warnings.filterwarnings('ignore', category=UserWarning)
 
+    normalize = bool(args.normalize)
+
+    dataset_name = args.dataset
 else:
     import warnings
     warnings.filterwarnings('ignore', category=UserWarning)
-    main, develop, verbose = True, False, False
+    main, develop, verbose, problematic = True, False, False, False
+    normalize = False
+    dataset_name = "MUTAG"
 
-global MUTAG_tr, MUTAG_te
+global dataset_tr, dataset_te
 
-MUTAG = load_dataset("MUTAG", with_classes=False, verbose=verbose)
-MUTAG_tr = MUTAG[:int(len(MUTAG)*0.8)]
-MUTAG_te = MUTAG[int(len(MUTAG)*0.8):]
+dataset = load_dataset(dataset_name, with_classes=False, verbose=verbose)
+dataset_tr = dataset[:int(len(dataset)*0.8)]
+dataset_te = dataset[int(len(dataset)*0.8):]
 
 
 def test_subtree_wl():
     """Test the wl subtree kernel."""
-    gk = GraphKernel(kernel={"name": "subtree_wl"}, verbose=verbose)
+    gk = GraphKernel(kernel={"name": "subtree_wl"}, verbose=verbose,
+                     normalize=normalize)
     if verbose:
-        print_kernel_decorator("Subtree WL", gk, MUTAG_tr, MUTAG_te)
+        print_kernel_decorator("Subtree WL", gk, dataset_tr, dataset_te)
 
 
 def test_random_walk():
     """Test the simple random walk kernel."""
-    gk = GraphKernel(kernel={"name": "random_walk"}, verbose=verbose)
+    gk = GraphKernel(kernel={"name": "random_walk"}, verbose=verbose,
+                     normalize=normalize)
     if verbose:
-        print_kernel_decorator("Random Walk", gk, MUTAG_tr, MUTAG_te)
+        print_kernel_decorator("Random Walk", gk, dataset_tr, dataset_te)
 
 
 def test_shortest_path():
     """Test Shortest Path kernel."""
-    gk = GraphKernel(kernel={"name": "shortest_path"}, verbose=verbose)
+    gk = GraphKernel(kernel={"name": "shortest_path"}, verbose=verbose,
+                     normalize=normalize)
     if verbose:
-        print_kernel_decorator("Shortest Path", gk, MUTAG_tr, MUTAG_te)
+        print_kernel_decorator("Shortest Path", gk, dataset_tr, dataset_te)
 
 
 def test_graphlet_sampling():
     """Test the Graphlet Sampling Kernel."""
     gk = GraphKernel(kernel={"name": "graphlet_sampling", "n_samples": 200},
-                     verbose=verbose)
+                     verbose=verbose, normalize=normalize)
     if verbose:
-        print_kernel_decorator("Graphlet Sampling", gk, MUTAG_tr, MUTAG_te)
+        print_kernel_decorator("Graphlet Sampling", gk, dataset_tr, dataset_te)
 
 
 def test_weisfeiler_lehman():
     """Test the Weisfeiler Lehman kernel."""
     gk = GraphKernel(kernel=[{"name": "weisfeiler_lehman"},
-                     {"name": "subtree_wl"}], verbose=verbose)
+                     {"name": "subtree_wl"}],
+                     verbose=verbose, normalize=normalize)
     if verbose:
-        print_kernel_decorator("WL/Subtree", gk, MUTAG_tr, MUTAG_te)
+        print_kernel_decorator("WL/Subtree", gk, dataset_tr, dataset_te)
+
+
+def test_pyramid_match():
+    """Test Pyramid Match kernel."""
+    gk = GraphKernel(kernel={"name": "pyramid_match"}, verbose=verbose,
+                     normalize=normalize)
+    if verbose:
+        print_kernel_decorator("Pyramid Match", gk, dataset_tr, dataset_te)
+
+
+def test_neighborhood_hash():
+    """Test Neighborhood Hash kernel."""
+    gk = GraphKernel(kernel={"name": "neighborhood_hash"}, verbose=verbose,
+                     normalize=normalize)
+    if verbose:
+        print_kernel_decorator("Neighborhood Hash", gk, dataset_tr, dataset_te)
 
 
 def print_kernel_decorator(name, kernel, X, Y):
     """Print kernels in case of verbose execution."""
     name += " [decorator]"
     print(str(name) + ":\n" + (len(str(name)) * "-") + "-\n")
-    print("\nfit_transform\n-------------")
+    print("fit_transform\n-------------")
     print(kernel.fit_transform(X))
     print("\ntransform\n---------")
     print(kernel.transform(Y))
@@ -103,8 +136,11 @@ if verbose and main:
     test_subtree_wl()
     test_random_walk()
     test_shortest_path()
-    test_graphlet_sampling()
     test_weisfeiler_lehman()
+    test_pyramid_match()
+    test_neighborhood_hash()
+    test_graphlet_sampling()
+
 if verbose and develop:
     if problematic:
         pass
