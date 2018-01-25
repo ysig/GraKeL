@@ -74,7 +74,7 @@ else:
     warnings.filterwarnings('ignore', category=UserWarning)
     main, develop, problematic = True, False, False
     normalize, verbose, = False, False
-    dataset = "MUTAG"
+    dataset_name = "MUTAG"
 
 global dataset_tr, dataset_te
 
