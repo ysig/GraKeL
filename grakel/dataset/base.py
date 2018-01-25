@@ -7,6 +7,8 @@ import numpy as np
 
 from subprocess import call
 
+from sklearn.utils import Bunch
+
 global datasets_metadata, symmetric_dataset
 
 dataset_metadata = {
@@ -301,9 +303,10 @@ def read_data(
                 classes.append(int(line[:-1]))
 
         classes = np.array(classes, dtype=np.int)
-        return Gs, classes
+        return Bunch(data=Gs,
+                     target=classes)
     else:
-        return Gs
+        return Bunch(data=Gs)
 
 
 def load_dataset(

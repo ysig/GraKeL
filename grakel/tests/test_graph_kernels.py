@@ -59,7 +59,7 @@ else:
 
 global dataset_tr, dataset_te
 
-dataset = load_dataset(dataset_name, with_classes=False, verbose=verbose)
+dataset = load_dataset(dataset_name, with_classes=False, verbose=verbose).data
 dataset_tr = dataset[:int(len(dataset)*0.8)]
 dataset_te = dataset[int(len(dataset)*0.8):]
 

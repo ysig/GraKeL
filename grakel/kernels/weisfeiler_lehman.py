@@ -325,7 +325,7 @@ class weisfeiler_lehman(kernel):
             get = lambda k, i: self._inv_labels[i][k] \
                 if k in self._inv_labels[i] else WL_labels_inverse[k]
         else:
-            get = lambda k, i: self._inv_labels[i].get(k, None)
+            get = lambda k, i: self._inv_labels[i].get(k, -1)
 
         # calculate the kernel matrix for the 0 iteration
         new_graphs = list()
