@@ -1,0 +1,383 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Weisfeiler Lehman Kernel &mdash; GraKeL 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="GraKeL 0.0.1 documentation" href="../index.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> GraKeL
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">GraKeL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">General examples</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">GraKeL</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Weisfeiler Lehman Kernel</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/kernels/weisfeiler_lehman.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="weisfeiler-lehman-kernel">
+<h1>Weisfeiler Lehman Kernel<a class="headerlink" href="#weisfeiler-lehman-kernel" title="Permalink to this headline">¶</a></h1>
+<p>The Weisfeiler Lehman Kernel.</p>
+<span class="target" id="module-grakel.kernels.weisfeiler_lehman"></span><p>The weisfeiler lehman kernel <a class="reference internal" href="#shervashidze2011weisfeilerlehmangk" id="id1">[SSvL+11]</a>.</p>
+<dl class="class">
+<dt id="grakel.kernels.weisfeiler_lehman.weisfeiler_lehman">
+<em class="property">class </em><code class="descclassname">grakel.kernels.weisfeiler_lehman.</code><code class="descname">weisfeiler_lehman</code><span class="sig-paren">(</span><em>**kargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/grakel/kernels/weisfeiler_lehman.html#weisfeiler_lehman"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.weisfeiler_lehman.weisfeiler_lehman" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the Weisfeiler Lehman Kernel.</p>
+<blockquote>
+<div>See <a class="reference internal" href="#shervashidze2011weisfeilerlehmangk" id="id2">[SSvL+11]</a>.</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>base_kernel</strong> : <cite>grakel.kernels.kernel</cite> or tuple</p>
+<blockquote>
+<div><p>If tuple it must consist of a valid kernel object and a
+dictionary of parameters. General parameters concrening
+normalization, concurrency, .. will be ignored, and the
+ones of given on <cite>__init__</cite> will be passed in case it is needed.</p>
+</div></blockquote>
+<p><strong>niter</strong> : int, default=5</p>
+<blockquote class="last">
+<div><p>The number of iterations.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="19%" />
+<col width="81%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><strong>X</strong></td>
+<td>(dict) Holds a dictionary of fitted subkernel modules for all levels.</td>
+</tr>
+<tr class="row-even"><td><strong>_nx</strong></td>
+<td>(number) Holds the number of inputs.</td>
+</tr>
+<tr class="row-odd"><td><strong>_niter</strong></td>
+<td>(int) Holds the number, of iterations.</td>
+</tr>
+<tr class="row-even"><td><strong>_base_kernel</strong></td>
+<td>(function) A void function that initializes a base kernel object.</td>
+</tr>
+<tr class="row-odd"><td><strong>_inv_labels</strong></td>
+<td>(dict) An inverse dictionary, used for relabeling on each iteration.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<dl class="method">
+<dt id="grakel.kernels.weisfeiler_lehman.weisfeiler_lehman.diagonal">
+<code class="descname">diagonal</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/grakel/kernels/weisfeiler_lehman.html#weisfeiler_lehman.diagonal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.weisfeiler_lehman.weisfeiler_lehman.diagonal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the kernel matrix diagonal for fitted data.</p>
+<p>A funtion called on transform on a seperate dataset to apply
+normalization on the exterior.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>None.</strong></p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>X_diag</strong> : np.array</p>
+<blockquote>
+<div><p>The diagonal of the kernel matrix, of the fitted data.
+This consists of kernel calculation for each element with itself.</p>
+</div></blockquote>
+<p><strong>Y_diag</strong> : np.array</p>
+<blockquote class="last">
+<div><p>The diagonal of the kernel matrix, of the transformed data.
+This consists of kernel calculation for each element with itself.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="grakel.kernels.weisfeiler_lehman.weisfeiler_lehman.fit_transform">
+<code class="descname">fit_transform</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/grakel/kernels/weisfeiler_lehman.html#weisfeiler_lehman.fit_transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.weisfeiler_lehman.weisfeiler_lehman.fit_transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit and transform, on the same dataset.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>K</strong> : numpy array, shape = [n_targets, n_input_graphs]</p>
+<blockquote class="last">
+<div><p>corresponding to the kernel matrix, a calculation between
+all pairs of graphs between target an features</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="grakel.kernels.weisfeiler_lehman.weisfeiler_lehman.parse_input">
+<code class="descname">parse_input</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/grakel/kernels/weisfeiler_lehman.html#weisfeiler_lehman.parse_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.weisfeiler_lehman.weisfeiler_lehman.parse_input" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse input for weisfeiler lehman.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X</strong> : iterable</p>
+<blockquote>
+<div><p>Each element must be an iterable with at most three features and at
+least one. The first that is obligatory is a valid graph structure
+(adjacency matrix or edge_dictionary) while the second is
+node_labels and the third edge_labels (that fitting the given grap
+format). The train samples.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>base_kernel</strong> : object</p>
+<p class="last">Returns base_kernel.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="grakel.kernels.weisfeiler_lehman.weisfeiler_lehman.transform">
+<code class="descname">transform</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/grakel/kernels/weisfeiler_lehman.html#weisfeiler_lehman.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.weisfeiler_lehman.weisfeiler_lehman.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the kernel matrix, between given and fitted dataset.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>K</strong> : numpy array, shape = [n_targets, n_input_graphs]</p>
+<blockquote class="last">
+<div><p>corresponding to the kernel matrix, a calculation between
+all pairs of graphs between target an features</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<div class="section" id="bibliography">
+<h2>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">¶</a></h2>
+<p id="bibtex-bibliography-kernels/weisfeiler_lehman-0"><table class="docutils citation" frame="void" id="shervashidze2011weisfeilerlehmangk" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[SSvL+11]</td><td><em>(<a class="fn-backref" href="#id1">1</a>, <a class="fn-backref" href="#id2">2</a>)</em> Nino Shervashidze, Pascal Schweitzer, Erik&nbsp;Jan van Leeuwen, Kurt Mehlhorn, and Karsten&nbsp;M. Borgwardt. Weisfeiler-lehman graph kernels. <em>Journal of Machine Learning Research</em>, 12:2539–2561, 2011.</td></tr>
+</tbody>
+</table>
+</p>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, DaSciM.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

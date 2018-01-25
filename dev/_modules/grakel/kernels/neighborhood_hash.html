@@ -1,0 +1,567 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>grakel.kernels.neighborhood_hash &mdash; GraKeL 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../../genindex.html"/>
+        <link rel="search" title="Search" href="../../../search.html"/>
+    <link rel="top" title="GraKeL 0.0.1 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> GraKeL
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">GraKeL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html">General examples</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">GraKeL</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>grakel.kernels.neighborhood_hash</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for grakel.kernels.neighborhood_hash</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;The neighborhood hashing kernel as defined in :cite:`Hido2009ALG`.&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">collections</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="kn">from</span> <span class="nn">grakel.graph</span> <span class="k">import</span> <span class="n">graph</span>
+<span class="kn">from</span> <span class="nn">grakel.tools</span> <span class="k">import</span> <span class="n">rotl</span>
+<span class="kn">from</span> <span class="nn">grakel.tools</span> <span class="k">import</span> <span class="n">rotr</span>
+<span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">kernel</span>
+
+
+<div class="viewcode-block" id="neighborhood_hash"><a class="viewcode-back" href="../../../kernels/neighborhood_hash.html#grakel.kernels.neighborhood_hash.neighborhood_hash">[docs]</a><span class="k">class</span> <span class="nc">neighborhood_hash</span><span class="p">(</span><span class="n">kernel</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Neighborhood hashing kernel as proposed in :cite:`Hido2009ALG`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    R : int, default=3</span>
+<span class="sd">        The maximum number of neighborhood hash.</span>
+
+<span class="sd">    nh_type : str, valid_types={&quot;simple&quot;, &quot;count_sensitive&quot;}, default=&quot;simple&quot;</span>
+<span class="sd">        The existing neighborhood hash type as defined in :cite:`Hido2009ALG`.</span>
+
+<span class="sd">    bytes : int, default=2</span>
+<span class="sd">        Byte size of hashes.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    -------</span>
+<span class="sd">    _R : number</span>
+<span class="sd">        The maximum number of neighborhood hash.</span>
+
+<span class="sd">    _NH : function</span>
+<span class="sd">        The neighborhood hashing function.</span>
+
+<span class="sd">    _noc_f : bool</span>
+<span class="sd">        A flag concerning the number of occurencies metric.</span>
+
+<span class="sd">    _bytes : int</span>
+<span class="sd">        Defines the byte size of hashes.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialise a `pyramid_match` kernel.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_valid_parameters</span> <span class="o">|=</span> <span class="p">{</span><span class="s2">&quot;R&quot;</span><span class="p">,</span> <span class="s2">&quot;nh_type&quot;</span><span class="p">,</span> <span class="s2">&quot;byte&quot;</span><span class="p">}</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">neighborhood_hash</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kargs</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_R</span> <span class="o">=</span> <span class="n">kargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;R&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_R</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;R must be bigger than zero&#39;</span><span class="p">)</span>
+
+        <span class="n">nh_type</span> <span class="o">=</span> <span class="n">kargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;nh_type&quot;</span><span class="p">,</span> <span class="s2">&quot;simple&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">nh_type</span> <span class="o">==</span> <span class="s1">&#39;simple&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_noc_f</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_NH</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">G</span><span class="p">:</span> <span class="n">neighborhood_hash_simple</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">nh_type</span> <span class="o">==</span> <span class="s1">&#39;count-sensitive&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_noc_f</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_NH</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">G</span><span class="p">:</span> <span class="n">neighborhood_hash_count_sensitive</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;unrecognised neighborhood hashing type&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_bytes</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">kargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;bytes&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bytes</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;illegal number of bytes for hashing&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_default_nonce_hash</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">_bytes</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+<div class="viewcode-block" id="neighborhood_hash.parse_input"><a class="viewcode-back" href="../../../kernels/neighborhood_hash.html#grakel.kernels.neighborhood_hash.neighborhood_hash.parse_input">[docs]</a>    <span class="k">def</span> <span class="nf">parse_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Parse and create features for shortest_path kernel.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : object</span>
+<span class="sd">            For the input to pass the test, we must have:</span>
+<span class="sd">            Each element must be an iterable with at most three features and at</span>
+<span class="sd">            least one. The first that is obligatory is a valid graph structure</span>
+<span class="sd">            (adjacency matrix or edge_dictionary) while the second is</span>
+<span class="sd">            node_labels and the third edge_labels (that fitting the given graph</span>
+<span class="sd">            format). If None the kernel matrix is calculated upon fit data.</span>
+<span class="sd">            The test samples.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        H : list</span>
+<span class="sd">            A list of lists of Histograms for all levels for each graph.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">collections</span><span class="o">.</span><span class="n">Iterable</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;input must be an iterable</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">gs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_method_calling</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_labels_hash_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_labels_hash_set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">iter</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;Ignoring empty element on index: &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">is</span> <span class="n">graph</span><span class="p">:</span>
+                        <span class="n">v</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">get_vertices</span><span class="p">(</span><span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;any&quot;</span><span class="p">))</span>
+                        <span class="n">L</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">get_labels</span><span class="p">(</span><span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;any&quot;</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                            <span class="s1">&#39;Ignoring empty element on index: &#39;</span>
+                            <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Labels must be provided.&#39;</span><span class="p">)</span>
+                    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]:</span>
+                    <span class="n">x</span> <span class="o">=</span> <span class="n">graph</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="p">{},</span> <span class="bp">self</span><span class="o">.</span><span class="n">_graph_format</span><span class="p">)</span>
+                    <span class="n">v</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">get_vertices</span><span class="p">(</span><span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;any&quot;</span><span class="p">))</span>
+                    <span class="n">L</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">get_labels</span><span class="p">(</span><span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;any&quot;</span><span class="p">)</span>
+                    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;each element of X must have at least&#39;</span> <span class="o">+</span>
+                                     <span class="s1">&#39; one and at most 3 elements</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_method_calling</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]:</span>
+                    <span class="n">labels</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hash_labels</span><span class="p">(</span><span class="n">L</span><span class="p">)</span>
+
+                <span class="n">g</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">radix_sort</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">L</span><span class="p">))</span> <span class="o">+</span> \
+                    <span class="p">({</span><span class="n">n</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">neighbors</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;any&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">v</span><span class="p">},)</span>
+
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_noc_f</span><span class="p">:</span>
+                    <span class="n">noc</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+                    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">labels</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                        <span class="k">if</span> <span class="n">labels</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">noc</span><span class="p">:</span>
+                            <span class="n">noc</span><span class="p">[</span><span class="n">labels</span><span class="p">[</span><span class="n">k</span><span class="p">]]</span> <span class="o">=</span> <span class="mi">1</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">noc</span><span class="p">[</span><span class="n">labels</span><span class="p">[</span><span class="n">k</span><span class="p">]]</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="n">g</span> <span class="o">+=</span> <span class="p">(</span><span class="n">noc</span><span class="p">,)</span>
+
+                <span class="n">gr</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+                <span class="n">gr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_NH</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_R</span><span class="p">):</span>
+                    <span class="n">gr</span><span class="p">[</span><span class="n">r</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_NH</span><span class="p">(</span><span class="n">gr</span><span class="p">[</span><span class="n">r</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+                <span class="n">gs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">gr</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;parsed input is empty&#39;</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">gs</span></div>
+
+<div class="viewcode-block" id="neighborhood_hash.pairwise_operation"><a class="viewcode-back" href="../../../kernels/neighborhood_hash.html#grakel.kernels.neighborhood_hash.neighborhood_hash.pairwise_operation">[docs]</a>    <span class="k">def</span> <span class="nf">pairwise_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Calculate a pairwise kernel between two elements.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        x, y : dict</span>
+<span class="sd">            Dict of len=2, tuples, consisting of vertices sorted by</span>
+<span class="sd">            (labels, vertices) and edge-labels dict, for each radius</span>
+<span class="sd">            from 0 .. R-1.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        kernel : number</span>
+<span class="sd">            The kernel value.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">nh_compare_labels</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">r</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">r</span><span class="p">])</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_R</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="neighborhood_hash.hash_labels"><a class="viewcode-back" href="../../../kernels/neighborhood_hash.html#grakel.kernels.neighborhood_hash.neighborhood_hash.hash_labels">[docs]</a>    <span class="k">def</span> <span class="nf">hash_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Hashes existing labels to 16-bit integer.</span>
+
+<span class="sd">        Hashing without collisions and with consistency in same labels.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        labels : dict</span>
+<span class="sd">            Labels for vertices.</span>
+
+<span class="sd">        labels_hash_dict : dict</span>
+<span class="sd">            A hash table for labels.</span>
+
+<span class="sd">        nh_type : str, valid_values={&#39;simple&#39;,&#39;count-sensitive&#39;},</span>
+<span class="sd">            The existing neighborhood hash type as defined in</span>
+<span class="sd">            :cite:`Hido2009ALG`.</span>
+
+<span class="sd">        bytes : int, default=2</span>
+<span class="sd">            Byte size of hashes.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        new_labels : dict</span>
+<span class="sd">            The new hashed labels for vertices.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">new_labels</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">labels</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">labels</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_labels_hash_dict</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_method_calling</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]:</span>
+                    <span class="n">f</span> <span class="o">=</span> <span class="kc">True</span>
+                    <span class="k">while</span> <span class="n">f</span><span class="p">:</span>
+                        <span class="n">r</span> <span class="o">=</span> <span class="nb">int</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">urandom</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_bytes</span><span class="p">),</span> <span class="s1">&#39;little&#39;</span><span class="p">)</span>
+                        <span class="n">f</span> <span class="o">=</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_labels_hash_set</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_labels_hash_set</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_labels_hash_dict</span><span class="p">[</span><span class="n">labels</span><span class="p">[</span><span class="n">k</span><span class="p">]]</span> <span class="o">=</span> <span class="n">r</span>
+                    <span class="n">new_labels</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">r</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">new_labels</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_default_nonce_hash</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">new_labels</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_labels_hash_dict</span><span class="p">[</span><span class="n">labels</span><span class="p">[</span><span class="n">k</span><span class="p">]]</span>
+        <span class="k">return</span> <span class="n">new_labels</span></div></div>
+
+
+<div class="viewcode-block" id="radix_sort"><a class="viewcode-back" href="../../../kernels/neighborhood_hash.html#grakel.kernels.neighborhood_hash.radix_sort">[docs]</a><span class="k">def</span> <span class="nf">radix_sort</span><span class="p">(</span><span class="n">vertices</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Sorts vertices based on labels.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    vertices : listable</span>
+<span class="sd">        A listable of vertices.</span>
+
+<span class="sd">    labels : dict</span>
+<span class="sd">        Dictionary of labels for vertices.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    vertices_labels : tuple, len=2</span>
+<span class="sd">        The sorted vertices based on labels and labels for vertices.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">vertices</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">labels</span><span class="p">[</span><span class="n">x</span><span class="p">]),</span> <span class="n">labels</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="neighborhood_hash_simple"><a class="viewcode-back" href="../../../kernels/neighborhood_hash.html#grakel.kernels.neighborhood_hash.neighborhood_hash_simple">[docs]</a><span class="k">def</span> <span class="nf">neighborhood_hash_simple</span><span class="p">(</span><span class="n">G</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;(simple) neighborhood hashing as defined in :cite:`Hido2009ALG`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    G : tuple</span>
+<span class="sd">        A tuple of three elements consisting of vertices sorted by labels,</span>
+<span class="sd">        vertex label dictionary and edge dictionary.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    vertices_labels_edges : tuple</span>
+<span class="sd">        A tuple of vertices, new_labels-dictionary and edges.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">vertices</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">edges</span> <span class="o">=</span> <span class="n">G</span>
+    <span class="n">new_labels</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">vertices</span><span class="p">:</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="n">ROT</span><span class="p">(</span><span class="n">labels</span><span class="p">[</span><span class="n">u</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">[</span><span class="n">u</span><span class="p">]:</span>
+            <span class="n">label</span> <span class="o">^=</span> <span class="n">labels</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
+        <span class="n">new_labels</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="n">label</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">vertices</span><span class="p">,</span> <span class="n">new_labels</span><span class="p">,</span> <span class="n">edges</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="neighborhood_hash_count_sensitive"><a class="viewcode-back" href="../../../kernels/neighborhood_hash.html#grakel.kernels.neighborhood_hash.neighborhood_hash_count_sensitive">[docs]</a><span class="k">def</span> <span class="nf">neighborhood_hash_count_sensitive</span><span class="p">(</span><span class="n">G</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Count sensitive neighborhood hash as defined in :cite:`Hido2009ALG`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    G : tuple, len=3</span>
+<span class="sd">       A tuple three elements consisting of vertices sorted by labels,</span>
+<span class="sd">       vertex label dict, edge dict and number of occurencies dict for labels</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    vertices_labels_edges_noc : tuple</span>
+<span class="sd">        A tuple of 4 elements consisting of vertices sorted by labels,</span>
+<span class="sd">        vertex label dict, edge dict and number of occurencies dict.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">vertices</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">edges</span><span class="p">,</span> <span class="n">noc</span> <span class="o">=</span> <span class="n">G</span>
+    <span class="n">new_labels</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="n">new_noc</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">vertices</span><span class="p">:</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="n">ROT</span><span class="p">(</span><span class="n">labels</span><span class="p">[</span><span class="n">u</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">[</span><span class="n">u</span><span class="p">]:</span>
+            <span class="n">o</span> <span class="o">=</span> <span class="n">noc</span><span class="p">[</span><span class="n">labels</span><span class="p">[</span><span class="n">n</span><span class="p">]]</span>
+            <span class="n">label</span> <span class="o">^=</span> <span class="n">ROT</span><span class="p">(</span><span class="n">labels</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">^</span> <span class="n">o</span><span class="p">,</span> <span class="n">o</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">label</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">new_noc</span><span class="p">:</span>
+            <span class="n">new_noc</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">new_noc</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">new_labels</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="n">label</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">vertices</span><span class="p">,</span> <span class="n">new_labels</span><span class="p">,</span> <span class="n">edges</span><span class="p">,</span> <span class="n">new_noc</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ROT"><a class="viewcode-back" href="../../../kernels/neighborhood_hash.html#grakel.kernels.neighborhood_hash.ROT">[docs]</a><span class="k">def</span> <span class="nf">ROT</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;`rot` operation for binary numbers.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n : int</span>
+<span class="sd">        An integer.</span>
+
+<span class="sd">    l : int</span>
+<span class="sd">        A valid number.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    rot : int</span>
+<span class="sd">        The result of a rot operation.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">rotr</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="o">-</span><span class="n">n</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">rotl</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">l</span></div>
+
+
+<div class="viewcode-block" id="nh_compare_labels"><a class="viewcode-back" href="../../../kernels/neighborhood_hash.html#grakel.kernels.neighborhood_hash.nh_compare_labels">[docs]</a><span class="k">def</span> <span class="nf">nh_compare_labels</span><span class="p">(</span><span class="n">Gx</span><span class="p">,</span> <span class="n">Gy</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compare labels function as defined in :cite:`Hido2009ALG`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    G_{x,y} : tuple, len=2</span>
+<span class="sd">        Graph tuples of two elements, consisting of vertices sorted by</span>
+<span class="sd">        (labels, vertices) and edge-labels dict.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    kernel : Number</span>
+<span class="sd">        The kernel value.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># get vertices</span>
+    <span class="n">vx</span><span class="p">,</span> <span class="n">vy</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">Gx</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">iter</span><span class="p">(</span><span class="n">Gy</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="c1"># get size of vertices</span>
+    <span class="n">nv_x</span><span class="p">,</span> <span class="n">nv_y</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">Gx</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">len</span><span class="p">(</span><span class="n">Gy</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="c1"># get labels for vertices</span>
+    <span class="n">Lx</span><span class="p">,</span> <span class="n">Ly</span> <span class="o">=</span> <span class="n">Gx</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">Gy</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">c</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">ui</span><span class="p">,</span> <span class="n">uj</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">vx</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="nb">next</span><span class="p">(</span><span class="n">vy</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">ui</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">uj</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">Lx</span><span class="p">[</span><span class="n">ui</span><span class="p">]</span> <span class="o">==</span> <span class="n">Ly</span><span class="p">[</span><span class="n">uj</span><span class="p">]:</span>
+            <span class="n">c</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">ui</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">vx</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="n">uj</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">vy</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">Lx</span><span class="p">[</span><span class="n">ui</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">Ly</span><span class="p">[</span><span class="n">uj</span><span class="p">]:</span>
+            <span class="n">ui</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">vx</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">uj</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">vy</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">c</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="n">nv_x</span><span class="o">+</span><span class="n">nv_y</span><span class="o">-</span><span class="n">c</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, DaSciM.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
