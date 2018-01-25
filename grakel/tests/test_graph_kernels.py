@@ -129,7 +129,8 @@ def print_kernel_decorator(name, kernel, X, Y):
     print(kernel.fit_transform(X))
     print("\ntransform\n---------")
     print(kernel.transform(Y))
-    print("---------------------------------------------------------------\n")
+    print("--------------------------------------" +
+          "--------------------------------------\n")
 
 
 if verbose and main:

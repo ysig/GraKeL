@@ -46,7 +46,7 @@ class weisfeiler_lehman(kernel):
 
     """
 
-    _graph_format = "auto"
+    _graph_format = "dictionary"
 
     def __init__(self, **kargs):
         """Initialise a `weisfeiler_lehman` kernel."""
@@ -113,7 +113,6 @@ class weisfeiler_lehman(kernel):
         # Input validation and parsing
         if not isinstance(X, collections.Iterable):
             raise ValueError('input must be an iterable\n')
-            # Not a dictionary
         else:
             nx = 0
             Gs_ed, L, distinct_values = dict(), dict(), set()
@@ -138,20 +137,17 @@ class weisfeiler_lehman(kernel):
                     raise ValueError('each element of X must have at least' +
                                      ' one and at most 3 elements\n')
 
-            distinct_values = sorted(list(distinct_values))
             if nx == 0:
                 raise ValueError('parsed input is empty')
         # DSave the numebr of graphs of x.
         self._nx = nx
 
         # get all the distinct values of current labels
-        WL_labels, WL_labels_inverse = dict(), dict()
+        WL_labels_inverse = dict()
 
         # assign a number to each label
         label_count = 0
-        WL_labels_inverse = dict()
-        for dv in distinct_values:
-            WL_labels[label_count] = dv
+        for dv in sorted(list(distinct_values)):
             WL_labels_inverse[dv] = label_count
             label_count += 1
 
@@ -166,7 +162,7 @@ class weisfeiler_lehman(kernel):
                 new_labels[k] = WL_labels_inverse[L[j][k]]
             L[j] = new_labels
             # add new labels
-            new_graphs.append([Gs_ed[j], L[j]])
+            new_graphs.append([Gs_ed[j], new_labels])
 
         base_kernel = dict()
         base_kernel[0] = self._base_kernel()
@@ -185,16 +181,13 @@ class weisfeiler_lehman(kernel):
                 # Keep for each node the temporary
                 L_temp[j] = dict()
                 for v in Gs_ed[j].keys():
-                    nlist = list()
-                    for neighbor in Gs_ed[j][v].keys():
-                        nlist.append(L[j][neighbor])
-                    credential = str(L[j][v]) + "," + str(sorted(nlist))
+                    credential = str(L[j][v]) + "," + \
+                        str(sorted([L[j][n] for n in Gs_ed[j][v].keys()]))
                     L_temp[j][v] = credential
                     label_set.add(credential)
 
             label_list = sorted(list(label_set))
             for dv in label_list:
-                WL_labels[label_count] = dv
                 WL_labels_inverse[dv] = label_count
                 label_count += 1
 
@@ -206,7 +199,7 @@ class weisfeiler_lehman(kernel):
                     new_labels[k] = WL_labels_inverse[L_temp[j][k]]
                 L[j] = new_labels
                 # relabel
-                new_graphs.append([Gs_ed[j], L[j]])
+                new_graphs.append([Gs_ed[j], new_labels])
 
             # calculate kernel
             base_kernel[i] = self._base_kernel()
@@ -285,9 +278,10 @@ class weisfeiler_lehman(kernel):
         else:
             if not isinstance(X, collections.Iterable):
                 raise ValueError('input must be an iterable\n')
-                # Not a dictionary
             else:
                 nx = 0
+                if self._normalize:
+                    distinct_values = set()
                 Gs_ed, L = dict(), dict()
                 for (i, x) in enumerate(iter(X)):
                     if len(x) == 0:
@@ -299,31 +293,97 @@ class weisfeiler_lehman(kernel):
                                              'requires labels')
                         Gs_ed[nx] = x.get_edge_dictionary()
                         L[nx] = x.get_labels(purpose="dictionary")
+                        if self._normalize:
+                            # Hold all the distinct values
+                            distinct_values |= set(
+                                v for v in L[nx].values()
+                                if v not in self._inv_labels[0])
                         nx += 1
                     elif len(x) in [2, 3]:
-                        x = graph(x[0], x[1], {})
-                        Gs_ed[nx] = x.get_edge_dictionary()
-                        L[nx] = x.get_labels(purpose="dictionary")
+                        g = graph(x[0], x[1], {}, self._graph_format)
+                        Gs_ed[nx] = g.get_edge_dictionary()
+                        L[nx] = g.get_labels(purpose="dictionary")
+                        if self._normalize:
+                            # Hold all the distinct values
+                            distinct_values |= set(
+                                v for v in L[nx].values()
+                                if v not in self._inv_labels[0])
                         nx += 1
                     else:
                         raise ValueError('each element of X must have at ' +
                                          'least one and at most 3 elements\n')
+
                 if nx == 0:
                     raise ValueError('parsed input is empty')
 
-        K = np.zeros(shape=(nx, self._nx))
-        for i in range(self._niter):
-            new_graphs = []
-            for j in range(nx):
-                new_labels = dict()
-                for k in L.keys():
-                    new_labels[k] = self._inv_labels[i].get(k, -1)
-                L[j] = new_labels
-                # make the transform graph input
-                new_graphs.append([Gs_ed[j], L[j]])
+        if self._normalize:
+            WL_labels_inverse = dict()
+            nl = len(self._inv_labels[0])
+            for dv in sorted(list(distinct_values)):
+                idx = len(WL_labels_inverse) + nl
+                WL_labels_inverse[dv] = idx
+            get = lambda k, i: self._inv_labels[i][k] \
+                if k in self._inv_labels[i] else WL_labels_inverse[k]
+        else:
+            get = lambda k, i: self._inv_labels[i].get(k, None)
+
+        # calculate the kernel matrix for the 0 iteration
+        new_graphs = list()
+        for j in range(nx):
+            new_labels = dict()
+            for k in L[j].keys():
+                new_labels[k] = get(L[j][k], 0)
+            L[j] = new_labels
+            # produce the new graphs
+            new_graphs.append([Gs_ed[j], new_labels])
+        K = self.X[0].transform(new_graphs)
+
+        for i in range(1, self._niter):
+            new_graphs = list()
+            if self._normalize:
+                L_temp, label_set = dict(), set()
+                for j in range(nx):
+                    # Find unique labels and sort them for both graphs
+                    # Keep for each node the temporary
+                    L_temp[j] = dict()
+                    for v in Gs_ed[j].keys():
+                        credential = str(L[j][v]) + "," + \
+                            str(sorted([L[j][n] for n in Gs_ed[j][v].keys()]))
+                        L_temp[j][v] = credential
+                        if credential not in self._inv_labels[i]:
+                            label_set.add(credential)
+
+                    # Calculate the new label_set
+                    WL_labels_inverse = dict()
+                    if len(label_set) > 0:
+                        nl = len(self._inv_labels[i])
+                        for dv in sorted(list(label_set)):
+                            idx = len(WL_labels_inverse) + nl
+                            WL_labels_inverse[dv] = idx
+
+                # Recalculate labels
+                new_graphs = list()
+                for j in range(nx):
+                    new_labels = dict()
+                    for k in L_temp[j].keys():
+                        new_labels[k] = get(L_temp[j][k], i)
+                    L[j] = new_labels
+                    # Create the new graphs with the new labels.
+                    new_graphs.append([Gs_ed[j], new_labels])
+            else:
+                for j in range(nx):
+                    new_labels = dict()
+                    for v in Gs_ed[j].keys():
+                        new_labels[v] = get(
+                            str(L[j][v]) + "," + str(
+                                sorted([L[j][n] for n in Gs_ed[j][v].keys()])),
+                            i)
+                    L[j] = new_labels
+                    new_graphs.append([Gs_ed[j], new_labels])
+
+            # Calculate the kernel marix
             K += self.X[i].transform(new_graphs)
 
-        # Define if normalization will happen
         if self._normalize:
             X_diag, Y_diag = self.diagonal()
             return np.divide(K, np.sqrt(np.dot(Y_diag, X_diag.T)))

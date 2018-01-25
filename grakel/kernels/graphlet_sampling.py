@@ -319,7 +319,6 @@ class graphlet_sampling(kernel):
         """
         if not isinstance(X, collections.Iterable):
             raise ValueError('input must be an iterable\n')
-            # Not a dictionary
         else:
             i = -1
             if self._method_calling == 1:

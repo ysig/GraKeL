@@ -52,7 +52,6 @@ class subtree_wl(kernel):
         """
         if not isinstance(X, collections.Iterable):
             raise ValueError('input must be an iterable\n')
-            # Not a dictionary
         else:
             Xp = list()
             for (i, x) in enumerate(iter(X)):
@@ -60,11 +59,13 @@ class subtree_wl(kernel):
                     warnings.warn('Ignoring empty element on index: '+str(i))
                 if len(x) == 1:
                     if type(x) is graph:
-                        Xp.append(inv_dict(Xp.get_labels(purpose="any")))
+                        invL = inv_dict(x.get_labels(purpose="any"))
+                        Xp.append(invL)
                     else:
                         raise ValueError('Second argument must be labels.')
                 elif len(x) in [2, 3]:
-                    Xp.append(inv_dict(x[1]))
+                    invL = inv_dict(x[1])
+                    Xp.append(invL)
                 else:
                     raise ValueError('each element of X must have at least' +
                                      ' one and at most 3 elements\n')
@@ -86,4 +87,8 @@ class subtree_wl(kernel):
             The kernel value.
 
         """
-        return sum(len(lx[x])*len(ly[x]) for x in lx if x in ly)
+        if len(lx) < len(ly):
+            ls, lb = lx, ly
+        else:
+            ls, lb = ly, lx
+        return sum(len(ls[x])*len(lb[x]) for x in ls if x in lb)

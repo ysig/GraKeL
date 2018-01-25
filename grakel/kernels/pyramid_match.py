@@ -89,7 +89,6 @@ class pyramid_match(kernel):
         """
         if not isinstance(X, collections.Iterable):
             raise ValueError('input must be an iterable\n')
-            # Not a dictionary
         else:
             i = 0
             Us = []

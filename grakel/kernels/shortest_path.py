@@ -48,6 +48,16 @@ class shortest_path_attr(kernel):
         super(shortest_path_attr, self).__init__(**kargs)
 
         self._algorithm_type = kargs.get("algorithm_type", "auto")
+
+        if self._algorithm_type == "auto":
+            self._graph_format = "auto"
+        elif self._algorithm_type == "floyd_warshall":
+            self._algorithm_type = "adjacency"
+        elif self._algorithm_type == "dijkstra":
+            self._algorithm_type = "dictionary"
+        else:
+            raise ValueError('Unsupported "algorithm_type"')
+
         self._attribute_kernel = kargs.get(
             "attribute_kernel", lambda x, y: np.dot(x, y))
 
@@ -73,7 +83,6 @@ class shortest_path_attr(kernel):
         """
         if not isinstance(X, collections.Iterable):
             raise ValueError('input must be an iterable\n')
-            # Not a dictionary
         else:
             i = 0
             sp_attr_tup = list()
@@ -213,6 +222,15 @@ class shortest_path(kernel):
             self._lhash = lambda S, u, v, *args: S[u, v]
 
         self._algorithm_type = kargs.get("algorithm_type", "auto")
+
+        if self._algorithm_type == "auto":
+            self._graph_format = "auto"
+        elif self._algorithm_type == "floyd_warshall":
+            self._algorithm_type = "adjacency"
+        elif self._algorithm_type == "dijkstra":
+            self._algorithm_type = "dictionary"
+        else:
+            raise ValueError('Unsupported "algorithm_type"')
 
     def transform(self, X):
         """Calculate the kernel matrix, between given and fitted dataset.

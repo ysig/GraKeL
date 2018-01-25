@@ -86,7 +86,6 @@ class neighborhood_hash(kernel):
         """
         if not isinstance(X, collections.Iterable):
             raise ValueError('input must be an iterable\n')
-            # Not a dictionary
         else:
             i = 0
             gs = list()

@@ -288,7 +288,6 @@ class kernel(BaseEstimator, TransformerMixin):
         """
         if not isinstance(X, collections.Iterable):
             raise ValueError('input must be an iterable\n')
-            # Not a dictionary
         else:
             Xp = list()
             for (i, x) in enumerate(iter(X)):

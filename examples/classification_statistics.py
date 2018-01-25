@@ -6,8 +6,6 @@ Classification statistics on the MUTAG, ENZYMES datasets.
 An example plot of :class:`grakel.graph_kernels`
 """
 import time
-
-import numpy as np
 import matplotlib.pyplot as plt
 
 from sklearn.metrics import accuracy_score
@@ -40,16 +38,17 @@ def sec_to_time(sec):
         dt.append(str(round(sec, 2)) + " s")
     return " ".join(dt)
 
+
 # Loads the MUTAG, ENZYMES dataset from:
 # https://ls11-www.cs.tu-dortmund.de/staff/morris/graphkerneldatasets
 # the biggest collection of benchmark datasets for graph_kernels.
 
-
 datasets = ["MUTAG", "ENZYMES"]
+
 kernels = {
     "Shortest Path": [{"name": "shortest_path"}],
     "Graphlet Sampling": [{"name": "graphlet_sampling",
-                          "n_samples": 150}],
+                           "n_samples": 150}],
     "Random Walk": [{"name": "random_walk", "lambda": 10**(-3)}],
     "Weisfeiler-Lehman/Subtree": [{"name": "weisfeiler_lehman", "niter": 5},
                                   {"name": "subtree_wl"}],
@@ -61,10 +60,10 @@ kernels = {
 
 columns = datasets
 rows = sorted(list(kernels.keys()))
-data_acc = np.empty(shape=(len(rows), len(columns)))
-data_time = np.empty(shape=(len(rows), len(columns)))
+data_dataset = list()
 for (j, d) in enumerate(columns):
     print(d)
+    data_kernel = list()
     G, C = dataset.load_dataset(d, verbose=False)
 
     # Train-test split of graph data
@@ -74,12 +73,14 @@ for (j, d) in enumerate(columns):
         print(k, end=" ")
         gk = gkl.GraphKernel(kernel=kernels[k], normalize=True, concurrency=-1)
         print("", end=".")
+
         # Calculate the kernel matrix.
         start = time.time()
         KTr = gk.fit_transform(GTr)
         KTe = gk.transform(GTe)
         end = time.time()
         print("", end=".")
+
         # Initialise an SVM and fit.
         clf = svm.SVC(kernel='precomputed')
         clf.fit(KTr, ytr)
@@ -89,13 +90,16 @@ for (j, d) in enumerate(columns):
         y_pred = clf.predict(KTe)
 
         # Calculate accuracy of classification.
-        data_acc[i, j] = round(accuracy_score(yte, y_pred)*100, 2)
-        data_time[i, j] = round(end - start, 2)
-        print(sec_to_time(data_time[i, j]))
+        data_kernel.append(
+            sec_to_time(round(end - start, 2)) +
+            " ~ " + str(round(accuracy_score(yte, y_pred)*100, 2)) + "%")
+        print(data_kernel[-1])
+    data_dataset.append(data_kernel)
     print("")
 
-acc_table = plt.table(cellText=data_acc, rowLabels=rows, colLabels=columns,
-                      loc='left')
-time_table = plt.table(cellText=data_time, rowLabels=rows, colLabels=columns,
-                       loc='right')
+# Print results on a table using pyplot
+table = plt.table(cellText=[list(q) for q in zip(*data_dataset)],
+                  rowLabels=rows, colLabels=columns, loc='center')
+_ = plt.axis('off')
+
 plt.show()

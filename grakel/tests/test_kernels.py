@@ -87,7 +87,7 @@ def test_subtree_wl():
     """Test the wl subtree kernel."""
     stwl_kernel = subtree_wl(verbose=verbose, normalize=normalize)
     if verbose:
-        print_kernel("Subtree WL", stwl_kernel, dataset_tr, dataset_te)
+        print_kernel("Subtree-WL", stwl_kernel, dataset_tr, dataset_te)
 
 
 def test_random_walk():
@@ -141,7 +141,8 @@ def print_kernel(name, kernel, X, Y):
     print(kernel.fit_transform(X))
     print("\ntransform\n---------")
     print(kernel.transform(Y))
-    print("---------------------------------------------------------------")
+    print("--------------------------------------" +
+          "--------------------------------------\n")
 
 
 if verbose and main:
