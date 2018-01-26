@@ -1,7 +1,7 @@
 """Tests for the GraphKernel class."""
 import argparse
 
-from grakel.dataset import load_dataset
+from grakel.dataset import fetch_dataset
 from grakel.graph_kernels import GraphKernel
 
 global verbose, main, development
@@ -59,7 +59,7 @@ else:
 
 global dataset_tr, dataset_te
 
-dataset = load_dataset(dataset_name, with_classes=False, verbose=verbose).data
+dataset = fetch_dataset(dataset_name, with_classes=False, verbose=verbose).data
 dataset_tr = dataset[:int(len(dataset)*0.8)]
 dataset_te = dataset[int(len(dataset)*0.8):]
 

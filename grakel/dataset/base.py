@@ -80,13 +80,13 @@ dataset_metadata = {
                      "ple/morris/graphkerneldatasets/Mutagenicity.zip"},
     "MSRC_9": {"nl": True, "el": False, "na": False, "ea": False,
                "link": "https://ls11-www.cs.uni-dortmund.de/people/morris/" +
-               "graphkerneldatasets/COX2_MD.zip"},
+               "graphkerneldatasets/MSRC_9.zip"},
     "MSRC_21": {"nl": True, "el": False, "na": False, "ea": False,
                 "link": "https://ls11-www.cs.uni-dortmund.de/people/mor" +
-                "ris/graphkerneldatasets/MSRC_9.zip"},
+                "ris/graphkerneldatasets/MSRC_21.zip"},
     "MSRC_21C": {"nl": True, "el": False, "na": False, "ea": False,
                  "link": "https://ls11-www.cs.uni-dortmund.de/people/mor" +
-                 "ris/graphkerneldatasets/MSRC_21.zip"},
+                 "ris/graphkerneldatasets/MSRC_21C.zip"},
     "MUTAG": {"nl": True, "el": False, "na": False, "ea": False,
               "link": "https://ls11-www.cs.uni-dortmund.de/people/mor" +
               "ris/graphkerneldatasets/MUTAG.zip"},
@@ -243,7 +243,7 @@ def read_data(
     # Extract graph edges
     with open(edges_path, "r") as f:
         for (i, line) in enumerate(f, 1):
-            edge = line[:-1].split(", ")
+            edge = line[:-1].replace(' ', '').split(",")
             elc[(int(edge[0]), int(edge[1]))] = i
             Graphs[ngc[int(edge[0])]].add((int(edge[0]), int(edge[1])))
             if is_symmetric:
@@ -276,7 +276,8 @@ def read_data(
             )):
         with open(edge_attributes_path, "r") as f:
             for (i, line) in enumerate(f, 1):
-                attrs = [float(num) for num in line[:-1].split(", ")]
+                attrs = [float(num)
+                         for num in line[:-1].replace(' ', '').split(",")]
                 edge_labels[ngc[elc[i][0]]][elc[i]] = attrs
                 if is_symmetric:
                     edge_labels[ngc[elc[i][1]]][(elc[i][1], elc[i][0])] = attrs
@@ -309,7 +310,7 @@ def read_data(
         return Bunch(data=Gs)
 
 
-def load_dataset(
+def fetch_dataset(
         name,
         verbose=True,
         with_classes=True,

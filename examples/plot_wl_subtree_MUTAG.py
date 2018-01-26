@@ -17,7 +17,7 @@ from grakel import GraphKernel
 # Loads the Mutag dataset from:
 # https://ls11-www.cs.tu-dortmund.de/staff/morris/graphkerneldatasets
 # the biggest collection of benchmark datasets for graph_kernels.
-mutag = dataset.load_dataset("MUTAG", verbose=False)
+mutag = dataset.fetch_dataset("MUTAG", verbose=False)
 G, y = mutag.data, mutag.target
 
 # Train-test split of graph data

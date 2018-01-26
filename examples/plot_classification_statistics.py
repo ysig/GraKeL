@@ -45,7 +45,7 @@ def sec_to_time(sec):
 # https://ls11-www.cs.tu-dortmund.de/staff/morris/graphkerneldatasets
 # the biggest collection of benchmark datasets for graph_kernels.
 
-datasets = ["MUTAG", "ENZYMES"]
+datasets = ["MUTAG", "MSRC_21C"]
 
 kernels = {
     "Shortest Path": [{"name": "shortest_path"}],
@@ -66,7 +66,7 @@ data_dataset = list()
 for (j, d) in enumerate(columns):
     print(d)
     data_kernel = list()
-    dataset_d = dataset.load_dataset(d, verbose=False)
+    dataset_d = dataset.fetch_dataset(d, verbose=False)
     G, y = dataset_d.data, dataset_d.target
 
     # Train-test split of graph data
