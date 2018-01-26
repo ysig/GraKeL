@@ -38,11 +38,10 @@ dependencies:
   # The --user is needed to let sphinx see the source and the binaries
   # The pipefail is requested to propagate exit code
   override:
-    - bundle install:
-        timeout: 1200
     - python setup.py clean
     - python setup.py develop
-    - set -o pipefail && cd doc && make html 2>&1 | tee ~/log.txt
+    - set -o pipefail && cd doc && make html 2>&1 | tee ~/log.txt:
+        timeout: 1200
 test:
   # Grep error on the documentation
   override:
