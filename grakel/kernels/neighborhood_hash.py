@@ -62,7 +62,6 @@ class neighborhood_hash(kernel):
         self._bytes = int(kargs.get("bytes", 2))
         if self._bytes <= 0:
             raise ValueError('illegal number of bytes for hashing')
-        self._default_nonce_hash = int((self._bytes*8+1) * '1', 2)
 
     def parse_input(self, X):
         """Parse and create features for shortest_path kernel.
@@ -90,8 +89,10 @@ class neighborhood_hash(kernel):
             i = 0
             gs = list()
             if self._method_calling in [1, 2]:
-                self._labels_hash_dict = dict()
-                self._labels_hash_set = set()
+                self._labels_hash_dict, self._labels_hash_set = dict(), set()
+            elif self._method_calling == 3:
+                self._Y_labels_hash_dict = dict()
+                self._Y_labels_hash_set = set()
             for x in iter(X):
                 if len(x) == 0:
                     warnings.warn('Ignoring empty element on index: '+str(i))
@@ -184,20 +185,36 @@ class neighborhood_hash(kernel):
 
         """
         new_labels = dict()
-        for k in labels.keys():
-            if labels[k] not in self._labels_hash_dict:
-                if self._method_calling not in [1, 2]:
-                    f = True
-                    while f:
-                        r = int.from_bytes(os.urandom(self._bytes), 'little')
-                        f = r in self._labels_hash_set
-                    self._labels_hash_set.add(r)
-                    self._labels_hash_dict[labels[k]] = r
-                    new_labels[k] = r
+        if self._method_calling not in [1, 2]:
+            for k in labels.keys():
+                if labels[k] not in self._labels_hash_dict:
+                        f = True
+                        while f:
+                            r = int.from_bytes(os.urandom(self._bytes),
+                                               'little')
+                            f = r in self._labels_hash_set
+                        self._labels_hash_set.add(r)
+                        self._labels_hash_dict[labels[k]] = r
+                        new_labels[k] = r
                 else:
-                    new_labels[k] = self._default_nonce_hash
-            else:
-                new_labels[k] = self._labels_hash_dict[labels[k]]
+                    new_labels[k] = self._labels_hash_dict[labels[k]]
+        if self._method_calling == 3:
+            for k in labels.keys():
+                if labels[k] not in self._labels_hash_dict:
+                    if labels[k] not in self._Y_labels_hash_dict:
+                        f = True
+                        while f:
+                            r = int.from_bytes(os.urandom(self._bytes),
+                                               'little')
+                            f = r in self._labels_hash_set or \
+                                r in self._Y_labels_hash_set
+                        self._Y_labels_hash_set.add(r)
+                        self._Y_labels_hash_dict[labels[k]] = r
+                        new_labels[k] = r
+                    else:
+                        new_labels[k] = self._Y_labels_hash_dict[labels[k]]
+                else:
+                    new_labels[k] = self._labels_hash_dict[labels[k]]
         return new_labels
 
 

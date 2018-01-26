@@ -272,14 +272,14 @@ class shortest_path(kernel):
                 for j in self.X[i].keys():
                     phi_x[i, j] = self.X[i][j]
 
-        phi_y = np.zeros(shape=(self._ny, len(self._enum)))
+        phi_y = np.zeros(shape=(self._ny, len(self._enum) + len(self._Y_enum)))
         for i in Y.keys():
             for j in Y[i].keys():
                 phi_y[i, j] = Y[i][j]
 
         # store _phi_Y for independent (of normalization arg diagonal-calls)
         self._phi_Y = phi_y
-        km = np.dot(phi_y, phi_x.T)
+        km = np.dot(phi_y[:, :len(self._enum)], phi_x.T)
         if self._normalize:
             X_diag, Y_diag = self.diagonal()
             km /= np.sqrt(np.dot(Y_diag, X_diag.T))
@@ -389,8 +389,10 @@ class shortest_path(kernel):
         else:
             i = -1
             sp_counts = dict()
-            if self._method_calling in [1, 2]:
+            if self._method_calling == 1:
                 self._enum = dict()
+            elif self._method_calling == 3:
+                self._Y_enum = dict()
             for x in iter(X):
                 if len(x) == 0:
                     warnings.warn('Ignoring empty element on index: '+str(i))
@@ -424,11 +426,17 @@ class shortest_path(kernel):
                             continue
                         label = self._lhash(S, u, v, *L)
                         if label not in self._enum:
-                            if self._method_calling in [1, 2]:
-                                self._enum[label] = len(self._enum)
-                            else:
-                                continue
-                        idx = self._enum[label]
+                            if self._method_calling == 1:
+                                idx = len(self._enum)
+                                self._enum[label] = idx
+                            elif self._method_calling == 3:
+                                if label not in self._Y_enum:
+                                    idx = len(self._enum) + len(self._Y_enum)
+                                    self._Y_enum[label] = idx
+                                else:
+                                    idx = self._Y_enum[label]
+                        else:
+                            idx = self._enum[label]
                         if idx in sp_counts[i]:
                             sp_counts[i][idx] += 1
                         else:
@@ -437,8 +445,8 @@ class shortest_path(kernel):
             if i == -1:
                 raise ValueError('parsed input is empty')
 
-            if self._method_calling in [1, 2]:
+            if self._method_calling == 1:
                 self._nx = i+1
-            else:
+            elif self._method_calling == 3:
                 self._ny = i+1
             return sp_counts

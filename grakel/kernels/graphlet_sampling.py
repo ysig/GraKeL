@@ -210,13 +210,14 @@ class graphlet_sampling(kernel):
             for ((i, j), v) in self.X.items():
                 phi_x[i, j] = v
             self._phi_X = phi_x
-        phi_y = np.zeros(shape=(self._ny, len(self._graph_bins)))
+        phi_y = np.zeros(shape=(self._ny, len(self._graph_bins) +
+                                len(self._Y_graph_bins)))
         for ((i, j), v) in Y.items():
             phi_y[i, j] = v
 
         # store _phi_Y for independent (of normalization arg diagonal-calls)
         self._phi_Y = phi_y
-        km = np.dot(phi_y, phi_x.T)
+        km = np.dot(phi_y[:, :len(self._graph_bins)], phi_x.T)
         if self._normalize:
             X_diag, Y_diag = self.diagonal()
             km /= np.sqrt(np.dot(Y_diag, X_diag.T))
@@ -321,8 +322,10 @@ class graphlet_sampling(kernel):
             raise ValueError('input must be an iterable\n')
         else:
             i = -1
-            if self._method_calling == 1:
+            if self._method_calling in [1, 2]:
                 self._graph_bins = dict()
+            elif self._method_calling == 3:
+                self._Y_graph_bins = dict()
             local_values = dict()
             for x in iter(X):
                 if len(x) == 0:
@@ -345,12 +348,27 @@ class graphlet_sampling(kernel):
                 # sample graphlets based on the initialized method
                 samples = self._sample_graphlets(A)
 
-                for (j, sg) in enumerate(samples):
-                    # add the graph to an isomorphism class
-                    if len(self._graph_bins) == 0:
-                        self._graph_bins[0] = sg
-                        local_values[(i, 0)] = 1
-                    else:
+                if self._method_calling in [1, 2]:
+                    for (j, sg) in enumerate(samples):
+                        # add the graph to an isomorphism class
+                        if len(self._graph_bins) == 0:
+                            self._graph_bins[0] = sg
+                            local_values[(i, 0)] = 1
+                        else:
+                            newbin = True
+                            for j in range(len(self._graph_bins)):
+                                if pynauty.isomorphic(self._graph_bins[j], sg):
+                                    newbin = False
+                                    if (i, j) not in local_values:
+                                        local_values[(i, j)] = 1
+                                    local_values[(i, j)] += 1
+                                    break
+                            if newbin:
+                                local_values[(i, len(self._graph_bins))] = 1
+                                self._graph_bins[len(self._graph_bins)] = sg
+                elif self._method_calling == 3:
+                    for (j, sg) in enumerate(samples):
+                        # add the graph to an isomorphism class
                         newbin = True
                         for j in range(len(self._graph_bins)):
                             if pynauty.isomorphic(self._graph_bins[j], sg):
@@ -359,15 +377,32 @@ class graphlet_sampling(kernel):
                                     local_values[(i, j)] = 1
                                 local_values[(i, j)] += 1
                                 break
-                        if newbin and self._method_calling == 1:
-                            local_values[(i, len(self._graph_bins))] = 1
-                            self._graph_bins[len(self._graph_bins)] = sg
+                        if newbin:
+                            if len(self._Y_graph_bins) == 0:
+                                self._graph_bins[len(self._graph_bins)] = sg
+                                local_values[(i,
+                                              len(self._graph_bins))] = 1
+                            else:
+                                for j in range(len(self._Y_graph_bins)):
+                                    if pynauty.isomorphic(self._graph_bins[j],
+                                                          sg):
+                                        newbin = False
+                                        if (i, j) not in local_values:
+                                            local_values[(i, j)] = 1
+                                        local_values[(i, j)] += 1
+                                        break
+                                if newbin:
+                                    idx = len(self._graph_bins) +\
+                                            len(self._Y_graph_bins)
+                                    local_values[(i, idx)] = 1
+                                    self._graph_bins[idx] = sg
+
             if i == -1:
                 raise ValueError('parsed input is empty')
 
-            if self._method_calling == 1:
+            if self._method_calling in [1, 2]:
                 self._nx = i+1
-            else:
+            elif self._method_calling == 3:
                 self._ny = i+1
             return local_values
 
