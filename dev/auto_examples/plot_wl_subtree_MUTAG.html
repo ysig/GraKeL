@@ -39,7 +39,7 @@
         <link rel="search" title="Search" href="../search.html"/>
     <link rel="top" title="GraKeL 0.0.1 documentation" href="../index.html"/>
         <link rel="up" title="General examples" href="index.html"/>
-        <link rel="next" title="Classification statistics on the MUTAG, ENZYMES datasets." href="classification_statistics.html"/>
+        <link rel="next" title="Classification statistics on the MUTAG, ENZYMES datasets." href="plot_classification_statistics.html"/>
         <link rel="prev" title="General examples" href="index.html"/> 
 
   
@@ -97,7 +97,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../api.html">GraKeL</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">General examples</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Fit-Transform and classification on the MUTAG dataset using a WL-dirac kernel.</a></li>
-<li class="toctree-l2"><a class="reference internal" href="classification_statistics.html">Classification statistics on the MUTAG, ENZYMES datasets.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_classification_statistics.html">Classification statistics on the MUTAG, ENZYMES datasets.</a></li>
 </ul>
 </li>
 </ul>
@@ -152,7 +152,7 @@
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/auto_examples/wl_subtree_MUTAG.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/auto_examples/plot_wl_subtree_MUTAG.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -166,50 +166,60 @@
            <div itemprop="articleBody">
             
   <div class="section" id="fit-transform-and-classification-on-the-mutag-dataset-using-a-wl-dirac-kernel">
-<span id="sphx-glr-auto-examples-wl-subtree-mutag-py"></span><h1>Fit-Transform and classification on the MUTAG dataset using a WL-dirac kernel.<a class="headerlink" href="#fit-transform-and-classification-on-the-mutag-dataset-using-a-wl-dirac-kernel" title="Permalink to this headline">¶</a></h1>
+<span id="sphx-glr-auto-examples-plot-wl-subtree-mutag-py"></span><h1>Fit-Transform and classification on the MUTAG dataset using a WL-dirac kernel.<a class="headerlink" href="#fit-transform-and-classification-on-the-mutag-dataset-using-a-wl-dirac-kernel" title="Permalink to this headline">¶</a></h1>
 <p>An example plot of <a class="reference internal" href="../graph_kernel.html#module-grakel.graph_kernels" title="grakel.graph_kernels"><code class="xref py py-class docutils literal"><span class="pre">grakel.graph_kernels</span></code></a></p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-default"><div class="highlight"><pre><span></span><span class="n">Accuracy</span><span class="p">:</span> <span class="mf">84.21</span> <span class="o">%</span>
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="vm">__doc__</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
 <span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
 <span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">svm</span>
 
-<span class="kn">import</span> <span class="nn">grakel.dataset.base</span> <span class="kn">as</span> <span class="nn">dataset</span>
-<span class="kn">import</span> <span class="nn">grakel.graph_kernels</span> <span class="kn">as</span> <span class="nn">gkl</span>
+<span class="kn">from</span> <span class="nn">grakel</span> <span class="kn">import</span> <span class="n">dataset</span>
+<span class="kn">from</span> <span class="nn">grakel</span> <span class="kn">import</span> <span class="n">GraphKernel</span>
 
 <span class="c1"># Loads the Mutag dataset from:</span>
 <span class="c1"># https://ls11-www.cs.tu-dortmund.de/staff/morris/graphkerneldatasets</span>
 <span class="c1"># the biggest collection of benchmark datasets for graph_kernels.</span>
-<span class="n">G</span><span class="p">,</span> <span class="n">C</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">load_dataset</span><span class="p">(</span><span class="s2">&quot;MUTAG&quot;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">mutag</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">fetch_dataset</span><span class="p">(</span><span class="s2">&quot;MUTAG&quot;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">G</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">mutag</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">mutag</span><span class="o">.</span><span class="n">target</span>
 
 <span class="c1"># Train-test split of graph data</span>
-<span class="n">GTr</span><span class="p">,</span> <span class="n">GTe</span><span class="p">,</span> <span class="n">ytr</span><span class="p">,</span> <span class="n">yte</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="n">G_train</span><span class="p">,</span> <span class="n">G_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
 
 <span class="c1"># Initialise a weifeiler kernel, with a dirac base_kernel.</span>
-<span class="n">gk</span> <span class="o">=</span> <span class="n">gkl</span><span class="o">.</span><span class="n">GraphKernel</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="p">[{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;weisfeiler_lehman&quot;</span><span class="p">,</span> <span class="s2">&quot;niter&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">},</span>
-                             <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;subtree_wl&quot;</span><span class="p">}],</span> <span class="n">normalize</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">gk</span> <span class="o">=</span> <span class="n">GraphKernel</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="p">[{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;weisfeiler_lehman&quot;</span><span class="p">,</span> <span class="s2">&quot;niter&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">},</span>
+                         <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;subtree_wl&quot;</span><span class="p">}],</span> <span class="n">normalize</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
 <span class="c1"># Calculate the kernel matrix.</span>
-<span class="n">KTr</span> <span class="o">=</span> <span class="n">gk</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">GTr</span><span class="p">)</span>
-<span class="n">KTe</span> <span class="o">=</span> <span class="n">gk</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">GTe</span><span class="p">)</span>
+<span class="n">K_train</span> <span class="o">=</span> <span class="n">gk</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">G_train</span><span class="p">)</span>
+<span class="n">K_test</span> <span class="o">=</span> <span class="n">gk</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">G_test</span><span class="p">)</span>
 
 <span class="c1"># Initialise an SVM and fit.</span>
 <span class="n">clf</span> <span class="o">=</span> <span class="n">svm</span><span class="o">.</span><span class="n">SVC</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;precomputed&#39;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">KTr</span><span class="p">,</span> <span class="n">ytr</span><span class="p">)</span>
+<span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">K_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
 
 <span class="c1"># Predict and test.</span>
-<span class="n">y_pred</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">KTe</span><span class="p">)</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">K_test</span><span class="p">)</span>
 
 <span class="c1"># Calculate accuracy of classification.</span>
-<span class="n">acc</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">yte</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+<span class="n">acc</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
 
 <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Accuracy:&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">acc</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span> <span class="mi">2</span><span class="p">)),</span> <span class="s2">&quot;%&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><strong>Total running time of the script:</strong> ( 0 minutes  0.000 seconds)</p>
+<p><strong>Total running time of the script:</strong> ( 0 minutes  5.249 seconds)</p>
 <div class="sphx-glr-footer docutils container">
 <div class="sphx-glr-download docutils container">
-<a class="reference download internal" href="../_downloads/wl_subtree_MUTAG.py" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">wl_subtree_MUTAG.py</span></code></a></div>
+<a class="reference download internal" href="../_downloads/plot_wl_subtree_MUTAG.py" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_wl_subtree_MUTAG.py</span></code></a></div>
 <div class="sphx-glr-download docutils container">
-<a class="reference download internal" href="../_downloads/wl_subtree_MUTAG.ipynb" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">wl_subtree_MUTAG.ipynb</span></code></a></div>
+<a class="reference download internal" href="../_downloads/plot_wl_subtree_MUTAG.ipynb" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_wl_subtree_MUTAG.ipynb</span></code></a></div>
 </div>
 <p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.readthedocs.io">Gallery generated by Sphinx-Gallery</a></p>
 </div>
@@ -224,7 +234,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="classification_statistics.html" class="btn btn-neutral float-right" title="Classification statistics on the MUTAG, ENZYMES datasets." accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="plot_classification_statistics.html" class="btn btn-neutral float-right" title="Classification statistics on the MUTAG, ENZYMES datasets." accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="index.html" class="btn btn-neutral" title="General examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

@@ -15,9 +15,9 @@ Introductory examples.
 
 .. only:: html
 
-    .. figure:: /auto_examples/images/thumb/sphx_glr_wl_subtree_MUTAG_thumb.png
+    .. figure:: /auto_examples/images/thumb/sphx_glr_plot_wl_subtree_MUTAG_thumb.png
 
-        :ref:`sphx_glr_auto_examples_wl_subtree_MUTAG.py`
+        :ref:`sphx_glr_auto_examples_plot_wl_subtree_MUTAG.py`
 
 .. raw:: html
 
@@ -27,7 +27,7 @@ Introductory examples.
 .. toctree::
    :hidden:
 
-   /auto_examples/wl_subtree_MUTAG
+   /auto_examples/plot_wl_subtree_MUTAG
 
 .. raw:: html
 
@@ -35,9 +35,9 @@ Introductory examples.
 
 .. only:: html
 
-    .. figure:: /auto_examples/images/thumb/sphx_glr_classification_statistics_thumb.png
+    .. figure:: /auto_examples/images/thumb/sphx_glr_plot_classification_statistics_thumb.png
 
-        :ref:`sphx_glr_auto_examples_classification_statistics.py`
+        :ref:`sphx_glr_auto_examples_plot_classification_statistics.py`
 
 .. raw:: html
 
@@ -47,7 +47,7 @@ Introductory examples.
 .. toctree::
    :hidden:
 
-   /auto_examples/classification_statistics
+   /auto_examples/plot_classification_statistics
 .. raw:: html
 
     <div style='clear:both'></div>

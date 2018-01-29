@@ -1,6 +1,6 @@
 
 
-.. _sphx_glr_auto_examples_classification_statistics.py:
+.. _sphx_glr_auto_examples_plot_classification_statistics.py:
 
 
 ==============================================================================
@@ -11,7 +11,38 @@ An example plot of :class:`grakel.graph_kernels`
 
 
 
+
+.. image:: /auto_examples/images/sphx_glr_plot_classification_statistics_001.png
+    :align: center
+
+
+.. rst-class:: sphx-glr-script-out
+
+ Out::
+
+    MUTAG
+    Graphlet Sampling ... 6.3 s ~ 78.95%
+    Random Walk ... 1 m 8.97 s ~ 73.68%
+    Shortest Path ... 1.18 s ~ 84.21%
+    Weisfeiler-Lehman/Shortest-Path ... 6.34 s ~ 84.21%
+    Weisfeiler-Lehman/Subtree ... 14.39 s ~ 84.21%
+
+    MSRC_21C
+    Graphlet Sampling ... 7.27 s ~ 9.52%
+    Random Walk ... 14 m 37.5 s ~ 9.52%
+    Shortest Path ... 4.57 s ~ 76.19%
+    Weisfeiler-Lehman/Shortest-Path ... 36.84 s ~ 76.19%
+    Weisfeiler-Lehman/Subtree ... 20.09 s ~ 66.67%
+
+
+
+
+|
+
+
 .. code-block:: python
+
+    print(__doc__)
 
     import time
     import matplotlib.pyplot as plt
@@ -20,8 +51,8 @@ An example plot of :class:`grakel.graph_kernels`
     from sklearn.model_selection import train_test_split
     from sklearn import svm
 
-    import grakel.dataset.base as dataset
-    import grakel.graph_kernels as gkl
+    from grakel import dataset
+    from grakel import GraphKernel
 
 
     def sec_to_time(sec):
@@ -51,7 +82,7 @@ An example plot of :class:`grakel.graph_kernels`
     # https://ls11-www.cs.tu-dortmund.de/staff/morris/graphkerneldatasets
     # the biggest collection of benchmark datasets for graph_kernels.
 
-    datasets = ["MUTAG", "ENZYMES"]
+    datasets = ["MUTAG", "MSRC_21C"]
 
     kernels = {
         "Shortest Path": [{"name": "shortest_path"}],
@@ -72,35 +103,36 @@ An example plot of :class:`grakel.graph_kernels`
     for (j, d) in enumerate(columns):
         print(d)
         data_kernel = list()
-        G, C = dataset.load_dataset(d, verbose=False)
+        dataset_d = dataset.fetch_dataset(d, verbose=False)
+        G, y = dataset_d.data, dataset_d.target
 
         # Train-test split of graph data
-        GTr, GTe, ytr, yte = train_test_split(G, C, test_size=0.1)
+        G_train, G_test, y_train, y_test = train_test_split(G, y, test_size=0.1)
 
         for (i, k) in enumerate(rows):
             print(k, end=" ")
-            gk = gkl.GraphKernel(kernel=kernels[k], normalize=True, concurrency=-1)
+            gk = GraphKernel(kernel=kernels[k], normalize=True, concurrency=-1)
             print("", end=".")
 
             # Calculate the kernel matrix.
             start = time.time()
-            KTr = gk.fit_transform(GTr)
-            KTe = gk.transform(GTe)
+            K_train = gk.fit_transform(G_train)
+            K_test = gk.transform(G_test)
             end = time.time()
             print("", end=".")
 
             # Initialise an SVM and fit.
             clf = svm.SVC(kernel='precomputed')
-            clf.fit(KTr, ytr)
+            clf.fit(K_train, y_train)
             print("", end=". ")
 
             # Predict and test.
-            y_pred = clf.predict(KTe)
+            y_pred = clf.predict(K_test)
 
             # Calculate accuracy of classification.
             data_kernel.append(
                 sec_to_time(round(end - start, 2)) +
-                " ~ " + str(round(accuracy_score(yte, y_pred)*100, 2)) + "%")
+                " ~ " + str(round(accuracy_score(y_test, y_pred)*100, 2)) + "%")
             print(data_kernel[-1])
         data_dataset.append(data_kernel)
         print("")
@@ -112,7 +144,7 @@ An example plot of :class:`grakel.graph_kernels`
 
     plt.show()
 
-**Total running time of the script:** ( 0 minutes  0.000 seconds)
+**Total running time of the script:** ( 17 minutes  32.406 seconds)
 
 
 
@@ -123,13 +155,13 @@ An example plot of :class:`grakel.graph_kernels`
 
   .. container:: sphx-glr-download
 
-     :download:`Download Python source code: classification_statistics.py <classification_statistics.py>`
+     :download:`Download Python source code: plot_classification_statistics.py <plot_classification_statistics.py>`
 
 
 
   .. container:: sphx-glr-download
 
-     :download:`Download Jupyter notebook: classification_statistics.ipynb <classification_statistics.ipynb>`
+     :download:`Download Jupyter notebook: plot_classification_statistics.ipynb <plot_classification_statistics.ipynb>`
 
 
 .. only:: html

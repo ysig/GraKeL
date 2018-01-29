@@ -5,6 +5,8 @@ Classification statistics on the MUTAG, ENZYMES datasets.
 
 An example plot of :class:`grakel.graph_kernels`
 """
+print(__doc__)
+
 import time
 import matplotlib.pyplot as plt
 
@@ -12,8 +14,8 @@ from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
 from sklearn import svm
 
-import grakel.dataset.base as dataset
-import grakel.graph_kernels as gkl
+from grakel import dataset
+from grakel import GraphKernel
 
 
 def sec_to_time(sec):
@@ -43,7 +45,7 @@ def sec_to_time(sec):
 # https://ls11-www.cs.tu-dortmund.de/staff/morris/graphkerneldatasets
 # the biggest collection of benchmark datasets for graph_kernels.
 
-datasets = ["MUTAG", "ENZYMES"]
+datasets = ["MUTAG", "MSRC_21C"]
 
 kernels = {
     "Shortest Path": [{"name": "shortest_path"}],
@@ -64,35 +66,36 @@ data_dataset = list()
 for (j, d) in enumerate(columns):
     print(d)
     data_kernel = list()
-    G, C = dataset.load_dataset(d, verbose=False)
+    dataset_d = dataset.fetch_dataset(d, verbose=False)
+    G, y = dataset_d.data, dataset_d.target
 
     # Train-test split of graph data
-    GTr, GTe, ytr, yte = train_test_split(G, C, test_size=0.1)
+    G_train, G_test, y_train, y_test = train_test_split(G, y, test_size=0.1)
 
     for (i, k) in enumerate(rows):
         print(k, end=" ")
-        gk = gkl.GraphKernel(kernel=kernels[k], normalize=True, concurrency=-1)
+        gk = GraphKernel(kernel=kernels[k], normalize=True, concurrency=-1)
         print("", end=".")
 
         # Calculate the kernel matrix.
         start = time.time()
-        KTr = gk.fit_transform(GTr)
-        KTe = gk.transform(GTe)
+        K_train = gk.fit_transform(G_train)
+        K_test = gk.transform(G_test)
         end = time.time()
         print("", end=".")
 
         # Initialise an SVM and fit.
         clf = svm.SVC(kernel='precomputed')
-        clf.fit(KTr, ytr)
+        clf.fit(K_train, y_train)
         print("", end=". ")
 
         # Predict and test.
-        y_pred = clf.predict(KTe)
+        y_pred = clf.predict(K_test)
 
         # Calculate accuracy of classification.
         data_kernel.append(
             sec_to_time(round(end - start, 2)) +
-            " ~ " + str(round(accuracy_score(yte, y_pred)*100, 2)) + "%")
+            " ~ " + str(round(accuracy_score(y_test, y_pred)*100, 2)) + "%")
         print(data_kernel[-1])
     data_dataset.append(data_kernel)
     print("")

@@ -39,7 +39,7 @@
         <link rel="search" title="Search" href="../search.html"/>
     <link rel="top" title="GraKeL 0.0.1 documentation" href="../index.html"/>
         <link rel="up" title="General examples" href="index.html"/>
-        <link rel="prev" title="Fit-Transform and classification on the MUTAG dataset using a WL-dirac kernel." href="wl_subtree_MUTAG.html"/> 
+        <link rel="prev" title="Fit-Transform and classification on the MUTAG dataset using a WL-dirac kernel." href="plot_wl_subtree_MUTAG.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -95,7 +95,7 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../api.html">GraKeL</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">General examples</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="wl_subtree_MUTAG.html">Fit-Transform and classification on the MUTAG dataset using a WL-dirac kernel.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_wl_subtree_MUTAG.html">Fit-Transform and classification on the MUTAG dataset using a WL-dirac kernel.</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Classification statistics on the MUTAG, ENZYMES datasets.</a></li>
 </ul>
 </li>
@@ -151,7 +151,7 @@
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/auto_examples/classification_statistics.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/auto_examples/plot_classification_statistics.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -165,17 +165,39 @@
            <div itemprop="articleBody">
             
   <div class="section" id="classification-statistics-on-the-mutag-enzymes-datasets">
-<span id="sphx-glr-auto-examples-classification-statistics-py"></span><h1>Classification statistics on the MUTAG, ENZYMES datasets.<a class="headerlink" href="#classification-statistics-on-the-mutag-enzymes-datasets" title="Permalink to this headline">¶</a></h1>
+<span id="sphx-glr-auto-examples-plot-classification-statistics-py"></span><h1>Classification statistics on the MUTAG, ENZYMES datasets.<a class="headerlink" href="#classification-statistics-on-the-mutag-enzymes-datasets" title="Permalink to this headline">¶</a></h1>
 <p>An example plot of <a class="reference internal" href="../graph_kernel.html#module-grakel.graph_kernels" title="grakel.graph_kernels"><code class="xref py py-class docutils literal"><span class="pre">grakel.graph_kernels</span></code></a></p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">time</span>
+<img alt="../_images/sphx_glr_plot_classification_statistics_001.png" class="align-center" src="../_images/sphx_glr_plot_classification_statistics_001.png" />
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-default"><div class="highlight"><pre><span></span><span class="n">MUTAG</span>
+<span class="n">Graphlet</span> <span class="n">Sampling</span> <span class="o">...</span> <span class="mf">6.3</span> <span class="n">s</span> <span class="o">~</span> <span class="mf">78.95</span><span class="o">%</span>
+<span class="n">Random</span> <span class="n">Walk</span> <span class="o">...</span> <span class="mi">1</span> <span class="n">m</span> <span class="mf">8.97</span> <span class="n">s</span> <span class="o">~</span> <span class="mf">73.68</span><span class="o">%</span>
+<span class="n">Shortest</span> <span class="n">Path</span> <span class="o">...</span> <span class="mf">1.18</span> <span class="n">s</span> <span class="o">~</span> <span class="mf">84.21</span><span class="o">%</span>
+<span class="n">Weisfeiler</span><span class="o">-</span><span class="n">Lehman</span><span class="o">/</span><span class="n">Shortest</span><span class="o">-</span><span class="n">Path</span> <span class="o">...</span> <span class="mf">6.34</span> <span class="n">s</span> <span class="o">~</span> <span class="mf">84.21</span><span class="o">%</span>
+<span class="n">Weisfeiler</span><span class="o">-</span><span class="n">Lehman</span><span class="o">/</span><span class="n">Subtree</span> <span class="o">...</span> <span class="mf">14.39</span> <span class="n">s</span> <span class="o">~</span> <span class="mf">84.21</span><span class="o">%</span>
+
+<span class="n">MSRC_21C</span>
+<span class="n">Graphlet</span> <span class="n">Sampling</span> <span class="o">...</span> <span class="mf">7.27</span> <span class="n">s</span> <span class="o">~</span> <span class="mf">9.52</span><span class="o">%</span>
+<span class="n">Random</span> <span class="n">Walk</span> <span class="o">...</span> <span class="mi">14</span> <span class="n">m</span> <span class="mf">37.5</span> <span class="n">s</span> <span class="o">~</span> <span class="mf">9.52</span><span class="o">%</span>
+<span class="n">Shortest</span> <span class="n">Path</span> <span class="o">...</span> <span class="mf">4.57</span> <span class="n">s</span> <span class="o">~</span> <span class="mf">76.19</span><span class="o">%</span>
+<span class="n">Weisfeiler</span><span class="o">-</span><span class="n">Lehman</span><span class="o">/</span><span class="n">Shortest</span><span class="o">-</span><span class="n">Path</span> <span class="o">...</span> <span class="mf">36.84</span> <span class="n">s</span> <span class="o">~</span> <span class="mf">76.19</span><span class="o">%</span>
+<span class="n">Weisfeiler</span><span class="o">-</span><span class="n">Lehman</span><span class="o">/</span><span class="n">Subtree</span> <span class="o">...</span> <span class="mf">20.09</span> <span class="n">s</span> <span class="o">~</span> <span class="mf">66.67</span><span class="o">%</span>
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="vm">__doc__</span><span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
 
 <span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
 <span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
 <span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">svm</span>
 
-<span class="kn">import</span> <span class="nn">grakel.dataset.base</span> <span class="kn">as</span> <span class="nn">dataset</span>
-<span class="kn">import</span> <span class="nn">grakel.graph_kernels</span> <span class="kn">as</span> <span class="nn">gkl</span>
+<span class="kn">from</span> <span class="nn">grakel</span> <span class="kn">import</span> <span class="n">dataset</span>
+<span class="kn">from</span> <span class="nn">grakel</span> <span class="kn">import</span> <span class="n">GraphKernel</span>
 
 
 <span class="k">def</span> <span class="nf">sec_to_time</span><span class="p">(</span><span class="n">sec</span><span class="p">):</span>
@@ -205,7 +227,7 @@
 <span class="c1"># https://ls11-www.cs.tu-dortmund.de/staff/morris/graphkerneldatasets</span>
 <span class="c1"># the biggest collection of benchmark datasets for graph_kernels.</span>
 
-<span class="n">datasets</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;MUTAG&quot;</span><span class="p">,</span> <span class="s2">&quot;ENZYMES&quot;</span><span class="p">]</span>
+<span class="n">datasets</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;MUTAG&quot;</span><span class="p">,</span> <span class="s2">&quot;MSRC_21C&quot;</span><span class="p">]</span>
 
 <span class="n">kernels</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">&quot;Shortest Path&quot;</span><span class="p">:</span> <span class="p">[{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;shortest_path&quot;</span><span class="p">}],</span>
@@ -226,35 +248,36 @@
 <span class="k">for</span> <span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">columns</span><span class="p">):</span>
     <span class="k">print</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
     <span class="n">data_kernel</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-    <span class="n">G</span><span class="p">,</span> <span class="n">C</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">load_dataset</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">dataset_d</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">fetch_dataset</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">G</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">dataset_d</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">dataset_d</span><span class="o">.</span><span class="n">target</span>
 
     <span class="c1"># Train-test split of graph data</span>
-    <span class="n">GTr</span><span class="p">,</span> <span class="n">GTe</span><span class="p">,</span> <span class="n">ytr</span><span class="p">,</span> <span class="n">yte</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+    <span class="n">G_train</span><span class="p">,</span> <span class="n">G_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
 
     <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">rows</span><span class="p">):</span>
         <span class="k">print</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
-        <span class="n">gk</span> <span class="o">=</span> <span class="n">gkl</span><span class="o">.</span><span class="n">GraphKernel</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="n">kernels</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">normalize</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">concurrency</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">gk</span> <span class="o">=</span> <span class="n">GraphKernel</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="n">kernels</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">normalize</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">concurrency</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
         <span class="k">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
 
         <span class="c1"># Calculate the kernel matrix.</span>
         <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-        <span class="n">KTr</span> <span class="o">=</span> <span class="n">gk</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">GTr</span><span class="p">)</span>
-        <span class="n">KTe</span> <span class="o">=</span> <span class="n">gk</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">GTe</span><span class="p">)</span>
+        <span class="n">K_train</span> <span class="o">=</span> <span class="n">gk</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">G_train</span><span class="p">)</span>
+        <span class="n">K_test</span> <span class="o">=</span> <span class="n">gk</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">G_test</span><span class="p">)</span>
         <span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
         <span class="k">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
 
         <span class="c1"># Initialise an SVM and fit.</span>
         <span class="n">clf</span> <span class="o">=</span> <span class="n">svm</span><span class="o">.</span><span class="n">SVC</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;precomputed&#39;</span><span class="p">)</span>
-        <span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">KTr</span><span class="p">,</span> <span class="n">ytr</span><span class="p">)</span>
+        <span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">K_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
         <span class="k">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;. &quot;</span><span class="p">)</span>
 
         <span class="c1"># Predict and test.</span>
-        <span class="n">y_pred</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">KTe</span><span class="p">)</span>
+        <span class="n">y_pred</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">K_test</span><span class="p">)</span>
 
         <span class="c1"># Calculate accuracy of classification.</span>
         <span class="n">data_kernel</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
             <span class="n">sec_to_time</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="o">+</span>
-            <span class="s2">&quot; ~ &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">yte</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot;%&quot;</span><span class="p">)</span>
+            <span class="s2">&quot; ~ &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot;%&quot;</span><span class="p">)</span>
         <span class="k">print</span><span class="p">(</span><span class="n">data_kernel</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
     <span class="n">data_dataset</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data_kernel</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
@@ -267,12 +290,12 @@
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<p><strong>Total running time of the script:</strong> ( 0 minutes  0.000 seconds)</p>
+<p><strong>Total running time of the script:</strong> ( 17 minutes  32.406 seconds)</p>
 <div class="sphx-glr-footer docutils container">
 <div class="sphx-glr-download docutils container">
-<a class="reference download internal" href="../_downloads/classification_statistics.py" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">classification_statistics.py</span></code></a></div>
+<a class="reference download internal" href="../_downloads/plot_classification_statistics.py" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_classification_statistics.py</span></code></a></div>
 <div class="sphx-glr-download docutils container">
-<a class="reference download internal" href="../_downloads/classification_statistics.ipynb" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">classification_statistics.ipynb</span></code></a></div>
+<a class="reference download internal" href="../_downloads/plot_classification_statistics.ipynb" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_classification_statistics.ipynb</span></code></a></div>
 </div>
 <p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.readthedocs.io">Gallery generated by Sphinx-Gallery</a></p>
 </div>
@@ -288,7 +311,7 @@
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
       
-        <a href="wl_subtree_MUTAG.html" class="btn btn-neutral" title="Fit-Transform and classification on the MUTAG dataset using a WL-dirac kernel." accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="plot_wl_subtree_MUTAG.html" class="btn btn-neutral" title="Fit-Transform and classification on the MUTAG dataset using a WL-dirac kernel." accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
