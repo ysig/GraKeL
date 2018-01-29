@@ -322,7 +322,7 @@ class graphlet_sampling(kernel):
             raise ValueError('input must be an iterable\n')
         else:
             i = -1
-            if self._method_calling in [1, 2]:
+            if self._method_calling == 1:
                 self._graph_bins = dict()
             elif self._method_calling == 3:
                 self._Y_graph_bins = dict()
@@ -348,7 +348,7 @@ class graphlet_sampling(kernel):
                 # sample graphlets based on the initialized method
                 samples = self._sample_graphlets(A)
 
-                if self._method_calling in [1, 2]:
+                if self._method_calling == 1:
                     for (j, sg) in enumerate(samples):
                         # add the graph to an isomorphism class
                         if len(self._graph_bins) == 0:
@@ -383,24 +383,25 @@ class graphlet_sampling(kernel):
                                 local_values[(i,
                                               len(self._graph_bins))] = 1
                             else:
+                                newbin_Y = True
                                 for j in range(len(self._Y_graph_bins)):
-                                    if pynauty.isomorphic(self._graph_bins[j],
-                                                          sg):
-                                        newbin = False
+                                    if pynauty.isomorphic(
+                                            self._Y_graph_bins[j], sg):
+                                        newbin_Y = False
                                         if (i, j) not in local_values:
                                             local_values[(i, j)] = 1
                                         local_values[(i, j)] += 1
                                         break
-                                if newbin:
+                                if newbin_Y:
                                     idx = len(self._graph_bins) +\
                                             len(self._Y_graph_bins)
                                     local_values[(i, idx)] = 1
-                                    self._graph_bins[idx] = sg
+                                    self._Y_graph_bins[idx] = sg
 
             if i == -1:
                 raise ValueError('parsed input is empty')
 
-            if self._method_calling in [1, 2]:
+            if self._method_calling == 1:
                 self._nx = i+1
             elif self._method_calling == 3:
                 self._ny = i+1

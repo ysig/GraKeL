@@ -19,6 +19,7 @@ from grakel.kernels import shortest_path_attr
 from grakel.kernels import weisfeiler_lehman
 from grakel.kernels import pyramid_match
 from grakel.kernels import neighborhood_hash
+from grakel.kernels import subgraph_matching
 
 np.random.seed(int(time.time()))
 
@@ -344,7 +345,7 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                 elif kernel_name == "multiscale_laplacian":
                     raise ValueError('still developing')
                 elif kernel_name == "subgraph_matching":
-                    raise ValueError('still developing')
+                    return (subgraph_matching, kernel)
                 elif kernel_name == "lovasz_theta":
                     raise ValueError('still developing')
                 elif kernel_name == "svm_theta":

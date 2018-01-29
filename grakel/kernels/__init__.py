@@ -9,6 +9,7 @@ from grakel.kernels.shortest_path import shortest_path_attr
 from grakel.kernels.weisfeiler_lehman import weisfeiler_lehman
 from grakel.kernels.neighborhood_hash import neighborhood_hash
 from grakel.kernels.pyramid_match import pyramid_match
+from grakel.kernels.subgraph_matching import subgraph_matching
 
 __all__ = [
     "kernel",
@@ -19,5 +20,6 @@ __all__ = [
     "shortest_path_attr",
     "weisfeiler_lehman",
     "neighborhood_hash",
-    "pyramid_match"
+    "pyramid_match",
+    "subgraph_matching"
 ]

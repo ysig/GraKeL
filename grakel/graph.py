@@ -324,18 +324,17 @@ class graph(object):
 
         """
         if (purpose == "adjacency"):
+            nodes = list(range(0, self.n))
             if (label_type == "vertex"):
-                nodes = list(range(0, self.n))
                 self.index_node_labels = dict(zip(nodes, nodes))
             elif (label_type == "edge"):
-                nodes = list(range(0, self.n))
                 self.index_edge_labels = {(i, j): self.adjacency_matrix[i, j]
                                           for i in nodes for j in nodes}
             else:
                 warnings.warn('unsupported label type')
         elif (purpose == "dictionary"):
+            nodes = sorted(list(self.vertices))
             if (label_type == "vertex"):
-                nodes = sorted(list(self.vertices))
                 self.node_labels = dict(zip(nodes, nodes))
             elif (label_type == "edge"):
                 self.index_edge_labels = {
@@ -389,16 +388,15 @@ class graph(object):
                     purpose in ['all', 'edges'] and bool(self.edge_labels)
                 if cond_labels_nodes or cond_labels_edges:
                     lov_sorted = sorted(list(self.vertices))
-                    lv = len(lov_sorted)
                     if cond_labels_nodes:
                         self.index_node_labels = \
                             {i: self.node_labels[k] for (i, k) in
-                             zip(list(range(0, self.n)), lov_sorted)}
+                             enumerate(lov_sorted)}
                     if cond_labels_edges:
+                        vi = {v: i for (i, v) in enumerate(lov_sorted)}
                         self.index_edge_labels = \
-                            {(i, j): self.edge_labels[(k, q)] for (i, k) in
-                             zip(list(range(0, lv)), lov_sorted) for (j, q) in
-                             zip(list(range(0, lv)), lov_sorted)}
+                            {(vi[k], vi[q]): self.edge_labels[(k, q)]
+                             for (k, q) in self.edge_labels.keys()}
                 else:
                     if not init:
                         warnings.warn('no labels to convert from, ' +
@@ -655,7 +653,7 @@ class graph(object):
             if (bool(self.edsamic)):
                 indexes = self.edsamic
             else:
-                indexes = dict(zip(list(range(self.n)), list(range(self.n))))
+                indexes = dict(zip(range(self.n), range(self.n)))
 
             # calculate shortest path matrix
             shortest_path_mat = np.full([self.n, self.n], float("Inf"))
@@ -865,7 +863,7 @@ class graph(object):
             lov_sorted = sorted(lov)
 
             # edge_labels_adjacency_matrix_correspondance_dictionary
-            edsamic = dict(zip(lov_sorted, list(range(0, n))))
+            edsamic = dict(zip(lov_sorted, range(n)))
 
             return edsamic, n, lov_sorted
         else:

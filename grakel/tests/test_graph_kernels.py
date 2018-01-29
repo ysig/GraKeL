@@ -121,6 +121,14 @@ def test_neighborhood_hash():
         print_kernel_decorator("Neighborhood Hash", gk, dataset_tr, dataset_te)
 
 
+def test_subgraph_matching():
+    """Test Subgraph Matching kernel."""
+    gk = GraphKernel(kernel={"name": "subgraph_matching"}, verbose=verbose,
+                     normalize=normalize)
+    if verbose:
+        print_kernel_decorator("Subgraph Matching", gk, dataset_tr, dataset_te)
+
+
 def print_kernel_decorator(name, kernel, X, Y):
     """Print kernels in case of verbose execution."""
     name += " [decorator]"
@@ -144,4 +152,4 @@ if verbose and main:
 
 if verbose and develop:
     if problematic:
-        pass
+        test_subgraph_matching()

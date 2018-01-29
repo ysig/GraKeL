@@ -8,6 +8,7 @@ from grakel.kernels import shortest_path
 from grakel.kernels import weisfeiler_lehman
 from grakel.kernels import pyramid_match
 from grakel.kernels import neighborhood_hash
+from grakel.kernels import subgraph_matching
 
 global verbose, main, development
 
@@ -134,6 +135,13 @@ def test_neighborhood_hash():
         print_kernel("Neighborhood Hash", nh_kernel, dataset_tr, dataset_te)
 
 
+def test_subgraph_matching():
+    """Test the subgraph_matching kernel."""
+    sm_kernel = subgraph_matching(verbose=verbose, normalize=normalize)
+    if verbose:
+        print_kernel("Subgraph Matching", sm_kernel, dataset_tr, dataset_te)
+
+
 def print_kernel(name, kernel, X, Y):
     """Print kernels in case of verbose execution."""
     print("\n" + str(name) + ":\n" + (len(str(name)) * "-") + "-")
@@ -156,4 +164,4 @@ if verbose and main:
 
 if verbose and develop:
     if problematic:
-        pass
+        test_subgraph_matching()

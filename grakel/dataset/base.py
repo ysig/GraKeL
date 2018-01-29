@@ -87,7 +87,7 @@ dataset_metadata = {
     "MSRC_21C": {"nl": True, "el": False, "na": False, "ea": False,
                  "link": "https://ls11-www.cs.uni-dortmund.de/people/mor" +
                  "ris/graphkerneldatasets/MSRC_21C.zip"},
-    "MUTAG": {"nl": True, "el": False, "na": False, "ea": False,
+    "MUTAG": {"nl": True, "el": True, "na": False, "ea": False,
               "link": "https://ls11-www.cs.uni-dortmund.de/people/mor" +
               "ris/graphkerneldatasets/MUTAG.zip"},
     "NCI1": {"nl": True, "el": False, "na": False, "ea": False,
@@ -244,7 +244,7 @@ def read_data(
     with open(edges_path, "r") as f:
         for (i, line) in enumerate(f, 1):
             edge = line[:-1].replace(' ', '').split(",")
-            elc[(int(edge[0]), int(edge[1]))] = i
+            elc[i] = (int(edge[0]), int(edge[1]))
             Graphs[ngc[int(edge[0])]].add((int(edge[0]), int(edge[1])))
             if is_symmetric:
                 Graphs[ngc[int(edge[1])]].add((int(edge[1]), int(edge[0])))
@@ -304,8 +304,7 @@ def read_data(
                 classes.append(int(line[:-1]))
 
         classes = np.array(classes, dtype=np.int)
-        return Bunch(data=Gs,
-                     target=classes)
+        return Bunch(data=Gs, target=classes)
     else:
         return Bunch(data=Gs)
 
