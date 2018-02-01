@@ -39,20 +39,22 @@ class random_walk(kernel):
 
     Attributes
     ----------
-    _lambda : float
+    _lambda : float, default=0.1
         A lambda factor concerning summation.
 
-    _kernel_type : str, valid_values={"geometric", "exponential"}
+    _kernel_type : str, valid_values={"geometric", "exponential"},
+    default="geometric"
         Defines how inner summation will be applied.
 
-    _method_type : str valid_values={"baseline", "fast"}
+    _method_type : str valid_values={"baseline", "fast"},
+    default="fast"
         The method to use for calculating random walk kernel:
             + "baseline" *Complexity*: :math:`O(|V|^6)`
               (see :cite:`Kashima2003MarginalizedKB`, :cite:`Grtner2003OnGK`)
             + "fast" *Complexity*: :math:`O((|E|+|V|)|V||M|)`
               (see :cite:`Vishwanathan2006FastCO`)
 
-    _p : int
+    _p : int, default=1
         If not -1, the number of steps of the random walk kernel.
 
     """
@@ -136,20 +138,24 @@ class random_walk(kernel):
         else:
             i = 0
             out = list()
-            for x in iter(X):
-                if len(x) == 0:
-                    warnings.warn('Ignoring empty element on index: '+str(i))
-                if len(x) in [1, 2, 3]:
-                    if len(x) == 1 and type(x) is graph:
-                        A = x.get_adjacency_matrix()
+            for (idx, x) in enumerate(iter(X)):
+                if type(x) is graph:
+                    A = x.get_adjacency_matrix()
+                elif isinstance(x, collections.Iterable) and \
+                        len(x) in [0, 1, 2, 3]:
+                    if len(x) == 0:
+                        warnings.warn('Ignoring empty element' +
+                                      ' on index: '+str(idx))
+                        continue
                     else:
                         A = graph(x[0], {}, {},
                                   self._graph_format).get_adjacency_matrix()
-                    i += 1
-                    out.append(self._add_input(A))
                 else:
-                    raise ValueError('each element of X must have at least' +
-                                     ' one and at most 3 elements\n')
+                    raise ValueError('each element of X must be either a ' +
+                                     'graph or an iterable with at least 1 ' +
+                                     'and at most 3 elements\n')
+                i += 1
+                out.append(self._add_input(A))
 
             if i == 0:
                 raise ValueError('parsed input is empty')

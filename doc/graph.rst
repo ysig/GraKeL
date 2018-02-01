@@ -3,4 +3,6 @@ Graph (class)
 Documentation for the graph class.
 
 .. automodule:: grakel.graph
-   :members:
+    :members:
+    :undoc-members:
+    :show-inheritance:

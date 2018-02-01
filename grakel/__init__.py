@@ -12,6 +12,10 @@ from grakel.kernels import weisfeiler_lehman
 from grakel.kernels import neighborhood_hash
 from grakel.kernels import pyramid_match
 from grakel.kernels import subgraph_matching
+from grakel.kernels import neighborhood_subgraph_pairwise_distance
+from grakel.kernels import lovasz_theta
+from grakel.kernels import svm_theta
+from grakel.kernels import jsm
 
 __all__ = [
     "dataset",
@@ -26,5 +30,9 @@ __all__ = [
     "weisfeiler_lehman",
     "neighborhood_hash",
     "pyramid_match",
-    "subgraph_matching"
+    "subgraph_matching",
+    "neighborhood_subgraph_pairwise_distance",
+    "lovasz_theta",
+    "svm_theta",
+    "jsm"
 ]

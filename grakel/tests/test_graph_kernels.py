@@ -10,14 +10,16 @@ if __name__ == '__main__':
     # Create an argument parser for the installer of pynauty
     parser = argparse.ArgumentParser(description='A test file for all kernels')
 
-    parser.add_argument('--verbose', help='print kernels with their outputs on\
-                        stdout', action="store_true")
-    parser.add_argument('--problematic', help='allow execution of problematic\
-                        test cases in development', action="store_true")
+    parser.add_argument('--verbose', help='print kernels with their outputs' +
+                        ' on stdout', action="store_true")
+    parser.add_argument('--problematic', help='allow execution of problemati' +
+                        'c test cases in development', action="store_true")
+    parser.add_argument('--slow', help='allow execution of slow test cases' +
+                        ' in development', action="store_true")
     parser.add_argument('--normalize', help='normalize the kernel output',
                         action="store_true")
-    parser.add_argument('--ignore_warnings', help='ignore warnings produced by\
-                        kernel executions', action="store_true")
+    parser.add_argument('--ignore_warnings', help='ignore warnings produced ' +
+                        'by kernel executions', action="store_true")
     parser.add_argument(
         '--dataset',
         help='chose the datset you want the tests to be executed',
@@ -26,8 +28,8 @@ if __name__ == '__main__':
     )
 
     meg = parser.add_mutually_exclusive_group()
-    meg.add_argument('--develop', help='execute only tests connected with\
-                     current development', action="store_true")
+    meg.add_argument('--develop', help='execute only tests connected with ' +
+                     'current development', action="store_true")
     meg.add_argument('--all', help='execute all tests', action="store_true")
     meg.add_argument('--main', help='execute the main tests [default]',
                      action="store_true")
@@ -42,6 +44,7 @@ if __name__ == '__main__':
     else:
         main, develop = True, False
     problematic = bool(args.problematic)
+    slow = bool(args.slow)
 
     if bool(args.ignore_warnings):
         import warnings
@@ -53,8 +56,8 @@ if __name__ == '__main__':
 else:
     import warnings
     warnings.filterwarnings('ignore', category=UserWarning)
-    main, develop, verbose, problematic = True, False, False, False
-    normalize = False
+    main, develop, problematic, slow = True, False, False, False
+    normalize, verbose = False, False
     dataset_name = "MUTAG"
 
 global dataset_tr, dataset_te
@@ -129,6 +132,43 @@ def test_subgraph_matching():
         print_kernel_decorator("Subgraph Matching", gk, dataset_tr, dataset_te)
 
 
+def test_neighborhood_pairwise_distance():
+    """Test the Neighborhood Subgraph Pairwise Distance kernel."""
+    gk = GraphKernel(kernel={
+        "name": "neighborhood_subgraph_pairwise_distance"},
+                     verbose=verbose, normalize=normalize)
+
+    if verbose:
+        print_kernel_decorator("NSPD", gk, dataset_tr, dataset_te)
+
+
+def test_lovasz_theta():
+    """Test the Lovasz-theta kernel."""
+    gk = GraphKernel(kernel={"name": "lovasz_theta"},
+                     verbose=verbose, normalize=normalize)
+
+    if verbose:
+        print_kernel_decorator("Lovasz-theta", gk, dataset_tr, dataset_te)
+
+
+def test_svm_theta():
+    """Test the SVM-theta kernel."""
+    gk = GraphKernel(kernel={"name": "svm_theta"},
+                     verbose=verbose, normalize=normalize)
+
+    if verbose:
+        print_kernel_decorator("SVM-theta", gk, dataset_tr, dataset_te)
+
+
+def test_jsm():
+    """Test the Jensen Shannon Representation Alignment kernel."""
+    gk = GraphKernel(kernel={"name": "jsm"},
+                     verbose=verbose, normalize=normalize)
+
+    if verbose:
+        print_kernel_decorator("JSM", gk, dataset_tr, dataset_te)
+
+
 def print_kernel_decorator(name, kernel, X, Y):
     """Print kernels in case of verbose execution."""
     name += " [decorator]"
@@ -149,7 +189,12 @@ if verbose and main:
     test_pyramid_match()
     test_neighborhood_hash()
     test_graphlet_sampling()
+    test_lovasz_theta()
+    test_svm_theta()
 
 if verbose and develop:
+    test_jsm()
+    if slow:
+        test_neighborhood_pairwise_distance()
     if problematic:
         test_subgraph_matching()

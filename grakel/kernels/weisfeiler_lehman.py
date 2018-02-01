@@ -116,27 +116,25 @@ class weisfeiler_lehman(kernel):
         else:
             nx = 0
             Gs_ed, L, distinct_values = dict(), dict(), set()
-            for (i, x) in enumerate(iter(X)):
-                if len(x) == 0:
-                    warnings.warn('Ignoring empty element on index: '+str(i))
-                if len(x) == 1:
-                    if type(x) is not graph:
-                        raise ValueError('weisfeiler_lehman requires labels')
-                    Gs_ed[nx] = x.get_edge_dictionary()
-                    L[nx] = x.get_labels(purpose="dictionary")
-                    distinct_values |= set(L[nx].values())
-                    nx += 1
-                elif len(x) in [2, 3]:
-                    x = graph(x[0], x[1], {},
-                              graph_format=self._graph_format)
-                    Gs_ed[nx] = x.get_edge_dictionary()
-                    L[nx] = x.get_labels(purpose="dictionary")
-                    distinct_values |= set(L[nx].values())
-                    nx += 1
+            for (idx, x) in enumerate(iter(X)):
+                if isinstance(x, collections.Iterable)\
+                        and len(x) in [0, 2, 3]:
+                    if len(x) == 0:
+                        warnings.warn('Ignoring empty element on index: '
+                                      + str(idx))
+                        continue
+                    elif len(x) in [2, 3]:
+                        x = graph(x[0], x[1], {},
+                                  graph_format=self._graph_format)
                 else:
-                    raise ValueError('each element of X must have at least' +
-                                     ' one and at most 3 elements\n')
-
+                    raise ValueError('each element of X must be either a ' +
+                                     'graph object or a list with at least ' +
+                                     'a graph like object and node labels ' +
+                                     'dict \n')
+                Gs_ed[nx] = x.get_edge_dictionary()
+                L[nx] = x.get_labels(purpose="dictionary")
+                distinct_values |= set(L[nx].values())
+                nx += 1
             if nx == 0:
                 raise ValueError('parsed input is empty')
         # DSave the numebr of graphs of x.
@@ -217,7 +215,7 @@ class weisfeiler_lehman(kernel):
     def fit_transform(self, X):
         """Fit and transform, on the same dataset.
 
-        Paramaters
+        Parameters
         ----------
         X : iterable
             Each element must be an iterable with at most three features and at
@@ -251,7 +249,7 @@ class weisfeiler_lehman(kernel):
     def transform(self, X):
         """Calculate the kernel matrix, between given and fitted dataset.
 
-        Paramaters
+        Parameters
         ----------
         X : iterable
             Each element must be an iterable with at most three features and at
@@ -325,8 +323,11 @@ class weisfeiler_lehman(kernel):
         new_graphs = list()
         for j in range(nx):
             new_labels = dict()
-            for k in L[j].keys():
-                new_labels[k] = self._inv_labels[0][L[j][k]]
+            for (k, v) in L[j].items():
+                if v in self._inv_labels[0]:
+                    new_labels[k] = self._inv_labels[0][v]
+                else:
+                    new_labels[k] = WL_labels_inverse[v]
             L[j] = new_labels
             # produce the new graphs
             new_graphs.append([Gs_ed[j], new_labels])

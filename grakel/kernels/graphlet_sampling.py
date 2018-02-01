@@ -174,7 +174,7 @@ class graphlet_sampling(kernel):
     def transform(self, X):
         """Calculate the kernel matrix, between given and fitted dataset.
 
-        Paramaters
+        Parameters
         ----------
         X : iterable
             Each element must be an iterable with at most three features and at
@@ -226,7 +226,7 @@ class graphlet_sampling(kernel):
     def fit_transform(self, X):
         """Fit and transform, on the same dataset.
 
-        Paramaters
+        Parameters
         ----------
         X : iterable
             Each element must be an iterable with at most three features and at
@@ -327,24 +327,24 @@ class graphlet_sampling(kernel):
             elif self._method_calling == 3:
                 self._Y_graph_bins = dict()
             local_values = dict()
-            for x in iter(X):
-                if len(x) == 0:
-                    warnings.warn('Ignoring empty element on index: '+str(i))
-                if len(x) == 1:
-                    if type(x) is graph:
-                        A = x.get_adjacency_matrix()
+            for (idx, x) in enumerate(iter(X)):
+                if type(x) is graph:
+                    A = x.get_adjacency_matrix()
+                elif isinstance(x, collections.Iterable) and \
+                        len(x) in [0, 1, 2, 3]:
+                    if len(x) == 0:
+                        warnings.warn('Ignoring empty element on ' +
+                                      'index: '+str(idx))
+                        continue
                     else:
                         A = graph(x[0], {}, {},
                                   self._graph_format).get_adjacency_matrix()
-                    i += 1
-                elif len(x) in [2, 3]:
-                    A = (graph(x[0], {}, {},
-                               self._graph_format).get_adjacency_matrix() > 0)
-                    i += 1
                 else:
-                    raise ValueError('each element of X must have at least' +
-                                     ' one and at most 3 elements\n')
+                    raise ValueError('each element of X must be either a ' +
+                                     'graph or an iterable with at least 1 ' +
+                                     'and at most 3 elements\n')
                 A = (A > 0).astype(int)
+                i += 1
                 # sample graphlets based on the initialized method
                 samples = self._sample_graphlets(A)
 
@@ -379,22 +379,23 @@ class graphlet_sampling(kernel):
                                 break
                         if newbin:
                             if len(self._Y_graph_bins) == 0:
-                                self._graph_bins[len(self._graph_bins)] = sg
+                                self._Y_graph_bins[len(self._graph_bins)] = sg
                                 local_values[(i,
                                               len(self._graph_bins))] = 1
                             else:
                                 newbin_Y = True
+                                start = len(self._graph_bins)
                                 for j in range(len(self._Y_graph_bins)):
                                     if pynauty.isomorphic(
                                             self._Y_graph_bins[j], sg):
                                         newbin_Y = False
-                                        if (i, j) not in local_values:
-                                            local_values[(i, j)] = 1
-                                        local_values[(i, j)] += 1
+                                        bin_key = (i, j + start)
+                                        if bin_key not in local_values:
+                                            local_values[bin_key] = 1
+                                        local_values[bin_key] += 1
                                         break
                                 if newbin_Y:
-                                    idx = len(self._graph_bins) +\
-                                            len(self._Y_graph_bins)
+                                    idx = start + len(self._Y_graph_bins)
                                     local_values[(i, idx)] = 1
                                     self._Y_graph_bins[idx] = sg
 

@@ -84,29 +84,25 @@ class shortest_path_attr(kernel):
         if not isinstance(X, collections.Iterable):
             raise ValueError('input must be an iterable\n')
         else:
-            i = 0
             sp_attr_tup = list()
-            for x in iter(X):
-                if len(x) == 0:
-                    warnings.warn('Ignoring empty element on index: '+str(i))
-                if len(x) == 1:
-                    if type(x) is graph:
-                        S, L = x.build_shortest_path_matrix(
-                                    self._algorithm_type)
+            for (i, x) in enumerate(iter(X)):
+                if type(x) is graph:
+                    S, L = x.build_shortest_path_matrix(self._algorithm_type)
+                elif isinstance(x, collections.Iterable) and \
+                        len(x) in [0, 2, 3]:
+                    if len(x) == 0:
+                        warnings.warn('Ignoring empty element' +
+                                      ' on index: '+str(i))
+                        continue
                     else:
-                        warnings.warn(
-                            'Ignoring empty element on index: '
-                            + str(i) + '\nLabels must be provided.')
-                    i += 1
-                elif len(x) in [2, 3]:
-                    S, L = graph(
-                        x[0], x[1], {},
-                        self._graph_format).build_shortest_path_matrix(
-                            self._algorithm_type)
-                    i += 1
+                        S, L = graph(
+                            x[0], x[1], {},
+                            self._graph_format).build_shortest_path_matrix(
+                                self._algorithm_type)
                 else:
-                    raise ValueError('each element of X must have at least' +
-                                     ' one and at most 3 elements\n')
+                    raise ValueError('each element of X must be either a ' +
+                                     'graph or an iterable with at least 2 ' +
+                                     'and at most 3 elements\n')
 
                 sp_attr_tup.append((S, L))
                 raise ValueError('parsed input is empty')
@@ -174,6 +170,9 @@ class shortest_path(kernel):
         A dictionary of pairs between each input graph and a bins where the
         sampled graphlets have fallen.
 
+    _with_labels : bool
+        Defines if the shortest path kernel considers also labels.
+
     _enum : dict
         A dictionary of graph bins holding pynauty objects
 
@@ -213,7 +212,8 @@ class shortest_path(kernel):
                                    "algorithm_type"}
         super(shortest_path, self).__init__(**kargs)
 
-        if kargs.get("with_labels", True):
+        self._with_labels = kargs.get("with_labels", True)
+        if self._with_labels:
             self._lt = "vertex"
             self._lhash = lambda S, u, v, *args: \
                 (args[0][u], args[0][v], S[u, v])
@@ -235,7 +235,7 @@ class shortest_path(kernel):
     def transform(self, X):
         """Calculate the kernel matrix, between given and fitted dataset.
 
-        Paramaters
+        Parameters
         ----------
         X : iterable
             Each element must be an iterable with at most three features and at
@@ -322,7 +322,7 @@ class shortest_path(kernel):
     def fit_transform(self, X):
         """Fit and transform, on the same dataset.
 
-        Paramaters
+        Parameters
         ----------
         X : iterable
             Each element must be an iterable with at most three features and at
@@ -393,31 +393,35 @@ class shortest_path(kernel):
                 self._enum = dict()
             elif self._method_calling == 3:
                 self._Y_enum = dict()
-            for x in iter(X):
-                if len(x) == 0:
-                    warnings.warn('Ignoring empty element on index: '+str(i))
-                if len(x) == 1:
-                    if type(x) is graph:
-                        S, *L = x.build_shortest_path_matrix(
-                                    self._algorithm_type,
-                                    labels=self._lt)
-                    else:
+            for (idx, x) in enumerate(iter(X)):
+                if type(x) is graph:
+                    S, *L = x.build_shortest_path_matrix(
+                                self._algorithm_type,
+                                labels=self._lt)
+                elif isinstance(x, collections.Iterable) and \
+                        (len(x) == 0 or
+                         (len(x) == 1 and not self._with_labels) or
+                         len(x) in [2, 3]):
+                    if len(x) == 0:
+                        warnings.warn('Ignoring empty element on index: '
+                                      + str(idx))
+                        continue
+                    elif len(x) == 1:
                         S, *L = graph(
                             x[0], {}, {},
                             self._graph_format).build_shortest_path_matrix(
                                 self._algorithm_type,
                                 labels=self._lt)
-                    i += 1
-                elif len(x) in [2, 3]:
-                    S, *L = graph(
-                        x[0], x[1], {},
-                        self._graph_format).build_shortest_path_matrix(
-                            self._algorithm_type,
-                            labels=self._lt)
-                    i += 1
+                    else:
+                        S, *L = graph(
+                            x[0], x[1], {},
+                            self._graph_format).build_shortest_path_matrix(
+                                self._algorithm_type,
+                                labels=self._lt)
                 else:
                     raise ValueError('each element of X must have at least' +
                                      ' one and at most 3 elements\n')
+                i += 1
 
                 sp_counts[i] = dict()
                 for u in range(S.shape[0]):

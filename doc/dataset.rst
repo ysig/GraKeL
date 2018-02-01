@@ -1,4 +1,8 @@
-Dataset
-=======
+=========================
+Dataset loading utilities
+=========================
+
 .. automodule:: grakel.dataset
-   :members:
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -55,20 +55,22 @@ class subtree_wl(kernel):
         else:
             Xp = list()
             for (i, x) in enumerate(iter(X)):
-                if len(x) == 0:
-                    warnings.warn('Ignoring empty element on index: '+str(i))
-                if len(x) == 1:
-                    if type(x) is graph:
-                        invL = inv_dict(x.get_labels(purpose="any"))
-                        Xp.append(invL)
+                if type(x) is graph:
+                    invL = inv_dict(x.get_labels(purpose="any"))
+                elif isinstance(x, collections.Iterable) and \
+                        len(x) in [0, 2, 3]:
+                    if len(x) == 0:
+                        warnings.warn('Ignoring empty element' +
+                                      ' on index: '+str(i))
+                        continue
                     else:
-                        raise ValueError('Second argument must be labels.')
-                elif len(x) in [2, 3]:
-                    invL = inv_dict(x[1])
-                    Xp.append(invL)
+                        invL = inv_dict(x[1])
                 else:
-                    raise ValueError('each element of X must have at least' +
-                                     ' one and at most 3 elements\n')
+                    raise ValueError('each element of X must be either a ' +
+                                     'graph object or a list with at least ' +
+                                     'a graph like object and node labels ' +
+                                     'dict \n')
+                Xp.append(invL)
             if len(Xp) == 0:
                 raise ValueError('parsed input is empty')
             return Xp

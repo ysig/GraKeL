@@ -170,7 +170,7 @@ dataset_metadata = {
                          "le/morris/graphkerneldatasets/Tox21_PPAR-gamma.zip"}
 }
 
-symmetric_dataset = True
+symmetric_dataset = False
 
 
 def read_data(

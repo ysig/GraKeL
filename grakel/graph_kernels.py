@@ -20,6 +20,10 @@ from grakel.kernels import weisfeiler_lehman
 from grakel.kernels import pyramid_match
 from grakel.kernels import neighborhood_hash
 from grakel.kernels import subgraph_matching
+from grakel.kernels import neighborhood_subgraph_pairwise_distance
+from grakel.kernels import lovasz_theta
+from grakel.kernels import svm_theta
+from grakel.kernels import jsm
 
 np.random.seed(int(time.time()))
 
@@ -27,7 +31,7 @@ global supported_base_kernels, supported_general_kernels, default_n_components
 
 valid_parameters = {"kernel",
                     "Nystroem",
-                    "concurrency",
+                    "n_jobs",
                     "normalize",
                     "verbose"}
 
@@ -171,7 +175,7 @@ class GraphKernel(BaseEstimator, TransformerMixin):
         Defines the number of nystroem components.
         To initialize the default (100 components), set -1 or 0.
 
-    concurrency : int, optional
+    n_jobs : int, optional
         Defines the number of workers for kernel matrix calculation using
         concurrency. To intialise the default (all possible), set -1 or 0.
 
@@ -243,25 +247,24 @@ class GraphKernel(BaseEstimator, TransformerMixin):
             else:
                 self._nystroem = kargs["Nystroem"]
 
-        if "concurrency" in kargs:
-            if type(kargs["concurrency"]) is not int:
-                raise ValueError('concurrency parameter must be an int, \
-                                  indicating the number of components')
-            elif kargs["concurrency"] in [0, -1]:
+        if "n_jobs" in kargs:
+            if type(kargs["n_jobs"]) is not int:
+                raise ValueError('n_jobs parameter must be an int, \
+                                  indicating the number of workers')
+            elif kargs["n_jobs"] in [0, -1]:
                 # Initialise an executor
                 self._concurrent_executor = ThreadPoolExecutor()
-            elif kargs["concurrency"] <= 0:
-                raise ValueError('number of concurrency workers \
+            elif kargs["n_jobs"] <= 0:
+                raise ValueError('number of jobs (concurrent workers) \
                                   must be positive')
             else:
                 self._concurrent_executor = ThreadPoolExecutor(
-                    max_workers=kargs["concurrency"])
-            self._pairwise_kernel_executor = \
-                lambda fn, *eargs, **ekargs: self._concurrent_executor.submit(
-                    fn, *eargs, **ekargs).result()
+                    max_workers=kargs["n_jobs"])
+            self._pairwise_kernel_executor = lambda fn, *eargs, **ekargs: \
+                self._concurrent_executor.submit(fn, *eargs, **ekargs).result()
         else:
-            self._pairwise_kernel_executor = \
-                lambda fn, *eargs, **ekargs: fn(*eargs, **ekargs)
+            self._pairwise_kernel_executor = lambda fn, *eargs, **ekargs: \
+                fn(*eargs, **ekargs)
 
         self._normalize = kargs.get("normalize", False)
 
@@ -347,13 +350,13 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                 elif kernel_name == "subgraph_matching":
                     return (subgraph_matching, kernel)
                 elif kernel_name == "lovasz_theta":
-                    raise ValueError('still developing')
+                    return (lovasz_theta, kernel)
                 elif kernel_name == "svm_theta":
-                    raise ValueError('still developing')
+                    return (svm_theta, kernel)
                 elif kernel_name == "neighborhood_hash":
                     return (neighborhood_hash, kernel)
                 elif kernel_name == "neighborhood_subgraph_pairwise_distance":
-                    raise ValueError('still developing')
+                    return (neighborhood_subgraph_pairwise_distance, kernel)
                 elif kernel_name == "odd_sth":
                     raise ValueError('still developing')
                 elif kernel_name == "propagation":
@@ -361,7 +364,7 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                 elif kernel_name == "pyramid_match":
                     return (pyramid_match, kernel)
                 elif kernel_name == "jsm":
-                    raise ValueError('still developing')
+                    return (jsm, kernel)
             elif kernel_name in supported_general_kernels:
                 if (len(kernel_list) == 0):
                     raise ValueError(str(kernel_name)+' is not a base kernel')
@@ -433,7 +436,7 @@ class GraphKernel(BaseEstimator, TransformerMixin):
     def transform(self, X):
         """Calculate the kernel matrix, between given and fitted dataset.
 
-        Paramaters
+        Parameters
         ----------
         X : iterable
             Each element must be an iterable with at most three features and at
@@ -464,7 +467,7 @@ class GraphKernel(BaseEstimator, TransformerMixin):
     def fit_transform(self, X):
         """Fit and transform, on the same dataset.
 
-        Paramaters
+        Parameters
         ----------
         X : iterable
             Each element must be an iterable with at most three features and at

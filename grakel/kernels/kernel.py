@@ -78,8 +78,9 @@ class kernel(BaseEstimator, TransformerMixin):
         """`__init__` for `kernel` object."""
         self._verbose = kargs.get("verbose", default_verbose_value)
 
-        self._executor = kargs.get("executor",
-                                   lambda f, *args, **kargs: f(*args, **kargs))
+        self._executor = kargs.get("executor", None)
+        if self._executor is None:
+            self._executor = lambda fn, *eargs, **ekargs: fn(*eargs, **ekargs)
 
         self._normalize = kargs.get("normalize", default_normalize_value)
 
@@ -125,7 +126,7 @@ class kernel(BaseEstimator, TransformerMixin):
     def transform(self, X):
         """Calculate the kernel matrix, between given and fitted dataset.
 
-        Paramaters
+        Parameters
         ----------
         X : iterable
             Each element must be an iterable with at most three features and at
@@ -163,7 +164,7 @@ class kernel(BaseEstimator, TransformerMixin):
     def fit_transform(self, X):
         """Fit and transform, on the same dataset.
 
-        Paramaters
+        Parameters
         ----------
         X : iterable
             Each element must be an iterable with at most three features and at
@@ -223,7 +224,6 @@ class kernel(BaseEstimator, TransformerMixin):
                 for (j, y) in enumerate(cache):
                     K[j, i] = self._executor(self.pairwise_operation, y, x)
                 cache.append(x)
-
             K = np.triu(K) + np.triu(K, 1).T
 
         else:
@@ -291,18 +291,21 @@ class kernel(BaseEstimator, TransformerMixin):
         else:
             Xp = list()
             for (i, x) in enumerate(iter(X)):
-                if len(x) == 0:
-                    warnings.warn('Ignoring empty element on index: '+str(i))
-                if len(x) == 1:
-                    if type(x) is graph:
-                        Xp.append(x)
-                    else:
+                if type(x) is graph:
+                    Xp.append(x)
+                elif isinstance(x, collections.Iterable) and \
+                        len(x) in [0, 1, 2, 3]:
+                    if len(x) == 0:
+                        warnings.warn('Ignoring empty element' +
+                                      ' on index: '+str(i))
+                        continue
+                    elif len(x) == 1:
                         Xp.append(graph(x[0], {}, {},
                                         self._graph_format))
-                elif len(x) == 2:
-                    Xp.append(graph(x[0], x[1], {}, self._graph_format))
-                elif len(x) == 3:
-                    Xp.append(graph(x[0], x[1], x[2], self._graph_format))
+                    elif len(x) == 2:
+                        Xp.append(graph(x[0], x[1], {}, self._graph_format))
+                    else:
+                        Xp.append(graph(x[0], x[1], x[2], self._graph_format))
                 else:
                     raise ValueError('each element of X must have at least' +
                                      ' one and at most 3 elements\n')

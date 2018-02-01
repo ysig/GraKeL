@@ -94,33 +94,24 @@ class pyramid_match(kernel):
             Us = []
             if self._with_labels:
                 Ls = []
-            for x in iter(X):
-                if len(x) == 0:
-                    warnings.warn('Ignoring empty element on index: '+str(i))
-                if len(x) == 1:
-                    if type(x) is graph:
-                        A = x.get_adjacency_matrix()
-                    if self._with_labels:
-                        L = x.get_labels(purpose="adjacency")
+            for (idx, x) in enumerate(iter(X)):
+                if isinstance(x, collections.Iterable)\
+                        and len(x) in [0, 2, 3]:
+                    if len(x) == 0:
+                        warnings.warn('Ignoring empty element on index: ' +
+                                      str(idx))
+                        continue
                     else:
-                        if self._with_labels:
-                            warnings.warn(
-                                'Ignoring empty element on index: '
-                                + str(i) + '\nLabels must be provided.')
-                        else:
-                            A = graph(x[0], {}, {}, self._graph_format
-                                      ).get_adjacency_matrix()
-                    i += 1
-                elif len(x) in [2, 3]:
-                    x = graph(x[0], x[1], {}, self._graph_format)
-                    A = x.get_adjacency_matrix()
-                    if self._with_labels:
-                        L = x.get_labels(purpose="adjacency")
-                    i += 1
-                else:
-                    raise ValueError('each element of X must have at least' +
-                                     ' one and at most 3 elements\n')
-
+                        x = graph(x[0], x[1], {}, self._graph_format)
+                elif not type(x) is graph:
+                    raise ValueError('each element of X must be either a ' +
+                                     'graph object or a list with at least ' +
+                                     'a graph like object and node labels ' +
+                                     'dict \n')
+                A = x.get_adjacency_matrix()
+                if self._with_labels:
+                    L = x.get_labels(purpose="adjacency")
+                i += 1
                 if A.shape[0] == 0:
                     Us.append(np.zeros((1, self._d)))
                 else:

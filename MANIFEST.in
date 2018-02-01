@@ -1,1 +1,4 @@
 include requirements.txt
+recursive-include grakel/kernels/_c_functions/include *
+include grakel/kernels/_c_functions/*.pxd
+include grakel/kernels/_c_functions/*.pyx

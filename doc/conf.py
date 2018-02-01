@@ -39,6 +39,7 @@ except:
 # ones.
 extensions = [
     'sphinx.ext.autodoc',
+    'sphinx.ext.autosummary',
     'sphinx.ext.doctest',
     'sphinx.ext.intersphinx',
     'sphinx.ext.todo',
@@ -46,7 +47,7 @@ extensions = [
     'sphinx.ext.ifconfig',
     'sphinx.ext.viewcode',
     'sphinx_gallery.gen_gallery',
-    'sphinxcontrib.bibtex'
+    'sphinxcontrib.bibtex',
 ]
 
 # pngmath / imgmath compatibility layer for different sphinx versions
@@ -58,12 +59,14 @@ else:
     extensions.append('sphinx.ext.imgmath')
 
 sphinx_gallery_conf = {
+    'doc_module': 'grakel',
     # path to your examples scripts
     'examples_dirs' : '../examples',
     # path where to save gallery generated examples
     'gallery_dirs'  : 'auto_examples',
-    'backreferences_dir' : 'modules/generated'
-    }
+    'backreferences_dir' : os.path.join('modules', 'generated'),
+    'reference_url': {'grakel': None},
+}
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -76,7 +79,7 @@ source_suffix = '.rst'
 #source_encoding = 'utf-8-sig'
 
 # Generate the plots for the gallery
-plot_gallery = True
+plot_gallery = 'True'
 
 # The master toctree document.
 master_doc = 'index'
@@ -215,7 +218,7 @@ html_static_path = ['_static']
 #html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'project-templatedoc'
+htmlhelp_basename = 'grakel-doc'
 
 
 # -- Options for LaTeX output ---------------------------------------------
@@ -235,8 +238,8 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-  ('index', 'project-template.tex', u'project-template Documentation',
-   u'Vighnesh Birodkar', 'manual'),
+  ('index', 'grakel.tex', u'GraKeL Documentation',
+   u'Yannis Siglidis', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -265,8 +268,8 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'project-template', u'project-template Documentation',
-     [u'Vighnesh Birodkar'], 1)
+    ('index', 'grakel', u'GraKeL Documentation',
+     [u'Yannis Siglidis'], 1)
 ]
 
 # If true, show URL addresses after external links.
@@ -279,9 +282,9 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', 'project-template', u'project-template Documentation',
-   u'Vighnesh Birodkar', 'project-template', 'One line description of project.',
-   'Miscellaneous'),
+  ('index', 'grakel', u'GraKeL Documentation',
+   u'Yannis Siglidis', 'GraKeL', 'A library for graph kernels.',
+   'Machine-Learning'),
 ]
 
 def generate_example_rst(app, what, name, obj, options, lines):

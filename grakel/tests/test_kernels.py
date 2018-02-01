@@ -9,6 +9,10 @@ from grakel.kernels import weisfeiler_lehman
 from grakel.kernels import pyramid_match
 from grakel.kernels import neighborhood_hash
 from grakel.kernels import subgraph_matching
+from grakel.kernels import neighborhood_subgraph_pairwise_distance
+from grakel.kernels import lovasz_theta
+from grakel.kernels import svm_theta
+from grakel.kernels import jsm
 
 global verbose, main, development
 
@@ -24,6 +28,10 @@ if __name__ == '__main__':
     parser.add_argument(
         '--problematic',
         help='allow execution of problematic test cases in development',
+        action="store_true")
+    parser.add_argument(
+        '--slow',
+        help='allow execution of slow test cases in development',
         action="store_true")
     parser.add_argument(
         '--ignore_warnings',
@@ -62,6 +70,7 @@ if __name__ == '__main__':
     else:
         main, develop = True, False
     problematic = bool(args.problematic)
+    slow = bool(args.slow)
 
     if bool(args.ignore_warnings):
         import warnings
@@ -73,8 +82,8 @@ if __name__ == '__main__':
 else:
     import warnings
     warnings.filterwarnings('ignore', category=UserWarning)
-    main, develop, problematic = True, False, False
-    normalize, verbose, = False, False
+    main, develop, problematic, slow = True, False, False, False
+    normalize, verbose = False, False
     dataset_name = "MUTAG"
 
 global dataset_tr, dataset_te
@@ -142,6 +151,35 @@ def test_subgraph_matching():
         print_kernel("Subgraph Matching", sm_kernel, dataset_tr, dataset_te)
 
 
+def test_neighborhood_subgraph_pairwise_distance():
+    """Test the neighborhood subgraph pairwise distance kernel."""
+    nspd_kernel = neighborhood_subgraph_pairwise_distance(
+        verbose=verbose, normalize=normalize)
+    if verbose:
+        print_kernel("NSPD", nspd_kernel, dataset_tr, dataset_te)
+
+
+def test_lovasz_theta():
+    """Test the Lovasz-theta distance kernel."""
+    lt_kernel = lovasz_theta(verbose=verbose, normalize=normalize)
+    if verbose:
+        print_kernel("Lovasz-theta", lt_kernel, dataset_tr, dataset_te)
+
+
+def test_svm_theta():
+    """Test the SVM-theta distance kernel."""
+    svm_kernel = svm_theta(verbose=verbose, normalize=normalize)
+    if verbose:
+        print_kernel("SVM-theta", svm_kernel, dataset_tr, dataset_te)
+
+
+def test_jsm_theta():
+    """Test the Jensen Shannon Representaion Alignment kernel."""
+    jsm_kernel = jsm(verbose=verbose, normalize=normalize)
+    if verbose:
+        print_kernel("JSM", jsm_kernel, dataset_tr, dataset_te)
+
+
 def print_kernel(name, kernel, X, Y):
     """Print kernels in case of verbose execution."""
     print("\n" + str(name) + ":\n" + (len(str(name)) * "-") + "-")
@@ -161,7 +199,12 @@ if verbose and main:
     test_pyramid_match()
     test_neighborhood_hash()
     test_graphlet_sampling()
+    test_lovasz_theta()
+    test_svm_theta()
 
 if verbose and develop:
+    if slow:
+        test_jsm_theta()
+        test_neighborhood_subgraph_pairwise_distance()
     if problematic:
         test_subgraph_matching()

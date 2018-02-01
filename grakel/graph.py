@@ -53,8 +53,8 @@ class graph(object):
         A labels dictionary corresponding to all edges of the graph keys:
         tuples, value: label
 
-    graph_format : str, valid_values={"dictionary", "adjacency", "all", "auto"}
-    , default=None
+    graph_format : str, valid_values={"dictionary", "adjacency", "all",
+    "auto"}, default=None
         Defines the internal representation of the graph object which can be
         a dictionary as a matrix, or both:
           + for dictionary: "dictionary"
@@ -215,9 +215,9 @@ class graph(object):
                     self._format = "dictionary"
             else:
                 raise ValueError(
-                    'Unsupported input type. For more information' +
-                    ' check the documentation, concerning valid input' +
-                    ' types for graph type object.')
+                    'Unsupported input type. For more information ' +
+                    'check the documentation, concerning valid input ' +
+                    'types for graph type object.')
 
         # If graph is of one type prune the other
         if self._format is "adjacency":
@@ -913,11 +913,10 @@ class graph(object):
 
         # construct a dictionary out of the adjacency
         if self._format in ["all", "dictionary"]:
-            vertices = set(list(range(0, n)))
+            vertices = set(range(n))
 
             self.vertices = vertices
-            self.edge_dictionary = {i: dict()
-                                    for i in range(0, n)}
+            self.edge_dictionary = {i: dict() for i in range(n)}
 
             idx_i, idx_j = np.where(adjacency_matrix > 0)
             for (i, j) in zip(idx_i, idx_j):
@@ -936,7 +935,7 @@ class graph(object):
                 self.index_node_labels = None
                 self.index_edge_labels = None
             else:
-                self.edsamic = dict(zip(range(0, n), range(0, n)))
+                self.edsamic = dict(zip(range(n), range(n)))
 
     def _import_dictionary(self, edge_dictionary=None, init=True):
         """Create a graph object representation given its edge dictionary.
@@ -1459,7 +1458,7 @@ class graph(object):
                 N[level+1] = dict()
                 if with_distances and level <= d-1:
                     D[level+1] = set()
-                for i in self.get_vertices(purpose=purpose):
+                for i in self.get_vertices(purpose):
                     neighbours = set()
                     for w in N[level][i]:
                         neighbours |= set(N[level][w])
@@ -1812,8 +1811,8 @@ def dijkstra(edge_dictionary, start_vertex, end_vertex=None):
     end_vertex: hashable
         The end vertex symbol (should exists as a key inside edge_dictionary).
 
-    Returns:
-    --------
+    Returns
+    -------
     dict_fd : dict
         The dictionary of final distances.
     dict_pred : dict

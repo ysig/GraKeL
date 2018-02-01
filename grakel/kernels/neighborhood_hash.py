@@ -93,26 +93,31 @@ class neighborhood_hash(kernel):
             elif self._method_calling == 3:
                 self._Y_labels_hash_dict = dict()
                 self._Y_labels_hash_set = set()
-            for x in iter(X):
-                if len(x) == 0:
-                    warnings.warn('Ignoring empty element on index: '+str(i))
-                if len(x) == 1:
-                    if type(x) is graph:
+            for (idx, x) in enumerate(iter(X)):
+                if type(x) is graph:
                         v = list(x.get_vertices(purpose="any"))
                         L = x.get_labels(purpose="any")
-                    else:
+                elif isinstance(x, collections.Iterable) and \
+                        len(x) in [0, 1, 2, 3]:
+                    if len(x) == 0:
+                        warnings.warn('Ignoring empty element on index: '
+                                      + str(idx))
+                        continue
+                    elif len(x) == 1:
                         warnings.warn(
                             'Ignoring empty element on index: '
                             + str(i) + '\nLabels must be provided.')
-                    i += 1
-                elif len(x) in [2, 3]:
-                    x = graph(x[0], x[1], {}, self._graph_format)
-                    v = list(x.get_vertices(purpose="any"))
-                    L = x.get_labels(purpose="any")
-                    i += 1
+                        i += 1
+                    else:
+                        x = graph(x[0], x[1], {}, self._graph_format)
+                        v = list(x.get_vertices(purpose="any"))
+                        L = x.get_labels(purpose="any")
+                        i += 1
                 else:
-                    raise ValueError('each element of X must have at least' +
-                                     ' one and at most 3 elements\n')
+                    raise ValueError('each element of X must be either a ' +
+                                     'graph object or a list with at least ' +
+                                     'a graph like object and node labels ' +
+                                     'dict \n')
 
                 if self._method_calling in [1, 2]:
                     labels = self.hash_labels(L)

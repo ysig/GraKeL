@@ -1,12 +1,15 @@
 """The Jensen-Shannon Representation Alignment kernel :cite:`Bai2015AGK`."""
+import collections
 import math
+import warnings
 
 import numpy as np
 
 from grakel.graph import graph
+from grakel.kernels import kernel
 
 
-def jsm(X, Y, M=3, h=3):
+class jsm(kernel):
     """Jensen-Shannon Representation Alignment kernel :cite:`Bai2015AGK`.
 
     Parameters
@@ -20,73 +23,134 @@ def jsm(X, Y, M=3, h=3):
     h : int, default=3
         The number of layers of DB representations.
 
-    Returns
-    -------
-    kernel : number
-        The kernel value.
-
-    """
-    Gx = graph(X, {})
-    Gy = graph(Y, {})
-    return jsm_pair(Gx, Gy, M=M, h=h)
-
-
-def jsm_pair(Gx, Gy, M=3, h=3):
-    """Jensen-Shannon Representation Alignment, matrices :cite:`Bai2015AGK`.
-
-    Parameters
+    Attributes
     ----------
-    G{x,y} : graph
-        The pair of graphs on which the kernel is applied.
+    _M : int
+        The maximum size of the M-spheres.
 
-    M : int, default=3
-        The maximum number of JS-representations considered.
+    _h : int
+        The maximum depth of.
 
-    h : int, default=3
-        The number of layers of DB representations.
-
-    Returns
-    -------
-    kernel : number
-        The kernel value.
+    _max_mh : int
+        A nonce variable holding the max of m, h.
 
     """
-    if h <= 0:
-        raise ValueError("h must be a positive integer")
 
-    if M <= 0:
-        raise ValueError("M must be a positive integer")
+    _graph_format = "adjacency"
 
-    Nx, Dx, _ = Gx.produce_neighborhoods(h, "adjacency", True, max(h, M))
-    Ny, Dy, _ = Gy.produce_neighborhoods(h, "adjacency", True, max(h, M))
-    nx = Gx.nv()
-    ny = Gy.nv()
+    def __init__(self, **kargs):
+        """Initialise a lovasz_theta kernel."""
+        # setup valid parameters and initialise from parent
+        self._valid_parameters |= {"M", "h"}
+        super(jsm, self).__init__(**kargs)
 
-    Ex = get_level_edges(Dx, Nx, h, nx)
-    Ey = get_level_edges(Dy, Ny, h, ny)
+        self._M = kargs.get("M", 3)
+        if type(self._M) is not int or self._M <= 0:
+            raise ValueError('M must be an integer bigger than zero')
 
-    kernel = 0
-    for m in range(M):
-        m_spherex = calculate_m_sphere(Dx[m], nx)
-        m_spherey = calculate_m_sphere(Dy[m], ny)
-        JG_mh_x = JS_representation(Nx, Ex, m_spherex, h, nx)
-        JG_mh_y = JS_representation(Ny, Ey, m_spherey, h, ny)
-        R = np.empty(shape=(nx, ny))
-        for i in range(nx):
-            for j in range(ny):
-                R[i, j] = np.linalg.norm(JG_mh_x[i, :] - JG_mh_y[j, :], ord=2)
+        self._h = kargs.get("h", 3)
+        if type(self._h) is not int or self._h <= 0:
+            raise ValueError('M must be an integer bigger than zero')
 
-        min_row = np.min(R, axis=1)
-        min_col = np.min(R, axis=0)
-        k = 0
-        for i in range(nx):
-            for j in range(ny):
-                if (R[i, j] == min_row[i] and R[i, j] == min_col[j]
-                        and len(m_spherex[i]) == len(m_spherey[j])):
-                    k += 1
-        kernel += k
+        self._max_mh = max(self._M, self._h)
 
-    return kernel
+    def parse_input(self, X):
+        """Parse and create features for graphlet_sampling kernel.
+
+        Parameters
+        ----------
+        X : object
+            For the input to pass the test, we must have:
+            Each element must be an iterable with at most three features and at
+            least one. The first that is obligatory is a valid graph structure
+            (adjacency matrix or edge_dictionary) while the second is
+            node_labels and the third edge_labels (that fitting the given graph
+            format). If None the kernel matrix is calculated upon fit data.
+            The test samples.
+
+        Returns
+        -------
+        out : list
+            The lovasz metrics for the given input.
+
+        """
+        if not isinstance(X, collections.Iterable):
+            raise ValueError('input must be an iterable\n')
+        else:
+            i = 0
+            out = list()
+            for (idx, x) in enumerate(iter(X)):
+                if isinstance(x, collections.Iterable) and \
+                        len(x) in [0, 1, 2, 3]:
+                    if len(x) == 0:
+                        warnings.warn('Ignoring empty element ' +
+                                      'on index: '+str(idx))
+                        continue
+                    else:
+                        x = graph(x[0], {}, {}, self._graph_format)
+                elif type(x) is graph:
+                    x = graph(x.get_adjacency_matrix(),
+                              {}, {}, self._graph_format)
+                else:
+                    raise ValueError('each element of X must be either a ' +
+                                     'graph or an iterable with at least 1 ' +
+                                     'and at most 3 elements\n')
+                N, D, _ = x.produce_neighborhoods(
+                    self._h, "adjacency", True, self._max_mh)
+                n = x.nv()
+                E = get_level_edges(D, N, self._h, n)
+
+                m_sphere_len = dict()
+                JG = dict()
+                for m in range(self._M):
+                    m_sphere = calculate_m_sphere(D[m], n)
+                    JG[m] = JS_representation(N, E, m_sphere, self._h, n)
+                    m_sphere_len[m] = np.empty(shape=(n,))
+                    for i in range(n):
+                        m_sphere_len[m][i] = len(m_sphere[i])
+
+                out.append((n, JG, m_sphere_len))
+                i += 1
+
+            if i == 0:
+                raise ValueError('parsed input is empty')
+
+            return out
+
+    def pairwise_operation(self, x, y):
+        """Lovasz theta kernel as proposed in :cite:`Johansson2015LearningWS`.
+
+        Parameters
+        ----------
+        x, y : dict
+            Subgraph samples metric dictionaries for all levels.
+
+        Returns
+        -------
+        kernel : number
+            The kernel value.
+
+        """
+        nx, JGx, m_sphere_lenx = x
+        ny, JGy, m_sphere_leny = y
+
+        kernel = 0
+        for m in range(self._M):
+            R = np.empty(shape=(nx, ny))
+            for i in range(nx):
+                for j in range(ny):
+                    R[i, j] = np.linalg.norm(JGx[m][i, :] - JGy[m][j, :],
+                                             ord=2)
+
+            min_col, min_row = np.min(R, axis=0), np.min(R, axis=1)
+
+            kernel += sum(np.sum(np.logical_and(
+                np.logical_and(R[i, :] == min_row[i],
+                               R[i, :] == min_col),
+                m_sphere_leny[m] == m_sphere_lenx[m][i]))
+                for i in range(nx))
+
+        return kernel
 
 
 def get_level_edges(D, N, h, nv):
