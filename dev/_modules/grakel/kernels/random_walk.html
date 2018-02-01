@@ -199,20 +199,22 @@
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
-<span class="sd">    _lambda : float</span>
+<span class="sd">    _lambda : float, default=0.1</span>
 <span class="sd">        A lambda factor concerning summation.</span>
 
-<span class="sd">    _kernel_type : str, valid_values={&quot;geometric&quot;, &quot;exponential&quot;}</span>
+<span class="sd">    _kernel_type : str, valid_values={&quot;geometric&quot;, &quot;exponential&quot;},</span>
+<span class="sd">    default=&quot;geometric&quot;</span>
 <span class="sd">        Defines how inner summation will be applied.</span>
 
-<span class="sd">    _method_type : str valid_values={&quot;baseline&quot;, &quot;fast&quot;}</span>
+<span class="sd">    _method_type : str valid_values={&quot;baseline&quot;, &quot;fast&quot;},</span>
+<span class="sd">    default=&quot;fast&quot;</span>
 <span class="sd">        The method to use for calculating random walk kernel:</span>
 <span class="sd">            + &quot;baseline&quot; *Complexity*: :math:`O(|V|^6)`</span>
 <span class="sd">              (see :cite:`Kashima2003MarginalizedKB`, :cite:`Grtner2003OnGK`)</span>
 <span class="sd">            + &quot;fast&quot; *Complexity*: :math:`O((|E|+|V|)|V||M|)`</span>
 <span class="sd">              (see :cite:`Vishwanathan2006FastCO`)</span>
 
-<span class="sd">    _p : int</span>
+<span class="sd">    _p : int, default=1</span>
 <span class="sd">        If not -1, the number of steps of the random walk kernel.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -296,20 +298,24 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="n">out</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">iter</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
-                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;Ignoring empty element on index: &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
-                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]:</span>
-                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">is</span> <span class="n">graph</span><span class="p">:</span>
-                        <span class="n">A</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">get_adjacency_matrix</span><span class="p">()</span>
+            <span class="k">for</span> <span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">X</span><span class="p">)):</span>
+                <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">is</span> <span class="n">graph</span><span class="p">:</span>
+                    <span class="n">A</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">get_adjacency_matrix</span><span class="p">()</span>
+                <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">collections</span><span class="o">.</span><span class="n">Iterable</span><span class="p">)</span> <span class="ow">and</span> \
+                        <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;Ignoring empty element&#39;</span> <span class="o">+</span>
+                                      <span class="s1">&#39; on index: &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">idx</span><span class="p">))</span>
+                        <span class="k">continue</span>
                     <span class="k">else</span><span class="p">:</span>
                         <span class="n">A</span> <span class="o">=</span> <span class="n">graph</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">{},</span> <span class="p">{},</span>
                                   <span class="bp">self</span><span class="o">.</span><span class="n">_graph_format</span><span class="p">)</span><span class="o">.</span><span class="n">get_adjacency_matrix</span><span class="p">()</span>
-                    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
-                    <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_add_input</span><span class="p">(</span><span class="n">A</span><span class="p">))</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;each element of X must have at least&#39;</span> <span class="o">+</span>
-                                     <span class="s1">&#39; one and at most 3 elements</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;each element of X must be either a &#39;</span> <span class="o">+</span>
+                                     <span class="s1">&#39;graph or an iterable with at least 1 &#39;</span> <span class="o">+</span>
+                                     <span class="s1">&#39;and at most 3 elements</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_add_input</span><span class="p">(</span><span class="n">A</span><span class="p">))</span>
 
             <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;parsed input is empty&#39;</span><span class="p">)</span>

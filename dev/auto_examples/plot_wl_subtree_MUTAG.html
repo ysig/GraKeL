@@ -169,13 +169,15 @@
 <span id="sphx-glr-auto-examples-plot-wl-subtree-mutag-py"></span><h1>Fit-Transform and classification on the MUTAG dataset using a WL-dirac kernel.<a class="headerlink" href="#fit-transform-and-classification-on-the-mutag-dataset-using-a-wl-dirac-kernel" title="Permalink to this headline">¶</a></h1>
 <p>An example plot of <a class="reference internal" href="../graph_kernel.html#module-grakel.graph_kernels" title="grakel.graph_kernels"><code class="xref py py-class docutils literal"><span class="pre">grakel.graph_kernels</span></code></a></p>
 <p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-default"><div class="highlight"><pre><span></span><span class="n">Accuracy</span><span class="p">:</span> <span class="mf">84.21</span> <span class="o">%</span>
+<div class="sphx-glr-script-out highlight-default"><div class="highlight"><pre><span></span><span class="n">Accuracy</span><span class="p">:</span> <span class="mf">63.16</span> <span class="o">%</span> <span class="o">|</span> <span class="n">Took</span><span class="p">:</span> <span class="mf">0.58</span> <span class="n">s</span>
 </pre></div>
 </div>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="vm">__doc__</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">time</span>
 
 <span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
 <span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
@@ -187,12 +189,13 @@
 <span class="c1"># Loads the Mutag dataset from:</span>
 <span class="c1"># https://ls11-www.cs.tu-dortmund.de/staff/morris/graphkerneldatasets</span>
 <span class="c1"># the biggest collection of benchmark datasets for graph_kernels.</span>
-<span class="n">mutag</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">fetch_dataset</span><span class="p">(</span><span class="s2">&quot;MUTAG&quot;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">mutag</span> <span class="o">=</span> <a href="../dataset.html#grakel.dataset.fetch_dataset" title="View documentation for grakel.dataset.fetch_dataset"><span class="n">dataset</span><span class="o">.</span><span class="n">fetch_dataset</span></a><span class="p">(</span><span class="s2">&quot;MUTAG&quot;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 <span class="n">G</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">mutag</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">mutag</span><span class="o">.</span><span class="n">target</span>
 
 <span class="c1"># Train-test split of graph data</span>
 <span class="n">G_train</span><span class="p">,</span> <span class="n">G_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
 
+<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
 <span class="c1"># Initialise a weifeiler kernel, with a dirac base_kernel.</span>
 <span class="n">gk</span> <span class="o">=</span> <span class="n">GraphKernel</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="p">[{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;weisfeiler_lehman&quot;</span><span class="p">,</span> <span class="s2">&quot;niter&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">},</span>
                          <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;subtree_wl&quot;</span><span class="p">}],</span> <span class="n">normalize</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
@@ -200,6 +203,7 @@
 <span class="c1"># Calculate the kernel matrix.</span>
 <span class="n">K_train</span> <span class="o">=</span> <span class="n">gk</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">G_train</span><span class="p">)</span>
 <span class="n">K_test</span> <span class="o">=</span> <span class="n">gk</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">G_test</span><span class="p">)</span>
+<span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
 
 <span class="c1"># Initialise an SVM and fit.</span>
 <span class="n">clf</span> <span class="o">=</span> <span class="n">svm</span><span class="o">.</span><span class="n">SVC</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;precomputed&#39;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
@@ -211,10 +215,11 @@
 <span class="c1"># Calculate accuracy of classification.</span>
 <span class="n">acc</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
 
-<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Accuracy:&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">acc</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span> <span class="mi">2</span><span class="p">)),</span> <span class="s2">&quot;%&quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Accuracy:&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">acc</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span> <span class="mi">2</span><span class="p">)),</span> <span class="s2">&quot;% | Took:&quot;</span><span class="p">,</span>
+      <span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">,</span> <span class="mi">2</span><span class="p">)),</span> <span class="s2">&quot;s&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><strong>Total running time of the script:</strong> ( 0 minutes  5.249 seconds)</p>
+<p><strong>Total running time of the script:</strong> ( 0 minutes  5.111 seconds)</p>
 <div class="sphx-glr-footer docutils container">
 <div class="sphx-glr-download docutils container">
 <a class="reference download internal" href="../_downloads/plot_wl_subtree_MUTAG.py" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_wl_subtree_MUTAG.py</span></code></a></div>

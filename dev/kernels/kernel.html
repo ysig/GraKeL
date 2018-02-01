@@ -188,6 +188,17 @@ adds a new kernel, possibly only needs to overwrite the attributes:
 </tbody>
 </table>
 <p class="rubric">Attributes</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.kernels.kernel.kernel.pairwise_operation" title="grakel.kernels.kernel.kernel.pairwise_operation"><code class="xref py py-obj docutils literal"><span class="pre">pairwise_operation</span></code></a>(x,&nbsp;y)</td>
+<td>Calculate a pairwise kernel between two elements.</td>
+</tr>
+</tbody>
+</table>
 <table border="1" class="docutils">
 <colgroup>
 <col width="13%" />
@@ -218,6 +229,38 @@ adds a new kernel, possibly only needs to overwrite the attributes:
 </tbody>
 </table>
 <p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.kernels.kernel.kernel.diagonal" title="grakel.kernels.kernel.kernel.diagonal"><code class="xref py py-obj docutils literal"><span class="pre">diagonal</span></code></a>()</td>
+<td>Calculate the kernel matrix diagonal of the fitted data.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.kernels.kernel.kernel.fit" title="grakel.kernels.kernel.kernel.fit"><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code></a>(X[,&nbsp;y])</td>
+<td>Fit a dataset, for a transformer.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.kernels.kernel.kernel.fit_transform" title="grakel.kernels.kernel.kernel.fit_transform"><code class="xref py py-obj docutils literal"><span class="pre">fit_transform</span></code></a>(X)</td>
+<td>Fit and transform, on the same dataset.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">get_params</span></code>([deep])</td>
+<td>Get parameters for this estimator.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.kernels.kernel.kernel.pairwise_operation" title="grakel.kernels.kernel.kernel.pairwise_operation"><code class="xref py py-obj docutils literal"><span class="pre">pairwise_operation</span></code></a>(x,&nbsp;y)</td>
+<td>Calculate a pairwise kernel between two elements.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.kernels.kernel.kernel.parse_input" title="grakel.kernels.kernel.kernel.parse_input"><code class="xref py py-obj docutils literal"><span class="pre">parse_input</span></code></a>(X)</td>
+<td>Parse the given input and raise errors if it is invalid.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">set_params</span></code>(**params)</td>
+<td>Set the parameters of this estimator.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.kernels.kernel.kernel.transform" title="grakel.kernels.kernel.kernel.transform"><code class="xref py py-obj docutils literal"><span class="pre">transform</span></code></a>(X)</td>
+<td>Calculate the kernel matrix, between given and fitted dataset.</td>
+</tr>
+</tbody>
+</table>
 <dl class="method">
 <dt id="grakel.kernels.kernel.kernel.diagonal">
 <code class="descname">diagonal</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/grakel/kernels/kernel.html#kernel.diagonal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.kernel.kernel.diagonal" title="Permalink to this definition">¶</a></dt>
@@ -279,7 +322,18 @@ requires this parameter.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>K</strong> : numpy array, shape = [n_targets, n_input_graphs]</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X</strong> : iterable</p>
+<blockquote>
+<div><p>Each element must be an iterable with at most three features and at
+least one. The first that is obligatory is a valid graph structure
+(adjacency matrix or edge_dictionary) while the second is
+node_labels and the third edge_labels (that fitting the given graph
+format). If None the kernel matrix is calculated upon fit data.
+The test samples.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>K</strong> : numpy array, shape = [n_targets, n_input_graphs]</p>
 <blockquote class="last">
 <div><p>corresponding to the kernel matrix, a calculation between
 all pairs of graphs between target an features</p>
@@ -353,7 +407,18 @@ The test samples.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>K</strong> : numpy array, shape = [n_targets, n_input_graphs]</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X</strong> : iterable</p>
+<blockquote>
+<div><p>Each element must be an iterable with at most three features and at
+least one. The first that is obligatory is a valid graph structure
+(adjacency matrix or edge_dictionary) while the second is
+node_labels and the third edge_labels (that fitting the given graph
+format). If None the kernel matrix is calculated upon fit data.
+The test samples.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>K</strong> : numpy array, shape = [n_targets, n_input_graphs]</p>
 <blockquote class="last">
 <div><p>corresponding to the kernel matrix, a calculation between
 all pairs of graphs between target an features</p>

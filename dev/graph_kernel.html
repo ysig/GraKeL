@@ -382,7 +382,7 @@ on the list as base kernel)</p>
 <div><p>Defines the number of nystroem components.
 To initialize the default (100 components), set -1 or 0.</p>
 </div></blockquote>
-<p><strong>concurrency</strong> : int, optional</p>
+<p><strong>n_jobs</strong> : int, optional</p>
 <blockquote>
 <div><p>Defines the number of workers for kernel matrix calculation using
 concurrency. To intialise the default (all possible), set -1 or 0.</p>
@@ -444,6 +444,29 @@ Ignored when Nystroem GraphKernel object is instanciated.</p>
 </tbody>
 </table>
 <p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.graph_kernels.GraphKernel.fit" title="grakel.graph_kernels.GraphKernel.fit"><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code></a>(X[,&nbsp;y])</td>
+<td>Fit a dataset, for a transformer.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.graph_kernels.GraphKernel.fit_transform" title="grakel.graph_kernels.GraphKernel.fit_transform"><code class="xref py py-obj docutils literal"><span class="pre">fit_transform</span></code></a>(X)</td>
+<td>Fit and transform, on the same dataset.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">get_params</span></code>([deep])</td>
+<td>Get parameters for this estimator.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">set_params</span></code>(**params)</td>
+<td>Set the parameters of this estimator.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.graph_kernels.GraphKernel.transform" title="grakel.graph_kernels.GraphKernel.transform"><code class="xref py py-obj docutils literal"><span class="pre">transform</span></code></a>(X)</td>
+<td>Calculate the kernel matrix, between given and fitted dataset.</td>
+</tr>
+</tbody>
+</table>
 <dl class="method">
 <dt id="grakel.graph_kernels.GraphKernel.fit">
 <code class="descname">fit</code><span class="sig-paren">(</span><em>X</em>, <em>y=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grakel/graph_kernels.html#GraphKernel.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.graph_kernels.GraphKernel.fit" title="Permalink to this definition">¶</a></dt>
@@ -483,7 +506,18 @@ requires this parameter.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>K</strong> : numpy array, shape = [n_targets, n_input_graphs]</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X</strong> : iterable</p>
+<blockquote>
+<div><p>Each element must be an iterable with at most three features and at
+least one. The first that is obligatory is a valid graph structure
+(adjacency matrix or edge_dictionary) while the second is
+node_labels and the third edge_labels (that fitting the given graph
+format). If None the kernel matrix is calculated upon fit data.
+The test samples.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>K</strong> : numpy array, shape = [n_targets, n_input_graphs]</p>
 <blockquote class="last">
 <div><p>corresponding to the kernel matrix, a calculation between
 all pairs of graphs between target an features</p>
@@ -502,7 +536,18 @@ all pairs of graphs between target an features</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>K</strong> : numpy array, shape = [n_targets, n_input_graphs]</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X</strong> : iterable</p>
+<blockquote>
+<div><p>Each element must be an iterable with at most three features and at
+least one. The first that is obligatory is a valid graph structure
+(adjacency matrix or edge_dictionary) while the second is
+node_labels and the third edge_labels (that fitting the given graph
+format). If None the kernel matrix is calculated upon fit data.
+The test samples.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>K</strong> : numpy array, shape = [n_targets, n_input_graphs]</p>
 <blockquote class="last">
 <div><p>corresponding to the kernel matrix, a calculation between
 all pairs of graphs between target an features</p>

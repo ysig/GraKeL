@@ -10,6 +10,8 @@ print(__doc__)
 import time
 import matplotlib.pyplot as plt
 
+import pdb
+
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
 from sklearn import svm
@@ -51,13 +53,11 @@ kernels = {
     "Shortest Path": [{"name": "shortest_path"}],
     "Graphlet Sampling": [{"name": "graphlet_sampling",
                            "n_samples": 150}],
-    "Random Walk": [{"name": "random_walk", "lambda": 10**(-3)}],
     "Weisfeiler-Lehman/Subtree": [{"name": "weisfeiler_lehman", "niter": 5},
                                   {"name": "subtree_wl"}],
     "Weisfeiler-Lehman/Shortest-Path": [{"name": "weisfeiler_lehman",
                                          "niter": 5},
                                         {"name": "shortest_path"}]
-
 }
 
 columns = datasets
@@ -74,7 +74,7 @@ for (j, d) in enumerate(columns):
 
     for (i, k) in enumerate(rows):
         print(k, end=" ")
-        gk = GraphKernel(kernel=kernels[k], normalize=True, concurrency=-1)
+        gk = GraphKernel(kernel=kernels[k], normalize=True, n_jobs=-1)
         print("", end=".")
 
         # Calculate the kernel matrix.
@@ -100,9 +100,12 @@ for (j, d) in enumerate(columns):
     data_dataset.append(data_kernel)
     print("")
 
+
 # Print results on a table using pyplot
 table = plt.table(cellText=[list(q) for q in zip(*data_dataset)],
-                  rowLabels=rows, colLabels=columns, loc='center')
+                  rowLabels=rows, colLabels=columns, cellLoc = 'center',
+                  rowLoc = 'center', loc='center', bbox=[0.45, 0.25, 0.6, 0.6])
+
 _ = plt.axis('off')
 
 plt.show()

@@ -244,29 +244,25 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">collections</span><span class="o">.</span><span class="n">Iterable</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;input must be an iterable</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="n">sp_attr_tup</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">iter</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
-                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;Ignoring empty element on index: &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
-                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">is</span> <span class="n">graph</span><span class="p">:</span>
-                        <span class="n">S</span><span class="p">,</span> <span class="n">L</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">build_shortest_path_matrix</span><span class="p">(</span>
-                                    <span class="bp">self</span><span class="o">.</span><span class="n">_algorithm_type</span><span class="p">)</span>
+            <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">X</span><span class="p">)):</span>
+                <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">is</span> <span class="n">graph</span><span class="p">:</span>
+                    <span class="n">S</span><span class="p">,</span> <span class="n">L</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">build_shortest_path_matrix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_algorithm_type</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">collections</span><span class="o">.</span><span class="n">Iterable</span><span class="p">)</span> <span class="ow">and</span> \
+                        <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;Ignoring empty element&#39;</span> <span class="o">+</span>
+                                      <span class="s1">&#39; on index: &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+                        <span class="k">continue</span>
                     <span class="k">else</span><span class="p">:</span>
-                        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                            <span class="s1">&#39;Ignoring empty element on index: &#39;</span>
-                            <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Labels must be provided.&#39;</span><span class="p">)</span>
-                    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
-                <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]:</span>
-                    <span class="n">S</span><span class="p">,</span> <span class="n">L</span> <span class="o">=</span> <span class="n">graph</span><span class="p">(</span>
-                        <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="p">{},</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">_graph_format</span><span class="p">)</span><span class="o">.</span><span class="n">build_shortest_path_matrix</span><span class="p">(</span>
-                            <span class="bp">self</span><span class="o">.</span><span class="n">_algorithm_type</span><span class="p">)</span>
-                    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="n">S</span><span class="p">,</span> <span class="n">L</span> <span class="o">=</span> <span class="n">graph</span><span class="p">(</span>
+                            <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="p">{},</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">_graph_format</span><span class="p">)</span><span class="o">.</span><span class="n">build_shortest_path_matrix</span><span class="p">(</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">_algorithm_type</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;each element of X must have at least&#39;</span> <span class="o">+</span>
-                                     <span class="s1">&#39; one and at most 3 elements</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;each element of X must be either a &#39;</span> <span class="o">+</span>
+                                     <span class="s1">&#39;graph or an iterable with at least 2 &#39;</span> <span class="o">+</span>
+                                     <span class="s1">&#39;and at most 3 elements</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
 
                 <span class="n">sp_attr_tup</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">S</span><span class="p">,</span> <span class="n">L</span><span class="p">))</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;parsed input is empty&#39;</span><span class="p">)</span>
@@ -334,6 +330,9 @@
 <span class="sd">        A dictionary of pairs between each input graph and a bins where the</span>
 <span class="sd">        sampled graphlets have fallen.</span>
 
+<span class="sd">    _with_labels : bool</span>
+<span class="sd">        Defines if the shortest path kernel considers also labels.</span>
+
 <span class="sd">    _enum : dict</span>
 <span class="sd">        A dictionary of graph bins holding pynauty objects</span>
 
@@ -373,7 +372,8 @@
                                    <span class="s2">&quot;algorithm_type&quot;</span><span class="p">}</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">shortest_path</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kargs</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">kargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;with_labels&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_with_labels</span> <span class="o">=</span> <span class="n">kargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;with_labels&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_with_labels</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_lt</span> <span class="o">=</span> <span class="s2">&quot;vertex&quot;</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_lhash</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">S</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> \
                 <span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">u</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">v</span><span class="p">],</span> <span class="n">S</span><span class="p">[</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">])</span>
@@ -395,7 +395,7 @@
 <div class="viewcode-block" id="shortest_path.transform"><a class="viewcode-back" href="../../../kernels/shortest_path.html#grakel.kernels.shortest_path.shortest_path.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate the kernel matrix, between given and fitted dataset.</span>
 
-<span class="sd">        Paramaters</span>
+<span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        X : iterable</span>
 <span class="sd">            Each element must be an iterable with at most three features and at</span>
@@ -482,7 +482,7 @@
 <div class="viewcode-block" id="shortest_path.fit_transform"><a class="viewcode-back" href="../../../kernels/shortest_path.html#grakel.kernels.shortest_path.shortest_path.fit_transform">[docs]</a>    <span class="k">def</span> <span class="nf">fit_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Fit and transform, on the same dataset.</span>
 
-<span class="sd">        Paramaters</span>
+<span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        X : iterable</span>
 <span class="sd">            Each element must be an iterable with at most three features and at</span>
@@ -553,31 +553,35 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">_enum</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
             <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_method_calling</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_Y_enum</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">iter</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
-                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;Ignoring empty element on index: &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
-                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">is</span> <span class="n">graph</span><span class="p">:</span>
-                        <span class="n">S</span><span class="p">,</span> <span class="o">*</span><span class="n">L</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">build_shortest_path_matrix</span><span class="p">(</span>
-                                    <span class="bp">self</span><span class="o">.</span><span class="n">_algorithm_type</span><span class="p">,</span>
-                                    <span class="n">labels</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_lt</span><span class="p">)</span>
-                    <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">X</span><span class="p">)):</span>
+                <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">is</span> <span class="n">graph</span><span class="p">:</span>
+                    <span class="n">S</span><span class="p">,</span> <span class="o">*</span><span class="n">L</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">build_shortest_path_matrix</span><span class="p">(</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">_algorithm_type</span><span class="p">,</span>
+                                <span class="n">labels</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_lt</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">collections</span><span class="o">.</span><span class="n">Iterable</span><span class="p">)</span> <span class="ow">and</span> \
+                        <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span>
+                         <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_with_labels</span><span class="p">)</span> <span class="ow">or</span>
+                         <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]):</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;Ignoring empty element on index: &#39;</span>
+                                      <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">idx</span><span class="p">))</span>
+                        <span class="k">continue</span>
+                    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
                         <span class="n">S</span><span class="p">,</span> <span class="o">*</span><span class="n">L</span> <span class="o">=</span> <span class="n">graph</span><span class="p">(</span>
                             <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">{},</span> <span class="p">{},</span>
                             <span class="bp">self</span><span class="o">.</span><span class="n">_graph_format</span><span class="p">)</span><span class="o">.</span><span class="n">build_shortest_path_matrix</span><span class="p">(</span>
                                 <span class="bp">self</span><span class="o">.</span><span class="n">_algorithm_type</span><span class="p">,</span>
                                 <span class="n">labels</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_lt</span><span class="p">)</span>
-                    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
-                <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]:</span>
-                    <span class="n">S</span><span class="p">,</span> <span class="o">*</span><span class="n">L</span> <span class="o">=</span> <span class="n">graph</span><span class="p">(</span>
-                        <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="p">{},</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">_graph_format</span><span class="p">)</span><span class="o">.</span><span class="n">build_shortest_path_matrix</span><span class="p">(</span>
-                            <span class="bp">self</span><span class="o">.</span><span class="n">_algorithm_type</span><span class="p">,</span>
-                            <span class="n">labels</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_lt</span><span class="p">)</span>
-                    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">S</span><span class="p">,</span> <span class="o">*</span><span class="n">L</span> <span class="o">=</span> <span class="n">graph</span><span class="p">(</span>
+                            <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="p">{},</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">_graph_format</span><span class="p">)</span><span class="o">.</span><span class="n">build_shortest_path_matrix</span><span class="p">(</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">_algorithm_type</span><span class="p">,</span>
+                                <span class="n">labels</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_lt</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;each element of X must have at least&#39;</span> <span class="o">+</span>
                                      <span class="s1">&#39; one and at most 3 elements</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
 
                 <span class="n">sp_counts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
                 <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>

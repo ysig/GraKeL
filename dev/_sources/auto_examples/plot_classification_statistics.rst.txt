@@ -21,18 +21,16 @@ An example plot of :class:`grakel.graph_kernels`
  Out::
 
     MUTAG
-    Graphlet Sampling ... 6.3 s ~ 78.95%
-    Random Walk ... 1 m 8.97 s ~ 73.68%
-    Shortest Path ... 1.18 s ~ 84.21%
-    Weisfeiler-Lehman/Shortest-Path ... 6.34 s ~ 84.21%
-    Weisfeiler-Lehman/Subtree ... 14.39 s ~ 84.21%
+    Graphlet Sampling ... 5.73 s ~ 78.95%
+    Shortest Path ... 0.7 s ~ 78.95%
+    Weisfeiler-Lehman/Shortest-Path ... 5.29 s ~ 84.21%
+    Weisfeiler-Lehman/Subtree ... 14.4 s ~ 73.68%
 
     MSRC_21C
-    Graphlet Sampling ... 7.27 s ~ 9.52%
-    Random Walk ... 14 m 37.5 s ~ 9.52%
-    Shortest Path ... 4.57 s ~ 76.19%
-    Weisfeiler-Lehman/Shortest-Path ... 36.84 s ~ 76.19%
-    Weisfeiler-Lehman/Subtree ... 20.09 s ~ 66.67%
+    Graphlet Sampling ... 6.63 s ~ 9.52%
+    Shortest Path ... 4.1 s ~ 85.71%
+    Weisfeiler-Lehman/Shortest-Path ... 35.06 s ~ 85.71%
+    Weisfeiler-Lehman/Subtree ... 20.03 s ~ 80.95%
 
 
 
@@ -46,6 +44,8 @@ An example plot of :class:`grakel.graph_kernels`
 
     import time
     import matplotlib.pyplot as plt
+
+    import pdb
 
     from sklearn.metrics import accuracy_score
     from sklearn.model_selection import train_test_split
@@ -88,13 +88,11 @@ An example plot of :class:`grakel.graph_kernels`
         "Shortest Path": [{"name": "shortest_path"}],
         "Graphlet Sampling": [{"name": "graphlet_sampling",
                                "n_samples": 150}],
-        "Random Walk": [{"name": "random_walk", "lambda": 10**(-3)}],
         "Weisfeiler-Lehman/Subtree": [{"name": "weisfeiler_lehman", "niter": 5},
                                       {"name": "subtree_wl"}],
         "Weisfeiler-Lehman/Shortest-Path": [{"name": "weisfeiler_lehman",
                                              "niter": 5},
                                             {"name": "shortest_path"}]
-
     }
 
     columns = datasets
@@ -111,7 +109,7 @@ An example plot of :class:`grakel.graph_kernels`
 
         for (i, k) in enumerate(rows):
             print(k, end=" ")
-            gk = GraphKernel(kernel=kernels[k], normalize=True, concurrency=-1)
+            gk = GraphKernel(kernel=kernels[k], normalize=True, n_jobs=-1)
             print("", end=".")
 
             # Calculate the kernel matrix.
@@ -137,14 +135,16 @@ An example plot of :class:`grakel.graph_kernels`
         data_dataset.append(data_kernel)
         print("")
 
+
     # Print results on a table using pyplot
     table = plt.table(cellText=[list(q) for q in zip(*data_dataset)],
-                      rowLabels=rows, colLabels=columns, loc='center')
+                      rowLabels=rows, colLabels=columns, cellLoc = 'center',
+                      rowLoc = 'center', loc='center', bbox=[0.45, 0.25, 0.6, 0.6])
+
     _ = plt.axis('off')
 
     plt.show()
-
-**Total running time of the script:** ( 17 minutes  32.406 seconds)
+**Total running time of the script:** ( 1 minutes  34.426 seconds)
 
 
 

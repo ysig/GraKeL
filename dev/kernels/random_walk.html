@@ -202,25 +202,63 @@ and <a class="reference internal" href="#vishwanathan2006fastco" id="id5">[VBS06
 <p class="rubric">Attributes</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="5%" />
-<col width="95%" />
+<col width="8%" />
+<col width="92%" />
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><strong>_lambda</strong></td>
-<td>(float) A lambda factor concerning summation.</td>
+<td>(float, default=0.1) A lambda factor concerning summation.</td>
 </tr>
 <tr class="row-even"><td><strong>_kernel_type</strong></td>
-<td>(str, valid_values={“geometric”, “exponential”}) Defines how inner summation will be applied.</td>
+<td>(str, valid_values={“geometric”, “exponential”},)</td>
 </tr>
-<tr class="row-odd"><td><strong>_method_type</strong></td>
-<td>(str valid_values={“baseline”, “fast”}) The method to use for calculating random walk kernel: + “baseline” <em>Complexity</em>: <img class="math" src="../_images/math/330217e36d6f537efcb0f677f3149f56495a6db3.png" alt="O(|V|^6)"/> (see <a class="reference internal" href="#kashima2003marginalizedkb" id="id9">[KTI03]</a>, <a class="reference internal" href="#grtner2003ongk" id="id10">[GartnerFW03]</a>) + “fast” <em>Complexity</em>: <img class="math" src="../_images/math/cd6dc9dcb244cd360775f7198cbb7b8f6ebbd30b.png" alt="O((|E|+|V|)|V||M|)"/> (see <a class="reference internal" href="#vishwanathan2006fastco" id="id11">[VBS06]</a>)</td>
+<tr class="row-odd"><td><strong>default=”geometric”</strong></td>
+<td>Defines how inner summation will be applied.</td>
+</tr>
+<tr class="row-even"><td><strong>_method_type</strong></td>
+<td>(str valid_values={“baseline”, “fast”},)</td>
+</tr>
+<tr class="row-odd"><td><strong>default=”fast”</strong></td>
+<td>The method to use for calculating random walk kernel: + “baseline” <em>Complexity</em>: <img class="math" src="../_images/math/330217e36d6f537efcb0f677f3149f56495a6db3.png" alt="O(|V|^6)"/> (see <a class="reference internal" href="#kashima2003marginalizedkb" id="id9">[KTI03]</a>, <a class="reference internal" href="#grtner2003ongk" id="id10">[GartnerFW03]</a>) + “fast” <em>Complexity</em>: <img class="math" src="../_images/math/cd6dc9dcb244cd360775f7198cbb7b8f6ebbd30b.png" alt="O((|E|+|V|)|V||M|)"/> (see <a class="reference internal" href="#vishwanathan2006fastco" id="id11">[VBS06]</a>)</td>
 </tr>
 <tr class="row-even"><td><strong>_p</strong></td>
-<td>(int) If not -1, the number of steps of the random walk kernel.</td>
+<td>(int, default=1) If not -1, the number of steps of the random walk kernel.</td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">diagonal</span></code>()</td>
+<td>Calculate the kernel matrix diagonal of the fitted data.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code>(X[,&nbsp;y])</td>
+<td>Fit a dataset, for a transformer.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">fit_transform</span></code>(X)</td>
+<td>Fit and transform, on the same dataset.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">get_params</span></code>([deep])</td>
+<td>Get parameters for this estimator.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.kernels.random_walk.random_walk.pairwise_operation" title="grakel.kernels.random_walk.random_walk.pairwise_operation"><code class="xref py py-obj docutils literal"><span class="pre">pairwise_operation</span></code></a>(X,&nbsp;Y)</td>
+<td>Calculate the random walk kernel.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.kernels.random_walk.random_walk.parse_input" title="grakel.kernels.random_walk.random_walk.parse_input"><code class="xref py py-obj docutils literal"><span class="pre">parse_input</span></code></a>(X)</td>
+<td>Parse and create features for graphlet_sampling kernel.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">set_params</span></code>(**params)</td>
+<td>Set the parameters of this estimator.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">transform</span></code>(X)</td>
+<td>Calculate the kernel matrix, between given and fitted dataset.</td>
+</tr>
+</tbody>
+</table>
 <dl class="method">
 <dt id="grakel.kernels.random_walk.random_walk.pairwise_operation">
 <code class="descname">pairwise_operation</code><span class="sig-paren">(</span><em>X</em>, <em>Y</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/grakel/kernels/random_walk.html#random_walk.pairwise_operation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.random_walk.random_walk.pairwise_operation" title="Permalink to this definition">¶</a></dt>
