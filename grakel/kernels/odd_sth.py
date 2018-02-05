@@ -1,97 +1,246 @@
 """The ODD-Sth kernel as defined in :cite:`Martino2012ATK`."""
-
-import itertools
+import copy
+import collections
+import warnings
 
 import numpy as np
 
-from grakel.graph import graph
+from sklearn.utils.validation import check_is_fitted
+from sklearn.exceptions import NotFittedError
+
+from grakel.kernels import kernel
+from grakel.graph import Graph
 
 
-def odd_sth(X, Y, Lx, Ly, h=None):
+class odd_sth(kernel):
     """ODD-Sth kernel as proposed in :cite:`Martino2012ATK`.
 
     Parameters
     ----------
-    X,Y : *valid-graph-format*
-        The pair of graphs on which the kernel is applied.
-
-    L{x,y} : dict
-        Coresponding graph labels for vertices.
-
     h : int, default=None
         Maximum (single) dag height.
         If None there is no restriction.
 
-    Returns
-    -------
-    kernel : number
-        The kernel value.
-
-    """
-    Gx = graph(X, Lx)
-    Gy = graph(Y, Ly)
-    return float(odd_sth_matrix({0: Gx}, {0: Gy}, h=None)[0, 0])
-
-
-def odd_sth_matrix(Graphs_x, Graphs_y=None, h=None):
-    """ODD-Sth kernel, as proposed in :cite:`Martino2012ATK`.
-
-    Parameters
+    Attributes
     ----------
-    Graphs_{x,y} : dict, default_y=None
-        Enumerative dictionary of graph type objects with keys from 0
-        to the number of values. If value of Graphs_y is None the kernel
-        matrix is computed between all pairs of Graphs_x where in another
-        case the kernel_matrix rows correspond to elements of Graphs_y
-        and columns to the elements of Graphs_x.
+    _nx : int
+        The number of parsed inputs on fit.
 
-    h : int, default=None
-        Maximum (single) dag height.
-        If None there is no restriction.
+    _ny : int
+        The number of parsed inputs on transform.
 
-    Returns
-    -------
-    kernel_matrix : np.array
-        The kernel matrix.
+    _phi_x : np.array, n_dim=2
+        A numpy array corresponding all the frequency values for
+        each vertex, coresponding to the fitted data, in the
+        resulting bigDAG of the fitted and transformed data.
+
+    _phi_y : np.array, n_dim=2
+        A numpy array corresponding all the frequency values for
+        each vertex, corresponding to the transformed data, in the
+        resulting bigDAG of the fitted and transformed data.
+
+    _C : np.array, n_dim=1
+        A numpy array corresponding to the vertex depth of each node, in
+        the resulting bigDAG of the fitted and transformed data.
 
     """
-    h_x = len(Graphs_x.keys())
 
-    if Graphs_y is None:
-        h_y = h_x
-        g_iter = Graphs_x.values()
-        ng = h_x
-        pairs = [(i, j) for i in range(0, h_x) for j in range(i, h_x)]
-        offset = 0
-    else:
-        h_y = len(Graphs_y.keys())
-        g_iter = itertools.chain(Graphs_x.values(), Graphs_y.values())
-        ng = h_x+h_y
-        pairs = list(itertools.product(range(h_x, ng), range(0, h_x)))
-        offset = h_x
+    def __init__(self, **kargs):
+        """Initialise an `odd_sth` kernel."""
+        self._valid_parameters |= {"h"}
+        super(odd_sth, self).__init__(**kargs)
 
-    big2Dag = None
-    for g in g_iter:
-        big_dag = make_big_dag(g, h=h)
-        big2Dag = big_dag_append(big_dag, big2Dag, merge_features=False)
+        self._h = kargs.get("h", None)
 
-    C = dict()
-    for v in big2Dag[0].keys():
-        # number of identical subtrees
-        # equal the D element
-        C[v] = big2Dag[0][v][0]
-    K = np.zeros(shape=(h_y, h_x))
-    for (i, j) in pairs:
-        k = 0
-        for v in C.keys():
-            # TODO(write K calculation in terms of matrix multiplication)
-            k += big2Dag[0][v][1][i]*big2Dag[0][v][1][j]*C[v]
-        K[i-offset, j] = k
+        if self._h is not None and \
+                (type(self._h) is not int or self._h <= 0):
+            raise ValueError('h must be an integer bigger than zero')
 
-    if Graphs_y is None:
-        K = np.triu(K) + np.triu(K, 1).T
+    def parse_input(self, X):
+        """Parse and create features for graphlet_sampling kernel.
 
-    return K
+        Parameters
+        ----------
+        X : object
+            For the input to pass the test, we must have:
+            Each element must be an iterable with at most three features and at
+            least one. The first that is obligatory is a valid graph structure
+            (adjacency matrix or edge_dictionary) while the second is
+            node_labels and the third edge_labels (that fitting the given graph
+            format). If None the kernel matrix is calculated upon fit data.
+            The test samples.
+
+        Returns
+        -------
+        out : tuple
+            A tuple corresponding to the calculated bigDAG.
+
+        """
+        if not isinstance(X, collections.Iterable):
+            raise ValueError('input must be an iterable\n')
+        else:
+            i = 0
+            out = None
+            if self._method_calling == 3:
+                out = copy.deepcopy(self.X)
+            for (idx, x) in enumerate(iter(X)):
+                if isinstance(x, collections.Iterable) and \
+                        len(x) in [0, 3]:
+                    if len(x) == 0:
+                        warnings.warn('Ignoring empty element' +
+                                      ' on index: '+str(idx))
+                        continue
+                    elif len(x) == 1:
+                        x = Graph(x[0], {}, {}, self._graph_format)
+                    elif len(x) == 2:
+                        x = Graph(x[0], x[1], {}, self._graph_format)
+                    else:
+                        x = Graph(x[0], x[1], x[2], self._graph_format)
+                elif type(x) is not Graph:
+                    raise ValueError('each element of X must have either ' +
+                                     'a graph with labels for node and edge ' +
+                                     'or 3 elements consisting of a graph ' +
+                                     'type object, labels for vertices and ' +
+                                     'labels for edges.')
+                q = make_big_dag(x, h=self._h)
+                if self._method_calling == 1:
+                    out = big_dag_append(q, out, merge_features=False)
+                elif self._method_calling == 3:
+                    out = big_dag_append(q, out, merge_features=False)
+                i += 1
+
+            if self._method_calling == 1:
+                self._nx = i
+            elif self._method_calling == 3:
+                self._ny = i
+            if i == 0:
+                raise ValueError('parsed input is empty')
+            return out
+
+    def fit_transform(self, X):
+        """Fit and transform, on the same dataset.
+
+        Parameters
+        ----------
+        X : iterable
+            Each element must be an iterable with at most three features and at
+            least one. The first that is obligatory is a valid graph structure
+            (adjacency matrix or edge_dictionary) while the second is
+            node_labels and the third edge_labels (that fitting the given graph
+            format). If None the kernel matrix is calculated upon fit data.
+            The test samples.
+
+        Returns
+        -------
+        K : numpy array, shape = [_nx, _nx]
+            corresponding to the kernel matrix, a calculation between
+            all pairs of graphs between target an features
+
+        """
+        self._method_calling = 2
+        self.fit(X)
+
+        # calculate feature matrices.
+        ref = dict(enumerate(self.X[0].keys()))
+
+        C = np.empty(shape=(len(ref), 1))
+        phi = np.empty(shape=(len(ref), self._nx))
+        for (i, v) in ref.items():
+            # number of identical subtrees
+            # equal the D element
+            C[i] = self.X[0][v][0]
+            for j in range(self._nx):
+                phi[i, j] = self.X[0][v][1][j]
+
+        km = np.dot(phi.T, np.multiply(phi, C))
+
+        self._X_diag = np.diagonal(km).reshape(km.shape[0], 1)
+        if self._normalize:
+            return np.divide(km,
+                             np.sqrt(np.multiply(self._X_diag.T,
+                                                 self._X_diag)))
+        else:
+            return km
+        return km
+
+    def transform(self, X):
+        """Calculate the kernel matrix, between given and fitted dataset.
+
+        Parameters
+        ----------
+        X : iterable
+            Each element must be an iterable with at most three features and at
+            least one. The first that is obligatory is a valid graph structure
+            (adjacency matrix or edge_dictionary) while the second is
+            node_labels and the third edge_labels (that fitting the given graph
+            format). If None the kernel matrix is calculated upon fit data.
+            The test samples.
+
+        Returns
+        -------
+        K : numpy array, shape = [n_targets, n_input_graphs]
+            corresponding to the kernel matrix, a calculation between
+            all pairs of graphs between target an features
+
+        """
+        self._method_calling = 3
+        # Check is fit had been called
+        check_is_fitted(self, ['X'])
+
+        # Input validation and parsing
+        if X is None:
+            raise ValueError('transform input cannot be None')
+        else:
+            full_dag = self.parse_input(X)
+
+        ref = dict(enumerate(full_dag[0].keys()))
+
+        C = np.empty(shape=(len(ref), 1))
+        phi_x = np.empty(shape=(len(ref), self._nx))
+        phi_y = np.empty(shape=(len(ref), self._ny))
+        for (i, v) in enumerate(ref.keys()):
+            # number of identical subtrees equal the D element
+            C[i] = full_dag[0][v][0]
+            for j in range(self._nx):
+                phi_x[i, j] = full_dag[0][v][1][j]
+            for j in range(self._ny):
+                phi_y[i, j] = full_dag[0][v][1][j + self._nx]
+
+        self._phi_x, self._phi_y, self._C = phi_x, phi_y, C
+        km = np.dot(phi_y.T, np.multiply(phi_x, C))
+        if self._normalize:
+            X_diag, Y_diag = self.diagonal()
+            km /= np.sqrt(np.dot(Y_diag, X_diag.T))
+        return km
+
+    def diagonal(self):
+        """Calculate the kernel matrix diagonal of the fitted data.
+
+        Parameters
+        ----------
+        None.
+
+        Returns
+        -------
+        X_diag : np.array
+            The diagonal of the kernel matrix, of the fitted. This consists
+            of each element calculated with itself.
+
+
+        """
+        # Check is fit had been called
+        check_is_fitted(self, ['_phi_x', '_phi_y', '_C'])
+        try:
+            check_is_fitted(self, ['_X_diag'])
+        except NotFittedError:
+            # Calculate diagonal of X
+            self._X_diag = np.dot(np.square(self._phi_X),
+                                  self._C).reshape((self._nx, 1))
+
+        Y_diag = np.dot(np.square(self._phi_y).T,
+                        self._C).reshape((self._ny, 1))
+
+        return self._X_diag, Y_diag
 
 
 def make_big_dag(g, h=None):
@@ -452,22 +601,21 @@ def big_dag_append(dag, big_dag=None, merge_features=True):
     return (D_vertices, D_hash_map, D_edges, D_labels)
 
 
-"""
-# Dag Example from original paper
-tree_a = \
-    ({0,1,2,3}, {0:[1,2], 1:[3], 2:[], 3:[]}, {0:'a', 1:'b', 2:'d', 3:'c'})
-tree_b = \
-    ({0,1,2,3,4}, {0:[1,2], 1:[3], 2:[4], 3:[], 4:[]},
-        {0:'a', 1:'b', 2:'c', 3:'c', 4:'d'})
+if __name__ == "__main__":
+    # Dag Example from original paper
+    tree_a = ({0, 1, 2, 3},
+              {0: [1, 2], 1: [3], 2: [], 3: []},
+              {0: 'a', 1: 'b', 2: 'd', 3: 'c'})
+    tree_b = ({0, 1, 2, 3, 4}, {0: [1, 2], 1: [3], 2: [4], 3: [], 4: []},
+              {0: 'a', 1: 'b', 2: 'c', 3: 'c', 4: 'd'})
 
-todd_a = odd(tree_a[0], tree_a[1], tree_a[2])
-todd_b = odd(tree_b[0], tree_b[1], tree_b[2])
+    todd_a = odd(tree_a[0], tree_a[1], tree_a[2])
+    todd_b = odd(tree_b[0], tree_b[1], tree_b[2])
 
-Atree = tuple(hash_trees(todd_a))+tuple([])+(todd_a[1],todd_a[3])
-Btree = tuple(hash_trees(todd_b))+tuple([])+(todd_b[1],todd_b[3])
-big_dag = None
-big_dag = big_dag_append(Atree, big_dag)
-big_dag = big_dag_append(Btree, big_dag)
+    Atree = tuple(hash_trees(todd_a))+tuple([])+(todd_a[1], todd_a[3])
+    Btree = tuple(hash_trees(todd_b))+tuple([])+(todd_b[1], todd_b[3])
+    big_dag = None
+    big_dag = big_dag_append(Atree, big_dag)
+    big_dag = big_dag_append(Btree, big_dag)
 
-print("Tree A:\n",Atree,"\nTree B:\n",Btree,"\nBig Dag:\n", big_dag)
-"""
+    print("Tree A:\n", Atree, "\nTree B:\n", Btree, "\nBig Dag:\n", big_dag)

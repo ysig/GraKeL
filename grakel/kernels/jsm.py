@@ -5,7 +5,7 @@ import warnings
 
 import numpy as np
 
-from grakel.graph import graph
+from grakel.graph import Graph
 from grakel.kernels import kernel
 
 
@@ -87,9 +87,9 @@ class jsm(kernel):
                                       'on index: '+str(idx))
                         continue
                     else:
-                        x = graph(x[0], {}, {}, self._graph_format)
-                elif type(x) is graph:
-                    x = graph(x.get_adjacency_matrix(),
+                        x = Graph(x[0], {}, {}, self._graph_format)
+                elif type(x) is Graph:
+                    x = Graph(x.get_adjacency_matrix(),
                               {}, {}, self._graph_format)
                 else:
                     raise ValueError('each element of X must be either a ' +

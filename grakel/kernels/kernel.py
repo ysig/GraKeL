@@ -9,7 +9,7 @@ from sklearn.base import TransformerMixin
 from sklearn.exceptions import NotFittedError
 from sklearn.utils.validation import check_is_fitted
 
-from grakel.graph import graph
+from grakel.graph import Graph
 
 default_verbose_value = False
 default_normalize_value = False
@@ -100,7 +100,7 @@ class kernel(BaseEstimator, TransformerMixin):
             Each element must be an iterable with at most three features and at
             least one. The first that is obligatory is a valid graph structure
             (adjacency matrix or edge_dictionary) while the second is
-            node_labels and the third edge_labels (that fitting the given grap
+            node_labels and the third edge_labels (that fitting the given graph
             format). The train samples.
 
         y : None
@@ -291,7 +291,7 @@ class kernel(BaseEstimator, TransformerMixin):
         else:
             Xp = list()
             for (i, x) in enumerate(iter(X)):
-                if type(x) is graph:
+                if type(x) is Graph:
                     Xp.append(x)
                 elif isinstance(x, collections.Iterable) and \
                         len(x) in [0, 1, 2, 3]:
@@ -300,12 +300,12 @@ class kernel(BaseEstimator, TransformerMixin):
                                       ' on index: '+str(i))
                         continue
                     elif len(x) == 1:
-                        Xp.append(graph(x[0], {}, {},
+                        Xp.append(Graph(x[0], {}, {},
                                         self._graph_format))
                     elif len(x) == 2:
-                        Xp.append(graph(x[0], x[1], {}, self._graph_format))
+                        Xp.append(Graph(x[0], x[1], {}, self._graph_format))
                     else:
-                        Xp.append(graph(x[0], x[1], x[2], self._graph_format))
+                        Xp.append(Graph(x[0], x[1], x[2], self._graph_format))
                 else:
                     raise ValueError('each element of X must have at least' +
                                      ' one and at most 3 elements\n')

@@ -5,7 +5,7 @@ import collections
 import warnings
 
 from grakel.kernels import kernel
-from grakel.graph import graph
+from grakel.graph import Graph
 
 
 class lovasz_theta(kernel):
@@ -99,8 +99,8 @@ class lovasz_theta(kernel):
                                       'on index: '+str(idx))
                         continue
                     else:
-                        x = graph(x[0], {}, {}, self._graph_format)
-                elif type(x) is not graph:
+                        x = Graph(x[0], {}, {}, self._graph_format)
+                elif type(x) is not Graph:
                     raise ValueError('each element of X must be either a ' +
                                      'graph or an iterable with at least 1 ' +
                                      'and at most 3 elements\n')

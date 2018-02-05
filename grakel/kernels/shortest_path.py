@@ -7,7 +7,7 @@ import numpy as np
 from sklearn.exceptions import NotFittedError
 from sklearn.utils.validation import check_is_fitted
 
-from grakel.graph import graph
+from grakel.graph import Graph
 from grakel.kernels import kernel
 
 
@@ -86,7 +86,7 @@ class shortest_path_attr(kernel):
         else:
             sp_attr_tup = list()
             for (i, x) in enumerate(iter(X)):
-                if type(x) is graph:
+                if type(x) is Graph:
                     S, L = x.build_shortest_path_matrix(self._algorithm_type)
                 elif isinstance(x, collections.Iterable) and \
                         len(x) in [0, 2, 3]:
@@ -95,7 +95,7 @@ class shortest_path_attr(kernel):
                                       ' on index: '+str(i))
                         continue
                     else:
-                        S, L = graph(
+                        S, L = Graph(
                             x[0], x[1], {},
                             self._graph_format).build_shortest_path_matrix(
                                 self._algorithm_type)
@@ -394,7 +394,7 @@ class shortest_path(kernel):
             elif self._method_calling == 3:
                 self._Y_enum = dict()
             for (idx, x) in enumerate(iter(X)):
-                if type(x) is graph:
+                if type(x) is Graph:
                     S, *L = x.build_shortest_path_matrix(
                                 self._algorithm_type,
                                 labels=self._lt)
@@ -407,13 +407,13 @@ class shortest_path(kernel):
                                       + str(idx))
                         continue
                     elif len(x) == 1:
-                        S, *L = graph(
+                        S, *L = Graph(
                             x[0], {}, {},
                             self._graph_format).build_shortest_path_matrix(
                                 self._algorithm_type,
                                 labels=self._lt)
                     else:
-                        S, *L = graph(
+                        S, *L = Graph(
                             x[0], x[1], {},
                             self._graph_format).build_shortest_path_matrix(
                                 self._algorithm_type,

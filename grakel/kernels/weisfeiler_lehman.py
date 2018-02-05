@@ -7,7 +7,7 @@ import numpy as np
 from sklearn.exceptions import NotFittedError
 from sklearn.utils.validation import check_is_fitted
 
-from grakel.graph import graph
+from grakel.graph import Graph
 from grakel.kernels import kernel
 
 
@@ -123,8 +123,12 @@ class weisfeiler_lehman(kernel):
                         warnings.warn('Ignoring empty element on index: '
                                       + str(idx))
                         continue
-                    elif len(x) in [2, 3]:
-                        x = graph(x[0], x[1], {},
+                    else:
+                        x = Graph(x[0], x[1], {},
+                                  graph_format=self._graph_format)
+                elif type(x) is Graph:
+                        x = Graph(x.get_edge_dictionary(),
+                                  x.get_labels(purpose="dictionary"), {},
                                   graph_format=self._graph_format)
                 else:
                     raise ValueError('each element of X must be either a ' +
@@ -285,7 +289,7 @@ class weisfeiler_lehman(kernel):
                         warnings.warn('Ignoring empty element on index: '
                                       + str(i))
                     if len(x) == 1:
-                        if type(x) is not graph:
+                        if type(x) is not Graph:
                             raise ValueError('weisfeiler_lehman ' +
                                              'requires labels')
                         Gs_ed[nx] = x.get_edge_dictionary()
@@ -297,7 +301,7 @@ class weisfeiler_lehman(kernel):
                                 if v not in self._inv_labels[0])
                         nx += 1
                     elif len(x) in [2, 3]:
-                        g = graph(x[0], x[1], {}, self._graph_format)
+                        g = Graph(x[0], x[1], {}, self._graph_format)
                         Gs_ed[nx] = g.get_edge_dictionary()
                         L[nx] = g.get_labels(purpose="dictionary")
                         if self._normalize:

@@ -3,7 +3,7 @@ import collections
 import os
 import warnings
 
-from grakel.graph import graph
+from grakel.graph import Graph
 from grakel.tools import rotl
 from grakel.tools import rotr
 from grakel.kernels import kernel
@@ -24,7 +24,7 @@ class neighborhood_hash(kernel):
         Byte size of hashes.
 
     Attributes
-    -------
+    ----------
     _R : number
         The maximum number of neighborhood hash.
 
@@ -94,7 +94,7 @@ class neighborhood_hash(kernel):
                 self._Y_labels_hash_dict = dict()
                 self._Y_labels_hash_set = set()
             for (idx, x) in enumerate(iter(X)):
-                if type(x) is graph:
+                if type(x) is Graph:
                         v = list(x.get_vertices(purpose="any"))
                         L = x.get_labels(purpose="any")
                 elif isinstance(x, collections.Iterable) and \
@@ -109,7 +109,7 @@ class neighborhood_hash(kernel):
                             + str(i) + '\nLabels must be provided.')
                         i += 1
                     else:
-                        x = graph(x[0], x[1], {}, self._graph_format)
+                        x = Graph(x[0], x[1], {}, self._graph_format)
                         v = list(x.get_vertices(purpose="any"))
                         L = x.get_labels(purpose="any")
                         i += 1

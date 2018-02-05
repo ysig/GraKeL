@@ -10,7 +10,7 @@ from numpy.linalg import eig
 from scipy.linalg import expm
 
 from grakel.kernels import kernel
-from grakel.graph import graph
+from grakel.graph import Graph
 
 
 class random_walk(kernel):
@@ -139,7 +139,7 @@ class random_walk(kernel):
             i = 0
             out = list()
             for (idx, x) in enumerate(iter(X)):
-                if type(x) is graph:
+                if type(x) is Graph:
                     A = x.get_adjacency_matrix()
                 elif isinstance(x, collections.Iterable) and \
                         len(x) in [0, 1, 2, 3]:
@@ -148,7 +148,7 @@ class random_walk(kernel):
                                       ' on index: '+str(idx))
                         continue
                     else:
-                        A = graph(x[0], {}, {},
+                        A = Graph(x[0], {}, {},
                                   self._graph_format).get_adjacency_matrix()
                 else:
                     raise ValueError('each element of X must be either a ' +

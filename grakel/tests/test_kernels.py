@@ -1,5 +1,5 @@
 """Tests for the kernel sub-module."""
-from grakel.dataset import fetch_dataset
+from grakel.datasets import fetch_dataset
 
 from grakel.kernels import graphlet_sampling
 from grakel.kernels import random_walk
@@ -13,6 +13,8 @@ from grakel.kernels import neighborhood_subgraph_pairwise_distance
 from grakel.kernels import lovasz_theta
 from grakel.kernels import svm_theta
 from grakel.kernels import jsm
+from grakel.kernels import odd_sth
+from grakel.kernels import propagation
 
 global verbose, main, development
 
@@ -180,6 +182,20 @@ def test_jsm_theta():
         print_kernel("JSM", jsm_kernel, dataset_tr, dataset_te)
 
 
+def test_odd_sth():
+    """Test the ODD-STh kernel."""
+    odd_sth_kernel = odd_sth(verbose=verbose, normalize=normalize)
+    if verbose:
+        print_kernel("ODD-STh", odd_sth_kernel, dataset_tr, dataset_te)
+
+
+def test_propagation():
+    """Test the Propagation kernel."""
+    propagation_kernel = propagation(verbose=verbose, normalize=normalize)
+    if verbose:
+        print_kernel("Propagation", propagation_kernel, dataset_tr, dataset_te)
+
+
 def print_kernel(name, kernel, X, Y):
     """Print kernels in case of verbose execution."""
     print("\n" + str(name) + ":\n" + (len(str(name)) * "-") + "-")
@@ -201,6 +217,8 @@ if verbose and main:
     test_graphlet_sampling()
     test_lovasz_theta()
     test_svm_theta()
+    test_odd_sth()
+    test_propagation()
 
 if verbose and develop:
     if slow:

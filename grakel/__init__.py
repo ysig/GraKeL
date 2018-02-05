@@ -1,7 +1,10 @@
 """Init file for the whole grakel project."""
-from grakel.graph import graph
-from grakel import dataset
+from grakel import datasets
+
+from grakel.graph import Graph
+
 from grakel.graph_kernels import GraphKernel
+
 from grakel.kernels import kernel
 from grakel.kernels import graphlet_sampling
 from grakel.kernels import random_walk
@@ -16,11 +19,12 @@ from grakel.kernels import neighborhood_subgraph_pairwise_distance
 from grakel.kernels import lovasz_theta
 from grakel.kernels import svm_theta
 from grakel.kernels import jsm
+from grakel.kernels import odd_sth
 
 __all__ = [
-    "dataset",
+    "datasets",
     "GraphKernel",
-    "graph",
+    "Graph",
     "kernel",
     "graphlet_sampling",
     "random_walk",
@@ -34,5 +38,7 @@ __all__ = [
     "neighborhood_subgraph_pairwise_distance",
     "lovasz_theta",
     "svm_theta",
-    "jsm"
+    "jsm",
+    "odd_sth",
+    "propagation"
 ]

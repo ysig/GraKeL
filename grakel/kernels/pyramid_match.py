@@ -7,7 +7,7 @@ import numpy as np
 from scipy.sparse import csr_matrix
 from scipy.sparse.linalg import eigs
 
-from grakel.graph import graph
+from grakel.graph import Graph
 from grakel.kernels import kernel
 
 
@@ -102,8 +102,8 @@ class pyramid_match(kernel):
                                       str(idx))
                         continue
                     else:
-                        x = graph(x[0], x[1], {}, self._graph_format)
-                elif not type(x) is graph:
+                        x = Graph(x[0], x[1], {}, self._graph_format)
+                elif not type(x) is Graph:
                     raise ValueError('each element of X must be either a ' +
                                      'graph object or a list with at least ' +
                                      'a graph like object and node labels ' +

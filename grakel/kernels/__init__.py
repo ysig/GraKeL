@@ -15,6 +15,8 @@ from grakel.kernels.neighborhood_subgraph_pairwise_distance import \
 from grakel.kernels.lovasz_theta import lovasz_theta
 from grakel.kernels.svm_theta import svm_theta
 from grakel.kernels.jsm import jsm
+from grakel.kernels.odd_sth import odd_sth
+from grakel.kernels.propagation import propagation
 
 __all__ = [
     "kernel",
@@ -30,5 +32,7 @@ __all__ = [
     "neighborhood_subgraph_pairwise_distance",
     "lovasz_theta",
     "svm_theta",
-    "jsm"
+    "jsm",
+    "odd_sth",
+    "propagation"
 ]

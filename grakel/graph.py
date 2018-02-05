@@ -21,7 +21,7 @@ np.random.seed(238537)
 cvxopt.solvers.options['show_progress'] = False
 
 
-class graph(object):
+class Graph(object):
     """The general `graph` class.
 
     A general graph class that supports adjacency, dictionary formats
@@ -1233,7 +1233,7 @@ class graph(object):
                 if level not in level_values:
                     level_values[level] = list()
                 level_values[level].append(metric(
-                    graph(self.adjacency_matrix[:, indexes][indexes, :])))
+                    Graph(self.adjacency_matrix[:, indexes][indexes, :])))
 
         if save:
             self.metric_subgraphs_dict[
@@ -1328,7 +1328,7 @@ class graph(object):
         """
         if self._format is "dictionary":
             A = np.zeros(shape=(len(self.vertices), len(self.vertices)))
-            v_map = {v: i for (v, i) in enumerate(sorted(list(self.vertices)))}
+            v_map = {v: i for (i, v) in enumerate(sorted(list(self.vertices)))}
             for (k, v) in self.edge_dictionary.items():
                 i = v_map[k]
                 for (kv, w) in v.items():
@@ -1498,7 +1498,7 @@ class graph(object):
         else:
             vertices = set(vertices).copy()
 
-        subgraph = graph(graph_format=self._format)
+        subgraph = Graph(graph_format=self._format)
         if self._format == 'adjacency':
             for v in vertices:
                 if v < 0 or v >= self.n:

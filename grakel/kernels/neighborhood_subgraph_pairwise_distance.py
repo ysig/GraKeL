@@ -4,7 +4,7 @@ import collections
 import warnings
 
 from grakel.kernels import kernel
-from grakel.graph import graph
+from grakel.graph import Graph
 
 from grakel.kernels._c_functions import APHash
 
@@ -80,8 +80,8 @@ class neighborhood_subgraph_pairwise_distance(kernel):
             i = 0
             out = list()
             for (idx, x) in enumerate(iter(X)):
-                if type(x) is graph:
-                    g = graph(x.get_adjacency_matrix(),
+                if type(x) is Graph:
+                    g = Graph(x.get_adjacency_matrix(),
                               x.get_labels(purpose="adjacency",
                                            label_type="vertex"),
                               x.get_labels(purpose="adjacency",
@@ -93,7 +93,7 @@ class neighborhood_subgraph_pairwise_distance(kernel):
                                       ' on index: '+str(idx))
                         continue
                     else:
-                        g = graph(x[0], x[1], x[2])
+                        g = Graph(x[0], x[1], x[2])
                         g.change_format("adjacency")
                 else:
                     raise ValueError('each element of X must have either ' +

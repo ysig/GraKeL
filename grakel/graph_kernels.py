@@ -24,6 +24,8 @@ from grakel.kernels import neighborhood_subgraph_pairwise_distance
 from grakel.kernels import lovasz_theta
 from grakel.kernels import svm_theta
 from grakel.kernels import jsm
+from grakel.kernels import odd_sth
+from grakel.kernels import propagation
 
 np.random.seed(int(time.time()))
 
@@ -43,7 +45,8 @@ supported_base_kernels = [
     "lovasz_theta", "svm_theta",
     "neighborhood_hash", "neighborhood_subgraph_pairwise_distance",
     "odd_sth", "propagation",
-    "pyramid_match", "jsm"
+    "pyramid_match", "jsm",
+    "propagation"
     ]
 
 supported_general_kernels = [
@@ -358,9 +361,13 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                 elif kernel_name == "neighborhood_subgraph_pairwise_distance":
                     return (neighborhood_subgraph_pairwise_distance, kernel)
                 elif kernel_name == "odd_sth":
-                    raise ValueError('still developing')
+                    return (odd_sth, kernel)
                 elif kernel_name == "propagation":
-                    raise ValueError('still developing')
+                    if "random_seed" not in kernel and \
+                        self._global_random_seed is not \
+                            default_random_seed_value:
+                            kernel["random_seed"] = self._global_random_seed
+                    return (propagation, kernel)
                 elif kernel_name == "pyramid_match":
                     return (pyramid_match, kernel)
                 elif kernel_name == "jsm":

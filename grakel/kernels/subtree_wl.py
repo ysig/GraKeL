@@ -2,7 +2,7 @@
 import collections
 import warnings
 
-from grakel.graph import graph
+from grakel.graph import Graph
 from grakel.tools import inv_dict
 
 from grakel.kernels import kernel
@@ -16,6 +16,10 @@ class subtree_wl(kernel):
     The kernel value.
     .. math::
         k(X,Y) = \sum_{v \in V_{1}}\sum_{u \in V_{2}}\delta(l(v),l(u))
+
+    Parameters
+    ----------
+    None.
 
     Attributes
     ----------
@@ -55,7 +59,7 @@ class subtree_wl(kernel):
         else:
             Xp = list()
             for (i, x) in enumerate(iter(X)):
-                if type(x) is graph:
+                if type(x) is Graph:
                     invL = inv_dict(x.get_labels(purpose="any"))
                 elif isinstance(x, collections.Iterable) and \
                         len(x) in [0, 2, 3]:

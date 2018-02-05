@@ -13,7 +13,7 @@ from scipy.interpolate import interp1d
 from sklearn.exceptions import NotFittedError
 from sklearn.utils.validation import check_is_fitted
 
-from grakel.graph import graph
+from grakel.graph import Graph
 from grakel.tools import matrix_to_dict
 from grakel.kernels import kernel
 
@@ -379,7 +379,7 @@ class graphlet_sampling(kernel):
                                 break
                         if newbin:
                             if len(self._Y_graph_bins) == 0:
-                                self._Y_graph_bins[len(self._graph_bins)] = sg
+                                self._Y_graph_bins[0] = sg
                                 local_values[(i,
                                               len(self._graph_bins))] = 1
                             else:

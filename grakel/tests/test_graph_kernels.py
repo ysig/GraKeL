@@ -1,7 +1,7 @@
 """Tests for the GraphKernel class."""
 import argparse
 
-from grakel.dataset import fetch_dataset
+from grakel.datasets import fetch_dataset
 from grakel.graph_kernels import GraphKernel
 
 global verbose, main, development
@@ -169,6 +169,24 @@ def test_jsm():
         print_kernel_decorator("JSM", gk, dataset_tr, dataset_te)
 
 
+def test_odd_sth():
+    """Test the ODD-STh kernel."""
+    gk = GraphKernel(kernel={"name": "odd_sth"},
+                     verbose=verbose, normalize=normalize)
+
+    if verbose:
+        print_kernel_decorator("ODD-STh", gk, dataset_tr, dataset_te)
+
+
+def test_propagation():
+    """Test the Propagation kernel."""
+    gk = GraphKernel(kernel={"name": "propagation"},
+                     verbose=verbose, normalize=normalize)
+
+    if verbose:
+        print_kernel_decorator("Propagation", gk, dataset_tr, dataset_te)
+
+
 def print_kernel_decorator(name, kernel, X, Y):
     """Print kernels in case of verbose execution."""
     name += " [decorator]"
@@ -191,10 +209,12 @@ if verbose and main:
     test_graphlet_sampling()
     test_lovasz_theta()
     test_svm_theta()
+    test_odd_sth()
+    test_propagation()
 
 if verbose and develop:
-    test_jsm()
     if slow:
+        test_jsm()
         test_neighborhood_pairwise_distance()
     if problematic:
         test_subgraph_matching()

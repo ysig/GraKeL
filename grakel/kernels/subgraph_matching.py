@@ -6,7 +6,7 @@ import numpy as np
 from numbers import Number
 
 from grakel.kernels import kernel
-from grakel.graph import graph
+from grakel.graph import Graph
 
 global kv_default, ke_default, lw_default
 
@@ -159,8 +159,8 @@ class subgraph_matching(kernel):
             i = 0
             out = list()
             for (idx, x) in enumerate(iter(X)):
-                if type(x) is graph:
-                    g = graph(x.get_adjacency_matrix(),
+                if type(x) is Graph:
+                    g = Graph(x.get_adjacency_matrix(),
                               x.get_labels(purpose="adjacency"),
                               x.get_labels(purpose="adjacency",
                                            label_type="edge"),
@@ -172,7 +172,7 @@ class subgraph_matching(kernel):
                                       ' on index: '+str(idx))
                         continue
                     elif len(x) == 3:
-                        g = graph(x[0], x[1], x[2], "adjacency")
+                        g = Graph(x[0], x[1], x[2], "adjacency")
                         g.change_format(self._graph_format)
                 else:
                     raise ValueError('each element of X must be either a ' +
