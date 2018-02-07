@@ -1,7 +1,11 @@
 """Neighborhood subgraph pairwise distance kernel :cite:`Costa2010FastNS`."""
-import itertools
 import collections
 import warnings
+
+import numpy as np
+
+from sklearn.exceptions import NotFittedError
+from sklearn.utils.validation import check_is_fitted
 
 from grakel.kernels import kernel
 from grakel.graph import Graph
@@ -30,6 +34,10 @@ class neighborhood_subgraph_pairwise_distance(kernel):
     _d : int
         Neighborhood depth.
 
+    _fit_keys : dict
+        A dictionary with keys from 0 to _d+1, constructed upon fit
+        holding an enumeration of all the found (in the fit dataset)
+        tuples of two hashes and a radius in this certain level.
 
     """
 
@@ -66,19 +74,24 @@ class neighborhood_subgraph_pairwise_distance(kernel):
 
         Returns
         -------
-        out : list
-            A list of tuples consisting of a 2-level dictionary of the hashed
-            neighborhoods from radious, vertex to the hashed values and a
-            dictionary, where for each level appears a set of tuples of
-            nodes connected in that level.
+        M : dict
+            A dictionary with keys all the distances from 0 to self._d
+            and values the the np.arrays with rows corresponding to the
+            non-null input graphs and columns to the enumerations of tuples
+            consisting of pairs of hash values and radius, from all the given
+            graphs of the input (plus the fitted one's on transform).
 
+        Z : np.array, shape=(self._d+1, n_inputs)
+            A numpy array consisting of the number of distance pairs for each
+            level. If no pairs appear, a value of float("Inf") is provided.
 
         """
         if not isinstance(X, collections.Iterable):
             raise ValueError('input must be an iterable\n')
         else:
             i = 0
-            out = list()
+            data = {j: list() for j in range(self._d+1)}
+            all_keys = {j: dict() for j in range(self._d+1)}
             for (idx, x) in enumerate(iter(X)):
                 if type(x) is Graph:
                     g = Graph(x.get_adjacency_matrix(),
@@ -106,7 +119,7 @@ class neighborhood_subgraph_pairwise_distance(kernel):
 
                 ed = g.get_edge_dictionary()
 
-                edges = {(i, j) for i in ed.keys() for j in ed[i].keys()}
+                edges = {(j, k) for j in ed.keys() for k in ed[j].keys()}
                 Lv = g.get_labels(purpose=self._graph_format)
                 Le = g.get_labels(purpose=self._graph_format,
                                   label_type="edge")
@@ -116,52 +129,134 @@ class neighborhood_subgraph_pairwise_distance(kernel):
 
                 H = self._hash_neighborhoods(vertices, edges, Lv,
                                              Le, N, D_pair)
-                out.append((H, D))
+
+                if self._method_calling == 1:
+                    for d in range(self._d+1):
+                        keys = all_keys[d]
+                        Q = dict()
+                        if d in D:
+                            for (A, B) in D[d]:
+                                for r in range(self._r+1):
+                                    key = (H[r][A], H[r][B], r)
+                                    idx = keys.get(key, None)
+                                    if idx is None:
+                                        idx = len(keys)
+                                        keys[key] = idx
+                                    Q[idx] = Q.get(idx, 0) + 1
+                        data[d].append(Q)
+
+                elif self._method_calling == 3:
+                    for d in range(self._d+1):
+                        keys = all_keys[d]
+                        fit_keys = self._fit_keys[d]
+                        Q = dict()
+                        if d in D:
+                            for (A, B) in D[d]:
+                                for r in range(self._r+1):
+                                    key = (H[r][A], H[r][B], r)
+                                    idx = fit_keys.get(key, None)
+                                    if idx is None:
+                                        idx = keys.get(key, None)
+                                        if idx is None:
+                                            idx = len(keys) + len(fit_keys)
+                                            keys[key] = idx
+                                    Q[idx] = Q.get(idx, 0) + 1
+                        data[d].append(Q)
                 i += 1
             if i == 0:
                 raise ValueError('parsed input is empty')
-            return out
 
-    def pairwise_operation(self, x, y):
-        """Neighborhood subgraph pairwise distance kernel.
+            if self._method_calling == 1:
+                M = {d: np.zeros(shape=(i, len(all_keys[d])))
+                     for d in range(self._d+1)}
+                Z = np.zeros(shape=(self._d+1, i))
+                for d in range(self._d+1):
+                    for (no, dt) in enumerate(data[d]):
+                        for (idx, val) in dt.items():
+                            M[d][no, idx] = val
+                            Z[d, no] += val
+                self._fit_keys = all_keys
+            elif self._method_calling == 3:
+                M = {d: np.zeros(shape=(i, len(all_keys[d]) +
+                                 len(self._fit_keys[d])))
+                     for d in range(self._d+1)}
+                Z = np.zeros(shape=(self._d+1, i))
+                for d in range(self._d+1):
+                    for (no, dt) in enumerate(data[d]):
+                        for (idx, val) in dt.items():
+                            M[d][no, idx] = val
+                            Z[d, no] += val
+            Z[(Z == 0)] = float("Inf")
+            return (M, Z)
 
-        See :cite:`Costa2010FastNS`.
+    def _calculate_kernel_matrix(self, Y=None):
+        """Calculate the kernel matrix given a target_graph and a kernel.
+
+        Each a matrix is calculated between all elements of Y on the rows and
+        all elements of X on the columns.
 
         Parameters
         ----------
-        x, y : tuple
-            A tuple same as each element of the output list of parse input.
-            It consists of a 2-level dictionary of the hashed neighborhoods
-            from radious, vertex to the hashed values and a dictionary,
-            where for each level appears a set of tuples of nodes
-            connected in that level.
+        Y : list, default=None
+            A list of graph type objects. If None kernel is calculated between
+            X and itself.
 
         Returns
         -------
-        kernel : number
-            The kernel value.
+        K : numpy array, shape = [n_targets, n_inputs]
+            The kernel matrix: a calculation between all pairs of graphs
+            between targets and inputs. If Y is None targets and inputs
+            are the taken from self.X. Otherwise Y corresponds to targets
+            and self.X to inputs.
 
         """
-        Hx, Dx = x
-        Hy, Dy = y
+        M, Z = self.X
+        if Y is None:
+            S = np.zeros(shape=(Z.shape[1], Z.shape[1]))
+            for d in range(self._d+1):
+                S += (np.dot(M[d], M[d].T) / np.outer(Z[d, :], Z[d, :]))
 
-        kernel = 0
+        else:
+            Mp, Zp = Y
+            S = np.zeros(shape=(Zp.shape[1], Z.shape[1]))
+            for d in range(self._d+1):
+                S += (np.dot(Mp[d][:, :M[d].shape[1]], M[d].T) /
+                      np.outer(Zp[d, :], Z[d, :]))
 
-        for distance in range(self._d+1):
-            if distance in Dx and distance in Dy:
-                pairs = itertools.product(Dx[distance], Dy[distance])
-                krd = 0
-                npairs = 0
-                for ((A, B), (Ap, Bp)) in pairs:
-                    npairs += 1
-                    for radius in range(self._r+1):
-                        if Hx[radius][A] == Hy[radius][Ap]:
-                            krd += int(Hx[radius][B] == Hy[radius][Bp])
-                if npairs > 0:
-                    # normalization by the number of pairs
-                    kernel += float(krd)/npairs
+        return S
 
-        return kernel
+    def diagonal(self):
+        """Calculate the kernel matrix diagonal of the fitted data.
+
+        Parameters
+        ----------
+        None.
+
+        Returns
+        -------
+        X_diag : np.array
+            The diagonal of the kernel matrix, of the fitted. This consists
+            of each element calculated with itself.
+
+
+        """
+        # Check is fit had been called
+        check_is_fitted(self, ['X', '_Y'])
+        try:
+            check_is_fitted(self, ['_X_diag'])
+        except NotFittedError:
+            # Calculate diagonal of X
+            Z, M = self.X
+            self._X_diag = np.empty(shape=(Z.shape[1], 1))
+            for d in range(self._d+1):
+                self._X_diag += (M[d] * M[d].T).sum(-1) / np.square(Z[d, :])
+
+        Z, M = self._Y
+        Y_diag = np.empty(shape=(Z.shape[1], 1))
+        for d in range(self._d+1):
+            Y_diag += (M[d] * M[d].T).sum(-1) / np.square(Z[d, :])
+
+        return self._X_diag, Y_diag
 
     def _hash_neighborhoods(self, vertices, edges, Lv, Le, N, D_pair):
         """Hash all neighborhoods and all root nodes.
@@ -195,12 +290,12 @@ class neighborhood_subgraph_pairwise_distance(kernel):
         for v in vertices:
             re, lv, le = sel, Lv, Le
             for radius in range(self._r, -1, -1):
-                vertices = sorted(N[radius][v])
+                sub_vertices = sorted(N[radius][v])
                 re = {(i, j) for (i, j) in re
-                      if i in vertices and j in vertices}
-                lv = {v: lv[v] for v in vertices}
+                      if i in sub_vertices and j in sub_vertices}
+                lv = {v: lv[v] for v in sub_vertices}
                 le = {e: le[e] for e in edges}
-                H[radius][v] = hash_graph(D_pair, vertices, re, lv, le)
+                H[radius][v] = hash_graph(D_pair, sub_vertices, re, lv, le)
         return H
 
 

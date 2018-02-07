@@ -1477,6 +1477,26 @@ class Graph(object):
         else:
             return N
 
+    def get_graph_object(self):
+        """Return the graph object corresponding to 'any'.
+
+        Format agnostic method.
+
+        Parameters
+        ----------
+        None.
+
+        Returns
+        -------
+        g : dict or np.array
+            The graph Object.
+
+        """
+        if self._format in ["adjacency", "all"]:
+            return self.adjacency_matrix
+        else:
+            return self.edge_dictionary
+
     def get_subgraph(self, vertices):
         """Calculate the subgraph of object in the same format as the original.
 

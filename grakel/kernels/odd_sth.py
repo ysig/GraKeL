@@ -156,9 +156,7 @@ class odd_sth(kernel):
 
         self._X_diag = np.diagonal(km).reshape(km.shape[0], 1)
         if self._normalize:
-            return np.divide(km,
-                             np.sqrt(np.multiply(self._X_diag.T,
-                                                 self._X_diag)))
+            return np.divide(km, np.sqrt(np.outer(self._X_diag, self._X_diag)))
         else:
             return km
         return km
@@ -210,7 +208,7 @@ class odd_sth(kernel):
         km = np.dot(phi_y.T, np.multiply(phi_x, C))
         if self._normalize:
             X_diag, Y_diag = self.diagonal()
-            km /= np.sqrt(np.dot(Y_diag, X_diag.T))
+            km /= np.sqrt(np.outer(Y_diag, X_diag))
         return km
 
     def diagonal(self):

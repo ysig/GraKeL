@@ -1,8 +1,8 @@
-"""Tests for the graph class."""
+"""Tests for the Graph class."""
 import numpy as np
 import numpy.testing as npt
 
-from grakel.graph import graph
+from grakel.graph import Graph
 
 global verbose
 
@@ -10,7 +10,7 @@ global verbose
 if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser(
-        description='A test file for all graph type objects')
+        description='A test file for all `Graph` type objects')
     parser.add_argument(
         '--verbose',
         help='verbose outputs on stdout',
@@ -40,10 +40,10 @@ def test_graph_adjacency():
 
     # try all formats
     g = dict()
-    g["auto"] = graph(X, labels, {}, "auto")
-    g["dict"] = graph(X, labels, {}, "dictionary")
-    g["adjc"] = graph(X, labels, {}, "adjacency")
-    g["all"] = graph(X, labels, {}, "all")
+    g["auto"] = Graph(X, labels, {}, "auto")
+    g["dict"] = Graph(X, labels, {}, "dictionary")
+    g["adjc"] = Graph(X, labels, {}, "adjacency")
+    g["all"] = Graph(X, labels, {}, "all")
 
     # Desired output label group
     desired_output_label_group = {'cherry': [1, 3], 'banana': [0, 2]}
@@ -82,12 +82,12 @@ def test_graph_edge_dictionary():
 
     labels = {'a': 'banana', 'b': 'cherry', 'c': 'banana', 'd': 'cherry'}
 
-    # Test for all graph formats
+    # Test for all Graph formats
     g = dict()
-    g["auto"] = graph(X, labels, {}, "auto")
-    g["dict"] = graph(X, labels, {}, "dictionary")
-    g["adjc"] = graph(X, labels, {}, "adjacency")
-    g["all"] = graph(X, labels, {}, "all")
+    g["auto"] = Graph(X, labels, {}, "auto")
+    g["dict"] = Graph(X, labels, {}, "dictionary")
+    g["adjc"] = Graph(X, labels, {}, "adjacency")
+    g["all"] = Graph(X, labels, {}, "all")
 
     # Desired output label group
     desired_output_label_group = {'cherry': set(['d', 'b']),

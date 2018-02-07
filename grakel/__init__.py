@@ -20,6 +20,9 @@ from grakel.kernels import lovasz_theta
 from grakel.kernels import svm_theta
 from grakel.kernels import jsm
 from grakel.kernels import odd_sth
+from grakel.kernels import propagation
+from grakel.kernels import hadamard_code
+from grakel.kernels import multiscale_laplacian
 
 __all__ = [
     "datasets",
@@ -40,5 +43,7 @@ __all__ = [
     "svm_theta",
     "jsm",
     "odd_sth",
-    "propagation"
+    "propagation",
+    "hadamard_code",
+    "multiscale_laplacian"
 ]

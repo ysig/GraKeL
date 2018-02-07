@@ -20,7 +20,7 @@ class weisfeiler_lehman(kernel):
     ----------
     base_kernel : `grakel.kernels.kernel` or tuple
         If tuple it must consist of a valid kernel object and a
-        dictionary of parameters. General parameters concrening
+        dictionary of parameters. General parameters concerning
         normalization, concurrency, .. will be ignored, and the
         ones of given on `__init__` will be passed in case it is needed.
 
@@ -84,6 +84,7 @@ class weisfeiler_lehman(kernel):
                 params.pop("normalize", None)
                 for p in base_params:
                         params.pop(p, None)
+
             params["normalize"] = False
             params["verbose"] = self._verbose
             params["executor"] = self._executor
@@ -109,7 +110,7 @@ class weisfeiler_lehman(kernel):
         """
         if self._method_calling not in [1, 2]:
             raise ValueError('method call must be called either from fit ' +
-                             'or transform')
+                             'or fit-transform')
         # Input validation and parsing
         if not isinstance(X, collections.Iterable):
             raise ValueError('input must be an iterable\n')
@@ -141,7 +142,8 @@ class weisfeiler_lehman(kernel):
                 nx += 1
             if nx == 0:
                 raise ValueError('parsed input is empty')
-        # DSave the numebr of graphs of x.
+
+        # Save the number of "fitted" graphs.
         self._nx = nx
 
         # get all the distinct values of current labels
@@ -244,9 +246,7 @@ class weisfeiler_lehman(kernel):
 
         self._X_diag = np.reshape(np.diagonal(km), (km.shape[0], 1))
         if self._normalize:
-            return np.divide(km,
-                             np.sqrt(np.multiply(self._X_diag.T,
-                                                 self._X_diag)))
+            return np.divide(km, np.sqrt(np.outer(self._X_diag, self._X_diag)))
         else:
             return km
 
@@ -377,7 +377,7 @@ class weisfeiler_lehman(kernel):
 
         if self._normalize:
             X_diag, Y_diag = self.diagonal()
-            return np.divide(K, np.sqrt(np.dot(Y_diag, X_diag.T)))
+            return np.divide(K, np.sqrt(np.outer(Y_diag, X_diag)))
         else:
             return K
 

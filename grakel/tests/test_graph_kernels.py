@@ -187,6 +187,36 @@ def test_propagation():
         print_kernel_decorator("Propagation", gk, dataset_tr, dataset_te)
 
 
+def test_hadamard_code():
+    """Test the Hadamard Code kernel."""
+    gk = GraphKernel(kernel=[{"name": "hadamard_code"},
+                             {"name": "subtree_wl"}],
+                     verbose=verbose, normalize=normalize)
+
+    if verbose:
+        print_kernel_decorator("Hadamard-Code/Subtree-WL [Simple]",
+                               gk, dataset_tr, dataset_te)
+
+    gk = GraphKernel(kernel=[{"name": "hadamard_code",
+                              "L": 2, "hc_type": "shortened"},
+                             {"name": "subtree_wl"}],
+                     verbose=verbose, normalize=normalize)
+
+    if verbose:
+        print_kernel_decorator("Hadamard-Code/Subtree-WL [Shortened]",
+                               gk, dataset_tr, dataset_te)
+
+
+def test_multiscale_laplacian():
+    """Test the Multiscale Laplacian kernel."""
+    gk = GraphKernel(kernel={"name": "multiscale_laplacian"},
+                     verbose=verbose, normalize=normalize)
+
+    if verbose:
+        print_kernel_decorator("Multiscale Laplacian",
+                               gk, dataset_tr, dataset_te)
+
+
 def print_kernel_decorator(name, kernel, X, Y):
     """Print kernels in case of verbose execution."""
     name += " [decorator]"
@@ -211,10 +241,12 @@ if verbose and main:
     test_svm_theta()
     test_odd_sth()
     test_propagation()
+    test_hadamard_code()
+    test_neighborhood_pairwise_distance()
 
 if verbose and develop:
     if slow:
         test_jsm()
-        test_neighborhood_pairwise_distance()
     if problematic:
         test_subgraph_matching()
+        test_multiscale_laplacian()

@@ -308,7 +308,7 @@ class subgraph_matching(kernel):
 
             w *= c[v]
             for u in C:
-                w *= c[(u, v)]
+                w *= c[(v, u)]
 
             total_value[len(C)] += w
 
@@ -317,14 +317,18 @@ class subgraph_matching(kernel):
 
                 # prepare candidate set for recursive call
                 newUBound = ubound
-                while (c[P[newUBound]] == .0 and newUBound - 1 > it):
+                while (c[P[newUBound]] == .0):
                     newUBound -= 1
+                    if (newUBound > it):
+                        break
 
-                fm = it + 1
+                fm = it
                 # fm  is newUBound or the first element that
                 # should stay in the candidate set
-                while (fm <= newUBound and c[P[fm]] == .0):
+                flag = True
+                while flag:
                     fm += 1
+                    flag = (fm <= newUBound and c[P[fm]] == .0)
 
                 nm = fm + 1
                 while (nm <= newUBound):
@@ -339,7 +343,6 @@ class subgraph_matching(kernel):
                 self._subgraph_matching_core(w, C, P, c,
                                              total_value, fm, newUBound)
                 C.pop(-1)
-        return None
 
 
 if __name__ == "__main__":

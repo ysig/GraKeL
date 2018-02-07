@@ -1,4 +1,7 @@
 """Tests for the kernel sub-module."""
+from time import time
+import numpy as np
+
 from grakel.datasets import fetch_dataset
 
 from grakel.kernels import graphlet_sampling
@@ -15,6 +18,8 @@ from grakel.kernels import svm_theta
 from grakel.kernels import jsm
 from grakel.kernels import odd_sth
 from grakel.kernels import propagation
+from grakel.kernels import hadamard_code
+from grakel.kernels import multiscale_laplacian
 
 global verbose, main, development
 
@@ -100,6 +105,8 @@ def test_subtree_wl():
     stwl_kernel = subtree_wl(verbose=verbose, normalize=normalize)
     if verbose:
         print_kernel("Subtree-WL", stwl_kernel, dataset_tr, dataset_te)
+    else:
+        positive_eig(stwl_kernel, dataset)
 
 
 def test_random_walk():
@@ -107,6 +114,8 @@ def test_random_walk():
     rw_kernel = random_walk(verbose=verbose, normalize=normalize)
     if verbose:
         print_kernel("Random Walk", rw_kernel, dataset_tr, dataset_te)
+    else:
+        positive_eig(rw_kernel, dataset)
 
 
 def test_shortest_path():
@@ -114,6 +123,8 @@ def test_shortest_path():
     sp_kernel = shortest_path(verbose=verbose, normalize=normalize)
     if verbose:
         print_kernel("Shortest Path", sp_kernel, dataset_tr, dataset_te)
+    else:
+        positive_eig(sp_kernel, dataset)
 
 
 def test_graphlet_sampling():
@@ -122,6 +133,8 @@ def test_graphlet_sampling():
                                   n_samples=150)
     if verbose:
         print_kernel("Graphlet Sampling", gs_kernel, dataset_tr, dataset_te)
+    else:
+        positive_eig(gs_kernel, dataset)
 
 
 def test_weisfeiler_lehman():
@@ -130,6 +143,8 @@ def test_weisfeiler_lehman():
                                      base_kernel=subtree_wl)
     if verbose:
         print_kernel("WL/Subtree", wl_st_kernel, dataset_tr, dataset_te)
+    else:
+        positive_eig(wl_st_kernel, dataset)
 
 
 def test_pyramid_match():
@@ -137,6 +152,8 @@ def test_pyramid_match():
     pm_kernel = pyramid_match(verbose=verbose, normalize=normalize)
     if verbose:
         print_kernel("Pyramid Match", pm_kernel, dataset_tr, dataset_te)
+    else:
+        positive_eig(pm_kernel, dataset)
 
 
 def test_neighborhood_hash():
@@ -144,6 +161,8 @@ def test_neighborhood_hash():
     nh_kernel = neighborhood_hash(verbose=verbose, normalize=normalize)
     if verbose:
         print_kernel("Neighborhood Hash", nh_kernel, dataset_tr, dataset_te)
+    else:
+        positive_eig(nh_kernel, dataset)
 
 
 def test_subgraph_matching():
@@ -159,6 +178,8 @@ def test_neighborhood_subgraph_pairwise_distance():
         verbose=verbose, normalize=normalize)
     if verbose:
         print_kernel("NSPD", nspd_kernel, dataset_tr, dataset_te)
+    else:
+        positive_eig(nspd_kernel, dataset)
 
 
 def test_lovasz_theta():
@@ -166,6 +187,8 @@ def test_lovasz_theta():
     lt_kernel = lovasz_theta(verbose=verbose, normalize=normalize)
     if verbose:
         print_kernel("Lovasz-theta", lt_kernel, dataset_tr, dataset_te)
+    else:
+        positive_eig(lt_kernel, dataset)
 
 
 def test_svm_theta():
@@ -173,6 +196,8 @@ def test_svm_theta():
     svm_kernel = svm_theta(verbose=verbose, normalize=normalize)
     if verbose:
         print_kernel("SVM-theta", svm_kernel, dataset_tr, dataset_te)
+    else:
+        positive_eig(svm_kernel, dataset)
 
 
 def test_jsm_theta():
@@ -187,6 +212,8 @@ def test_odd_sth():
     odd_sth_kernel = odd_sth(verbose=verbose, normalize=normalize)
     if verbose:
         print_kernel("ODD-STh", odd_sth_kernel, dataset_tr, dataset_te)
+    else:
+        positive_eig(odd_sth_kernel, dataset)
 
 
 def test_propagation():
@@ -194,6 +221,46 @@ def test_propagation():
     propagation_kernel = propagation(verbose=verbose, normalize=normalize)
     if verbose:
         print_kernel("Propagation", propagation_kernel, dataset_tr, dataset_te)
+    else:
+        positive_eig(propagation_kernel, dataset)
+
+
+def test_hadamard_code():
+    """Test the Hadamard Code kernel."""
+    hadamard_code_kernel = hadamard_code(verbose=verbose, normalize=normalize,
+                                         base_kernel=subtree_wl)
+    if verbose:
+        print_kernel("Hadamard-Code/Subtree-WL [Simple]",
+                     hadamard_code_kernel, dataset_tr, dataset_te)
+    else:
+        positive_eig(hadamard_code_kernel, dataset)
+
+    hadamard_code_kernel = hadamard_code(verbose=verbose,
+                                         normalize=normalize,
+                                         base_kernel=subtree_wl,
+                                         hc_type="shortened",
+                                         L=2)
+    if verbose:
+        print_kernel("Hadamard-Code/Subtree-WL [Shortened]",
+                     hadamard_code_kernel, dataset_tr, dataset_te)
+    else:
+        positive_eig(hadamard_code_kernel, dataset)
+
+
+def test_multiscale_laplacian():
+    """Test the Multiscale Laplacian kernel."""
+    fmm_dataset = fetch_dataset("FIRSTMM_DB",
+                                with_classes=False,
+                                prefer_attr_nodes=True,
+                                verbose=verbose).data
+    fmm_dataset_tr = fmm_dataset[:int(len(fmm_dataset)*0.8)]
+    fmm_dataset_te = fmm_dataset[int(len(fmm_dataset)*0.8):]
+    ml_kernel = multiscale_laplacian(verbose=verbose, normalize=normalize)
+    if verbose:
+        print_kernel("Multiscale Laplacian", ml_kernel,
+                     fmm_dataset_tr, fmm_dataset_te)
+    # else:
+    #    positive_eig(ml_kernel, fmm_dataset)
 
 
 def print_kernel(name, kernel, X, Y):
@@ -205,6 +272,13 @@ def print_kernel(name, kernel, X, Y):
     print(kernel.transform(Y))
     print("--------------------------------------" +
           "--------------------------------------\n")
+
+
+def positive_eig(kernel, X):
+    """Assert true if the calculated kernel matrix is valid."""
+    K = kernel.fit_transform(X)
+    min_eig = np.real(np.min(np.linalg.eig(K)[0]))
+    assert(min_eig > float("-1e-6"))
 
 
 if verbose and main:
@@ -219,10 +293,14 @@ if verbose and main:
     test_svm_theta()
     test_odd_sth()
     test_propagation()
+    test_hadamard_code()
+    test_neighborhood_subgraph_pairwise_distance()
 
 if verbose and develop:
     if slow:
         test_jsm_theta()
-        test_neighborhood_subgraph_pairwise_distance()
     if problematic:
+        start = time()
+        test_multiscale_laplacian()
+        print("Multiscale Laplacian .. took:", time()-start, "s.")
         test_subgraph_matching()

@@ -198,11 +198,12 @@ class random_walk(kernel):
             Id = np.identity(s)
 
             if self._kernel_type == "geometric":
-                return np.dot(np.dot(np.ones(s), inv(Id - self._lambda*XY)).T,
-                              np.ones(shape=(s)))
+                return np.multi_dot((np.ones(s), inv(Id - self._lambda*XY).T,
+                                     np.ones(shape=(s))))
             elif self._kernel_type == "exponential":
-                return np.dot(np.dot(np.ones(s), expm(self._lambda*XY)).T,
-                              np.ones(shape=(s)))
+                return np.linalg.multi_dot((np.ones(s),
+                                            expm(self._lambda*XY).T,
+                                            np.ones(shape=(s))))
 
         else:
             # Spectral demoposition algorithm as presented in
@@ -233,4 +234,4 @@ class random_walk(kernel):
                     D = np.diagflat(1/(1-self._lambda*Dij))
                 elif self._kernel_type == "exponential":
                     D = np.diagflat(np.exp(self._lambda*Dij))
-            return np.dot(fl, np.dot(D, fr))
+            return np.linalg.multi_dot((fl, D, fr))

@@ -17,6 +17,8 @@ from grakel.kernels.svm_theta import svm_theta
 from grakel.kernels.jsm import jsm
 from grakel.kernels.odd_sth import odd_sth
 from grakel.kernels.propagation import propagation
+from grakel.kernels.hadamard_code import hadamard_code
+from grakel.kernels.multiscale_laplacian import multiscale_laplacian
 
 __all__ = [
     "kernel",
@@ -34,5 +36,7 @@ __all__ = [
     "svm_theta",
     "jsm",
     "odd_sth",
-    "propagation"
+    "propagation",
+    "hadamard_code",
+    "multiscale_laplacian"
 ]

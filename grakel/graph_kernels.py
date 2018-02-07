@@ -26,6 +26,8 @@ from grakel.kernels import svm_theta
 from grakel.kernels import jsm
 from grakel.kernels import odd_sth
 from grakel.kernels import propagation
+from grakel.kernels import hadamard_code
+from grakel.kernels import multiscale_laplacian
 
 np.random.seed(int(time.time()))
 
@@ -349,7 +351,7 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                             kernel["random_seed"] = self._global_random_seed
                     return (graphlet_sampling, kernel)
                 elif kernel_name == "multiscale_laplacian":
-                    raise ValueError('still developing')
+                    return (multiscale_laplacian, kernel)
                 elif kernel_name == "subgraph_matching":
                     return (subgraph_matching, kernel)
                 elif kernel_name == "lovasz_theta":
@@ -380,7 +382,7 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                 if kernel_name == "weisfeiler_lehman":
                     return (weisfeiler_lehman, kernel)
                 if kernel_name == "hadamard_code":
-                    raise ValueError('still developing')
+                    return (hadamard_code, kernel)
             else:
                 raise ValueError('unsupported kernel: ' + str(kernel_name))
 
