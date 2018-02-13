@@ -1,14 +1,14 @@
 """The sugraph mathing kernel as defined by :cite:`Kriege2012SubgraphMK`."""
 import collections
 import warnings
+
 import numpy as np
 
-from numbers import Number
+from numbers import Real
 
 from grakel.kernels import kernel
 from grakel.graph import Graph
-
-global kv_default, ke_default, lw_default
+from grakel.kernels._c_functions import sm_kernel
 
 # Define default vertex, edge and lambda weight functions
 k_default = lambda a, b: 1 if a == b else 0
@@ -69,35 +69,37 @@ class subgraph_matching(kernel):
         self._kv = kargs.get("kv", k_default)
         self._ke = kargs.get("ke", k_default)
 
-        self._k = kargs.get("k", 5)
+        self._k = kargs.get("k", 3)
         if self._k < 1:
             raise ValueError('k must be greater-equal than 1')
 
         lw = kargs.get("lw", "uniform")
 
         self._k += 1
+
+        if type(lw) is not str and isinstance(lw, collections.Iterable):
+            lw = list(lw)
+
         if lw == "uniform":
             self._lambdas = np.full((1, self._k), 1.0)
         elif lw == "increasing":
-            self._lambdas = np.reshape(np.arange(1.0, float(self._k) + 1.0),
-                                       shape=(1, self._k))
+            self._lambdas = np.arange(1.0,
+                                      float(self._k) + 1.0).reshape(1, self._k)
         elif lw == "decreasing":
             self._lambdas = np.full((1, self._k), 1.0) / \
-                            np.reshape(np.arange(1.0, float(self._k) + 1.0),
-                                       shape=(1, self._k))
+                            np.arange(1.0,
+                                      float(self._k) + 1.0).reshape(1, self._k)
         elif lw == "strong_decreasing":
             self._lambdas = np.full((1, self._k), 1.0) / \
-                            np.reshape(np.square(
-                                np.arange(1.0, float(self._k) + 1.0)),
-                                       shape=(1, self._k))
-        elif isinstance(lw, collections.Iterable) is list \
-                and len(lw) == self._k \
-                and all(isinstance(x, Number.Real) for x in lw):
-            np.reshape(np.array(lw), shape=(1, self._k))
+                            np.square(np.arange(1.0,
+                                                float(self._k) + 1.0)
+                                      ).reshape(1, self._k)
+        elif len(lw) == self._k and all(isinstance(x, Real) for x in lw):
+            np.array(lw).reshape((1, self._k))
         elif callable(lw):
             try:
-                np.reshape(np.array([lw(i) for i in range(self._k)]),
-                           shape=(1, self._k))
+                np.array([lw(i)
+                          for i in range(self._k)]).reshape((1, self._k))
             except Exception as e:
                 raise ValueError('Incorrect Callable: ' + str(e))
         else:
@@ -124,13 +126,7 @@ class subgraph_matching(kernel):
             The kernel value.
 
         """
-        # Calculate product graph
-        Vp, n, c = self._weighted_product_graph(x, y)
-
-        # Initialize values
-        tv = np.zeros(shape=(self._k + 1, 1))
-
-        self._subgraph_matching_core(1, list(), Vp, c, tv, 0, n-1)
+        tv = sm_kernel(x, y, self._kv, self._ke, self._k)
         return np.dot(self._lambdas, tv)
 
     def parse_input(self, X):
@@ -159,14 +155,19 @@ class subgraph_matching(kernel):
             i = 0
             out = list()
             for (idx, x) in enumerate(iter(X)):
+                is_iter = False
+                if isinstance(x, collections.Iterable):
+                    is_iter = True
+                    x = list(x)
+
                 if type(x) is Graph:
                     g = Graph(x.get_adjacency_matrix(),
                               x.get_labels(purpose="adjacency"),
                               x.get_labels(purpose="adjacency",
                                            label_type="edge"),
                               self._graph_format)
-                elif isinstance(x, collections.Iterable) and \
-                        len(x) in [0, 3]:
+                elif is_iter and len(x) in [0, 3]:
+                    x = list(x)
                     if len(x) == 0:
                         warnings.warn('Ignoring empty element' +
                                       ' on index: '+str(idx))
@@ -194,155 +195,6 @@ class subgraph_matching(kernel):
                 raise ValueError('parsed input is empty')
             print("Input Parsed")
             return out
-
-    def _weighted_product_graph(self, x, y):
-        """Calculate the weighted product graph.
-
-        For a definition see :cite:`Kriege2012SubgraphMK`
-        (p.5, Definition 5).
-
-        Parameters
-        ----------
-        x, y : tuples, size=4
-            A tuple corresponding to the number of verices,
-            the edge dictionarie starting from vertices of
-            index zero, the labels for nodes, the labels for edges.
-
-        Returns
-        -------
-        Vp : dict
-            Enumeration of all the vertices of the weighted product graph.
-
-        Ep : dict
-            The edges of the weighted product graph.
-
-        n : int
-            The number of vertices.
-
-        c : dict
-            The cost dictionary for vertices and edges.
-
-        """
-        nx, Ex, Lx, Lex = x
-        ny, Ey, Ly, Ley = y
-
-        # initialise cost function
-        c = dict()
-
-        # Calculate valid vertices
-        Vp = list()
-
-        # calculate product graph vertex set
-        nv = 0
-        for i in range(nx):
-            for j in range(ny):
-                value = self._kv(Lx[i], Ly[j])
-                if(value > .0):
-                    # add to vertex set
-                    Vp.append((i, j))
-                    # initialise an empty set for neighbors
-                    c[nv] = value
-                    nv += 1
-
-        # calculate product graph valid edges
-        for (i, v) in enumerate(Vp):
-            for (j, w) in enumerate(Vp):
-                if i == j:
-                    break
-                if v[0] == w[0] or v[1] == w[1]:
-                    value = .0
-                else:
-                    ea, eb = (v[0], w[0]), (v[1], w[1])
-                    conda, condb = ea not in Ex, eb not in Ey
-                    if conda and condb:
-                        # d-edge
-                        value = 1.
-                    elif conda or condb:
-                        value = .0
-                    else:
-                        # possible c-edge
-                        value = self._ke(Lex[ea], Ley[eb])
-                c[(j, i)] = c[(i, j)] = value
-
-        return np.arange(nv), nv, c
-
-    def _subgraph_matching_core(self, w, C, P, c, total_value, lbound, ubound):
-        """Calculate the core algorithm of the subgraph matching kernel.
-
-        See :cite:`Kriege2012SubgraphMK` (p.5, Algorithm 1).
-
-        Parameters
-        ----------
-        w : number
-            The current weight.
-
-        C : list
-            The current clique.
-
-        P : np.array, shape=(nv)
-            Current vertices.
-
-        c : dict
-            Costs of vertices, edges.
-
-        total_value : np.array, shape=(self._k+1, 1)
-            Holds values for every level of the cliques.
-
-        lbound : int
-            The lower bound on subgraph size.
-
-        ubound : int
-            The upper bound on subgraph size.
-
-        Returns
-        -------
-        None.
-
-        """
-#       +-----------------------------+----------------+-----+
-#     p |                             |   candidates   |     |
-#       +-----------------------------+----------------+-----+
-#                                  lBound           uBound
-        for it in range(lbound, ubound + 1):
-            v = P[it]
-
-            w *= c[v]
-            for u in C:
-                w *= c[(v, u)]
-
-            total_value[len(C)] += w
-
-            if (len(C) + 1 < self._k):
-                C.append(v)
-
-                # prepare candidate set for recursive call
-                newUBound = ubound
-                while (c[P[newUBound]] == .0):
-                    newUBound -= 1
-                    if (newUBound > it):
-                        break
-
-                fm = it
-                # fm  is newUBound or the first element that
-                # should stay in the candidate set
-                flag = True
-                while flag:
-                    fm += 1
-                    flag = (fm <= newUBound and c[P[fm]] == .0)
-
-                nm = fm + 1
-                while (nm <= newUBound):
-                    # nm is > fm and all elements in [fm, ..., nm]
-                    # should stay in the candidate set
-                    if c[P[nm]] == .0:
-                        P[fm], P[nm] = P[nm], P[fm]
-                        fm += 1
-                    nm += 1
-
-                # [fm, ..., newUBound] contains the new candidate set
-                self._subgraph_matching_core(w, C, P, c,
-                                             total_value, fm, newUBound)
-                C.pop(-1)
 
 
 if __name__ == "__main__":

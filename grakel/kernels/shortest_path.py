@@ -86,10 +86,10 @@ class shortest_path_attr(kernel):
         else:
             sp_attr_tup = list()
             for (i, x) in enumerate(iter(X)):
-                if type(x) is Graph:
-                    S, L = x.build_shortest_path_matrix(self._algorithm_type)
-                elif isinstance(x, collections.Iterable) and \
-                        len(x) in [0, 2, 3]:
+                is_iter = isinstance(x, collections.Iterable)
+                if is_iter:
+                    x = list(x)
+                if is_iter and len(x) in [0, 2, 3]:
                     if len(x) == 0:
                         warnings.warn('Ignoring empty element' +
                                       ' on index: '+str(i))
@@ -99,6 +99,8 @@ class shortest_path_attr(kernel):
                             x[0], x[1], {},
                             self._graph_format).build_shortest_path_matrix(
                                 self._algorithm_type)
+                elif type(x) is Graph:
+                    S, L = x.build_shortest_path_matrix(self._algorithm_type)
                 else:
                     raise ValueError('each element of X must be either a ' +
                                      'graph or an iterable with at least 2 ' +
@@ -109,44 +111,44 @@ class shortest_path_attr(kernel):
 
             return sp_attr_tup
 
-        def pairwise_operation(self, x, y):
-            """Calculate shortests paths on attributes.
+    def pairwise_operation(self, x, y):
+        """Calculate shortests paths on attributes.
 
-            Parameters
-            ----------
-            x, y : tuple
-                Tuples of shortest path matrices and their attribute
-                dictionaries.
+        Parameters
+        ----------
+        x, y : tuple
+            Tuples of shortest path matrices and their attribute
+            dictionaries.
 
-            Returns
-            -------
-            kernel : number
-                The kernel value.
+        Returns
+        -------
+        kernel : number
+            The kernel value.
 
-            """
-            # Initialise
-            Sx, phi_x = x
-            Sy, phi_y = y
-            kernel = 0
-            dimx = Sx.shape[0]
-            dimy = Sy.shape[0]
-            for i in range(dimx):
-                for j in range(dimx):
-                    if i == j:
-                        continue
-                    for k in range(dimy):
-                        for m in range(dimy):
-                            if k == m:
-                                continue
-                            if (Sx[i, j] == Sy[k, m] and
-                                    Sx[i, j] != float('Inf')):
-                                kernel += \
-                                    self._attribute_kernel(
-                                        phi_x[i], phi_y[k]) *\
-                                    self. attribute_kernel(
-                                        phi_x[j], phi_y[m])
+        """
+        # Initialise
+        Sx, phi_x = x
+        Sy, phi_y = y
+        kernel = 0
+        dimx = Sx.shape[0]
+        dimy = Sy.shape[0]
+        for i in range(dimx):
+            for j in range(dimx):
+                if i == j:
+                    continue
+                for k in range(dimy):
+                    for m in range(dimy):
+                        if k == m:
+                            continue
+                        if (Sx[i, j] == Sy[k, m] and
+                                Sx[i, j] != float('Inf')):
+                            kernel += \
+                                self._attribute_kernel(
+                                    phi_x[i], phi_y[k]) *\
+                                self._attribute_kernel(
+                                    phi_x[j], phi_y[m])
 
-            return kernel
+        return kernel
 
 
 class shortest_path(kernel):
@@ -359,7 +361,6 @@ class shortest_path(kernel):
             return np.divide(km, np.sqrt(np.outer(self._X_diag, self._X_diag)))
         else:
             return km
-        return km
 
     def parse_input(self, X):
         """Parse and create features for shortest_path kernel.
@@ -393,14 +394,12 @@ class shortest_path(kernel):
             elif self._method_calling == 3:
                 self._Y_enum = dict()
             for (idx, x) in enumerate(iter(X)):
-                if type(x) is Graph:
-                    S, *L = x.build_shortest_path_matrix(
-                                self._algorithm_type,
-                                labels=self._lt)
-                elif isinstance(x, collections.Iterable) and \
-                        (len(x) == 0 or
-                         (len(x) == 1 and not self._with_labels) or
-                         len(x) in [2, 3]):
+                is_iter = isinstance(x, collections.Iterable)
+                if is_iter:
+                    x = list(x)
+                if is_iter and (len(x) == 0 or
+                                (len(x) == 1 and not self._with_labels) or
+                                len(x) in [2, 3]):
                     if len(x) == 0:
                         warnings.warn('Ignoring empty element on index: '
                                       + str(idx))
@@ -417,6 +416,10 @@ class shortest_path(kernel):
                             self._graph_format).build_shortest_path_matrix(
                                 self._algorithm_type,
                                 labels=self._lt)
+                elif type(x) is Graph:
+                    S, *L = x.build_shortest_path_matrix(
+                        self._algorithm_type,
+                        labels=self._lt)
                 else:
                     raise ValueError('each element of X must have at least' +
                                      ' one and at most 3 elements\n')

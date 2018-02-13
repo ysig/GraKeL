@@ -173,8 +173,10 @@ class hadamard_code(kernel):
             inp = list()
             neighbors = list()
             for (idx, x) in enumerate(iter(X)):
-                if isinstance(x, collections.Iterable)\
-                        and len(x) in [0, 2, 3]:
+                is_iter = False
+                if isinstance(x, collections.Iterable):
+                    x, is_iter = list(x), True
+                if is_iter and len(x) in [0, 2, 3]:
                     if len(x) == 0:
                         warnings.warn('Ignoring empty element on index: '
                                       + str(idx))
@@ -200,7 +202,7 @@ class hadamard_code(kernel):
                 raise ValueError('parsed input is empty')
 
         # Calculate the hadamard matrix
-        ord_H = 2**(math.ceil(math.log2(nl)))
+        ord_H = int(2**(math.ceil(math.log2(nl))))
         H = hadamard(ord_H)
 
         if self._shortened:
@@ -217,7 +219,7 @@ class hadamard_code(kernel):
                                          ' approach the number of labels (' +
                                          str(ord_H) + ')')
                 elif self._rho*(ord_H-1) > self._L:
-                    raise ValueError('rho*(ord_H-1)='+str(rho)+'*(' +
+                    raise ValueError('rho*(ord_H-1)='+str(self._rho)+'*(' +
                                      str(ord_H) + '-1) > L='+str(self._L))
                 else:
                     rho = self._rho

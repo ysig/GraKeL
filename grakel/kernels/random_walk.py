@@ -139,10 +139,10 @@ class random_walk(kernel):
             i = 0
             out = list()
             for (idx, x) in enumerate(iter(X)):
-                if type(x) is Graph:
-                    A = x.get_adjacency_matrix()
-                elif isinstance(x, collections.Iterable) and \
-                        len(x) in [0, 1, 2, 3]:
+                is_iter = isinstance(x, collections.Iterable)
+                if is_iter:
+                    x = list(x)
+                if is_iter and len(x) in [0, 1, 2, 3]:
                     if len(x) == 0:
                         warnings.warn('Ignoring empty element' +
                                       ' on index: '+str(idx))
@@ -150,6 +150,8 @@ class random_walk(kernel):
                     else:
                         A = Graph(x[0], {}, {},
                                   self._graph_format).get_adjacency_matrix()
+                elif type(x) is Graph:
+                    A = x.get_adjacency_matrix()
                 else:
                     raise ValueError('each element of X must be either a ' +
                                      'graph or an iterable with at least 1 ' +

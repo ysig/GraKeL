@@ -6,19 +6,12 @@ import warnings
 
 import numpy as np
 
-import cvxopt.base
-import cvxopt.solvers
-
 from scipy.sparse import csr_matrix
-from sklearn.svm import OneClassSVM
+from scipy.sparse.csgraph import laplacian
 
-from grakel.tools import distribute_samples
 from grakel.tools import inv_dict
 from grakel.tools import nested_dict_add
 from grakel.tools import priority_dict
-
-np.random.seed(238537)
-cvxopt.solvers.options['show_progress'] = False
 
 
 class Graph(object):
@@ -111,17 +104,6 @@ class Graph(object):
     laplacian_graph : np.array
         Holds the graph laplacian.
 
-    lovasz_theta : float
-        Holds the lovasz theta of the current graph.
-
-    svm_theta : float
-        Holds the svm theta of the current graph.
-
-    metric_subgraphs_dict : dict
-        Stores a calculation for subgraphs for each tuple consistent of:
-        ("lovasz"/"svm", the number of samples, minimum sample size,
-        maximum sample size) to avoid recalculation.
-
     _format: str, valid_values={"adjacency", "dictionary", "all"}
         Private attribute that keeps the current format.
 
@@ -144,9 +126,6 @@ class Graph(object):
     shortest_path_mat = None
     label_group = dict()
     laplacian_graph = None
-    lovasz_theta = None
-    svm_theta = None
-    metric_subgraphs_dict = dict()
 
     def __init__(
             self,
@@ -698,11 +677,11 @@ class Graph(object):
             Returns the labels for the given type and purpose.
 
         """
-        if (purpose == "adjacency"):
+        if purpose == "adjacency":
             case = True
-        elif (purpose == "dictionary"):
+        elif purpose == "dictionary":
             case = False
-        elif (purpose == "any"):
+        elif purpose == "any":
             if self._format in ['all', 'adjacency']:
                 case = True
             else:
@@ -1029,218 +1008,6 @@ class Graph(object):
                 self.laplacian_graph = laplacian_graph
         return laplacian_graph
 
-    def calculate_lovasz_theta(self, from_scratch=False):
-        """Calculate the lovasz theta for the given graph.
-
-        Parameters
-        ----------
-        from_scratch: bool, default=False
-            Defines if the the lovasz_theta will be calculated from scratch.
-
-        Returns
-        -------
-        lovasz_theta: float
-            Returns the lovasz theta number.
-
-        """
-        if not from_scratch:
-            if self.lovasz_theta is not None:
-                return self.lovasz_theta
-
-        # Calculate dependent on the format
-        # sparse matrix and required graph
-        # parameters for defining the convex
-        # optimization problem
-        if self._format == "dictionary":
-            vertices = self.vertices
-            nv = len(vertices)
-            if nv == 1:
-                return 1.0
-
-            else:
-                enum_vertices = {i: v for (i, v) in
-                                 enumerate(sorted(list(vertices)))}
-
-                # Calculate the sparse matrix needed to feed
-                # into the convex optimization problem
-                q = {(v, n) for v in list(vertices)
-                     for n in self.edge_dictionary[v].keys() if v != n}
-
-                x_list = list()
-                e_list = list()
-                ei = 0
-                for i in range(0, nv):
-                    na = enum_vertices[i]
-                    for j in range(i+1, nv):
-                        nb = enum_vertices[j]
-                        if (na, nb) in q:
-                            e_list.append(int(ei)), x_list.append(int(i*nv+j))
-                            if (nb, na) in q:
-                                e_list.append(int(ei)),\
-                                    x_list.append(int(i*nv+j))
-                            ei += 1
-                ne = ei-1
-
-        elif self._format in ["adjacency", "all"]:
-            if self.n == 1:
-                return 1.0
-            else:
-                tf_adjm = self.adjacency_matrix > 0
-                i_list, j_list = np.nonzero(np.triu(tf_adjm.astype(int), k=1))
-
-                nv = self.n
-                ne = len(i_list)
-
-                x_list = list()
-                e_list = list()
-                for (e, (i, j)) in enumerate(zip(i_list, j_list)):
-                    e_list.append(int(e)), x_list.append(int(i*nv+j))
-                    if tf_adjm[i, j]:
-                        e_list.append(int(e)), x_list.append(int(i*nv+j))
-
-        # Add on the last row, diagonal elements
-        e_list = e_list+(nv*[ne])
-        x_list = x_list+[int(i*nv + i) for i in range(0, nv)]
-
-        # initialise g sparse (to values -1, based on two list that
-        # define index and one that defines shape
-        g_sparse = cvxopt.spmatrix(-1, x_list, e_list, (nv*nv, ne+1))
-
-        # Initialise optimization parameters
-        h = cvxopt.matrix(-1.0, (nv, nv))
-        c = cvxopt.matrix([0.0]*ne + [1.0])
-
-        # Solve the convex optimization problem
-        sol = cvxopt.solvers.sdp(c, Gs=[g_sparse], hs=[h])
-        self.lovasz_theta = sol['x'][ne]
-        return self.lovasz_theta
-
-    def calculate_svm_theta(self, from_scratch=False):
-        """Calculate the svm theta for the given graph.
-
-        Parameters
-        ----------
-        from_scratch: bool, default=False
-            Defines if the the svm_theta number
-            will be calculated from scratch.
-
-        Returns
-        -------
-        svm_theta: float
-            Returns the svm theta number.
-
-        """
-        if not from_scratch:
-            if self.svm_theta is not None:
-                return self.svm_theta
-
-        # Calculate dependent on the format
-        # sparse matrix and required graph
-        # parameters for defining the convex
-        # optimization problem
-        if self._format == "dictionary":
-            nv = self.nv()
-            lov_sorted = sorted(list(self.vertices))
-            vertices = {v: i for (i, v) in enumerate(lov_sorted)}
-
-            K = np.zeros(shape=(nv, nv))
-            idx = zip(*[(vertices[v], vertices[n])
-                        for v in lov_sorted for n in self.neighbors(v)])
-            idx1 = list(idx[0])
-            idx2 = list(idx[1])
-
-            K[idx1, idx2] = 1
-            np.fill_diagonal(K, 1)
-
-        elif self._format in ["adjacency", "all"]:
-            K = self.adjacency_matrix > 0
-            np.fill_diagonal(K, False)
-            K.astype(int)
-
-        svm = OneClassSVM(kernel="precomputed")
-        svm.fit(K)
-
-        self.svm_theta = np.sum(np.abs(svm.dual_coef_[0]), axis=0)
-        return self.svm_theta
-
-    def calculate_subgraph_samples_metric_dictionary(
-            self,
-            metric_type,
-            n_samples=50,
-            subsets_size_range=(2, 8),
-            from_scratch=False,
-            save=True):
-        """Calculate a graph metric.
-
-        Calculates a graph metric as the lovasz theta kernel or the svm-theta
-        kernel, on a set of randomly sampled subgraphs, producing a dictionary
-        of subgraph levels and sets.
-
-        Parameters
-        ----------
-        n_samples : int, default=50
-            The number of samples that will be sampled.
-
-        subsets_size_range : tuple, len=2, default=(2,8)
-            A tuple having the min and the max subset size.
-
-        from_scratch : bool
-            Defines if the the metric will be calculated from scratch.
-
-        save : bool
-            Determine if the metric output will be stored.
-
-        Returns
-        -------
-        level_values : dict
-            Returns a dictionary with levels (subsite size) and the lovasz
-            value of all the sampled subgraphs.
-
-        """
-        if metric_type == "svm":
-            metric = lambda G: G.calculate_svm_theta()
-        elif metric_type == "lovasz":
-            metric = lambda G: G.calculate_lovasz_theta()
-        else:
-            raise ValueError('unsupported metric type')
-
-        min_ss, max_ss = subsets_size_range[0], subsets_size_range[1]
-        # If precalculated and the user wants it, output
-        if not from_scratch:
-            if bool(self.metric_subgraphs_dict):
-                if (metric_type, n_samples, min_ss, max_ss) \
-                        in self.metric_subgraphs_dict:
-                    return self.metric_subgraphs_dict[
-                        (metric_type, n_samples, min_ss, max_ss)]
-
-        self.desired_format("adjacency", warn=True)
-
-        # Calculate subsets
-        samples_on_subsets = distribute_samples(
-            self.n, subsets_size_range, n_samples)
-
-        # Calculate level dictionary with lovasz values
-        level_values = dict()
-        for level in samples_on_subsets.keys():
-            subsets = set()
-            for k in range(0, samples_on_subsets[level]):
-                while True:
-                    indexes = np.random.choice(self.n, level, replace=False)
-                    if tuple(indexes) not in subsets:
-                        subsets.add(tuple(indexes))
-                        break
-                # calculate the lovasz value for that level
-                if level not in level_values:
-                    level_values[level] = list()
-                level_values[level].append(metric(
-                    Graph(self.adjacency_matrix[:, indexes][indexes, :])))
-
-        if save:
-            self.metric_subgraphs_dict[
-                (metric_type, n_samples, min_ss, max_ss)] = level_values
-
-        return level_values
-
     def get_vertices(self, purpose="adjacency"):
         """Create an iterable of vertices.
 
@@ -1384,7 +1151,8 @@ class Graph(object):
             r=3,
             purpose="adjacency",
             with_distances=False,
-            d=-1):
+            d=-1,
+            sort_neighbors=True):
         """Calculate neighborhoods for each node of a Graph, up to a depth.
 
         Parameters
@@ -1421,6 +1189,12 @@ class Graph(object):
         """
         N = dict()
 
+        if purpose == "any":
+            if self._format == "all":
+                purpose = "adjacency"
+            else:
+                purpose = self._format
+
         if purpose not in ["adjacency", "dictionary"]:
             raise ValueError('purpose is either "adjacency" or "dictionary"')
 
@@ -1431,41 +1205,48 @@ class Graph(object):
             d = r
             warnings.warn('negative d as input - d set to r')
 
-        # initialization
-        N[0] = {i: {i} for i in self.get_vertices(purpose)}
+        # chain neighbors
+        if sort_neighbors:
+            chain = lambda n: sorted(n)
+        else:
+            chain = lambda n: n
 
+        # Initialize neighborhoods
+        vertices = list(self.get_vertices(purpose))
+        N[0] = {i: {i} for i in vertices}
+
+        # and distances
         if with_distances:
             D = dict()
-            D[0] = set(zip(self.get_vertices(purpose),
-                           self.get_vertices(purpose)))
-            Dist_pair = {(v, v): 0 for v in self.get_vertices(purpose)}
+            D[0] = set(zip(vertices, vertices))
+            Dist_pair = {(v, v): 0 for v in vertices}
 
         if r > 0:
             N[1] = dict()
             if with_distances and d >= 1:
                 D[1] = set()
-            for i in self.get_vertices(purpose):
+            for i in vertices:
                 ns = list(self.neighbors(i, purpose))
-                N[1][i] = sorted([i]+ns)
+                N[1][i] = chain([i]+ns)
                 if with_distances and d >= 1:
                     dset = {(i, n) for n in ns}
                     Dist_pair.update(zip(dset, len(dset)*[1]))
                     D[1] |= dset
-            # calculate neighborhoods
-            # by a recursive formula
+
+            # calculate neighborhoods by a recursive formula
             # for all levels from 1 to r
             for level in range(1, max(r, d)):
                 N[level+1] = dict()
                 if with_distances and level <= d-1:
                     D[level+1] = set()
-                for i in self.get_vertices(purpose):
-                    neighbours = set()
+                for i in vertices:
+                    neighbors = set()
                     for w in N[level][i]:
-                        neighbours |= set(N[level][w])
-                    N[level+1][i] = sorted(list(neighbours))
+                        neighbors |= set(N[level][w])
+                    N[level+1][i] = chain(list(neighbors))
                     if with_distances and level <= d-1:
                         dset = {(i, j)
-                                for j in (neighbours - set(N[level][i]))}
+                                for j in (neighbors - set(N[level][i]))}
                         Dist_pair.update(zip(dset, len(dset)*[level+1]))
                         D[level+1] |= dset
             if with_distances:
@@ -1789,30 +1570,6 @@ def is_edge_dictionary(g, transform=False):
         return False, None
     else:
         return False
-
-
-def laplacian(A):
-    """Calculate the laplacian given the adjacency matrix.
-
-    Parameters
-    ----------
-    A : np.array, square
-        The adjacency matrix of a graph.
-
-    Returns
-    -------
-    laplacian_graph : np.array
-        The produced laplacian graph.
-
-    """
-    n = A.shape[0]
-    laplacian_graph = np.zeros(shape=(n, n))
-    for i in range(0, n):
-        for j in range(0, n):
-            if i != j and A[i, j] != .0:
-                laplacian_graph[i, j] = -A[i, j]
-                laplacian_graph[i, i] += A[i, j]
-    return laplacian_graph
 
 
 def dijkstra(edge_dictionary, start_vertex, end_vertex=None):

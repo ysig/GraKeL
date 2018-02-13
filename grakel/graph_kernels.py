@@ -28,10 +28,9 @@ from grakel.kernels import odd_sth
 from grakel.kernels import propagation
 from grakel.kernels import hadamard_code
 from grakel.kernels import multiscale_laplacian
+from grakel.kernels import multiscale_laplacian_fast
 
 np.random.seed(int(time.time()))
-
-global supported_base_kernels, supported_general_kernels, default_n_components
 
 valid_parameters = {"kernel",
                     "Nystroem",
@@ -83,8 +82,11 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                         - "dirac"
                             *No arguments*
                         - "random_walk"
-                            + (**o**) "lamda" : [float] < 1
-                            + (**o**) method_type : [str] "fast", "baseline"
+                            + (**o**) "lambda" : float
+                            + (**o**) "method_type" : [str], "baseline", "fast"
+                            + (**o**) "kernel_type" : [str], "geometric",
+                            "exponential"
+                            + (**o**) "p" : [int] > 0
 
                         - "shortest_path"
                             + (**o**) "algorithm_type" : [str] "dijkstra",
@@ -97,7 +99,7 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                         - "subtree_rg"
                             + (**o**) "h" : [int]
 
-                        - "graphlets_sampling"
+                        - "graphlet_sampling"
                             + (**o**) "k" : [int]
                             + (**o**) "delta" : [float]
                             + (**o**) "epsilon" : [float]
@@ -105,12 +107,11 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                             + (**o**) "n_samples" : [int]
 
                         - "multiscale_laplacian"
-                            + (**o**) "L" : [int]
-                            + (**o**) lambda : float
-                            + (**o**) method_type : [str], "baseline", "fast"
-                            + (**o**) kernel_type : [str], "geometric",
-                            "exponential"
-                            + (**o**) p : [int] > 0
+                            + (**o**) "which" : [str] "slow", "fast"
+                            + (**o**) "L" : [int] > 0
+                            + (**o**) "gamma" : [float] > .0
+                            + (**o**) "heta" : [float] > .0
+                            + (**o**) "N" : [int] > 0, if "which":"fast"
 
                         - "subgraph_matching"
                             + (**o**) "kv" : [function] :
@@ -280,12 +281,12 @@ class GraphKernel(BaseEstimator, TransformerMixin):
             hidden_args = {"verbose": self._verbose,
                            "normalize": self._normalize,
                            "executor": self._pairwise_kernel_executor}
-            if (type(kargs["kernel"]) is dict):
+            if type(kargs["kernel"]) is dict:
                 # allow single kernel dictionary inputs
                 kernel, params = self._make_kernel(
                     [kargs["kernel"]], hidden_args)
 
-            elif (type(kargs["kernel"]) is list):
+            elif type(kargs["kernel"]) is list:
                 kernel, params = self._make_kernel(
                     copy.deepcopy(kargs["kernel"]), hidden_args)
             else:
@@ -330,50 +331,66 @@ class GraphKernel(BaseEstimator, TransformerMixin):
             for (keys, val) in hidden_args.items():
                 kernel[keys] = val
             if kernel_name in supported_base_kernels:
-                if (len(kernel_list) != 0):
+                if len(kernel_list) != 0:
                     warnings.warn('rest kernel arguments are being ignored\
                                    - reached base kernel')
                 if kernel_name == "subtree_wl":
-                    return (subtree_wl, kernel)
+                    return subtree_wl, kernel
                 elif kernel_name == "random_walk":
-                    return (random_walk, kernel)
+                    return random_walk, kernel
                 elif kernel_name == "shortest_path":
                     if kernel.pop("as_attributes", False):
-                        return (shortest_path_attr, kernel)
+                        return shortest_path_attr, kernel
                     else:
                         return (shortest_path, kernel)
                 elif kernel_name == "subtree_rg":
                     raise ValueError('still developing')
                 elif kernel_name == "graphlet_sampling":
-                    if "random_seed" not in kernel and \
-                        self._global_random_seed is not \
-                            default_random_seed_value:
+                    if ("random_seed" not in kernel and
+                        self._global_random_seed is not
+                            default_random_seed_value):
                             kernel["random_seed"] = self._global_random_seed
-                    return (graphlet_sampling, kernel)
+                    return graphlet_sampling, kernel
                 elif kernel_name == "multiscale_laplacian":
-                    return (multiscale_laplacian, kernel)
-                elif kernel_name == "subgraph_matching":
-                    return (subgraph_matching, kernel)
-                elif kernel_name == "lovasz_theta":
-                    return (lovasz_theta, kernel)
-                elif kernel_name == "svm_theta":
-                    return (svm_theta, kernel)
-                elif kernel_name == "neighborhood_hash":
-                    return (neighborhood_hash, kernel)
-                elif kernel_name == "neighborhood_subgraph_pairwise_distance":
-                    return (neighborhood_subgraph_pairwise_distance, kernel)
-                elif kernel_name == "odd_sth":
-                    return (odd_sth, kernel)
-                elif kernel_name == "propagation":
-                    if "random_seed" not in kernel and \
-                        self._global_random_seed is not \
-                            default_random_seed_value:
+                    if kernel.get("which", "simple") == "simple":
+                        kernel.pop("N", None)
+                        return (multiscale_laplacian, kernel)
+                    else:
+                        if ("random_seed" not in kernel and
+                            self._global_random_seed is not
+                                default_random_seed_value):
                             kernel["random_seed"] = self._global_random_seed
-                    return (propagation, kernel)
+                        return (multiscale_laplacian_fast, kernel)
+                elif kernel_name == "subgraph_matching":
+                    return subgraph_matching, kernel
+                elif kernel_name == "lovasz_theta":
+                    if ("random_seed" not in kernel and
+                            self._global_random_seed is not
+                            default_random_seed_value):
+                        kernel["random_seed"] = self._global_random_seed
+                    return lovasz_theta, kernel
+                elif kernel_name == "svm_theta":
+                    if ("random_seed" not in kernel and
+                        self._global_random_seed is not
+                            default_random_seed_value):
+                        kernel["random_seed"] = self._global_random_seed
+                    return svm_theta, kernel
+                elif kernel_name == "neighborhood_hash":
+                    return neighborhood_hash, kernel
+                elif kernel_name == "neighborhood_subgraph_pairwise_distance":
+                    return neighborhood_subgraph_pairwise_distance, kernel
+                elif kernel_name == "odd_sth":
+                    return odd_sth, kernel
+                elif kernel_name == "propagation":
+                    if ("random_seed" not in kernel and
+                        self._global_random_seed is not
+                            default_random_seed_value):
+                        kernel["random_seed"] = self._global_random_seed
+                    return propagation, kernel
                 elif kernel_name == "pyramid_match":
-                    return (pyramid_match, kernel)
+                    return pyramid_match, kernel
                 elif kernel_name == "jsm":
-                    return (jsm, kernel)
+                    return jsm, kernel
             elif kernel_name in supported_general_kernels:
                 if (len(kernel_list) == 0):
                     raise ValueError(str(kernel_name)+' is not a base kernel')

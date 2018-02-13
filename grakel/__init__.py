@@ -23,6 +23,7 @@ from grakel.kernels import odd_sth
 from grakel.kernels import propagation
 from grakel.kernels import hadamard_code
 from grakel.kernels import multiscale_laplacian
+from grakel.kernels import multiscale_laplacian_fast
 
 __all__ = [
     "datasets",
@@ -45,5 +46,6 @@ __all__ = [
     "odd_sth",
     "propagation",
     "hadamard_code",
-    "multiscale_laplacian"
+    "multiscale_laplacian",
+    "multiscale_laplacian_fast"
 ]

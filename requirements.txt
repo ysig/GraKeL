@@ -2,5 +2,5 @@ nose>=1.1.2
 scikit-learn>=0.17
 scipy>=1.0.0
 cvxopt>=1.1.9
-pynauty>=0.5.0
+pynauty>=0.6.0
 cython>=0.27.3

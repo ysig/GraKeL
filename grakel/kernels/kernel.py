@@ -229,7 +229,6 @@ class kernel(BaseEstimator, TransformerMixin):
             for (j, y) in enumerate(Y):
                 for (i, x) in enumerate(self.X):
                     K[j, i] = self._executor(self.pairwise_operation, x, y)
-
         return K
 
     def diagonal(self):
@@ -289,10 +288,10 @@ class kernel(BaseEstimator, TransformerMixin):
         else:
             Xp = list()
             for (i, x) in enumerate(iter(X)):
-                if type(x) is Graph:
-                    Xp.append(x)
-                elif isinstance(x, collections.Iterable) and \
-                        len(x) in [0, 1, 2, 3]:
+                is_iter = isinstance(x, collections.Iterable)
+                if is_iter:
+                    x = list(x)
+                if is_iter and len(x) in [0, 1, 2, 3]:
                     if len(x) == 0:
                         warnings.warn('Ignoring empty element' +
                                       ' on index: '+str(i))
@@ -304,6 +303,8 @@ class kernel(BaseEstimator, TransformerMixin):
                         Xp.append(Graph(x[0], x[1], {}, self._graph_format))
                     else:
                         Xp.append(Graph(x[0], x[1], x[2], self._graph_format))
+                elif type(x) is Graph:
+                    Xp.append(x)
                 else:
                     raise ValueError('each element of X must have at least' +
                                      ' one and at most 3 elements\n')

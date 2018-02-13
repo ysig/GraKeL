@@ -94,11 +94,10 @@ class neighborhood_hash(kernel):
                 self._Y_labels_hash_dict = dict()
                 self._Y_labels_hash_set = set()
             for (idx, x) in enumerate(iter(X)):
-                if type(x) is Graph:
-                        v = list(x.get_vertices(purpose="any"))
-                        L = x.get_labels(purpose="any")
-                elif isinstance(x, collections.Iterable) and \
-                        len(x) in [0, 1, 2, 3]:
+                is_iter = False
+                if is_iter and isinstance(x, collections.Iterable):
+                    is_iter, x = True, list(x)
+                if is_iter and len(x) in [0, 1, 2, 3]:
                     if len(x) == 0:
                         warnings.warn('Ignoring empty element on index: '
                                       + str(idx))
@@ -113,6 +112,9 @@ class neighborhood_hash(kernel):
                         v = list(x.get_vertices(purpose="any"))
                         L = x.get_labels(purpose="any")
                         i += 1
+                elif type(x) is Graph:
+                    v = list(x.get_vertices(purpose="any"))
+                    L = x.get_labels(purpose="any")
                 else:
                     raise ValueError('each element of X must be either a ' +
                                      'graph object or a list with at least ' +

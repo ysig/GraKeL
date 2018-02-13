@@ -19,6 +19,7 @@ from grakel.kernels.odd_sth import odd_sth
 from grakel.kernels.propagation import propagation
 from grakel.kernels.hadamard_code import hadamard_code
 from grakel.kernels.multiscale_laplacian import multiscale_laplacian
+from grakel.kernels.multiscale_laplacian import multiscale_laplacian_fast
 
 __all__ = [
     "kernel",
@@ -38,5 +39,6 @@ __all__ = [
     "odd_sth",
     "propagation",
     "hadamard_code",
-    "multiscale_laplacian"
+    "multiscale_laplacian",
+    "multiscale_laplacian_fast"
 ]

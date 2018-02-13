@@ -20,6 +20,7 @@ from grakel.kernels import odd_sth
 from grakel.kernels import propagation
 from grakel.kernels import hadamard_code
 from grakel.kernels import multiscale_laplacian
+from grakel.kernels import multiscale_laplacian_fast
 
 global verbose, main, development
 
@@ -170,6 +171,8 @@ def test_subgraph_matching():
     sm_kernel = subgraph_matching(verbose=verbose, normalize=normalize)
     if verbose:
         print_kernel("Subgraph Matching", sm_kernel, dataset_tr, dataset_te)
+    else:
+        positive_eig(sm_kernel, dataset)
 
 
 def test_neighborhood_subgraph_pairwise_distance():
@@ -263,6 +266,23 @@ def test_multiscale_laplacian():
     #    positive_eig(ml_kernel, fmm_dataset)
 
 
+def test_multiscale_laplacian_fast():
+    """Test the Multiscale Laplacian kernel."""
+    fmm_dataset = fetch_dataset("FIRSTMM_DB",
+                                with_classes=False,
+                                prefer_attr_nodes=True,
+                                verbose=verbose).data
+    fmm_dataset_tr = fmm_dataset[:int(len(fmm_dataset)*0.8)]
+    fmm_dataset_te = fmm_dataset[int(len(fmm_dataset)*0.8):]
+    mlf_kernel = multiscale_laplacian_fast(verbose=verbose,
+                                           normalize=normalize)
+    if verbose:
+        print_kernel("Multiscale Laplacian Fast", mlf_kernel,
+                     fmm_dataset_tr, fmm_dataset_te)
+    else:
+        positive_eig(mlf_kernel, fmm_dataset)
+
+
 def print_kernel(name, kernel, X, Y):
     """Print kernels in case of verbose execution."""
     print("\n" + str(name) + ":\n" + (len(str(name)) * "-") + "-")
@@ -295,12 +315,15 @@ if verbose and main:
     test_propagation()
     test_hadamard_code()
     test_neighborhood_subgraph_pairwise_distance()
+    test_multiscale_laplacian_fast()
+    test_subgraph_matching()
 
 if verbose and develop:
+    test_svm_theta()
+    test_lovasz_theta()
     if slow:
         test_jsm_theta()
+        test_multiscale_laplacian()
     if problematic:
         start = time()
-        test_multiscale_laplacian()
         print("Multiscale Laplacian .. took:", time()-start, "s.")
-        test_subgraph_matching()

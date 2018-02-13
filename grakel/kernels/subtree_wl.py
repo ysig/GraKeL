@@ -59,16 +59,18 @@ class subtree_wl(kernel):
         else:
             Xp = list()
             for (i, x) in enumerate(iter(X)):
-                if type(x) is Graph:
-                    invL = inv_dict(x.get_labels(purpose="any"))
-                elif isinstance(x, collections.Iterable) and \
-                        len(x) in [0, 2, 3]:
+                is_iter = isinstance(x, collections.Iterable)
+                if is_iter:
+                    x = list(x)
+                if is_iter and len(x) in [0, 2, 3]:
                     if len(x) == 0:
                         warnings.warn('Ignoring empty element' +
                                       ' on index: '+str(i))
                         continue
                     else:
                         invL = inv_dict(x[1])
+                elif type(x) is Graph:
+                    invL = inv_dict(x.get_labels(purpose="any"))
                 else:
                     raise ValueError('each element of X must be either a ' +
                                      'graph object or a list with at least ' +

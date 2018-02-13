@@ -84,8 +84,10 @@ class odd_sth(kernel):
             if self._method_calling == 3:
                 out = copy.deepcopy(self.X)
             for (idx, x) in enumerate(iter(X)):
-                if isinstance(x, collections.Iterable) and \
-                        len(x) in [0, 3]:
+                is_iter = isinstance(x, collections.Iterable)
+                if is_iter:
+                    x = list(x)
+                if is_iter and len(x) in [0, 3]:
                     if len(x) == 0:
                         warnings.warn('Ignoring empty element' +
                                       ' on index: '+str(idx))

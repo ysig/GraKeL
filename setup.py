@@ -35,7 +35,8 @@ except ImportError as ie:
 ext_address = "./grakel/kernels/_c_functions/"
 ext = Extension(name="grakel.kernels._c_functions",
                 sources=[ext_address + "functions.pyx",
-                         ext_address + "src/ArashPartov.cpp"],
+                         ext_address + "src/ArashPartov.cpp",
+                         ext_address + "src/sm_core.cpp"],
                 include_dirs=[ext_address + "include"],
                 depends=[ext_address + "include/functions.hpp"],
                 language="c++",

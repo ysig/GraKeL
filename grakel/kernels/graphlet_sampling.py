@@ -146,13 +146,13 @@ class graphlet_sampling(kernel):
                 raise ValueError('negative a smaller than -1 have no meaning')
 
             if(a == -1):
+                fallback_map = {1: 1, 2: 2, 3: 4, 4: 8, 5: 19, 6: 53, 7: 209,
+                                8: 1253, 9: 13599}
                 if(k > 9):
                     warnings.warn(
                         'warning for such size number of isomorphisms is not' +
                         ' known - interpolation on know values will be used')
                     # Use interpolations
-                    fallback_map = {1: 1, 2: 2, 3: 4, 4: 8, 5: 19, 6: 53, 7:
-                                    209, 8: 1253, 9: 13599}
 
                     isomorphism_prediction = \
                         interp1d(list(fallback_map.keys()),
@@ -326,10 +326,13 @@ class graphlet_sampling(kernel):
                 self._Y_graph_bins = dict()
             local_values = dict()
             for (idx, x) in enumerate(iter(X)):
+                is_iter = False
+                if isinstance(x, collections.Iterable):
+                    is_iter = True
+                    x = list(x)
                 if type(x) is Graph:
                     A = x.get_adjacency_matrix()
-                elif isinstance(x, collections.Iterable) and \
-                        len(x) in [0, 1, 2, 3]:
+                elif is_iter and len(x) in [0, 1, 2, 3]:
                     if len(x) == 0:
                         warnings.warn('Ignoring empty element on ' +
                                       'index: '+str(idx))
@@ -354,12 +357,12 @@ class graphlet_sampling(kernel):
                             local_values[(i, 0)] = 1
                         else:
                             newbin = True
-                            for j in range(len(self._graph_bins)):
-                                if pynauty.isomorphic(self._graph_bins[j], sg):
+                            for k in range(len(self._graph_bins)):
+                                if pynauty.isomorphic(self._graph_bins[k], sg):
                                     newbin = False
-                                    if (i, j) not in local_values:
-                                        local_values[(i, j)] = 1
-                                    local_values[(i, j)] += 1
+                                    if (i, k) not in local_values:
+                                        local_values[(i, k)] = 1
+                                    local_values[(i, k)] += 1
                                     break
                             if newbin:
                                 local_values[(i, len(self._graph_bins))] = 1
@@ -368,12 +371,12 @@ class graphlet_sampling(kernel):
                     for (j, sg) in enumerate(samples):
                         # add the graph to an isomorphism class
                         newbin = True
-                        for j in range(len(self._graph_bins)):
-                            if pynauty.isomorphic(self._graph_bins[j], sg):
+                        for k in range(len(self._graph_bins)):
+                            if pynauty.isomorphic(self._graph_bins[k], sg):
                                 newbin = False
-                                if (i, j) not in local_values:
-                                    local_values[(i, j)] = 1
-                                local_values[(i, j)] += 1
+                                if (i, k) not in local_values:
+                                    local_values[(i, k)] = 1
+                                local_values[(i, k)] += 1
                                 break
                         if newbin:
                             if len(self._Y_graph_bins) == 0:
@@ -436,11 +439,11 @@ def sample_graphlets_probabilistic(A, k, n_samples):
     else:
         rsamp = lambda *args: random.randint(min_r, max_r)
 
-    to_edge_dict_binary = lambda x, k: matrix_to_dict(x, '==', 1, False)
     for i in range(n_samples):
         index_rand = random.sample(s, rsamp())
         Q = A[index_rand, :][:, index_rand]
-        yield pynauty.Graph(Q.shape[0], True, to_edge_dict_binary(Q, k))
+        yield pynauty.Graph(Q.shape[0],
+                            True, matrix_to_dict(Q, '==', 1, False))
 
 
 def sample_graphlets_all_connected(A, k):
@@ -461,8 +464,8 @@ def sample_graphlets_all_connected(A, k):
         of size k.
 
     """
-    to_edge_dict_binary = lambda x: matrix_to_dict(x, '==', 1, False)
     for i in itertools.permutations(range(A.shape[0]), min(k, A.shape[0])):
         Q = A[i, :][:, i]
         if 0 not in np.sum(Q, axis=1):
-            yield pynauty.Graph(Q.shape[0], True, to_edge_dict_binary(Q))
+            yield pynauty.Graph(Q.shape[0], True,
+                                matrix_to_dict(Q, '==', 1, False))

@@ -173,7 +173,6 @@ def inv_dict(d):
     return inv
 
 
-global ops
 ops = {
     '>': operator.gt,
     '<': operator.lt,
@@ -284,7 +283,7 @@ def distribute_samples(n, subsets_size_range, n_samples):
                         value = n
                     else:
                         value = a + cache
-            elif (a >= n):
+            elif a >= n:
                 cache += a-n
                 value = n
 
@@ -320,7 +319,7 @@ def rotl(num, bits):
     """
     bit = num & (1 << (bits-1))
     num <<= 1
-    if(bit):
+    if bit:
         num |= 1
     num &= (2**bits-1)
 
@@ -350,7 +349,7 @@ def rotr(num, bits):
     num &= (2**bits-1)
     bit = num & 1
     num >>= 1
-    if(bit):
+    if bit:
         num |= (1 << (bits-1))
 
     return num

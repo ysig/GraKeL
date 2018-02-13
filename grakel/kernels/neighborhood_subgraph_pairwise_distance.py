@@ -93,14 +93,10 @@ class neighborhood_subgraph_pairwise_distance(kernel):
             data = {j: list() for j in range(self._d+1)}
             all_keys = {j: dict() for j in range(self._d+1)}
             for (idx, x) in enumerate(iter(X)):
-                if type(x) is Graph:
-                    g = Graph(x.get_adjacency_matrix(),
-                              x.get_labels(purpose="adjacency",
-                                           label_type="vertex"),
-                              x.get_labels(purpose="adjacency",
-                                           label_type="edge"))
-                elif isinstance(x, collections.Iterable) and \
-                        len(x) in [0, 3]:
+                is_iter = False
+                if isinstance(x, collections.Iterable):
+                    is_iter, x = True, list(x)
+                if is_iter and len(x) in [0, 3]:
                     if len(x) == 0:
                         warnings.warn('Ignoring empty element' +
                                       ' on index: '+str(idx))
@@ -108,6 +104,13 @@ class neighborhood_subgraph_pairwise_distance(kernel):
                     else:
                         g = Graph(x[0], x[1], x[2])
                         g.change_format("adjacency")
+                elif type(x) is Graph:
+                    g = Graph(x.get_adjacency_matrix(),
+                              x.get_labels(purpose="adjacency",
+                                           label_type="vertex"),
+                              x.get_labels(purpose="adjacency",
+                                           label_type="edge"))
+
                 else:
                     raise ValueError('each element of X must have either ' +
                                      'a graph with labels for node and edge ' +
