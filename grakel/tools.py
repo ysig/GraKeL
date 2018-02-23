@@ -264,9 +264,10 @@ def distribute_samples(n, subsets_size_range, n_samples):
 
         # Semantic Exception
         if n_availabilities < n_samples:
-            raise ValueError('number of samples cannot be drown from that \
-            range of subsets - for the same range user must provide a \
-            smaller number of samples')
+            warnings.warn(
+                'number of samples exceedes the number of availabilities, ' +
+                'n_samples is now replaced by the availabilities_on_subsets')
+            return dict(availabilities_on_subsets)
 
         samples_on_subsets = dict()
         available_samples = n_samples

@@ -1,9 +1,12 @@
+.. _pyramid_match:
+
 Pyramid Match Kernel
 ====================
 The pyramid match kernel.
 
-.. automodule:: grakel.kernels.pyramid_match
-   :members:
+.. currentmodule:: grakel.kernels
+
+.. autoclass:: grakel.kernels.pyramid_match
 
 Bibliography
 ------------

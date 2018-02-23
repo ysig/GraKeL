@@ -7,7 +7,7 @@ import shutil
 import argparse
 import traceback
 
-from subprocess import call
+from subprocess import check_call
 
 # Create an argument parser for the installer of pynauty
 parser = argparse.ArgumentParser(description='A program to install pynauty')
@@ -31,17 +31,17 @@ if platform.system() == 'Linux':
     os.system('echo "Installing for Linux.."')
     is_linux = True
     if cmd_env:
-        call(['echo', "Parameter --cmd_env is ignored.. Installation is happening inside a linus environment"])
+        check_call(['echo', "Parameter --cmd_env is ignored.. Installation is happening inside a linus environment"])
     elif use_mingw:
-        call(['echo',"Parameter --use_mingw is ignored.. Installation is happening inside a linus environment"])
+        check_call(['echo',"Parameter --use_mingw is ignored.. Installation is happening inside a linus environment"])
 
 elif platform.system() == 'Windows':
     # Warning: For a windows operating system MinGW must be installed.
     # Right now there is no support of pynauty for visual studio
     os.system('echo Installing for windows..')
     if cmd_env or not(use_mingw):
-        call(['echo', 'Pynauty library is not supported for visual c++ compiler!'])
-        call(['echo', 'Switching to mingw32..'])
+        check_call(['echo', 'Pynauty library is not supported for visual c++ compiler!'])
+        check_call(['echo', 'Switching to mingw32..'])
 
     # Bypass parameter settings
     use_mingw = True
@@ -53,32 +53,32 @@ elif platform.system() == 'Windows':
     compiler = ' --compiler=mingw32'
 
     if use_mingw:
-        call(['echo', 'Importing a mingw32 build library on a python34 system'])
-        call(['echo', 'the only valid system for intallation of grakel on Windows (because of cvxopt dependencies..)'])
-        call(['echo', 'allocates a 4 GB memory space on import..'])
-        call(['echo', 'Even if that is acceptable system-wise, the execution speed will propably decrease..'])
-        call(['echo', 'This is not a good build..'])
-        call(['echo', 'For this issue see here:'])
-        call(['echo', 'https://github.com/ContinuumIO/anaconda-issues/issues/271#issue-58658137'])
+        check_call(['echo', 'Importing a mingw32 build library on a python34 system'])
+        check_call(['echo', 'the only valid system for intallation of grakel on Windows (because of cvxopt dependencies..)'])
+        check_call(['echo', 'allocates a 4 GB memory space on import..'])
+        check_call(['echo', 'Even if that is acceptable system-wise, the execution speed will propably decrease..'])
+        check_call(['echo', 'This is not a good build..'])
+        check_call(['echo', 'For this issue see here:'])
+        check_call(['echo', 'https://github.com/ContinuumIO/anaconda-issues/issues/271#issue-58658137'])
     is_windows = True
 else:
     sys.stderr.write('Unsupported os for this library')
     sys.exit(1)
 
 # Running python version
-call(['echo', 'python ' + str(platform.python_version())])
-call(['echo', 'pip ' + str(pip.__version__)])
+check_call(['echo', 'python ' + str(platform.python_version())])
+check_call(['echo', 'pip ' + str(pip.__version__)])
 python_executable_address = str(sys.executable)
 
 # Download library
 # for windows curl must be installed
 if is_windows:
-    call(['curl', 'https://web.cs.dal.ca/~peter/software/pynauty/pynauty-0.6.0.tar.gz', '-o', 'pynauty-0.6.0.tar.gz'])
+    check_call(['curl', 'https://web.cs.dal.ca/~peter/software/pynauty/pynauty-0.6.0.tar.gz', '-o', 'pynauty-0.6.0.tar.gz'])
 elif is_linux:
-    call(['wget', 'https://web.cs.dal.ca/~peter/software/pynauty/pynauty-0.6.0.tar.gz'])
+    check_call(['wget', 'https://web.cs.dal.ca/~peter/software/pynauty/pynauty-0.6.0.tar.gz'])
 
 # Decompress
-call(['tar', '-xf', 'pynauty-0.6.0.tar.gz'])
+check_call(['tar', '-xf', 'pynauty-0.6.0.tar.gz'])
 os.remove('pynauty-0.6.0.tar.gz')
 
 # Move inside pynauty
@@ -86,28 +86,28 @@ os.chdir("pynauty-0.6.0")
 
 # Download C library
 if is_windows:
-    call(['curl', 'http://users.cecs.anu.edu.au/~bdm/nauty/nauty26r10.tar.gz', '-o', 'nauty26r10.tar.gz'])
+    check_call(['curl', 'http://users.cecs.anu.edu.au/~bdm/nauty/nauty26r10.tar.gz', '-o', 'nauty26r10.tar.gz'])
 elif is_linux:
-    call(['wget', 'http://users.cecs.anu.edu.au/~bdm/nauty/nauty26r10.tar.gz'])
+    check_call(['wget', 'http://users.cecs.anu.edu.au/~bdm/nauty/nauty26r10.tar.gz'])
 
 # Decompress library
-call(['echo', "decompressing: nauty26r10..."])
-call(['tar', '-xf', 'nauty26r10.tar.gz'])
+check_call(['echo', "decompressing: nauty26r10..."])
+check_call(['tar', '-xf', 'nauty26r10.tar.gz'])
 
 if (is_windows):
     # rename folder
-    call(['echo', "rename nauty"])
-    call(['rename', 'nauty26r10', 'nauty'])
+    check_call(['echo', "rename nauty"])
+    check_call(['rename', 'nauty26r10', 'nauty'])
     regular_exp = '\"\\\\?\\'+os.path.abspath('nauty')+'\\This_is_nauty26r10.\"'
 
     # Delete problematic file ending with '.'
-    call(['echo', "delete config"])
-    call(['del', regular_exp])
+    check_call(['echo', "delete config"])
+    check_call(['del', regular_exp])
 
     # build pynauty
-    call(['echo', 'Making nauty object files ..'])
-    call(['make', 'nauty-objects'])
-    call(['echo', 'Object Files made ..'])
+    check_call(['echo', 'Making nauty object files ..'])
+    check_call(['make', 'nauty-objects'])
+    check_call(['echo', 'Object Files made ..'])
 
     if cmd_env:
         # Set environment variables
@@ -115,24 +115,25 @@ if (is_windows):
         old_pv = os.environ.get('PYTHON_VERSION', '')
         os.environ['PYTHON_VERSION'] = pv
 
-        call(['echo', 'Building inside environment'])
+        check_call(['echo', 'Building inside environment'])
 
         # Execute with the correct environment
         # problem!! nauty.h is designed for gcc compilation
-        call(['cmd', '/E:ON', '/V:ON', '/C', '..\\ci_scripts\\appveyor\\run_with_env.cmd', python_executable_address, 'setup.py', 'build'])
+        check_call(['cmd', '/E:ON', '/V:ON', '/C', '..\\ci_scripts\\appveyor\\run_with_env.cmd', python_executable_address, 'setup.py', 'build'])
 
         # Restore
         if old_pv != '':
             os.environ['PYTHON_VERSION'] = old_pv
     else:
-        call([python_executable_address, 'setup.py', 'build' + compiler])
+        check_call([python_executable_address, 'setup.py', 'build' + compiler])
 
 if (is_linux):
     # rename folder
-    call(['mv', 'nauty26r10', 'nauty'])
+    check_call(['mv', 'nauty26r10', 'nauty'])
     # build pynauty
-    call(['make', 'nauty-objects'])
-    call([python_executable_address, 'setup.py', 'build'])
+    check_call(['make', 'nauty-objects'])
+    # build the executable
+    check_call([python_executable_address, 'setup.py', 'build'])
 
 # Install pynauty
 if venv:

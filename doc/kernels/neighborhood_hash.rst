@@ -1,9 +1,12 @@
+.. _neighborhood_hash:
+
 Neighborhood Hash Kernel
 =========================
 The neighborhood hash kernel.
 
-.. automodule:: grakel.kernels.neighborhood_hash
-   :members:
+.. currentmodule:: grakel.kernels
+
+.. autoclass:: grakel.kernels.neighborhood_hash
 
 Bibliography
 ------------

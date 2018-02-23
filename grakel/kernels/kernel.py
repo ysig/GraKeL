@@ -25,7 +25,8 @@ class kernel(BaseEstimator, TransformerMixin):
     Parameters
     ----------
     executor : Executor, optional
-        Defines
+        Defines a general executor that can be applied for concurrent
+        computations.
 
     normalize : bool, optional
         Normalize the output of the graph kernel.
@@ -38,10 +39,6 @@ class kernel(BaseEstimator, TransformerMixin):
     X : list
         Stores the input that occurs from parse input, on fit input data.
         Default format of the list objects is `grakel.graph.graph`.
-
-    pairwise_operation : function
-        A kernel between two objects as occuring with the same
-        type as X (as occuring from `parse_input`).
 
     _graph_format : str
         Stores in which type the graphs will need to be stored.
@@ -267,15 +264,13 @@ class kernel(BaseEstimator, TransformerMixin):
 
         Parameters
         ----------
-        X : object
+        X : iterable
             For the input to pass the test, we must have:
             Each element must be an iterable with at most three features and at
             least one. The first that is obligatory is a valid graph structure
             (adjacency matrix or edge_dictionary) while the second is
             node_labels and the third edge_labels (that correspond to the given
             graph format). A valid input also consists of graph type objects.
-            If None the kernel matrix is calculated upon fit data.
-            The test samples.
 
         Returns
         -------

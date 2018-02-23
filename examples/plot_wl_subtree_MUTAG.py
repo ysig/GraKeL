@@ -3,7 +3,7 @@
 Fit-Transform and classification on the MUTAG dataset using a WL-dirac kernel.
 ==============================================================================
 
-An example plot of :class:`grakel.graph_kernels`
+An example plot of :class:`grakel.GraphKernel`
 """
 print(__doc__)
 
@@ -13,13 +13,13 @@ from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
 from sklearn import svm
 
-from grakel import dataset
+from grakel import datasets
 from grakel import GraphKernel
 
 # Loads the Mutag dataset from:
 # https://ls11-www.cs.tu-dortmund.de/staff/morris/graphkerneldatasets
 # the biggest collection of benchmark datasets for graph_kernels.
-mutag = dataset.fetch_dataset("MUTAG", verbose=False)
+mutag = datasets.fetch_dataset("MUTAG", verbose=False)
 G, y = mutag.data, mutag.target
 
 # Train-test split of graph data

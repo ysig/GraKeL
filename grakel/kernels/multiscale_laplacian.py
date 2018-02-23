@@ -96,14 +96,13 @@ class multiscale_laplacian_fast(kernel):
 
         Parameters
         ----------
-        X : object
+        X : iterable
             For the input to pass the test, we must have:
             Each element must be an iterable with at most three features and at
             least one. The first that is obligatory is a valid graph structure
             (adjacency matrix or edge_dictionary) while the second is
-            node_labels and the third edge_labels (that fitting the given graph
-            format). If None the kernel matrix is calculated upon fit data.
-            The test samples.
+            node_labels and the third edge_labels (that correspond to the given
+            graph format). A valid input also consists of graph type objects.
 
         Returns
         -------
@@ -317,14 +316,13 @@ class multiscale_laplacian(kernel):
 
         Parameters
         ----------
-        X : object
+        X : iterable
             For the input to pass the test, we must have:
             Each element must be an iterable with at most three features and at
             least one. The first that is obligatory is a valid graph structure
             (adjacency matrix or edge_dictionary) while the second is
-            node_labels and the third edge_labels (that fitting the given graph
-            format). If None the kernel matrix is calculated upon fit data.
-            The test samples.
+            node_labels and the third edge_labels (that correspond to the given
+            graph format). A valid input also consists of graph type objects.
 
         Returns
         -------

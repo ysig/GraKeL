@@ -20,6 +20,8 @@ from grakel.kernels.propagation import propagation
 from grakel.kernels.hadamard_code import hadamard_code
 from grakel.kernels.multiscale_laplacian import multiscale_laplacian
 from grakel.kernels.multiscale_laplacian import multiscale_laplacian_fast
+from grakel.kernels.vertex_histogram import vertex_histogram
+from grakel.kernels.edge_histogram import edge_histogram
 
 __all__ = [
     "kernel",
@@ -40,5 +42,7 @@ __all__ = [
     "propagation",
     "hadamard_code",
     "multiscale_laplacian",
-    "multiscale_laplacian_fast"
+    "multiscale_laplacian_fast",
+    "vertex_histogram",
+    "edge_histogram"
 ]

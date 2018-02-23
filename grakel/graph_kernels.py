@@ -29,6 +29,8 @@ from grakel.kernels import propagation
 from grakel.kernels import hadamard_code
 from grakel.kernels import multiscale_laplacian
 from grakel.kernels import multiscale_laplacian_fast
+from grakel.kernels import vertex_histogram
+from grakel.kernels import edge_histogram
 
 np.random.seed(int(time.time()))
 
@@ -36,7 +38,8 @@ valid_parameters = {"kernel",
                     "Nystroem",
                     "n_jobs",
                     "normalize",
-                    "verbose"}
+                    "verbose",
+                    "random_seed"}
 
 supported_base_kernels = [
     "subtree_wl", "random_walk",
@@ -47,7 +50,7 @@ supported_base_kernels = [
     "neighborhood_hash", "neighborhood_subgraph_pairwise_distance",
     "odd_sth", "propagation",
     "pyramid_match", "jsm",
-    "propagation"
+    "propagation", "vertex_histogram", "edge_histogram"
     ]
 
 supported_general_kernels = [
@@ -63,119 +66,165 @@ default_n_components = 100
 
 
 class GraphKernel(BaseEstimator, TransformerMixin):
-    """A decorator for graph kernels.
+    r"""A decorator for graph kernels.
 
     Parameters
     ----------
     kernel : list(dict(key:str, value:value))
-         a list of dictionaries, or a single dicitonary that have the following
-         structure:
-               * "name" : [str] - with the kernel name
-               * "name_of_parameter_1" : value
-               * "name_of_parameter_2" : value
-               *                          ...
-               * "name_of_parameter_k" : value
+        A list of dictionaries, or a single dicitonary that have the following
+        structure:
+            * "name" : [str] - with the kernel name
 
-               available "names" / "parametres" are:
-                   1. base_kernels (the structure must always reach a
-                   base kernel)
-                        - "dirac"
-                            *No arguments*
-                        - "random_walk"
-                            + (**o**) "lambda" : float
-                            + (**o**) "method_type" : [str], "baseline", "fast"
-                            + (**o**) "kernel_type" : [str], "geometric",
-                            "exponential"
-                            + (**o**) "p" : [int] > 0
+            * "name_of_parameter_1" : value
 
-                        - "shortest_path"
-                            + (**o**) "algorithm_type" : [str] "dijkstra",
-                            "floyd_warshall"
-                            + (**o**) "as_attributes" : [bool]
-                            + (**o**) "attribute_kernel" : [function] :
-                            (attribute_x, attribute_y) -> number
-                            + (**o**) "with_labels" : [bool]
+            * "name_of_parameter_2" : value
 
-                        - "subtree_rg"
-                            + (**o**) "h" : [int]
+            * :math:`\;\cdots\;`
 
-                        - "graphlet_sampling"
-                            + (**o**) "k" : [int]
-                            + (**o**) "delta" : [float]
-                            + (**o**) "epsilon" : [float]
-                            + (**o**) "a" : [int]
-                            + (**o**) "n_samples" : [int]
+            * "name_of_parameter_k" : value
 
-                        - "multiscale_laplacian"
-                            + (**o**) "which" : [str] "slow", "fast"
-                            + (**o**) "L" : [int] > 0
-                            + (**o**) "gamma" : [float] > .0
-                            + (**o**) "heta" : [float] > .0
-                            + (**o**) "N" : [int] > 0, if "which":"fast"
+        available "names" / "parametres" are:
+            1. base_kernels (the structure must always reach a base kernel)
+                - "dirac"
+                    *No arguments*
 
-                        - "subgraph_matching"
-                            + (**o**) "kv" : [function] :
-                            (node_x, node_y, Lx, Ly) -> number
-                            + (**o**) "ke" : [function] :
-                            (edge_x, edge_y, Lx, Ly) -> number
-                            + (**o**) "lw" :
-                            a lambda weight function for cliques: set -> number
+                - "random_walk"
+                    + (**o**) "lambda" : float
 
-                        - "lovasz_theta"
-                            + (**o**) "n_samples" : [int] > 1
-                            + (**o**) "subsets_size_range" :
-                            [touple] of two [int]
-                            + (**o**) "metric" :
-                            [function] (number, number) -> number
+                    + (**o**) "method_type" : [str], "baseline", "fast"
 
-                        - "svm_theta"
-                            + (**o**) "n_samples" : [int] > 1
-                            + (**o**) "subsets_size_range" :
-                            [touple] with 2 [int] elements
-                            + (**o**) "metric" :
-                            [function] (number, number) -> number
+                    + (**o**) "kernel_type" : [str], "geometric",
+                      "exponential"
 
-                        - "neighborhood_hash"
-                            + (**o**) "nh_type" :
-                            [str] "simple" or "count-sensitive"
-                            + (**o**) "R" : [int] > 0
-                            + (**o**) "bytes" : [int] > 0
+                    + (**o**) "p" : [int] > 0
 
-                        - "neighborhood_subgraph_pairwise_distance"
-                            + (**o**) "r" : (int) positive integer
-                            + (**o**) "d" : (int) positive integer
 
-                        - "odd_sth"
-                            + (**o**) "h" : [int] > 0
+                - "shortest_path"
+                    + (**o**) "algorithm_type" : [str] "dijkstra",
+                      "floyd_warshall"
 
-                        - "propagation"
-                            + (**o**) t_max: [int] > 0
-                            + (**o**) T: [dict] [int]: [np.arrays]
-                            + (**o**) M: [str] "H", "L1", "L2", "TV"
-                            + (**o**) w: [int] > 0
-                            + (**o**) base_kernel: [function]
-                            x:[list[int]] , y:[list[int]] -> [number]
+                    + (**o**) "as_attributes" : [bool]
 
-                        - "pyramid_match"
-                            + (**o**) with_labels: [bool]
-                            + (**o**) d: [int] > 0
-                            + (**o**) L: [int] >= 0
+                    + (**o**) "attribute_kernel" : [function] :
+                      (attribute_x, attribute_y) -> number
 
-                        - "jsm"
-                            + (**o**) M: [int] > 0
-                            + (**o**) h: [int] > 0
+                    + (**o**) "with_labels" : [bool]
 
-                   2. general_kernels (this kernel will use the next kernel
-                   on the list as base kernel)
-                        - "weisfeiler_lehman"
-                            + (**o**) "niter" : [int]
-                        - "hadamard_code"
-                            + (**o**) "niter" : [int]
-                            + (**o**) "hc_type" : [str] "simple", "shortened"
-                            + (**o**) "rho" : [int] > 0 or -1
-                            + (**o**) "L" : int, condition_of_appearance:
-                            hc_type=="shortened", default=4
-               where (**o**): stands for optional parameters
+                - "subtree_rg"
+                    + (**o**) "h" : [int]
+
+                - "graphlet_sampling"
+                    + (**o**) "k" : [int]
+
+                    + (**o**) "delta" : [float]
+
+                    + (**o**) "epsilon" : [float]
+
+                    + (**o**) "a" : [int]
+
+                    + (**o**) "n_samples" : [int]
+
+                - "multiscale_laplacian"
+                    + (**o**) "which" : [str] "slow", "fast"
+
+                    + (**o**) "L" : [int] > 0
+
+                    + (**o**) "gamma" : [float] > .0
+
+                    + (**o**) "heta" : [float] > .0
+
+                    + (**o**) "N" : [int] > 0, if "which": "fast"
+
+                - "subgraph_matching"
+                    + (**o**) "kv" : [function] :
+                      (node_x, node_y, Lx, Ly) -> number
+
+                    + (**o**) "ke" : [function] :
+                      (edge_x, edge_y, Lx, Ly) -> number
+
+                    + (**o**) "lw" :
+                      a lambda weight function for cliques: set -> number
+
+                - "lovasz_theta"
+                    + (**o**) "n_samples" : [int] > 1
+
+                    + (**o**) "subsets_size_range" :
+                      [touple] of two [int]
+
+                    + (**o**) "metric" :
+                      [function] (number, number) -> number
+
+                - "svm_theta"
+                    + (**o**) "n_samples" : [int] > 1
+
+                    + (**o**) "subsets_size_range" :
+                      [touple] with 2 [int] elements
+
+                    + (**o**) "metric" :
+                      [function] (number, number) -> number
+
+                - "neighborhood_hash"
+                    + (**o**) "nh_type" :
+                      [str] "simple" or "count-sensitive"
+
+                    + (**o**) "R" : [int] > 0
+
+                    + (**o**) "bytes" : [int] > 0
+
+                - "neighborhood_subgraph_pairwise_distance"
+                    + (**o**) "r" : (int) positive integer
+
+                    + (**o**) "d" : (int) positive integer
+
+                - "odd_sth"
+                    + (**o**) "h" : [int] > 0
+
+                - "propagation"
+                    + (**o**) t_max: [int] > 0
+
+                    + (**o**) T: [dict] [int]: [np.arrays]
+
+                    + (**o**) M: [str] "H", "L1", "L2", "TV"
+
+                    + (**o**) w: [int] > 0
+
+                    + (**o**) base_kernel: [function]
+                      x:[list[int]] , y:[list[int]] -> [number]
+
+                - "pyramid_match"
+                    + (**o**) with_labels: [bool]
+
+                    + (**o**) d: [int] > 0
+
+                    + (**o**) L: [int] >= 0
+
+                - "jsm"
+                    + (**o**) M: [int] > 0
+
+                    + (**o**) h: [int] > 0
+
+                - "edge"
+                    *No arguments*
+
+                - "vertex"
+                    *No arguments*
+
+            2. general_kernels (this kernel will use the next kernel
+               on the list as base kernel)
+                - "weisfeiler_lehman"
+                    + (**o**) "niter" : [int]
+
+                - "hadamard_code"
+                    + (**o**) "niter" : [int]
+
+                    + (**o**) "hc_type" : [str] "simple", "shortened"
+
+                    + (**o**) "rho" : [int] > 0 or -1
+
+                    + (**o**) "L" : int, condition_of_appearance:
+                      hc_type=="shortened", default=4
+
+        where (**o**): stands for optional parameters
 
     Nystroem : int, optional
         Defines the number of nystroem components.
@@ -208,7 +257,7 @@ class GraphKernel(BaseEstimator, TransformerMixin):
     normalize : bool
         Normalize the output of the graph kernel.
 
-    components_ : array, shape (n_components, n_features)
+    components_ : array, shape=(n_components, n_features)
         Subset of training graphs used to construct the feature map.
 
     nystroem_normalization_ : array, shape=(n_components, n_components)
@@ -300,108 +349,111 @@ class GraphKernel(BaseEstimator, TransformerMixin):
 
         if len(unrecognised_args) > 0:
             warnings.warn(
-                'Ignoring unrecognised arguments:',
+                'Ignoring unrecognised arguments:' +
                 ', '.join('"' + str(arg) + '"' for arg in unrecognised_args))
 
     def _make_kernel(self, kernel_list, hidden_args):
-            """Produce the desired kernel function.
+        """Produce the desired kernel function.
 
-            Parameters
-            ----------
-            kernel_list: (list)
-                List of kernel dictionaries as defined at the documentation
-                of class parameters.
+        Parameters
+        ----------
+        kernel_list: (list)
+            List of kernel dictionaries as defined at the documentation
+            of class parameters.
 
-            Returns
-            -------
-            function.
-            Returns the kernel, as a function of two arguments.
+        Returns
+        -------
+        function.
+        Returns the kernel, as a function of two arguments.
 
-            """
-            # If nesting type:
-            kernel = kernel_list.pop(0)
-            if type(kernel) is not dict:
-                raise ValueError('each element of the list of kernels must' +
-                                 ' be a dictionary')
-            if "name" not in kernel:
-                raise ValueError('each dictionary concerning a kernel must' +
-                                 ' have a "name" parameter designating the' +
-                                 'kernel')
-            kernel_name = kernel.pop("name")
-            for (keys, val) in hidden_args.items():
-                kernel[keys] = val
-            if kernel_name in supported_base_kernels:
-                if len(kernel_list) != 0:
-                    warnings.warn('rest kernel arguments are being ignored\
-                                   - reached base kernel')
-                if kernel_name == "subtree_wl":
-                    return subtree_wl, kernel
-                elif kernel_name == "random_walk":
-                    return random_walk, kernel
-                elif kernel_name == "shortest_path":
-                    if kernel.pop("as_attributes", False):
-                        return shortest_path_attr, kernel
-                    else:
-                        return (shortest_path, kernel)
-                elif kernel_name == "subtree_rg":
-                    raise ValueError('still developing')
-                elif kernel_name == "graphlet_sampling":
-                    if ("random_seed" not in kernel and
-                        self._global_random_seed is not
-                            default_random_seed_value):
-                            kernel["random_seed"] = self._global_random_seed
-                    return graphlet_sampling, kernel
-                elif kernel_name == "multiscale_laplacian":
-                    if kernel.get("which", "simple") == "simple":
-                        kernel.pop("N", None)
-                        return (multiscale_laplacian, kernel)
-                    else:
-                        if ("random_seed" not in kernel and
-                            self._global_random_seed is not
-                                default_random_seed_value):
-                            kernel["random_seed"] = self._global_random_seed
-                        return (multiscale_laplacian_fast, kernel)
-                elif kernel_name == "subgraph_matching":
-                    return subgraph_matching, kernel
-                elif kernel_name == "lovasz_theta":
-                    if ("random_seed" not in kernel and
-                            self._global_random_seed is not
-                            default_random_seed_value):
-                        kernel["random_seed"] = self._global_random_seed
-                    return lovasz_theta, kernel
-                elif kernel_name == "svm_theta":
-                    if ("random_seed" not in kernel and
-                        self._global_random_seed is not
-                            default_random_seed_value):
-                        kernel["random_seed"] = self._global_random_seed
-                    return svm_theta, kernel
-                elif kernel_name == "neighborhood_hash":
-                    return neighborhood_hash, kernel
-                elif kernel_name == "neighborhood_subgraph_pairwise_distance":
-                    return neighborhood_subgraph_pairwise_distance, kernel
-                elif kernel_name == "odd_sth":
-                    return odd_sth, kernel
-                elif kernel_name == "propagation":
-                    if ("random_seed" not in kernel and
-                        self._global_random_seed is not
-                            default_random_seed_value):
-                        kernel["random_seed"] = self._global_random_seed
-                    return propagation, kernel
-                elif kernel_name == "pyramid_match":
-                    return pyramid_match, kernel
-                elif kernel_name == "jsm":
-                    return jsm, kernel
-            elif kernel_name in supported_general_kernels:
-                if (len(kernel_list) == 0):
-                    raise ValueError(str(kernel_name)+' is not a base kernel')
+        """
+        kernel = kernel_list.pop(0)
+        if type(kernel) is not dict:
+            raise ValueError('each element of the list of kernels must' +
+                             ' be a dictionary')
+        if "name" not in kernel:
+            raise ValueError('each dictionary concerning a kernel must' +
+                             ' have a "name" parameter designating the' +
+                             'kernel')
+        kernel_name = kernel.pop("name")
+        for (keys, val) in hidden_args.items():
+            kernel[keys] = val
+        if kernel_name in supported_base_kernels:
+            if len(kernel_list) != 0:
+                warnings.warn('rest kernel arguments are being ignored\
+                               - reached base kernel')
+            if kernel_name == "subtree_wl":
+                return subtree_wl, kernel
+            elif kernel_name == "random_walk":
+                return random_walk, kernel
+            elif kernel_name == "shortest_path":
+                if kernel.pop("as_attributes", False):
+                    return shortest_path_attr, kernel
                 else:
-                    kernel["base_kernel"] = self._make_kernel(kernel_list, {})
-                if kernel_name == "weisfeiler_lehman":
-                    return (weisfeiler_lehman, kernel)
-                if kernel_name == "hadamard_code":
-                    return (hadamard_code, kernel)
+                    return (shortest_path, kernel)
+            elif kernel_name == "subtree_rg":
+                raise ValueError('still developing')
+            elif kernel_name == "graphlet_sampling":
+                if ("random_seed" not in kernel and
+                    self._global_random_seed is not
+                        default_random_seed_value):
+                        kernel["random_seed"] = self._global_random_seed
+                return graphlet_sampling, kernel
+            elif kernel_name == "multiscale_laplacian":
+                if kernel.pop("which", None) == "simple":
+                    kernel.pop("N", None)
+                    return (multiscale_laplacian, kernel)
+                else:
+                    if ("random_seed" not in kernel and
+                        self._global_random_seed is not
+                            default_random_seed_value):
+                        kernel["random_seed"] = self._global_random_seed
+                    return (multiscale_laplacian_fast, kernel)
+            elif kernel_name == "subgraph_matching":
+                return subgraph_matching, kernel
+            elif kernel_name == "lovasz_theta":
+                if ("random_seed" not in kernel and
+                        self._global_random_seed is not
+                        default_random_seed_value):
+                    kernel["random_seed"] = self._global_random_seed
+                return lovasz_theta, kernel
+            elif kernel_name == "svm_theta":
+                if ("random_seed" not in kernel and
+                    self._global_random_seed is not
+                        default_random_seed_value):
+                    kernel["random_seed"] = self._global_random_seed
+                return svm_theta, kernel
+            elif kernel_name == "neighborhood_hash":
+                return neighborhood_hash, kernel
+            elif kernel_name == "neighborhood_subgraph_pairwise_distance":
+                return neighborhood_subgraph_pairwise_distance, kernel
+            elif kernel_name == "odd_sth":
+                return odd_sth, kernel
+            elif kernel_name == "propagation":
+                if ("random_seed" not in kernel and
+                    self._global_random_seed is not
+                        default_random_seed_value):
+                    kernel["random_seed"] = self._global_random_seed
+                return propagation, kernel
+            elif kernel_name == "pyramid_match":
+                return pyramid_match, kernel
+            elif kernel_name == "jsm":
+                return jsm, kernel
+            elif kernel_name == "vertex_histogram":
+                return vertex_histogram, kernel
+            elif kernel_name == "edge_histogram":
+                return edge_histogram, kernel
+        elif kernel_name in supported_general_kernels:
+            if (len(kernel_list) == 0):
+                raise ValueError(str(kernel_name)+' is not a base kernel')
             else:
-                raise ValueError('unsupported kernel: ' + str(kernel_name))
+                kernel["base_kernel"] = self._make_kernel(kernel_list, {})
+            if kernel_name == "weisfeiler_lehman":
+                return (weisfeiler_lehman, kernel)
+            if kernel_name == "hadamard_code":
+                return (hadamard_code, kernel)
+        else:
+            raise ValueError('unsupported kernel: ' + str(kernel_name))
 
     def fit(self, X, y=None):
         """Fit a dataset, for a transformer.
@@ -422,26 +474,27 @@ class GraphKernel(BaseEstimator, TransformerMixin):
         Returns
         -------
         self : object
-        Returns self.
+            Returns self.
 
         """
         # Input validation and parsing
         if bool(self._nystroem):
+            X = list(X)
             nx = len(X)
             # get basis vectors
             if self._nystroem > nx:
                 n_components = nx
-                warnings.warn("n_components > n_samples. This is not \
-                              possible.\nn_components was set to n_samples, \
-                              which results in inefficient evaluation of the \
-                              full kernel.")
+                warnings.warn("n_components > n_samples. This is not " +
+                              "possible.\nn_components was set to n_samples" +
+                              ", which results in inefficient evaluation of" +
+                              " the full kernel.")
             else:
                 n_components = self._nystroem
 
             n_components = min(nx, n_components)
             inds = np.random.permutation(nx)
             basis_inds = inds[:n_components]
-            basis = [X[i] for i in range(basis_inds)]
+            basis = [X[i] for i in basis_inds]
 
             self.components_ = basis
             self._nystroem = n_components
@@ -485,10 +538,14 @@ class GraphKernel(BaseEstimator, TransformerMixin):
 
         # Transform - calculate kernel matrix
         if bool(self._nystroem):
-            return np.dot(self._kernel.transform(X),
-                          self.nystroem_normalization_.T)
+            K = self._kernel.transform(X).dot(self.nystroem_normalization_.T)
         else:
-            return self._kernel.transform(X)
+            K = self._kernel.transform(X)
+
+        if K.shape == (1, 1):
+            return K[0, 0]
+        else:
+            return K
 
     def fit_transform(self, X):
         """Fit and transform, on the same dataset.
@@ -513,7 +570,11 @@ class GraphKernel(BaseEstimator, TransformerMixin):
         # Transform - calculate kernel matrix
         if bool(self._nystroem):
             self.fit(X)
-            return np.dot(self._kernel.transform(X),
-                          self.nystroem_normalization_.T)
+            K = self._kernel.transform(X).dot(self.nystroem_normalization_.T)
         else:
-            return self._kernel.fit_transform(X)
+            K = self._kernel.fit_transform(X)
+
+        if K.shape == (1, 1):
+            return K[0, 0]
+        else:
+            return K

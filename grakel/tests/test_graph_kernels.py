@@ -207,14 +207,64 @@ def test_hadamard_code():
                                gk, dataset_tr, dataset_te)
 
 
+def test_edge_histogram():
+    """Test the Edge Histogram kernel."""
+    gk = GraphKernel(kernel={"name": "edge_histogram"},
+                     verbose=verbose, normalize=normalize)
+
+    if verbose:
+        print_kernel_decorator("Edge Histogram",
+                               gk, dataset_tr, dataset_te)
+
+
+def test_vertex_histogram():
+    """Test the Vertex Histogram kernel."""
+    gk = GraphKernel(kernel={"name": "vertex_histogram"},
+                     verbose=verbose, normalize=normalize)
+
+    if verbose:
+        print_kernel_decorator("Vertex Histogram",
+                               gk, dataset_tr, dataset_te)
+
+
 def test_multiscale_laplacian():
     """Test the Multiscale Laplacian kernel."""
     gk = GraphKernel(kernel={"name": "multiscale_laplacian"},
                      verbose=verbose, normalize=normalize)
 
+    # Download dataset
+    fmm_dataset = fetch_dataset("FIRSTMM_DB",
+                                with_classes=False,
+                                prefer_attr_nodes=True,
+                                verbose=verbose).data
+
+    # Split
+    fmm_dataset_tr = fmm_dataset[:int(len(fmm_dataset)*0.8)]
+    fmm_dataset_te = fmm_dataset[int(len(fmm_dataset)*0.8):]
+
     if verbose:
         print_kernel_decorator("Multiscale Laplacian",
-                               gk, dataset_tr, dataset_te)
+                               gk, fmm_dataset_tr, fmm_dataset_te)
+
+
+def test_multiscale_laplacian_fast():
+    """Test the fast Multiscale Laplacian kernel."""
+    gk = GraphKernel(kernel={"name": "multiscale_laplacian", "which": "fast"},
+                     verbose=verbose, normalize=normalize)
+
+    # Download dataset
+    fmm_dataset = fetch_dataset("FIRSTMM_DB",
+                                with_classes=False,
+                                prefer_attr_nodes=True,
+                                verbose=verbose).data
+
+    # Split
+    fmm_dataset_tr = fmm_dataset[:int(len(fmm_dataset)*0.8)]
+    fmm_dataset_te = fmm_dataset[int(len(fmm_dataset)*0.8):]
+
+    if verbose:
+        print_kernel_decorator("Multiscale Laplacian Fast",
+                               gk, fmm_dataset_tr, fmm_dataset_te)
 
 
 def print_kernel_decorator(name, kernel, X, Y):
@@ -243,6 +293,10 @@ if verbose and main:
     test_propagation()
     test_hadamard_code()
     test_neighborhood_pairwise_distance()
+    test_multiscale_laplacian_fast()
+    test_vertex_histogram()
+    test_edge_histogram()
+    test_multiscale_laplacian_fast()
 
 if verbose and develop:
     if slow:

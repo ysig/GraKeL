@@ -1,9 +1,12 @@
+.. _random_walk:
+
 Random Walk Kernel
-=========================
+==================
 The random walk kernel.
 
-.. automodule:: grakel.kernels.random_walk
-   :members:
+.. currentmodule:: grakel.kernels
+
+.. autoclass:: grakel.kernels.random_walk
 
 Bibliography
 ------------    

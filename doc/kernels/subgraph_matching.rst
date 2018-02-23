@@ -1,10 +1,13 @@
+.. _subgraph_matching:
+
 Subgraph Matching Kernel
-=========================
+========================
 The Subgraph-Matching kernel.
 
-.. automodule:: grakel.kernels.subtree_wl
-   :members:
-   
+.. currentmodule:: grakel.kernels
+
+.. autoclass:: grakel.kernels.subgraph_matching
+
 Bibliography
 ------------
  

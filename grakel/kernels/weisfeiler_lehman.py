@@ -96,11 +96,12 @@ class weisfeiler_lehman(kernel):
         Parameters
         ----------
         X : iterable
+            For the input to pass the test, we must have:
             Each element must be an iterable with at most three features and at
             least one. The first that is obligatory is a valid graph structure
             (adjacency matrix or edge_dictionary) while the second is
-            node_labels and the third edge_labels (that fitting the given grap
-            format). The train samples.
+            node_labels and the third edge_labels (that correspond to the given
+            graph format). A valid input also consists of graph type objects.
 
         Returns
         -------
@@ -287,43 +288,37 @@ class weisfeiler_lehman(kernel):
                 distinct_values = set()
                 Gs_ed, L = dict(), dict()
                 for (i, x) in enumerate(iter(X)):
-                    if len(x) == 0:
-                        warnings.warn('Ignoring empty element on index: '
-                                      + str(i))
-                    if len(x) == 1:
-                        if type(x) is not Graph:
-                            raise ValueError('weisfeiler_lehman ' +
-                                             'requires labels')
-                        Gs_ed[nx] = x.get_edge_dictionary()
-                        L[nx] = x.get_labels(purpose="dictionary")
-                        if self._normalize:
-                            # Hold all the distinct values
-                            distinct_values |= set(
-                                v for v in L[nx].values()
-                                if v not in self._inv_labels[0])
-                        nx += 1
-                    elif len(x) in [2, 3]:
-                        g = Graph(x[0], x[1], {}, self._graph_format)
-                        Gs_ed[nx] = g.get_edge_dictionary()
-                        L[nx] = g.get_labels(purpose="dictionary")
-                        if self._normalize:
-                            # Hold all the distinct values
-                            distinct_values |= set(
-                                v for v in L[nx].values()
-                                if v not in self._inv_labels[0])
-                        nx += 1
+                    is_iter = isinstance(x, collections.Iterable)
+                    if is_iter:
+                        x = list(x)
+                    if is_iter and len(x) in [0, 2, 3]:
+                        if len(x) == 0:
+                            warnings.warn('Ignoring empty element on index: '
+                                          + str(i))
+                            continue
+
+                        elif len(x) in [2, 3]:
+                            x = Graph(x[0], x[1], {}, self._graph_format)
+                    elif type(x) is Graph:
+                        x.desired_format("dictionary")
                     else:
                         raise ValueError('each element of X must have at ' +
                                          'least one and at most 3 elements\n')
+                    Gs_ed[nx] = x.get_edge_dictionary()
+                    L[nx] = x.get_labels(purpose="dictionary")
 
+                    # Hold all the distinct values
+                    distinct_values |= set(
+                        v for v in L[nx].values()
+                        if v not in self._inv_labels[0])
+                    nx += 1
                 if nx == 0:
                     raise ValueError('parsed input is empty')
 
         WL_labels_inverse = dict()
         nl = len(self._inv_labels[0])
-        for dv in sorted(list(distinct_values)):
-            idx = len(WL_labels_inverse) + nl
-            WL_labels_inverse[dv] = idx
+        WL_labels_inverse = {dv: idx for (idx, dv) in
+                             enumerate(sorted(list(distinct_values)), nl)}
 
         # calculate the kernel matrix for the 0 iteration
         new_graphs = list()

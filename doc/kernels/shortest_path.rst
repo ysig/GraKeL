@@ -1,10 +1,15 @@
+.. _shortest_path:
+
 Shortest Path Kernel
-=========================
+====================
 The shortest path kernel.
 
-.. automodule:: grakel.kernels.shortest_path
-   :members:
-   
+.. currentmodule:: grakel.kernels
+
+.. autoclass:: grakel.kernels.shortest_path
+
+.. autoclass:: grakel.kernels.shortest_path_attr
+
 Bibliography
 ------------
 

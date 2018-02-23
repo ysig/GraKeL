@@ -66,14 +66,13 @@ class shortest_path_attr(kernel):
 
         Parameters
         ----------
-        X : object
+        X : iterable
             For the input to pass the test, we must have:
             Each element must be an iterable with at most three features and at
             least one. The first that is obligatory is a valid graph structure
             (adjacency matrix or edge_dictionary) while the second is
-            node_labels and the third edge_labels (that fitting the given graph
-            format). If None the kernel matrix is calculated upon fit data.
-            The test samples.
+            node_labels and the third edge_labels (that correspond to the given
+            graph format). A valid input also consists of graph type objects.
 
         Returns
         -------
@@ -273,6 +272,7 @@ class shortest_path(kernel):
             for i in self.X.keys():
                 for j in self.X[i].keys():
                     phi_x[i, j] = self.X[i][j]
+            self.phi_X = phi_x
 
         phi_y = np.zeros(shape=(self._ny, len(self._enum) + len(self._Y_enum)))
         for i in Y.keys():
@@ -310,12 +310,12 @@ class shortest_path(kernel):
 
         """
         # Check is fit and transform had been called
-        check_is_fitted(self, ['_phi_X', '_phi_Y'])
+        check_is_fitted(self, ['phi_X', '_phi_Y'])
         try:
             check_is_fitted(self, ['X_diag'])
         except NotFittedError:
             # Calculate diagonal of X
-            self._X_diag = np.sum(np.square(self._phi_X), axis=1)
+            self._X_diag = np.sum(np.square(self.phi_X), axis=1)
             self._X_diag = np.reshape(self._X_diag,
                                       (self._X_diag.shape[0], 1))
         # Calculate diagonal of Y
@@ -332,8 +332,7 @@ class shortest_path(kernel):
             least one. The first that is obligatory is a valid graph structure
             (adjacency matrix or edge_dictionary) while the second is
             node_labels and the third edge_labels (that fitting the given graph
-            format). If None the kernel matrix is calculated upon fit data.
-            The test samples.
+            format).
 
         Returns
         -------
@@ -367,14 +366,13 @@ class shortest_path(kernel):
 
         Parameters
         ----------
-        X : object
+        X : iterable
             For the input to pass the test, we must have:
             Each element must be an iterable with at most three features and at
             least one. The first that is obligatory is a valid graph structure
             (adjacency matrix or edge_dictionary) while the second is
-            node_labels and the third edge_labels (that fitting the given graph
-            format). If None the kernel matrix is calculated upon fit data.
-            The test samples.
+            node_labels and the third edge_labels (that correspond to the given
+            graph format). A valid input also consists of graph type objects.
 
         Returns
         -------

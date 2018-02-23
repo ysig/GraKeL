@@ -1,9 +1,12 @@
+.. _weisfeiler_lehman:
+
 Weisfeiler Lehman Kernel
 ========================
 The Weisfeiler Lehman Kernel.
 
-.. automodule:: grakel.kernels.weisfeiler_lehman
-   :members:
+.. currentmodule:: grakel.kernels
+
+.. autoclass:: grakel.kernels.weisfeiler_lehman
 
 Bibliography
 ------------

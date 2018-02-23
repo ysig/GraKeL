@@ -45,7 +45,7 @@ dataset_metadata = {
     "ER_MD": {"nl": True, "el": True, "na": False, "ea": True,
               "link": "https://ls11-www.cs.uni-dortmund.de/people/morris/" +
               "graphkerneldatasets/ER_MD.zip"},
-    "DD": {"nl": True, "el": True, "na": False, "ea": True,
+    "DD": {"nl": True, "el": False, "na": False, "ea": False,
            "link": "https://ls11-www.cs.uni-dortmund.de/people/morris/" +
            "graphkerneldatasets/DD.zip"},
     "ENZYMES": {"nl": True, "el": False, "na": True, "ea": False,

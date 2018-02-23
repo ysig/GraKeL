@@ -1,20 +1,30 @@
 """The lovasz theta kernel as defined in :cite:`Johansson2015LearningWS`."""
-import itertools
 import collections
 import warnings
 
+import random
 import numpy as np
 
 from grakel.kernels import kernel
 from grakel.graph import Graph
 from grakel.tools import distribute_samples
 
+from math import sqrt
+from numpy import pad
+from numpy.linalg import LinAlgError
+from numpy.linalg import norm
+from scipy.linalg import cholesky
+from scipy.linalg import eigvalsh
+from scipy.linalg import solve
 from cvxopt.base import matrix
 from cvxopt.base import spmatrix
 from cvxopt.solvers import sdp
 from cvxopt.solvers import options
 
 options['show_progress'] = False
+min_weight = float("1e-10")
+angle_precision = float("1e-6")
+tolerance = float("1e-1")
 
 
 class lovasz_theta(kernel):
@@ -31,8 +41,9 @@ class lovasz_theta(kernel):
     subsets_size_range : tuple, len=2, default=(2,8)
         (min, max) size of the vertex set of sampled subgraphs.
 
-    metric : function (number, number -> number), default=:math:`f(x,y) = x*y`
-        The applied metric between the lovasz_theta numbers of the two graphs.
+    base_kernel : function (np.1darray, np.1darray -> number),
+                  default=:math:`f(x,y) = x*y`
+        The applied metric between the lovasz_theta numbers of subgraphs.
 
     Attributes
     ----------
@@ -43,8 +54,13 @@ class lovasz_theta(kernel):
         A tuple containing two integers designating the minimum and the maximum
         size of the vertex set of considered subgraphs.
 
-    _metric : function (number, number -> number)
-        The applied metric between the lovasz_theta numbers of the two graphs.
+    _d : int,
+        The maximum matrix dimension of fit plus 1. Signifies the number
+        of features assigned for lovasz labelling.
+
+    _base_kernel : function (number, number -> number)
+        The applied base_kernel between features of the mean lovasz_theta
+        numbers samples for all levels of the two graphs.
 
     """
 
@@ -68,25 +84,28 @@ class lovasz_theta(kernel):
             raise ValueError('subsets_size_range subset size range must ' +
                              'be a tuple of two integers in increasing order')
 
-        self._metric = kargs.get("metric", lambda x, y: x*y)
-        if not callable(self._metric):
-            raise ValueError('metric between arguments must be a function')
+        self._base_kernel = kargs.get("base_kernel", lambda x, y: x.T.dot(y))
+        if not callable(self._base_kernel):
+            raise ValueError('base_kernel between arguments ' +
+                             'must be a function')
 
-        np.random.seed(kargs.get("random_seed", 6578909))
+        rs = kargs.get("random_seed", 6578909)
+        random.seed(rs)
+        np.random.seed(rs)
 
     def parse_input(self, X):
-        """Parse and create features for graphlet_sampling kernel.
+        """Parse and create features for lovasz_theta kernel.
 
         Parameters
         ----------
-        X : object
+        X : iterable
             For the input to pass the test, we must have:
             Each element must be an iterable with at most three features and at
             least one. The first that is obligatory is a valid graph structure
             (adjacency matrix or edge_dictionary) while the second is
-            node_labels and the third edge_labels (that fitting the given graph
-            format). If None the kernel matrix is calculated upon fit data.
-            The test samples.
+            node_labels and the third edge_labels (that correspond to the given
+            graph format). A valid input also consists of graph type objects.
+
 
         Returns
         -------
@@ -98,7 +117,8 @@ class lovasz_theta(kernel):
             raise ValueError('input must be an iterable\n')
         else:
             i = 0
-            out = list()
+            adjm = list()
+            max_dim = 0
             for (idx, x) in enumerate(iter(X)):
                 is_iter = False
                 if isinstance(x, collections.Iterable):
@@ -115,10 +135,18 @@ class lovasz_theta(kernel):
                                      'graph or an iterable with at least 1 ' +
                                      'and at most 3 elements\n')
                 i += 1
-                out.append(
-                    self._calculate_subgraph_samples_metric_dictionary_(
-                        x.get_adjacency_matrix()))
+                A = x.get_adjacency_matrix()
+                adjm.append(A)
+                max_dim = max(max_dim, A.shape[0])
 
+            if self._method_calling == 1:
+                self._d = max_dim + 1
+
+            out = list()
+            for A in adjm:
+                X, t = _calculate_lovasz_embeddings_(A)
+                U = _calculate_lovasz_labelling_(X, t, self._d)
+                out.append(self._calculate_MEC_(U))
             if i == 0:
                 raise ValueError('parsed input is empty')
 
@@ -138,22 +166,14 @@ class lovasz_theta(kernel):
             The kernel value.
 
         """
-        kernel = 0
+        return self._base_kernel(x, y)
 
-        for level in x.keys():
-            if level in y and bool(x[level]) and bool(y[level]):
-                    Z = len(x[level])*len(y[level])
-                    kernel += sum(self._metric(a, b) for (a, b) in
-                                  itertools.product(x[level], y[level]))/Z
+    def _calculate_MEC_(self, U):
+        """Calculate the minimum enclosing cone for given U.
 
-        return kernel
-
-    def _calculate_subgraph_samples_metric_dictionary_(self, A):
-        """Calculate a graph metric.
-
-        Calculates a graph metric as the lovasz theta kernel or the svm-theta
-        kernel, on a set of randomly sampled subgraphs, producing a dictionary
-        of subgraph levels and sets.
+        Calculates the minimum a graph metric as the lovasz theta kernel or the
+        svm-theta kernel, on a set of randomly sampled subgraphs, producing a
+        dictionary of subgraph levels and sets.
 
         Parameters
         ----------
@@ -162,51 +182,32 @@ class lovasz_theta(kernel):
 
         Returns
         -------
-        level_values : dict
-            Returns a dictionary with levels (subsite size) and the lovasz
-            value of all the sampled subgraphs.
+        level_values : np.array, shape=(num_of_levels, 1)
+            Returns for all levels the mean of lovasz_numbers for
+            sampled subsets.
 
         """
         # Calculate subsets
-        n = A.shape[0]
+        n = U.shape[1]
         samples_on_subsets = distribute_samples(n, self._ssr, self._n_samples)
 
         # Calculate level dictionary with lovasz values
-        level_values = collections.defaultdict(list)
-        for (level, v) in samples_on_subsets.items():
-            subsets = set()
-            for k in range(v):
-                while True:
+        phi = np.zeros(shape=(self._ssr[1]-self._ssr[0]+1, 1))
+        for (i, level) in enumerate(range(self._ssr[0], self._ssr[1]+1)):
+            v = samples_on_subsets.get(level, None)
+            if v is not None:
+                level_values = list()
+                for k in range(v):
                     indexes = np.random.choice(n, level, replace=False)
-                    tup_indexes = tuple(indexes)
-                    if tup_indexes not in subsets:
-                        subsets.add(tup_indexes)
-                        break
-                # calculate the metrix value for that level
-                level_values[level].append(
-                    self._internal_metric(A[:, indexes][indexes, :]))
+                    # calculate the metrix value for that level
+                    level_values.append(_minimum_cone_(U[:, indexes]))
+                phi[i] = np.mean(level_values)
 
-        return level_values
-
-    def _internal_metric(self, A):
-        """Calculate the internal metric.
-
-        Parameters
-        ----------
-        A : np.array, ndim=2
-            The adjacency matrix.
-
-        Returns
-        -------
-        metric: Number
-            Returns the metric number.
-
-        """
-        return _calculate_lovasz_theta_(A)
+        return phi
 
 
-def _calculate_lovasz_theta_(A):
-    """Calculate the lovasz theta for the given graph.
+def _calculate_lovasz_embeddings_(A):
+    """Calculate the lovasz embeddings for the given graph.
 
     Parameters
     ----------
@@ -215,14 +216,19 @@ def _calculate_lovasz_theta_(A):
 
     Returns
     -------
-    lovasz_theta: float
+    lovasz_theta : float
         Returns the lovasz theta number.
+
+    optimization_solution : np.array
+        Returns the slack variable solution
+        of the primal optimization program.
 
     """
     if A.shape[0] == 1:
         return 1.0
     else:
-        tf_adjm = A > 0
+        tf_adjm = (np.abs(A) <= min_weight)
+        np.fill_diagonal(tf_adjm, False)
         i_list, j_list = np.nonzero(np.triu(tf_adjm.astype(int), k=1))
 
         nv = A.shape[0]
@@ -250,4 +256,171 @@ def _calculate_lovasz_theta_(A):
     # Solve the convex optimization problem
     sol = sdp(c, Gs=[g_sparse], hs=[h])
 
-    return sol['x'][ne]
+    return np.array(sol['ss'][0]), sol['x'][ne]
+
+
+def _calculate_lovasz_labelling_(X, t, d):
+    """Calculate the lovasz labelling for the extracted embeddings.
+
+    Parameters
+    ----------
+    X : np.array, ndim=2
+        The optimization solution of the sdp program.
+
+    t : float
+        Returns the lovasz theta number.
+
+    d : int
+        The number of features size.
+
+    Returns
+    -------
+    lovasz_theta : float
+        Returns the lovasz theta number.
+
+    optimization_solution : np.array
+        Returns the slack variable solution
+        of the primal optimization program.
+
+    """
+    n = X.shape[0]
+
+    try:
+        V = cholesky(X)
+    except LinAlgError:
+        x = X.diagonal()
+        x.setflags(write=True)
+        x += 2*abs(eigvalsh(X, lower=False, eigvals=(0, 0))[0])
+        V = cholesky(X)
+
+    V = pad(V, [(0, d-n), (0, 0)], mode='constant', constant_values=0)
+
+    c = np.zeros(shape=(d,))
+    c[-1] = 1
+
+    C = np.outer(c, np.ones(shape=(n,)))
+
+    U = 1/sqrt(t)*(C+V)
+    return U
+
+
+def _minimum_cone_(U):
+    """Calculate the minimum cone.
+
+    Computes the angle and center of the minimum cone, with its point
+    in the origin, enclosing the vectors in A.
+
+    Parameters
+    ----------
+    U : np.array, ndim=2
+        The vectors that will be enclosed.
+
+    Returns
+    -------
+    angle_cosine : float
+        Returns the cosine of the minimum angle.
+
+    """
+    n = U.shape[1]
+
+    P = np.random.permutation(n) - 1
+    R = np.array([], dtype=int)
+    c, _ = _b_minidisk_(U, P, R)
+
+    with np.errstate(divide='ignore'):
+        c /= norm(c, 2)
+
+    t = min(np.dot(U.T, c))
+    if t > 1. and t < angle_precision:
+        t = 1.
+
+    elif t < -1. and t > -angle_precision:
+        t = -1.
+
+    return t
+
+
+def _b_minidisk_(A, P, R):
+    """Calculate the minidisk.
+
+    Implements Welzl's algorithm (*move-to-front*)
+
+    Parameters
+    ----------
+    A : np.array, ndim=2
+        The vectors that will be enclosed.
+
+    P : np.array, ndim=1
+        A random permutation of indeces.
+
+    R : np.array, ndim=1
+        A subset of vectors that are enclosed.
+
+    Returns
+    -------
+    c : np.array, ndim=1
+        The center vector C of the cone as it is being minimized.
+
+    r : int
+        The cone radius as it is beeing minimized.
+
+    """
+    d, nP, nR = A.shape[0], P.shape[0], R.shape[0]
+
+    # original algorithm
+    if nP == 0 or nR == d+1:
+        if nR == 0:
+            c, r = np.zeros(shape=(d,)), 0
+        else:
+            c, r = _fitball_(A[:, R])
+    else:
+        p = P[random.randint(0, nP - 1)]
+        P_prime = np.delete(P, np.where(P == p))
+        c, r = _b_minidisk_(A, P_prime, R)
+        if norm(A[:, p] - c, 2) - r > tolerance:
+            # if not inside ball
+            if p not in R:
+                R_prime = pad(R, [(0, 1)], mode='constant', constant_values=p)
+                c, r = _b_minidisk_(A, P_prime, R_prime)
+    return c, r
+
+
+def _fitball_(A):
+    """Fit the minimum ball.
+
+    Parameters
+    ----------
+    A : np.array, ndim=2
+        The vectors that will be enclosed inside the ball.
+
+    Returns
+    -------
+    c : np.array, ndim=1
+        The center vector C of the ball.
+
+    r : int
+        The ball radius.
+
+    """
+    d = A.shape[0]
+    n = A.shape[1]
+
+    if n == 1:
+        c, r = A[:, 0], 0
+    else:
+        Q = A-np.outer(A[:, 0], np.ones(shape=(n, 1)))
+        B = 2*np.dot(Q.T, Q)
+        b = B.diagonal()/2
+
+        L = solve(B[1:, :][:, 1:], b[1:])
+        L = pad(L, [(1, 0)], mode='constant', constant_values=0)
+
+        C = np.zeros(shape=(d,))
+
+        for i in range(1, n):
+            C = C + L[i]*Q[:, i]
+
+        r = np.sqrt(np.dot(C, C))
+        c = C + A[:, 1]
+
+    return c, r

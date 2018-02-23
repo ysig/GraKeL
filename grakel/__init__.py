@@ -6,6 +6,8 @@ from grakel.graph import Graph
 from grakel.graph_kernels import GraphKernel
 
 from grakel.kernels import kernel
+from grakel.kernels import vertex_histogram
+from grakel.kernels import edge_histogram
 from grakel.kernels import graphlet_sampling
 from grakel.kernels import random_walk
 from grakel.kernels import subtree_wl
@@ -47,5 +49,22 @@ __all__ = [
     "propagation",
     "hadamard_code",
     "multiscale_laplacian",
-    "multiscale_laplacian_fast"
+    "multiscale_laplacian_fast",
+    "vertex_histogram",
+    "edge_histogram"
 ]
+
+# Generic release markers:
+#   X.Y
+#   X.Y.Z   # For bugfix releases
+#
+# Admissible pre-release markers:
+#   X.YaN   # Alpha release
+#   X.YbN   # Beta release
+#   X.YrcN  # Release Candidate
+#   X.Y     # Final release
+#
+# Dev branch marker is: 'X.Y.dev' or 'X.Y.devN' where N is an integer.
+# 'X.Y.dev0' is the canonical version of 'X.Y.dev'
+#
+__version__ = '0.0.d1'

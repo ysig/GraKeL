@@ -72,14 +72,13 @@ class pyramid_match(kernel):
 
         Parameters
         ----------
-        X : object
+        X : iterable
             For the input to pass the test, we must have:
             Each element must be an iterable with at most three features and at
             least one. The first that is obligatory is a valid graph structure
             (adjacency matrix or edge_dictionary) while the second is
-            node_labels and the third edge_labels (that fitting the given graph
-            format). If None the kernel matrix is calculated upon fit data.
-            The test samples.
+            node_labels and the third edge_labels (that correspond to the given
+            graph format). A valid input also consists of graph type objects.
 
         Returns
         -------
@@ -140,20 +139,27 @@ class pyramid_match(kernel):
         if i == 0:
             raise ValueError('parsed input is empty')
 
-        if self._method_calling in [1, 2]:
+        if self._with_labels:
             # Map labels to values between 0 and |L|-1
             # where |L| is the number of distinct labels
-            if self._with_labels:
+            if self._method_calling in [1, 2]:
                 self._num_labels = 0
                 self._labels = set()
                 for L in Ls:
                     self._labels |= set(L.values())
                 self._num_labels = len(self._labels)
                 self._labels = {l: i for (i, l) in enumerate(self._labels)}
+                return self._histogram_calculation(Us, Ls, self._labels)
 
-        # Calculate histograms
-        if self._with_labels:
-            return self._histogram_calculation(Us, Ls)
+            elif self._method_calling == 3:
+                labels = set()
+                for L in Ls:
+                    labels |= set(L.values())
+                rest_labels = labels - set(self._labels.keys())
+                labels_enum = {l: i for (i, l)
+                               in enumerate(rest_labels, len(self._labels))}
+                nouveau_labels = dict(self._labels, **labels_enum)
+                return self._histogram_calculation(Us, Ls, nouveau_labels)
         else:
             return self._histogram_calculation(Us)
 
@@ -170,6 +176,9 @@ class pyramid_match(kernel):
         Ls : list, optional
             List of labels corresponding to each graph.
             If provided the histograms are calculated with labels.
+
+        Labels : dict, optional
+            A big dictionary with enumeration of labels.
 
         Returns
         -------
@@ -203,6 +212,7 @@ class pyramid_match(kernel):
 
         elif len(args) > 0:
             Ls = args[0]
+            Labels = args[1]
             for (i, ((n, u), L)) in enumerate(zip(Us, Ls)):
                 du = list()
                 if n > 0:
@@ -221,9 +231,9 @@ class pyramid_match(kernel):
                             for q in range(u.shape[1]):
                                 # Identify the cell into which the i-th
                                 # vertex lies and increase its value by 1
-                                D[self._labels[L[p]]*self._d + q,
+                                D[Labels[L[p]]*self._d + q,
                                   int(T[p, q])] = \
-                                    D[self._labels[L[p]]*self._d + q,
+                                    D[Labels[L[p]]*self._d + q,
                                       int(T[p, q])] + 1
                             du.append(D)
                     Hs.append(du)

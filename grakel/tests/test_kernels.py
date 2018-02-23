@@ -21,6 +21,8 @@ from grakel.kernels import propagation
 from grakel.kernels import hadamard_code
 from grakel.kernels import multiscale_laplacian
 from grakel.kernels import multiscale_laplacian_fast
+from grakel.kernels import vertex_histogram
+from grakel.kernels import edge_histogram
 
 global verbose, main, development
 
@@ -252,12 +254,15 @@ def test_hadamard_code():
 
 def test_multiscale_laplacian():
     """Test the Multiscale Laplacian kernel."""
+    # Download dataset
     fmm_dataset = fetch_dataset("FIRSTMM_DB",
                                 with_classes=False,
                                 prefer_attr_nodes=True,
                                 verbose=verbose).data
     fmm_dataset_tr = fmm_dataset[:int(len(fmm_dataset)*0.8)]
     fmm_dataset_te = fmm_dataset[int(len(fmm_dataset)*0.8):]
+
+    # Intialise kernel
     ml_kernel = multiscale_laplacian(verbose=verbose, normalize=normalize)
     if verbose:
         print_kernel("Multiscale Laplacian", ml_kernel,
@@ -268,12 +273,15 @@ def test_multiscale_laplacian():
 
 def test_multiscale_laplacian_fast():
     """Test the Multiscale Laplacian kernel."""
+    # Download dataset
     fmm_dataset = fetch_dataset("FIRSTMM_DB",
                                 with_classes=False,
                                 prefer_attr_nodes=True,
                                 verbose=verbose).data
     fmm_dataset_tr = fmm_dataset[:int(len(fmm_dataset)*0.8)]
     fmm_dataset_te = fmm_dataset[int(len(fmm_dataset)*0.8):]
+
+    # Initialise kernel
     mlf_kernel = multiscale_laplacian_fast(verbose=verbose,
                                            normalize=normalize)
     if verbose:
@@ -281,6 +289,24 @@ def test_multiscale_laplacian_fast():
                      fmm_dataset_tr, fmm_dataset_te)
     else:
         positive_eig(mlf_kernel, fmm_dataset)
+
+
+def test_vertex_histogram():
+    """Test the Vertex Histogram Kernel."""
+    vh_kernel = vertex_histogram(verbose=verbose, normalize=normalize)
+    if verbose:
+        print_kernel("Vertex Histogram", vh_kernel, dataset_tr, dataset_te)
+    else:
+        positive_eig(vh_kernel, dataset)
+
+
+def test_edge_histogram():
+    """Test the Edge Histogram Kernel."""
+    eh_kernel = edge_histogram(verbose=verbose, normalize=normalize)
+    if verbose:
+        print_kernel("Edge Histogram", eh_kernel, dataset_tr, dataset_te)
+    else:
+        positive_eig(eh_kernel, dataset)
 
 
 def print_kernel(name, kernel, X, Y):
@@ -306,7 +332,6 @@ if verbose and main:
     test_random_walk()
     test_shortest_path()
     test_weisfeiler_lehman()
-    test_pyramid_match()
     test_neighborhood_hash()
     test_graphlet_sampling()
     test_lovasz_theta()
@@ -317,10 +342,13 @@ if verbose and main:
     test_neighborhood_subgraph_pairwise_distance()
     test_multiscale_laplacian_fast()
     test_subgraph_matching()
-
-if verbose and develop:
+    test_pyramid_match()
     test_svm_theta()
     test_lovasz_theta()
+    test_edge_histogram()
+    test_vertex_histogram()
+
+if verbose and develop:
     if slow:
         test_jsm_theta()
         test_multiscale_laplacian()
