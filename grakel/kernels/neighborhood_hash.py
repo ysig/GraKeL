@@ -93,9 +93,9 @@ class neighborhood_hash(kernel):
                 self._Y_labels_hash_dict = dict()
                 self._Y_labels_hash_set = set()
             for (idx, x) in enumerate(iter(X)):
-                is_iter = False
-                if is_iter and isinstance(x, collections.Iterable):
-                    is_iter, x = True, list(x)
+                is_iter = isinstance(x, collections.Iterable)
+                if is_iter:
+                    x = list(x)
                 if is_iter and len(x) in [0, 1, 2, 3]:
                     if len(x) == 0:
                         warnings.warn('Ignoring empty element on index: '

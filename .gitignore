@@ -67,3 +67,6 @@ target/
 
 # Pycharm
 .idea
+
+# PyPi
+.pypirc

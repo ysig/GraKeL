@@ -291,27 +291,27 @@ class GraphKernel(BaseEstimator, TransformerMixin):
 
         if "Nystroem" in kargs:
             if type(kargs["Nystroem"]) is not int:
-                raise ValueError('nystroem parameter must be an int, \
-                                  indicating the number of components')
+                raise ValueError('nystroem parameter must be an int, '
+                                 'indicating the number of components')
             elif kargs["Nystroem"] in [0, -1]:
                 # picking default number of components
                 self._nystroem = default_n_components
             elif kargs["Nystroem"] <= 0:
-                raise ValueError('number of nystroem components \
-                                  must be positive')
+                raise ValueError('number of nystroem components '
+                                 'must be positive')
             else:
                 self._nystroem = kargs["Nystroem"]
 
         if "n_jobs" in kargs:
             if type(kargs["n_jobs"]) is not int:
-                raise ValueError('n_jobs parameter must be an int, \
-                                  indicating the number of workers')
+                raise ValueError('n_jobs parameter must be an int, '
+                                 'indicating the number of workers')
             elif kargs["n_jobs"] in [0, -1]:
                 # Initialise an executor
                 self._concurrent_executor = ThreadPoolExecutor()
             elif kargs["n_jobs"] <= 0:
-                raise ValueError('number of jobs (concurrent workers) \
-                                  must be positive')
+                raise ValueError('number of jobs (concurrent workers) '
+                                 'must be positive')
             else:
                 self._concurrent_executor = ThreadPoolExecutor(
                     max_workers=kargs["n_jobs"])
@@ -342,8 +342,8 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                 raise ValueError('unsupported kernel format')
             self._kernel = kernel(**params)
         else:
-            raise ValueError('kernel must be defined at the __init__ function \
-                              of the graph kernel decorator')
+            raise ValueError('kernel must be defined at the __init__ '
+                             'function of the graph kernel decorator')
 
         unrecognised_args = set(kargs.keys()) - valid_parameters
 
@@ -369,11 +369,11 @@ class GraphKernel(BaseEstimator, TransformerMixin):
         """
         kernel = kernel_list.pop(0)
         if type(kernel) is not dict:
-            raise ValueError('each element of the list of kernels must' +
+            raise ValueError('each element of the list of kernels must'
                              ' be a dictionary')
         if "name" not in kernel:
-            raise ValueError('each dictionary concerning a kernel must' +
-                             ' have a "name" parameter designating the' +
+            raise ValueError('each dictionary concerning a kernel must'
+                             ' have a "name" parameter designating the'
                              'kernel')
         kernel_name = kernel.pop("name")
         for (keys, val) in hidden_args.items():
@@ -484,9 +484,9 @@ class GraphKernel(BaseEstimator, TransformerMixin):
             # get basis vectors
             if self._nystroem > nx:
                 n_components = nx
-                warnings.warn("n_components > n_samples. This is not " +
-                              "possible.\nn_components was set to n_samples" +
-                              ", which results in inefficient evaluation of" +
+                warnings.warn("n_components > n_samples. This is not "
+                              "possible.\nn_components was set to n_samples"
+                              ", which results in inefficient evaluation of"
                               " the full kernel.")
             else:
                 n_components = self._nystroem

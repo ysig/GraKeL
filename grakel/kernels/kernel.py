@@ -113,7 +113,7 @@ class kernel(BaseEstimator, TransformerMixin):
         self._method_calling = 1
         # Input validation and parsing
         if X is None:
-            raise ValueError('fit input cannot be None')
+            raise ValueError('`fit` input cannot be None')
         else:
             self.X = self.parse_input(X)
 
@@ -146,7 +146,7 @@ class kernel(BaseEstimator, TransformerMixin):
 
         # Input validation and parsing
         if X is None:
-            raise ValueError('transform input cannot be None')
+            raise ValueError('`transform` input cannot be None')
         else:
             Y = self.parse_input(X)
 
@@ -289,7 +289,7 @@ class kernel(BaseEstimator, TransformerMixin):
                 if is_iter and len(x) in [0, 1, 2, 3]:
                     if len(x) == 0:
                         warnings.warn('Ignoring empty element' +
-                                      ' on index: '+str(i))
+                                      'on index: '+str(i)+'..')
                         continue
                     elif len(x) == 1:
                         Xp.append(Graph(x[0], {}, {},
@@ -301,10 +301,10 @@ class kernel(BaseEstimator, TransformerMixin):
                 elif type(x) is Graph:
                     Xp.append(x)
                 else:
-                    raise ValueError('each element of X must have at least' +
-                                     ' one and at most 3 elements\n')
+                    raise ValueError('Each element of X must have at least ' +
+                                     'one and at most 3 elements.\n')
             if len(Xp) == 0:
-                raise ValueError('parsed input is empty')
+                raise ValueError('Parsed input is empty.')
             return Xp
 
     def pairwise_operation(self, x, y):
@@ -321,4 +321,4 @@ class kernel(BaseEstimator, TransformerMixin):
             The kernel value.
 
         """
-        return 0
+        raise ValueError('Pairwise operation is not implemented!')

@@ -272,7 +272,7 @@ def test_multiscale_laplacian():
 
 
 def test_multiscale_laplacian_fast():
-    """Test the Multiscale Laplacian kernel."""
+    """Test the Fast Multiscale Laplacian kernel."""
     # Download dataset
     fmm_dataset = fetch_dataset("FIRSTMM_DB",
                                 with_classes=False,
