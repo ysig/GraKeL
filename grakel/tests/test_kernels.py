@@ -1,7 +1,7 @@
 """Tests for the kernel sub-module."""
-from time import time
+import numpy as np
 
-from sklearn.model_selection import train_test_split    
+from sklearn.model_selection import train_test_split
 
 from grakel.datasets import fetch_dataset
 
@@ -113,6 +113,7 @@ dataset_attr = fetch_dataset("Cuneiform", with_classes=False,
 dataset_attr_tr, dataset_attr_te = train_test_split(dataset_attr,
                                                     test_size=0.2,
                                                     random_state=42)
+
 
 def test_subtree_wl():
     """Test the wl subtree kernel."""

@@ -52,8 +52,8 @@ dataset_metadata = {
                 "link": "https://ls11-www.cs.uni-dortmund.de/people/morris/" +
                 "graphkerneldatasets/ENZYMES.zip"},
     "Cuneiform": {"nl": True, "el": True, "na": True, "ea": True,
-                "link": "https://ls11-www.cs.uni-dortmund.de/people/morris/"
-                        "graphkerneldatasets/Cuneiform.zip"},
+                  "link": "https://ls11-www.cs.uni-dortmund.de/people/morris/"
+                          "graphkerneldatasets/Cuneiform.zip"},
     "FINGERPRINT": {"nl": False, "el": False, "na": True, "ea": True,
                     "link": "https://ls11-www.cs.uni-dortmund.de/people/" +
                     "morris/graphkerneldatasets/Fingerprint.zip"},
