@@ -20,7 +20,10 @@ The grakel library requires:
 * pynauty [>= 0.6.0]
 
 For installing NumPy, SciPy, cvxopt and Cython the procedure
-is the well known: `pip install extension==extension_version`.
+is the well known:
+```shell
+pip install extension==extension_version
+```
 
 Installing **pynauty**
 ----------------------

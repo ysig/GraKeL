@@ -37,7 +37,7 @@ ext = Extension(name="grakel.kernels._c_functions",
                 sources=[ext_address + "functions.pyx",
                          ext_address + "src/ArashPartov.cpp",
                          ext_address + "src/sm_core.cpp"],
-                include_dirs=[ext_address + "include"],
+                include_dirs=[ext_address + "include", numpy.get_include()],
                 depends=[ext_address + "include/functions.hpp"],
                 language="c++",
                 extra_compile_args=["-O3", "-std=c++11"])
