@@ -4,7 +4,6 @@ import sys
 from warnings import warn
 from platform import system
 from setuptools import setup, find_packages, Extension
-from Cython.Distutils import build_ext
 
 with open('requirements.txt') as f:
     INSTALL_REQUIRES = [l.strip() for l in f.readlines() if l]
@@ -16,6 +15,13 @@ if OS == 'Windows':
          'To see why please check the documentation.')
 
 try:
+    from Cython.Distutils import build_ext
+except ImportError:
+    print('build_ext from Cython.Distutils is required during installation',
+          file=sys.stderr)
+    sys.exit(1)
+
+try:
     import pynauty
 except ImportError as ie:
     if OS in ['Linux', 'Darwin']:
@@ -24,9 +30,16 @@ except ImportError as ie:
         try:
             main_unix()
         except CalledProcessError:
-            sys.stderr.write('The automatic script-failed to install pynauty..\n'
-                             'Try to install it on your own.')
+            print('The automatic script-failed to install pynauty..\n'
+                  'Try to install it on your own.', file=sys.stderr)
             sys.exit(1)
+
+try:
+    import numpy
+except ImportError:
+    print('numpy is required during installation', file=sys.stderr)
+    sys.exit(1)
+
 
 # Add the _c_functions extension on kernels
 ext_address = "./grakel/kernels/_c_functions/"
@@ -40,7 +53,7 @@ ext = Extension(name="grakel.kernels._c_functions",
                 extra_compile_args=["-O3", "-std=c++11"])
 
 setup(name='grakel',
-      version='0.1a',
+      version='0.1a0',
       description='A scikit-learn compatible library for graph kernels',
       project_urls={
         'Documentation': 'https://ysig.github.io/GraKeL/dev/',

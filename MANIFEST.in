@@ -1,4 +1,6 @@
 include requirements.txt
-recursive-include grakel/kernels/_c_functions/include *
+include install_pynauty.py
 include grakel/kernels/_c_functions/*.pxd
 include grakel/kernels/_c_functions/*.pyx
+recursive-include grakel/kernels/_c_functions/include *
+recursive-include grakel/kernels/_c_functions/src *
