@@ -1,5 +1,5 @@
 """Tests for the GraphKernel class."""
-import argparse
+from sklearn.model_selection import train_test_split
 
 from grakel.datasets import fetch_dataset
 from grakel.graph_kernels import GraphKernel
@@ -7,6 +7,8 @@ from grakel.graph_kernels import GraphKernel
 global verbose, main, development
 
 if __name__ == '__main__':
+    import argparse
+    
     # Create an argument parser for the installer of pynauty
     parser = argparse.ArgumentParser(description='A test file for all kernels')
 
@@ -60,12 +62,24 @@ else:
     normalize, verbose = False, False
     dataset_name = "MUTAG"
 
-global dataset_tr, dataset_te
+global dataset_tr, dataset_te, dataset_attr_tr, dataset_attr_te
 
+# The baseline dataset for node, edge_labels
+global dataset, dataset_tr, dataset_te
 dataset = fetch_dataset(dataset_name, with_classes=False, verbose=verbose).data
-dataset_tr = dataset[:int(len(dataset)*0.8)]
-dataset_te = dataset[int(len(dataset)*0.8):]
+dataset_tr, dataset_te = train_test_split(dataset,
+                                          test_size=0.2,
+                                          random_state=42)
 
+# The baseline dataset for node/edge-attributes
+global dataset_attr, dataset_attr_tr, dataset_attr_te
+dataset_attr = fetch_dataset("Cuneiform", with_classes=False,
+                             prefer_attr_nodes=True,
+                             prefer_attr_edges=True,
+                             verbose=verbose).data
+dataset_attr_tr, dataset_attr_te = train_test_split(dataset_attr,
+                                                    test_size=0.2,
+                                                    random_state=42)
 
 def test_subtree_wl():
     """Test the wl subtree kernel."""
@@ -232,19 +246,9 @@ def test_multiscale_laplacian():
     gk = GraphKernel(kernel={"name": "multiscale_laplacian"},
                      verbose=verbose, normalize=normalize)
 
-    # Download dataset
-    fmm_dataset = fetch_dataset("FIRSTMM_DB",
-                                with_classes=False,
-                                prefer_attr_nodes=True,
-                                verbose=verbose).data
-
-    # Split
-    fmm_dataset_tr = fmm_dataset[:int(len(fmm_dataset)*0.8)]
-    fmm_dataset_te = fmm_dataset[int(len(fmm_dataset)*0.8):]
-
     if verbose:
         print_kernel_decorator("Multiscale Laplacian",
-                               gk, fmm_dataset_tr, fmm_dataset_te)
+                               gk, dataset_attr_tr, dataset_attr_te)
 
 
 def test_multiscale_laplacian_fast():
@@ -252,19 +256,9 @@ def test_multiscale_laplacian_fast():
     gk = GraphKernel(kernel={"name": "multiscale_laplacian", "which": "fast"},
                      verbose=verbose, normalize=normalize)
 
-    # Download dataset
-    fmm_dataset = fetch_dataset("FIRSTMM_DB",
-                                with_classes=False,
-                                prefer_attr_nodes=True,
-                                verbose=verbose).data
-
-    # Split
-    fmm_dataset_tr = fmm_dataset[:int(len(fmm_dataset)*0.8)]
-    fmm_dataset_te = fmm_dataset[int(len(fmm_dataset)*0.8):]
-
     if verbose:
         print_kernel_decorator("Multiscale Laplacian Fast",
-                               gk, fmm_dataset_tr, fmm_dataset_te)
+                               gk, dataset_attr_tr, dataset_attr_te)
 
 
 def print_kernel_decorator(name, kernel, X, Y):
@@ -294,6 +288,7 @@ if verbose and main:
     test_hadamard_code()
     test_neighborhood_pairwise_distance()
     test_multiscale_laplacian_fast()
+    test_subgraph_matching()
     test_vertex_histogram()
     test_edge_histogram()
     test_multiscale_laplacian_fast()
@@ -301,6 +296,6 @@ if verbose and main:
 if verbose and develop:
     if slow:
         test_jsm()
-    if problematic:
-        test_subgraph_matching()
         test_multiscale_laplacian()
+    if problematic:
+        pass

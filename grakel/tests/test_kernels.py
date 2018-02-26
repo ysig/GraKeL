@@ -1,6 +1,7 @@
 """Tests for the kernel sub-module."""
 from time import time
-import numpy as np
+
+from sklearn.model_selection import train_test_split    
 
 from grakel.datasets import fetch_dataset
 
@@ -96,12 +97,22 @@ else:
     normalize, verbose = False, False
     dataset_name = "MUTAG"
 
-global dataset_tr, dataset_te
-
+# The baseline dataset for node, edge_labels
+global dataset, dataset_tr, dataset_te
 dataset = fetch_dataset(dataset_name, with_classes=False, verbose=verbose).data
-dataset_tr = dataset[:int(len(dataset)*0.8)]
-dataset_te = dataset[int(len(dataset)*0.8):]
+dataset_tr, dataset_te = train_test_split(dataset,
+                                          test_size=0.2,
+                                          random_state=42)
 
+# The baseline dataset for node/edge-attributes
+global dataset_attr, dataset_attr_tr, dataset_attr_te
+dataset_attr = fetch_dataset("Cuneiform", with_classes=False,
+                             prefer_attr_nodes=True,
+                             prefer_attr_edges=True,
+                             verbose=verbose).data
+dataset_attr_tr, dataset_attr_te = train_test_split(dataset_attr,
+                                                    test_size=0.2,
+                                                    random_state=42)
 
 def test_subtree_wl():
     """Test the wl subtree kernel."""
@@ -254,41 +265,25 @@ def test_hadamard_code():
 
 def test_multiscale_laplacian():
     """Test the Multiscale Laplacian kernel."""
-    # Download dataset
-    fmm_dataset = fetch_dataset("FIRSTMM_DB",
-                                with_classes=False,
-                                prefer_attr_nodes=True,
-                                verbose=verbose).data
-    fmm_dataset_tr = fmm_dataset[:int(len(fmm_dataset)*0.8)]
-    fmm_dataset_te = fmm_dataset[int(len(fmm_dataset)*0.8):]
-
     # Intialise kernel
     ml_kernel = multiscale_laplacian(verbose=verbose, normalize=normalize)
     if verbose:
         print_kernel("Multiscale Laplacian", ml_kernel,
-                     fmm_dataset_tr, fmm_dataset_te)
+                     dataset_attr_tr, dataset_attr_te)
     # else:
-    #    positive_eig(ml_kernel, fmm_dataset)
+    #    positive_eig(ml_kernel, dataset_attr)
 
 
 def test_multiscale_laplacian_fast():
     """Test the Fast Multiscale Laplacian kernel."""
-    # Download dataset
-    fmm_dataset = fetch_dataset("FIRSTMM_DB",
-                                with_classes=False,
-                                prefer_attr_nodes=True,
-                                verbose=verbose).data
-    fmm_dataset_tr = fmm_dataset[:int(len(fmm_dataset)*0.8)]
-    fmm_dataset_te = fmm_dataset[int(len(fmm_dataset)*0.8):]
-
     # Initialise kernel
     mlf_kernel = multiscale_laplacian_fast(verbose=verbose,
                                            normalize=normalize)
     if verbose:
         print_kernel("Multiscale Laplacian Fast", mlf_kernel,
-                     fmm_dataset_tr, fmm_dataset_te)
+                     dataset_attr_tr, dataset_attr_te)
     else:
-        positive_eig(mlf_kernel, fmm_dataset)
+        positive_eig(mlf_kernel, dataset_attr)
 
 
 def test_vertex_histogram():
@@ -340,18 +335,17 @@ if verbose and main:
     test_propagation()
     test_hadamard_code()
     test_neighborhood_subgraph_pairwise_distance()
-    test_multiscale_laplacian_fast()
-    test_subgraph_matching()
     test_pyramid_match()
+    test_multiscale_laplacian_fast()
     test_svm_theta()
     test_lovasz_theta()
     test_edge_histogram()
     test_vertex_histogram()
 
 if verbose and develop:
+    test_subgraph_matching()
     if slow:
         test_jsm_theta()
         test_multiscale_laplacian()
     if problematic:
-        start = time()
-        print("Multiscale Laplacian .. took:", time()-start, "s.")
+        pass

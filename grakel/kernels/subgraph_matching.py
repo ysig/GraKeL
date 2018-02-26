@@ -192,7 +192,6 @@ class subgraph_matching(kernel):
 
             if i == 0:
                 raise ValueError('parsed input is empty')
-            print("Input Parsed")
             return out
 
 

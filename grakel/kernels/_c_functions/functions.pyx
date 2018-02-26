@@ -5,7 +5,7 @@ cimport functions
 cimport numpy as np
 
 from libc.string cimport const_char
-from libc.stdlib cimport malloc
+from libc.stdlib cimport malloc, free
 
 def APHash(word):
     """C++ wrapped implementation of Arash Partov Hashing."""
@@ -103,9 +103,16 @@ def sm_kernel(x, y, kv, ke, k):
     cdef np.ndarray[double, ndim=1] tv_np = np.zeros(shape=(k + 1))
     cdef double *tv = &tv_np[0]
 
-    # Run the core function
-    functions.sm_core_init(1, enum, nv, k, cv, ce, tv)
+    try:
+        # Run the core function
+        functions.sm_core_init(1, enum, nv, k, cv, ce, tv)
 
-    tv_np.reshape((k+1, 1))
-    return tv_np
-
+        tv_np.reshape((k+1, 1))
+        return tv_np
+    finally:
+        # Deallocate memory
+        free(enum)
+        free(cv)
+        for i in range(nv):
+            free(ce[i])
+        free(ce)
