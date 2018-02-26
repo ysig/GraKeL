@@ -17,7 +17,7 @@ An example plot of :class:`grakel.GraphKernel`
 
  Out::
 
-    Accuracy: 78.95 % | Took: 0.56 s
+    Accuracy: 84.21 % | Took: 0.55 s
 
 
 
@@ -45,7 +45,7 @@ An example plot of :class:`grakel.GraphKernel`
     G, y = mutag.data, mutag.target
 
     # Train-test split of graph data
-    G_train, G_test, y_train, y_test = train_test_split(G, y, test_size=0.1)
+    G_train, G_test, y_train, y_test = train_test_split(G, y, test_size=0.1, random_state=42)
 
     start = time()
     # Initialise a weifeiler kernel, with a dirac base_kernel.
@@ -70,7 +70,7 @@ An example plot of :class:`grakel.GraphKernel`
     print("Accuracy:", str(round(acc*100, 2)), "% | Took:",
           str(round(end - start, 2)), "s")
 
-**Total running time of the script:** ( 0 minutes  4.822 seconds)
+**Total running time of the script:** ( 0 minutes  4.787 seconds)
 
 
 

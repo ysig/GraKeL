@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>grakel.GraphKernel &mdash; GraKeL 0.1.dev documentation</title>
+  <title>grakel.GraphKernel &mdash; GraKeL 0.1a documentation</title>
   
 
   
@@ -39,7 +39,7 @@
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="GraKeL 0.1.dev documentation" href="../index.html"/>
+    <link rel="top" title="GraKeL 0.1a documentation" href="../index.html"/>
         <link rel="up" title="API Reference" href="../classes.html"/>
         <link rel="next" title="grakel.datasets.fetch_dataset" href="grakel.datasets.fetch_dataset.html"/>
         <link rel="prev" title="grakel.graph.floyd_warshall" href="grakel.graph.floyd_warshall.html"/> 
@@ -71,7 +71,7 @@
             
             
               <div class="version">
-                0.1.dev
+                0.1a
               </div>
             
           
@@ -102,9 +102,21 @@
 <li class="toctree-l1"><a class="reference internal" href="../user_manual/make_your_own_kernel.html">Write your own kernel</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../user_manual/contributing.html">Contributing</a></li>
 </ul>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../api.html">GraKeL</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../classes.html">API Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../classes.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-graph-graph-class-with-its-utility-functions"><code class="docutils literal notranslate"><span class="pre">grakel.graph</span></code>: Graph class with its utility functions</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../classes.html#grakel-graph-kernels-a-kernel-decorator"><code class="docutils literal notranslate"><span class="pre">grakel.graph_kernels</span></code>: A kernel decorator</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../classes.html#graph-kernel-decorator">Graph Kernel (decorator)</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">grakel.GraphKernel</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-kernels-a-collection-of-graph-kernels"><code class="docutils literal notranslate"><span class="pre">grakel.kernels</span></code>: A collection of graph kernels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-datasets-datasets"><code class="docutils literal notranslate"><span class="pre">grakel.datasets</span></code>: Datasets</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">General examples</a></li>
 </ul>
 
@@ -175,7 +187,7 @@
 <h1>grakel.GraphKernel<a class="headerlink" href="#grakel-graphkernel" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="grakel.GraphKernel">
-<em class="property">class </em><code class="descclassname">grakel.</code><code class="descname">GraphKernel</code><span class="sig-paren">(</span><em>**kargs</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/b06422f/grakel/graph_kernels.py#L68"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/graph_kernels.html#GraphKernel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphKernel" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">grakel.</code><code class="descname">GraphKernel</code><span class="sig-paren">(</span><em>**kargs</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f2a372f/grakel/graph_kernels.py#L68"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/graph_kernels.html#GraphKernel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphKernel" title="Permalink to this definition">¶</a></dt>
 <dd><p>A decorator for graph kernels.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -522,7 +534,7 @@ Ignored when Nystroem GraphKernel object is instanciated.</p>
 </table>
 <dl class="method">
 <dt id="grakel.GraphKernel.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>**kargs</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/b06422f/grakel/graph_kernels.py#L288"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/graph_kernels.html#GraphKernel.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphKernel.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>**kargs</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f2a372f/grakel/graph_kernels.py#L288"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/graph_kernels.html#GraphKernel.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphKernel.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p><cite>__init__</cite> for <cite>GraphKernel</cite> object.</p>
 </dd></dl>
 
@@ -555,7 +567,7 @@ Ignored when Nystroem GraphKernel object is instanciated.</p>
 </table>
 <dl class="method">
 <dt id="grakel.GraphKernel.fit">
-<code class="descname">fit</code><span class="sig-paren">(</span><em>X</em>, <em>y=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/b06422f/grakel/graph_kernels.py#L458"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/graph_kernels.html#GraphKernel.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphKernel.fit" title="Permalink to this definition">¶</a></dt>
+<code class="descname">fit</code><span class="sig-paren">(</span><em>X</em>, <em>y=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f2a372f/grakel/graph_kernels.py#L458"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/graph_kernels.html#GraphKernel.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphKernel.fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fit a dataset, for a transformer.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -588,7 +600,7 @@ requires this parameter.</p>
 
 <dl class="method">
 <dt id="grakel.GraphKernel.fit_transform">
-<code class="descname">fit_transform</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/b06422f/grakel/graph_kernels.py#L550"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/graph_kernels.html#GraphKernel.fit_transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphKernel.fit_transform" title="Permalink to this definition">¶</a></dt>
+<code class="descname">fit_transform</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f2a372f/grakel/graph_kernels.py#L550"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/graph_kernels.html#GraphKernel.fit_transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphKernel.fit_transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fit and transform, on the same dataset.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -618,7 +630,7 @@ all pairs of graphs between target an features</p>
 
 <dl class="method">
 <dt id="grakel.GraphKernel.get_params">
-<code class="descname">get_params</code><span class="sig-paren">(</span><em>deep=True</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/b06422f/grakel/../../virtualenvs/venv-3.5.2/lib/python3.5/site-packages/sklearn/base.py#L213"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphKernel.get_params" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_params</code><span class="sig-paren">(</span><em>deep=True</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f2a372f/grakel/../../virtualenvs/venv-3.5.2/lib/python3.5/site-packages/sklearn/base.py#L213"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphKernel.get_params" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get parameters for this estimator.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -643,7 +655,7 @@ contained subobjects that are estimators.</p>
 
 <dl class="method">
 <dt id="grakel.GraphKernel.set_params">
-<code class="descname">set_params</code><span class="sig-paren">(</span><em>**params</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/b06422f/grakel/../../virtualenvs/venv-3.5.2/lib/python3.5/site-packages/sklearn/base.py#L250"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphKernel.set_params" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_params</code><span class="sig-paren">(</span><em>**params</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f2a372f/grakel/../../virtualenvs/venv-3.5.2/lib/python3.5/site-packages/sklearn/base.py#L250"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphKernel.set_params" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the parameters of this estimator.</p>
 <p>The method works on simple estimators as well as on nested objects
 (such as pipelines). The latter have parameters of the form
@@ -661,7 +673,7 @@ component of a nested object.</p>
 
 <dl class="method">
 <dt id="grakel.GraphKernel.transform">
-<code class="descname">transform</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/b06422f/grakel/graph_kernels.py#L515"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/graph_kernels.html#GraphKernel.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphKernel.transform" title="Permalink to this definition">¶</a></dt>
+<code class="descname">transform</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f2a372f/grakel/graph_kernels.py#L515"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/graph_kernels.html#GraphKernel.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphKernel.transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the kernel matrix, between given and fitted dataset.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -737,7 +749,7 @@ all pairs of graphs between target an features</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.1.dev',
+            VERSION:'0.1a',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
