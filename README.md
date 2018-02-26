@@ -124,5 +124,5 @@ $ python -m grakel.tests
 but in order for this to work you would need first to build the package cython extension
 locally by executing:
 ```shell
-$ python setup.py install --bdist
+$ python setup.py build_ext -i
 ```

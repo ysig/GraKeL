@@ -23,7 +23,7 @@ mutag = datasets.fetch_dataset("MUTAG", verbose=False)
 G, y = mutag.data, mutag.target
 
 # Train-test split of graph data
-G_train, G_test, y_train, y_test = train_test_split(G, y, test_size=0.1)
+G_train, G_test, y_train, y_test = train_test_split(G, y, test_size=0.1, random_state=42)
 
 start = time()
 # Initialise a weifeiler kernel, with a dirac base_kernel.

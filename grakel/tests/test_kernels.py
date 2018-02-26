@@ -1,6 +1,8 @@
 """Tests for the kernel sub-module."""
 import numpy as np
 
+from unittest import TestCase
+
 from sklearn.model_selection import train_test_split
 
 from grakel.datasets import fetch_dataset
@@ -283,8 +285,8 @@ def test_multiscale_laplacian_fast():
     if verbose:
         print_kernel("Multiscale Laplacian Fast", mlf_kernel,
                      dataset_attr_tr, dataset_attr_te)
-    else:
-        positive_eig(mlf_kernel, dataset_attr)
+    # else:
+    #    positive_eig(mlf_kernel, dataset_attr)
 
 
 def test_vertex_histogram():
@@ -318,9 +320,10 @@ def print_kernel(name, kernel, X, Y):
 
 def positive_eig(kernel, X):
     """Assert true if the calculated kernel matrix is valid."""
+    tc = TestCase()
     K = kernel.fit_transform(X)
     min_eig = np.real(np.min(np.linalg.eig(K)[0]))
-    assert(min_eig > float("-1e-6"))
+    tc.assertGreater(min_eig, float("-1e-6"))
 
 
 if verbose and main:
@@ -342,9 +345,9 @@ if verbose and main:
     test_lovasz_theta()
     test_edge_histogram()
     test_vertex_histogram()
+    test_subgraph_matching()
 
 if verbose and develop:
-    test_subgraph_matching()
     if slow:
         test_jsm_theta()
         test_multiscale_laplacian()

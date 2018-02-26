@@ -56,6 +56,6 @@ The project is currently curried out under the administrative supervision of the
 supervision of Ioannis Nikollentzos a Post-Doc researcher with a PhD on the field of Graph Kernels.
 Other members of the lab aiding with the construction of this library are: Xristos Giatsidis, Stratis Limnios and Konstantinos Skianis.
 
-The project is licensed under a BSD license, as I the editor coordinate with the ideas and virtues of the free-software community.
+The project BSD license - a prerequisite of *sk-learn* compatibility - is accepted by the editor as it does not offend the virtues of the free-software community.
 
 .. _Labex DigiCosme: https://digicosme.lri.fr/tiki-index.php

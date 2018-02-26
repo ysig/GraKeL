@@ -1,35 +1,32 @@
 """The general `setup.py`  file."""
 from __future__ import print_function
 import sys
+from warnings import warn
+from platform import system
 from setuptools import setup, find_packages, Extension
 from Cython.Distutils import build_ext
 
 with open('requirements.txt') as f:
     INSTALL_REQUIRES = [l.strip() for l in f.readlines() if l]
 
-try:
-    import numpy
-except ImportError:
-    print('numpy is required during installation')
-    sys.exit(1)
+OS = system()
 
-try:
-    import scipy
-except ImportError:
-    print('scipy is required during installation')
-    sys.exit(1)
-
-try:
-    import cvxopt
-except ImportError:
-    print('cvxopt is required during installation')
-    sys.exit(1)
+if OS == 'Windows':
+    warn('Installation in Windows is problematic..'
+         'To see why please check the documentation.')
 
 try:
     import pynauty
 except ImportError as ie:
-    print('Import Error [pynauty]:', ie)
-    sys.exit(1)
+    if OS in ['Linux', 'Darwin']:
+        from install_pynauty import main_unix
+        from subprocess import CalledProcessError
+        try:
+            main_unix()
+        except CalledProcessError:
+            sys.stderr.write('The automatic script-failed to install pynauty..\n'
+                             'Try to install it on your own.')
+            sys.exit(1)
 
 # Add the _c_functions extension on kernels
 ext_address = "./grakel/kernels/_c_functions/"
@@ -43,12 +40,33 @@ ext = Extension(name="grakel.kernels._c_functions",
                 extra_compile_args=["-O3", "-std=c++11"])
 
 setup(name='grakel',
-      version='0.0.1',
+      version='0.1a',
       description='A scikit-learn compatible library for graph kernels',
+      project_urls={
+        'Documentation': 'https://ysig.github.io/GraKeL/dev/',
+        'Send us Feedback!': 'http://www.lix.polytechnique.fr/dascim/contact/',
+        'Source': 'https://github.com/ysig/GraKeL/tree/develop',
+        'Tracker': 'https://github.com/ysig/GraKeL/issues',
+        },
       author='Ioannis Siglidis [LiX / DaSciM]',
+      author_email='ioannis.siglidis@inria.fr',
+      license="BSD",
+      classifiers=['Intended Audience :: Science/Research',
+                   'Intended Audience :: Developers',
+                   'License :: OSI Approved',
+                   'Programming Language :: C',
+                   'Programming Language :: Python',
+                   'Topic :: Software Development',
+                   'Topic :: Scientific/Engineering',
+                   'Operating System :: POSIX',
+                   'Operating System :: Unix',
+                   'Operating System :: MacOS',
+                   'Programming Language :: Python :: 3.5',
+                   'Programming Language :: Python :: 3.6',
+                 ],
+      python_requires='>=3.5',
       packages=find_packages(),
       install_requires=INSTALL_REQUIRES,
-      author_email='ioannis.siglidis@inria.fr',
       ext_modules=[ext],
       cmdclass={'build_ext': build_ext}
       )
