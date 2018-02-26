@@ -3,7 +3,6 @@ import collections
 import warnings
 import numpy as np
 import time
-from tqdm import tqdm
 
 from math import sqrt
 
@@ -424,7 +423,7 @@ class multiscale_laplacian(kernel):
         for level in range(1, self._L+1):
             gram_matrix_n = np.empty(shape=gram_matrix.shape)
 
-            for i in tqdm(range(nx)):
+            for i in range(nx):
                 qi = Qx[level][i]
 
                 # xx
@@ -449,7 +448,7 @@ class multiscale_laplacian(kernel):
                                                     qj["l"],
                                                     extracted_gm)
 
-            for i in tqdm(range(ny)):
+            for i in range(ny):
                 idx = i + nx
                 qi = Qy[level][i]
                 qi_n = qi["n"] + nx
