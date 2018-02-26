@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Subgraph Matching Kernel &mdash; GraKeL 0.0.1 documentation</title>
+  <title>Subgraph Matching Kernel &mdash; GraKeL 0.0.d1 documentation</title>
   
 
   
@@ -32,12 +32,14 @@
   
     <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
   
+    <link rel="stylesheet" href="../_static/_static/suplementary.css" type="text/css" />
+  
 
   
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="GraKeL 0.0.1 documentation" href="../index.html"/> 
+    <link rel="top" title="GraKeL 0.0.d1 documentation" href="../index.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -66,7 +68,7 @@
             
             
               <div class="version">
-                0.1
+                0.0.d1
               </div>
             
           
@@ -91,7 +93,15 @@
             
             
               <ul>
+<li class="toctree-l1"><a class="reference internal" href="../user_manual/installation.html">Installing grakel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_manual/introduction.html">A short Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_manual/longer_introduction.html">A longer Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_manual/make_your_own_kernel.html">Write your own kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_manual/contributing.html">Contributing</a></li>
+</ul>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../api.html">GraKeL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../classes.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">General examples</a></li>
 </ul>
 
@@ -157,28 +167,67 @@
            <div itemprop="articleBody">
             
   <div class="section" id="subgraph-matching-kernel">
-<h1>Subgraph Matching Kernel<a class="headerlink" href="#subgraph-matching-kernel" title="Permalink to this headline">¶</a></h1>
+<span id="subgraph-matching"></span><h1>Subgraph Matching Kernel<a class="headerlink" href="#subgraph-matching-kernel" title="Permalink to this headline">¶</a></h1>
 <p>The Subgraph-Matching kernel.</p>
-<span class="target" id="module-grakel.kernels.subtree_wl"></span><p>This file contains the subtree kernel, used by default in wl.</p>
 <dl class="class">
-<dt id="grakel.kernels.subtree_wl.subtree_wl">
-<em class="property">class </em><code class="descclassname">grakel.kernels.subtree_wl.</code><code class="descname">subtree_wl</code><span class="sig-paren">(</span><em>**kargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/grakel/kernels/subtree_wl.html#subtree_wl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.subtree_wl.subtree_wl" title="Permalink to this definition">¶</a></dt>
-<dd><p>The weisfeiler lehman subtree kernel.</p>
-<p>See <a class="reference internal" href="weisfeiler_lehman.html#shervashidze2011weisfeilerlehmangk" id="id1">[SSvL+11]</a>.</p>
-<p>The kernel value.
-.. math:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">k</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">)</span> <span class="o">=</span> \<span class="n">sum_</span><span class="p">{</span><span class="n">v</span> \<span class="ow">in</span> <span class="n">V_</span><span class="p">{</span><span class="mi">1</span><span class="p">}}</span>\<span class="n">sum_</span><span class="p">{</span><span class="n">u</span> \<span class="ow">in</span> <span class="n">V_</span><span class="p">{</span><span class="mi">2</span><span class="p">}}</span>\<span class="n">delta</span><span class="p">(</span><span class="n">l</span><span class="p">(</span><span class="n">v</span><span class="p">),</span><span class="n">l</span><span class="p">(</span><span class="n">u</span><span class="p">))</span>
-</pre></div>
-</div>
+<dt id="grakel.kernels.subgraph_matching">
+<em class="property">class </em><code class="descclassname">grakel.kernels.</code><code class="descname">subgraph_matching</code><span class="sig-paren">(</span><em>**kargs</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/e7467b0/grakel/kernels/subgraph_matching.py#L17"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/subgraph_matching.html#subgraph_matching"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.subgraph_matching" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the subgraph matching kernel.</p>
+<p>See <a class="reference internal" href="#kriege2012subgraphmk" id="id1">[KM12]</a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X,Y</strong> : <em>valid-graph-format</em></p>
+<blockquote>
+<div><p>The pair of graphs on which the kernel is applied.</p>
+</div></blockquote>
+<p><strong>L{x,y}</strong> : dict</p>
+<blockquote>
+<div><p>Corresponding graph labels for vertices.</p>
+</div></blockquote>
+<p><strong>k</strong> : int, default=5</p>
+<blockquote>
+<div><p>The upper bound for the maximum size of subgraphs.</p>
+</div></blockquote>
+<p><strong>lw</strong> : str, valid_values={“uniform”, “increasing”</p>
+<p><strong>“decreasing”, “strong_decreasing”}, default=”uniform” | iterable, size=k+1,</strong></p>
+<p><strong>| callable, num_of_arguments=1, argument_type=int</strong></p>
+<blockquote>
+<div><p>The lambda weights applied to the clique sizes.</p>
+</div></blockquote>
+<p><strong>kv</strong> : function (<cite>vertex_label, `vertex_label</cite>, -&gt; number),</p>
+<p><strong>default=:math:`k_{v}^{default}(l(a), l(b))= delta(l(a), l(b))`</strong></p>
+<blockquote>
+<div><p>The kernel function between two vertex_labels.</p>
+</div></blockquote>
+<p><strong>ke</strong> : function (<cite>edge_label</cite>, <cite>edge_label</cite> -&gt; number),</p>
+<p><strong>default=:math:`k_{e}^{default}(l(e), l(e’))= delta(l(e), l(e’))`</strong></p>
+<blockquote class="last">
+<div><p>The kernel function between two edge_labels.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 <p class="rubric">Attributes</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="9%" />
-<col width="91%" />
+<col width="11%" />
+<col width="89%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><strong>X</strong></td>
-<td>(dict) Inverse dictionaries of labels for the input.</td>
+<tr class="row-odd"><td><strong>_kv</strong></td>
+<td>(function (<cite>vertex_label, `vertex_label</cite>, -&gt; number),) The kernel function between two edge_labels.</td>
+</tr>
+<tr class="row-even"><td><strong>_ke</strong></td>
+<td>(function (<cite>edge_label</cite>, <cite>edge_label</cite> -&gt; number),) The kernel function between two edge_labels.</td>
+</tr>
+<tr class="row-odd"><td><strong>_k</strong></td>
+<td>(int) The kernel function between two edge_labels.</td>
+</tr>
+<tr class="row-even"><td><strong>_lambdas</strong></td>
+<td>(np.array, shape=(1, k+1)) All the lambdas corresponding to all the valid sizes of subgraphs.</td>
 </tr>
 </tbody>
 </table>
@@ -189,43 +238,199 @@
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">diagonal</span></code>()</td>
-<td>Calculate the kernel matrix diagonal of the fitted data.</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.kernels.subgraph_matching.diagonal" title="grakel.kernels.subgraph_matching.diagonal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">diagonal</span></code></a></td>
+<td></td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code>(X[,&nbsp;y])</td>
-<td>Fit a dataset, for a transformer.</td>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.kernels.subgraph_matching.fit" title="grakel.kernels.subgraph_matching.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a></td>
+<td></td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">fit_transform</span></code>(X)</td>
-<td>Fit and transform, on the same dataset.</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.kernels.subgraph_matching.fit_transform" title="grakel.kernels.subgraph_matching.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code></a></td>
+<td></td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">get_params</span></code>([deep])</td>
-<td>Get parameters for this estimator.</td>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.kernels.subgraph_matching.get_params" title="grakel.kernels.subgraph_matching.get_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code></a></td>
+<td></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="subtree_wl.html#grakel.kernels.subtree_wl.subtree_wl.pairwise_operation" title="grakel.kernels.subtree_wl.subtree_wl.pairwise_operation"><code class="xref py py-obj docutils literal"><span class="pre">pairwise_operation</span></code></a>(lx,&nbsp;ly)</td>
-<td>Calculate the kernel value between two elements.</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.kernels.subgraph_matching.pairwise_operation" title="grakel.kernels.subgraph_matching.pairwise_operation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pairwise_operation</span></code></a></td>
+<td></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="subtree_wl.html#grakel.kernels.subtree_wl.subtree_wl.parse_input" title="grakel.kernels.subtree_wl.subtree_wl.parse_input"><code class="xref py py-obj docutils literal"><span class="pre">parse_input</span></code></a>(X)</td>
-<td>Parse and check the given input for dirac kernel.</td>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.kernels.subgraph_matching.parse_input" title="grakel.kernels.subgraph_matching.parse_input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_input</span></code></a></td>
+<td></td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">set_params</span></code>(**params)</td>
-<td>Set the parameters of this estimator.</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.kernels.subgraph_matching.set_params" title="grakel.kernels.subgraph_matching.set_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code></a></td>
+<td></td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">transform</span></code>(X)</td>
-<td>Calculate the kernel matrix, between given and fitted dataset.</td>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.kernels.subgraph_matching.transform" title="grakel.kernels.subgraph_matching.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Initialise a subtree_wl kernel.</p>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="67%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><strong>X</strong></td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.kernels.subgraph_matching.diagonal" title="grakel.kernels.subgraph_matching.diagonal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">diagonal</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.kernels.subgraph_matching.fit" title="grakel.kernels.subgraph_matching.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.kernels.subgraph_matching.fit_transform" title="grakel.kernels.subgraph_matching.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.kernels.subgraph_matching.get_params" title="grakel.kernels.subgraph_matching.get_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.kernels.subgraph_matching.pairwise_operation" title="grakel.kernels.subgraph_matching.pairwise_operation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pairwise_operation</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.kernels.subgraph_matching.parse_input" title="grakel.kernels.subgraph_matching.parse_input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_input</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.kernels.subgraph_matching.set_params" title="grakel.kernels.subgraph_matching.set_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.kernels.subgraph_matching.transform" title="grakel.kernels.subgraph_matching.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a></td>
+<td></td>
 </tr>
 </tbody>
 </table>
 <dl class="method">
-<dt id="grakel.kernels.subtree_wl.subtree_wl.pairwise_operation">
-<code class="descname">pairwise_operation</code><span class="sig-paren">(</span><em>lx</em>, <em>ly</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/grakel/kernels/subtree_wl.html#subtree_wl.pairwise_operation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.subtree_wl.subtree_wl.pairwise_operation" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate the kernel value between two elements.</p>
+<dt id="grakel.kernels.subgraph_matching.diagonal">
+<code class="descname">diagonal</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/e7467b0/grakel/kernels/kernel.py#L231"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.subgraph_matching.diagonal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the kernel matrix diagonal of the fitted data.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>l{x, y}: dict</strong></p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>None.</strong></p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>X_diag</strong> : np.array</p>
+<blockquote class="last">
+<div><p>The diagonal of the kernel matrix, of the fitted. This consists
+of each element calculated with itself.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="grakel.kernels.subgraph_matching.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>X</em>, <em>y=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/e7467b0/grakel/kernels/kernel.py#L91"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.subgraph_matching.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit a dataset, for a transformer.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X</strong> : iterable</p>
 <blockquote>
-<div><p>Inverse label dictionaries.</p>
+<div><p>Each element must be an iterable with at most three features and at
+least one. The first that is obligatory is a valid graph structure
+(adjacency matrix or edge_dictionary) while the second is
+node_labels and the third edge_labels (that fitting the given graph
+format). The train samples.</p>
+</div></blockquote>
+<p><strong>y</strong> : None</p>
+<blockquote>
+<div><p>There is no need of a target in a transformer, yet the pipeline API
+requires this parameter.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>self</strong> : object</p>
+<p class="last">Returns self.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="grakel.kernels.subgraph_matching.fit_transform">
+<code class="descname">fit_transform</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/e7467b0/grakel/kernels/kernel.py#L161"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.subgraph_matching.fit_transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit and transform, on the same dataset.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X</strong> : iterable</p>
+<blockquote>
+<div><p>Each element must be an iterable with at most three features and at
+least one. The first that is obligatory is a valid graph structure
+(adjacency matrix or edge_dictionary) while the second is
+node_labels and the third edge_labels (that fitting the given graph
+format). If None the kernel matrix is calculated upon fit data.
+The test samples.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>K</strong> : numpy array, shape = [n_targets, n_input_graphs]</p>
+<blockquote class="last">
+<div><p>corresponding to the kernel matrix, a calculation between
+all pairs of graphs between target an features</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="grakel.kernels.subgraph_matching.get_params">
+<code class="descname">get_params</code><span class="sig-paren">(</span><em>deep=True</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/e7467b0/grakel/../../virtualenvs/venv-3.5.2/lib/python3.5/site-packages/sklearn/base.py#L213"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.subgraph_matching.get_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get parameters for this estimator.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>deep</strong> : boolean, optional</p>
+<blockquote>
+<div><p>If True, will return the parameters for this estimator and
+contained subobjects that are estimators.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>params</strong> : mapping of string to any</p>
+<blockquote class="last">
+<div><p>Parameter names mapped to their values.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="grakel.kernels.subgraph_matching.pairwise_operation">
+<code class="descname">pairwise_operation</code><span class="sig-paren">(</span><em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/e7467b0/grakel/kernels/subgraph_matching.py#L112"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/subgraph_matching.html#subgraph_matching.pairwise_operation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.subgraph_matching.pairwise_operation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the subgraph matching kernel.</p>
+<p>See <a class="reference internal" href="#kriege2012subgraphmk" id="id2">[KM12]</a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>x, y</strong> : tuples</p>
+<blockquote>
+<div><p><em>Vertex-set</em>, <em>edge-dictionary</em>, <em>node-label-dictionary</em>,
+<em>edge-labels-dictionary</em> tuple.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -240,30 +445,75 @@
 </dd></dl>
 
 <dl class="method">
-<dt id="grakel.kernels.subtree_wl.subtree_wl.parse_input">
-<code class="descname">parse_input</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/grakel/kernels/subtree_wl.html#subtree_wl.parse_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.subtree_wl.subtree_wl.parse_input" title="Permalink to this definition">¶</a></dt>
-<dd><p>Parse and check the given input for dirac kernel.</p>
+<dt id="grakel.kernels.subgraph_matching.parse_input">
+<code class="descname">parse_input</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/e7467b0/grakel/kernels/subgraph_matching.py#L132"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/subgraph_matching.html#subgraph_matching.parse_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.subgraph_matching.parse_input" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse and create features for graphlet_sampling kernel.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X</strong> : object</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X</strong> : iterable</p>
 <blockquote>
 <div><p>For the input to pass the test, we must have:
 Each element must be an iterable with at most three features and at
 least one. The first that is obligatory is a valid graph structure
 (adjacency matrix or edge_dictionary) while the second is
-node_labels and the third edge_labels (that fitting the given graph</p>
-<blockquote>
-<div><p>format). If None the kernel matrix is calculated upon fit data.</p>
-</div></blockquote>
-<p>The test samples.</p>
+node_labels and the third edge_labels (that correspond to the given
+graph format). A valid input also consists of graph type objects.</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>Xp</strong> : list</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : list</p>
 <blockquote class="last">
-<div><p>List of graph type objects.</p>
+<div><p>The extracted adjacency matrices for any given input.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="grakel.kernels.subgraph_matching.set_params">
+<code class="descname">set_params</code><span class="sig-paren">(</span><em>**params</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/e7467b0/grakel/../../virtualenvs/venv-3.5.2/lib/python3.5/site-packages/sklearn/base.py#L250"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.subgraph_matching.set_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the parameters of this estimator.</p>
+<p>The method works on simple estimators as well as on nested objects
+(such as pipelines). The latter have parameters of the form
+<code class="docutils literal notranslate"><span class="pre">&lt;component&gt;__&lt;parameter&gt;</span></code> so that it’s possible to update each
+component of a nested object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">self</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="grakel.kernels.subgraph_matching.transform">
+<code class="descname">transform</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/e7467b0/grakel/kernels/kernel.py#L123"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.subgraph_matching.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the kernel matrix, between given and fitted dataset.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X</strong> : iterable</p>
+<blockquote>
+<div><p>Each element must be an iterable with at most three features and at
+least one. The first that is obligatory is a valid graph structure
+(adjacency matrix or edge_dictionary) while the second is
+node_labels and the third edge_labels (that fitting the given graph
+format). If None the kernel matrix is calculated upon fit data.
+The test samples.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>K</strong> : numpy array, shape = [n_targets, n_input_graphs]</p>
+<blockquote class="last">
+<div><p>corresponding to the kernel matrix, a calculation between
+all pairs of graphs between target an features</p>
 </div></blockquote>
 </td>
 </tr>
@@ -275,10 +525,10 @@ node_labels and the third edge_labels (that fitting the given graph</p>
 
 <div class="section" id="bibliography">
 <h2>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">¶</a></h2>
-<p id="bibtex-bibliography-kernels/subgraph_matching-0"><table class="docutils citation" frame="void" id="shervashidze2011weisfeilerlehmangk" rules="none">
+<p id="bibtex-bibliography-kernels/subgraph_matching-0"><table class="docutils citation" frame="void" id="kriege2012subgraphmk" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id1">[SSvL+11]</a></td><td>Nino Shervashidze, Pascal Schweitzer, Erik&nbsp;Jan van Leeuwen, Kurt Mehlhorn, and Karsten&nbsp;M. Borgwardt. Weisfeiler-lehman graph kernels. <em>Journal of Machine Learning Research</em>, 12:2539–2561, 2011.</td></tr>
+<tr><td class="label">[KM12]</td><td><em>(<a class="fn-backref" href="#id1">1</a>, <a class="fn-backref" href="#id2">2</a>)</em> Nils Kriege and Petra Mutzel. Subgraph matching kernels for attributed graphs. In <em>ICML</em>. 2012.</td></tr>
 </tbody>
 </table>
 </p>
@@ -298,7 +548,7 @@ node_labels and the third edge_labels (that fitting the given graph</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2017, DaSciM.
+        &copy; Copyright 2018, DaSciM (BSD License).
 
     </p>
   </div>
@@ -320,7 +570,7 @@ node_labels and the third edge_labels (that fitting the given graph</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.0.1',
+            VERSION:'0.0.d1',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

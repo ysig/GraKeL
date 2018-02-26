@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>grakel.kernels.graphlet_sampling &mdash; GraKeL 0.0.1 documentation</title>
+  <title>grakel.kernels.graphlet_sampling &mdash; GraKeL 0.0.d1 documentation</title>
   
 
   
@@ -32,12 +32,14 @@
   
     <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
   
+    <link rel="stylesheet" href="../../../_static/_static/suplementary.css" type="text/css" />
+  
 
   
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="GraKeL 0.0.1 documentation" href="../../../index.html"/>
+    <link rel="top" title="GraKeL 0.0.d1 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -67,7 +69,7 @@
             
             
               <div class="version">
-                0.1
+                0.0.d1
               </div>
             
           
@@ -92,7 +94,15 @@
             
             
               <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../user_manual/installation.html">Installing grakel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../user_manual/introduction.html">A short Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../user_manual/longer_introduction.html">A longer Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../user_manual/make_your_own_kernel.html">Write your own kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../user_manual/contributing.html">Contributing</a></li>
+</ul>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../api.html">GraKeL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../classes.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html">General examples</a></li>
 </ul>
 
@@ -173,14 +183,14 @@
 <span class="kn">from</span> <span class="nn">sklearn.exceptions</span> <span class="k">import</span> <span class="n">NotFittedError</span>
 <span class="kn">from</span> <span class="nn">sklearn.utils.validation</span> <span class="k">import</span> <span class="n">check_is_fitted</span>
 
-<span class="kn">from</span> <span class="nn">grakel.graph</span> <span class="k">import</span> <span class="n">graph</span>
+<span class="kn">from</span> <span class="nn">grakel.graph</span> <span class="k">import</span> <span class="n">Graph</span>
 <span class="kn">from</span> <span class="nn">grakel.tools</span> <span class="k">import</span> <span class="n">matrix_to_dict</span>
 <span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">kernel</span>
 
 <span class="n">default_random_seed_value</span> <span class="o">=</span> <span class="mi">15487103</span>
 
 
-<div class="viewcode-block" id="graphlet_sampling"><a class="viewcode-back" href="../../../kernels/graphlet_sampling.html#grakel.kernels.graphlet_sampling.graphlet_sampling">[docs]</a><span class="k">class</span> <span class="nc">graphlet_sampling</span><span class="p">(</span><span class="n">kernel</span><span class="p">):</span>
+<div class="viewcode-block" id="graphlet_sampling"><a class="viewcode-back" href="../../../kernels/graphlet_sampling.html#grakel.kernels.graphlet_sampling">[docs]</a><span class="k">class</span> <span class="nc">graphlet_sampling</span><span class="p">(</span><span class="n">kernel</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;The graphlet sampling kernel.</span>
 
 <span class="sd">    See :cite:`Shervashidze2009EfficientGK`.</span>
@@ -220,7 +230,7 @@
 
 <span class="sd">    n_samples : int</span>
 <span class="sd">        Sets the value of randomly drawn random samples,</span>
-<span class="sd">        from sizes between 3..k.</span>
+<span class="sd">        from sizes between 3..k. Overides the parameters a, epsilon, delta.</span>
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
@@ -306,13 +316,13 @@
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;negative a smaller than -1 have no meaning&#39;</span><span class="p">)</span>
 
             <span class="k">if</span><span class="p">(</span><span class="n">a</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+                <span class="n">fallback_map</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">:</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">6</span><span class="p">:</span> <span class="mi">53</span><span class="p">,</span> <span class="mi">7</span><span class="p">:</span> <span class="mi">209</span><span class="p">,</span>
+                                <span class="mi">8</span><span class="p">:</span> <span class="mi">1253</span><span class="p">,</span> <span class="mi">9</span><span class="p">:</span> <span class="mi">13599</span><span class="p">}</span>
                 <span class="k">if</span><span class="p">(</span><span class="n">k</span> <span class="o">&gt;</span> <span class="mi">9</span><span class="p">):</span>
                     <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
                         <span class="s1">&#39;warning for such size number of isomorphisms is not&#39;</span> <span class="o">+</span>
                         <span class="s1">&#39; known - interpolation on know values will be used&#39;</span><span class="p">)</span>
                     <span class="c1"># Use interpolations</span>
-                    <span class="n">fallback_map</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">:</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">6</span><span class="p">:</span> <span class="mi">53</span><span class="p">,</span> <span class="mi">7</span><span class="p">:</span>
-                                    <span class="mi">209</span><span class="p">,</span> <span class="mi">8</span><span class="p">:</span> <span class="mi">1253</span><span class="p">,</span> <span class="mi">9</span><span class="p">:</span> <span class="mi">13599</span><span class="p">}</span>
 
                     <span class="n">isomorphism_prediction</span> <span class="o">=</span> \
                         <span class="n">interp1d</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">fallback_map</span><span class="o">.</span><span class="n">keys</span><span class="p">()),</span>
@@ -331,7 +341,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_sample_graphlets</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">A</span><span class="p">:</span> \
                 <span class="n">sample_graphlets_all_connected</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
 
-<div class="viewcode-block" id="graphlet_sampling.transform"><a class="viewcode-back" href="../../../kernels/graphlet_sampling.html#grakel.kernels.graphlet_sampling.graphlet_sampling.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+<div class="viewcode-block" id="graphlet_sampling.transform"><a class="viewcode-back" href="../../../kernels/graphlet_sampling.html#grakel.kernels.graphlet_sampling.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate the kernel matrix, between given and fitted dataset.</span>
 
 <span class="sd">        Parameters</span>
@@ -341,8 +351,7 @@
 <span class="sd">            least one. The first that is obligatory is a valid graph structure</span>
 <span class="sd">            (adjacency matrix or edge_dictionary) while the second is</span>
 <span class="sd">            node_labels and the third edge_labels (that fitting the given graph</span>
-<span class="sd">            format). If None the kernel matrix is calculated upon fit data.</span>
-<span class="sd">            The test samples.</span>
+<span class="sd">            format).</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -380,10 +389,10 @@
         <span class="n">km</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">phi_y</span><span class="p">[:,</span> <span class="p">:</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_graph_bins</span><span class="p">)],</span> <span class="n">phi_x</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_normalize</span><span class="p">:</span>
             <span class="n">X_diag</span><span class="p">,</span> <span class="n">Y_diag</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">diagonal</span><span class="p">()</span>
-            <span class="n">km</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">Y_diag</span><span class="p">,</span> <span class="n">X_diag</span><span class="o">.</span><span class="n">T</span><span class="p">))</span>
-        <span class="k">return</span> <span class="n">km</span></div>
+            <span class="n">km</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">Y_diag</span><span class="p">,</span> <span class="n">X_diag</span><span class="p">))</span></div>
+        <span class="k">return</span> <span class="n">km</span>
 
-<div class="viewcode-block" id="graphlet_sampling.fit_transform"><a class="viewcode-back" href="../../../kernels/graphlet_sampling.html#grakel.kernels.graphlet_sampling.graphlet_sampling.fit_transform">[docs]</a>    <span class="k">def</span> <span class="nf">fit_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+<div class="viewcode-block" id="graphlet_sampling.fit_transform"><a class="viewcode-back" href="../../../kernels/graphlet_sampling.html#grakel.kernels.graphlet_sampling.fit_transform">[docs]</a>    <span class="k">def</span> <span class="nf">fit_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Fit and transform, on the same dataset.</span>
 
 <span class="sd">        Parameters</span>
@@ -417,13 +426,11 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_X_diag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diagonal</span><span class="p">(</span><span class="n">km</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">km</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_normalize</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">km</span><span class="p">,</span>
-                             <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_X_diag</span><span class="o">.</span><span class="n">T</span><span class="p">,</span>
-                                                 <span class="bp">self</span><span class="o">.</span><span class="n">_X_diag</span><span class="p">)))</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">km</span></div>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">km</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_X_diag</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_X_diag</span><span class="p">)))</span>
+        <span class="k">else</span><span class="p">:</span></div>
+            <span class="k">return</span> <span class="n">km</span>
 
-<div class="viewcode-block" id="graphlet_sampling.diagonal"><a class="viewcode-back" href="../../../kernels/graphlet_sampling.html#grakel.kernels.graphlet_sampling.graphlet_sampling.diagonal">[docs]</a>    <span class="k">def</span> <span class="nf">diagonal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="graphlet_sampling.diagonal"><a class="viewcode-back" href="../../../kernels/graphlet_sampling.html#grakel.kernels.graphlet_sampling.diagonal">[docs]</a>    <span class="k">def</span> <span class="nf">diagonal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate the kernel matrix diagonal for fitted data.</span>
 
 <span class="sd">        A funtion called on transform on a seperate dataset to apply</span>
@@ -454,22 +461,21 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_X_diag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_X_diag</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_X_diag</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span>
         <span class="c1"># Calculate diagonal of Y</span>
         <span class="n">Y_diag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_phi_Y</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_X_diag</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">Y_diag</span><span class="p">,</span> <span class="p">(</span><span class="n">Y_diag</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_X_diag</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">Y_diag</span><span class="p">,</span> <span class="p">(</span><span class="n">Y_diag</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span></div>
-
-<div class="viewcode-block" id="graphlet_sampling.parse_input"><a class="viewcode-back" href="../../../kernels/graphlet_sampling.html#grakel.kernels.graphlet_sampling.graphlet_sampling.parse_input">[docs]</a>    <span class="k">def</span> <span class="nf">parse_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+<div class="viewcode-block" id="graphlet_sampling.parse_input"><a class="viewcode-back" href="../../../kernels/graphlet_sampling.html#grakel.kernels.graphlet_sampling.parse_input">[docs]</a>    <span class="k">def</span> <span class="nf">parse_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Parse and create features for graphlet_sampling kernel.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        X : object</span>
+<span class="sd">        X : iterable</span>
 <span class="sd">            For the input to pass the test, we must have:</span>
 <span class="sd">            Each element must be an iterable with at most three features and at</span>
 <span class="sd">            least one. The first that is obligatory is a valid graph structure</span>
 <span class="sd">            (adjacency matrix or edge_dictionary) while the second is</span>
-<span class="sd">            node_labels and the third edge_labels (that fitting the given graph</span>
-<span class="sd">            format). If None the kernel matrix is calculated upon fit data.</span>
-<span class="sd">            The test samples.</span>
+<span class="sd">            node_labels and the third edge_labels (that correspond to the given</span>
+<span class="sd">            graph format). A valid input also consists of graph type objects.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -488,16 +494,19 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">_Y_graph_bins</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
             <span class="n">local_values</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
             <span class="k">for</span> <span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">X</span><span class="p">)):</span>
-                <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">is</span> <span class="n">graph</span><span class="p">:</span>
+                <span class="n">is_iter</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">collections</span><span class="o">.</span><span class="n">Iterable</span><span class="p">):</span>
+                    <span class="n">is_iter</span> <span class="o">=</span> <span class="kc">True</span>
+                    <span class="n">x</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">is</span> <span class="n">Graph</span><span class="p">:</span>
                     <span class="n">A</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">get_adjacency_matrix</span><span class="p">()</span>
-                <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">collections</span><span class="o">.</span><span class="n">Iterable</span><span class="p">)</span> <span class="ow">and</span> \
-                        <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]:</span>
+                <span class="k">elif</span> <span class="n">is_iter</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]:</span>
                     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                         <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;Ignoring empty element on &#39;</span> <span class="o">+</span>
                                       <span class="s1">&#39;index: &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">idx</span><span class="p">))</span>
                         <span class="k">continue</span>
                     <span class="k">else</span><span class="p">:</span>
-                        <span class="n">A</span> <span class="o">=</span> <span class="n">graph</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">{},</span> <span class="p">{},</span>
+                        <span class="n">A</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">{},</span> <span class="p">{},</span>
                                   <span class="bp">self</span><span class="o">.</span><span class="n">_graph_format</span><span class="p">)</span><span class="o">.</span><span class="n">get_adjacency_matrix</span><span class="p">()</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;each element of X must be either a &#39;</span> <span class="o">+</span>
@@ -516,12 +525,12 @@
                             <span class="n">local_values</span><span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">1</span>
                         <span class="k">else</span><span class="p">:</span>
                             <span class="n">newbin</span> <span class="o">=</span> <span class="kc">True</span>
-                            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_graph_bins</span><span class="p">)):</span>
-                                <span class="k">if</span> <span class="n">pynauty</span><span class="o">.</span><span class="n">isomorphic</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_graph_bins</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">sg</span><span class="p">):</span>
+                            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_graph_bins</span><span class="p">)):</span>
+                                <span class="k">if</span> <span class="n">pynauty</span><span class="o">.</span><span class="n">isomorphic</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_graph_bins</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">sg</span><span class="p">):</span>
                                     <span class="n">newbin</span> <span class="o">=</span> <span class="kc">False</span>
-                                    <span class="k">if</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">local_values</span><span class="p">:</span>
-                                        <span class="n">local_values</span><span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">1</span>
-                                    <span class="n">local_values</span><span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)]</span> <span class="o">+=</span> <span class="mi">1</span>
+                                    <span class="k">if</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">local_values</span><span class="p">:</span>
+                                        <span class="n">local_values</span><span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">k</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">1</span>
+                                    <span class="n">local_values</span><span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">k</span><span class="p">)]</span> <span class="o">+=</span> <span class="mi">1</span>
                                     <span class="k">break</span>
                             <span class="k">if</span> <span class="n">newbin</span><span class="p">:</span>
                                 <span class="n">local_values</span><span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_graph_bins</span><span class="p">))]</span> <span class="o">=</span> <span class="mi">1</span>
@@ -530,16 +539,16 @@
                     <span class="k">for</span> <span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">sg</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">samples</span><span class="p">):</span>
                         <span class="c1"># add the graph to an isomorphism class</span>
                         <span class="n">newbin</span> <span class="o">=</span> <span class="kc">True</span>
-                        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_graph_bins</span><span class="p">)):</span>
-                            <span class="k">if</span> <span class="n">pynauty</span><span class="o">.</span><span class="n">isomorphic</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_graph_bins</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">sg</span><span class="p">):</span>
+                        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_graph_bins</span><span class="p">)):</span>
+                            <span class="k">if</span> <span class="n">pynauty</span><span class="o">.</span><span class="n">isomorphic</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_graph_bins</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">sg</span><span class="p">):</span>
                                 <span class="n">newbin</span> <span class="o">=</span> <span class="kc">False</span>
-                                <span class="k">if</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">local_values</span><span class="p">:</span>
-                                    <span class="n">local_values</span><span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">1</span>
-                                <span class="n">local_values</span><span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)]</span> <span class="o">+=</span> <span class="mi">1</span>
+                                <span class="k">if</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">local_values</span><span class="p">:</span>
+                                    <span class="n">local_values</span><span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">k</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">1</span>
+                                <span class="n">local_values</span><span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">k</span><span class="p">)]</span> <span class="o">+=</span> <span class="mi">1</span>
                                 <span class="k">break</span>
                         <span class="k">if</span> <span class="n">newbin</span><span class="p">:</span>
                             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_Y_graph_bins</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                                <span class="bp">self</span><span class="o">.</span><span class="n">_Y_graph_bins</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_graph_bins</span><span class="p">)]</span> <span class="o">=</span> <span class="n">sg</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">_Y_graph_bins</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">sg</span>
                                 <span class="n">local_values</span><span class="p">[(</span><span class="n">i</span><span class="p">,</span>
                                               <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_graph_bins</span><span class="p">))]</span> <span class="o">=</span> <span class="mi">1</span>
                             <span class="k">else</span><span class="p">:</span>
@@ -565,11 +574,11 @@
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_method_calling</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_nx</span> <span class="o">=</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span>
             <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_method_calling</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_ny</span> <span class="o">=</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span>
-            <span class="k">return</span> <span class="n">local_values</span></div></div>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_ny</span> <span class="o">=</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span></div></div>
+            <span class="k">return</span> <span class="n">local_values</span>
 
 
-<div class="viewcode-block" id="sample_graphlets_probabilistic"><a class="viewcode-back" href="../../../kernels/graphlet_sampling.html#grakel.kernels.graphlet_sampling.sample_graphlets_probabilistic">[docs]</a><span class="k">def</span> <span class="nf">sample_graphlets_probabilistic</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">sample_graphlets_probabilistic</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Propabilistical sampling of n_samples of 3..k sized graphs.</span>
 
 <span class="sd">    Parameters</span>
@@ -598,14 +607,14 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="n">rsamp</span> <span class="o">=</span> <span class="k">lambda</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">min_r</span><span class="p">,</span> <span class="n">max_r</span><span class="p">)</span>
 
-    <span class="n">to_edge_dict_binary</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="n">matrix_to_dict</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="s1">&#39;==&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_samples</span><span class="p">):</span>
         <span class="n">index_rand</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">rsamp</span><span class="p">())</span>
         <span class="n">Q</span> <span class="o">=</span> <span class="n">A</span><span class="p">[</span><span class="n">index_rand</span><span class="p">,</span> <span class="p">:][:,</span> <span class="n">index_rand</span><span class="p">]</span>
-        <span class="k">yield</span> <span class="n">pynauty</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span><span class="n">Q</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="kc">True</span><span class="p">,</span> <span class="n">to_edge_dict_binary</span><span class="p">(</span><span class="n">Q</span><span class="p">,</span> <span class="n">k</span><span class="p">))</span></div>
+        <span class="k">yield</span> <span class="n">pynauty</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span><span class="n">Q</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                            <span class="kc">True</span><span class="p">,</span> <span class="n">matrix_to_dict</span><span class="p">(</span><span class="n">Q</span><span class="p">,</span> <span class="s1">&#39;==&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="kc">False</span><span class="p">))</span>
 
 
-<div class="viewcode-block" id="sample_graphlets_all_connected"><a class="viewcode-back" href="../../../kernels/graphlet_sampling.html#grakel.kernels.graphlet_sampling.sample_graphlets_all_connected">[docs]</a><span class="k">def</span> <span class="nf">sample_graphlets_all_connected</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">sample_graphlets_all_connected</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;All the connected graphlets of size k of a given graph.</span>
 
 <span class="sd">    Parameters</span>
@@ -623,11 +632,11 @@
 <span class="sd">        of size k.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">to_edge_dict_binary</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">matrix_to_dict</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="s1">&#39;==&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">permutations</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">min</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">A</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])):</span>
         <span class="n">Q</span> <span class="o">=</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:][:,</span> <span class="n">i</span><span class="p">]</span>
         <span class="k">if</span> <span class="mi">0</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">Q</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
-            <span class="k">yield</span> <span class="n">pynauty</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span><span class="n">Q</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="kc">True</span><span class="p">,</span> <span class="n">to_edge_dict_binary</span><span class="p">(</span><span class="n">Q</span><span class="p">))</span></div>
+            <span class="k">yield</span> <span class="n">pynauty</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span><span class="n">Q</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="kc">True</span><span class="p">,</span>
+                                <span class="n">matrix_to_dict</span><span class="p">(</span><span class="n">Q</span><span class="p">,</span> <span class="s1">&#39;==&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="kc">False</span><span class="p">))</span>
 </pre></div>
 
            </div>
@@ -642,7 +651,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2017, DaSciM.
+        &copy; Copyright 2018, DaSciM (BSD License).
 
     </p>
   </div>
@@ -664,7 +673,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.0.1',
+            VERSION:'0.0.d1',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

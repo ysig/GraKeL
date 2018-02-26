@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Weisfeiler Lehman Kernel &mdash; GraKeL 0.0.1 documentation</title>
+  <title>Weisfeiler Lehman Kernel &mdash; GraKeL 0.0.d1 documentation</title>
   
 
   
@@ -32,12 +32,14 @@
   
     <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
   
+    <link rel="stylesheet" href="../_static/_static/suplementary.css" type="text/css" />
+  
 
   
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="GraKeL 0.0.1 documentation" href="../index.html"/> 
+    <link rel="top" title="GraKeL 0.0.d1 documentation" href="../index.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -66,7 +68,7 @@
             
             
               <div class="version">
-                0.1
+                0.0.d1
               </div>
             
           
@@ -91,7 +93,15 @@
             
             
               <ul>
+<li class="toctree-l1"><a class="reference internal" href="../user_manual/installation.html">Installing grakel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_manual/introduction.html">A short Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_manual/longer_introduction.html">A longer Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_manual/make_your_own_kernel.html">Write your own kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_manual/contributing.html">Contributing</a></li>
+</ul>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../api.html">GraKeL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../classes.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">General examples</a></li>
 </ul>
 
@@ -157,15 +167,14 @@
            <div itemprop="articleBody">
             
   <div class="section" id="weisfeiler-lehman-kernel">
-<h1>Weisfeiler Lehman Kernel<a class="headerlink" href="#weisfeiler-lehman-kernel" title="Permalink to this headline">¶</a></h1>
+<span id="weisfeiler-lehman"></span><h1>Weisfeiler Lehman Kernel<a class="headerlink" href="#weisfeiler-lehman-kernel" title="Permalink to this headline">¶</a></h1>
 <p>The Weisfeiler Lehman Kernel.</p>
-<span class="target" id="module-grakel.kernels.weisfeiler_lehman"></span><p>The weisfeiler lehman kernel <a class="reference internal" href="#shervashidze2011weisfeilerlehmangk" id="id1">[SSvL+11]</a>.</p>
 <dl class="class">
-<dt id="grakel.kernels.weisfeiler_lehman.weisfeiler_lehman">
-<em class="property">class </em><code class="descclassname">grakel.kernels.weisfeiler_lehman.</code><code class="descname">weisfeiler_lehman</code><span class="sig-paren">(</span><em>**kargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/grakel/kernels/weisfeiler_lehman.html#weisfeiler_lehman"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.weisfeiler_lehman.weisfeiler_lehman" title="Permalink to this definition">¶</a></dt>
+<dt id="grakel.kernels.weisfeiler_lehman">
+<em class="property">class </em><code class="descclassname">grakel.kernels.</code><code class="descname">weisfeiler_lehman</code><span class="sig-paren">(</span><em>**kargs</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/e7467b0/grakel/kernels/weisfeiler_lehman.py#L14"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/weisfeiler_lehman.html#weisfeiler_lehman"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.weisfeiler_lehman" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the Weisfeiler Lehman Kernel.</p>
 <blockquote>
-<div>See <a class="reference internal" href="#shervashidze2011weisfeilerlehmangk" id="id2">[SSvL+11]</a>.</div></blockquote>
+<div>See <a class="reference internal" href="#shervashidze2011weisfeilerlehmangk" id="id1">[SSvL+11]</a>.</div></blockquote>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -173,7 +182,7 @@
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>base_kernel</strong> : <cite>grakel.kernels.kernel</cite> or tuple</p>
 <blockquote>
 <div><p>If tuple it must consist of a valid kernel object and a
-dictionary of parameters. General parameters concrening
+dictionary of parameters. General parameters concerning
 normalization, concurrency, .. will be ignored, and the
 ones of given on <cite>__init__</cite> will be passed in case it is needed.</p>
 </div></blockquote>
@@ -216,35 +225,81 @@ ones of given on <cite>__init__</cite> will be passed in case it is needed.</p>
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.kernels.weisfeiler_lehman.weisfeiler_lehman.diagonal" title="grakel.kernels.weisfeiler_lehman.weisfeiler_lehman.diagonal"><code class="xref py py-obj docutils literal"><span class="pre">diagonal</span></code></a>()</td>
-<td>Calculate the kernel matrix diagonal for fitted data.</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.kernels.weisfeiler_lehman.diagonal" title="grakel.kernels.weisfeiler_lehman.diagonal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">diagonal</span></code></a></td>
+<td></td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code>(X[,&nbsp;y])</td>
-<td>Fit a dataset, for a transformer.</td>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.kernels.weisfeiler_lehman.fit" title="grakel.kernels.weisfeiler_lehman.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a></td>
+<td></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.kernels.weisfeiler_lehman.weisfeiler_lehman.fit_transform" title="grakel.kernels.weisfeiler_lehman.weisfeiler_lehman.fit_transform"><code class="xref py py-obj docutils literal"><span class="pre">fit_transform</span></code></a>(X)</td>
-<td>Fit and transform, on the same dataset.</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.kernels.weisfeiler_lehman.fit_transform" title="grakel.kernels.weisfeiler_lehman.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code></a></td>
+<td></td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">get_params</span></code>([deep])</td>
-<td>Get parameters for this estimator.</td>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.kernels.weisfeiler_lehman.get_params" title="grakel.kernels.weisfeiler_lehman.get_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code></a></td>
+<td></td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">pairwise_operation</span></code>(x,&nbsp;y)</td>
-<td>Calculate a pairwise kernel between two elements.</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.kernels.weisfeiler_lehman.pairwise_operation" title="grakel.kernels.weisfeiler_lehman.pairwise_operation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pairwise_operation</span></code></a></td>
+<td></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.kernels.weisfeiler_lehman.weisfeiler_lehman.parse_input" title="grakel.kernels.weisfeiler_lehman.weisfeiler_lehman.parse_input"><code class="xref py py-obj docutils literal"><span class="pre">parse_input</span></code></a>(X)</td>
-<td>Parse input for weisfeiler lehman.</td>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.kernels.weisfeiler_lehman.parse_input" title="grakel.kernels.weisfeiler_lehman.parse_input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_input</span></code></a></td>
+<td></td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">set_params</span></code>(**params)</td>
-<td>Set the parameters of this estimator.</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.kernels.weisfeiler_lehman.set_params" title="grakel.kernels.weisfeiler_lehman.set_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code></a></td>
+<td></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.kernels.weisfeiler_lehman.weisfeiler_lehman.transform" title="grakel.kernels.weisfeiler_lehman.weisfeiler_lehman.transform"><code class="xref py py-obj docutils literal"><span class="pre">transform</span></code></a>(X)</td>
-<td>Calculate the kernel matrix, between given and fitted dataset.</td>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.kernels.weisfeiler_lehman.transform" title="grakel.kernels.weisfeiler_lehman.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Initialise a <cite>weisfeiler_lehman</cite> kernel.</p>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="67%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><strong>X</strong></td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.kernels.weisfeiler_lehman.diagonal" title="grakel.kernels.weisfeiler_lehman.diagonal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">diagonal</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.kernels.weisfeiler_lehman.fit" title="grakel.kernels.weisfeiler_lehman.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.kernels.weisfeiler_lehman.fit_transform" title="grakel.kernels.weisfeiler_lehman.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.kernels.weisfeiler_lehman.get_params" title="grakel.kernels.weisfeiler_lehman.get_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.kernels.weisfeiler_lehman.pairwise_operation" title="grakel.kernels.weisfeiler_lehman.pairwise_operation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pairwise_operation</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.kernels.weisfeiler_lehman.parse_input" title="grakel.kernels.weisfeiler_lehman.parse_input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_input</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.kernels.weisfeiler_lehman.set_params" title="grakel.kernels.weisfeiler_lehman.set_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.kernels.weisfeiler_lehman.transform" title="grakel.kernels.weisfeiler_lehman.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a></td>
+<td></td>
 </tr>
 </tbody>
 </table>
 <dl class="method">
-<dt id="grakel.kernels.weisfeiler_lehman.weisfeiler_lehman.diagonal">
-<code class="descname">diagonal</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/grakel/kernels/weisfeiler_lehman.html#weisfeiler_lehman.diagonal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.weisfeiler_lehman.weisfeiler_lehman.diagonal" title="Permalink to this definition">¶</a></dt>
+<dt id="grakel.kernels.weisfeiler_lehman.diagonal">
+<code class="descname">diagonal</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/e7467b0/grakel/kernels/weisfeiler_lehman.py#L381"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/weisfeiler_lehman.html#weisfeiler_lehman.diagonal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.weisfeiler_lehman.diagonal" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the kernel matrix diagonal for fitted data.</p>
 <p>A funtion called on transform on a seperate dataset to apply
 normalization on the exterior.</p>
@@ -272,8 +327,39 @@ This consists of kernel calculation for each element with itself.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="grakel.kernels.weisfeiler_lehman.weisfeiler_lehman.fit_transform">
-<code class="descname">fit_transform</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/grakel/kernels/weisfeiler_lehman.html#weisfeiler_lehman.fit_transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.weisfeiler_lehman.weisfeiler_lehman.fit_transform" title="Permalink to this definition">¶</a></dt>
+<dt id="grakel.kernels.weisfeiler_lehman.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>X</em>, <em>y=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/e7467b0/grakel/kernels/kernel.py#L91"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.weisfeiler_lehman.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit a dataset, for a transformer.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X</strong> : iterable</p>
+<blockquote>
+<div><p>Each element must be an iterable with at most three features and at
+least one. The first that is obligatory is a valid graph structure
+(adjacency matrix or edge_dictionary) while the second is
+node_labels and the third edge_labels (that fitting the given graph
+format). The train samples.</p>
+</div></blockquote>
+<p><strong>y</strong> : None</p>
+<blockquote>
+<div><p>There is no need of a target in a transformer, yet the pipeline API
+requires this parameter.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>self</strong> : object</p>
+<p class="last">Returns self.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="grakel.kernels.weisfeiler_lehman.fit_transform">
+<code class="descname">fit_transform</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/e7467b0/grakel/kernels/weisfeiler_lehman.py#L224"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/weisfeiler_lehman.html#weisfeiler_lehman.fit_transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.weisfeiler_lehman.fit_transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fit and transform, on the same dataset.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -302,8 +388,57 @@ all pairs of graphs between target an features</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="grakel.kernels.weisfeiler_lehman.weisfeiler_lehman.parse_input">
-<code class="descname">parse_input</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/grakel/kernels/weisfeiler_lehman.html#weisfeiler_lehman.parse_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.weisfeiler_lehman.weisfeiler_lehman.parse_input" title="Permalink to this definition">¶</a></dt>
+<dt id="grakel.kernels.weisfeiler_lehman.get_params">
+<code class="descname">get_params</code><span class="sig-paren">(</span><em>deep=True</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/e7467b0/grakel/../../virtualenvs/venv-3.5.2/lib/python3.5/site-packages/sklearn/base.py#L213"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.weisfeiler_lehman.get_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get parameters for this estimator.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>deep</strong> : boolean, optional</p>
+<blockquote>
+<div><p>If True, will return the parameters for this estimator and
+contained subobjects that are estimators.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>params</strong> : mapping of string to any</p>
+<blockquote class="last">
+<div><p>Parameter names mapped to their values.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="grakel.kernels.weisfeiler_lehman.pairwise_operation">
+<code class="descname">pairwise_operation</code><span class="sig-paren">(</span><em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/e7467b0/grakel/kernels/kernel.py#L310"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.weisfeiler_lehman.pairwise_operation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate a pairwise kernel between two elements.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>x, y</strong> : Object</p>
+<blockquote>
+<div><p>Objects as occur from parse_input.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>kernel</strong> : number</p>
+<blockquote class="last">
+<div><p>The kernel value.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="grakel.kernels.weisfeiler_lehman.parse_input">
+<code class="descname">parse_input</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/e7467b0/grakel/kernels/weisfeiler_lehman.py#L93"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/weisfeiler_lehman.html#weisfeiler_lehman.parse_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.weisfeiler_lehman.parse_input" title="Permalink to this definition">¶</a></dt>
 <dd><p>Parse input for weisfeiler lehman.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -311,11 +446,12 @@ all pairs of graphs between target an features</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X</strong> : iterable</p>
 <blockquote>
-<div><p>Each element must be an iterable with at most three features and at
+<div><p>For the input to pass the test, we must have:
+Each element must be an iterable with at most three features and at
 least one. The first that is obligatory is a valid graph structure
 (adjacency matrix or edge_dictionary) while the second is
-node_labels and the third edge_labels (that fitting the given grap
-format). The train samples.</p>
+node_labels and the third edge_labels (that correspond to the given
+graph format). A valid input also consists of graph type objects.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -328,8 +464,26 @@ format). The train samples.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="grakel.kernels.weisfeiler_lehman.weisfeiler_lehman.transform">
-<code class="descname">transform</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/grakel/kernels/weisfeiler_lehman.html#weisfeiler_lehman.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.weisfeiler_lehman.weisfeiler_lehman.transform" title="Permalink to this definition">¶</a></dt>
+<dt id="grakel.kernels.weisfeiler_lehman.set_params">
+<code class="descname">set_params</code><span class="sig-paren">(</span><em>**params</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/e7467b0/grakel/../../virtualenvs/venv-3.5.2/lib/python3.5/site-packages/sklearn/base.py#L250"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.weisfeiler_lehman.set_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the parameters of this estimator.</p>
+<p>The method works on simple estimators as well as on nested objects
+(such as pipelines). The latter have parameters of the form
+<code class="docutils literal notranslate"><span class="pre">&lt;component&gt;__&lt;parameter&gt;</span></code> so that it’s possible to update each
+component of a nested object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">self</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="grakel.kernels.weisfeiler_lehman.transform">
+<code class="descname">transform</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/e7467b0/grakel/kernels/weisfeiler_lehman.py#L256"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/weisfeiler_lehman.html#weisfeiler_lehman.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.weisfeiler_lehman.transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the kernel matrix, between given and fitted dataset.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -364,7 +518,7 @@ all pairs of graphs between target an features</p>
 <p id="bibtex-bibliography-kernels/weisfeiler_lehman-0"><table class="docutils citation" frame="void" id="shervashidze2011weisfeilerlehmangk" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label">[SSvL+11]</td><td><em>(<a class="fn-backref" href="#id1">1</a>, <a class="fn-backref" href="#id2">2</a>)</em> Nino Shervashidze, Pascal Schweitzer, Erik&nbsp;Jan van Leeuwen, Kurt Mehlhorn, and Karsten&nbsp;M. Borgwardt. Weisfeiler-lehman graph kernels. <em>Journal of Machine Learning Research</em>, 12:2539–2561, 2011.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id1">[SSvL+11]</a></td><td>Nino Shervashidze, Pascal Schweitzer, Erik&nbsp;Jan van Leeuwen, Kurt Mehlhorn, and Karsten&nbsp;M. Borgwardt. Weisfeiler-lehman graph kernels. <em>Journal of Machine Learning Research</em>, 12:2539–2561, 2011.</td></tr>
 </tbody>
 </table>
 </p>
@@ -384,7 +538,7 @@ all pairs of graphs between target an features</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2017, DaSciM.
+        &copy; Copyright 2018, DaSciM (BSD License).
 
     </p>
   </div>
@@ -406,7 +560,7 @@ all pairs of graphs between target an features</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.0.1',
+            VERSION:'0.0.d1',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

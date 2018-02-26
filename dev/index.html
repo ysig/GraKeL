@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Overview &mdash; GraKeL 0.0.1 documentation</title>
+  <title>Overview &mdash; GraKeL 0.0.d1 documentation</title>
   
 
   
@@ -32,13 +32,15 @@
   
     <link rel="stylesheet" href="_static/gallery.css" type="text/css" />
   
+    <link rel="stylesheet" href="_static/_static/suplementary.css" type="text/css" />
+  
 
   
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="GraKeL 0.0.1 documentation" href="#"/>
-        <link rel="next" title="GraKeL" href="api.html"/> 
+    <link rel="top" title="GraKeL 0.0.d1 documentation" href="#"/>
+        <link rel="next" title="Installing grakel" href="user_manual/installation.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -67,7 +69,7 @@
             
             
               <div class="version">
-                0.1
+                0.0.d1
               </div>
             
           
@@ -92,7 +94,15 @@
             
             
               <ul>
+<li class="toctree-l1"><a class="reference internal" href="user_manual/installation.html">Installing grakel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user_manual/introduction.html">A short Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user_manual/longer_introduction.html">A longer Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user_manual/make_your_own_kernel.html">Write your own kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user_manual/contributing.html">Contributing</a></li>
+</ul>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="api.html">GraKeL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="classes.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">General examples</a></li>
 </ul>
 
@@ -161,22 +171,69 @@
 <h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
 <p>GraKeL is a Python package extension, for the study and use of an upcoming
 area in data-mining and machine learning, known as graph kernels.</p>
+<p>Getting Started</p>
+<blockquote>
+<div><div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="user_manual/installation.html">Installing grakel</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="user_manual/installation.html#installing-pynauty">Installing <strong>pynauty</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_manual/installation.html#windows-comatibility-issues">Windows Comatibility Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_manual/installation.html#why-so-many-packages">Why so many packages?</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="user_manual/introduction.html">A short Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="user_manual/introduction.html#what-is-grakel">What is grakel?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_manual/introduction.html#what-is-a-graph-kernel">What is a Graph Kernel?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_manual/introduction.html#initializing-a-graph-kernel">Initializing a graph kernel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_manual/introduction.html#calculate-a-kernel">Calculate a kernel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_manual/introduction.html#the-input-type">The input type</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_manual/introduction.html#fitting-on-a-dataset">Fitting on a dataset</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="user_manual/longer_introduction.html">A longer Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="user_manual/longer_introduction.html#what-is-the-graphkernel-class">What is the <cite>GraphKernel</cite> class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_manual/longer_introduction.html#the-kernel-class">The <cite>kernel</cite> class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_manual/longer_introduction.html#why-not-a-more-structured-input-for-graphs">Why not a more structured input for Graphs?</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="user_manual/make_your_own_kernel.html">Write your own kernel</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="user_manual/make_your_own_kernel.html#overriding-the-kernel-class-methods">Overriding the <code class="code docutils literal notranslate"><span class="pre">kernel</span></code> class methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_manual/make_your_own_kernel.html#getting-more-advanced">Getting more advanced</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="user_manual/contributing.html">Contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="user_manual/contributing.html#ways-you-can-contribute">Ways you can contribute</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_manual/contributing.html#areas-you-can-contribute">Areas you can contribute</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_manual/contributing.html#who-to-blame-for-the-grakel-project">Who to blame for the GraKeL project</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div></blockquote>
+<p>From seeing this version of the GraKeL project on the relevant <strong>GitHub</strong> you can start from seeing the <a class="reference external" href="https://github.com/ysig/GraKeL/blob/develop/README.md">README</a>.</p>
+</div>
+<div class="section" id="documentation">
+<h1>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h1>
+<p>A collection of all classes and functions important
+for the use and understanding of the <strong>GraKeL</strong> package.</p>
 <p>GrakeL provides</p>
 <blockquote>
 <div><div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="api.html">GraKeL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="classes.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="classes.html#grakel-graph-graph-class-with-its-utility-functions"><code class="docutils literal notranslate"><span class="pre">grakel.graph</span></code>: Graph class with its utility functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="classes.html#grakel-graph-kernels-a-kernel-decorator"><code class="docutils literal notranslate"><span class="pre">grakel.graph_kernels</span></code>: A kernel decorator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="classes.html#grakel-kernels-a-collection-of-graph-kernels"><code class="docutils literal notranslate"><span class="pre">grakel.kernels</span></code>: A collection of graph kernels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="classes.html#grakel-datasets-datasets"><code class="docutils literal notranslate"><span class="pre">grakel.datasets</span></code>: Datasets</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">General examples</a><ul>
 </ul>
 </li>
 </ul>
 </div>
 </div></blockquote>
-<p>See the <a class="reference external" href="https://github.com/ysig/GraKeL/blob/develop/README.md">README</a>
-for more information.</p>
-</div>
-<div class="section" id="documentation">
-<h1>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h1>
 </div>
 <div class="section" id="indices-and-tables">
 <h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
@@ -197,7 +254,7 @@ for more information.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="api.html" class="btn btn-neutral float-right" title="GraKeL" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="user_manual/installation.html" class="btn btn-neutral float-right" title="Installing grakel" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
     </div>
@@ -207,7 +264,7 @@ for more information.</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2017, DaSciM.
+        &copy; Copyright 2018, DaSciM (BSD License).
 
     </p>
   </div>
@@ -229,7 +286,7 @@ for more information.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.0.1',
+            VERSION:'0.0.d1',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

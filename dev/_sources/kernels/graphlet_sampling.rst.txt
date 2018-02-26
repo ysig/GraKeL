@@ -1,10 +1,13 @@
+.. _graphlet_sampling:
+
 Graphlet Sampling Kernel
-=========================
+========================
 The graphlet sampling kernel.
 
-.. automodule:: grakel.kernels.graphlet_sampling
-   :members:
-   
+.. currentmodule:: grakel.kernels
+
+.. autoclass:: grakel.kernels.graphlet_sampling
+
 Bibliography
 ------------    
 

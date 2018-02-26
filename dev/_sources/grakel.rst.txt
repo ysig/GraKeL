@@ -1,4 +1,0 @@
-API Documentation
-=================
-
-.. autoclass:: GraphKernel

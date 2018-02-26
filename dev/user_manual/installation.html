@@ -1,0 +1,324 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Installing grakel &mdash; GraKeL 0.0.d1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+  
+    <link rel="stylesheet" href="../_static/_static/suplementary.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="GraKeL 0.0.d1 documentation" href="../index.html"/>
+        <link rel="next" title="A short Introduction" href="introduction.html"/>
+        <link rel="prev" title="Overview" href="../index.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> GraKeL
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.d1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Installing grakel</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#installing-pynauty">Installing <strong>pynauty</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#windows-comatibility-issues">Windows Comatibility Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#why-so-many-packages">Why so many packages?</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">A short Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="longer_introduction.html">A longer Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="make_your_own_kernel.html">Write your own kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">GraKeL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../classes.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">General examples</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">GraKeL</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Installing grakel</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/user_manual/installation.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="installing-grakel">
+<span id="installation"></span><h1>Installing grakel<a class="headerlink" href="#installing-grakel" title="Permalink to this headline">¶</a></h1>
+<p>The grakel library requires:</p>
+<ul class="simple">
+<li>Python [&gt;= 3.5]</li>
+<li>NumPy [&gt;= 1.8.2]</li>
+<li>SciPy [&gt;= 0.13.3]</li>
+<li>Cython [&gt;= 0.27.3]</li>
+<li>cvxopt [&gt;= 1.1.9]</li>
+<li>pynauty [&gt;= 0.6.0]</li>
+</ul>
+<p>For installing NumPy, SciPy, cvxopt and Cython the procedure
+is the well known: <cite>pip install extension==extension_version</cite>.</p>
+<div class="section" id="installing-pynauty">
+<h2>Installing <strong>pynauty</strong><a class="headerlink" href="#installing-pynauty" title="Permalink to this headline">¶</a></h2>
+<p>The package <a class="reference external" href="https://web.cs.dal.ca/~peter/software/pynauty/html/">pynauty</a> is a very interesting python module by P. Dobcsányi, that wraps
+in the c++ code of the <a class="reference external" href="http://users.cecs.anu.edu.au/~bdm/nauty/">nauty</a> library of B. D. McKay, used for solving the decisional
+graph isomorphism problem in a very good complexity.</p>
+<p>Unfortunately the <a class="reference external" href="https://web.cs.dal.ca/~peter/software/pynauty/html/">pynauty</a> package, currently does not support the <em>pip</em> installation
+procedure and should be installed manually as follows the installation procedure on the
+package’s web-page. To make things easier for the user, we have created a python script
+under the name <cite>install_pynauty.py</cite> on the <a class="reference external" href="https://github.com/ysig/GraKeL">official git repo</a> that automates the
+installation procedure. Allthough this script allows user configuration and is used
+for the package build in <a class="reference external" href="https://travis-ci.com/">travis</a>, <a class="reference external" href="https://circleci.com/">circle_ci</a>, <a class="reference external" href="https://www.appveyor.com/">appveyor</a> platforms, used
+for automatic integration of code and documentation, it may not execute correctly
+in all users and all environment. Currently the script supports Linux and Windows
+installation (although for the second you should check the Windows Compatibility
+Issues) section, in the current page.</p>
+</div>
+<div class="section" id="windows-comatibility-issues">
+<h2>Windows Comatibility Issues<a class="headerlink" href="#windows-comatibility-issues" title="Permalink to this headline">¶</a></h2>
+<p>There are two major compatibility issues concerning windows.
+The first one concerning <a class="reference external" href="http://cvxopt.org/">cvxopt</a> has to do with the fact that <a class="reference external" href="http://cvxopt.org/copyright.html">cvxopt developers</a>
+use for their <a class="reference external" href="http://cvxopt.org/install/index.html#windows">python build a package called Mingwpy</a> which constrains the valid
+Python 3 version for Windows to 3.4. This huge drawback restricts our project
+compatibility to Python-3.4 except if user installs the <a class="reference external" href="https://www.lfd.uci.edu/~gohlke/pythonlibs/#cvxopt">Python prebuilt libraries of Christoph Gohlke</a>.</p>
+<p>The other compatibility issue concerns pynauty. As mentioned above <a class="reference external" href="https://web.cs.dal.ca/~peter/software/pynauty/html/">pynauty</a> wraps
+the <a class="reference external" href="http://users.cecs.anu.edu.au/~bdm/nauty/">nauty</a> package, which uses a totally <em>gcc-oriented</em> approach and development.
+As a result, the pynauty package does not build on the visual studio - c++ native of
+Windows, while it only could be bypassed if user uses only the <em>make</em> and <em>gcc/g++</em>
+from the <em>minimalist gnu-like</em> project for Windows, called <a class="reference external" href="http://www.mingw.org/">MinGW</a>. Of course this
+project is covered through a bigger set of tools for linux-windows native command
+compatibility known as <a class="reference external" href="http://www.msys2.org/">msys</a>. We should note here, that for the automatic installation
+of the pynauty script to succeed on windows, through the use of the pynauty script
+the user should have <a class="reference external" href="https://curl.haxx.se/">curl</a> and <a class="reference external" href="https://www.gnu.org/software/tar/">tar</a> gnu-like executables discoverable inside his
+Windows Path (which both are covered in <a class="reference external" href="http://www.msys2.org/">msys</a>). In comparison with the similar and
+more general project known as <a class="reference external" href="https://www.cygwin.com/">cygwin</a>, for <a class="reference external" href="http://www.mingw.org/">MinGW</a> there seems to be a native
+<a class="reference external" href="https://wiki.python.org/moin/WindowsCompilers">Python compiler compatibility</a>. Although this seems to be it, more problems arise
+as we dive through, mainly an issue concerning an installation on Python-3.4 which
+was firstly tested, because of the <a class="reference external" href="http://cvxopt.org/">cvxopt</a> compatibility on Windows. Although
+in such case the project builds normally, using as compiler the mingw, upon import
+of the pynauty package by the simple command: <cite>import pynauty</cite> on a python shell
+or inside a script, the system instantly loads a bulk of 4GB ram, which is <a class="reference external" href="https://github.com/ContinuumIO/anaconda-issues/issues/271">a known issue</a>
+and continues to remain a 1/4 fraction after the whole import, possibly restricting
+execution speed.
+As for the installation using pre-built packages, we haven’t yet been able to see if
+this error reproduces on Python-3.5. So as for now there is no recommended installation
+procedure that will produce an end result, as in a unix like environment.</p>
+<p>Contributions in overriding or overcoming compatibility issues, would be widely accepted
+and for doing so see the section <a class="reference internal" href="contributing.html#contributing"><span class="std std-ref">Contributing</span></a>.</p>
+</div>
+<div class="section" id="why-so-many-packages">
+<h2>Why so many packages?<a class="headerlink" href="#why-so-many-packages" title="Permalink to this headline">¶</a></h2>
+<p>The field of computationally efficient <a class="reference external" href="https://en.wikipedia.org/wiki/Graph_kernel">Graph Kernels</a> can be considered
+more as a collection of techniques calculating <a class="reference external" href="https://en.wikipedia.org/wiki/Positive-definite_matrix">PSD</a> similarity matrices, between
+graph objects, than a field (with the compact sense of the term). The big diversity
+of methods and ideas implied to extract a similarity score between to graphs, leads
+to the use of very precise and studied algorithms as graph isomorphism (for determining isomorphic graphlets on the graphlet-sampling kernel) or convex optimization (through
+the use of semidefinite-programming for calculating lovasz-theta embeddings, on lovasz-theta kernel) which on the other hand will not appear in any other kernel at all.
+As a result import of external libraries that have studied and optimized the solutions
+of such problems in detail, gives a complexity - implementation “standard” to refer to,
+while follows the idea of standing on the shoulders of the scientific community, which
+can be viable through the use of <a class="reference external" href="https://en.wikipedia.org/wiki/Free_software">free software</a>.</p>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="introduction.html" class="btn btn-neutral float-right" title="A short Introduction" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../index.html" class="btn btn-neutral" title="Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, DaSciM (BSD License).
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.0.d1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

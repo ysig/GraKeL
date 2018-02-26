@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Kernels (between graphs) &mdash; GraKeL 0.0.1 documentation</title>
+  <title>Kernels (between graphs) &mdash; GraKeL 0.0.d1 documentation</title>
   
 
   
@@ -32,12 +32,14 @@
   
     <link rel="stylesheet" href="_static/gallery.css" type="text/css" />
   
+    <link rel="stylesheet" href="_static/_static/suplementary.css" type="text/css" />
+  
 
   
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="GraKeL 0.0.1 documentation" href="index.html"/> 
+    <link rel="top" title="GraKeL 0.0.d1 documentation" href="index.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -66,7 +68,7 @@
             
             
               <div class="version">
-                0.1
+                0.0.d1
               </div>
             
           
@@ -91,7 +93,15 @@
             
             
               <ul>
+<li class="toctree-l1"><a class="reference internal" href="user_manual/installation.html">Installing grakel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user_manual/introduction.html">A short Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user_manual/longer_introduction.html">A longer Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user_manual/make_your_own_kernel.html">Write your own kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user_manual/contributing.html">Contributing</a></li>
+</ul>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="api.html">GraKeL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="classes.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">General examples</a></li>
 </ul>
 
@@ -157,19 +167,83 @@
            <div itemprop="articleBody">
             
   <div class="section" id="kernels-between-graphs">
-<h1>Kernels (between graphs)<a class="headerlink" href="#kernels-between-graphs" title="Permalink to this headline">¶</a></h1>
+<span id="kernels"></span><h1>Kernels (between graphs)<a class="headerlink" href="#kernels-between-graphs" title="Permalink to this headline">¶</a></h1>
 <p>The documentation of the <cite>kernels</cite> submodule.</p>
-</div>
-<div class="section" id="grakel">
-<h1>GraKeL<a class="headerlink" href="#grakel" title="Permalink to this headline">¶</a></h1>
-<ul class="simple">
-<li><a class="reference internal" href="kernels/kernel.html"><span class="doc">kernel (class)</span></a></li>
-<li><a class="reference internal" href="kernels/random_walk.html"><span class="doc">Random Walk Kernel</span></a></li>
-<li><a class="reference internal" href="kernels/shortest_path.html"><span class="doc">Shortest Path Kernel</span></a></li>
-<li><a class="reference internal" href="kernels/graphlet_sampling.html"><span class="doc">Graphlet Sampling Kernel</span></a></li>
-<li><a class="reference internal" href="kernels/subtree_wl.html"><span class="doc">Subtree (WL) Kernel</span></a></li>
-<li><a class="reference internal" href="kernels/weisfeiler_lehman.html"><span class="doc">Weisfeiler Lehman Kernel</span></a></li>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="kernels/edge_histogram.html">Edge Histogram Kernel</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="kernels/edge_histogram.html#bibliography">Bibliography</a></li>
 </ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="kernels/graphlet_sampling.html">Graphlet Sampling Kernel</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="kernels/graphlet_sampling.html#bibliography">Bibliography</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="kernels/hadamard_code.html">Hadamard Code Kernel</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="kernels/hadamard_code.html#bibliography">Bibliography</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="kernels/kernel.html">kernel (class)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kernels/lovasz_theta.html">Lovasz Theta Kernel</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="kernels/lovasz_theta.html#bibliography">Bibliography</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="kernels/multiscale_laplacian.html">Multiscale Laplacian Kernel</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="kernels/multiscale_laplacian.html#id1">Multiscale Laplacian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kernels/multiscale_laplacian.html#approximate-multiscale-laplacian">Approximate Multiscale Laplacian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kernels/multiscale_laplacian.html#bibliography">Bibliography</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="kernels/neighborhood_hash.html">Neighborhood Hash Kernel</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="kernels/neighborhood_hash.html#bibliography">Bibliography</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="kernels/neighborhood_subgraph_pairwise_distance.html">Neighborhood Subgraph Pairwise Distance Kernel</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="kernels/neighborhood_subgraph_pairwise_distance.html#bibliography">Bibliography</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="kernels/odd_sth.html">ODD-STh Kernel</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="kernels/odd_sth.html#bibliography">Bibliography</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="kernels/propagation.html">The Propagation Kernel</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="kernels/propagation.html#bibliography">Bibliography</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="kernels/pyramid_match.html">Pyramid Match Kernel</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="kernels/pyramid_match.html#bibliography">Bibliography</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="kernels/random_walk.html">Random Walk Kernel</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="kernels/random_walk.html#bibliography">Bibliography</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="kernels/shortest_path.html">Shortest Path Kernel</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="kernels/shortest_path.html#bibliography">Bibliography</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="kernels/subgraph_matching.html">Subgraph Matching Kernel</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="kernels/subgraph_matching.html#bibliography">Bibliography</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="kernels/subtree_wl.html">Subtree (WL) Kernel</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="kernels/subtree_wl.html#bibliography">Bibliography</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="kernels/svm_theta.html">SVM Theta Kernel</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="kernels/svm_theta.html#bibliography">Bibliography</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="kernels/vertex_histogram.html">Vertex Histogram Kernel</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="kernels/vertex_histogram.html#bibliography">Bibliography</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="kernels/weisfeiler_lehman.html">Weisfeiler Lehman Kernel</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="kernels/weisfeiler_lehman.html#bibliography">Bibliography</a></li>
+</ul>
+</li>
+</ul>
+</div>
 </div>
 
 
@@ -185,7 +259,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2017, DaSciM.
+        &copy; Copyright 2018, DaSciM (BSD License).
 
     </p>
   </div>
@@ -207,7 +281,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.0.1',
+            VERSION:'0.0.d1',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

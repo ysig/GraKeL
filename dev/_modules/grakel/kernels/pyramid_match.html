@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>grakel.kernels.pyramid_match &mdash; GraKeL 0.0.1 documentation</title>
+  <title>grakel.kernels.pyramid_match &mdash; GraKeL 0.0.d1 documentation</title>
   
 
   
@@ -32,12 +32,14 @@
   
     <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
   
+    <link rel="stylesheet" href="../../../_static/_static/suplementary.css" type="text/css" />
+  
 
   
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="GraKeL 0.0.1 documentation" href="../../../index.html"/>
+    <link rel="top" title="GraKeL 0.0.d1 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -67,7 +69,7 @@
             
             
               <div class="version">
-                0.1
+                0.0.d1
               </div>
             
           
@@ -92,7 +94,15 @@
             
             
               <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../user_manual/installation.html">Installing grakel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../user_manual/introduction.html">A short Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../user_manual/longer_introduction.html">A longer Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../user_manual/make_your_own_kernel.html">Write your own kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../user_manual/contributing.html">Contributing</a></li>
+</ul>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../api.html">GraKeL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../classes.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html">General examples</a></li>
 </ul>
 
@@ -167,11 +177,11 @@
 <span class="kn">from</span> <span class="nn">scipy.sparse</span> <span class="k">import</span> <span class="n">csr_matrix</span>
 <span class="kn">from</span> <span class="nn">scipy.sparse.linalg</span> <span class="k">import</span> <span class="n">eigs</span>
 
-<span class="kn">from</span> <span class="nn">grakel.graph</span> <span class="k">import</span> <span class="n">graph</span>
+<span class="kn">from</span> <span class="nn">grakel.graph</span> <span class="k">import</span> <span class="n">Graph</span>
 <span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">kernel</span>
 
 
-<div class="viewcode-block" id="pyramid_match"><a class="viewcode-back" href="../../../kernels/pyramid_match.html#grakel.kernels.pyramid_match.pyramid_match">[docs]</a><span class="k">class</span> <span class="nc">pyramid_match</span><span class="p">(</span><span class="n">kernel</span><span class="p">):</span>
+<div class="viewcode-block" id="pyramid_match"><a class="viewcode-back" href="../../../kernels/pyramid_match.html#grakel.kernels.pyramid_match">[docs]</a><span class="k">class</span> <span class="nc">pyramid_match</span><span class="p">(</span><span class="n">kernel</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Pyramid match kernel class.</span>
 
 <span class="sd">    Kernel defined in :cite:`Nikolentzos2017MatchingNE`</span>
@@ -227,19 +237,18 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;d: hypercube dimension must be bigger than 1&#39;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="pyramid_match.parse_input"><a class="viewcode-back" href="../../../kernels/pyramid_match.html#grakel.kernels.pyramid_match.pyramid_match.parse_input">[docs]</a>    <span class="k">def</span> <span class="nf">parse_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+<div class="viewcode-block" id="pyramid_match.parse_input"><a class="viewcode-back" href="../../../kernels/pyramid_match.html#grakel.kernels.pyramid_match.parse_input">[docs]</a>    <span class="k">def</span> <span class="nf">parse_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Parse and create features for shortest_path kernel.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        X : object</span>
+<span class="sd">        X : iterable</span>
 <span class="sd">            For the input to pass the test, we must have:</span>
 <span class="sd">            Each element must be an iterable with at most three features and at</span>
 <span class="sd">            least one. The first that is obligatory is a valid graph structure</span>
 <span class="sd">            (adjacency matrix or edge_dictionary) while the second is</span>
-<span class="sd">            node_labels and the third edge_labels (that fitting the given graph</span>
-<span class="sd">            format). If None the kernel matrix is calculated upon fit data.</span>
-<span class="sd">            The test samples.</span>
+<span class="sd">            node_labels and the third edge_labels (that correspond to the given</span>
+<span class="sd">            graph format). A valid input also consists of graph type objects.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -255,15 +264,17 @@
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_with_labels</span><span class="p">:</span>
                 <span class="n">Ls</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="k">for</span> <span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">X</span><span class="p">)):</span>
-                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">collections</span><span class="o">.</span><span class="n">Iterable</span><span class="p">)</span>\
-                        <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]:</span>
+                <span class="n">is_iter</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">collections</span><span class="o">.</span><span class="n">Iterable</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">is_iter</span><span class="p">:</span>
+                    <span class="n">x</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">is_iter</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]:</span>
                     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                         <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;Ignoring empty element on index: &#39;</span> <span class="o">+</span>
                                       <span class="nb">str</span><span class="p">(</span><span class="n">idx</span><span class="p">))</span>
                         <span class="k">continue</span>
                     <span class="k">else</span><span class="p">:</span>
-                        <span class="n">x</span> <span class="o">=</span> <span class="n">graph</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="p">{},</span> <span class="bp">self</span><span class="o">.</span><span class="n">_graph_format</span><span class="p">)</span>
-                <span class="k">elif</span> <span class="ow">not</span> <span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">is</span> <span class="n">graph</span><span class="p">:</span>
+                        <span class="n">x</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="p">{},</span> <span class="bp">self</span><span class="o">.</span><span class="n">_graph_format</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="ow">not</span> <span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">is</span> <span class="n">Graph</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;each element of X must be either a &#39;</span> <span class="o">+</span>
                                      <span class="s1">&#39;graph object or a list with at least &#39;</span> <span class="o">+</span>
                                      <span class="s1">&#39;a graph like object and node labels &#39;</span> <span class="o">+</span>
@@ -298,22 +309,29 @@
         <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;parsed input is empty&#39;</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_method_calling</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_with_labels</span><span class="p">:</span>
             <span class="c1"># Map labels to values between 0 and |L|-1</span>
             <span class="c1"># where |L| is the number of distinct labels</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_with_labels</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_method_calling</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_num_labels</span> <span class="o">=</span> <span class="mi">0</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_labels</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
                 <span class="k">for</span> <span class="n">L</span> <span class="ow">in</span> <span class="n">Ls</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">_labels</span> <span class="o">|=</span> <span class="nb">set</span><span class="p">(</span><span class="n">L</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_num_labels</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_labels</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_labels</span> <span class="o">=</span> <span class="p">{</span><span class="n">l</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">l</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_labels</span><span class="p">)}</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_histogram_calculation</span><span class="p">(</span><span class="n">Us</span><span class="p">,</span> <span class="n">Ls</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_labels</span><span class="p">)</span>
 
-        <span class="c1"># Calculate histograms</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_with_labels</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_histogram_calculation</span><span class="p">(</span><span class="n">Us</span><span class="p">,</span> <span class="n">Ls</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_histogram_calculation</span><span class="p">(</span><span class="n">Us</span><span class="p">)</span></div>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_method_calling</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="n">labels</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+                <span class="k">for</span> <span class="n">L</span> <span class="ow">in</span> <span class="n">Ls</span><span class="p">:</span>
+                    <span class="n">labels</span> <span class="o">|=</span> <span class="nb">set</span><span class="p">(</span><span class="n">L</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+                <span class="n">rest_labels</span> <span class="o">=</span> <span class="n">labels</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_labels</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+                <span class="n">labels_enum</span> <span class="o">=</span> <span class="p">{</span><span class="n">l</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">l</span><span class="p">)</span>
+                               <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">rest_labels</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_labels</span><span class="p">))}</span>
+                <span class="n">nouveau_labels</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_labels</span><span class="p">,</span> <span class="o">**</span><span class="n">labels_enum</span><span class="p">)</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_histogram_calculation</span><span class="p">(</span><span class="n">Us</span><span class="p">,</span> <span class="n">Ls</span><span class="p">,</span> <span class="n">nouveau_labels</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span></div>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_histogram_calculation</span><span class="p">(</span><span class="n">Us</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_histogram_calculation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Us</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate histograms.</span>
@@ -328,6 +346,9 @@
 <span class="sd">        Ls : list, optional</span>
 <span class="sd">            List of labels corresponding to each graph.</span>
 <span class="sd">            If provided the histograms are calculated with labels.</span>
+
+<span class="sd">        Labels : dict, optional</span>
+<span class="sd">            A big dictionary with enumeration of labels.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -361,6 +382,7 @@
 
         <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">Ls</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">Labels</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
             <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="n">u</span><span class="p">),</span> <span class="n">L</span><span class="p">))</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">Us</span><span class="p">,</span> <span class="n">Ls</span><span class="p">)):</span>
                 <span class="n">du</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
                 <span class="k">if</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
@@ -379,15 +401,15 @@
                             <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
                                 <span class="c1"># Identify the cell into which the i-th</span>
                                 <span class="c1"># vertex lies and increase its value by 1</span>
-                                <span class="n">D</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_labels</span><span class="p">[</span><span class="n">L</span><span class="p">[</span><span class="n">p</span><span class="p">]]</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_d</span> <span class="o">+</span> <span class="n">q</span><span class="p">,</span>
+                                <span class="n">D</span><span class="p">[</span><span class="n">Labels</span><span class="p">[</span><span class="n">L</span><span class="p">[</span><span class="n">p</span><span class="p">]]</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_d</span> <span class="o">+</span> <span class="n">q</span><span class="p">,</span>
                                   <span class="nb">int</span><span class="p">(</span><span class="n">T</span><span class="p">[</span><span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">])]</span> <span class="o">=</span> \
-                                    <span class="n">D</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_labels</span><span class="p">[</span><span class="n">L</span><span class="p">[</span><span class="n">p</span><span class="p">]]</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_d</span> <span class="o">+</span> <span class="n">q</span><span class="p">,</span>
+                                    <span class="n">D</span><span class="p">[</span><span class="n">Labels</span><span class="p">[</span><span class="n">L</span><span class="p">[</span><span class="n">p</span><span class="p">]]</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_d</span> <span class="o">+</span> <span class="n">q</span><span class="p">,</span>
                                       <span class="nb">int</span><span class="p">(</span><span class="n">T</span><span class="p">[</span><span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">])]</span> <span class="o">+</span> <span class="mi">1</span>
                             <span class="n">du</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">D</span><span class="p">)</span>
                     <span class="n">Hs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">du</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">Hs</span>
 
-<div class="viewcode-block" id="pyramid_match.pairwise_operation"><a class="viewcode-back" href="../../../kernels/pyramid_match.html#grakel.kernels.pyramid_match.pyramid_match.pairwise_operation">[docs]</a>    <span class="k">def</span> <span class="nf">pairwise_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<div class="viewcode-block" id="pyramid_match.pairwise_operation"><a class="viewcode-back" href="../../../kernels/pyramid_match.html#grakel.kernels.pyramid_match.pairwise_operation">[docs]</a>    <span class="k">def</span> <span class="nf">pairwise_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate a pairwise kernel between two elements.</span>
 
 <span class="sd">        Parameters</span>
@@ -412,8 +434,8 @@
                 <span class="c1"># Computes the new matches that occur at level p.</span>
                 <span class="c1"># These matches weight less than those that occur at</span>
                 <span class="c1"># higher levels (e.g. p+1 level)</span>
-                <span class="n">k</span> <span class="o">+=</span> <span class="p">(</span><span class="mf">1.0</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_L</span><span class="o">-</span><span class="n">p</span><span class="o">-</span><span class="mi">1</span><span class="p">)))</span><span class="o">*</span><span class="p">(</span><span class="n">intersec</span><span class="p">[</span><span class="n">p</span><span class="p">]</span><span class="o">-</span><span class="n">intersec</span><span class="p">[</span><span class="n">p</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
-        <span class="k">return</span> <span class="n">k</span></div></div>
+                <span class="n">k</span> <span class="o">+=</span> <span class="p">(</span><span class="mf">1.0</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_L</span><span class="o">-</span><span class="n">p</span><span class="o">-</span><span class="mi">1</span><span class="p">)))</span><span class="o">*</span><span class="p">(</span><span class="n">intersec</span><span class="p">[</span><span class="n">p</span><span class="p">]</span><span class="o">-</span><span class="n">intersec</span><span class="p">[</span><span class="n">p</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span></div></div>
+        <span class="k">return</span> <span class="n">k</span>
 </pre></div>
 
            </div>
@@ -428,7 +450,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2017, DaSciM.
+        &copy; Copyright 2018, DaSciM (BSD License).
 
     </p>
   </div>
@@ -450,7 +472,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.0.1',
+            VERSION:'0.0.d1',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

@@ -7,7 +7,7 @@
 Fit-Transform and classification on the MUTAG dataset using a WL-dirac kernel.
 ==============================================================================
 
-An example plot of :class:`grakel.graph_kernels`
+An example plot of :class:`grakel.GraphKernel`
 
 
 
@@ -17,7 +17,7 @@ An example plot of :class:`grakel.graph_kernels`
 
  Out::
 
-    Accuracy: 63.16 % | Took: 0.58 s
+    Accuracy: 63.16 % | Took: 0.53 s
 
 
 
@@ -35,13 +35,13 @@ An example plot of :class:`grakel.graph_kernels`
     from sklearn.model_selection import train_test_split
     from sklearn import svm
 
-    from grakel import dataset
+    from grakel import datasets
     from grakel import GraphKernel
 
     # Loads the Mutag dataset from:
     # https://ls11-www.cs.tu-dortmund.de/staff/morris/graphkerneldatasets
     # the biggest collection of benchmark datasets for graph_kernels.
-    mutag = dataset.fetch_dataset("MUTAG", verbose=False)
+    mutag = datasets.fetch_dataset("MUTAG", verbose=False)
     G, y = mutag.data, mutag.target
 
     # Train-test split of graph data
@@ -70,7 +70,7 @@ An example plot of :class:`grakel.graph_kernels`
     print("Accuracy:", str(round(acc*100, 2)), "% | Took:",
           str(round(end - start, 2)), "s")
 
-**Total running time of the script:** ( 0 minutes  5.111 seconds)
+**Total running time of the script:** ( 0 minutes  4.795 seconds)
 
 
 

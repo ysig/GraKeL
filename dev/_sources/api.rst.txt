@@ -5,4 +5,4 @@ GraKeL
 * :doc:`kernels`
 * :doc:`graph_kernel`
 * :doc:`graph`
-* :doc:`dataset`
+* :doc:`datasets`

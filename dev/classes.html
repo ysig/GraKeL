@@ -1,0 +1,441 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>API Reference &mdash; GraKeL 0.0.d1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="_static/gallery.css" type="text/css" />
+  
+    <link rel="stylesheet" href="_static/_static/suplementary.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="GraKeL 0.0.d1 documentation" href="index.html"/>
+        <link rel="next" title="grakel.Graph" href="generated/grakel.Graph.html"/>
+        <link rel="prev" title="GraKeL" href="api.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> GraKeL
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.d1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="user_manual/installation.html">Installing grakel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user_manual/introduction.html">A short Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user_manual/longer_introduction.html">A longer Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user_manual/make_your_own_kernel.html">Write your own kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user_manual/contributing.html">Contributing</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="api.html">GraKeL</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#grakel-graph-graph-class-with-its-utility-functions"><code class="docutils literal notranslate"><span class="pre">grakel.graph</span></code>: Graph class with its utility functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#base-class">Base Class</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="generated/grakel.Graph.html">grakel.Graph</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#utility-functions">Utility Functions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="generated/grakel.graph.is_adjacency.html">grakel.graph.is_adjacency</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/grakel.graph.is_edge_dictionary.html">grakel.graph.is_edge_dictionary</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/grakel.graph.laplacian.html">grakel.graph.laplacian</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/grakel.graph.floyd_warshall.html">grakel.graph.floyd_warshall</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#grakel-graph-kernels-a-kernel-decorator"><code class="docutils literal notranslate"><span class="pre">grakel.graph_kernels</span></code>: A kernel decorator</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#graph-kernel-decorator">Graph Kernel (decorator)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="generated/grakel.GraphKernel.html">grakel.GraphKernel</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#grakel-kernels-a-collection-of-graph-kernels"><code class="docutils literal notranslate"><span class="pre">grakel.kernels</span></code>: A collection of graph kernels</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#kernels">Kernels</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#grakel-datasets-datasets"><code class="docutils literal notranslate"><span class="pre">grakel.datasets</span></code>: Datasets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#fetch">Fetch</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="generated/grakel.datasets.fetch_dataset.html">grakel.datasets.fetch_dataset</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">General examples</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">GraKeL</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>API Reference</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/classes.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="api-reference">
+<span id="api-ref"></span><h1>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h1>
+<p>This is the class and function reference of grakel.
+.. Please refer to the <a class="reference external" href="http://scikit-learn.org/stable/user_guide.html#user-guide" title="(in scikit-learn v0.19.1)"><span class="xref std std-ref">full user guide</span></a> for further details, as the class and
+.. function raw specifications may not be enough to give full guidelines on their
+.. uses.
+.. For reference on concepts repeated across the API, see <a class="reference external" href="https://docs.python.org/3/glossary.html#glossary" title="(in Python v3.6)"><span>Glossary</span></a>.</p>
+<div class="section" id="grakel-graph-graph-class-with-its-utility-functions">
+<h2><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel.graph</span></code>: Graph class with its utility functions<a class="headerlink" href="#grakel-graph-graph-class-with-its-utility-functions" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="base-class">
+<h3>Base Class<a class="headerlink" href="#base-class" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="generated/grakel.Graph.html#grakel.Graph" title="grakel.Graph"><code class="xref py py-obj docutils literal notranslate"><span class="pre">grakel.Graph</span></code></a>([initialization_object,&nbsp;…])</td>
+<td>The general <cite>graph</cite> class.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="utility-functions">
+<h3>Utility Functions<a class="headerlink" href="#utility-functions" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="generated/grakel.graph.is_adjacency.html#grakel.graph.is_adjacency" title="grakel.graph.is_adjacency"><code class="xref py py-obj docutils literal notranslate"><span class="pre">grakel.graph.is_adjacency</span></code></a>(g[,&nbsp;transform])</td>
+<td>Define if input is in a valid adjacency matrix format.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="generated/grakel.graph.is_edge_dictionary.html#grakel.graph.is_edge_dictionary" title="grakel.graph.is_edge_dictionary"><code class="xref py py-obj docutils literal notranslate"><span class="pre">grakel.graph.is_edge_dictionary</span></code></a>(g[,&nbsp;transform])</td>
+<td>Define if input is in a valid edge dictionary format.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="generated/grakel.graph.laplacian.html#grakel.graph.laplacian" title="grakel.graph.laplacian"><code class="xref py py-obj docutils literal notranslate"><span class="pre">grakel.graph.laplacian</span></code></a>(csgraph[,&nbsp;normed,&nbsp;…])</td>
+<td>Return the Laplacian matrix of a directed graph.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="generated/grakel.graph.floyd_warshall.html#grakel.graph.floyd_warshall" title="grakel.graph.floyd_warshall"><code class="xref py py-obj docutils literal notranslate"><span class="pre">grakel.graph.floyd_warshall</span></code></a>(adjacency_matrix)</td>
+<td>Calculate the Floyd Warshall, shortest path matrix.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>User guide:</strong> See the <a class="reference internal" href="graph.html#graph"><span class="std std-ref">Graph (class)</span></a> section for further details.</p>
+</div>
+</div>
+<div class="section" id="grakel-graph-kernels-a-kernel-decorator">
+<h2><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel.graph_kernels</span></code>: A kernel decorator<a class="headerlink" href="#grakel-graph-kernels-a-kernel-decorator" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="graph-kernel-decorator">
+<h3>Graph Kernel (decorator)<a class="headerlink" href="#graph-kernel-decorator" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="generated/grakel.GraphKernel.html#grakel.GraphKernel" title="grakel.GraphKernel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">grakel.GraphKernel</span></code></a>(**kargs)</td>
+<td>A decorator for graph kernels.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>User guide:</strong> See the <a class="reference internal" href="graph_kernel.html#graph-kernel"><span class="std std-ref">GraphKernel (class)</span></a> section for further details.</p>
+</div>
+</div>
+<div class="section" id="grakel-kernels-a-collection-of-graph-kernels">
+<h2><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel.kernels</span></code>: A collection of graph kernels<a class="headerlink" href="#grakel-kernels-a-collection-of-graph-kernels" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="kernels">
+<h3>Kernels<a class="headerlink" href="#kernels" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="kernels/kernel.html#grakel.kernels.kernel" title="grakel.kernels.kernel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">grakel.kernels.kernel</span></code></a>(**kargs)</td>
+<td>A general class for graph kernels.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="kernels/graphlet_sampling.html#grakel.kernels.graphlet_sampling" title="grakel.kernels.graphlet_sampling"><code class="xref py py-obj docutils literal notranslate"><span class="pre">grakel.kernels.graphlet_sampling</span></code></a>(**kargs)</td>
+<td>The graphlet sampling kernel.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="kernels/random_walk.html#grakel.kernels.random_walk" title="grakel.kernels.random_walk"><code class="xref py py-obj docutils literal notranslate"><span class="pre">grakel.kernels.random_walk</span></code></a>(**kargs)</td>
+<td>The random walk kernel class.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="kernels/pyramid_match.html#grakel.kernels.pyramid_match" title="grakel.kernels.pyramid_match"><code class="xref py py-obj docutils literal notranslate"><span class="pre">grakel.kernels.pyramid_match</span></code></a>(**kargs)</td>
+<td>Pyramid match kernel class.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="kernels/neighborhood_hash.html#grakel.kernels.neighborhood_hash" title="grakel.kernels.neighborhood_hash"><code class="xref py py-obj docutils literal notranslate"><span class="pre">grakel.kernels.neighborhood_hash</span></code></a>(**kargs)</td>
+<td>Neighborhood hashing kernel as proposed in <a class="reference internal" href="kernels/neighborhood_hash.html#hido2009alg" id="id1">[HK09]</a>.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="kernels/shortest_path.html#grakel.kernels.shortest_path" title="grakel.kernels.shortest_path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">grakel.kernels.shortest_path</span></code></a>(**kargs)</td>
+<td>The shortest path kernel class.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="kernels/shortest_path.html#grakel.kernels.shortest_path_attr" title="grakel.kernels.shortest_path_attr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">grakel.kernels.shortest_path_attr</span></code></a>(**kargs)</td>
+<td>The shortest path kernel for attributes.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="kernels/subgraph_matching.html#grakel.kernels.subgraph_matching" title="grakel.kernels.subgraph_matching"><code class="xref py py-obj docutils literal notranslate"><span class="pre">grakel.kernels.subgraph_matching</span></code></a>(**kargs)</td>
+<td>Calculate the subgraph matching kernel.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="kernels/weisfeiler_lehman.html#grakel.kernels.weisfeiler_lehman" title="grakel.kernels.weisfeiler_lehman"><code class="xref py py-obj docutils literal notranslate"><span class="pre">grakel.kernels.weisfeiler_lehman</span></code></a>(**kargs)</td>
+<td>Compute the Weisfeiler Lehman Kernel.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="kernels/subtree_wl.html#grakel.kernels.subtree_wl" title="grakel.kernels.subtree_wl"><code class="xref py py-obj docutils literal notranslate"><span class="pre">grakel.kernels.subtree_wl</span></code></a>(**kargs)</td>
+<td>The weisfeiler lehman subtree kernel.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="kernels/hadamard_code.html#grakel.kernels.hadamard_code" title="grakel.kernels.hadamard_code"><code class="xref py py-obj docutils literal notranslate"><span class="pre">grakel.kernels.hadamard_code</span></code></a>(**kargs)</td>
+<td>Hadamard code kernel, as proposed in <a class="reference internal" href="kernels/hadamard_code.html#icpram16" id="id2">[KI16]</a>.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="kernels/neighborhood_subgraph_pairwise_distance.html#grakel.kernels.neighborhood_subgraph_pairwise_distance" title="grakel.kernels.neighborhood_subgraph_pairwise_distance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">grakel.kernels.neighborhood_subgraph_pairwise_distance</span></code></a>(**kargs)</td>
+<td>The Neighborhood subgraph pairwise distance kernel.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="kernels/lovasz_theta.html#grakel.kernels.lovasz_theta" title="grakel.kernels.lovasz_theta"><code class="xref py py-obj docutils literal notranslate"><span class="pre">grakel.kernels.lovasz_theta</span></code></a>(**kargs)</td>
+<td>Lovasz theta kernel as proposed in <a class="reference internal" href="kernels/svm_theta.html#johansson2015learningws" id="id3">[JD15]</a>.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="kernels/svm_theta.html#grakel.kernels.svm_theta" title="grakel.kernels.svm_theta"><code class="xref py py-obj docutils literal notranslate"><span class="pre">grakel.kernels.svm_theta</span></code></a>(**kargs)</td>
+<td>Calculate the SVM theta kernel.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="kernels/propagation.html#grakel.kernels.propagation" title="grakel.kernels.propagation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">grakel.kernels.propagation</span></code></a>(**kargs)</td>
+<td>The Propagation kernel for fully labeled graphs.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="kernels/odd_sth.html#grakel.kernels.odd_sth" title="grakel.kernels.odd_sth"><code class="xref py py-obj docutils literal notranslate"><span class="pre">grakel.kernels.odd_sth</span></code></a>(**kargs)</td>
+<td>ODD-Sth kernel as proposed in <a class="reference internal" href="kernels/odd_sth.html#martino2012atk" id="id4">[MNS12]</a>.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="kernels/multiscale_laplacian.html#grakel.kernels.multiscale_laplacian" title="grakel.kernels.multiscale_laplacian"><code class="xref py py-obj docutils literal notranslate"><span class="pre">grakel.kernels.multiscale_laplacian</span></code></a>(**kargs)</td>
+<td>Laplacian Graph Kernel as proposed in <a class="reference internal" href="kernels/multiscale_laplacian.html#kondor2016theml" id="id5">[KP16]</a>.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="kernels/multiscale_laplacian.html#grakel.kernels.multiscale_laplacian_fast" title="grakel.kernels.multiscale_laplacian_fast"><code class="xref py py-obj docutils literal notranslate"><span class="pre">grakel.kernels.multiscale_laplacian_fast</span></code></a>(**kargs)</td>
+<td>Laplacian Graph Kernel as proposed in <a class="reference internal" href="kernels/multiscale_laplacian.html#kondor2016theml" id="id6">[KP16]</a>.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="kernels/hadamard_code.html#grakel.kernels.hadamard_code" title="grakel.kernels.hadamard_code"><code class="xref py py-obj docutils literal notranslate"><span class="pre">grakel.kernels.hadamard_code</span></code></a>(**kargs)</td>
+<td>Hadamard code kernel, as proposed in <a class="reference internal" href="kernels/hadamard_code.html#icpram16" id="id7">[KI16]</a>.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="kernels/vertex_histogram.html#grakel.kernels.vertex_histogram" title="grakel.kernels.vertex_histogram"><code class="xref py py-obj docutils literal notranslate"><span class="pre">grakel.kernels.vertex_histogram</span></code></a>(**kargs)</td>
+<td>Vertex Histogram kernel as found in <a class="reference internal" href="user_manual/make_your_own_kernel.html#sugiyama2015nips" id="id8">[SB15]</a>.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="kernels/edge_histogram.html#grakel.kernels.edge_histogram" title="grakel.kernels.edge_histogram"><code class="xref py py-obj docutils literal notranslate"><span class="pre">grakel.kernels.edge_histogram</span></code></a>(**kargs)</td>
+<td>Edge Histogram kernel as found in <a class="reference internal" href="user_manual/make_your_own_kernel.html#sugiyama2015nips" id="id9">[SB15]</a>.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>User guide:</strong> See the <a class="reference internal" href="kernels.html#kernels"><span class="std std-ref">Kernels (between graphs)</span></a> section for further details.</p>
+</div>
+</div>
+<div class="section" id="grakel-datasets-datasets">
+<h2><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel.datasets</span></code>: Datasets<a class="headerlink" href="#grakel-datasets-datasets" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="fetch">
+<h3>Fetch<a class="headerlink" href="#fetch" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="generated/grakel.datasets.fetch_dataset.html#grakel.datasets.fetch_dataset" title="grakel.datasets.fetch_dataset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">grakel.datasets.fetch_dataset</span></code></a>(name[,&nbsp;…])</td>
+<td>Load a dataset from <a class="reference external" href="https://ls11-www.cs.tu-dortmund.de/staff/morris/graphkerneldatasets">gd</a>.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>User guide:</strong> See the <a class="reference internal" href="datasets.html#datasets"><span class="std std-ref">Dataset loading utilities</span></a> section for further details.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="generated/grakel.Graph.html" class="btn btn-neutral float-right" title="grakel.Graph" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="api.html" class="btn btn-neutral" title="GraKeL" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, DaSciM (BSD License).
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.0.d1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

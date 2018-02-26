@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>grakel.kernels.subtree_wl &mdash; GraKeL 0.0.1 documentation</title>
+  <title>grakel.kernels.subtree_wl &mdash; GraKeL 0.0.d1 documentation</title>
   
 
   
@@ -32,12 +32,14 @@
   
     <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
   
+    <link rel="stylesheet" href="../../../_static/_static/suplementary.css" type="text/css" />
+  
 
   
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="GraKeL 0.0.1 documentation" href="../../../index.html"/>
+    <link rel="top" title="GraKeL 0.0.d1 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -67,7 +69,7 @@
             
             
               <div class="version">
-                0.1
+                0.0.d1
               </div>
             
           
@@ -92,7 +94,15 @@
             
             
               <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../user_manual/installation.html">Installing grakel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../user_manual/introduction.html">A short Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../user_manual/longer_introduction.html">A longer Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../user_manual/make_your_own_kernel.html">Write your own kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../user_manual/contributing.html">Contributing</a></li>
+</ul>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../api.html">GraKeL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../classes.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html">General examples</a></li>
 </ul>
 
@@ -162,20 +172,25 @@
 <span class="kn">import</span> <span class="nn">collections</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
 
-<span class="kn">from</span> <span class="nn">grakel.graph</span> <span class="k">import</span> <span class="n">graph</span>
+<span class="kn">from</span> <span class="nn">grakel.graph</span> <span class="k">import</span> <span class="n">Graph</span>
 <span class="kn">from</span> <span class="nn">grakel.tools</span> <span class="k">import</span> <span class="n">inv_dict</span>
 
 <span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">kernel</span>
 
 
-<div class="viewcode-block" id="subtree_wl"><a class="viewcode-back" href="../../../kernels/subtree_wl.html#grakel.kernels.subtree_wl.subtree_wl">[docs]</a><span class="k">class</span> <span class="nc">subtree_wl</span><span class="p">(</span><span class="n">kernel</span><span class="p">):</span>
+<div class="viewcode-block" id="subtree_wl"><a class="viewcode-back" href="../../../kernels/subtree_wl.html#grakel.kernels.subtree_wl">[docs]</a><span class="k">class</span> <span class="nc">subtree_wl</span><span class="p">(</span><span class="n">kernel</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;The weisfeiler lehman subtree kernel.</span>
 
 <span class="sd">    See :cite:`Shervashidze2011WeisfeilerLehmanGK`.</span>
 
 <span class="sd">    The kernel value.</span>
+
 <span class="sd">    .. math::</span>
 <span class="sd">        k(X,Y) = \sum_{v \in V_{1}}\sum_{u \in V_{2}}\delta(l(v),l(u))</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    None.</span>
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
@@ -190,19 +205,18 @@
         <span class="sd">&quot;&quot;&quot;Initialise a subtree_wl kernel.&quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">subtree_wl</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kargs</span><span class="p">)</span>
 
-<div class="viewcode-block" id="subtree_wl.parse_input"><a class="viewcode-back" href="../../../kernels/subtree_wl.html#grakel.kernels.subtree_wl.subtree_wl.parse_input">[docs]</a>    <span class="k">def</span> <span class="nf">parse_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+<div class="viewcode-block" id="subtree_wl.parse_input"><a class="viewcode-back" href="../../../kernels/subtree_wl.html#grakel.kernels.subtree_wl.parse_input">[docs]</a>    <span class="k">def</span> <span class="nf">parse_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Parse and check the given input for dirac kernel.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        X : object</span>
+<span class="sd">        X : iterable</span>
 <span class="sd">            For the input to pass the test, we must have:</span>
 <span class="sd">            Each element must be an iterable with at most three features and at</span>
 <span class="sd">            least one. The first that is obligatory is a valid graph structure</span>
 <span class="sd">            (adjacency matrix or edge_dictionary) while the second is</span>
-<span class="sd">            node_labels and the third edge_labels (that fitting the given graph</span>
-<span class="sd">             format). If None the kernel matrix is calculated upon fit data.</span>
-<span class="sd">            The test samples.</span>
+<span class="sd">            node_labels and the third edge_labels (that correspond to the given</span>
+<span class="sd">            graph format). A valid input also consists of graph type objects.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -215,16 +229,18 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">Xp</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
             <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">X</span><span class="p">)):</span>
-                <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">is</span> <span class="n">graph</span><span class="p">:</span>
-                    <span class="n">invL</span> <span class="o">=</span> <span class="n">inv_dict</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">get_labels</span><span class="p">(</span><span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;any&quot;</span><span class="p">))</span>
-                <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">collections</span><span class="o">.</span><span class="n">Iterable</span><span class="p">)</span> <span class="ow">and</span> \
-                        <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]:</span>
+                <span class="n">is_iter</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">collections</span><span class="o">.</span><span class="n">Iterable</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">is_iter</span><span class="p">:</span>
+                    <span class="n">x</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">is_iter</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]:</span>
                     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                         <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;Ignoring empty element&#39;</span> <span class="o">+</span>
                                       <span class="s1">&#39; on index: &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
                         <span class="k">continue</span>
                     <span class="k">else</span><span class="p">:</span>
                         <span class="n">invL</span> <span class="o">=</span> <span class="n">inv_dict</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">is</span> <span class="n">Graph</span><span class="p">:</span>
+                    <span class="n">invL</span> <span class="o">=</span> <span class="n">inv_dict</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">get_labels</span><span class="p">(</span><span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;any&quot;</span><span class="p">))</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;each element of X must be either a &#39;</span> <span class="o">+</span>
                                      <span class="s1">&#39;graph object or a list with at least &#39;</span> <span class="o">+</span>
@@ -232,10 +248,10 @@
                                      <span class="s1">&#39;dict </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
                 <span class="n">Xp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">invL</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">Xp</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;parsed input is empty&#39;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">Xp</span></div>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;parsed input is empty&#39;</span><span class="p">)</span></div>
+            <span class="k">return</span> <span class="n">Xp</span>
 
-<div class="viewcode-block" id="subtree_wl.pairwise_operation"><a class="viewcode-back" href="../../../kernels/subtree_wl.html#grakel.kernels.subtree_wl.subtree_wl.pairwise_operation">[docs]</a>    <span class="k">def</span> <span class="nf">pairwise_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lx</span><span class="p">,</span> <span class="n">ly</span><span class="p">):</span>
+<div class="viewcode-block" id="subtree_wl.pairwise_operation"><a class="viewcode-back" href="../../../kernels/subtree_wl.html#grakel.kernels.subtree_wl.pairwise_operation">[docs]</a>    <span class="k">def</span> <span class="nf">pairwise_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lx</span><span class="p">,</span> <span class="n">ly</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate the kernel value between two elements.</span>
 
 <span class="sd">        Parameters</span>
@@ -252,8 +268,8 @@
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lx</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">ly</span><span class="p">):</span>
             <span class="n">ls</span><span class="p">,</span> <span class="n">lb</span> <span class="o">=</span> <span class="n">lx</span><span class="p">,</span> <span class="n">ly</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">ls</span><span class="p">,</span> <span class="n">lb</span> <span class="o">=</span> <span class="n">ly</span><span class="p">,</span> <span class="n">lx</span>
-        <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ls</span><span class="p">[</span><span class="n">x</span><span class="p">])</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">lb</span><span class="p">[</span><span class="n">x</span><span class="p">])</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ls</span> <span class="k">if</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">lb</span><span class="p">)</span></div></div>
+            <span class="n">ls</span><span class="p">,</span> <span class="n">lb</span> <span class="o">=</span> <span class="n">ly</span><span class="p">,</span> <span class="n">lx</span></div></div>
+        <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ls</span><span class="p">[</span><span class="n">x</span><span class="p">])</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">lb</span><span class="p">[</span><span class="n">x</span><span class="p">])</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ls</span> <span class="k">if</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">lb</span><span class="p">)</span>
 </pre></div>
 
            </div>
@@ -268,7 +284,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2017, DaSciM.
+        &copy; Copyright 2018, DaSciM (BSD License).
 
     </p>
   </div>
@@ -290,7 +306,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.0.1',
+            VERSION:'0.0.d1',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

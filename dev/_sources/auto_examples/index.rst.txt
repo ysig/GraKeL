@@ -11,7 +11,7 @@ Introductory examples.
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="An example plot of :class:`grakel.graph_kernels` ">
+    <div class="sphx-glr-thumbcontainer" tooltip="An example plot of :class:`grakel.GraphKernel` ">
 
 .. only:: html
 
@@ -31,13 +31,13 @@ Introductory examples.
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="An example plot of :class:`grakel.graph_kernels` ">
+    <div class="sphx-glr-thumbcontainer" tooltip="An example plot of :class:`grakel.GraphKernel` ">
 
 .. only:: html
 
-    .. figure:: /auto_examples/images/thumb/sphx_glr_plot_classification_statistics_thumb.png
+    .. figure:: /auto_examples/images/thumb/sphx_glr__plot_lovasz_svm_theta_thumb.png
 
-        :ref:`sphx_glr_auto_examples_plot_classification_statistics.py`
+        :ref:`sphx_glr_auto_examples__plot_lovasz_svm_theta.py`
 
 .. raw:: html
 
@@ -47,7 +47,27 @@ Introductory examples.
 .. toctree::
    :hidden:
 
-   /auto_examples/plot_classification_statistics
+   /auto_examples/_plot_lovasz_svm_theta
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="An example plot of :class:`grakel.GraphKernel` ">
+
+.. only:: html
+
+    .. figure:: /auto_examples/images/thumb/sphx_glr__plot_classification_statistics_thumb.png
+
+        :ref:`sphx_glr_auto_examples__plot_classification_statistics.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/_plot_classification_statistics
 .. raw:: html
 
     <div style='clear:both'></div>

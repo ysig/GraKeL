@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>General examples &mdash; GraKeL 0.0.1 documentation</title>
+  <title>General examples &mdash; GraKeL 0.0.d1 documentation</title>
   
 
   
@@ -32,14 +32,16 @@
   
     <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
   
+    <link rel="stylesheet" href="../_static/_static/suplementary.css" type="text/css" />
+  
 
   
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="GraKeL 0.0.1 documentation" href="../index.html"/>
+    <link rel="top" title="GraKeL 0.0.d1 documentation" href="../index.html"/>
         <link rel="next" title="Fit-Transform and classification on the MUTAG dataset using a WL-dirac kernel." href="plot_wl_subtree_MUTAG.html"/>
-        <link rel="prev" title="GraKeL" href="../api.html"/> 
+        <link rel="prev" title="grakel.datasets.fetch_dataset" href="../generated/grakel.datasets.fetch_dataset.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -68,7 +70,7 @@
             
             
               <div class="version">
-                0.1
+                0.0.d1
               </div>
             
           
@@ -92,11 +94,20 @@
               
             
             
-              <ul class="current">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../user_manual/installation.html">Installing grakel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_manual/introduction.html">A short Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_manual/longer_introduction.html">A longer Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_manual/make_your_own_kernel.html">Write your own kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_manual/contributing.html">Contributing</a></li>
+</ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../api.html">GraKeL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../classes.html">API Reference</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">General examples</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="plot_wl_subtree_MUTAG.html">Fit-Transform and classification on the MUTAG dataset using a WL-dirac kernel.</a></li>
-<li class="toctree-l2"><a class="reference internal" href="plot_classification_statistics.html">Classification statistics on the MUTAG, ENZYMES datasets.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_plot_lovasz_svm_theta.html">Fit-Transform/Classification on MUTAG using a lovasz, svm-theta kernels.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_plot_classification_statistics.html">Classification statistics on the MUTAG, ENZYMES datasets.</a></li>
 </ul>
 </li>
 </ul>
@@ -165,23 +176,29 @@
   <div class="section" id="general-examples">
 <span id="id1"></span><h1>General examples<a class="headerlink" href="#general-examples" title="Permalink to this headline">¶</a></h1>
 <p>Introductory examples.</p>
-<div class="sphx-glr-thumbcontainer" tooltip="An example plot of :class:`grakel.graph_kernels` "><div class="figure" id="id2">
+<div class="sphx-glr-thumbcontainer" tooltip="An example plot of :class:`grakel.GraphKernel` "><div class="figure" id="id2">
 <img alt="../_images/sphx_glr_plot_wl_subtree_MUTAG_thumb.png" src="../_images/sphx_glr_plot_wl_subtree_MUTAG_thumb.png" />
 <p class="caption"><span class="caption-text"><a class="reference internal" href="plot_wl_subtree_MUTAG.html#sphx-glr-auto-examples-plot-wl-subtree-mutag-py"><span class="std std-ref">Fit-Transform and classification on the MUTAG dataset using a WL-dirac kernel.</span></a></span></p>
 </div>
 </div><div class="toctree-wrapper compound">
 </div>
-<div class="sphx-glr-thumbcontainer" tooltip="An example plot of :class:`grakel.graph_kernels` "><div class="figure" id="id3">
-<img alt="../_images/sphx_glr_plot_classification_statistics_thumb.png" src="../_images/sphx_glr_plot_classification_statistics_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="plot_classification_statistics.html#sphx-glr-auto-examples-plot-classification-statistics-py"><span class="std std-ref">Classification statistics on the MUTAG, ENZYMES datasets.</span></a></span></p>
+<div class="sphx-glr-thumbcontainer" tooltip="An example plot of :class:`grakel.GraphKernel` "><div class="figure" id="id3">
+<img alt="../_images/sphx_glr__plot_lovasz_svm_theta_thumb.png" src="../_images/sphx_glr__plot_lovasz_svm_theta_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="_plot_lovasz_svm_theta.html#sphx-glr-auto-examples-plot-lovasz-svm-theta-py"><span class="std std-ref">Fit-Transform/Classification on MUTAG using a lovasz, svm-theta kernels.</span></a></span></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="An example plot of :class:`grakel.GraphKernel` "><div class="figure" id="id4">
+<img alt="../_images/sphx_glr__plot_classification_statistics_thumb.png" src="../_images/sphx_glr__plot_classification_statistics_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="_plot_classification_statistics.html#sphx-glr-auto-examples-plot-classification-statistics-py"><span class="std std-ref">Classification statistics on the MUTAG, ENZYMES datasets.</span></a></span></p>
 </div>
 </div><div class="toctree-wrapper compound">
 </div>
 <div style='clear:both'></div><div class="sphx-glr-footer docutils container">
 <div class="sphx-glr-download docutils container">
-<a class="reference download internal" href="../_downloads/auto_examples_python.zip" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">all</span> <span class="pre">examples</span> <span class="pre">in</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">auto_examples_python.zip</span></code></a></div>
+<a class="reference download internal" href="../_downloads/auto_examples_python.zip" download=""><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">all</span> <span class="pre">examples</span> <span class="pre">in</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">auto_examples_python.zip</span></code></a></div>
 <div class="sphx-glr-download docutils container">
-<a class="reference download internal" href="../_downloads/auto_examples_jupyter.zip" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">all</span> <span class="pre">examples</span> <span class="pre">in</span> <span class="pre">Jupyter</span> <span class="pre">notebooks:</span> <span class="pre">auto_examples_jupyter.zip</span></code></a></div>
+<a class="reference download internal" href="../_downloads/auto_examples_jupyter.zip" download=""><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">all</span> <span class="pre">examples</span> <span class="pre">in</span> <span class="pre">Jupyter</span> <span class="pre">notebooks:</span> <span class="pre">auto_examples_jupyter.zip</span></code></a></div>
 </div>
 <p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.readthedocs.io">Gallery generated by Sphinx-Gallery</a></p>
 </div>
@@ -199,7 +216,7 @@
         <a href="plot_wl_subtree_MUTAG.html" class="btn btn-neutral float-right" title="Fit-Transform and classification on the MUTAG dataset using a WL-dirac kernel." accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../api.html" class="btn btn-neutral" title="GraKeL" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../generated/grakel.datasets.fetch_dataset.html" class="btn btn-neutral" title="grakel.datasets.fetch_dataset" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -208,7 +225,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2017, DaSciM.
+        &copy; Copyright 2018, DaSciM (BSD License).
 
     </p>
   </div>
@@ -230,7 +247,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.0.1',
+            VERSION:'0.0.d1',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
