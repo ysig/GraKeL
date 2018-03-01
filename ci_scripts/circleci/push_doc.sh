@@ -8,9 +8,15 @@ MSG="Pushing the docs for revision for branch: $CIRCLE_BRANCH, commit $CIRCLE_SH
 
 cd $HOME
 # Copy the build docs to a temporary folder
+
+# rename the project folder to the doc repo folder
+if [ -d project ];
+    then mv project $DOC_REPO;
+fi
+
 rm -rf tmp
 mkdir tmp
-cp -R $HOME/project/doc/_build/html/* ./tmp/ 
+cp -R $HOME/$DOC_REPO/doc/_build/html/* ./tmp/ 
 
 # Clone the docs repo if it isnt already there
 if [ ! -d $DOC_REPO ];
@@ -23,7 +29,7 @@ git checkout -f gh-pages
 git reset --hard origin/gh-pages
 git clean -dfx
 
-for name in $(ls -A project/$DOC_REPO); do
+for name in $(ls -A $HOME/$DOC_REPO); do
     case $name in
         .nojekyll) # So that github does not build this as a Jekyll website.
         ;;
@@ -50,4 +56,4 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-echo $MSG 
+echo $MSG

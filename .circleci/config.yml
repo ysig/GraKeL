@@ -54,8 +54,8 @@ jobs:
           at: doc/_build/html
       - run: ls -ltrh doc/_build/html
       - run: pwd
-      - run: ls
-      - run: ls ../
+      - run: ls -al
+      - run: ls -al ../
       - deploy:
           command: bash ./ci_scripts/circleci/push_doc.sh
 
