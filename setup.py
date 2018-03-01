@@ -33,6 +33,9 @@ except ImportError as ie:
             print('The automatic script-failed to install pynauty..\n'
                   'Try to install it on your own.', file=sys.stderr)
             sys.exit(1)
+    else:
+        print('problematic OS -- pynauty should be installed manually', file=sys.stderr)
+        sys.exit(1)
 
 try:
     import numpy

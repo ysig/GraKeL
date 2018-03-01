@@ -8,6 +8,9 @@ import numpy as np
 from grakel.graph import Graph
 from grakel.kernels import kernel
 
+# Python 2/3 cross-compatibility import
+from six import itervalues
+
 default_random_seed_value = 1235476565
 
 
@@ -176,7 +179,7 @@ class propagation(kernel):
                 i += 1
                 transition_matrix[i] = T
                 label = g.get_labels(purpose='adjacency')
-                labels |= set(label.values())
+                labels |= set(itervalues(label))
                 L.append((g.nv(), label))
 
             if i == -1:

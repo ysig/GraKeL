@@ -2,6 +2,7 @@
 from sklearn.model_selection import train_test_split
 
 from grakel.datasets import fetch_dataset
+from grakel.datasets import get_dataset_info
 from grakel.graph_kernels import GraphKernel
 
 global verbose, main, development
@@ -22,11 +23,19 @@ if __name__ == '__main__':
                         action="store_true")
     parser.add_argument('--ignore_warnings', help='ignore warnings produced ' +
                         'by kernel executions', action="store_true")
+
     parser.add_argument(
         '--dataset',
-        help='chose the datset you want the tests to be executed',
+        help='choose the dataset for tests requiring node/edge labels',
         type=str,
         default="MUTAG"
+    )
+
+    parser.add_argument(
+        '--dataset_attr',
+        help='choose the dataset for tests requiring node attributes',
+        type=str,
+        default="Cuneiform"
     )
 
     meg = parser.add_mutually_exclusive_group()
@@ -55,12 +64,28 @@ if __name__ == '__main__':
     normalize = bool(args.normalize)
 
     dataset_name = args.dataset
+    dataset_attr_name = args.dataset_attr
+
+    # consistency check for the dataset
+    info = get_dataset_info(dataset_name)
+    if info is None:
+        raise TypeError('dataset not found')
+    elif not (info["nl"] and info["el"]):
+        raise TypeError('dataset mus have both node and edge labels')
+
+    # consistency check for the attribute dataset
+    info = get_dataset_info(dataset_attr_name)
+    if info is None:
+        raise TypeError('dataset for attributes not found')
+    elif not info["na"]:
+        raise TypeError('dataset must have both node')
 else:
     import warnings
     warnings.filterwarnings('ignore', category=UserWarning)
     main, develop, problematic, slow = True, False, False, False
     normalize, verbose = False, False
     dataset_name = "MUTAG"
+    dataset_args_name = "Cuneiform"
 
 global dataset_tr, dataset_te, dataset_attr_tr, dataset_attr_te
 
@@ -73,7 +98,7 @@ dataset_tr, dataset_te = train_test_split(dataset,
 
 # The baseline dataset for node/edge-attributes
 global dataset_attr, dataset_attr_tr, dataset_attr_te
-dataset_attr = fetch_dataset("Cuneiform", with_classes=False,
+dataset_attr = fetch_dataset(dataset_attr_name, with_classes=False,
                              prefer_attr_nodes=True,
                              prefer_attr_edges=True,
                              verbose=verbose).data

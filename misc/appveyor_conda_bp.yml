@@ -51,7 +51,7 @@ install:
   - pip install --upgrade cvxopt
   
   # Install pynauty
-  - python install_pynauty.py --venv
+  - python install_pynauty.py
   
   # Install project
   - "%CMD_IN_ENV% pip show numpy"

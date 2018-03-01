@@ -37,7 +37,7 @@ pip install 'cvxopt>=1.1.9'
 pip install flake8
 # If setuptools are not installed -- upgraded, travis crashes
 pip install --upgrade setuptools
-python install_pynauty.py --venv
+python install_pynauty.py
 
 python --version
 python -c "import numpy; print('numpy %s' % numpy.__version__)"

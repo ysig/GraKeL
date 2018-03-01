@@ -1,9 +1,11 @@
 """The hadamard code kernel as defined in :cite:`icpram16`."""
 import collections
-import math
 import warnings
 
 import numpy as np
+
+from math import ceil
+from numpy import log2
 
 from scipy.linalg import hadamard
 
@@ -12,6 +14,10 @@ from sklearn.utils.validation import check_is_fitted
 
 from grakel.graph import Graph
 from grakel.kernels import kernel
+
+# Python 2/3 cross-compatibility import
+from six import iteritems
+from six import itervalues
 
 
 class hadamard_code(kernel):
@@ -194,7 +200,7 @@ class hadamard_code(kernel):
                 label = x.get_labels(purpose='any')
                 inp.append((x.get_graph_object(), label))
                 neighbors.append(x.get_edge_dictionary())
-                for v in set(label.values()):
+                for v in set(itervalues(label)):
                     if v not in labels_enum:
                         labels_enum[v] = nl
                         nl += 1
@@ -203,7 +209,7 @@ class hadamard_code(kernel):
                 raise ValueError('parsed input is empty')
 
         # Calculate the hadamard matrix
-        ord_H = int(2**(math.ceil(math.log2(nl))))
+        ord_H = int(2**(ceil(log2(nl))))
         H = hadamard(ord_H)
 
         if self._shortened:
@@ -277,7 +283,7 @@ class hadamard_code(kernel):
         new_graphs = list()
         for (obj, label) in inp:
             new_labels = dict()
-            for (k, v) in label.items():
+            for (k, v) in iteritems(label):
                 new_labels[k] = self._get(Labeling, labels_enum[v])
             new_graphs.append((obj, label))
 
@@ -297,7 +303,7 @@ class hadamard_code(kernel):
                 # Find unique labels and sort them for both graphs
                 # Keep for each node the temporary
                 new_labels = dict()
-                for (k, ns) in neighbor.items():
+                for (k, ns) in iteritems(neighbor):
                     new_labels[k] = old_labels[k]
                     for q in ns:
                         new_labels[k] = self._add(new_labels[k], old_labels[q])

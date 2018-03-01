@@ -14,28 +14,20 @@ environment:
     CLOUD_STORAGE: LOCAL
 
   matrix:
+    - PYTHON: "C:\\Python27-x64"
+      PYTHON_VERSION: "2.7.8"
+      PYTHON_ARCH: "64"
+      MINICONDA: "C:\\Miniconda-x64"
+
     - PYTHON: C:\python34-x64
       PYTHON_VERSION: "3.4.3"
       PYTHON_ARCH: "64"
       MSYS: C:\msys64
 install:
-  # Delete python from MSYS to avoid clashes
-  - del %MSYS%\usr\bin\pydoc2
-  - del %MSYS%\usr\bin\python2-config
-  - del %MSYS%\usr\bin\python2.7-config
-  - del %MSYS%\usr\bin\python2.7.exe 
-  - del %MSYS%\usr\bin\python2.exe
-   
-  # Delete python27 to avoid clashes
-  - del /s /q C:\python27 >nul 2>&1
-
   # Delete mingw-64 to avoid clashes
   - del /s /q C:\mingw-w64 >nul 2>&1
 
-  # Delete gcc from MSYS to avoid clashes with mingw dcc, g++
-  - del %MSYS%\usr\bin\gcc.exe
-  - del %MSYS%\usr\bin\g++.exe
-
+  # SET address of mingw inside MSYS
   - "SET MGW=%MSYS%\\mingw64"
 
   # Set to the Path variable binaries for linux like commands make, tar
@@ -57,7 +49,7 @@ install:
   # Installation will be done with mingw. Propably will lead to error inside appveyor
   # because of 4GB memory overhead on a x64 3.4 python, upon library import
   # See: https://github.com/ContinuumIO/anaconda-issues/issues/271#issue-58658137
-  - "python install_pynauty.py --venv --use_mingw"
+  - "python install_pynauty.py --use_mingw"
   
   # Check import of pynauty here and on env
   - "python %ENSURE_PYNAUTY%"

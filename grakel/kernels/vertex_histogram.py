@@ -13,6 +13,10 @@ from grakel.graph import Graph
 from numpy import zeros
 from numpy import einsum
 
+# Python 2/3 cross-compatibility import
+from six import iteritems
+from six import itervalues
+
 
 class vertex_histogram(kernel):
     """Vertex Histogram kernel as found in :cite:`Sugiyama2015NIPS`.
@@ -81,7 +85,7 @@ class vertex_histogram(kernel):
                                      'dict \n')
 
                 # construct the data input for the numpy array
-                for (label, frequency) in Counter(L.values()).items():
+                for (label, frequency) in iteritems(Counter(itervalues(L))):
                     # for the row that corresponds to that graph
                     rows.append(ni)
 

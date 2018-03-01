@@ -10,6 +10,10 @@ from sklearn.utils.validation import check_is_fitted
 from grakel.graph import Graph
 from grakel.kernels import kernel
 
+# Python 2/3 cross-compatibility import
+from six import iteritems
+from six import itervalues
+
 
 class weisfeiler_lehman(kernel):
     """Compute the Weisfeiler Lehman Kernel.
@@ -141,7 +145,7 @@ class weisfeiler_lehman(kernel):
                                      'dict \n')
                 Gs_ed[nx] = x.get_edge_dictionary()
                 L[nx] = x.get_labels(purpose="dictionary")
-                distinct_values |= set(L[nx].values())
+                distinct_values |= set(itervalues(L[nx]))
                 nx += 1
             if nx == 0:
                 raise ValueError('parsed input is empty')
@@ -309,7 +313,7 @@ class weisfeiler_lehman(kernel):
 
                     # Hold all the distinct values
                     distinct_values |= set(
-                        v for v in L[nx].values()
+                        v for v in itervalues(L[nx])
                         if v not in self._inv_labels[0])
                     nx += 1
                 if nx == 0:
@@ -324,7 +328,7 @@ class weisfeiler_lehman(kernel):
         new_graphs = list()
         for j in range(nx):
             new_labels = dict()
-            for (k, v) in L[j].items():
+            for (k, v) in iteritems(L[j]):
                 if v in self._inv_labels[0]:
                     new_labels[k] = self._inv_labels[0][v]
                 else:
@@ -360,7 +364,7 @@ class weisfeiler_lehman(kernel):
             new_graphs = list()
             for j in range(nx):
                 new_labels = dict()
-                for (k, v) in L_temp[j].items():
+                for (k, v) in iteritems(L_temp[j]):
                     if v in self._inv_labels[i]:
                         new_labels[k] = self._inv_labels[i][v]
                     else:

@@ -13,6 +13,11 @@ from grakel.tools import inv_dict
 from grakel.tools import nested_dict_add
 from grakel.tools import priority_dict
 
+# Python 2/3 cross-compatibility import
+from six import iteritems
+from six import itervalues
+from builtins import range
+
 
 class Graph(object):
     """The general `graph` class.
@@ -1125,9 +1130,9 @@ class Graph(object):
         if self._format is "dictionary":
             A = np.zeros(shape=(len(self.vertices), len(self.vertices)))
             v_map = {v: i for (i, v) in enumerate(sorted(list(self.vertices)))}
-            for (k, v) in self.edge_dictionary.items():
+            for (k, v) in iteritems(self.edge_dictionary):
                 i = v_map[k]
-                for (kv, w) in v.items():
+                for (kv, w) in iteritems(v):
                     A[i, v_map[kv]] = w
             return A
         else:
@@ -1510,12 +1515,12 @@ def is_edge_dictionary(g, transform=False):
     if type(g) is dict:
         if all(
                 type(k) is tuple and len(k) == 2 and
-                isinstance(n, numbers.Number) for (k, n) in g.items()):
+                isinstance(n, numbers.Number) for (k, n) in iteritems(g)):
             if transform:
                 vertices_key = set()
                 vertices_val = set()
                 edge_dict = dict()
-                for (k, v) in g.items():
+                for (k, v) in iteritems(g):
                     vertices_key.add(k[0])
                     vertices_val.add(k[1])
                     nested_dict_add(edge_dict, v, k[0], k[1])
@@ -1528,12 +1533,12 @@ def is_edge_dictionary(g, transform=False):
                 return True, vertices_key | vertices_val, edge_dict
             else:
                 return True
-        if all(isinstance(d, list) for d in g.values()):
+        if all(isinstance(d, list) for d in itervalues(g)):
             if transform:
                 vertices_key = set()
                 vertices_val = set()
                 edge_dict = dict()
-                for (k, v) in g.items():
+                for (k, v) in iteritems(g):
                     vertices_key.add(k)
                     vertices_val |= set(v)
                     for kp in v:
@@ -1550,7 +1555,7 @@ def is_edge_dictionary(g, transform=False):
         if all(
                 isinstance(d, dict) and
                 all(isinstance(n, numbers.Number)
-                    for n in d.values()) for d in g.values()):
+                    for n in itervalues(d)) for d in itervalues(g)):
             if transform:
                 vertices_key = set(g.keys())
                 vertices_val = {kp for k in g.keys() for kp in g[k].keys()}

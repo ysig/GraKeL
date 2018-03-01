@@ -218,9 +218,11 @@ class shortest_path(kernel):
             self._lt = "vertex"
             self._lhash = lambda S, u, v, *args: \
                 (args[0][u], args[0][v], S[u, v])
+            self._decompose_input = lambda *args: (args[0], args[1:])
         else:
             self._lt = "none"
             self._lhash = lambda S, u, v, *args: S[u, v]
+            self._decompose_input = lambda *args: (args[0], [])
 
         self._algorithm_type = kargs.get("algorithm_type", "auto")
 
@@ -403,25 +405,27 @@ class shortest_path(kernel):
                                       + str(idx))
                         continue
                     elif len(x) == 1:
-                        S, *L = Graph(
+                        spm_data = Graph(
                             x[0], {}, {},
                             self._graph_format).build_shortest_path_matrix(
                                 self._algorithm_type,
                                 labels=self._lt)
                     else:
-                        S, *L = Graph(
+                        spm_data = Graph(
                             x[0], x[1], {},
                             self._graph_format).build_shortest_path_matrix(
                                 self._algorithm_type,
                                 labels=self._lt)
                 elif type(x) is Graph:
-                    S, *L = x.build_shortest_path_matrix(
+                    spm_data = x.build_shortest_path_matrix(
                         self._algorithm_type,
                         labels=self._lt)
                 else:
                     raise ValueError('each element of X must have at least' +
                                      ' one and at most 3 elements\n')
                 i += 1
+
+                S, L = self._decompose_input(*spm_data)
 
                 sp_counts[i] = dict()
                 for u in range(S.shape[0]):

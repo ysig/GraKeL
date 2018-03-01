@@ -12,7 +12,7 @@ Installing grakel
 
 The grakel library requires:
 
-* Python [>= 3.5]
+* Python [>=2.7, >= 3.5]
 * NumPy [>= 1.8.2]
 * SciPy [>= 0.13.3]
 * Cython [>= 0.27.3]
@@ -34,7 +34,7 @@ $ (sudo) python install_pynauty.py
 depending on if `pip` has superuser privilages.
 
 **Currently windows installation of the whole package, is not working well because of dependencies.**
-To know more, please read the documentation on the section *installation*.
+To know more, please read the [documentation][doc] on the section *installation*.
 
 To install the module execute:
 ```shell
@@ -44,12 +44,12 @@ $ (sudo) pip install grakel
 Contributing
 ============
 For learning how to read to integrate your own kernel, please read section *Write your own kernel* inside
-the package documentation. 
-For contributing to the GraKeL project, please read section *contributing* inside the package documentation.
+the package [documentation][doc]. 
+For contributing to the GraKeL project, please read section *contributing* inside the package [documentation][doc].
 
 Usage
 =====
-To learn how to use the GraKeL api **as a user**, please read the documentation on sections *Introduction* and *A longer introduction*
+To learn how to use the GraKeL api **as a user**, please read the [documentation][doc] on sections *Introduction* and *A longer introduction*
 (in case your are full of curiosity).
 
 Testing
@@ -126,3 +126,5 @@ locally by executing:
 ```shell
 $ python setup.py build_ext -i
 ```
+
+[doc]: https://ysig.github.io/GraKeL/dev/

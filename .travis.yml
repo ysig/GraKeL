@@ -16,6 +16,8 @@ env:
     - TEST_DIR=/tmp/test_dir/
     - MODULE=grakel
   matrix:
+    - DISTRIB="conda" PYTHON_VERSION="2.7"
+      NUMPY_VERSION="1.14.0" SCIPY_VERSION="1.0.0" CYTHON_VERSION="0.27.3"
     - DISTRIB="conda" PYTHON_VERSION="3.5" COVERAGE="true"
       NUMPY_VERSION="1.14.0" SCIPY_VERSION="1.0.0" CYTHON_VERSION="0.27.3"
 

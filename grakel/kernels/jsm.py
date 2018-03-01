@@ -8,6 +8,9 @@ import numpy as np
 from grakel.graph import Graph
 from grakel.kernels import kernel
 
+# Python 2/3 cross-compatibility import
+from six import itervalues
+
 
 class jsm(kernel):
     """Jensen-Shannon Representation Alignment kernel :cite:`Bai2015AGK`.
@@ -287,7 +290,7 @@ def entropy_calculation(m_neighbor_graph_set):
     snv = 0
     for (i, (edges, nv)) in enumerate(m_neighbor_graph_set):
         P = calculate_P(edges)
-        hs = sum(-p*math.log(p) for p in P.values())
+        hs = sum(-p*math.log(p) for p in itervalues(P))
         if i == 0:
             root_entropy = hs
         shs += hs
@@ -318,7 +321,7 @@ def calculate_P(edges):
         if i not in P:
             P[i] = 0
         P[i] += 1
-    NP = sum(P.values())
+    NP = sum(itervalues(P.values))
     for k in P.keys():
         P[k] /= NP
     return P

@@ -2,7 +2,6 @@
 import collections
 import warnings
 
-import random
 import numpy as np
 
 from grakel.kernels import kernel
@@ -90,7 +89,6 @@ class lovasz_theta(kernel):
                              'must be a function')
 
         rs = kargs.get("random_seed", 6578909)
-        random.seed(rs)
         np.random.seed(rs)
 
     def parse_input(self, X):
@@ -147,6 +145,7 @@ class lovasz_theta(kernel):
                 X, t = _calculate_lovasz_embeddings_(A)
                 U = _calculate_lovasz_labelling_(X, t, self._d)
                 out.append(self._calculate_MEC_(U))
+
             if i == 0:
                 raise ValueError('parsed input is empty')
 
@@ -177,7 +176,7 @@ class lovasz_theta(kernel):
 
         Parameters
         ----------
-        A : np.array, ndim=2
+        U : np.array, ndim=2
             The adjacency matrix.
 
         Returns
@@ -374,7 +373,7 @@ def _b_minidisk_(A, P, R):
         else:
             c, r = _fitball_(A[:, R])
     else:
-        p = P[random.randint(0, nP - 1)]
+        p = P[np.random.randint(0, nP)]
         P_prime = np.delete(P, np.where(P == p))
         c, r = _b_minidisk_(A, P_prime, R)
         if norm(A[:, p] - c, 2) - r > tolerance:

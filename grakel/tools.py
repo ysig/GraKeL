@@ -108,7 +108,7 @@ def nested_dict_add(dictionary, value, *keys):
     address[keys[-1]] = value
 
 
-def nested_dict_get(dictionary, *keys, default=None):
+def nested_dict_get(dictionary, *keys, **kargs):
     """Get an item from a nested dictionary.
 
     Checks if an item exists in a nested level by keys in a dictionary and if
@@ -131,6 +131,13 @@ def nested_dict_get(dictionary, *keys, default=None):
             Returns either the dictionary element or the value in default.
 
     """
+    if len(kargs) == 1 and "default":
+        default = kargs["default"]
+    elif len(kargs) == 0:
+        default = None
+    else:
+        raise TypeError('optional argument can only be "default"')
+
     element = dictionary
     for k in keys:
         if (k in element):
@@ -219,83 +226,84 @@ def matrix_to_dict(matrix, op='==', const_value=0, allow_diagonal=False):
 
 
 def distribute_samples(n, subsets_size_range, n_samples):
-        """Distribute samples evenly in a given range.
+    """Distribute samples evenly in a given range.
 
-        A function that is used in order to distribute evenly, the amount of
-        samples that will be drawn from a range of subset's sizes, from an
-        original set of given size.
+    A function that is used in order to distribute evenly, the amount of
+    samples that will be drawn from a range of subset's sizes, from an
+    original set of given size.
 
-        Parameters
-        ----------
-            n : int
-                The set size.
+    Parameters
+    ----------
+        n : int
+            The set size.
 
-            subsets_size_range : tuple
-                A touple having the min and the max subset size.
+        subsets_size_range : tuple
+            A touple having the min and the max subset size.
 
-            n_samples : int
-                The number of samples.
+        n_samples : int
+            The number of samples.
 
-        Returns
-        ------
-            samples_on_subsets : dict
-                Returns a dictionary of samples, for each subset.
+    Returns
+    ------
+        samples_on_subsets : dict
+            Returns a dictionary of samples, for each subset.
 
-        """
-        # Check input
-        min_ss, max_ss = subsets_size_range[0], subsets_size_range[1]
+    """
+    # Check input
+    min_ss, max_ss = subsets_size_range[0], subsets_size_range[1]
 
-        if min_ss <= 1:
-            raise ValueError('minimum subset size must be bigger than one')
-        if min_ss > max_ss:
-            raise ValueError('minimum subset size must be \
-            smaller than maximum')
-        if min_ss > n:
-            raise ValueError('minimum subset size must not exceed graph size')
-        if max_ss > n:
-            warnings.warn('maximum subset size to big - adjusting to set size')
-            max_ss = n
+    if min_ss <= 1:
+        raise ValueError('minimum subset size must be bigger than one')
+    if min_ss > max_ss:
+        raise ValueError('minimum subset size must be \
+        smaller than maximum')
+    if min_ss > n:
+        raise ValueError('minimum subset size must not exceed graph size')
+    if max_ss > n:
+        warnings.warn('maximum subset size to big - adjusting to set size')
+        max_ss = n
 
-        # Distribute samples to subset groups
-        availabilities_on_subsets = sorted([(k, int(binomial(n, k)))
-                                            for k in range(min_ss, max_ss+1)],
-                                           key=lambda x: x[1])
-        n_availabilities = sum(item[1] for item in availabilities_on_subsets)
+    # Distribute samples to subset groups
+    availabilities_on_subsets = sorted([(k, int(binomial(n, k)))
+                                        for k in range(min_ss, max_ss+1)],
+                                       key=lambda x: x[1])
 
-        # Semantic Exception
-        if n_availabilities < n_samples:
-            warnings.warn(
-                'number of samples exceedes the number of availabilities, ' +
-                'n_samples is now replaced by the availabilities_on_subsets')
-            return dict(availabilities_on_subsets)
+    n_availabilities = sum(item[1] for item in availabilities_on_subsets)
 
-        samples_on_subsets = dict()
-        available_samples = n_samples
-        # a variable that helps distributing equally
-        cache = 0
-        for (i, n) in availabilities_on_subsets:
-            a = round((n/n_availabilities)*n_samples)
-            value = -1
-            if a < n:
-                if a > 0:
-                    q = a + cache - n
-                    if q >= 0:
-                        cache = q
-                        value = n
-                    else:
-                        value = a + cache
-            elif a >= n:
-                cache += a-n
-                value = n
+    # Semantic Exception
+    if n_availabilities < n_samples:
+        warnings.warn(
+            'number of samples exceedes the number of availabilities, ' +
+            'n_samples is now replaced by the availabilities_on_subsets')
+        return dict(availabilities_on_subsets)
 
-            # If maximum number of samples is reached break
-            if value >= available_samples:
-                samples_on_subsets[min_ss+i] = available_samples
-                break
-            elif value != -1:
-                samples_on_subsets[min_ss+i] = value
+    samples_on_subsets = dict()
+    available_samples = n_samples
+    # a variable that helps distributing equally
+    cache = 0
+    for (i, n) in availabilities_on_subsets:
+        a = int(round((n/(n_availabilities*1.0))*n_samples))
+        value = -1
+        if a < n:
+            if a > 0:
+                q = a + cache - n
+                if q >= 0:
+                    cache = q
+                    value = n
+                else:
+                    value = a + cache
+        elif a >= n:
+            cache += a-n
+            value = n
 
-        return samples_on_subsets
+        # If maximum number of samples is reached break
+        if value >= available_samples:
+            samples_on_subsets[min_ss+i] = available_samples
+            break
+        elif value != -1:
+            samples_on_subsets[min_ss+i] = value
+
+    return samples_on_subsets
 
 
 def rotl(num, bits):

@@ -9,7 +9,7 @@ import traceback
 
 from subprocess import check_call
 
-def main(venv=False, cmd_env=False, use_mingw=False):
+def main(user=False, cmd_env=False, use_mingw=False):
     """A general main for the installation of pynauty."""
 
     # Detect OS
@@ -21,7 +21,7 @@ def main(venv=False, cmd_env=False, use_mingw=False):
         elif use_mingw:
             check_call(['echo', "Parameter --use_mingw is ignored.. Installation is happening inside a linus environment"])
 
-        main_unix(venv)
+        main_unix(user)
     elif platform.system() == 'Windows':
         # Warning: For a windows operating system MinGW must be installed.
         # Right now there is no support of pynauty for visual studio
@@ -48,13 +48,13 @@ def main(venv=False, cmd_env=False, use_mingw=False):
             check_call(['echo', 'For this issue see here:'])
             check_call(['echo', 'https://github.com/ContinuumIO/anaconda-issues/issues/271#issue-58658137'])
 
-        main_windows(venv, cmd_env, use_mingw)
+        main_windows(user, cmd_env, use_mingw)
     else:
         sys.stderr.write('Unsupported os for this library')
         sys.exit(1)
 
 
-def main_windows(venv=False, cmd_env=False, use_mingw=False):
+def main_windows(user=False, cmd_env=False, use_mingw=False):
     """Pynauty install on a Windows System"""
     # Add the compiler
     compiler = ' --compiler=mingw32' if use_mingw else ''
@@ -114,17 +114,17 @@ def main_windows(venv=False, cmd_env=False, use_mingw=False):
         check_call([python_executable_address, 'setup.py', 'build' + compiler])
 
     # Install pynauty
-    if venv:
-        pip.main(['install', '--upgrade', '.'])
-    else:
+    if user:
         pip.main(['install', '--user', '--upgrade', '.'])
+    else:
+        pip.main(['install', '--upgrade', '.'])
 
     # exit directory and delete
     os.chdir("..")
     shutil.rmtree('pynauty-0.6.0')
 
 
-def main_unix(venv=False):
+def main_unix(user=False):
     """Install on a unix platform"""
     # Running python version
     check_call(['echo', 'python ' + str(platform.python_version())])
@@ -158,10 +158,10 @@ def main_unix(venv=False):
     check_call([python_executable_address, 'setup.py', 'build'])
 
     # Install pynauty
-    if venv:
-        pip.main(['install', '--upgrade', '.'])
-    else:
+    if user:
         pip.main(['install', '--user', '--upgrade', '.'])
+    else:
+        pip.main(['install', '--upgrade', '.'])
 
     # exit directory and delete
     os.chdir("..")
@@ -173,7 +173,7 @@ if __name__ == "__main__":
 
     # Create an argument parser for the installer of pynauty
     parser = argparse.ArgumentParser(description='A program to install pynauty')
-    parser.add_argument('--venv', help='define if inside a virtual environment', action="store_true")
+    parser.add_argument('--user', help='install as a user', action="store_true")
     if platform.system() == 'Windows':
         meg = parser.add_mutually_exclusive_group()
         meg.add_argument('--cmd_env', help='define if python needs to find the correct environment for building in visual studio [windows]', action="store_true")
@@ -181,7 +181,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     # Define parameters useful for installation of pynauty as a consequence of argparse
-    argv = [bool(args.venv)]
+    argv = [bool(args.user)]
     if platform.system() == 'Windows':
         argv += [bool(args.cmd_env), bool(args.use_mingw)]
 

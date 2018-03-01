@@ -260,8 +260,9 @@ def read_data(
                 )):
         with open(node_attributes_path, "r") as f:
             for (i, line) in enumerate(f, 1):
-                node_labels[ngc[i]][i] = [float(num)
-                                          for num in line[:-1].split(", ")]
+                node_labels[ngc[i]][i] = \
+                    [float(num) for num in
+                     line[:-1].replace(' ', '').split(",")]
     # Extract node labels
     elif dataset_metadata[name].get(
             "nl",
@@ -401,3 +402,39 @@ def fetch_dataset(
                          ' them send us a pm, to explain you either why we ' +
                          'don\'t support it, or to update are dataset ' +
                          'database.')
+
+
+def get_dataset_info(dataset_name, default=None):
+    """Return the info concerning the existence of a certain dataset.
+
+    Parameters
+    ----------
+    dataset_name : str
+        The name of the dataset.
+
+    default : Object, default=None
+        The default return value if the dataset is not found.
+
+    Returns
+    -------
+    dictionary_get : default or dictionary_entry
+        The info of a dataset as a dictionary with
+        fields:
+
+            - **nl** : A boolean flag indicating if the
+              dataset has node labels.
+
+            - **el** : A boolean flag indicating if the
+              dataset has edge labels.
+
+            - **na** : A boolean flag indicating if the
+              dataset has node attributes.
+
+            - **ea** : A boolean flag indicating if the
+              dataset has edge attributes.
+
+            - **link** : A str corresponding to the
+              download link of the dataset.
+
+    """
+    return dataset_metadata.get(dataset_name, default)

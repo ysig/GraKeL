@@ -11,6 +11,9 @@ from sklearn.exceptions import NotFittedError
 from grakel.kernels import kernel
 from grakel.graph import Graph
 
+# Python 2/3 cross-compatibility import
+from six import iteritems
+
 
 class odd_sth(kernel):
     """ODD-Sth kernel as proposed in :cite:`Martino2012ATK`.
@@ -146,7 +149,7 @@ class odd_sth(kernel):
 
         C = np.empty(shape=(len(ref), 1))
         phi = np.empty(shape=(len(ref), self._nx))
-        for (i, v) in ref.items():
+        for (i, v) in iteritems(ref):
             # number of identical subtrees
             # equal the D element
             C[i] = self.X[0][v][0]
@@ -413,7 +416,7 @@ def odd(vertices, edges, labels):
     else:
         raise ValueError('unsupported vertices type')
 
-    for (k, e) in edges.items():
+    for (k, e) in iteritems(edges):
         for v in e:
             if v not in indegrees:
                 indegrees[v] = 1

@@ -4,6 +4,8 @@ import warnings
 
 import numpy as np
 
+from scipy.sparse import csr_matrix
+
 from sklearn.exceptions import NotFittedError
 from sklearn.utils.validation import check_is_fitted
 
@@ -11,6 +13,11 @@ from grakel.kernels import kernel
 from grakel.graph import Graph
 
 from grakel.kernels._c_functions import APHash
+
+# Python 2/3 cross-compatibility import
+from six import iteritems
+from six.moves import filterfalse
+from builtins import range
 
 
 class neighborhood_subgraph_pairwise_distance(kernel):
@@ -34,10 +41,20 @@ class neighborhood_subgraph_pairwise_distance(kernel):
     _d : int
         Neighborhood depth.
 
+    _ngx : int
+        The number of graphs upon fit.
+
+    _ngy : int
+        The number of graphs upon transform.
+
     _fit_keys : dict
-        A dictionary with keys from 0 to _d+1, constructed upon fit
+        A dictionary with keys from `0` to `_d+1`, constructed upon fit
         holding an enumeration of all the found (in the fit dataset)
         tuples of two hashes and a radius in this certain level.
+
+    _X_level_norm_factor : dict
+        A dictionary with keys from `0` to `_d+1`, that holds the self
+        calculated kernel `[krg(X_i, X_i) for i=1:ngraphs_X]` for all levels.
 
     """
 
@@ -80,17 +97,18 @@ class neighborhood_subgraph_pairwise_distance(kernel):
             consisting of pairs of hash values and radius, from all the given
             graphs of the input (plus the fitted one's on transform).
 
-        Z : np.array, shape=(self._d+1, n_inputs)
-            A numpy array consisting of the number of distance pairs for each
-            level. If no pairs appear, a value of float("Inf") is provided.
-
         """
         if not isinstance(X, collections.Iterable):
             raise ValueError('input must be an iterable\n')
         else:
-            i = 0
-            data = {j: list() for j in range(self._d+1)}
-            all_keys = {j: dict() for j in range(self._d+1)}
+            # Hold the number of graphs
+            ng = 0
+
+            # Holds all the data for combinations of r, d
+            data = collections.defaultdict(dict)
+
+            # Index all keys for combinations of r, d
+            all_keys = collections.defaultdict(dict)
             for (idx, x) in enumerate(iter(X)):
                 is_iter = False
                 if isinstance(x, collections.Iterable):
@@ -116,119 +134,192 @@ class neighborhood_subgraph_pairwise_distance(kernel):
                                      'or 3 elements consisting of a graph ' +
                                      'type object, labels for vertices and ' +
                                      'labels for edges.')
+
+                # Bring to the desired format
                 g.change_format(self._graph_format)
+
+                # Take the vertices
                 vertices = set(g.get_vertices(purpose=self._graph_format))
 
+                # Extract the dicitionary
                 ed = g.get_edge_dictionary()
 
+                # Convert edges to tuples
                 edges = {(j, k) for j in ed.keys() for k in ed[j].keys()}
+
+                # Extract labels for nodes
                 Lv = g.get_labels(purpose=self._graph_format)
+                # and for edges
                 Le = g.get_labels(purpose=self._graph_format,
                                   label_type="edge")
+
+                # Produce all the neighborhoods and the distance pairs
+                # up to the desired radius and maximum distance
                 N, D, D_pair = g.produce_neighborhoods(
                     self._r, purpose="dictionary",
                     with_distances=True, d=self._d)
 
+                # Hash all the neighborhoods
                 H = self._hash_neighborhoods(vertices, edges, Lv,
                                              Le, N, D_pair)
 
                 if self._method_calling == 1:
-                    for d in range(self._d+1):
-                        keys = all_keys[d]
-                        Q = dict()
-                        if d in D:
-                            for (A, B) in D[d]:
-                                for r in range(self._r+1):
-                                    key = (H[r][A], H[r][B], r)
-                                    idx = keys.get(key, None)
-                                    if idx is None:
-                                        idx = len(keys)
-                                        keys[key] = idx
-                                    Q[idx] = Q.get(idx, 0) + 1
-                        data[d].append(Q)
+                    for d in filterfalse(lambda x: x not in D,
+                                         range(self._d+1)):
+                        for (A, B) in D[d]:
+                            for r in range(self._r+1):
+                                key = (H[r, A], H[r, B])
+                                keys = all_keys[r, d]
+                                idx = keys.get(key, None)
+                                if idx is None:
+                                    idx = len(keys)
+                                    keys[key] = idx
+                                data[r, d][ng, idx] = \
+                                    data[r, d].get((ng, idx), 0) + 1
 
                 elif self._method_calling == 3:
-                    for d in range(self._d+1):
-                        keys = all_keys[d]
-                        fit_keys = self._fit_keys[d]
-                        Q = dict()
-                        if d in D:
-                            for (A, B) in D[d]:
-                                for r in range(self._r+1):
-                                    key = (H[r][A], H[r][B], r)
-                                    idx = fit_keys.get(key, None)
+                    for d in filterfalse(lambda x: x not in D,
+                                         range(self._d+1)):
+                        for (A, B) in D[d]:
+                            # Based on the edges of the bidirected graph
+                            for r in range(self._r+1):
+                                keys = all_keys[r, d]
+                                fit_keys = self._fit_keys[r, d]
+                                key = (H[r, A], H[r, B])
+                                idx = fit_keys.get(key, None)
+                                if idx is None:
+                                    idx = keys.get(key, None)
                                     if idx is None:
-                                        idx = keys.get(key, None)
-                                        if idx is None:
-                                            idx = len(keys) + len(fit_keys)
-                                            keys[key] = idx
-                                    Q[idx] = Q.get(idx, 0) + 1
-                        data[d].append(Q)
-                i += 1
-            if i == 0:
+                                        idx = len(keys) + len(fit_keys)
+                                        keys[key] = idx
+                                data[r, d][ng, idx] = \
+                                    data[r, d].get((ng, idx), 0) + 1
+                ng += 1
+            if ng == 0:
                 raise ValueError('parsed input is empty')
 
             if self._method_calling == 1:
-                M = {d: np.zeros(shape=(i, len(all_keys[d])))
-                     for d in range(self._d+1)}
-                Z = np.zeros(shape=(self._d+1, i))
-                for d in range(self._d+1):
-                    for (no, dt) in enumerate(data[d]):
-                        for (idx, val) in dt.items():
-                            M[d][no, idx] = val
-                            Z[d, no] += val
+                # A feature matrix for all levels
+                M = dict()
+
+                for (key, d) in filterfalse(lambda a: len(a[1]) == 0,
+                                            iteritems(data)):
+                    indexes, data = zip(*iteritems(d))
+                    rows, cols = zip(*indexes)
+                    M[key] = csr_matrix((data, (rows, cols)),
+                                        shape=(ng, len(all_keys[key])))
                 self._fit_keys = all_keys
+                self._ngx = ng
+
             elif self._method_calling == 3:
-                M = {d: np.zeros(shape=(i, len(all_keys[d]) +
-                                 len(self._fit_keys[d])))
-                     for d in range(self._d+1)}
-                Z = np.zeros(shape=(self._d+1, i))
-                for d in range(self._d+1):
-                    for (no, dt) in enumerate(data[d]):
-                        for (idx, val) in dt.items():
-                            M[d][no, idx] = val
-                            Z[d, no] += val
-            Z[(Z == 0)] = float("Inf")
-            return (M, Z)
+                # A feature matrix for all levels
+                M = dict()
 
-    def _calculate_kernel_matrix(self, Y=None):
-        """Calculate the kernel matrix given a target_graph and a kernel.
+                for (key, d) in filterfalse(lambda a: len(a[1]) == 0,
+                                            iteritems(data)):
+                    indexes, data = zip(*iteritems(d))
+                    rows, cols = zip(*indexes)
+                    M[key] = csr_matrix(
+                        (data, (rows, cols)),
+                        shape=(ng,
+                               len(all_keys[key]) +
+                               len(self._fit_keys[key])))
 
-        Each a matrix is calculated between all elements of Y on the rows and
-        all elements of X on the columns.
+                self._ngy = ng
+
+            return M
+
+    def transform(self, X):
+        """Calculate the kernel matrix, between given and fitted dataset.
 
         Parameters
         ----------
-        Y : list, default=None
-            A list of graph type objects. If None kernel is calculated between
-            X and itself.
+        X : iterable
+            Each element must be an iterable with at most three features and at
+            least one. The first that is obligatory is a valid graph structure
+            (adjacency matrix or edge_dictionary) while the second is
+            node_labels and the third edge_labels (that fitting the given graph
+            format).
 
         Returns
         -------
-        K : numpy array, shape = [n_targets, n_inputs]
-            The kernel matrix: a calculation between all pairs of graphs
-            between targets and inputs. If Y is None targets and inputs
-            are the taken from self.X. Otherwise Y corresponds to targets
-            and self.X to inputs.
+        K : numpy array, shape = [n_targets, n_input_graphs]
+            corresponding to the kernel matrix, a calculation between
+            all pairs of graphs between target an features
 
         """
-        M, Z = self.X
-        if Y is None:
-            S = np.zeros(shape=(Z.shape[1], Z.shape[1]))
-            for d in range(self._d+1):
-                S += (np.dot(M[d], M[d].T) / np.outer(Z[d, :], Z[d, :]))
+        self._method_calling = 3
+        # Check is fit had been called
+        check_is_fitted(self, ['X'])
 
+        # Input validation and parsing
+        if X is None:
+            raise ValueError('transform input cannot be None')
         else:
-            Mp, Zp = Y
-            S = np.zeros(shape=(Zp.shape[1], Z.shape[1]))
-            for d in range(self._d+1):
-                S += (np.dot(Mp[d][:, :M[d].shape[1]], M[d].T) /
-                      np.outer(Zp[d, :], Z[d, :]))
+            Y = self.parse_input(X)
 
+        try:
+            check_is_fitted(self, ['_X_level_norm_factor'])
+        except NotFittedError:
+            self._X_level_norm_factor = \
+                {key: np.array(M.power(2).sum(-1))
+                 for (key, M) in iteritems(self.X)}
+
+        N = self._X_level_norm_factor
+        S = np.zeros(shape=(self._ngy, self._ngx))
+        for (key, Mp) in filterfalse(lambda x: x[0] not in self.X,
+                                     iteritems(Y)):
+            M = self.X[key]
+            K = M.dot(Mp.T[:M.shape[1]]).toarray().T
+            S += K / np.sqrt(np.outer(np.array(Mp.power(2).sum(-1)),
+                                      N[key]))
+
+        self._Y = Y
+        if self._normalize:
+            S /= np.sqrt(np.outer(*self.diagonal()))
         return S
+
+    def fit_transform(self, X):
+        """Fit and transform, on the same dataset.
+
+        Parameters
+        ----------
+        X : iterable
+            Each element must be an iterable with at most three features and at
+            least one. The first that is obligatory is a valid graph structure
+            (adjacency matrix or edge_dictionary) while the second is
+            node_labels and the third edge_labels (that fitting the given graph
+            format). If None the kernel matrix is calculated upon fit data.
+            The test samples.
+
+        Returns
+        -------
+        K : numpy array, shape = [n_input_graphs, n_input_graphs]
+            corresponding to the kernel matrix, a calculation between
+            all pairs of graphs between target an features
+
+        """
+        self._method_calling = 2
+        self.fit(X)
+
+        S, N = np.zeros(shape=(self._ngx, self._ngx)), dict()
+        for (key, M) in iteritems(self.X):
+            K = M.dot(M.T).toarray()
+            K_diag = K.diagonal()
+            N[key] = K_diag
+            S += K / np.sqrt(np.outer(K_diag, K_diag))
+
+        self._X_level_norm_factor = N
+
+        if self._normalize:
+            return S / np.sqrt(np.outer(S.diagonal(), S.diagonal()))
+        else:
+            return S
 
     def diagonal(self):
         """Calculate the kernel matrix diagonal of the fitted data.
+
+        Static. Added for completeness.
 
         Parameters
         ----------
@@ -236,29 +327,23 @@ class neighborhood_subgraph_pairwise_distance(kernel):
 
         Returns
         -------
-        X_diag : np.array
-            The diagonal of the kernel matrix, of the fitted. This consists
-            of each element calculated with itself.
+        X_diag : int
+            Always equal with r*d.
 
+        Y_diag : int
+            Always equal with r*d.
 
         """
-        # Check is fit had been called
+        # constant based on normalization of krd
         check_is_fitted(self, ['X', '_Y'])
         try:
             check_is_fitted(self, ['_X_diag'])
         except NotFittedError:
             # Calculate diagonal of X
-            Z, M = self.X
-            self._X_diag = np.empty(shape=(Z.shape[1], 1))
-            for d in range(self._d+1):
-                self._X_diag += (M[d] * M[d].T).sum(-1) / np.square(Z[d, :])
+            X_diag = len(self.X)
+            self._X_diag = X_diag
 
-        Z, M = self._Y
-        Y_diag = np.empty(shape=(Z.shape[1], 1))
-        for d in range(self._d+1):
-            Y_diag += (M[d] * M[d].T).sum(-1) / np.square(Z[d, :])
-
-        return self._X_diag, Y_diag
+        return self._X_diag, len(self._Y)
 
     def _hash_neighborhoods(self, vertices, edges, Lv, Le, N, D_pair):
         """Hash all neighborhoods and all root nodes.
@@ -287,8 +372,7 @@ class neighborhood_subgraph_pairwise_distance(kernel):
             vertex to the hashed values.
 
         """
-        H = {ra: dict() for ra in range(self._r+1)}
-        sel = sorted(list(edges))
+        H, sel = dict(), sorted(list(edges))
         for v in vertices:
             re, lv, le = sel, Lv, Le
             for radius in range(self._r, -1, -1):
@@ -297,7 +381,7 @@ class neighborhood_subgraph_pairwise_distance(kernel):
                       if i in sub_vertices and j in sub_vertices}
                 lv = {v: lv[v] for v in sub_vertices}
                 le = {e: le[e] for e in edges}
-                H[radius][v] = hash_graph(D_pair, sub_vertices, re, lv, le)
+                H[radius, v] = hash_graph(D_pair, sub_vertices, re, lv, le)
         return H
 
 
@@ -335,18 +419,115 @@ def hash_graph(D, vertices, edges, glv, gle):
     # Make labels for vertices
     Lv = dict()
     for i in vertices:
-        label = sorted([(str(D[(i, j)]) + ',' + str(glv[j])) for j in vertices
-                        if j != i and (i, j) in D])
-        encoding += str(label)+"."
+        label = "|".join(sorted([str(D[(i, j)]) + ',' + str(glv[j])
+                                 for j in vertices if (i, j) in D]))
+        encoding += label + "."
         Lv[i] = label
+
     encoding = encoding[:-1]+":"
 
     # Expand to labels for edges
-    Le = dict()
     for (i, j) in edges:
-        Le[(i, j)] = str(Lv[i]) + ',' + str(Lv[j]) + ',' + str(gle[(i, j)])
-        encoding += str(Le[(i, j)])+"_"
+        encoding += Lv[i] + ',' + Lv[j] + ',' + str(gle[(i, j)]) + "_"
 
     # Arash Partov hashing, as in the original
     # implementation of NSPK.
     return APHash(encoding)
+
+
+if __name__ == '__main__':
+    from grakel.datasets import fetch_dataset
+    import argparse
+    # Create an argument parser for the installer of pynauty
+    parser = argparse.ArgumentParser(
+        description='Measuring classification accuracy '
+                    ' on multiscale_laplacian_fast')
+
+    parser.add_argument(
+        '--dataset',
+        help='chose the datset you want the tests to be executed',
+        type=str,
+        default="MUTAG"
+    )
+
+    # Get the dataset name
+    dataset_name = parser.parse_args().dataset
+
+    # The baseline dataset for node/edge-attributes
+    dataset = fetch_dataset(dataset_name,
+                            with_classes=True,
+                            verbose=True)
+
+    from tqdm import tqdm
+    from time import time
+
+    from sklearn.metrics import accuracy_score
+    from sklearn.model_selection import train_test_split
+    from sklearn import svm
+
+    def sec_to_time(sec):
+        """Print time in a correct format."""
+        dt = list()
+        days = int(sec // 86400)
+        if days > 0:
+            sec -= 86400*days
+            dt.append(str(days) + " d")
+
+        hrs = int(sec // 3600)
+        if hrs > 0:
+            sec -= 3600*hrs
+            dt.append(str(hrs) + " h")
+
+        mins = int(sec // 60)
+        if mins > 0:
+            sec -= 60*mins
+            dt.append(str(mins) + " m")
+
+        if sec > 0:
+            dt.append(str(round(sec, 2)) + " s")
+        return " ".join(dt)
+
+    # Loads the Mutag dataset from:
+    # https://ls11-www.cs.tu-dortmund.de/staff/morris/graphkerneldatasets
+    # the biggest collection of benchmark datasets for graph_kernels.
+    G, y = dataset.data, dataset.target
+    C_grid = (10. ** np.arange(4, 10, 1) / len(G)).tolist()
+
+    niter = 10
+    stats = {"acc": list(), "time": list()}
+
+    for i in tqdm(range(niter)):
+        # Train-test split of graph data
+        G_train, G_test, y_train, y_test = train_test_split(G, y,
+                                                            test_size=0.1)
+
+        start = time()
+        # Initialise a weifeiler kernel, with a dirac base_kernel.
+        gk = neighborhood_subgraph_pairwise_distance(normalize=True)
+
+        # Calculate the kernel matrix.
+        K_train = gk.fit_transform(G_train)
+        K_test = gk.transform(G_test)
+        end = time()
+
+        # Cross validation on C, variable
+        acc = 0
+        for c in C_grid:
+            # Initialise an SVM and fit.
+            clf = svm.SVC(kernel='precomputed', C=c)
+
+            # Fit on the train Kernel
+            clf.fit(K_train, y_train)
+
+            # Predict and test.
+            y_pred = clf.predict(K_test)
+
+            # Calculate accuracy of classification.
+            acc = max(acc, accuracy_score(y_test, y_pred))
+
+        stats["acc"].append(acc)
+        stats["time"].append(end-start)
+
+    print("Mean values of", niter, "iterations:")
+    print("NSPDK > Accuracy:", str(round(np.mean(stats["acc"])*100, 2)),
+          "% | Took:", sec_to_time(np.mean(stats["time"])))

@@ -5,7 +5,7 @@ import warnings
 
 import numpy as np
 
-from concurrent.futures import ThreadPoolExecutor
+# from concurrent.futures import ThreadPoolExecutor
 from scipy.linalg import svd
 from sklearn.base import BaseEstimator
 from sklearn.base import TransformerMixin
@@ -31,6 +31,9 @@ from grakel.kernels import multiscale_laplacian
 from grakel.kernels import multiscale_laplacian_fast
 from grakel.kernels import vertex_histogram
 from grakel.kernels import edge_histogram
+
+# Python 2/3 cross-compatibility import
+from future.utils import iteritems
 
 np.random.seed(int(time.time()))
 
@@ -303,23 +306,29 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                 self._nystroem = kargs["Nystroem"]
 
         if "n_jobs" in kargs:
+            warnings.warn('feature is currently not implemented')
             if type(kargs["n_jobs"]) is not int:
                 raise ValueError('n_jobs parameter must be an int, '
                                  'indicating the number of workers')
             elif kargs["n_jobs"] in [0, -1]:
+                pass
                 # Initialise an executor
-                self._concurrent_executor = ThreadPoolExecutor()
+                # self._concurrent_executor = ThreadPoolExecutor()
             elif kargs["n_jobs"] <= 0:
                 raise ValueError('number of jobs (concurrent workers) '
                                  'must be positive')
             else:
-                self._concurrent_executor = ThreadPoolExecutor(
-                    max_workers=kargs["n_jobs"])
-            self._pairwise_kernel_executor = lambda fn, *eargs, **ekargs: \
-                self._concurrent_executor.submit(fn, *eargs, **ekargs).result()
+                pass
+                # self._concurrent_executor = ThreadPoolExecutor(
+                #    max_workers=kargs["n_jobs"])
+            # self._pairwise_kernel_executor = lambda fn, *eargs, **ekargs: \
+            # self._concurrent_executor.submit(fn, *eargs, **ekargs).result()
         else:
-            self._pairwise_kernel_executor = lambda fn, *eargs, **ekargs: \
-                fn(*eargs, **ekargs)
+            pass
+            # self._pairwise_kernel_executor = lambda fn, *eargs, **ekargs: \
+            #    fn(*eargs, **ekargs)
+        self._pairwise_kernel_executor = lambda fn, *eargs, **ekargs: \
+            fn(*eargs, **ekargs)
 
         self._normalize = kargs.get("normalize", False)
 
@@ -376,7 +385,7 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                              ' have a "name" parameter designating the'
                              'kernel')
         kernel_name = kernel.pop("name")
-        for (keys, val) in hidden_args.items():
+        for (keys, val) in iteritems(hidden_args):
             kernel[keys] = val
         if kernel_name in supported_base_kernels:
             if len(kernel_list) != 0:

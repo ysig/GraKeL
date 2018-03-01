@@ -10,6 +10,9 @@ from scipy.sparse.linalg import eigs
 from grakel.graph import Graph
 from grakel.kernels import kernel
 
+# Python 2/3 cross-compatibility import
+from six import itervalues
+
 
 class pyramid_match(kernel):
     """Pyramid match kernel class.
@@ -146,7 +149,7 @@ class pyramid_match(kernel):
                 self._num_labels = 0
                 self._labels = set()
                 for L in Ls:
-                    self._labels |= set(L.values())
+                    self._labels |= set(itervalues(L))
                 self._num_labels = len(self._labels)
                 self._labels = {l: i for (i, l) in enumerate(self._labels)}
                 return self._histogram_calculation(Us, Ls, self._labels)
@@ -154,7 +157,7 @@ class pyramid_match(kernel):
             elif self._method_calling == 3:
                 labels = set()
                 for L in Ls:
-                    labels |= set(L.values())
+                    labels |= set(itervalues(L))
                 rest_labels = labels - set(self._labels.keys())
                 labels_enum = {l: i for (i, l)
                                in enumerate(rest_labels, len(self._labels))}

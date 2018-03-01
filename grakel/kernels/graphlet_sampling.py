@@ -2,7 +2,6 @@
 import collections
 import itertools
 import math
-import random
 import warnings
 
 import numpy as np
@@ -16,6 +15,11 @@ from sklearn.utils.validation import check_is_fitted
 from grakel.graph import Graph
 from grakel.tools import matrix_to_dict
 from grakel.kernels import kernel
+
+# Python 2/3 cross-compatibility import
+from six import iteritems
+from six import itervalues
+from builtins import range
 
 default_random_seed_value = 15487103
 
@@ -101,7 +105,8 @@ class graphlet_sampling(kernel):
                                    "k", "delta", "epsilon", "a", "n_samples"}
         super(graphlet_sampling, self).__init__(**kargs)
 
-        random.seed(int(kargs.get("random_seed", default_random_seed_value)))
+        np.random.seed(int(kargs.get("random_seed",
+                                     default_random_seed_value)))
 
         k = kargs.get("k", 5)
 
@@ -156,7 +161,7 @@ class graphlet_sampling(kernel):
 
                     isomorphism_prediction = \
                         interp1d(list(fallback_map.keys()),
-                                 list(fallback_map.values()), kind='cubic')
+                                 list(itervalues(fallback_map)), kind='cubic')
                     a = isomorphism_prediction(k)
                 else:
                     a = fallback_map[k]
@@ -206,12 +211,12 @@ class graphlet_sampling(kernel):
             phi_x = self._phi_X
         except NotFittedError:
             phi_x = np.zeros(shape=(self._nx, len(self._graph_bins)))
-            for ((i, j), v) in self.X.items():
+            for ((i, j), v) in iteritems(self.X):
                 phi_x[i, j] = v
             self._phi_X = phi_x
         phi_y = np.zeros(shape=(self._ny, len(self._graph_bins) +
                                 len(self._Y_graph_bins)))
-        for ((i, j), v) in Y.items():
+        for ((i, j), v) in iteritems(Y):
             phi_y[i, j] = v
 
         # store _phi_Y for independent (of normalization arg diagonal-calls)
@@ -237,7 +242,7 @@ class graphlet_sampling(kernel):
 
         Returns
         -------
-        K : numpy array, shape = [n_targets, n_input_graphs]
+        K : numpy array, shape = [n_input_graphs, n_input_graphs]
             corresponding to the kernel matrix, a calculation between
             all pairs of graphs between target an features
 
@@ -247,12 +252,12 @@ class graphlet_sampling(kernel):
 
         # calculate feature matrices.
         phi_x = np.zeros(shape=(self._nx, len(self._graph_bins)))
-        for ((i, j), v) in self.X.items():
+        for ((i, j), v) in iteritems(self.X):
             phi_x[i, j] = v
 
         # Transform - calculate kernel matrix
         self._phi_X = phi_x
-        km = np.dot(phi_x, phi_x.T)
+        km = phi_x.dot(phi_x.T)
 
         self._X_diag = np.diagonal(km).reshape(km.shape[0], 1)
         if self._normalize:
@@ -435,10 +440,10 @@ def sample_graphlets_probabilistic(A, k, n_samples):
     if min_r == max_r:
         rsamp = lambda *args: min_r
     else:
-        rsamp = lambda *args: random.randint(min_r, max_r)
+        rsamp = lambda *args: np.random.randint(min_r, max_r+1)
 
     for i in range(n_samples):
-        index_rand = random.sample(s, rsamp())
+        index_rand = np.random.choice(s, rsamp(), replace=False)
         Q = A[index_rand, :][:, index_rand]
         yield pynauty.Graph(Q.shape[0],
                             True, matrix_to_dict(Q, '==', 1, False))

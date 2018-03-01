@@ -6,6 +6,7 @@ from unittest import TestCase
 from sklearn.model_selection import train_test_split
 
 from grakel.datasets import fetch_dataset
+from grakel.datasets import get_dataset_info
 
 from grakel.kernels import graphlet_sampling
 from grakel.kernels import random_walk
@@ -50,12 +51,21 @@ if __name__ == '__main__':
         '--ignore_warnings',
         help='ignore warnings produced by kernel executions',
         action="store_true")
+
     parser.add_argument(
         '--dataset',
-        help='chose the datset you want the tests to be executed',
+        help='choose the dataset for tests requiring node/edge labels',
         type=str,
         default="MUTAG"
     )
+
+    parser.add_argument(
+        '--dataset_attr',
+        help='choose the dataset for tests requiring node attributes',
+        type=str,
+        default="Cuneiform"
+    )
+
     parser.add_argument('--normalize', help='normalize the kernel output',
                         action="store_true")
 
@@ -92,12 +102,29 @@ if __name__ == '__main__':
     normalize = bool(args.normalize)
 
     dataset_name = args.dataset
+    dataset_attr_name = args.dataset_attr
+
+    # consistency check for the dataset
+    info = get_dataset_info(dataset_name)
+    if info is None:
+        raise TypeError('dataset not found')
+    elif not (info["nl"] and info["el"]):
+        raise TypeError('dataset mus have both node and edge labels')
+
+    # consistency check for the attribute dataset
+    info = get_dataset_info(dataset_attr_name)
+    if info is None:
+        raise TypeError('dataset for attributes not found')
+    elif not info["na"]:
+        raise TypeError('dataset must have both node')
+
 else:
     import warnings
     warnings.filterwarnings('ignore', category=UserWarning)
     main, develop, problematic, slow = True, False, False, False
     normalize, verbose = False, False
     dataset_name = "MUTAG"
+    dataset_args_name = "Cuneiform"
 
 # The baseline dataset for node, edge_labels
 global dataset, dataset_tr, dataset_te
@@ -108,7 +135,7 @@ dataset_tr, dataset_te = train_test_split(dataset,
 
 # The baseline dataset for node/edge-attributes
 global dataset_attr, dataset_attr_tr, dataset_attr_te
-dataset_attr = fetch_dataset("Cuneiform", with_classes=False,
+dataset_attr = fetch_dataset(dataset_attr_name, with_classes=False,
                              prefer_attr_nodes=True,
                              prefer_attr_edges=True,
                              verbose=verbose).data
@@ -285,8 +312,8 @@ def test_multiscale_laplacian_fast():
     if verbose:
         print_kernel("Multiscale Laplacian Fast", mlf_kernel,
                      dataset_attr_tr, dataset_attr_te)
-    # else:
-    #    positive_eig(mlf_kernel, dataset_attr)
+    else:
+        positive_eig(mlf_kernel, dataset_attr)
 
 
 def test_vertex_histogram():
@@ -341,8 +368,6 @@ if verbose and main:
     test_neighborhood_subgraph_pairwise_distance()
     test_pyramid_match()
     test_multiscale_laplacian_fast()
-    test_svm_theta()
-    test_lovasz_theta()
     test_edge_histogram()
     test_vertex_histogram()
     test_subgraph_matching()

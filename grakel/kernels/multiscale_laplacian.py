@@ -16,6 +16,9 @@ from scipy.sparse.csgraph import laplacian
 
 from grakel.kernels import kernel
 
+# Python 2/3 cross-compatibility import
+from six import iteritems
+
 default_random_seed_value = 6282698
 positive_eigenvalue_limit = float("+1e-6")
 
@@ -113,7 +116,7 @@ class multiscale_laplacian_fast(kernel):
         if not isinstance(X, collections.Iterable):
             raise ValueError('input must be an iterable\n')
         else:
-            i = 0
+            ng = 0
 
             out = list()
             data = dict()
@@ -142,17 +145,18 @@ class multiscale_laplacian_fast(kernel):
                 except TypeError:
                     raise TypeError('Features must be iterable and castable ' +
                                     'in total to a numpy array.')
+
                 Lap = laplacian(A)
                 _increment_diagonal_(Lap, self._heta)
-                data[i] = {0: A, 1: phi, 2: inv(Lap)}
-                neighborhoods[i] = x
-                i += 1
+                data[ng] = {0: A, 1: phi, 2: inv(Lap)}
+                neighborhoods[ng] = x
+                ng += 1
 
-            if i == 0:
+            if ng == 0:
                 raise ValueError('parsed input is empty')
 
             if self._method_calling == 1:
-                V = [(k, j) for k in range(i)
+                V = [(k, j) for k in range(ng)
                      for j in range(data[k][0].shape[0])]
 
                 ns = min(len(V), self._N)
@@ -162,7 +166,7 @@ class multiscale_laplacian_fast(kernel):
                 phi_k = np.array([data[k][1][j, :] for (k, j) in vs])
 
                 # w the eigen vectors, v the eigenvalues
-                v, w = eig(np.dot(phi_k, phi_k.T))
+                v, w = eig(phi_k.dot(phi_k.T))
                 v, w = np.real(v), np.real(w.T)
 
                 # keep only the positive
@@ -170,10 +174,11 @@ class multiscale_laplacian_fast(kernel):
 
                 # ksi shape=(k, P)
                 ksi = np.dot(w[vpos], phi_k).T / np.sqrt(v[vpos])
+
                 self._ksi = ksi
-                for j in range(i):
+                for j in range(ng):
                     # (n, k) * (k, P)
-                    data[j][1] = np.dot(data[j][1], ksi)
+                    data[j][1] = data[j][1].dot(ksi)
 
                 for l in range(1, self._L+1):
                     np.random.shuffle(V)
@@ -192,9 +197,10 @@ class multiscale_laplacian_fast(kernel):
                         U = data[k][1][indexes, :].T
                         S = multi_dot((U, inv(L), U.T))
                         _increment_diagonal_(S, self._gamma)
-                        C[m] = (inv(S)/2.0, sqrt(sqrt(abs(det(S)))))
+                        C[m] = (inv(S)/2.0, sqrt(sqrt(det(S))))
 
                     for m in range(len(C)):
+                        K[m, m] = self.pairwise_operation(C[m], C[m])
                         for k in range(m + 1, len(C)):
                             K[m, k] = K[k, m] = \
                                 self.pairwise_operation(C[m], C[k])
@@ -202,30 +208,30 @@ class multiscale_laplacian_fast(kernel):
                     phi_k = np.array([data[k][1][j, :] for (k, j) in vs])
 
                     # w the eigen vectors, v the eigenvalues
-                    v, w = eig(np.dot(phi_k, phi_k.T))
+                    v, w = eig(phi_k.dot(phi_k.T))
                     v, w = np.real(v), np.real(w.T)
 
                     # keep only the positive
                     vpos = np.where(v > positive_eigenvalue_limit)
 
                     # ksi shape=(k, P)
-                    ksi = (np.dot(w[vpos], phi_k).T /
+                    ksi = (w[vpos].dot(phi_k).T /
                            np.sqrt(v[vpos]))
 
-                    self._ksi = np.dot(self._ksi, ksi)
-                    for j in range(i):
+                    self._ksi = self._ksi.dot(ksi)
+                    for j in range(ng):
                         # (n, k) * (k, P)
-                        data[j][1] = np.dot(data[j][1], ksi)
+                        data[j][1] = data[j][1].dot(ksi)
 
             elif self._method_calling == 3:
-                for j in range(i):
+                for j in range(ng):
                     # (n, k) * (k, P)
-                    data[j][1] = np.dot(data[j][1], self._ksi)
+                    data[j][1] = data[j][1].dot(self._ksi)
 
-            for k in range(i):
+            for k in range(ng):
                 S = multi_dot((data[k][1].T, data[k][2], data[k][1]))
                 _increment_diagonal_(S, self._gamma)
-                out.append((inv(S)/2.0, sqrt(sqrt(abs(det(S))))))
+                out.append((inv(S)/2.0, sqrt(sqrt(det(S)))))
 
             return out
 
@@ -250,7 +256,7 @@ class multiscale_laplacian_fast(kernel):
         S_inv_y, det_y_q = y
 
         # Calculate the kernel nominator
-        k_nom = np.sqrt(det(abs(inv(S_inv_x + S_inv_y))))
+        k_nom = np.sqrt(det(inv(S_inv_x + S_inv_y)))
 
         # Calculate the kernel denominator
         k_denom = det_x_q * det_y_q
@@ -334,7 +340,7 @@ class multiscale_laplacian(kernel):
         if not isinstance(X, collections.Iterable):
             raise ValueError('input must be an iterable\n')
         else:
-            i = 0
+            ng = 0
             out = list()
             start = time.time()
             for (idx, x) in enumerate(iter(X)):
@@ -354,7 +360,7 @@ class multiscale_laplacian(kernel):
                     raise ValueError('each element of X must be either a ' +
                                      'graph or an iterable with at least 1 ' +
                                      'and at most 3 elements\n')
-                i += 1
+                ng += 1
                 phi_d = x.get_labels()
                 A = x.get_adjacency_matrix()
                 N = x.produce_neighborhoods(r=self._L, sort_neighbors=False)
@@ -372,7 +378,7 @@ class multiscale_laplacian(kernel):
                 Q = dict()
                 for level in range(1, self._L+1):
                     Q[level] = dict()
-                    for (key, item) in N[level].items():
+                    for (key, item) in iteritems(N[level]):
                         Q[level][key] = dict()
                         Q[level][key]["n"] = np.array(item)
                         if len(item) < A.shape[0]:
@@ -386,7 +392,7 @@ class multiscale_laplacian(kernel):
                 out.append((A, phi, phi_outer, Q, L))
 
             print("Preprocessing took:", time.time() - start, "s.")
-            if i == 0:
+            if ng == 0:
                 raise ValueError('parsed input is empty')
 
             return out
@@ -524,10 +530,10 @@ class multiscale_laplacian(kernel):
             # !!! Overflow problem!: det(inv(Sx)+inv(Sy))=0.0
             # Need to solve. Not all executions are fatal
             # Caclulate the kernel nominator
-            k_nom = sqrt(det(abs(inv(inv(Sx)/2.0 + inv(Sy)/2.0))))
+            k_nom = sqrt(det(inv(inv(Sx)/2.0 + inv(Sy)/2.0)))
 
             # Caclulate the kernel denominator
-            k_denom = quatre(abs(det(Sx)*det(Sy)))
+            k_denom = quatre(det(Sx)*det(Sy))
 
             k = k_nom/k_denom
         return k
