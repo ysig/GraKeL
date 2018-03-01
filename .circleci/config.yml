@@ -50,9 +50,6 @@ jobs:
       - image: circleci/python:3.5
     steps:
       - checkout
-      - run: ./build_tools/circle/checkout_merge_commit.sh
-      # Attach documentation generated in the 'python3' step so that it can be
-      # deployed.
       - attach_workspace:
           at: doc/_build/html
       - run: ls -ltrh doc/_build/html
