@@ -30,7 +30,7 @@ jobs:
       - run: sudo pip install --upgrade scikit-learn
       - run: sudo pip install --upgrade cvxopt
       - run: sudo pip install --upgrade matplotlib
-      - run: sudo python install_pynauty.py --user
+      - run: sudo python install_pynauty.py
       - run: sudo python setup.py clean
       - run: sudo python setup.py develop
       - run: set -o pipefail && cd doc && make html 2>&1 | tee ~/log.txt
@@ -47,7 +47,7 @@ jobs:
 
   deploy:
     docker:
-      - image: circleci/python:3.6.1
+      - image: circleci/python:3.5
     steps:
       - checkout
       - run: ./build_tools/circle/checkout_merge_commit.sh
