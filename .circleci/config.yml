@@ -2,7 +2,7 @@ version: 2
 jobs:
   python3:
     docker:
-      - image: circleci/python:3.5.2
+      - image: circleci/python:3.5
     environment:
       # The github organization or username of the repository which hosts the
       # project and documentation.
