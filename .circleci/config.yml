@@ -3,19 +3,6 @@ jobs:
   python3:
     docker:
       - image: circleci/python:3.5
-    environment:
-      # The github organization or username of the repository which hosts the
-      # project and documentation.
-      - USERNAME: "ysig"
-
-      # The repository where the documentation will be hosted
-      - DOC_REPO: "GraKeL"
-
-      # The base URL for the Github page where the documentation will be hosted
-      - DOC_URL: "dev"
-
-      # The email is to be used for commits in the Github Page
-      - EMAIL: "y.siglidis@gmail.com"
     steps:
       - checkout
       - run: sudo -E apt-get -yq remove texlive-binaries --purge
@@ -48,6 +35,19 @@ jobs:
   deploy:
     docker:
       - image: circleci/python:3.5
+    environment:
+      # The github organization or username of the repository which hosts the
+      # project and documentation.
+      - USERNAME: "ysig"
+
+      # The repository where the documentation will be hosted
+      - DOC_REPO: "GraKeL"
+
+      # The base URL for the Github page where the documentation will be hosted
+      - DOC_URL: "dev"
+
+      # The email is to be used for commits in the Github Page
+      - EMAIL: "y.siglidis@gmail.com"
     steps:
       - checkout
       - attach_workspace:
