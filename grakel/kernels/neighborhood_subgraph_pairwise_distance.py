@@ -312,7 +312,7 @@ class neighborhood_subgraph_pairwise_distance(kernel):
         self._X_level_norm_factor = N
 
         if self._normalize:
-            return S / np.sqrt(np.outer(S.diagonal(), S.diagonal()))
+            return S / len(self.X)
         else:
             return S
 

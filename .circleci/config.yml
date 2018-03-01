@@ -26,13 +26,13 @@ jobs:
       - run: pip install --upgrade scipy matplotlib setuptools nose coverage sphinx pillow sphinx-gallery sphinx_rtd_theme sphinxcontrib-bibtex nb2plots
       - run: sudo -E apt-get -yq update
       - run: sudo -E apt-get -yq --no-install-suggests --no-install-recommends --force-yes install dvipng texlive-latex-base texlive-latex-extra
-      - run: pip install --upgrade cython numpydoc
-      - run: pip install --upgrade scikit-learn
-      - run: pip install --upgrade cvxopt
-      - run: pip install --upgrade matplotlib
-      - run: python install_pynauty.py --user
-      - run: python setup.py clean
-      - run: python setup.py develop
+      - run: sudo pip install --upgrade cython numpydoc
+      - run: sudo pip install --upgrade scikit-learn
+      - run: sudo pip install --upgrade cvxopt
+      - run: sudo pip install --upgrade matplotlib
+      - run: sudo python install_pynauty.py --user
+      - run: sudo python setup.py clean
+      - run: sudo python setup.py develop
       - run: set -o pipefail && cd doc && make html 2>&1 | tee ~/log.txt
       - run: cat ~/log.txt && if grep -q "Traceback (most recent call last):" ~/log.txt; then false; else true; fi
       - store_artifacts:

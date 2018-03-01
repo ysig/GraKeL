@@ -1,7 +1,7 @@
 """Tests for the kernel sub-module."""
 import numpy as np
 
-from unittest import TestCase
+from numpy.testing import assert_array_less
 
 from sklearn.model_selection import train_test_split
 
@@ -29,6 +29,8 @@ from grakel.kernels import vertex_histogram
 from grakel.kernels import edge_histogram
 
 global verbose, main, development
+
+default_eigvalue_precision = float("-1e-6")
 
 if __name__ == '__main__':
     import argparse
@@ -347,10 +349,9 @@ def print_kernel(name, kernel, X, Y):
 
 def positive_eig(kernel, X):
     """Assert true if the calculated kernel matrix is valid."""
-    tc = TestCase()
     K = kernel.fit_transform(X)
     min_eig = np.real(np.min(np.linalg.eig(K)[0]))
-    tc.assertGreater(min_eig, float("-1e-6"))
+    assert_array_less(default_eigvalue_precision, min_eig)
 
 
 if verbose and main:
