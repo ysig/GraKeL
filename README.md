@@ -38,7 +38,7 @@ To know more, please read the [documentation][doc] on the section *installation*
 
 To install the module execute:
 ```shell
-$ (sudo) pip install grakel
+$ (sudo) pip install -i https://testpypi.python.org/pypi grakel
 ```
 
 Contributing

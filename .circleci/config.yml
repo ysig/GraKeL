@@ -1,5 +1,4 @@
 version: 2
-
 jobs:
   python3:
     docker:
@@ -19,7 +18,6 @@ jobs:
       - EMAIL: "y.siglidis@gmail.com"
     steps:
       - checkout
-      # pre?
       - run:
           name: Intalling System Dependencies
           command: |
