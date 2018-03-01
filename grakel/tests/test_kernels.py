@@ -124,7 +124,7 @@ else:
     main, develop, problematic, slow = True, False, False, False
     normalize, verbose = False, False
     dataset_name = "MUTAG"
-    dataset_args_name = "Cuneiform"
+    dataset_attr_name = "Cuneiform"
 
 # The baseline dataset for node, edge_labels
 global dataset, dataset_tr, dataset_te
