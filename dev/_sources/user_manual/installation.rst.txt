@@ -5,7 +5,7 @@ Installing grakel
 =================
 The grakel library requires:
 
-* Python [>= 3.5]
+* Python [>=2.7 or >= 3.5]
 * NumPy [>= 1.8.2]
 * SciPy [>= 0.13.3]
 * Cython [>= 0.27.3]

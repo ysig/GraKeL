@@ -30,7 +30,7 @@ A list of areas where contribution seems important are the following:
   various types of inputs and finally a small group of important operations concerning graph objects, while being at the same
   time memory and computationally efficient. To achieve that goal the code of the :code:`Graph` should be optimized in python
   and if it is possible and seems more efficiently to be totally converted to a cython extension (for the use of C++ as a back-end).
-* **Redesigning the :code:`kernel` class**: The :code:`kernel` class has been confined to the project constraints (namely sklearn compatibility)
+* **Redesigning the **:code:`kernel`** class**: The :code:`kernel` class has been confined to the project constraints (namely sklearn compatibility)
   to the most abstract way possible. Other features and methods can be added to the kernel class to support frameworks that are currently
   not supported.
 * **Unit-Testing**: As far as the kernel module is concerned we have not found a standard way of checking that the computations are valid
@@ -53,7 +53,7 @@ The GraKeL project is currently developed by the editor [Ioannis Siglidis] insid
 organization of the *Paris-Saclay* University at the DaSciM laboratory of LiX.
 
 The project is currently curried out under the administrative supervision of the DaSciM Team Leader, Michalis Vazirgiannis as well as the scientific
-supervision of Ioannis Nikollentzos a Post-Doc researcher with a PhD on the field of Graph Kernels.
+supervision of Giannis Nikolentzos a Post-Doc researcher with a PhD on the field of Graph Kernels.
 Other members of the lab aiding with the construction of this library are: Xristos Giatsidis, Stratis Limnios and Konstantinos Skianis.
 
 The project BSD license - a prerequisite of *sk-learn* compatibility - is accepted by the editor as it does not offend the virtues of the free-software community.

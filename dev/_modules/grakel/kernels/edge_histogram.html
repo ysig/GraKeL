@@ -183,6 +183,10 @@
 <span class="kn">from</span> <span class="nn">numpy</span> <span class="k">import</span> <span class="n">zeros</span>
 <span class="kn">from</span> <span class="nn">numpy</span> <span class="k">import</span> <span class="n">einsum</span>
 
+<span class="c1"># Python 2/3 cross-compatibility import</span>
+<span class="kn">from</span> <span class="nn">six</span> <span class="k">import</span> <span class="n">iteritems</span>
+<span class="kn">from</span> <span class="nn">six</span> <span class="k">import</span> <span class="n">itervalues</span>
+
 
 <div class="viewcode-block" id="edge_histogram"><a class="viewcode-back" href="../../../kernels/edge_histogram.html#grakel.kernels.edge_histogram">[docs]</a><span class="k">class</span> <span class="nc">edge_histogram</span><span class="p">(</span><span class="n">kernel</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Edge Histogram kernel as found in :cite:`Sugiyama2015NIPS`.</span>
@@ -251,7 +255,7 @@
                                      <span class="s1">&#39;dict </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
 
                 <span class="c1"># construct the data input for the numpy array</span>
-                <span class="k">for</span> <span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">frequency</span><span class="p">)</span> <span class="ow">in</span> <span class="n">Counter</span><span class="p">(</span><span class="n">L</span><span class="o">.</span><span class="n">values</span><span class="p">())</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">for</span> <span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">frequency</span><span class="p">)</span> <span class="ow">in</span> <span class="n">iteritems</span><span class="p">(</span><span class="n">Counter</span><span class="p">(</span><span class="n">itervalues</span><span class="p">(</span><span class="n">L</span><span class="p">))):</span>
                     <span class="c1"># for the row that corresponds to that graph</span>
                     <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ni</span><span class="p">)</span>
 

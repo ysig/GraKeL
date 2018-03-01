@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>grakel.graph.floyd_warshall &mdash; GraKeL 0.1a documentation</title>
+  <title>grakel.datasets.get_dataset_info &mdash; GraKeL 0.1a documentation</title>
   
 
   
@@ -41,8 +41,8 @@
         <link rel="search" title="Search" href="../search.html"/>
     <link rel="top" title="GraKeL 0.1a documentation" href="../index.html"/>
         <link rel="up" title="API Reference" href="../classes.html"/>
-        <link rel="next" title="grakel.GraphKernel" href="grakel.GraphKernel.html"/>
-        <link rel="prev" title="grakel.graph.laplacian" href="grakel.graph.laplacian.html"/> 
+        <link rel="next" title="General examples" href="../auto_examples/index.html"/>
+        <link rel="prev" title="grakel.datasets.fetch_dataset" href="grakel.datasets.fetch_dataset.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -152,13 +152,13 @@
         
           <li><a href="../classes.html">API Reference</a> &raquo;</li>
         
-      <li>grakel.graph.floyd_warshall</li>
+      <li>grakel.datasets.get_dataset_info</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/generated/grakel.graph.floyd_warshall.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/generated/grakel.datasets.get_dataset_info.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -171,26 +171,44 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="grakel-graph-floyd-warshall">
-<h1>grakel.graph.floyd_warshall<a class="headerlink" href="#grakel-graph-floyd-warshall" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="grakel-datasets-get-dataset-info">
+<h1>grakel.datasets.get_dataset_info<a class="headerlink" href="#grakel-datasets-get-dataset-info" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
-<dt id="grakel.graph.floyd_warshall">
-<code class="descclassname">grakel.graph.</code><code class="descname">floyd_warshall</code><span class="sig-paren">(</span><em>adjacency_matrix</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/3f67c0c/grakel/graph.py#L1669"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/graph.html#floyd_warshall"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.graph.floyd_warshall" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate the Floyd Warshall, shortest path matrix.</p>
+<dt id="grakel.datasets.get_dataset_info">
+<code class="descclassname">grakel.datasets.</code><code class="descname">get_dataset_info</code><span class="sig-paren">(</span><em>dataset_name</em>, <em>default=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/3f67c0c/grakel/datasets/base.py#L407"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/datasets/base.html#get_dataset_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.datasets.get_dataset_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the info concerning the existence of a certain dataset.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>adjacency_matrix</strong> : np.array, square</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dataset_name</strong> : str</p>
 <blockquote>
-<div><p>The adjacency matrix of the graph, on which the distances are being
-calculated.</p>
+<div><p>The name of the dataset.</p>
+</div></blockquote>
+<p><strong>default</strong> : Object, default=None</p>
+<blockquote>
+<div><p>The default return value if the dataset is not found.</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>dist</strong> : np.array</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>dictionary_get</strong> : default or dictionary_entry</p>
 <blockquote class="last">
-<div><p>The shortest path matrix as produced by floyd warshall</p>
+<div><p>The info of a dataset as a dictionary with
+fields:</p>
+<blockquote>
+<div><ul class="simple">
+<li><strong>nl</strong> : A boolean flag indicating if the
+dataset has node labels.</li>
+<li><strong>el</strong> : A boolean flag indicating if the
+dataset has edge labels.</li>
+<li><strong>na</strong> : A boolean flag indicating if the
+dataset has node attributes.</li>
+<li><strong>ea</strong> : A boolean flag indicating if the
+dataset has edge attributes.</li>
+<li><strong>link</strong> : A str corresponding to the
+download link of the dataset.</li>
+</ul>
+</div></blockquote>
 </div></blockquote>
 </td>
 </tr>
@@ -210,10 +228,10 @@ calculated.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="grakel.GraphKernel.html" class="btn btn-neutral float-right" title="grakel.GraphKernel" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="../auto_examples/index.html" class="btn btn-neutral float-right" title="General examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="grakel.graph.laplacian.html" class="btn btn-neutral" title="grakel.graph.laplacian" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="grakel.datasets.fetch_dataset.html" class="btn btn-neutral" title="grakel.datasets.fetch_dataset" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

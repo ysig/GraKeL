@@ -430,8 +430,9 @@
                 <span class="p">)):</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">node_attributes_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
-                <span class="n">node_labels</span><span class="p">[</span><span class="n">ngc</span><span class="p">[</span><span class="n">i</span><span class="p">]][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
-                                          <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="n">line</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;, &quot;</span><span class="p">)]</span>
+                <span class="n">node_labels</span><span class="p">[</span><span class="n">ngc</span><span class="p">[</span><span class="n">i</span><span class="p">]][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> \
+                    <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">num</span><span class="p">)</span> <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span>
+                     <span class="n">line</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)]</span>
     <span class="c1"># Extract node labels</span>
     <span class="k">elif</span> <span class="n">dataset_metadata</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
             <span class="s2">&quot;nl&quot;</span><span class="p">,</span>
@@ -571,6 +572,42 @@
                          <span class="s1">&#39; them send us a pm, to explain you either why we &#39;</span> <span class="o">+</span>
                          <span class="s1">&#39;don</span><span class="se">\&#39;</span><span class="s1">t support it, or to update are dataset &#39;</span> <span class="o">+</span></div>
                          <span class="s1">&#39;database.&#39;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="get_dataset_info"><a class="viewcode-back" href="../../../generated/grakel.datasets.get_dataset_info.html#grakel.datasets.get_dataset_info">[docs]</a><span class="k">def</span> <span class="nf">get_dataset_info</span><span class="p">(</span><span class="n">dataset_name</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return the info concerning the existence of a certain dataset.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dataset_name : str</span>
+<span class="sd">        The name of the dataset.</span>
+
+<span class="sd">    default : Object, default=None</span>
+<span class="sd">        The default return value if the dataset is not found.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dictionary_get : default or dictionary_entry</span>
+<span class="sd">        The info of a dataset as a dictionary with</span>
+<span class="sd">        fields:</span>
+
+<span class="sd">            - **nl** : A boolean flag indicating if the</span>
+<span class="sd">              dataset has node labels.</span>
+
+<span class="sd">            - **el** : A boolean flag indicating if the</span>
+<span class="sd">              dataset has edge labels.</span>
+
+<span class="sd">            - **na** : A boolean flag indicating if the</span>
+<span class="sd">              dataset has node attributes.</span>
+
+<span class="sd">            - **ea** : A boolean flag indicating if the</span>
+<span class="sd">              dataset has edge attributes.</span>
+
+<span class="sd">            - **link** : A str corresponding to the</span>
+<span class="sd">              download link of the dataset.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span></div>
+    <span class="k">return</span> <span class="n">dataset_metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">dataset_name</span><span class="p">,</span> <span class="n">default</span><span class="p">)</span>
 </pre></div>
 
            </div>

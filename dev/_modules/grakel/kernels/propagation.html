@@ -178,6 +178,9 @@
 <span class="kn">from</span> <span class="nn">grakel.graph</span> <span class="k">import</span> <span class="n">Graph</span>
 <span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">kernel</span>
 
+<span class="c1"># Python 2/3 cross-compatibility import</span>
+<span class="kn">from</span> <span class="nn">six</span> <span class="k">import</span> <span class="n">itervalues</span>
+
 <span class="n">default_random_seed_value</span> <span class="o">=</span> <span class="mi">1235476565</span>
 
 
@@ -346,7 +349,7 @@
                 <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
                 <span class="n">transition_matrix</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">T</span>
                 <span class="n">label</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">get_labels</span><span class="p">(</span><span class="n">purpose</span><span class="o">=</span><span class="s1">&#39;adjacency&#39;</span><span class="p">)</span>
-                <span class="n">labels</span> <span class="o">|=</span> <span class="nb">set</span><span class="p">(</span><span class="n">label</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+                <span class="n">labels</span> <span class="o">|=</span> <span class="nb">set</span><span class="p">(</span><span class="n">itervalues</span><span class="p">(</span><span class="n">label</span><span class="p">))</span>
                 <span class="n">L</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">g</span><span class="o">.</span><span class="n">nv</span><span class="p">(),</span> <span class="n">label</span><span class="p">))</span>
 
             <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>

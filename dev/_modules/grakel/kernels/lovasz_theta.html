@@ -172,7 +172,6 @@
 <span class="kn">import</span> <span class="nn">collections</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
 
-<span class="kn">import</span> <span class="nn">random</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">kernel</span>
@@ -260,7 +259,6 @@
                              <span class="s1">&#39;must be a function&#39;</span><span class="p">)</span>
 
         <span class="n">rs</span> <span class="o">=</span> <span class="n">kargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;random_seed&quot;</span><span class="p">,</span> <span class="mi">6578909</span><span class="p">)</span>
-        <span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">rs</span><span class="p">)</span>
         <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">rs</span><span class="p">)</span>
 
 <div class="viewcode-block" id="lovasz_theta.parse_input"><a class="viewcode-back" href="../../../kernels/lovasz_theta.html#grakel.kernels.lovasz_theta.parse_input">[docs]</a>    <span class="k">def</span> <span class="nf">parse_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
@@ -317,6 +315,7 @@
                 <span class="n">X</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="n">_calculate_lovasz_embeddings_</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
                 <span class="n">U</span> <span class="o">=</span> <span class="n">_calculate_lovasz_labelling_</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d</span><span class="p">)</span>
                 <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_calculate_MEC_</span><span class="p">(</span><span class="n">U</span><span class="p">))</span>
+
             <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;parsed input is empty&#39;</span><span class="p">)</span>
 </div>
@@ -347,7 +346,7 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        A : np.array, ndim=2</span>
+<span class="sd">        U : np.array, ndim=2</span>
 <span class="sd">            The adjacency matrix.</span>
 
 <span class="sd">        Returns</span>
@@ -544,7 +543,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">c</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span> <span class="n">_fitball_</span><span class="p">(</span><span class="n">A</span><span class="p">[:,</span> <span class="n">R</span><span class="p">])</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">p</span> <span class="o">=</span> <span class="n">P</span><span class="p">[</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">nP</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)]</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">P</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">nP</span><span class="p">)]</span>
         <span class="n">P_prime</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">P</span> <span class="o">==</span> <span class="n">p</span><span class="p">))</span>
         <span class="n">c</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span> <span class="n">_b_minidisk_</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">P_prime</span><span class="p">,</span> <span class="n">R</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">norm</span><span class="p">(</span><span class="n">A</span><span class="p">[:,</span> <span class="n">p</span><span class="p">]</span> <span class="o">-</span> <span class="n">c</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="n">r</span> <span class="o">&gt;</span> <span class="n">tolerance</span><span class="p">:</span>

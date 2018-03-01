@@ -17,7 +17,7 @@ An example plot of :class:`grakel.GraphKernel`
 
  Out::
 
-    Accuracy: 84.21 % | Took: 0.55 s
+    Accuracy: 84.21 % | Took: 0.58 s
 
 
 
@@ -70,7 +70,7 @@ An example plot of :class:`grakel.GraphKernel`
     print("Accuracy:", str(round(acc*100, 2)), "% | Took:",
           str(round(end - start, 2)), "s")
 
-**Total running time of the script:** ( 0 minutes  4.787 seconds)
+**Total running time of the script:** ( 0 minutes  4.795 seconds)
 
 
 

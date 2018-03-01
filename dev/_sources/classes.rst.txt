@@ -95,6 +95,7 @@ Fetch
    :toctree: generated/
    
    grakel.datasets.fetch_dataset
+   grakel.datasets.get_dataset_info
 
 **User guide:** See the :ref:`datasets` section for further details.
 

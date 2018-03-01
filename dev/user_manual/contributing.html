@@ -201,7 +201,7 @@ that supports both vertex-oriented and edge-oriented representations of graphs, 
 various types of inputs and finally a small group of important operations concerning graph objects, while being at the same
 time memory and computationally efficient. To achieve that goal the code of the <code class="code docutils literal notranslate"><span class="pre">Graph</span></code> should be optimized in python
 and if it is possible and seems more efficiently to be totally converted to a cython extension (for the use of C++ as a back-end).</li>
-<li><strong>Redesigning the :code:`kernel` class</strong>: The <code class="code docutils literal notranslate"><span class="pre">kernel</span></code> class has been confined to the project constraints (namely sklearn compatibility)
+<li><strong>Redesigning the **:code:`kernel`</strong> class**: The <code class="code docutils literal notranslate"><span class="pre">kernel</span></code> class has been confined to the project constraints (namely sklearn compatibility)
 to the most abstract way possible. Other features and methods can be added to the kernel class to support frameworks that are currently
 not supported.</li>
 <li><strong>Unit-Testing</strong>: As far as the kernel module is concerned we have not found a standard way of checking that the computations are valid
@@ -219,7 +219,7 @@ but actually its implementation is wrong. This seems as a major problem to solve
 <p>The GraKeL project is currently developed by the editor [Ioannis Siglidis] inside as a one year project founded from the <a class="reference external" href="https://digicosme.lri.fr/tiki-index.php">Labex DigiCosme</a>
 organization of the <em>Paris-Saclay</em> University at the DaSciM laboratory of LiX.</p>
 <p>The project is currently curried out under the administrative supervision of the DaSciM Team Leader, Michalis Vazirgiannis as well as the scientific
-supervision of Ioannis Nikollentzos a Post-Doc researcher with a PhD on the field of Graph Kernels.
+supervision of Giannis Nikolentzos a Post-Doc researcher with a PhD on the field of Graph Kernels.
 Other members of the lab aiding with the construction of this library are: Xristos Giatsidis, Stratis Limnios and Konstantinos Skianis.</p>
 <p>The project BSD license - a prerequisite of <em>sk-learn</em> compatibility - is accepted by the editor as it does not offend the virtues of the free-software community.</p>
 </div>

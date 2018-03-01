@@ -231,7 +231,7 @@ as long as they are coherent with some design specifications needed for a *valid
   node labels and position **2** the edge labels.
 * Support of :code:`normalization` in a valid way is imperative.
 * The method :code:`diagonal` is used in order for nested-graph-kernels (such as *Weisfeiler-Lehman*) to be able to calculate a correct
-  *normalized* output, so it is also imperative, to be valid.
+  *normalized* output, so it is also imperative, to be valid. Its output should be supported both as a scalar and as a vector.
 
 
 ---------------------
