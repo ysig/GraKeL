@@ -23,7 +23,7 @@ git checkout -f gh-pages
 git reset --hard origin/gh-pages
 git clean -dfx
 
-for name in $(ls -A $HOME/$DOC_REPO); do
+for name in $(ls -A project/$DOC_REPO); do
     case $name in
         .nojekyll) # So that github does not build this as a Jekyll website.
         ;;
