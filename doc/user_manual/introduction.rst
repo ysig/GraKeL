@@ -9,19 +9,17 @@ A short Introduction
 What is grakel?
 ---------------
 GraKeL is a library for the study, use and integration of an upcoming collection
-of techniques, inside the field of Machine Learning known as graph kernels. This
+of techniques, inside the field of Machine Learning known as graph kernels. These
 techniques utilize information derived from a conceived structure of the data, in
 order to apply conventional machine learning techniques for achieving tasks as
 classification, ranking, etc. Graph Kernels have been widely used in fields such
 as chemistry, bio-informatics, social networks and malware detection and are starting
-to be considered as a new way for the growth of technological applications inside
-the field of ML.
+to be considered as the state-of-the-art solution for various problems inside the field of ML.
 
 What is a Graph Kernel?
 -----------------------
 A graph kernel is a measure of similarity between two graphs, that obeys a certain
-mathematical constraint, which is that the calculation of each similarity measure
-between two graphs implies a representation of this two graphs in a `hilbert space`_, where those to graphs are represented as vectors. This can be notated as the 
+mathematical constraint, which is *that the calculation of each similarity measure between two graphs implies a representation of this two graphs in a* `hilbert space`_, where those to graphs are represented as vectors. This can be notated as the 
 following:
 
     .. math:: 
@@ -39,8 +37,8 @@ The above definition is satisfied in the literature, by proving that the produce
 Initializing a graph kernel
 ---------------------------
 A very well known graph kernel found in literature is the Shortest Path Kernel first introduced by Karsten M. Borgwardt
-and Hans-Peter Kriegel on a 2005 article with the title Shortest-Path Kernels on Graphs, really essential as an origin
-of the Graph Kernel field.
+and Hans-Peter Kriegel on a 2005 article [see :cite:`Borgwardt2005ShortestpathKO`] titled **"Shortest-Path Kernels on Graphs"**,
+really essential as an origin of the Graph Kernel field.
 
 After following the instructions found on :ref:`installation`, in order to initialize a *Shortest Path* kernel
 using the **grakel** library, you just need to do the following:
@@ -50,15 +48,19 @@ using the **grakel** library, you just need to do the following:
     >>> from grakel import GraphKernel
     >>> sp_kernel = GraphKernel(kernel = {"name": "shortest_path"})
 
-In the literature there exist also kernels that use other kernels as base_kernels.
-The *Shortest Path* is a base-kernel meaning that it can be computed onto the sets
-of Graphs needed only a minor parametrization. A kernel like Weisfeiler-Lehman introduced
-by Nino Shervashidze at 2011, published with a title "Weisfeiler Lehman Kernels" on journal
-creates graph transformations on the original sets of graphs such that the results
-of base kernel applied on them have better expressivity.
+Kernels as the above are considered as *base kernels*, meaning that they can be computed onto the sets
+of Graphs needed only a minor parametrization. A second type of kernels appear in the literature which
+we will call *meta-kernels*, which apply transformation operations upon graph objects in order to apply
+kernel calculations on certain steps using a *base kernel*, aggregating their result in a certain way.
+A kernel like *Weisfeiler-Lehman* introduced by Nino Shervashidze at 2011, published on a journal with the title
+"Weisfeiler Lehman Kernels" [see :cite:`Shervashidze2011WeisfeilerLehmanGK`], used a method for approximating a
+solution to the graph isomorphism problem, in order to generate a graph refinement scheme that would imply
+bigger expressiveness to the base_kernel calculations (an interesting `post`_ explaining the intuition of this kernel).
 
-To initialize such a kernel, using the default subtree kernel, found originally on the paper
-on page 9, eq. 2 use can do the following:
+.. _post: http://blog.smola.org/post/33412570425/the-weisfeiler-lehman-algorithm-and-estimation-on
+
+To initialize such a kernel, using the default subtree kernel, found originally on the paper's
+page 9, eq. 2, you can do the following:
 
 .. code-block:: python
 
@@ -87,8 +89,8 @@ graph kernel
     >>> sp_kernel.transform(H3O)
     24.0
 
-This result seems like the water molecule than with the hydronium. This is a false
-assumption derived from the fact that the kernel matrix is not normalized.
+This result seems like the water molecule is more similar to hydronium, than with itself.
+This is a false assumption derived from the fact that the kernel calculation is not normalized.
 
 To apply normalization we add such an argument on the GraphKernel method
 initialization and continue
@@ -106,17 +108,17 @@ The input type
 --------------
 On the above example concerning water and hydronium, we provided a very strange input object
 without saying anything about it. The input concerns the user mostly when dealing with an
-API so we will examine it in detail, although this is a small introduction.
+API, so we will examine it in detail although this is a small introduction.
 
-The input of any kernel either on the fit or the transform stage (to learn more about the
-kernel design see :ref:`longer_introduction`), is an iterable, where each element
-contains in order the next 3 basic elements:
+The input of any kernel - either on the stage of fit or of transform - (to learn more about the
+kernel design see :ref:`longer_introduction`) is an iterable, where each element
+contains in following order, the next 3 basic elements:
 
 1. The first element is a valid graph object. Valid graph objects can be separated in two major categories (both :red:`weighted` and :blue:`un-weighted`):
     
     * Dictionary representations: This is an *edge* oriented approach, where the input can have one of the following formats:
         - | :red:`2-level nested dictionaries from edge symbols to weights.`  
-          | Example: :code:`H2O = {'a': {'b': 1., c: 1.}, 'b': {'a': 1}, 'c': {'a': 1}}`
+          | Example: :code:`H2O = {'a': {'b': 1., 'c': 1.}, 'b': {'a': 1}, 'c': {'a': 1}}`
     
         - | :blue:`Dictionary of symbols to list of symbols.`  
           | Example: :code:`H2O = {'a': ['b', 'c'], 'b': ['a'], 'c':['b']}`
@@ -124,10 +126,10 @@ contains in order the next 3 basic elements:
         - | :red:`Dictionary of tuples to weights.`  
           | Example: :code:`H2O = {('a', 'b'): 1., ('a', 'c'): 1., ('c', 'a'): 1., ('b', 'a'): 1.}`
     
-        - | :blue:`Iterable of tuples of len 2.`  
+        - | :blue:`Iterable of tuples of lenght 2.`  
           | Example: :code:`H2O = [('a', 'b'), ('a', 'c'), ('b', 'a'), ('c', 'a')]`
     
-        - | :blue:`Iterable of tuples of len 3.`  
+        - | :blue:`Iterable of tuples of length 3.`  
           | Example: :code:`H2O = [('a', 'b', 1.), ('a', 'c', 1.), ('b', 'a', 1.), ('c', 'a', 1.)]`
     
       As seen above all the graph objects are considered **directed** graphs.
@@ -140,7 +142,7 @@ contains in order the next 3 basic elements:
         - | :red:`np.array`  
           | Example: :code:`H2O = numpy.array([[0, 1, 1], [1, 0, 0], [1, 0, 0]])`
     
-        - | :red:`sparse matrix (scipy.sparse.csr.csr_matrix)`  
+        - | :red:`sparse matrix (scipy.sparse)`  
           | Example: :code:`H2O = scipy.sparse.csr_matrix(([1, 1, 1, 1], ([0, 0, 1, 2], [1, 2, 0, 0])), shape=(3, 3))`
 
 2. The second *optional* element is a graph labeling of vertices (or nodes):
@@ -152,10 +154,10 @@ contains in order the next 3 basic elements:
       | Example: :code:`H2O_labels = {0: 'O', 1: 'H', 2:'H'}`
     
     .. note::
-      Normally in the literature labels correspond to numbers or single symbols and not to vector-like objects which are defined as attributes.
+      Normally in the literature *labels* correspond to scalars or single symbols and not to vector-like objects, which are defined as *attributes*.
       As far as the input representation is concerned the second object is either labels or attributes for graph **vertices** and the distinction
       between attributed kernels or labeled once is specified for each kernel. Here we have made the assumption that never a kernel uses both labels
-      or attributes for vertices and if it does so a label representation can be applied such that the kernel can use only the one kind of labels.
+      or attributes for *vertices* and if it does so, a label representation can be applied such that the kernel can use only the one kind of labels.
 
 3. The third *optional* element is a graph labeling of edges:
     
@@ -166,9 +168,9 @@ contains in order the next 3 basic elements:
       | Example: :code:`H2O_edge_labels = {(0, 1): 'pcb', (1, 0): 'pcb', (0, 2): 'pcb', (2, 0): 'pcb'}`
     
     .. note::
-      As soon as the same unification of node labels and attributes is valid here a second distinction should be made.
-      Labels between edges are not weight values. This means that if the users wants to apply such approach to a kernel, that uses weight values in such a way such as the
-      Random Walk Kernel, enrich the graph-type input with weights between all edges that correspond to the edge-labels he intended to use.
+      As soon as the same unification of node labels and attributes is valid, a second distinction should be made here.
+      Labels between edges are not weight values. This means that if the user wants to apply such approach to a kernel, that uses weight values in such a way as the
+      Random Walk Kernel, she/he should enrich the graph-type input with weights between all edges that correspond to the edge-labels he/she is intended to use.
 
 As defined above the input should be an iterable of any iterable producing at most one and at least three (or more for certain kernels elements).
 To signify absence of node labels if the elements produced by each iterable are more than 2 or edge labels if the labels produced are more than 3
@@ -238,7 +240,7 @@ class labels) as follows:
     >>> y = MUTAG.target
     >>> y_train, y_test = y[:split_point], y[split_point:]
 
-:code:`import` and initiliase a sk-learn :code:`SVC`
+:code:`import` and initialize a sk-learn :code:`SVC`
 
 .. code-block:: python
 
@@ -263,3 +265,9 @@ and print the accuracy score
     >>> from sklearn.metrics import accuracy_score
     >>> print(str(round(accuracy_score(y_test, y_pred)*100, 2)), "%")
     78.95 %
+
+Bibliography
+------------
+
+.. bibliography:: graph_kernels.bib
+   :filter: docname in docnames

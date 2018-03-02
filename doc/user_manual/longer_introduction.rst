@@ -48,8 +48,8 @@ These features can be listed as follows:
         >>> K_test = K[test_indices, :][:, train_indices] / np.sqrt(np.outer(K_test_diag, K_train_diag))
 
     but in the second case we make some more computations, in reward that fit samples are drown from both
-    train and test datasets, producing a different result in some kernels by unifying as a intuitively
-    train and test data when drawing samples and may be desired (e.g. on the :code:`multiscale_laplacian_fast`).
+    train and test datasets, producing a different result in some kernels by unifying intuitively
+    train and test data when creating features, which may be desired (e.g. on the :code:`multiscale_laplacian_fast`).
 
 * :code:`Nystroem` : Nystroem is very well known method, for approximating kernel matrices on huge datasets.
     The kernel matrix is calculated only in random drown subsets of graphs, whose size can be defined by the user 
@@ -200,7 +200,7 @@ Normally a kernel function, between graphs should be considered as a function wi
 such as :math:`k \; : \; \mathcal{G} \times \mathcal{G} \rightarrow \mathbb{R}`.
 This raises two issues, namely one of efficiency and one of compatibility:
 1. The first one has to do with the fact, that there are major computational advantages if instead of calculating the kernel pairwise, we calculate the whole kernel matrix.
-2. The second has to do with the fact, that we wanted our project to be integratable inside the `sk learn template`_. From this template the most relevant structure was the sci-kit transformer, which consists of three inherent methods: :code:`fit`, :code:`fit-transform`, :code:`transform`.
+2. The second has to do with the fact, that we wanted our project to be integrable inside the `sk learn template`_. From this template the most relevant structure was the sci-kit transformer, which consists of three inherent methods: :code:`fit`, :code:`fit-transform`, :code:`transform`.
 
 So the way we conceptually attached the kernel definition to that design pattern was
 + The :code:`fit` part should fix a graph dataset as the base of comparison calculating necessary features.
@@ -213,7 +213,7 @@ result, if some of the data of :math:`\mathcal{G}^{\text{train}}`, must be combi
 as mentioned above, namely in the case of :code:`multiscale_laplacian`, if the user wants :math:`\mathcal{G}^{\text{train}} \rightarrow \mathcal{G}^{\text{test}}` to be concerned
 before fit we advise him to use the :code:`fit_transform`, function in the whole of the train and test data and separate the kernel matrices on the result.
 
-Using a :code:`kernel` type object through the decorator, should be equivalent with doing so from the decorator, if the correct parametrization is given.
+Using a :code:`kernel` type object through the decorator, should be equivalent with doing so without the decorator, if the correct parametrization is given.
 The decorator **does not** restrict any *user-oriented* interface of the kernels except if the user wants to write a kernel of his own.
 If you want to know more about the kernel structure in order to write your own see :ref:`myok`.
 
