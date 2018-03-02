@@ -1,4 +1,4 @@
-"""The lovasz theta kernel as defined in :cite:`Johansson2015LearningWS_lovasz`."""
+"""The lovasz theta kernel as in :cite:`Johansson2015LearningWS_lovasz`."""
 import collections
 import warnings
 
