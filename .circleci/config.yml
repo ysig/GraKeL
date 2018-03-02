@@ -16,7 +16,6 @@ jobs:
       - run: sudo pip install --upgrade cython numpydoc
       - run: sudo pip install --upgrade scikit-learn
       - run: sudo pip install --upgrade cvxopt
-      - run: sudo pip install --upgrade matplotlib
       - run: sudo python install_pynauty.py
       - run: sudo python setup.py clean
       - run: sudo python setup.py develop
