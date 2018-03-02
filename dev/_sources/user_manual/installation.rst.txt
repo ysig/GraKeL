@@ -95,7 +95,7 @@ more as a collection of techniques calculating `PSD`_ similarity matrices, betwe
 graph objects, than a field (with the compact sense of the term). The big diversity
 of methods and ideas implied to extract a similarity score between to graphs, leads
 to the use of very precise and studied algorithms as graph isomorphism (for determining isomorphic graphlets on the graphlet-sampling kernel) or convex optimization (through
-the use of semidefinite-programming for calculating lovasz-theta embeddings, on lovasz-theta kernel) which on the other hand will not appear in any other kernel at all.
+the use of semidefinite-programming for calculating lovasz-theta embeddings, on lovasz-theta kernel) which on the other hand will **not** appear in any other kernel.
 As a result import of external libraries that have studied and optimized the solutions
 of such problems in detail, gives a complexity - implementation "standard" to refer to, 
 while follows the idea of standing on the shoulders of the scientific community, which

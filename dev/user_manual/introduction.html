@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>A short Introduction &mdash; GraKeL 0.1a documentation</title>
+  <title>A short Introduction &mdash; GraKeL 0.1a1 documentation</title>
   
 
   
@@ -39,7 +39,7 @@
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="GraKeL 0.1a documentation" href="../index.html"/>
+    <link rel="top" title="GraKeL 0.1a1 documentation" href="../index.html"/>
         <link rel="next" title="A longer Introduction" href="longer_introduction.html"/>
         <link rel="prev" title="Installing grakel" href="installation.html"/> 
 
@@ -70,7 +70,7 @@
             
             
               <div class="version">
-                0.1a
+                0.1a1
               </div>
             
           
@@ -103,6 +103,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#calculate-a-kernel">Calculate a kernel</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#the-input-type">The input type</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#fitting-on-a-dataset">Fitting on a dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#bibliography">Bibliography</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="longer_introduction.html">A longer Introduction</a></li>
@@ -181,19 +182,17 @@
 <div class="section" id="what-is-grakel">
 <h2>What is grakel?<a class="headerlink" href="#what-is-grakel" title="Permalink to this headline">¶</a></h2>
 <p>GraKeL is a library for the study, use and integration of an upcoming collection
-of techniques, inside the field of Machine Learning known as graph kernels. This
+of techniques, inside the field of Machine Learning known as graph kernels. These
 techniques utilize information derived from a conceived structure of the data, in
 order to apply conventional machine learning techniques for achieving tasks as
 classification, ranking, etc. Graph Kernels have been widely used in fields such
 as chemistry, bio-informatics, social networks and malware detection and are starting
-to be considered as a new way for the growth of technological applications inside
-the field of ML.</p>
+to be considered as the state-of-the-art solution for various problems inside the field of ML.</p>
 </div>
 <div class="section" id="what-is-a-graph-kernel">
 <h2>What is a Graph Kernel?<a class="headerlink" href="#what-is-a-graph-kernel" title="Permalink to this headline">¶</a></h2>
 <p>A graph kernel is a measure of similarity between two graphs, that obeys a certain
-mathematical constraint, which is that the calculation of each similarity measure
-between two graphs implies a representation of this two graphs in a <a class="reference external" href="https://en.wikipedia.org/wiki/Hilbert_space">hilbert space</a>, where those to graphs are represented as vectors. This can be notated as the
+mathematical constraint, which is <em>that the calculation of each similarity measure between two graphs implies a representation of this two graphs in a</em> <a class="reference external" href="https://en.wikipedia.org/wiki/Hilbert_space">hilbert space</a>, where those to graphs are represented as vectors. This can be notated as the
 following:</p>
 <blockquote>
 <div><div class="math">
@@ -208,22 +207,24 @@ value can be computed as }\\ k(G_{i}, G_{j}) = \langle G_{i}, G_{j} \rangle
 <div class="section" id="initializing-a-graph-kernel">
 <h2>Initializing a graph kernel<a class="headerlink" href="#initializing-a-graph-kernel" title="Permalink to this headline">¶</a></h2>
 <p>A very well known graph kernel found in literature is the Shortest Path Kernel first introduced by Karsten M. Borgwardt
-and Hans-Peter Kriegel on a 2005 article with the title Shortest-Path Kernels on Graphs, really essential as an origin
-of the Graph Kernel field.</p>
+and Hans-Peter Kriegel on a 2005 article [see <a class="reference internal" href="../kernels/shortest_path.html#borgwardt2005shortestpathko" id="id1">[BK05]</a>] titled <strong>“Shortest-Path Kernels on Graphs”</strong>,
+really essential as an origin of the Graph Kernel field.</p>
 <p>After following the instructions found on <a class="reference internal" href="installation.html#installation"><span class="std std-ref">Installing grakel</span></a>, in order to initialize a <em>Shortest Path</em> kernel
 using the <strong>grakel</strong> library, you just need to do the following:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">grakel</span> <span class="kn">import</span> <span class="n">GraphKernel</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sp_kernel</span> <span class="o">=</span> <span class="n">GraphKernel</span><span class="p">(</span><span class="n">kernel</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;shortest_path&quot;</span><span class="p">})</span>
 </pre></div>
 </div>
-<p>In the literature there exist also kernels that use other kernels as base_kernels.
-The <em>Shortest Path</em> is a base-kernel meaning that it can be computed onto the sets
-of Graphs needed only a minor parametrization. A kernel like Weisfeiler-Lehman introduced
-by Nino Shervashidze at 2011, published with a title “Weisfeiler Lehman Kernels” on journal
-creates graph transformations on the original sets of graphs such that the results
-of base kernel applied on them have better expressivity.</p>
-<p>To initialize such a kernel, using the default subtree kernel, found originally on the paper
-on page 9, eq. 2 use can do the following:</p>
+<p>Kernels as the above are considered as <em>base kernels</em>, meaning that they can be computed onto the sets
+of Graphs needed only a minor parametrization. A second type of kernels appear in the literature which
+we will call <em>meta-kernels</em>, which apply transformation operations upon graph objects in order to apply
+kernel calculations on certain steps using a <em>base kernel</em>, aggregating their result in a certain way.
+A kernel like <em>Weisfeiler-Lehman</em> introduced by Nino Shervashidze at 2011, published on a journal with the title
+“Weisfeiler Lehman Kernels” [see <a class="reference internal" href="../kernels/weisfeiler_lehman.html#shervashidze2011weisfeilerlehmangk" id="id2">[SSvL+11]</a>], used a method for approximating a
+solution to the graph isomorphism problem, in order to generate a graph refinement scheme that would imply
+bigger expressiveness to the base_kernel calculations (an interesting <a class="reference external" href="http://blog.smola.org/post/33412570425/the-weisfeiler-lehman-algorithm-and-estimation-on">post</a> explaining the intuition of this kernel).</p>
+<p>To initialize such a kernel, using the default subtree kernel, found originally on the paper’s
+page 9, eq. 2, you can do the following:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">grakel</span> <span class="kn">import</span> <span class="n">GraphKernel</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">wl_kernel</span> <span class="o">=</span> <span class="n">GraphKernel</span><span class="p">(</span><span class="n">kernel</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;weisfeiler_lehman&quot;</span><span class="p">},</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;subtree_wl&quot;</span><span class="p">}])</span>
 </pre></div>
@@ -246,8 +247,8 @@ graph kernel</p>
 <span class="go">24.0</span>
 </pre></div>
 </div>
-<p>This result seems like the water molecule than with the hydronium. This is a false
-assumption derived from the fact that the kernel matrix is not normalized.</p>
+<p>This result seems like the water molecule is more similar to hydronium, than with itself.
+This is a false assumption derived from the fact that the kernel calculation is not normalized.</p>
 <p>To apply normalization we add such an argument on the GraphKernel method
 initialization and continue</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sp_kernel</span> <span class="o">=</span> <span class="n">GraphKernel</span><span class="p">(</span><span class="n">kernel</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;shortest_path&quot;</span><span class="p">},</span> <span class="n">normalize</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
@@ -262,10 +263,10 @@ initialization and continue</p>
 <h2>The input type<a class="headerlink" href="#the-input-type" title="Permalink to this headline">¶</a></h2>
 <p>On the above example concerning water and hydronium, we provided a very strange input object
 without saying anything about it. The input concerns the user mostly when dealing with an
-API so we will examine it in detail, although this is a small introduction.</p>
-<p>The input of any kernel either on the fit or the transform stage (to learn more about the
-kernel design see <a class="reference internal" href="longer_introduction.html#longer-introduction"><span class="std std-ref">A longer Introduction</span></a>), is an iterable, where each element
-contains in order the next 3 basic elements:</p>
+API, so we will examine it in detail although this is a small introduction.</p>
+<p>The input of any kernel - either on the stage of fit or of transform - (to learn more about the
+kernel design see <a class="reference internal" href="longer_introduction.html#longer-introduction"><span class="std std-ref">A longer Introduction</span></a>) is an iterable, where each element
+contains in following order, the next 3 basic elements:</p>
 <ol class="arabic">
 <li><p class="first">The first element is a valid graph object. Valid graph objects can be separated in two major categories (both <span class="red">weighted</span> and <span class="blue">un-weighted</span>):</p>
 <blockquote>
@@ -275,7 +276,7 @@ contains in order the next 3 basic elements:</p>
 <dd><ul class="first last">
 <li><div class="first line-block">
 <div class="line"><span class="red">2-level nested dictionaries from edge symbols to weights.</span></div>
-<div class="line">Example: <code class="code docutils literal notranslate"><span class="pre">H2O</span> <span class="pre">=</span> <span class="pre">{'a':</span> <span class="pre">{'b':</span> <span class="pre">1.,</span> <span class="pre">c:</span> <span class="pre">1.},</span> <span class="pre">'b':</span> <span class="pre">{'a':</span> <span class="pre">1},</span> <span class="pre">'c':</span> <span class="pre">{'a':</span> <span class="pre">1}}</span></code></div>
+<div class="line">Example: <code class="code docutils literal notranslate"><span class="pre">H2O</span> <span class="pre">=</span> <span class="pre">{'a':</span> <span class="pre">{'b':</span> <span class="pre">1.,</span> <span class="pre">'c':</span> <span class="pre">1.},</span> <span class="pre">'b':</span> <span class="pre">{'a':</span> <span class="pre">1},</span> <span class="pre">'c':</span> <span class="pre">{'a':</span> <span class="pre">1}}</span></code></div>
 </div>
 </li>
 <li><div class="first line-block">
@@ -289,12 +290,12 @@ contains in order the next 3 basic elements:</p>
 </div>
 </li>
 <li><div class="first line-block">
-<div class="line"><span class="blue">Iterable of tuples of len 2.</span></div>
+<div class="line"><span class="blue">Iterable of tuples of lenght 2.</span></div>
 <div class="line">Example: <code class="code docutils literal notranslate"><span class="pre">H2O</span> <span class="pre">=</span> <span class="pre">[('a',</span> <span class="pre">'b'),</span> <span class="pre">('a',</span> <span class="pre">'c'),</span> <span class="pre">('b',</span> <span class="pre">'a'),</span> <span class="pre">('c',</span> <span class="pre">'a')]</span></code></div>
 </div>
 </li>
 <li><div class="first line-block">
-<div class="line"><span class="blue">Iterable of tuples of len 3.</span></div>
+<div class="line"><span class="blue">Iterable of tuples of length 3.</span></div>
 <div class="line">Example: <code class="code docutils literal notranslate"><span class="pre">H2O</span> <span class="pre">=</span> <span class="pre">[('a',</span> <span class="pre">'b',</span> <span class="pre">1.),</span> <span class="pre">('a',</span> <span class="pre">'c',</span> <span class="pre">1.),</span> <span class="pre">('b',</span> <span class="pre">'a',</span> <span class="pre">1.),</span> <span class="pre">('c',</span> <span class="pre">'a',</span> <span class="pre">1.)]</span></code></div>
 </div>
 </li>
@@ -317,7 +318,7 @@ contains in order the next 3 basic elements:</p>
 </div>
 </li>
 <li><div class="first line-block">
-<div class="line"><span class="red">sparse matrix (scipy.sparse.csr.csr_matrix)</span></div>
+<div class="line"><span class="red">sparse matrix (scipy.sparse)</span></div>
 <div class="line">Example: <code class="code docutils literal notranslate"><span class="pre">H2O</span> <span class="pre">=</span> <span class="pre">scipy.sparse.csr_matrix(([1,</span> <span class="pre">1,</span> <span class="pre">1,</span> <span class="pre">1],</span> <span class="pre">([0,</span> <span class="pre">0,</span> <span class="pre">1,</span> <span class="pre">2],</span> <span class="pre">[1,</span> <span class="pre">2,</span> <span class="pre">0,</span> <span class="pre">0])),</span> <span class="pre">shape=(3,</span> <span class="pre">3))</span></code></div>
 </div>
 </li>
@@ -343,10 +344,10 @@ contains in order the next 3 basic elements:</p>
 </ul>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">Normally in the literature labels correspond to numbers or single symbols and not to vector-like objects which are defined as attributes.
+<p class="last">Normally in the literature <em>labels</em> correspond to scalars or single symbols and not to vector-like objects, which are defined as <em>attributes</em>.
 As far as the input representation is concerned the second object is either labels or attributes for graph <strong>vertices</strong> and the distinction
 between attributed kernels or labeled once is specified for each kernel. Here we have made the assumption that never a kernel uses both labels
-or attributes for vertices and if it does so a label representation can be applied such that the kernel can use only the one kind of labels.</p>
+or attributes for <em>vertices</em> and if it does so, a label representation can be applied such that the kernel can use only the one kind of labels.</p>
 </div>
 </div></blockquote>
 </li>
@@ -366,9 +367,9 @@ or attributes for vertices and if it does so a label representation can be appli
 </ul>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">As soon as the same unification of node labels and attributes is valid here a second distinction should be made.
-Labels between edges are not weight values. This means that if the users wants to apply such approach to a kernel, that uses weight values in such a way such as the
-Random Walk Kernel, enrich the graph-type input with weights between all edges that correspond to the edge-labels he intended to use.</p>
+<p class="last">As soon as the same unification of node labels and attributes is valid, a second distinction should be made here.
+Labels between edges are not weight values. This means that if the user wants to apply such approach to a kernel, that uses weight values in such a way as the
+Random Walk Kernel, she/he should enrich the graph-type input with weights between all edges that correspond to the edge-labels he/she is intended to use.</p>
 </div>
 </div></blockquote>
 </li>
@@ -426,7 +427,7 @@ class labels) as follows:</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">y</span><span class="p">[:</span><span class="n">split_point</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">split_point</span><span class="p">:]</span>
 </pre></div>
 </div>
-<p><code class="code docutils literal notranslate"><span class="pre">import</span></code> and initiliase a sk-learn <code class="code docutils literal notranslate"><span class="pre">SVC</span></code></p>
+<p><code class="code docutils literal notranslate"><span class="pre">import</span></code> and initialize a sk-learn <code class="code docutils literal notranslate"><span class="pre">SVC</span></code></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="kn">import</span> <span class="n">SVC</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">clf</span> <span class="o">=</span> <span class="n">SVC</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;precomputed&#39;</span><span class="p">)</span>
 </pre></div>
@@ -446,6 +447,10 @@ class labels) as follows:</p>
 <span class="go">78.95 %</span>
 </pre></div>
 </div>
+</div>
+<div class="section" id="bibliography">
+<h2>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">¶</a></h2>
+<p id="bibtex-bibliography-user_manual/introduction-0"></p>
 </div>
 </div>
 
@@ -493,7 +498,7 @@ class labels) as follows:</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.1a',
+            VERSION:'0.1a1',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
