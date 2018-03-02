@@ -9,8 +9,8 @@ __pycache__/
 # scikit-learn specific
 doc/_build/
 doc/auto_examples/
-doc/modules/generated/
-doc/datasets/generated/
+doc/generated/
+doc/modules/generated
 
 # Distribution / packaging
 
