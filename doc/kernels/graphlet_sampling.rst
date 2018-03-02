@@ -2,14 +2,13 @@
 
 Graphlet Sampling Kernel
 ========================
+
 The graphlet sampling kernel.
+
+**Theoretical definition missing**
 
 .. currentmodule:: grakel.kernels
 
-.. autoclass:: grakel.kernels.graphlet_sampling
+.. autosummary::
 
-Bibliography
-------------    
-
-.. bibliography:: graph_kernels.bib
-   :filter: docname in docnames
+   grakel.kernels.graphlet_sampling

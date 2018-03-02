@@ -14,7 +14,7 @@ from grakel.kernels import kernel
 class shortest_path_attr(kernel):
     r"""The shortest path kernel for attributes.
 
-    See :cite:`Borgwardt2005ShortestpathKO`.
+    See :cite:`Borgwardt2005ShortestpathKO_attr`.
 
     Parameters
     ----------

@@ -1,9 +1,14 @@
 .. _kernel:
 
-kernel (class)
-=========================
+kernel [class]
+==============
+
 Documentation for the general kernel class.
+
+**Theoretical definition missing**
 
 .. currentmodule:: grakel.kernels
 
-.. autoclass:: grakel.kernels.kernel
+.. autosummary::
+
+   grakel.kernels.kernel

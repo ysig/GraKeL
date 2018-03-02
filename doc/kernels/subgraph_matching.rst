@@ -4,12 +4,10 @@ Subgraph Matching Kernel
 ========================
 The Subgraph-Matching kernel.
 
+**Theoretical definition missing**
+
 .. currentmodule:: grakel.kernels
 
-.. autoclass:: grakel.kernels.subgraph_matching
+.. autosummary::
 
-Bibliography
-------------
- 
-.. bibliography:: graph_kernels.bib
-   :filter: docname in docnames
+   grakel.kernels.graphlet_sampling

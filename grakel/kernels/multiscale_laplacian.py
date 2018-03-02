@@ -24,7 +24,7 @@ positive_eigenvalue_limit = float("+1e-6")
 
 
 class multiscale_laplacian_fast(kernel):
-    """Laplacian Graph Kernel as proposed in :cite:`Kondor2016TheML`.
+    """Laplacian Graph Kernel as proposed in :cite:`Kondor2016TheML_fast`.
 
     Parameters
     ----------

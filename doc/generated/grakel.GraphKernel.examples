@@ -1,0 +1,58 @@
+
+
+Examples using ``grakel.GraphKernel``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="An example plot of :class:`grakel.GraphKernel`, :class:`grakel.kernels.weisfeiler_lehman`, :cla...">
+
+.. only:: html
+
+    .. figure:: /auto_examples/images/thumb/sphx_glr_plot_wl_subtree_MUTAG_thumb.png
+
+        :ref:`sphx_glr_auto_examples_plot_wl_subtree_MUTAG.py`
+
+.. raw:: html
+
+    </div>
+
+.. only:: not html
+
+    * :ref:`sphx_glr_auto_examples_plot_wl_subtree_MUTAG.py`
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="An example plot of :class:`grakel.GraphKernel` ">
+
+.. only:: html
+
+    .. figure:: /auto_examples/images/thumb/sphx_glr__plot_lovasz_svm_theta_thumb.png
+
+        :ref:`sphx_glr_auto_examples__plot_lovasz_svm_theta.py`
+
+.. raw:: html
+
+    </div>
+
+.. only:: not html
+
+    * :ref:`sphx_glr_auto_examples__plot_lovasz_svm_theta.py`
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="An example plot of :class:`grakel.GraphKernel` ">
+
+.. only:: html
+
+    .. figure:: /auto_examples/images/thumb/sphx_glr__plot_classification_statistics_thumb.png
+
+        :ref:`sphx_glr_auto_examples__plot_classification_statistics.py`
+
+.. raw:: html
+
+    </div>
+
+.. only:: not html
+
+    * :ref:`sphx_glr_auto_examples__plot_classification_statistics.py`

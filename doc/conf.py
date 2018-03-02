@@ -80,7 +80,7 @@ sphinx_gallery_conf = {
 
     # backreferences for examples see
     # @https://github.com/sphinx-gallery/sphinx-gallery/blob/master/doc/advanced_configuration.rst#adding-references-to-examples
-    'backreferences_dir' : os.path.join('modules', 'generated'),
+    'backreferences_dir' : os.path.join('generated'),
     
     # add define which module will be documented
     'doc_module': 'grakel',
@@ -328,7 +328,7 @@ def generate_example_rst(app, what, name, obj, options, lines):
 
 
 def setup(app):
-    app.add_stylesheet('_static/suplementary.css')
+    #app.add_stylesheet('_static/suplementary.css')
     app.connect('autodoc-process-docstring', generate_example_rst)
 
 # Documents to append as an appendix to all manuals.

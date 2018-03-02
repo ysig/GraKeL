@@ -3,7 +3,7 @@
 Fit-Transform and classification on the MUTAG dataset using a WL-dirac kernel.
 ==============================================================================
 
-An example plot of :class:`grakel.GraphKernel`
+An example plot of :class:`grakel.GraphKernel`, :class:`grakel.kernels.weisfeiler_lehman`, :class:`grakel.kernels.subtree_wl`
 """
 print(__doc__)
 

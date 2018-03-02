@@ -4,12 +4,10 @@ Subtree (WL) Kernel
 ===================
 The Subtree Kernel, defined for the weisfeiler lehman kernel.
 
+**Theoretical definition missing**
+
 .. currentmodule:: grakel.kernels
 
-.. autoclass:: grakel.kernels.subtree_wl
+.. autosummary::
 
-Bibliography
-------------
- 
-.. bibliography:: graph_kernels.bib
-   :filter: docname in docnames
+   grakel.kernels.subtree_wl

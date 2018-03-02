@@ -4,13 +4,10 @@ Neighborhood Subgraph Pairwise Distance Kernel
 ==============================================
 The Neighborhood Subgraph Pairwise Distance Kernel.
 
+**Theoretical definition missing**
+
 .. currentmodule:: grakel.kernels
 
-.. autoclass:: grakel.kernels.neighborhood_subgraph_pairwise_distance
+.. autosummary::
 
-
-Bibliography
-------------
-
-.. bibliography:: graph_kernels.bib
-   :filter: docname in docnames
+   grakel.kernels.neighborhood_subgraph_pairwise_distance

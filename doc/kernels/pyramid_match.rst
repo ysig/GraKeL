@@ -4,12 +4,10 @@ Pyramid Match Kernel
 ====================
 The pyramid match kernel.
 
+**Theoretical definition missing**
+
 .. currentmodule:: grakel.kernels
 
-.. autoclass:: grakel.kernels.pyramid_match
+.. autosummary::
 
-Bibliography
-------------
-
-.. bibliography:: graph_kernels.bib
-   :filter: docname in docnames
+   grakel.kernels.pyramid_match

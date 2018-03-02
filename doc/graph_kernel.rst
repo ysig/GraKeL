@@ -10,5 +10,6 @@ The `GraphKernel` *Decorator*
 
 .. autosummary::
    :toctree: generated/
+   :template: class.rst
 
    grakel.GraphKernel

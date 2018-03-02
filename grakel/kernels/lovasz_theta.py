@@ -1,4 +1,4 @@
-"""The lovasz theta kernel as defined in :cite:`Johansson2015LearningWS`."""
+"""The lovasz theta kernel as defined in :cite:`Johansson2015LearningWS_lovasz`."""
 import collections
 import warnings
 
@@ -27,7 +27,7 @@ tolerance = float("1e-1")
 
 
 class lovasz_theta(kernel):
-    """Lovasz theta kernel as proposed in :cite:`Johansson2015LearningWS`.
+    """Lovasz theta kernel as proposed in :cite:`Johansson2015LearningWS_lovasz`.
 
     Parameters
     ----------
@@ -152,7 +152,7 @@ class lovasz_theta(kernel):
             return out
 
     def pairwise_operation(self, x, y):
-        """Lovasz theta kernel as proposed in :cite:`Johansson2015LearningWS`.
+        """Lovasz theta kernel as proposed in :cite:`Johansson2015LearningWS_lovasz`.
 
         Parameters
         ----------

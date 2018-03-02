@@ -19,6 +19,7 @@ Base Class
 
 .. autosummary::
    :toctree: generated/
+   :template: class.rst
 
    grakel.Graph
 
@@ -29,6 +30,7 @@ Utility Functions
 
 .. autosummary::
    :toctree: generated/
+   :template: function.rst
 
    grakel.graph.is_adjacency
    grakel.graph.is_edge_dictionary
@@ -45,6 +47,7 @@ Graph Kernel (decorator)
 ------------------------
 .. autosummary::
    :toctree: generated/
+   :template: class.rst
 
    grakel.GraphKernel
 
@@ -59,6 +62,9 @@ Kernels
 .. currentmodule:: grakel.kernels
 
 .. autosummary::
+   :toctree: generated/
+   :template: kernel.rst
+
    grakel.kernels.kernel
    grakel.kernels.graphlet_sampling
    grakel.kernels.random_walk
@@ -93,6 +99,7 @@ Fetch
 
 .. autosummary::
    :toctree: generated/
+   :template: function.rst
    
    grakel.datasets.fetch_dataset
    grakel.datasets.get_dataset_info

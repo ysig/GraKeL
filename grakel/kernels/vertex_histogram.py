@@ -1,4 +1,4 @@
-"""The vertex kernel as defined in :cite:`Sugiyama2015NIPS`."""
+"""The vertex kernel as defined in :cite:`Sugiyama2015NIPS_VH`."""
 from warnings import warn
 
 from collections import Counter
@@ -19,7 +19,7 @@ from six import itervalues
 
 
 class vertex_histogram(kernel):
-    """Vertex Histogram kernel as found in :cite:`Sugiyama2015NIPS`.
+    """Vertex Histogram kernel as found in :cite:`Sugiyama2015NIPS_VH`.
 
     Parameters
     ----------

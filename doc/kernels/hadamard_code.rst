@@ -2,14 +2,15 @@
 
 Hadamard Code Kernel
 ====================
+
 The Hadamard Code Kernel.
 
 .. currentmodule:: grakel.kernels
 
-.. autoclass:: grakel.kernels.hadamard_code
+**Theoretical definition missing**
 
-Bibliography
-------------
+.. currentmodule:: grakel.kernels
 
-.. bibliography:: graph_kernels.bib
-   :filter: docname in docnames
+.. autosummary::
+
+   grakel.kernels.hadamard_code

@@ -2,20 +2,25 @@
 
 Multiscale Laplacian Kernel
 ===========================
+
 The Multiscale Laplacian Kernel.
 
 .. currentmodule:: grakel.kernels
 
 Multiscale Laplacian
 --------------------
-.. autoclass:: grakel.kernels.multiscale_laplacian
+
+**Theoretical definition missing**
+
+.. autosummary::
+
+   grakel.kernels.multiscale_laplacian
 
 Approximate Multiscale Laplacian
 --------------------------------
-.. autoclass:: grakel.kernels.multiscale_laplacian_fast
 
-Bibliography
-------------
+**Theoretical definition missing**
 
-.. bibliography:: graph_kernels.bib
-   :filter: docname in docnames
+.. autosummary::
+
+   grakel.kernels.multiscale_laplacian_fast
