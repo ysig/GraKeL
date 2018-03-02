@@ -7,28 +7,27 @@ Write your own kernel
 As mentioned before on the :ref:`longer_introduction`, each kernel imported from the :code:`GraphKernel` decorator
 and found inside :code:`grakel.kernels` sub-package, inherits the :code:`kernel` class found there.
 In order to write any kernel that will be integrated (see :ref:`contributing`), in our package we would like the
-user user to inherit that class. This may seem restricting but is not. This we will try to demonstrated in the
-following to sections and we would like to mention the fact that the whole kernel package, is not final, but must
-be considered final when deploying a new package, because all the kernels should have a unified common interface.
+user to inherit that class. This may seem restricting but is not. We will try to demonstrate this in the
+following sections and we would like to mention the fact that the whole kernel package **is not final**, but must
+be always considered final when deploying a new package, because all the kernels should have a unified common interface.
 
 -------------------------------------------
 Overriding the :code:`kernel` class methods
 -------------------------------------------
 In order to start we will present the current interface of the :code:`kernel` class
-(public methods) and instruct the user how he can write a simple base :code:`kernel`
-and guide the user how he can write a simple base :code:`kernel` such as the *vertex-histogram-kernel*.
+(public methods) and guide the user how he can write a simple base :code:`kernel`, such as the *vertex-histogram-kernel*.
 
 The *vertex-histogram-kernel*, defined in :cite:`Sugiyama2015NIPS` p.4 section 2.3 is a simple kernel, that
-calculates label histograms for each graph, that is counts the number of occurrences for each label
+calculates label histograms for each graph, that is: *counts the number of occurrences for each label
 value and as a kernel between two graphs calculates the sum of products between frequencies of common
-occurrences.
+occurrences*.
 
 To design this kernel let's first learn some things about the kernel class.
 
 Which methods should I implement
 --------------------------------
-Each kernel should has the following methods:
-* :code:`__init__` method implemented. This method should be always overrides.
+Each kernel should have the following methods:
+* :code:`__init__` method implemented. This method should be always overrided.
 * :code:`fit`. Calculate features of the reference dataset.
 * :code:`fit_transform`. Calculate features and the kernel matrix on the reference dataset.
 * :code:`transform`. Calculate the kernel matrix between the fitted dataset and the transformed.
@@ -42,13 +41,13 @@ Let's import some library elements we will use
    :language: python
    :lines: 1-3
 
-and let's define the vertex histogram kernel
+and let's define the *vertex-histogram-kernel*
 
 .. literalinclude:: code_for_examples/vertex_kernel.py
    :language: python
    :lines: 8-35
 
-As you see there a few things we should note. Firstly the new_parameters variable, which is used for popping
+As you see there a few things we should note. Firstly the :code:`new_parameters` variable, which is used for popping
 a specifically constructed message to the user, when entering a wrong parameter, while ignoring it.
 Afterwards we call the :code:`__init__` of the father process and provide a coding scheme of how
 to read all the other parameters (in our case there are no parameters).
@@ -63,7 +62,7 @@ The default procedure is that both :code:`fit` and :code:`transform` use :code:`
 to create features for each graph producing a list where each element corresponds to the index
 indicating that graph, from the corresponding iterable (while ignoring empty elements).
 Those lists are then used feeding single list elements to the :code:`pairwise_operation`
-method calculating a final kernel value.
+method, calculating a final kernel value.
 
 .. note::
     In order not to repeat again-again the word *kernel*, when defining a kernel class
@@ -77,7 +76,7 @@ So to continue or example we first define :code:`parse_input` inside the :code:`
 
 The procedure of reading the input is really standard, but must be specified for each kernel
 according to its minimum acceptable input, that is the least elements with which it can be computed.
-After reading the labels calculate frequencies with a :code:`Counter` on the label values, while
+After reading the labels, we calculate frequencies with a :code:`Counter` on the label values, while
 adding them to a list for all the non empty element of the iterable. Finally on those list
 elements that are produced from :code:`parse_input` the pairwise operation that calculates
 the kernel value is
@@ -110,7 +109,7 @@ So this kernel works!
 Why should I follow the list format on parse input?
 ---------------------------------------------------
 You can still avoid changing the list format result on :code:`parse_input`, by instead of overriding pairwise operation, doing so with overriding :code:`_calculate_kernel_matrix`
-method. This method must be able to receive one element whose default value is :code:`None`, where if it is, the method should the kernel matrix between elements of :code:`self.X` (where the output of :code:`parse_input` is stored) and otherwise calculate between the input of :code:`Y` (which also comes from :code:`parse_input`) and :code:`self.X`.
+method. This method must be able to receive one element whose default value is :code:`None`, where if it is, the method should calculate the kernel matrix between elements of :code:`self.X` (where the output of :code:`parse_input` is stored) and otherwise calculate between the input of :code:`Y` (which also comes from :code:`parse_input`) and :code:`self.X`.
 By doing so, the developer needs to override the :code:`diagonal` method, because it normally uses :code:`pairwise_operation`. The diagonal method can also see **the last transformed
 input as resulted from :code:`parse_input`** inside the attribute :code:`self._Y`.
 
@@ -138,10 +137,9 @@ Let's stop here at two points.
 
 * What is :code:`self._method_calling`? The parse input is a global method used by three basic functions (:code:`fit`, :code:`fit_transform` and :code:`transform`)
   to extract certain features, from the input while parsing it. Although in most cases the procedure is unique there are minor points where the execution
-  of the algorithm should differentiate according to if the information is intended for the fit method or not. :code:`self._method_calling` is a class attribute
+  of the algorithm should differentiate, according to if the information is intended for the fit method or not. :code:`self._method_calling` is a class attribute
   that should be initialized in *1* if any *method* is called from :code:`fit`, to *2* if it is called from :code:`fit_transform` and to *3* if it is called from
-  :code:`transform`. The ordinary :code:`fit_transform`, calls :code:`fit` to parse the input in which case :code:`self._method_calling` will never be set to *2*
-  but it is added in favor of *completeness*.
+  :code:`transform`. The ordinary :code:`fit_transform`, calls :code:`fit` to parse the input in which case :code:`self._method_calling` will never be set to *2*, but it is added in favor of *completeness*.
 
 * Why are you doing something else on :code:`fit` and on :code:`transform`? Generally :code:`fit` stands for setting the reference dataset, that is, it holds information that
   act as reference for any further transformation. In our case the :code:`labels`, appearing in all graphs are enumerated in order to be added on a feature matrix.
@@ -154,7 +152,7 @@ Now we would like to define the :code:`_calculate_kernel_matrix` method, calcula
    :language: python
    :lines: 116-140
 
-as well as the diagonal method (using Einstein summation convention as really fast method for speeding up
+as well as the diagonal method (using Einstein summation convention which is a really fast method for speeding up
 the diagonal calculation of the final matrix, as found `here`_)
 
 .. literalinclude:: code_for_examples/vertex_kernel_advanced.py
@@ -172,7 +170,6 @@ First import and download the dataset
     >>> DD_classes = DD.target
 
 afterwards split train/test in a pseudo-random way holding 
-
 
 .. code-block:: python
 
@@ -223,8 +220,7 @@ which produces an accuracy score close to the maximum 78.2% documented on :cite:
 What if I don't want to follow, this structure at all?
 ------------------------------------------------------
 Although the basic methods (:code:`fit`, :code:`fit_transform`, :code:`transform`, :code:`diagonal`) are needed for the kernel
-pipeline, the kernel structure is not imposed, but proposed. The user can always write his methods by it's one 
-as long as they are coherent with some design specifications needed for a *valid* kernel, mainly:
+pipeline, the kernel structure is not imposed, but proposed. The user can always write her/his methods, as long as they are coherent with some design specifications needed for a *valid* kernel, mainly:
 
 * Unified input support between all structures, while expecting input in a relevant way, that is accepting a :code:`Graph` type-object
   or an iterable of at least one element, which position **0** should signify the graph Object, position **1** should signify the
@@ -258,7 +254,7 @@ This package can be found inside :code:`grakel/kernels/_c_functions`. There the 
                         └── src
                              └── *.cpp
 
-In order to add a new function, what he should do is to add its source file inside :code:`src` while including/implementing
+In order to add a new function, what he/she should do is to add its source file inside :code:`src` while including/implementing
 its definition found inside the :code:`include/functions.hpp`. Afterwards by externing the function definition inside the library
 file :code:`functions.pxd`, by importing it from :code:`include/functions.hpp` you should add it inside the functions.pyx, file
 where the essential IO wraping of the C++ function is done inside Python. Finally you must add the address of new *C++* you wrote on

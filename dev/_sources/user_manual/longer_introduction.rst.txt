@@ -167,7 +167,7 @@ These features can be listed as follows:
 
     where we get the same result. Now if both a :code:`GraphKernel` has a :code:`random_seed` and the :code:`kernel` is provided
     with one inside parametrization, the second will be used inside the :code:`kernel` and the first outside, in the rest code area
-    covered by the decorator, as expected. To demonstrate show is the following:
+    covered by the decorator, as expected. To demonstrate we will show is the following:
 
     .. code-block:: python
 
@@ -199,13 +199,18 @@ This :code:`Object` is any object inherited from the :ref:`kernel` class (which 
 Normally a kernel function, between graphs should be considered as a function with to arguments,
 such as :math:`k \; : \; \mathcal{G} \times \mathcal{G} \rightarrow \mathbb{R}`.
 This raises two issues, namely one of efficiency and one of compatibility:
+
 1. The first one has to do with the fact, that there are major computational advantages if instead of calculating the kernel pairwise, we calculate the whole kernel matrix.
+
 2. The second has to do with the fact, that we wanted our project to be integrable inside the `sk learn template`_. From this template the most relevant structure was the sci-kit transformer, which consists of three inherent methods: :code:`fit`, :code:`fit-transform`, :code:`transform`.
 
-So the way we conceptually attached the kernel definition to that design pattern was
-+ The :code:`fit` part should fix a graph dataset as the base of comparison calculating necessary features.
-+ The :code:`fit_transform` should fit and calculate the fitted dataset with itself.
-+ The :code:`transform` should calculate the matrix produced by between a new dataset (namely the *test*) and the dataset fitted in fit.
+So the way we conceptually attached the kernel definition to that design pattern was:
+
+- The :code:`fit` part should fix a graph dataset as the base of comparison calculating necessary features.
+
+- The :code:`fit_transform` should fit and calculate the fitted dataset with itself.
+
+- The :code:`transform` should calculate the matrix produced by between a new dataset (namely the *test*) and the dataset fitted in fit.
 
 The deconstruction of the kernel matrix calculation from a function :math:`\mathcal{K}: \mathcal{G}^{\text{train}} \times \mathcal{G}^{\text{test}} \rightarrow \mathbb{R}^{n_{\text{test}}} \times \mathbb{R}^{n_{\text{train}}}`
 to a `currying`_ scheme :math:`\mathcal{K}: \mathcal{G}^{\text{train}} \rightarrow \mathcal{G}^{\text{test}} \rightarrow \mathbb{R}^{n_{\text{test}}} \times \mathbb{R}^{n_{\text{train}}}` is not always equivalent in the
@@ -214,7 +219,7 @@ as mentioned above, namely in the case of :code:`multiscale_laplacian`, if the u
 before fit we advise him to use the :code:`fit_transform`, function in the whole of the train and test data and separate the kernel matrices on the result.
 
 Using a :code:`kernel` type object through the decorator, should be equivalent with doing so without the decorator, if the correct parametrization is given.
-The decorator **does not** restrict any *user-oriented* interface of the kernels except if the user wants to write a kernel of his own.
+The decorator **does not** restrict any *user-oriented* interface of the kernels, except if the user wants to write a kernel of his own.
 If you want to know more about the kernel structure in order to write your own see :ref:`myok`.
 
 To demonstrate a small example of the above we will construct our own a WL-subtree kernel instead of using the decorator.
@@ -272,7 +277,7 @@ around a graph class was really simple: conversion between dictionary and adjace
 methods and very basic graph oriented supplementary methods, such as *Shortest-Path matrix* calculation, we designed
 a Graph class of our own, used inside most of our kernels, in order to resolve to a common object - graph format reference.
 This specificity of kernel format, as well as the absence of a need for complex calculations concerning the field of graphs
-lead us to the creation of :ref:`graph`.
+lead us to the creation of :ref:`Graph`.
 
 Let's go back to the H2O example:
 First we will import the :code:`Graph` object from :code:`Grakel`
@@ -371,7 +376,7 @@ Checking equality of the inverse ("edge_dictionary") want hold, because the adja
 Here we should emphasize that **vertex symbols should be a :code:`sortable` in order for an indexing to be possible**.
 
 .. note::
-    When initializing a :code:`Graph` object the 4th argument (named :code:`graph_format`), corresponds to the format the :code:`Graph` will be stored to. The default value of this argument is :code:`"auto"`, which stores the graph in the given format, if it is valid. Explicit format "choices" such as :code:`"adjacency"` or :code:`"dictionary"`, will (covert if needed and) store the :code:`Graph` in this format type. By initializing the :code:`Graph` format as all in the above example, we simply make sure that the :code:`Graph` instance will contain both adjacency and dictionary graph representations and their corresponding edge and adjacency labels for both nodes and edges. Although the methods :code:`get_adjacency_matrix` and `get_edge_dictionary`, construct and return a such a graph representation, if non existent, and return it, the :code:`get_labels` method will change the graph format if the requested labels are not in the desired format and pop a certain warning. If the user wants to avoid doing so he can either set the explicit format afterwards by executing
+    When initializing a :code:`Graph` object the 4th argument (named :code:`graph_format`), corresponds to the format the :code:`Graph` will be stored to. The default value of this argument is :code:`"auto"`, which stores the graph in the given format, if it is valid. Explicit format "choices" such as :code:`"adjacency"` or :code:`"dictionary"`, will (covert if needed and) store the :code:`Graph` in this format type. By initializing the :code:`Graph` format as all in the above example, we simply make sure that the :code:`Graph` instance will contain both adjacency and dictionary graph representations and their corresponding edge and adjacency labels for both nodes and edges. Although the methods :code:`get_adjacency_matrix` and `get_edge_dictionary`, construct and return such a graph representation if non existent, the :code:`get_labels` method will change the graph format if the requested labels are not in the desired format and pop a certain warning. If the user wants to avoid doing so he can either set the explicit format afterwards by executing
 
     .. code-block:: python
 
@@ -389,7 +394,7 @@ Here we should emphasize that **vertex symbols should be a :code:`sortable` in o
 After this long introduction of what the :code:`Graph` Object is, the way this can interest the user is by utilizing as input for :code:`GraphKernel`.
 Because this Object will act as a mutable-object, any necessary format conversion inside a dataset will happen only ones and the user can execute
 multiple kernels on a single dataset with repeating conversions again and again. An important thing to mention here is that a kernel Object **should
-not** cause information loss concerning a the :code:`Graph` data Object give as input.
+not** cause information loss concerning a the :code:`Graph` data Object given as input.
 
 Now let's demonstrate the simple water example on a Shortest-Path kernel, using :code:`Graph` type objects.
 First initialize those objects:

@@ -182,6 +182,7 @@ The next important step and final for our short introduction is to see how to ap
 
 To do so we will utilize the :code:`fetch_dataset` function found on :ref:`datasets`.
 Firstly download the dataset:
+
 .. code-block:: python
 
     >>> from grakel import GraphKernel, datasets
@@ -265,9 +266,3 @@ and print the accuracy score
     >>> from sklearn.metrics import accuracy_score
     >>> print(str(round(accuracy_score(y_test, y_pred)*100, 2)), "%")
     78.95 %
-
-Bibliography
-------------
-
-.. bibliography:: graph_kernels.bib
-   :filter: docname in docnames

@@ -13,7 +13,7 @@ The grakel library requires:
 * pynauty [>= 0.6.0]
 
 For installing NumPy, SciPy, cvxopt and Cython the procedure
-is the well known: `pip install extension==extension_version`.
+is the well known: `pip install extension>=extension_version`.
 
 ----------------------
 Installing **pynauty**
@@ -43,9 +43,9 @@ Issues) section, in the current page.
 ---------------------------
 Windows Comatibility Issues
 ---------------------------
-There are two major compatibility issues concerning windows. 
+There are two major compatibility issues concerning **Windows**. 
 The first one concerning `cvxopt`_ has to do with the fact that `cvxopt developers`_
-use for their `python build a package called Mingwpy`_ which constrains the valid
+use for their python build, `a package called Mingwpy`_ which constrains the valid
 Python 3 version for Windows to 3.4. This huge drawback restricts our project
 compatibility to Python-3.4 except if user installs the `Python prebuilt libraries of Christoph Gohlke`_.
 
@@ -55,7 +55,7 @@ As a result, the pynauty package does not build on the visual studio - c++ nativ
 Windows, while it only could be bypassed if user uses only the *make* and *gcc/g++*
 from the *minimalist gnu-like* project for Windows, called `MinGW`_. Of course this
 project is covered through a bigger set of tools for linux-windows native command
-compatibility known as `msys`_. We should note here, that for the automatic installation
+compatibility known as `msys`_. We should note here, that for the automated installation
 of the pynauty script to succeed on windows, through the use of the pynauty script 
 the user should have `curl`_ and `tar`_ gnu-like executables discoverable inside his
 Windows Path (which both are covered in `msys`_). In comparison with the similar and 
@@ -78,7 +78,7 @@ and for doing so see the section :ref:`contributing`.
 .. _cvxopt: http://cvxopt.org/
 .. _cvxopt developers: http://cvxopt.org/copyright.html
 .. _cygwin: https://www.cygwin.com/
-.. _python build a package called Mingwpy: http://cvxopt.org/install/index.html#windows
+.. _a package called Mingwpy: http://cvxopt.org/install/index.html#windows
 .. _Python prebuilt libraries of Christoph Gohlke: https://www.lfd.uci.edu/~gohlke/pythonlibs/#cvxopt
 .. _MinGW: http://www.mingw.org/
 .. _msys: http://www.msys2.org/
@@ -94,8 +94,8 @@ The field of computationally efficient `Graph Kernels`_ can be considered
 more as a collection of techniques calculating `PSD`_ similarity matrices, between
 graph objects, than a field (with the compact sense of the term). The big diversity
 of methods and ideas implied to extract a similarity score between to graphs, leads
-to the use of very precise and studied algorithms as graph isomorphism (for determining isomorphic graphlets on the graphlet-sampling kernel) or convex optimization (through
-the use of semidefinite-programming for calculating lovasz-theta embeddings, on lovasz-theta kernel) which on the other hand will **not** appear in any other kernel.
+to the use of very precise and studied algorithms as graph isomorphism (for determining *isomorphic-graphlets* on the graphlet-sampling kernel) or convex optimization (through
+the use of *semidefinite-programming* for calculating *lovasz-theta* embeddings, in a *lovasz-theta* kernel) which on the other hand will **not** appear in any other kernel.
 As a result import of external libraries that have studied and optimized the solutions
 of such problems in detail, gives a complexity - implementation "standard" to refer to, 
 while follows the idea of standing on the shoulders of the scientific community, which

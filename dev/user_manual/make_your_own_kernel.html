@@ -189,23 +189,22 @@
 <p>As mentioned before on the <a class="reference internal" href="longer_introduction.html#longer-introduction"><span class="std std-ref">A longer Introduction</span></a>, each kernel imported from the <code class="code docutils literal notranslate"><span class="pre">GraphKernel</span></code> decorator
 and found inside <code class="code docutils literal notranslate"><span class="pre">grakel.kernels</span></code> sub-package, inherits the <code class="code docutils literal notranslate"><span class="pre">kernel</span></code> class found there.
 In order to write any kernel that will be integrated (see <a class="reference internal" href="contributing.html#contributing"><span class="std std-ref">Contributing</span></a>), in our package we would like the
-user user to inherit that class. This may seem restricting but is not. This we will try to demonstrated in the
-following to sections and we would like to mention the fact that the whole kernel package, is not final, but must
-be considered final when deploying a new package, because all the kernels should have a unified common interface.</p>
+user to inherit that class. This may seem restricting but is not. We will try to demonstrate this in the
+following sections and we would like to mention the fact that the whole kernel package <strong>is not final</strong>, but must
+be always considered final when deploying a new package, because all the kernels should have a unified common interface.</p>
 <div class="section" id="overriding-the-kernel-class-methods">
 <h2>Overriding the <code class="code docutils literal notranslate"><span class="pre">kernel</span></code> class methods<a class="headerlink" href="#overriding-the-kernel-class-methods" title="Permalink to this headline">¶</a></h2>
 <p>In order to start we will present the current interface of the <code class="code docutils literal notranslate"><span class="pre">kernel</span></code> class
-(public methods) and instruct the user how he can write a simple base <code class="code docutils literal notranslate"><span class="pre">kernel</span></code>
-and guide the user how he can write a simple base <code class="code docutils literal notranslate"><span class="pre">kernel</span></code> such as the <em>vertex-histogram-kernel</em>.</p>
+(public methods) and guide the user how he can write a simple base <code class="code docutils literal notranslate"><span class="pre">kernel</span></code>, such as the <em>vertex-histogram-kernel</em>.</p>
 <p>The <em>vertex-histogram-kernel</em>, defined in <a class="reference internal" href="#sugiyama2015nips" id="id1">[SB15]</a> p.4 section 2.3 is a simple kernel, that
-calculates label histograms for each graph, that is counts the number of occurrences for each label
+calculates label histograms for each graph, that is: <em>counts the number of occurrences for each label
 value and as a kernel between two graphs calculates the sum of products between frequencies of common
-occurrences.</p>
+occurrences</em>.</p>
 <p>To design this kernel let’s first learn some things about the kernel class.</p>
 <div class="section" id="which-methods-should-i-implement">
 <h3>Which methods should I implement<a class="headerlink" href="#which-methods-should-i-implement" title="Permalink to this headline">¶</a></h3>
-<p>Each kernel should has the following methods:
-* <code class="code docutils literal notranslate"><span class="pre">__init__</span></code> method implemented. This method should be always overrides.
+<p>Each kernel should have the following methods:
+* <code class="code docutils literal notranslate"><span class="pre">__init__</span></code> method implemented. This method should be always overrided.
 * <code class="code docutils literal notranslate"><span class="pre">fit</span></code>. Calculate features of the reference dataset.
 * <code class="code docutils literal notranslate"><span class="pre">fit_transform</span></code>. Calculate features and the kernel matrix on the reference dataset.
 * <code class="code docutils literal notranslate"><span class="pre">transform</span></code>. Calculate the kernel matrix between the fitted dataset and the transformed.
@@ -217,7 +216,7 @@ occurrences.</p>
 <span class="kn">from</span> <span class="nn">grakel</span> <span class="kn">import</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">Graph</span>
 </pre></div>
 </div>
-<p>and let’s define the vertex histogram kernel</p>
+<p>and let’s define the <em>vertex-histogram-kernel</em></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">vertex_histogram</span><span class="p">(</span><span class="n">kernel</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Vertex Histogram kernel as found in :cite:`Sugiyama2015NIPS`</span>
 
@@ -248,7 +247,7 @@ occurrences.</p>
         <span class="c1">#     raise ValueError(&#39;Param_i should be of @param_i_type type and must satisfy the @param_i_constraint&#39;)</span>
 </pre></div>
 </div>
-<p>As you see there a few things we should note. Firstly the new_parameters variable, which is used for popping
+<p>As you see there a few things we should note. Firstly the <code class="code docutils literal notranslate"><span class="pre">new_parameters</span></code> variable, which is used for popping
 a specifically constructed message to the user, when entering a wrong parameter, while ignoring it.
 Afterwards we call the <code class="code docutils literal notranslate"><span class="pre">__init__</span></code> of the father process and provide a coding scheme of how
 to read all the other parameters (in our case there are no parameters).</p>
@@ -262,7 +261,7 @@ The default procedure is that both <code class="code docutils literal notranslat
 to create features for each graph producing a list where each element corresponds to the index
 indicating that graph, from the corresponding iterable (while ignoring empty elements).
 Those lists are then used feeding single list elements to the <code class="code docutils literal notranslate"><span class="pre">pairwise_operation</span></code>
-method calculating a final kernel value.</p>
+method, calculating a final kernel value.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">In order not to repeat again-again the word <em>kernel</em>, when defining a kernel class
@@ -322,7 +321,7 @@ this word is omitted on the kernel name definition.</p>
 </div>
 <p>The procedure of reading the input is really standard, but must be specified for each kernel
 according to its minimum acceptable input, that is the least elements with which it can be computed.
-After reading the labels calculate frequencies with a <code class="code docutils literal notranslate"><span class="pre">Counter</span></code> on the label values, while
+After reading the labels, we calculate frequencies with a <code class="code docutils literal notranslate"><span class="pre">Counter</span></code> on the label values, while
 adding them to a list for all the non empty element of the iterable. Finally on those list
 elements that are produced from <code class="code docutils literal notranslate"><span class="pre">parse_input</span></code> the pairwise operation that calculates
 the kernel value is</p>
@@ -364,7 +363,7 @@ object, returning a <strong>0</strong> value on empty occurrences.</p>
 <div class="section" id="why-should-i-follow-the-list-format-on-parse-input">
 <h3>Why should I follow the list format on parse input?<a class="headerlink" href="#why-should-i-follow-the-list-format-on-parse-input" title="Permalink to this headline">¶</a></h3>
 <p>You can still avoid changing the list format result on <code class="code docutils literal notranslate"><span class="pre">parse_input</span></code>, by instead of overriding pairwise operation, doing so with overriding <code class="code docutils literal notranslate"><span class="pre">_calculate_kernel_matrix</span></code>
-method. This method must be able to receive one element whose default value is <code class="code docutils literal notranslate"><span class="pre">None</span></code>, where if it is, the method should the kernel matrix between elements of <code class="code docutils literal notranslate"><span class="pre">self.X</span></code> (where the output of <code class="code docutils literal notranslate"><span class="pre">parse_input</span></code> is stored) and otherwise calculate between the input of <code class="code docutils literal notranslate"><span class="pre">Y</span></code> (which also comes from <code class="code docutils literal notranslate"><span class="pre">parse_input</span></code>) and <code class="code docutils literal notranslate"><span class="pre">self.X</span></code>.
+method. This method must be able to receive one element whose default value is <code class="code docutils literal notranslate"><span class="pre">None</span></code>, where if it is, the method should calculate the kernel matrix between elements of <code class="code docutils literal notranslate"><span class="pre">self.X</span></code> (where the output of <code class="code docutils literal notranslate"><span class="pre">parse_input</span></code> is stored) and otherwise calculate between the input of <code class="code docutils literal notranslate"><span class="pre">Y</span></code> (which also comes from <code class="code docutils literal notranslate"><span class="pre">parse_input</span></code>) and <code class="code docutils literal notranslate"><span class="pre">self.X</span></code>.
 By doing so, the developer needs to override the <code class="code docutils literal notranslate"><span class="pre">diagonal</span></code> method, because it normally uses <code class="code docutils literal notranslate"><span class="pre">pairwise_operation</span></code>. The diagonal method can also see <strong>the last transformed
 input as resulted from :code:`parse_input`</strong> inside the attribute <code class="code docutils literal notranslate"><span class="pre">self._Y</span></code>.</p>
 </div>
@@ -497,10 +496,9 @@ We will redefine the <code class="code docutils literal notranslate"><span class
 <ul class="simple">
 <li>What is <code class="code docutils literal notranslate"><span class="pre">self._method_calling</span></code>? The parse input is a global method used by three basic functions (<code class="code docutils literal notranslate"><span class="pre">fit</span></code>, <code class="code docutils literal notranslate"><span class="pre">fit_transform</span></code> and <code class="code docutils literal notranslate"><span class="pre">transform</span></code>)
 to extract certain features, from the input while parsing it. Although in most cases the procedure is unique there are minor points where the execution
-of the algorithm should differentiate according to if the information is intended for the fit method or not. <code class="code docutils literal notranslate"><span class="pre">self._method_calling</span></code> is a class attribute
+of the algorithm should differentiate, according to if the information is intended for the fit method or not. <code class="code docutils literal notranslate"><span class="pre">self._method_calling</span></code> is a class attribute
 that should be initialized in <em>1</em> if any <em>method</em> is called from <code class="code docutils literal notranslate"><span class="pre">fit</span></code>, to <em>2</em> if it is called from <code class="code docutils literal notranslate"><span class="pre">fit_transform</span></code> and to <em>3</em> if it is called from
-<code class="code docutils literal notranslate"><span class="pre">transform</span></code>. The ordinary <code class="code docutils literal notranslate"><span class="pre">fit_transform</span></code>, calls <code class="code docutils literal notranslate"><span class="pre">fit</span></code> to parse the input in which case <code class="code docutils literal notranslate"><span class="pre">self._method_calling</span></code> will never be set to <em>2</em>
-but it is added in favor of <em>completeness</em>.</li>
+<code class="code docutils literal notranslate"><span class="pre">transform</span></code>. The ordinary <code class="code docutils literal notranslate"><span class="pre">fit_transform</span></code>, calls <code class="code docutils literal notranslate"><span class="pre">fit</span></code> to parse the input in which case <code class="code docutils literal notranslate"><span class="pre">self._method_calling</span></code> will never be set to <em>2</em>, but it is added in favor of <em>completeness</em>.</li>
 <li>Why are you doing something else on <code class="code docutils literal notranslate"><span class="pre">fit</span></code> and on <code class="code docutils literal notranslate"><span class="pre">transform</span></code>? Generally <code class="code docutils literal notranslate"><span class="pre">fit</span></code> stands for setting the reference dataset, that is, it holds information that
 act as reference for any further transformation. In our case the <code class="code docutils literal notranslate"><span class="pre">labels</span></code>, appearing in all graphs are enumerated in order to be added on a feature matrix.
 The labels corresponding to the dataset of <code class="code docutils literal notranslate"><span class="pre">fit</span></code> should occupy the first position of the feature matrix, where any new labels of the matrix should be
@@ -534,7 +532,7 @@ added on new positions coherently and forgotten (because there is no need to be 
         <span class="k">return</span> <span class="n">K</span>
 </pre></div>
 </div>
-<p>as well as the diagonal method (using Einstein summation convention as really fast method for speeding up
+<p>as well as the diagonal method (using Einstein summation convention which is a really fast method for speeding up
 the diagonal calculation of the final matrix, as found <a class="reference external" href="https://stackoverflow.com/questions/14758283/is-there-a-numpy-scipy-dot-product-calculating-only-the-diagonal-entries-of-the">here</a>)</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="nf">diagonal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate the kernel matrix diagonal of the fitted data.</span>
@@ -613,8 +611,7 @@ First import and download the dataset</p>
 <div class="section" id="what-if-i-don-t-want-to-follow-this-structure-at-all">
 <h3>What if I don’t want to follow, this structure at all?<a class="headerlink" href="#what-if-i-don-t-want-to-follow-this-structure-at-all" title="Permalink to this headline">¶</a></h3>
 <p>Although the basic methods (<code class="code docutils literal notranslate"><span class="pre">fit</span></code>, <code class="code docutils literal notranslate"><span class="pre">fit_transform</span></code>, <code class="code docutils literal notranslate"><span class="pre">transform</span></code>, <code class="code docutils literal notranslate"><span class="pre">diagonal</span></code>) are needed for the kernel
-pipeline, the kernel structure is not imposed, but proposed. The user can always write his methods by it’s one
-as long as they are coherent with some design specifications needed for a <em>valid</em> kernel, mainly:</p>
+pipeline, the kernel structure is not imposed, but proposed. The user can always write her/his methods, as long as they are coherent with some design specifications needed for a <em>valid</em> kernel, mainly:</p>
 <ul class="simple">
 <li>Unified input support between all structures, while expecting input in a relevant way, that is accepting a <code class="code docutils literal notranslate"><span class="pre">Graph</span></code> type-object
 or an iterable of at least one element, which position <strong>0</strong> should signify the graph Object, position <strong>1</strong> should signify the
@@ -646,7 +643,7 @@ This package can be found inside <code class="code docutils literal notranslate"
                          └── *.cpp
 </pre></div>
 </div>
-<p>In order to add a new function, what he should do is to add its source file inside <code class="code docutils literal notranslate"><span class="pre">src</span></code> while including/implementing
+<p>In order to add a new function, what he/she should do is to add its source file inside <code class="code docutils literal notranslate"><span class="pre">src</span></code> while including/implementing
 its definition found inside the <code class="code docutils literal notranslate"><span class="pre">include/functions.hpp</span></code>. Afterwards by externing the function definition inside the library
 file <code class="code docutils literal notranslate"><span class="pre">functions.pxd</span></code>, by importing it from <code class="code docutils literal notranslate"><span class="pre">include/functions.hpp</span></code> you should add it inside the functions.pyx, file
 where the essential IO wraping of the C++ function is done inside Python. Finally you must add the address of new <em>C++</em> you wrote on

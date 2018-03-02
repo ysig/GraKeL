@@ -103,7 +103,6 @@
 <li class="toctree-l2"><a class="reference internal" href="#calculate-a-kernel">Calculate a kernel</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#the-input-type">The input type</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#fitting-on-a-dataset">Fitting on a dataset</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#bibliography">Bibliography</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="longer_introduction.html">A longer Introduction</a></li>
@@ -382,10 +381,9 @@ the user can provide the empty list or a None Object.</p>
 <h2>Fitting on a dataset<a class="headerlink" href="#fitting-on-a-dataset" title="Permalink to this headline">¶</a></h2>
 <p>The next important step and final for our short introduction is to see how to apply a kernel on dataset of graphs and labels.</p>
 <p>To do so we will utilize the <code class="code docutils literal notranslate"><span class="pre">fetch_dataset</span></code> function found on <a class="reference internal" href="../datasets.html#datasets"><span class="std std-ref">Dataset loading utilities</span></a>.
-Firstly download the dataset:
-.. code-block:: python</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">grakel</span> <span class="k">import</span> <span class="n">GraphKernel</span><span class="p">,</span> <span class="n">datasets</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">MUTAG</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">fetch_dataset</span><span class="p">(</span><span class="s2">&quot;MUTAG&quot;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+Firstly download the dataset:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">grakel</span> <span class="kn">import</span> <span class="n">GraphKernel</span><span class="p">,</span> <span class="n">datasets</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">MUTAG</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">fetch_dataset</span><span class="p">(</span><span class="s2">&quot;MUTAG&quot;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">MUTAG_data</span> <span class="o">=</span> <span class="n">MUTAG</span><span class="o">.</span><span class="n">data</span>
 </pre></div>
 </div>
@@ -447,10 +445,6 @@ class labels) as follows:</p>
 <span class="go">78.95 %</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="bibliography">
-<h2>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">¶</a></h2>
-<p id="bibtex-bibliography-user_manual/introduction-0"></p>
 </div>
 </div>
 
