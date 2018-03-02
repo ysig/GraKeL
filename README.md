@@ -22,7 +22,7 @@ The grakel library requires:
 For installing NumPy, SciPy, cvxopt and Cython the procedure
 is the well known:
 ```shell
-pip install extension==extension_version
+pip install extension>=extension_version
 ```
 
 Installing **pynauty**
