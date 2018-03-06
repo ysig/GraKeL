@@ -428,7 +428,7 @@ class GraphKernel(BaseEstimator, TransformerMixin):
             return K
 
     def initialise_(self):
-        """Initialise all transformer arguments, needing initialisation. """
+        """Initialise all transformer arguments, needing initialisation."""
         if not self.initialised_["Nystroem"]:
             if type(self.Nystroem) not in [int, bool]:
                 raise ValueError('Nystroem parameter must be an int, '
@@ -444,17 +444,17 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                                      'must be positive')
             else:
                 self.nystroem_ = self.Nystroem
-                
             self.initialised_["Nystroem"] = True
 
         if not self.initialised_["n_jobs"]:
             if self.n_jobs == 0:
                 pass
-                # self._pairwise_kernel_executor = lambda fn, *eargs, **ekargs: \
+                # self._pairwise_kernel_executor =
+                # lambda fn, *eargs, **ekargs:\
                 #    fn(*eargs, **ekargs)
             else:
                 warnings.warn('feature is currently not implemented')
-                if type(kargs["n_jobs"]) is not int:
+                if type(self.n_jobs) is not int:
                     raise ValueError('n_jobs parameter must be an int, '
                                      'indicating the number of workers')
                 elif self.n_jobs == -1:
@@ -468,8 +468,10 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                     pass
                     # self._concurrent_executor = ThreadPoolExecutor(
                     #    max_workers=kargs["n_jobs"])
-                # self._pairwise_kernel_executor = lambda fn, *eargs, **ekargs: \
-                # self._concurrent_executor.submit(fn, *eargs, **ekargs).result()
+                # self._pairwise_kernel_executor = lambda fn, *eargs, **ekargs:
+                # \
+                # self._concurrent_executor.submit(fn, *eargs, **ekargs).
+                # result()
             self.initialised_["Nystroem"] = True
 
             self.pairwise_kernel_executor_ = lambda fn, *eargs, **ekargs: \
@@ -493,7 +495,7 @@ class GraphKernel(BaseEstimator, TransformerMixin):
 
                 kernel, params = self.make_kernel_(
                     copy.deepcopy(k), hidden_args)
-                
+
                 self.kernel_ = kernel(**params)
             self.initialised_["kernel"] = True
 
@@ -599,10 +601,10 @@ class GraphKernel(BaseEstimator, TransformerMixin):
             if kernel_name == "hadamard_code":
                 return (hadamard_code, kernel)
         else:
-            raise ValueError('unsupported kernel: ' + str(kernel_name))
+            raise ValueError("unsupported kernel: " + str(kernel_name))
 
     def set_params(self, **params):
-        """ Call the parent method."""
+        """Call the parent method."""
         # Copy the parameters
         params = copy.deepcopy(params)
 
@@ -616,4 +618,4 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                 self.initialised_[key] = False
 
         # Set parameters
-        super(GraphKernel, self).set_params(**kargs)
+        super(GraphKernel, self).set_params(**params)

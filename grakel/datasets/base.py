@@ -388,13 +388,13 @@ def fetch_dataset(
                     check_call(['curl', dataset_metadata[str(name)]["link"],
                                 '-LOk', '-o', str(name) + '.zip'])
                 else:
-                    check_call(['curl', '--silent', 
+                    check_call(['curl', '--silent',
                                 dataset_metadata[str(name)]["link"],
                                 '-LOk', '-o', name + ".zip"])
             else:
                 raise IOError('Dataset ' + str(name) +
                               ' was not found on ' + str(data_home))
-        else:   
+        else:
             # move to the general data directory
             os.chdir(data_home)
 
@@ -405,7 +405,6 @@ def fetch_dataset(
 
         if verbose:
             print("Parsing dataset ", str(name) + "..")
-
 
         data = read_data(name,
                          with_classes=with_classes,
@@ -418,7 +417,6 @@ def fetch_dataset(
         if verbose:
             print("Deleting unzipped dataset files..")
         shutil.rmtree(str(name))
-
 
         if verbose:
             print("Going back to the original directory..")
