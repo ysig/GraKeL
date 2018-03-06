@@ -4,12 +4,10 @@ Neighborhood Hash Kernel
 =========================
 The neighborhood hash kernel.
 
+**Theoretical definition missing**
+
 .. currentmodule:: grakel.kernels
 
-.. autoclass:: grakel.kernels.neighborhood_hash
+.. autosummary::
 
-Bibliography
-------------
-
-.. bibliography:: graph_kernels.bib
-   :filter: docname in docnames
+   grakel.kernels.neighborhood_hash

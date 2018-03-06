@@ -32,8 +32,6 @@
   
     <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
   
-    <link rel="stylesheet" href="../../../_static/_static/suplementary.css" type="text/css" />
-  
 
   
         <link rel="index" title="Index"
@@ -178,7 +176,7 @@
 <span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">kernel</span>
 
 
-<div class="viewcode-block" id="subtree_wl"><a class="viewcode-back" href="../../../kernels/subtree_wl.html#grakel.kernels.subtree_wl">[docs]</a><span class="k">class</span> <span class="nc">subtree_wl</span><span class="p">(</span><span class="n">kernel</span><span class="p">):</span>
+<div class="viewcode-block" id="subtree_wl"><a class="viewcode-back" href="../../../generated/grakel.kernels.subtree_wl.html#grakel.kernels.subtree_wl">[docs]</a><span class="k">class</span> <span class="nc">subtree_wl</span><span class="p">(</span><span class="n">kernel</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;The weisfeiler lehman subtree kernel.</span>
 
 <span class="sd">    See :cite:`Shervashidze2011WeisfeilerLehmanGK`.</span>
@@ -201,11 +199,11 @@
 
     <span class="n">_graph_format</span> <span class="o">=</span> <span class="s2">&quot;auto&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Initialise a subtree_wl kernel.&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="subtree_wl.__init__"><a class="viewcode-back" href="../../../generated/grakel.kernels.subtree_wl.html#grakel.kernels.subtree_wl.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialise a subtree_wl kernel.&quot;&quot;&quot;</span></div>
         <span class="nb">super</span><span class="p">(</span><span class="n">subtree_wl</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kargs</span><span class="p">)</span>
 
-<div class="viewcode-block" id="subtree_wl.parse_input"><a class="viewcode-back" href="../../../kernels/subtree_wl.html#grakel.kernels.subtree_wl.parse_input">[docs]</a>    <span class="k">def</span> <span class="nf">parse_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+<div class="viewcode-block" id="subtree_wl.parse_input"><a class="viewcode-back" href="../../../generated/grakel.kernels.subtree_wl.html#grakel.kernels.subtree_wl.parse_input">[docs]</a>    <span class="k">def</span> <span class="nf">parse_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Parse and check the given input for dirac kernel.</span>
 
 <span class="sd">        Parameters</span>
@@ -251,7 +249,7 @@
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;parsed input is empty&#39;</span><span class="p">)</span></div>
             <span class="k">return</span> <span class="n">Xp</span>
 
-<div class="viewcode-block" id="subtree_wl.pairwise_operation"><a class="viewcode-back" href="../../../kernels/subtree_wl.html#grakel.kernels.subtree_wl.pairwise_operation">[docs]</a>    <span class="k">def</span> <span class="nf">pairwise_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lx</span><span class="p">,</span> <span class="n">ly</span><span class="p">):</span>
+<div class="viewcode-block" id="subtree_wl.pairwise_operation"><a class="viewcode-back" href="../../../generated/grakel.kernels.subtree_wl.html#grakel.kernels.subtree_wl.pairwise_operation">[docs]</a>    <span class="k">def</span> <span class="nf">pairwise_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lx</span><span class="p">,</span> <span class="n">ly</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate the kernel value between two elements.</span>
 
 <span class="sd">        Parameters</span>

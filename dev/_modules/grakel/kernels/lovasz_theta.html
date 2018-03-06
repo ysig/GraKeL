@@ -32,8 +32,6 @@
   
     <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
   
-    <link rel="stylesheet" href="../../../_static/_static/suplementary.css" type="text/css" />
-  
 
   
         <link rel="index" title="Index"
@@ -168,7 +166,7 @@
            <div itemprop="articleBody">
             
   <h1>Source code for grakel.kernels.lovasz_theta</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;The lovasz theta kernel as defined in :cite:`Johansson2015LearningWS`.&quot;&quot;&quot;</span>
+<span></span><span class="sd">&quot;&quot;&quot;The lovasz theta kernel as in :cite:`Johansson2015LearningWS_lovasz`.&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">collections</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
 
@@ -196,8 +194,8 @@
 <span class="n">tolerance</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;1e-1&quot;</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="lovasz_theta"><a class="viewcode-back" href="../../../kernels/lovasz_theta.html#grakel.kernels.lovasz_theta">[docs]</a><span class="k">class</span> <span class="nc">lovasz_theta</span><span class="p">(</span><span class="n">kernel</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Lovasz theta kernel as proposed in :cite:`Johansson2015LearningWS`.</span>
+<div class="viewcode-block" id="lovasz_theta"><a class="viewcode-back" href="../../../generated/grakel.kernels.lovasz_theta.html#grakel.kernels.lovasz_theta">[docs]</a><span class="k">class</span> <span class="nc">lovasz_theta</span><span class="p">(</span><span class="n">kernel</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Lovasz theta kernel as proposed in :cite:`Johansson2015LearningWS_lovasz`.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -235,7 +233,7 @@
 
     <span class="n">_graph_format</span> <span class="o">=</span> <span class="s2">&quot;adjacency&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">):</span>
+<div class="viewcode-block" id="lovasz_theta.__init__"><a class="viewcode-back" href="../../../generated/grakel.kernels.lovasz_theta.html#grakel.kernels.lovasz_theta.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialise a lovasz_theta kernel.&quot;&quot;&quot;</span>
         <span class="c1"># setup valid parameters and initialise from parent</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_valid_parameters</span> <span class="o">|=</span> <span class="p">{</span><span class="s2">&quot;n_samples&quot;</span><span class="p">,</span> <span class="s2">&quot;random_seed&quot;</span><span class="p">,</span>
@@ -258,10 +256,10 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;base_kernel between arguments &#39;</span> <span class="o">+</span>
                              <span class="s1">&#39;must be a function&#39;</span><span class="p">)</span>
 
-        <span class="n">rs</span> <span class="o">=</span> <span class="n">kargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;random_seed&quot;</span><span class="p">,</span> <span class="mi">6578909</span><span class="p">)</span>
+        <span class="n">rs</span> <span class="o">=</span> <span class="n">kargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;random_seed&quot;</span><span class="p">,</span> <span class="mi">6578909</span><span class="p">)</span></div>
         <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">rs</span><span class="p">)</span>
 
-<div class="viewcode-block" id="lovasz_theta.parse_input"><a class="viewcode-back" href="../../../kernels/lovasz_theta.html#grakel.kernels.lovasz_theta.parse_input">[docs]</a>    <span class="k">def</span> <span class="nf">parse_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+<div class="viewcode-block" id="lovasz_theta.parse_input"><a class="viewcode-back" href="../../../generated/grakel.kernels.lovasz_theta.html#grakel.kernels.lovasz_theta.parse_input">[docs]</a>    <span class="k">def</span> <span class="nf">parse_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Parse and create features for lovasz_theta kernel.</span>
 
 <span class="sd">        Parameters</span>
@@ -321,8 +319,8 @@
 </div>
             <span class="k">return</span> <span class="n">out</span>
 
-<div class="viewcode-block" id="lovasz_theta.pairwise_operation"><a class="viewcode-back" href="../../../kernels/lovasz_theta.html#grakel.kernels.lovasz_theta.pairwise_operation">[docs]</a>    <span class="k">def</span> <span class="nf">pairwise_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Lovasz theta kernel as proposed in :cite:`Johansson2015LearningWS`.</span>
+<div class="viewcode-block" id="lovasz_theta.pairwise_operation"><a class="viewcode-back" href="../../../generated/grakel.kernels.lovasz_theta.html#grakel.kernels.lovasz_theta.pairwise_operation">[docs]</a>    <span class="k">def</span> <span class="nf">pairwise_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Lovasz theta kernel as proposed in :cite:`Johansson2015LearningWS_lovasz`.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>

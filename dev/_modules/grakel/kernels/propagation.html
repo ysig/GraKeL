@@ -32,8 +32,6 @@
   
     <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
   
-    <link rel="stylesheet" href="../../../_static/_static/suplementary.css" type="text/css" />
-  
 
   
         <link rel="index" title="Index"
@@ -184,7 +182,7 @@
 <span class="n">default_random_seed_value</span> <span class="o">=</span> <span class="mi">1235476565</span>
 
 
-<div class="viewcode-block" id="propagation"><a class="viewcode-back" href="../../../kernels/propagation.html#grakel.kernels.propagation">[docs]</a><span class="k">class</span> <span class="nc">propagation</span><span class="p">(</span><span class="n">kernel</span><span class="p">):</span>
+<div class="viewcode-block" id="propagation"><a class="viewcode-back" href="../../../generated/grakel.kernels.propagation.html#grakel.kernels.propagation">[docs]</a><span class="k">class</span> <span class="nc">propagation</span><span class="p">(</span><span class="n">kernel</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;The Propagation kernel for fully labeled graphs.</span>
 
 <span class="sd">    See :cite:`Neumann2015PropagationKE`: Algorithms 1, 3, p. 216, 221.</span>
@@ -234,7 +232,7 @@
 
     <span class="n">_graph_format</span> <span class="o">=</span> <span class="s2">&quot;adjacency&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">):</span>
+<div class="viewcode-block" id="propagation.__init__"><a class="viewcode-back" href="../../../generated/grakel.kernels.propagation.html#grakel.kernels.propagation.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialise a subtree_wl kernel.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_valid_parameters</span> <span class="o">|=</span> <span class="p">{</span><span class="s2">&quot;random_seed&quot;</span><span class="p">,</span> <span class="s2">&quot;base_kernel&quot;</span>
                                    <span class="s2">&quot;M&quot;</span><span class="p">,</span> <span class="s2">&quot;t_max&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">}</span>
@@ -259,10 +257,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_base_kernel</span> <span class="o">=</span> \
             <span class="n">kargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;base_kernel&quot;</span><span class="p">,</span>
                       <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">y</span><span class="p">)))</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">callable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_kernel</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">callable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_kernel</span><span class="p">):</span></div>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The base kernel must be callable.&#39;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="propagation.pairwise_operation"><a class="viewcode-back" href="../../../kernels/propagation.html#grakel.kernels.propagation.pairwise_operation">[docs]</a>    <span class="k">def</span> <span class="nf">pairwise_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<div class="viewcode-block" id="propagation.pairwise_operation"><a class="viewcode-back" href="../../../generated/grakel.kernels.propagation.html#grakel.kernels.propagation.pairwise_operation">[docs]</a>    <span class="k">def</span> <span class="nf">pairwise_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate the kernel value between two elements.</span>
 
 <span class="sd">        Parameters</span>
@@ -282,7 +280,7 @@
             <span class="n">k</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_kernel</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">t</span><span class="p">][:</span><span class="n">max_idx</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">t</span><span class="p">][:</span><span class="n">max_idx</span><span class="p">])</span></div>
         <span class="k">return</span> <span class="n">k</span>
 
-<div class="viewcode-block" id="propagation.parse_input"><a class="viewcode-back" href="../../../kernels/propagation.html#grakel.kernels.propagation.parse_input">[docs]</a>    <span class="k">def</span> <span class="nf">parse_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+<div class="viewcode-block" id="propagation.parse_input"><a class="viewcode-back" href="../../../generated/grakel.kernels.propagation.html#grakel.kernels.propagation.parse_input">[docs]</a>    <span class="k">def</span> <span class="nf">parse_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Parse and create features for graphlet_sampling kernel.</span>
 
 <span class="sd">        Parameters</span>

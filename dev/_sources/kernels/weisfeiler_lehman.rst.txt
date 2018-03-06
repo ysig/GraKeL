@@ -4,12 +4,10 @@ Weisfeiler Lehman Kernel
 ========================
 The Weisfeiler Lehman Kernel.
 
+**Theoretical definition missing**
+
 .. currentmodule:: grakel.kernels
 
-.. autoclass:: grakel.kernels.weisfeiler_lehman
+.. autosummary::
 
-Bibliography
-------------
-
-.. bibliography:: graph_kernels.bib
-   :filter: docname in docnames
+   grakel.kernels.weisfeiler_lehman

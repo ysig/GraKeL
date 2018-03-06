@@ -6,12 +6,19 @@ The shortest path kernel.
 
 .. currentmodule:: grakel.kernels
 
-.. autoclass:: grakel.kernels.shortest_path
+**Theoretical definition missing**
 
-.. autoclass:: grakel.kernels.shortest_path_attr
+.. currentmodule:: grakel.kernels
 
-Bibliography
-------------
+.. autosummary::
 
-.. bibliography:: graph_kernels.bib
-   :filter: docname in docnames
+   grakel.kernels.shortest_path
+
+
+** Theoretical definition missing**
+
+.. currentmodule:: grakel.kernels
+
+.. autosummary::
+
+   grakel.kernels.shortest_path_attr

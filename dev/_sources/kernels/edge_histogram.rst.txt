@@ -2,14 +2,13 @@
 
 Edge Histogram Kernel
 =====================
+
 The Edge Histogram Kernel.
+
+**Theoretical definition missing**
 
 .. currentmodule:: grakel.kernels
 
-.. autoclass:: grakel.kernels.edge_histogram
+.. autosummary::
 
-Bibliography
-------------
-
-.. bibliography:: graph_kernels.bib
-   :filter: docname in docnames
+   grakel.kernels.edge_histogram

@@ -32,8 +32,6 @@
   
     <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
   
-    <link rel="stylesheet" href="../../../_static/_static/suplementary.css" type="text/css" />
-  
 
   
         <link rel="index" title="Index"
@@ -179,7 +177,7 @@
 <span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">kernel</span>
 
 
-<div class="viewcode-block" id="neighborhood_hash"><a class="viewcode-back" href="../../../kernels/neighborhood_hash.html#grakel.kernels.neighborhood_hash">[docs]</a><span class="k">class</span> <span class="nc">neighborhood_hash</span><span class="p">(</span><span class="n">kernel</span><span class="p">):</span>
+<div class="viewcode-block" id="neighborhood_hash"><a class="viewcode-back" href="../../../generated/grakel.kernels.neighborhood_hash.html#grakel.kernels.neighborhood_hash">[docs]</a><span class="k">class</span> <span class="nc">neighborhood_hash</span><span class="p">(</span><span class="n">kernel</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Neighborhood hashing kernel as proposed in :cite:`Hido2009ALG`.</span>
 
 <span class="sd">    Parameters</span>
@@ -209,7 +207,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">):</span>
+<div class="viewcode-block" id="neighborhood_hash.__init__"><a class="viewcode-back" href="../../../generated/grakel.kernels.neighborhood_hash.html#grakel.kernels.neighborhood_hash.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialise a `pyramid_match` kernel.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_valid_parameters</span> <span class="o">|=</span> <span class="p">{</span><span class="s2">&quot;R&quot;</span><span class="p">,</span> <span class="s2">&quot;nh_type&quot;</span><span class="p">,</span> <span class="s2">&quot;byte&quot;</span><span class="p">}</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">neighborhood_hash</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kargs</span><span class="p">)</span>
@@ -230,10 +228,10 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;unrecognised neighborhood hashing type&#39;</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_bytes</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">kargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;bytes&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bytes</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bytes</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span></div>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;illegal number of bytes for hashing&#39;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="neighborhood_hash.parse_input"><a class="viewcode-back" href="../../../kernels/neighborhood_hash.html#grakel.kernels.neighborhood_hash.parse_input">[docs]</a>    <span class="k">def</span> <span class="nf">parse_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+<div class="viewcode-block" id="neighborhood_hash.parse_input"><a class="viewcode-back" href="../../../generated/grakel.kernels.neighborhood_hash.html#grakel.kernels.neighborhood_hash.parse_input">[docs]</a>    <span class="k">def</span> <span class="nf">parse_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Parse and create features for shortest_path kernel.</span>
 
 <span class="sd">        Parameters</span>
@@ -316,7 +314,7 @@
 </div>
             <span class="k">return</span> <span class="n">gs</span>
 
-<div class="viewcode-block" id="neighborhood_hash.pairwise_operation"><a class="viewcode-back" href="../../../kernels/neighborhood_hash.html#grakel.kernels.neighborhood_hash.pairwise_operation">[docs]</a>    <span class="k">def</span> <span class="nf">pairwise_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<div class="viewcode-block" id="neighborhood_hash.pairwise_operation"><a class="viewcode-back" href="../../../generated/grakel.kernels.neighborhood_hash.html#grakel.kernels.neighborhood_hash.pairwise_operation">[docs]</a>    <span class="k">def</span> <span class="nf">pairwise_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate a pairwise kernel between two elements.</span>
 
 <span class="sd">        Parameters</span>
@@ -334,7 +332,7 @@
 <span class="sd">        &quot;&quot;&quot;</span></div>
         <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">nh_compare_labels</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">r</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">r</span><span class="p">])</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_R</span><span class="p">))</span>
 
-<div class="viewcode-block" id="neighborhood_hash.hash_labels"><a class="viewcode-back" href="../../../kernels/neighborhood_hash.html#grakel.kernels.neighborhood_hash.hash_labels">[docs]</a>    <span class="k">def</span> <span class="nf">hash_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
+<div class="viewcode-block" id="neighborhood_hash.hash_labels"><a class="viewcode-back" href="../../../generated/grakel.kernels.neighborhood_hash.html#grakel.kernels.neighborhood_hash.hash_labels">[docs]</a>    <span class="k">def</span> <span class="nf">hash_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Hashes existing labels to 16-bit integer.</span>
 
 <span class="sd">        Hashing without collisions and with consistency in same labels.</span>

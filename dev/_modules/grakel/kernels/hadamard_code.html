@@ -32,8 +32,6 @@
   
     <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
   
-    <link rel="stylesheet" href="../../../_static/_static/suplementary.css" type="text/css" />
-  
 
   
         <link rel="index" title="Index"
@@ -190,7 +188,7 @@
 <span class="kn">from</span> <span class="nn">six</span> <span class="k">import</span> <span class="n">itervalues</span>
 
 
-<div class="viewcode-block" id="hadamard_code"><a class="viewcode-back" href="../../../kernels/hadamard_code.html#grakel.kernels.hadamard_code">[docs]</a><span class="k">class</span> <span class="nc">hadamard_code</span><span class="p">(</span><span class="n">kernel</span><span class="p">):</span>
+<div class="viewcode-block" id="hadamard_code"><a class="viewcode-back" href="../../../generated/grakel.kernels.hadamard_code.html#grakel.kernels.hadamard_code">[docs]</a><span class="k">class</span> <span class="nc">hadamard_code</span><span class="p">(</span><span class="n">kernel</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Hadamard code kernel, as proposed in :cite:`icpram16`.</span>
 
 <span class="sd">    Parameters</span>
@@ -238,7 +236,7 @@
 
     <span class="n">_graph_format</span> <span class="o">=</span> <span class="s2">&quot;auto&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">):</span>
+<div class="viewcode-block" id="hadamard_code.__init__"><a class="viewcode-back" href="../../../generated/grakel.kernels.hadamard_code.html#grakel.kernels.hadamard_code.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialise a `hadamard_code` kernel.&quot;&quot;&quot;</span>
         <span class="n">base_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_valid_parameters</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_valid_parameters</span> <span class="o">|=</span> <span class="p">{</span><span class="s2">&quot;base_kernel&quot;</span><span class="p">,</span>
@@ -306,10 +304,10 @@
 
             <span class="n">params</span><span class="p">[</span><span class="s2">&quot;normalize&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="n">params</span><span class="p">[</span><span class="s2">&quot;verbose&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_verbose</span>
-            <span class="n">params</span><span class="p">[</span><span class="s2">&quot;executor&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_executor</span>
+            <span class="n">params</span><span class="p">[</span><span class="s2">&quot;executor&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_executor</span></div>
             <span class="bp">self</span><span class="o">.</span><span class="n">_base_kernel</span> <span class="o">=</span> <span class="k">lambda</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">base_kernel</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
 
-<div class="viewcode-block" id="hadamard_code.parse_input"><a class="viewcode-back" href="../../../kernels/hadamard_code.html#grakel.kernels.hadamard_code.parse_input">[docs]</a>    <span class="k">def</span> <span class="nf">parse_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+<div class="viewcode-block" id="hadamard_code.parse_input"><a class="viewcode-back" href="../../../generated/grakel.kernels.hadamard_code.html#grakel.kernels.hadamard_code.parse_input">[docs]</a>    <span class="k">def</span> <span class="nf">parse_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Parse input for weisfeiler lehman.</span>
 
 <span class="sd">        Parameters</span>
@@ -496,7 +494,7 @@
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_method_calling</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span></div>
             <span class="k">return</span> <span class="n">K</span>
 
-<div class="viewcode-block" id="hadamard_code.transform"><a class="viewcode-back" href="../../../kernels/hadamard_code.html#grakel.kernels.hadamard_code.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+<div class="viewcode-block" id="hadamard_code.transform"><a class="viewcode-back" href="../../../generated/grakel.kernels.hadamard_code.html#grakel.kernels.hadamard_code.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate the kernel matrix, between given and fitted dataset.</span>
 
 <span class="sd">        Parameters</span>
@@ -532,7 +530,7 @@
 </div>
         <span class="k">return</span> <span class="n">km</span>
 
-<div class="viewcode-block" id="hadamard_code.fit_transform"><a class="viewcode-back" href="../../../kernels/hadamard_code.html#grakel.kernels.hadamard_code.fit_transform">[docs]</a>    <span class="k">def</span> <span class="nf">fit_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+<div class="viewcode-block" id="hadamard_code.fit_transform"><a class="viewcode-back" href="../../../generated/grakel.kernels.hadamard_code.html#grakel.kernels.hadamard_code.fit_transform">[docs]</a>    <span class="k">def</span> <span class="nf">fit_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Fit and transform, on the same dataset.</span>
 
 <span class="sd">        Parameters</span>
@@ -544,6 +542,10 @@
 <span class="sd">            node_labels and the third edge_labels (that fitting the given graph</span>
 <span class="sd">            format). If None the kernel matrix is calculated upon fit data.</span>
 <span class="sd">            The test samples.</span>
+<span class="sd">        </span>
+<span class="sd">        y : None</span>
+<span class="sd">            There is no need of a target in a transformer, yet the pipeline API</span>
+<span class="sd">            requires this parameter.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -565,7 +567,7 @@
         <span class="k">else</span><span class="p">:</span></div>
             <span class="k">return</span> <span class="n">km</span>
 
-<div class="viewcode-block" id="hadamard_code.diagonal"><a class="viewcode-back" href="../../../kernels/hadamard_code.html#grakel.kernels.hadamard_code.diagonal">[docs]</a>    <span class="k">def</span> <span class="nf">diagonal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="hadamard_code.diagonal"><a class="viewcode-back" href="../../../generated/grakel.kernels.hadamard_code.html#grakel.kernels.hadamard_code.diagonal">[docs]</a>    <span class="k">def</span> <span class="nf">diagonal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate the kernel matrix diagonal for fitted data.</span>
 
 <span class="sd">        A funtion called on transform on a seperate dataset to apply</span>

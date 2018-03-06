@@ -1,5 +1,5 @@
-grakel.GraphKernel
-==================
+:mod:`grakel`.GraphKernel
+================================
 
 .. currentmodule:: grakel
 
@@ -7,21 +7,10 @@ grakel.GraphKernel
 
    
    .. automethod:: __init__
-
-   
-   .. rubric:: Methods
-
-   .. autosummary::
-   
-      ~GraphKernel.__init__
-      ~GraphKernel.fit
-      ~GraphKernel.fit_transform
-      ~GraphKernel.get_params
-      ~GraphKernel.set_params
-      ~GraphKernel.transform
-   
    
 
-   
-   
-   
+.. include:: grakel.GraphKernel.examples
+
+.. raw:: html
+
+    <div class="clearer"></div>

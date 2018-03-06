@@ -32,8 +32,6 @@
   
     <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
   
-    <link rel="stylesheet" href="../../../_static/_static/suplementary.css" type="text/css" />
-  
 
   
         <link rel="index" title="Index"
@@ -181,10 +179,10 @@
 <span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">kernel</span>
 
 
-<div class="viewcode-block" id="shortest_path_attr"><a class="viewcode-back" href="../../../kernels/shortest_path.html#grakel.kernels.shortest_path_attr">[docs]</a><span class="k">class</span> <span class="nc">shortest_path_attr</span><span class="p">(</span><span class="n">kernel</span><span class="p">):</span>
+<div class="viewcode-block" id="shortest_path_attr"><a class="viewcode-back" href="../../../generated/grakel.kernels.shortest_path_attr.html#grakel.kernels.shortest_path_attr">[docs]</a><span class="k">class</span> <span class="nc">shortest_path_attr</span><span class="p">(</span><span class="n">kernel</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;The shortest path kernel for attributes.</span>
 
-<span class="sd">    See :cite:`Borgwardt2005ShortestpathKO`.</span>
+<span class="sd">    See :cite:`Borgwardt2005ShortestpathKO_attr`.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -210,7 +208,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">):</span>
+<div class="viewcode-block" id="shortest_path_attr.__init__"><a class="viewcode-back" href="../../../generated/grakel.kernels.shortest_path_attr.html#grakel.kernels.shortest_path_attr.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialise a subtree_wl kernel.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_valid_parameters</span> <span class="o">|=</span> <span class="p">{</span><span class="s2">&quot;algorithm_type&quot;</span><span class="p">,</span>
                                    <span class="s2">&quot;as_attributes&quot;</span><span class="p">,</span>
@@ -228,10 +226,10 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Unsupported &quot;algorithm_type&quot;&#39;</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_attribute_kernel</span> <span class="o">=</span> <span class="n">kargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_attribute_kernel</span> <span class="o">=</span> <span class="n">kargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span></div>
             <span class="s2">&quot;attribute_kernel&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
 
-<div class="viewcode-block" id="shortest_path_attr.parse_input"><a class="viewcode-back" href="../../../kernels/shortest_path.html#grakel.kernels.shortest_path_attr.parse_input">[docs]</a>    <span class="k">def</span> <span class="nf">parse_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+<div class="viewcode-block" id="shortest_path_attr.parse_input"><a class="viewcode-back" href="../../../generated/grakel.kernels.shortest_path_attr.html#grakel.kernels.shortest_path_attr.parse_input">[docs]</a>    <span class="k">def</span> <span class="nf">parse_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Parse and create features for shortest_path kernel.</span>
 
 <span class="sd">        Parameters</span>
@@ -280,7 +278,7 @@
 </div>
             <span class="k">return</span> <span class="n">sp_attr_tup</span>
 
-<div class="viewcode-block" id="shortest_path_attr.pairwise_operation"><a class="viewcode-back" href="../../../kernels/shortest_path.html#grakel.kernels.shortest_path_attr.pairwise_operation">[docs]</a>    <span class="k">def</span> <span class="nf">pairwise_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<div class="viewcode-block" id="shortest_path_attr.pairwise_operation"><a class="viewcode-back" href="../../../generated/grakel.kernels.shortest_path_attr.html#grakel.kernels.shortest_path_attr.pairwise_operation">[docs]</a>    <span class="k">def</span> <span class="nf">pairwise_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate shortests paths on attributes.</span>
 
 <span class="sd">        Parameters</span>
@@ -320,7 +318,7 @@
         <span class="k">return</span> <span class="n">kernel</span>
 
 
-<div class="viewcode-block" id="shortest_path"><a class="viewcode-back" href="../../../kernels/shortest_path.html#grakel.kernels.shortest_path">[docs]</a><span class="k">class</span> <span class="nc">shortest_path</span><span class="p">(</span><span class="n">kernel</span><span class="p">):</span>
+<div class="viewcode-block" id="shortest_path"><a class="viewcode-back" href="../../../generated/grakel.kernels.shortest_path.html#grakel.kernels.shortest_path">[docs]</a><span class="k">class</span> <span class="nc">shortest_path</span><span class="p">(</span><span class="n">kernel</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;The shortest path kernel class.</span>
 
 <span class="sd">    See :cite:`Borgwardt2005ShortestpathKO`.</span>
@@ -377,7 +375,7 @@
 
     <span class="n">_graph_bins</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">):</span>
+<div class="viewcode-block" id="shortest_path.__init__"><a class="viewcode-back" href="../../../generated/grakel.kernels.shortest_path.html#grakel.kernels.shortest_path.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialise a subtree_wl kernel.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_valid_parameters</span> <span class="o">|=</span> <span class="p">{</span><span class="s2">&quot;with_labels&quot;</span><span class="p">,</span>
                                    <span class="s2">&quot;algorithm_type&quot;</span><span class="p">}</span>
@@ -402,10 +400,10 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_algorithm_type</span> <span class="o">=</span> <span class="s2">&quot;adjacency&quot;</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_algorithm_type</span> <span class="o">==</span> <span class="s2">&quot;dijkstra&quot;</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_algorithm_type</span> <span class="o">=</span> <span class="s2">&quot;dictionary&quot;</span>
-        <span class="k">else</span><span class="p">:</span>
+        <span class="k">else</span><span class="p">:</span></div>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Unsupported &quot;algorithm_type&quot;&#39;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="shortest_path.transform"><a class="viewcode-back" href="../../../kernels/shortest_path.html#grakel.kernels.shortest_path.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+<div class="viewcode-block" id="shortest_path.transform"><a class="viewcode-back" href="../../../generated/grakel.kernels.shortest_path.html#grakel.kernels.shortest_path.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate the kernel matrix, between given and fitted dataset.</span>
 
 <span class="sd">        Parameters</span>
@@ -460,7 +458,7 @@
         <span class="k">else</span><span class="p">:</span></div>
             <span class="k">return</span> <span class="n">km</span>
 
-<div class="viewcode-block" id="shortest_path.diagonal"><a class="viewcode-back" href="../../../kernels/shortest_path.html#grakel.kernels.shortest_path.diagonal">[docs]</a>    <span class="k">def</span> <span class="nf">diagonal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="shortest_path.diagonal"><a class="viewcode-back" href="../../../generated/grakel.kernels.shortest_path.html#grakel.kernels.shortest_path.diagonal">[docs]</a>    <span class="k">def</span> <span class="nf">diagonal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate the kernel matrix diagonal for fitted data.</span>
 
 <span class="sd">        A funtion called on transform on a seperate dataset to apply</span>
@@ -494,7 +492,7 @@
         <span class="n">Y_diag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_phi_Y</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></div>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_X_diag</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">Y_diag</span><span class="p">,</span> <span class="p">(</span><span class="n">Y_diag</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span>
 
-<div class="viewcode-block" id="shortest_path.fit_transform"><a class="viewcode-back" href="../../../kernels/shortest_path.html#grakel.kernels.shortest_path.fit_transform">[docs]</a>    <span class="k">def</span> <span class="nf">fit_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+<div class="viewcode-block" id="shortest_path.fit_transform"><a class="viewcode-back" href="../../../generated/grakel.kernels.shortest_path.html#grakel.kernels.shortest_path.fit_transform">[docs]</a>    <span class="k">def</span> <span class="nf">fit_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Fit and transform, on the same dataset.</span>
 
 <span class="sd">        Parameters</span>
@@ -505,6 +503,9 @@
 <span class="sd">            (adjacency matrix or edge_dictionary) while the second is</span>
 <span class="sd">            node_labels and the third edge_labels (that fitting the given graph</span>
 <span class="sd">            format).</span>
+
+<span class="sd">        y : Object, default=None</span>
+<span class="sd">            Ignored argument, added for the pipeline.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -533,7 +534,7 @@
         <span class="k">else</span><span class="p">:</span></div>
             <span class="k">return</span> <span class="n">km</span>
 
-<div class="viewcode-block" id="shortest_path.parse_input"><a class="viewcode-back" href="../../../kernels/shortest_path.html#grakel.kernels.shortest_path.parse_input">[docs]</a>    <span class="k">def</span> <span class="nf">parse_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+<div class="viewcode-block" id="shortest_path.parse_input"><a class="viewcode-back" href="../../../generated/grakel.kernels.shortest_path.html#grakel.kernels.shortest_path.parse_input">[docs]</a>    <span class="k">def</span> <span class="nf">parse_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Parse and create features for shortest_path kernel.</span>
 
 <span class="sd">        Parameters</span>

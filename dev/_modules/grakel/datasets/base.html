@@ -32,8 +32,6 @@
   
     <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
   
-    <link rel="stylesheet" href="../../../_static/_static/suplementary.css" type="text/css" />
-  
 
   
         <link rel="index" title="Index"
@@ -175,7 +173,7 @@
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">subprocess</span> <span class="k">import</span> <span class="n">call</span>
+<span class="kn">from</span> <span class="nn">subprocess</span> <span class="k">import</span> <span class="n">check_call</span>
 
 <span class="kn">from</span> <span class="nn">sklearn.utils</span> <span class="k">import</span> <span class="n">Bunch</span>
 
@@ -486,6 +484,8 @@
 <div class="viewcode-block" id="fetch_dataset"><a class="viewcode-back" href="../../../generated/grakel.datasets.fetch_dataset.html#grakel.datasets.fetch_dataset">[docs]</a><span class="k">def</span> <span class="nf">fetch_dataset</span><span class="p">(</span>
         <span class="n">name</span><span class="p">,</span>
         <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">data_home</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">download_if_missing</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">with_classes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">prefer_attr_nodes</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">prefer_attr_edges</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -500,6 +500,14 @@
 
 <span class="sd">    verbose : bool, default=True</span>
 <span class="sd">        Print messages, throughout execution.</span>
+
+<span class="sd">    data_home : string, default=None</span>
+<span class="sd">        Specify another download and cache folder for the datasets.</span>
+<span class="sd">        By default all grakel data is stored in ‘~/grakel_data’ subfolders.</span>
+
+<span class="sd">    download_if_missing : boolean, default=True</span>
+<span class="sd">        If False, raise a IOError if the data is not locally available instead</span>
+<span class="sd">        of trying to download the data from the source site.</span>
 
 <span class="sd">    with_classes : bool, default=False</span>
 <span class="sd">        Return an iterable of class labels based on the enumeration.</span>
@@ -524,20 +532,39 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">dataset_metadata</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Downloading dataset for&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;..&quot;</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;curl&#39;</span><span class="p">,</span>
-                  <span class="n">dataset_metadata</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)][</span><span class="s2">&quot;link&quot;</span><span class="p">],</span>
-                  <span class="s1">&#39;-LOk&#39;</span><span class="p">,</span>
-                  <span class="s1">&#39;-o&#39;</span><span class="p">,</span>
-                  <span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.zip&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">data_home</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">data_home</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">),</span> <span class="s1">&#39;grakel_data&#39;</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
-            <span class="n">call</span><span class="p">([</span><span class="s1">&#39;curl&#39;</span><span class="p">,</span> <span class="n">dataset_metadata</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)][</span><span class="s2">&quot;link&quot;</span><span class="p">],</span>
-                  <span class="s1">&#39;-LOk&#39;</span><span class="p">,</span> <span class="s1">&#39;-o&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.zip&#39;</span><span class="p">])</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">call</span><span class="p">([</span><span class="s1">&#39;curl&#39;</span><span class="p">,</span> <span class="s1">&#39;--silent&#39;</span><span class="p">,</span> <span class="n">dataset_metadata</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)][</span><span class="s2">&quot;link&quot;</span><span class="p">],</span>
-                  <span class="s1">&#39;-LOk&#39;</span><span class="p">,</span> <span class="s1">&#39;-o&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.zip&#39;</span><span class="p">])</span>
+        <span class="n">exists</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">data_home</span><span class="p">)</span>
+        <span class="n">missing</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_home</span><span class="p">,</span> <span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;.zip&quot;</span><span class="p">))</span>
+        <span class="n">cwd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">missing</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">download_if_missing</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">exists</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Initializing folder at&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">data_home</span><span class="p">))</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">data_home</span><span class="p">)</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">data_home</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Downloading dataset for&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;..&quot;</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;curl&#39;</span><span class="p">,</span>
+                          <span class="n">dataset_metadata</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)][</span><span class="s2">&quot;link&quot;</span><span class="p">],</span>
+                          <span class="s1">&#39;-LOk&#39;</span><span class="p">,</span>
+                          <span class="s1">&#39;-o&#39;</span><span class="p">,</span>
+                          <span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;.zip&quot;</span><span class="p">)</span>
+                    <span class="n">check_call</span><span class="p">([</span><span class="s1">&#39;curl&#39;</span><span class="p">,</span> <span class="n">dataset_metadata</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)][</span><span class="s2">&quot;link&quot;</span><span class="p">],</span>
+                                <span class="s1">&#39;-LOk&#39;</span><span class="p">,</span> <span class="s1">&#39;-o&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.zip&#39;</span><span class="p">])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">check_call</span><span class="p">([</span><span class="s1">&#39;curl&#39;</span><span class="p">,</span> <span class="s1">&#39;--silent&#39;</span><span class="p">,</span> 
+                                <span class="n">dataset_metadata</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)][</span><span class="s2">&quot;link&quot;</span><span class="p">],</span>
+                                <span class="s1">&#39;-LOk&#39;</span><span class="p">,</span> <span class="s1">&#39;-o&#39;</span><span class="p">,</span> <span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;.zip&quot;</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s1">&#39;Dataset &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span>
+                              <span class="s1">&#39; was not found on &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">data_home</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>   
+            <span class="c1"># move to the general data directory</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">data_home</span><span class="p">)</span>
 
         <span class="k">with</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.zip&#39;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">zip_ref</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
@@ -547,21 +574,23 @@
         <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Parsing dataset &quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;..&quot;</span><span class="p">)</span>
 
+
         <span class="n">data</span> <span class="o">=</span> <span class="n">read_data</span><span class="p">(</span><span class="n">name</span><span class="p">,</span>
                          <span class="n">with_classes</span><span class="o">=</span><span class="n">with_classes</span><span class="p">,</span>
                          <span class="n">prefer_attr_nodes</span><span class="o">=</span><span class="n">prefer_attr_nodes</span><span class="p">,</span>
                          <span class="n">prefer_attr_edges</span><span class="o">=</span><span class="n">prefer_attr_edges</span><span class="p">,</span>
                          <span class="n">is_symmetric</span><span class="o">=</span><span class="n">symmetric_dataset</span><span class="p">)</span>
-
         <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Parse was succesful..&quot;</span><span class="p">)</span>
 
-        <span class="c1"># Delete zip and extracted folder</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.zip&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Deleting unzipped dataset files..&quot;</span><span class="p">)</span>
         <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
 
+
         <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Dataset data deleted..&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Going back to the original directory..&quot;</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">cwd</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">data</span>
     <span class="k">else</span><span class="p">:</span>

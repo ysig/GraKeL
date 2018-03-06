@@ -32,8 +32,6 @@
   
     <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
   
-    <link rel="stylesheet" href="../../../_static/_static/suplementary.css" type="text/css" />
-  
 
   
         <link rel="index" title="Index"
@@ -194,7 +192,7 @@
 <span class="n">default_random_seed_value</span> <span class="o">=</span> <span class="mi">15487103</span>
 
 
-<div class="viewcode-block" id="graphlet_sampling"><a class="viewcode-back" href="../../../kernels/graphlet_sampling.html#grakel.kernels.graphlet_sampling">[docs]</a><span class="k">class</span> <span class="nc">graphlet_sampling</span><span class="p">(</span><span class="n">kernel</span><span class="p">):</span>
+<div class="viewcode-block" id="graphlet_sampling"><a class="viewcode-back" href="../../../generated/grakel.kernels.graphlet_sampling.html#grakel.kernels.graphlet_sampling">[docs]</a><span class="k">class</span> <span class="nc">graphlet_sampling</span><span class="p">(</span><span class="n">kernel</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;The graphlet sampling kernel.</span>
 
 <span class="sd">    See :cite:`Shervashidze2009EfficientGK`.</span>
@@ -269,7 +267,7 @@
     <span class="n">_graph_format</span> <span class="o">=</span> <span class="s2">&quot;adjacency&quot;</span>
     <span class="n">_graph_bins</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">):</span>
+<div class="viewcode-block" id="graphlet_sampling.__init__"><a class="viewcode-back" href="../../../generated/grakel.kernels.graphlet_sampling.html#grakel.kernels.graphlet_sampling.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialise a subtree_wl kernel.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_valid_parameters</span> <span class="o">|=</span> <span class="p">{</span><span class="s2">&quot;random_seed&quot;</span><span class="p">,</span>
                                    <span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="s2">&quot;delta&quot;</span><span class="p">,</span> <span class="s2">&quot;epsilon&quot;</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;n_samples&quot;</span><span class="p">}</span>
@@ -343,10 +341,10 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_sample_graphlets</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">A</span><span class="p">:</span> \
                 <span class="n">sample_graphlets_probabilistic</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_sample_graphlets</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">A</span><span class="p">:</span> \
+            <span class="bp">self</span><span class="o">.</span><span class="n">_sample_graphlets</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">A</span><span class="p">:</span> \</div>
                 <span class="n">sample_graphlets_all_connected</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
 
-<div class="viewcode-block" id="graphlet_sampling.transform"><a class="viewcode-back" href="../../../kernels/graphlet_sampling.html#grakel.kernels.graphlet_sampling.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+<div class="viewcode-block" id="graphlet_sampling.transform"><a class="viewcode-back" href="../../../generated/grakel.kernels.graphlet_sampling.html#grakel.kernels.graphlet_sampling.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate the kernel matrix, between given and fitted dataset.</span>
 
 <span class="sd">        Parameters</span>
@@ -397,7 +395,7 @@
             <span class="n">km</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">Y_diag</span><span class="p">,</span> <span class="n">X_diag</span><span class="p">))</span></div>
         <span class="k">return</span> <span class="n">km</span>
 
-<div class="viewcode-block" id="graphlet_sampling.fit_transform"><a class="viewcode-back" href="../../../kernels/graphlet_sampling.html#grakel.kernels.graphlet_sampling.fit_transform">[docs]</a>    <span class="k">def</span> <span class="nf">fit_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+<div class="viewcode-block" id="graphlet_sampling.fit_transform"><a class="viewcode-back" href="../../../generated/grakel.kernels.graphlet_sampling.html#grakel.kernels.graphlet_sampling.fit_transform">[docs]</a>    <span class="k">def</span> <span class="nf">fit_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Fit and transform, on the same dataset.</span>
 
 <span class="sd">        Parameters</span>
@@ -409,6 +407,10 @@
 <span class="sd">            node_labels and the third edge_labels (that fitting the given graph</span>
 <span class="sd">            format). If None the kernel matrix is calculated upon fit data.</span>
 <span class="sd">            The test samples.</span>
+
+<span class="sd">        y : None</span>
+<span class="sd">            There is no need of a target in a transformer, yet the pipeline API</span>
+<span class="sd">            requires this parameter.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -435,7 +437,7 @@
         <span class="k">else</span><span class="p">:</span></div>
             <span class="k">return</span> <span class="n">km</span>
 
-<div class="viewcode-block" id="graphlet_sampling.diagonal"><a class="viewcode-back" href="../../../kernels/graphlet_sampling.html#grakel.kernels.graphlet_sampling.diagonal">[docs]</a>    <span class="k">def</span> <span class="nf">diagonal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="graphlet_sampling.diagonal"><a class="viewcode-back" href="../../../generated/grakel.kernels.graphlet_sampling.html#grakel.kernels.graphlet_sampling.diagonal">[docs]</a>    <span class="k">def</span> <span class="nf">diagonal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate the kernel matrix diagonal for fitted data.</span>
 
 <span class="sd">        A funtion called on transform on a seperate dataset to apply</span>
@@ -469,7 +471,7 @@
 </div>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_X_diag</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">Y_diag</span><span class="p">,</span> <span class="p">(</span><span class="n">Y_diag</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span>
 
-<div class="viewcode-block" id="graphlet_sampling.parse_input"><a class="viewcode-back" href="../../../kernels/graphlet_sampling.html#grakel.kernels.graphlet_sampling.parse_input">[docs]</a>    <span class="k">def</span> <span class="nf">parse_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+<div class="viewcode-block" id="graphlet_sampling.parse_input"><a class="viewcode-back" href="../../../generated/grakel.kernels.graphlet_sampling.html#grakel.kernels.graphlet_sampling.parse_input">[docs]</a>    <span class="k">def</span> <span class="nf">parse_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Parse and create features for graphlet_sampling kernel.</span>
 
 <span class="sd">        Parameters</span>

@@ -118,10 +118,10 @@ contains in following order, the next 3 basic elements:
     
     * Dictionary representations: This is an *edge* oriented approach, where the input can have one of the following formats:
         - | :red:`2-level nested dictionaries from edge symbols to weights.`  
-          | Example: :code:`H2O = {'a': {'b': 1., 'c': 1.}, 'b': {'a': 1}, 'c': {'a': 1}}`
+          | Example: :code:`H2O = {'a': {'b': 1., 'c': 1.}, 'b': {'a': 1}, 'c': {'a': 1.}}`
     
         - | :blue:`Dictionary of symbols to list of symbols.`  
-          | Example: :code:`H2O = {'a': ['b', 'c'], 'b': ['a'], 'c':['b']}`
+          | Example: :code:`H2O = {'a': ['b', 'c'], 'b': ['a'], 'c': ['b']}`
     
         - | :red:`Dictionary of tuples to weights.`  
           | Example: :code:`H2O = {('a', 'b'): 1., ('a', 'c'): 1., ('c', 'a'): 1., ('b', 'a'): 1.}`

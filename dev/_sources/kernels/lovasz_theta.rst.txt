@@ -2,15 +2,13 @@
 
 Lovasz Theta Kernel
 ===================
+
 The Lovasz Theta Kernel.
+
+**Theoretical definition missing**
 
 .. currentmodule:: grakel.kernels
 
-.. autoclass:: grakel.kernels.lovasz_theta
+.. autosummary::
 
-
-Bibliography
-------------
-
-.. bibliography:: graph_kernels.bib
-   :filter: docname in docnames
+   grakel.kernels.lovasz_theta

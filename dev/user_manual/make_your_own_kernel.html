@@ -32,8 +32,6 @@
   
     <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
   
-    <link rel="stylesheet" href="../_static/_static/suplementary.css" type="text/css" />
-  
 
   
         <link rel="index" title="Index"
@@ -196,19 +194,21 @@ be always considered final when deploying a new package, because all the kernels
 <h2>Overriding the <code class="code docutils literal notranslate"><span class="pre">kernel</span></code> class methods<a class="headerlink" href="#overriding-the-kernel-class-methods" title="Permalink to this headline">¶</a></h2>
 <p>In order to start we will present the current interface of the <code class="code docutils literal notranslate"><span class="pre">kernel</span></code> class
 (public methods) and guide the user how he can write a simple base <code class="code docutils literal notranslate"><span class="pre">kernel</span></code>, such as the <em>vertex-histogram-kernel</em>.</p>
-<p>The <em>vertex-histogram-kernel</em>, defined in <a class="reference internal" href="#sugiyama2015nips" id="id1">[SB15]</a> p.4 section 2.3 is a simple kernel, that
+<p>The <em>vertex-histogram-kernel</em>, defined in <a class="reference internal" href="#sugiyama2015nipsd" id="id1">[SB15]</a> p.4 section 2.3 is a simple kernel, that
 calculates label histograms for each graph, that is: <em>counts the number of occurrences for each label
 value and as a kernel between two graphs calculates the sum of products between frequencies of common
 occurrences</em>.</p>
 <p>To design this kernel let’s first learn some things about the kernel class.</p>
 <div class="section" id="which-methods-should-i-implement">
 <h3>Which methods should I implement<a class="headerlink" href="#which-methods-should-i-implement" title="Permalink to this headline">¶</a></h3>
-<p>Each kernel should have the following methods:
-* <code class="code docutils literal notranslate"><span class="pre">__init__</span></code> method implemented. This method should be always overrided.
-* <code class="code docutils literal notranslate"><span class="pre">fit</span></code>. Calculate features of the reference dataset.
-* <code class="code docutils literal notranslate"><span class="pre">fit_transform</span></code>. Calculate features and the kernel matrix on the reference dataset.
-* <code class="code docutils literal notranslate"><span class="pre">transform</span></code>. Calculate the kernel matrix between the fitted dataset and the transformed.
-* <code class="code docutils literal notranslate"><span class="pre">diagonal</span></code>. Calculate the diagonal of the kernel matrix matrix produced between all elements of transform.</p>
+<p>Each kernel should have the following methods:</p>
+<ul class="simple">
+<li><code class="code docutils literal notranslate"><span class="pre">__init__</span></code> method implemented. This method should be always overrided.</li>
+<li><code class="code docutils literal notranslate"><span class="pre">fit</span></code>. Calculate features of the reference dataset.</li>
+<li><code class="code docutils literal notranslate"><span class="pre">fit_transform</span></code>. Calculate features and the kernel matrix on the reference dataset.</li>
+<li><code class="code docutils literal notranslate"><span class="pre">transform</span></code>. Calculate the kernel matrix between the fitted dataset and the transformed.</li>
+<li><code class="code docutils literal notranslate"><span class="pre">diagonal</span></code>. Calculate the diagonal of the kernel matrix matrix produced between all elements of transform.</li>
+</ul>
 <p>So let’s start with our example and define an <code class="code docutils literal notranslate"><span class="pre">__init__</span></code> method for our <em>vertex-histogram-kernel</em>.</p>
 <p>Let’s import some library elements we will use</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">warnings</span> <span class="kn">import</span> <span class="n">warn</span>
@@ -602,7 +602,7 @@ First import and download the dataset</p>
 <span class="gp">&gt;&gt;&gt; </span>    <span class="n">acc_score</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">acc_score</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
 </pre></div>
 </div>
-<p>which produces an accuracy score close to the maximum 78.2% documented on <a class="reference internal" href="#kriege2016nips" id="id2">[KGW16]</a></p>
+<p>which produces an accuracy score close to the maximum 78.2% documented on <a class="reference internal" href="#kriege2016nipsd" id="id2">[KGW16]</a></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">acc_score</span><span class="p">,</span> <span class="s2">&quot;%&quot;</span><span class="p">)</span>
 <span class="go">76,27 %</span>
 </pre></div>
@@ -658,13 +658,13 @@ the <code class="code docutils literal notranslate"><span class="pre">_c_functio
 </div>
 <div class="section" id="bibliography">
 <h3>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">¶</a></h3>
-<p id="bibtex-bibliography-user_manual/make_your_own_kernel-0"><table class="docutils citation" frame="void" id="kriege2016nips" rules="none">
+<p id="bibtex-bibliography-user_manual/make_your_own_kernel-0"><table class="docutils citation" frame="void" id="kriege2016nipsd" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label"><a class="fn-backref" href="#id2">[KGW16]</a></td><td>Nils&nbsp;M. Kriege, Pierre-Louis Giscard, and Richard&nbsp;C. Wilson. On valid optimal assignment kernels and applications to graph classification. <em>CoRR</em>, 2016. URL: <a class="reference external" href="http://arxiv.org/abs/1606.01141">http://arxiv.org/abs/1606.01141</a>, <a class="reference external" href="https://arxiv.org/abs/1606.01141">arXiv:1606.01141</a>.</td></tr>
 </tbody>
 </table>
-<table class="docutils citation" frame="void" id="sugiyama2015nips" rules="none">
+<table class="docutils citation" frame="void" id="sugiyama2015nipsd" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label"><a class="fn-backref" href="#id1">[SB15]</a></td><td>Mahito Sugiyama and Karsten&nbsp;M. Borgwardt. Halting in random walk kernels. In <em>Proceedings of the 28th International Conference on Neural Information Processing Systems - Volume 1</em>, NIPS‘15, 1639–1647. Cambridge, MA, USA, 2015. MIT Press. URL: <a class="reference external" href="http://dl.acm.org/citation.cfm?id=2969239.2969422">http://dl.acm.org/citation.cfm?id=2969239.2969422</a>.</td></tr>

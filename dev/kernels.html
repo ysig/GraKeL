@@ -32,14 +32,15 @@
   
     <link rel="stylesheet" href="_static/gallery.css" type="text/css" />
   
-    <link rel="stylesheet" href="_static/_static/suplementary.css" type="text/css" />
-  
 
   
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="GraKeL 0.1a1 documentation" href="index.html"/> 
+    <link rel="top" title="GraKeL 0.1a1 documentation" href="index.html"/>
+        <link rel="up" title="GraKeL" href="api.html"/>
+        <link rel="next" title="Edge Histogram Kernel" href="kernels/edge_histogram.html"/>
+        <link rel="prev" title="GraKeL" href="api.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -99,8 +100,34 @@
 <li class="toctree-l1"><a class="reference internal" href="user_manual/make_your_own_kernel.html">Write your own kernel</a></li>
 <li class="toctree-l1"><a class="reference internal" href="user_manual/contributing.html">Contributing</a></li>
 </ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="api.html">GraKeL</a></li>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="api.html">GraKeL</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Kernels (between graphs)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="kernels/edge_histogram.html">Edge Histogram Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kernels/graphlet_sampling.html">Graphlet Sampling Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kernels/hadamard_code.html">Hadamard Code Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kernels/kernel.html">kernel [class]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kernels/lovasz_theta.html">Lovasz Theta Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kernels/multiscale_laplacian.html">Multiscale Laplacian Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kernels/neighborhood_hash.html">Neighborhood Hash Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kernels/neighborhood_subgraph_pairwise_distance.html">Neighborhood Subgraph Pairwise Distance Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kernels/odd_sth.html">ODD-STh Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kernels/propagation.html">The Propagation Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kernels/pyramid_match.html">Pyramid Match Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kernels/random_walk.html">Random Walk Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kernels/shortest_path.html">Shortest Path Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kernels/subgraph_matching.html">Subgraph Matching Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kernels/subtree_wl.html">Subtree (WL) Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kernels/svm_theta.html">SVM Theta Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kernels/vertex_histogram.html">Vertex Histogram Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kernels/weisfeiler_lehman.html">Weisfeiler Lehman Kernel</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="graph_kernel.html">GraphKernel (class)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="graph.html">Graph (class)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datasets.html">Dataset loading utilities</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="classes.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">General examples</a></li>
 </ul>
@@ -147,6 +174,8 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
+          <li><a href="api.html">GraKeL</a> &raquo;</li>
+        
       <li>Kernels (between graphs)</li>
     
     
@@ -171,77 +200,28 @@
 <p>The documentation of the <cite>kernels</cite> submodule.</p>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="kernels/edge_histogram.html">Edge Histogram Kernel</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="kernels/edge_histogram.html#bibliography">Bibliography</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="kernels/graphlet_sampling.html">Graphlet Sampling Kernel</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="kernels/graphlet_sampling.html#bibliography">Bibliography</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="kernels/hadamard_code.html">Hadamard Code Kernel</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="kernels/hadamard_code.html#bibliography">Bibliography</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="kernels/kernel.html">kernel (class)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="kernels/lovasz_theta.html">Lovasz Theta Kernel</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="kernels/lovasz_theta.html#bibliography">Bibliography</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="kernels/edge_histogram.html">Edge Histogram Kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kernels/graphlet_sampling.html">Graphlet Sampling Kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kernels/hadamard_code.html">Hadamard Code Kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kernels/kernel.html">kernel [class]</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kernels/lovasz_theta.html">Lovasz Theta Kernel</a></li>
 <li class="toctree-l1"><a class="reference internal" href="kernels/multiscale_laplacian.html">Multiscale Laplacian Kernel</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="kernels/multiscale_laplacian.html#id1">Multiscale Laplacian</a></li>
 <li class="toctree-l2"><a class="reference internal" href="kernels/multiscale_laplacian.html#approximate-multiscale-laplacian">Approximate Multiscale Laplacian</a></li>
-<li class="toctree-l2"><a class="reference internal" href="kernels/multiscale_laplacian.html#bibliography">Bibliography</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="kernels/neighborhood_hash.html">Neighborhood Hash Kernel</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="kernels/neighborhood_hash.html#bibliography">Bibliography</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="kernels/neighborhood_subgraph_pairwise_distance.html">Neighborhood Subgraph Pairwise Distance Kernel</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="kernels/neighborhood_subgraph_pairwise_distance.html#bibliography">Bibliography</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="kernels/odd_sth.html">ODD-STh Kernel</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="kernels/odd_sth.html#bibliography">Bibliography</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="kernels/propagation.html">The Propagation Kernel</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="kernels/propagation.html#bibliography">Bibliography</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="kernels/pyramid_match.html">Pyramid Match Kernel</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="kernels/pyramid_match.html#bibliography">Bibliography</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="kernels/random_walk.html">Random Walk Kernel</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="kernels/random_walk.html#bibliography">Bibliography</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="kernels/shortest_path.html">Shortest Path Kernel</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="kernels/shortest_path.html#bibliography">Bibliography</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="kernels/subgraph_matching.html">Subgraph Matching Kernel</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="kernels/subgraph_matching.html#bibliography">Bibliography</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="kernels/subtree_wl.html">Subtree (WL) Kernel</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="kernels/subtree_wl.html#bibliography">Bibliography</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="kernels/svm_theta.html">SVM Theta Kernel</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="kernels/svm_theta.html#bibliography">Bibliography</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="kernels/vertex_histogram.html">Vertex Histogram Kernel</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="kernels/vertex_histogram.html#bibliography">Bibliography</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="kernels/weisfeiler_lehman.html">Weisfeiler Lehman Kernel</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="kernels/weisfeiler_lehman.html#bibliography">Bibliography</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="kernels/neighborhood_hash.html">Neighborhood Hash Kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kernels/neighborhood_subgraph_pairwise_distance.html">Neighborhood Subgraph Pairwise Distance Kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kernels/odd_sth.html">ODD-STh Kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kernels/propagation.html">The Propagation Kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kernels/pyramid_match.html">Pyramid Match Kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kernels/random_walk.html">Random Walk Kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kernels/shortest_path.html">Shortest Path Kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kernels/subgraph_matching.html">Subgraph Matching Kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kernels/subtree_wl.html">Subtree (WL) Kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kernels/svm_theta.html">SVM Theta Kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kernels/vertex_histogram.html">Vertex Histogram Kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kernels/weisfeiler_lehman.html">Weisfeiler Lehman Kernel</a></li>
 </ul>
 </div>
 </div>
@@ -253,6 +233,15 @@
            </div>
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="kernels/edge_histogram.html" class="btn btn-neutral float-right" title="Edge Histogram Kernel" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="api.html" class="btn btn-neutral" title="GraKeL" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>

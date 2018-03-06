@@ -4,12 +4,10 @@ Random Walk Kernel
 ==================
 The random walk kernel.
 
+**Theoretical definition missing**
+
 .. currentmodule:: grakel.kernels
 
-.. autoclass:: grakel.kernels.random_walk
+.. autosummary::
 
-Bibliography
-------------    
-
-.. bibliography:: graph_kernels.bib
-   :filter: docname in docnames
+   grakel.kernels.random_walk

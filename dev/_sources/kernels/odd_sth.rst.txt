@@ -4,12 +4,10 @@ ODD-STh Kernel
 ==============
 The ODD-STh Kernel.
 
+**Theoretical definition missing**
+
 .. currentmodule:: grakel.kernels
 
-.. autoclass:: grakel.kernels.odd_sth
+.. autosummary::
 
-Bibliography
-------------
-
-.. bibliography:: graph_kernels.bib
-   :filter: docname in docnames
+   grakel.kernels.odd_sth

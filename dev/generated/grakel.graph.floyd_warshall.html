@@ -32,16 +32,14 @@
   
     <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
   
-    <link rel="stylesheet" href="../_static/_static/suplementary.css" type="text/css" />
-  
 
   
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
     <link rel="top" title="GraKeL 0.1a1 documentation" href="../index.html"/>
-        <link rel="up" title="API Reference" href="../classes.html"/>
-        <link rel="next" title="grakel.GraphKernel" href="grakel.GraphKernel.html"/>
+        <link rel="up" title="Graph (class)" href="../graph.html"/>
+        <link rel="next" title="Dataset loading utilities" href="../datasets.html"/>
         <link rel="prev" title="grakel.graph.laplacian" href="grakel.graph.laplacian.html"/> 
 
   
@@ -103,24 +101,21 @@
 <li class="toctree-l1"><a class="reference internal" href="../user_manual/contributing.html">Contributing</a></li>
 </ul>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../api.html">GraKeL</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../classes.html">API Reference</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="../classes.html#grakel-graph-graph-class-with-its-utility-functions"><code class="docutils literal notranslate"><span class="pre">grakel.graph</span></code>: Graph class with its utility functions</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="../classes.html#base-class">Base Class</a></li>
-<li class="toctree-l3 current"><a class="reference internal" href="../classes.html#utility-functions">Utility Functions</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="grakel.graph.is_adjacency.html">grakel.graph.is_adjacency</a></li>
-<li class="toctree-l4"><a class="reference internal" href="grakel.graph.is_edge_dictionary.html">grakel.graph.is_edge_dictionary</a></li>
-<li class="toctree-l4"><a class="reference internal" href="grakel.graph.laplacian.html">grakel.graph.laplacian</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">grakel.graph.floyd_warshall</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">GraKeL</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../kernels.html">Kernels (between graphs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../graph_kernel.html">GraphKernel (class)</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../graph.html">Graph (class)</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="grakel.Graph.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.Graph</a></li>
+<li class="toctree-l3"><a class="reference internal" href="grakel.graph.is_adjacency.html"><code class="docutils literal notranslate"><span class="pre">grakel.graph</span></code>.is_adjacency</a></li>
+<li class="toctree-l3"><a class="reference internal" href="grakel.graph.is_edge_dictionary.html"><code class="docutils literal notranslate"><span class="pre">grakel.graph</span></code>.is_edge_dictionary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="grakel.graph.laplacian.html"><code class="docutils literal notranslate"><span class="pre">grakel.graph</span></code>.laplacian</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">grakel.graph</span></code>.floyd_warshall</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../datasets.html">Dataset loading utilities</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-graph-kernels-a-kernel-decorator"><code class="docutils literal notranslate"><span class="pre">grakel.graph_kernels</span></code>: A kernel decorator</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-kernels-a-collection-of-graph-kernels"><code class="docutils literal notranslate"><span class="pre">grakel.kernels</span></code>: A collection of graph kernels</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-datasets-datasets"><code class="docutils literal notranslate"><span class="pre">grakel.datasets</span></code>: Datasets</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../classes.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">General examples</a></li>
 </ul>
 
@@ -166,9 +161,11 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-          <li><a href="../classes.html">API Reference</a> &raquo;</li>
+          <li><a href="../api.html">GraKeL</a> &raquo;</li>
         
-      <li>grakel.graph.floyd_warshall</li>
+          <li><a href="../graph.html">Graph (class)</a> &raquo;</li>
+        
+      <li><code class="docutils literal notranslate"><span class="pre">grakel.graph</span></code>.floyd_warshall</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -188,10 +185,10 @@
            <div itemprop="articleBody">
             
   <div class="section" id="grakel-graph-floyd-warshall">
-<h1>grakel.graph.floyd_warshall<a class="headerlink" href="#grakel-graph-floyd-warshall" title="Permalink to this headline">¶</a></h1>
+<h1><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel.graph</span></code>.floyd_warshall<a class="headerlink" href="#grakel-graph-floyd-warshall" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="grakel.graph.floyd_warshall">
-<code class="descclassname">grakel.graph.</code><code class="descname">floyd_warshall</code><span class="sig-paren">(</span><em>adjacency_matrix</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/34fb671/grakel/graph.py#L1669"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/graph.html#floyd_warshall"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.graph.floyd_warshall" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">grakel.graph.</code><code class="descname">floyd_warshall</code><span class="sig-paren">(</span><em>adjacency_matrix</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/062aa06/grakel/graph.py#L1669"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/graph.html#floyd_warshall"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.graph.floyd_warshall" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the Floyd Warshall, shortest path matrix.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -214,7 +211,7 @@ calculated.</p>
 </table>
 </dd></dl>
 
-</div>
+<div class="clearer"></div></div>
 
 
            </div>
@@ -226,7 +223,7 @@ calculated.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="grakel.GraphKernel.html" class="btn btn-neutral float-right" title="grakel.GraphKernel" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="../datasets.html" class="btn btn-neutral float-right" title="Dataset loading utilities" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="grakel.graph.laplacian.html" class="btn btn-neutral" title="grakel.graph.laplacian" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

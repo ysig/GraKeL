@@ -15,6 +15,26 @@ Introductory examples.
 
 .. only:: html
 
+    .. figure:: /auto_examples/images/thumb/sphx_glr_plot_pipeline_odd_sth_thumb.png
+
+        :ref:`sphx_glr_auto_examples_plot_pipeline_odd_sth.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/plot_pipeline_odd_sth
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="An example plot of :class:`grakel.GraphKernel`, :class:`grakel.kernels.weisfeiler_lehman`, :cla...">
+
+.. only:: html
+
     .. figure:: /auto_examples/images/thumb/sphx_glr_plot_wl_subtree_MUTAG_thumb.png
 
         :ref:`sphx_glr_auto_examples_plot_wl_subtree_MUTAG.py`

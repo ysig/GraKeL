@@ -17,7 +17,7 @@ Overriding the :code:`kernel` class methods
 In order to start we will present the current interface of the :code:`kernel` class
 (public methods) and guide the user how he can write a simple base :code:`kernel`, such as the *vertex-histogram-kernel*.
 
-The *vertex-histogram-kernel*, defined in :cite:`Sugiyama2015NIPS` p.4 section 2.3 is a simple kernel, that
+The *vertex-histogram-kernel*, defined in :cite:`Sugiyama2015NIPSD` p.4 section 2.3 is a simple kernel, that
 calculates label histograms for each graph, that is: *counts the number of occurrences for each label
 value and as a kernel between two graphs calculates the sum of products between frequencies of common
 occurrences*.
@@ -27,9 +27,13 @@ To design this kernel let's first learn some things about the kernel class.
 Which methods should I implement
 --------------------------------
 Each kernel should have the following methods:
+
 * :code:`__init__` method implemented. This method should be always overrided.
+
 * :code:`fit`. Calculate features of the reference dataset.
+
 * :code:`fit_transform`. Calculate features and the kernel matrix on the reference dataset.
+
 * :code:`transform`. Calculate the kernel matrix between the fitted dataset and the transformed.
 * :code:`diagonal`. Calculate the diagonal of the kernel matrix matrix produced between all elements of transform.
 
@@ -205,7 +209,7 @@ and finally classify, by using/finding the best C (that is a parameter emphasizi
     >>>     y_pred = clf.predict(K_test)
     >>>     acc_score = max(acc_score, round(accuracy_score(y_test, y_pred)*100, 2))
 
-which produces an accuracy score close to the maximum 78.2% documented on :cite:`Kriege2016NIPS`
+which produces an accuracy score close to the maximum 78.2% documented on :cite:`Kriege2016NIPSD`
 
 .. code-block:: python
 

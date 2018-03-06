@@ -32,8 +32,6 @@
   
     <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
   
-    <link rel="stylesheet" href="../../../_static/_static/suplementary.css" type="text/css" />
-  
 
   
         <link rel="index" title="Index"
@@ -190,7 +188,7 @@
 <span class="kn">from</span> <span class="nn">builtins</span> <span class="k">import</span> <span class="nb">range</span>
 
 
-<div class="viewcode-block" id="neighborhood_subgraph_pairwise_distance"><a class="viewcode-back" href="../../../kernels/neighborhood_subgraph_pairwise_distance.html#grakel.kernels.neighborhood_subgraph_pairwise_distance">[docs]</a><span class="k">class</span> <span class="nc">neighborhood_subgraph_pairwise_distance</span><span class="p">(</span><span class="n">kernel</span><span class="p">):</span>
+<div class="viewcode-block" id="neighborhood_subgraph_pairwise_distance"><a class="viewcode-back" href="../../../generated/grakel.kernels.neighborhood_subgraph_pairwise_distance.html#grakel.kernels.neighborhood_subgraph_pairwise_distance">[docs]</a><span class="k">class</span> <span class="nc">neighborhood_subgraph_pairwise_distance</span><span class="p">(</span><span class="n">kernel</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;The Neighborhood subgraph pairwise distance kernel.</span>
 
 <span class="sd">    See :cite:`Costa2010FastNS`.</span>
@@ -230,7 +228,7 @@
 
     <span class="n">_graph_format</span> <span class="o">=</span> <span class="s2">&quot;dictionary&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">):</span>
+<div class="viewcode-block" id="neighborhood_subgraph_pairwise_distance.__init__"><a class="viewcode-back" href="../../../generated/grakel.kernels.neighborhood_subgraph_pairwise_distance.html#grakel.kernels.neighborhood_subgraph_pairwise_distance.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialize an NSPD kernel.&quot;&quot;&quot;</span>
         <span class="c1"># setup valid parameters and initialise from parent</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_valid_parameters</span> <span class="o">|=</span> <span class="p">{</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="s2">&quot;d&quot;</span><span class="p">}</span>
@@ -242,10 +240,10 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_r</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;r must be a positive integer&#39;</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span></div>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;d must be a positive integer&#39;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="neighborhood_subgraph_pairwise_distance.parse_input"><a class="viewcode-back" href="../../../kernels/neighborhood_subgraph_pairwise_distance.html#grakel.kernels.neighborhood_subgraph_pairwise_distance.parse_input">[docs]</a>    <span class="k">def</span> <span class="nf">parse_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+<div class="viewcode-block" id="neighborhood_subgraph_pairwise_distance.parse_input"><a class="viewcode-back" href="../../../generated/grakel.kernels.neighborhood_subgraph_pairwise_distance.html#grakel.kernels.neighborhood_subgraph_pairwise_distance.parse_input">[docs]</a>    <span class="k">def</span> <span class="nf">parse_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Parse and create features for graphlet_sampling kernel.</span>
 
 <span class="sd">        Parameters</span>
@@ -399,7 +397,7 @@
 </div>
             <span class="k">return</span> <span class="n">M</span>
 
-<div class="viewcode-block" id="neighborhood_subgraph_pairwise_distance.transform"><a class="viewcode-back" href="../../../kernels/neighborhood_subgraph_pairwise_distance.html#grakel.kernels.neighborhood_subgraph_pairwise_distance.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+<div class="viewcode-block" id="neighborhood_subgraph_pairwise_distance.transform"><a class="viewcode-back" href="../../../generated/grakel.kernels.neighborhood_subgraph_pairwise_distance.html#grakel.kernels.neighborhood_subgraph_pairwise_distance.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate the kernel matrix, between given and fitted dataset.</span>
 
 <span class="sd">        Parameters</span>
@@ -410,6 +408,9 @@
 <span class="sd">            (adjacency matrix or edge_dictionary) while the second is</span>
 <span class="sd">            node_labels and the third edge_labels (that fitting the given graph</span>
 <span class="sd">            format).</span>
+
+<span class="sd">        y : Object, default=None</span>
+<span class="sd">            Ignored argument, added for the pipeline.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -449,7 +450,7 @@
             <span class="n">S</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">diagonal</span><span class="p">()))</span></div>
         <span class="k">return</span> <span class="n">S</span>
 
-<div class="viewcode-block" id="neighborhood_subgraph_pairwise_distance.fit_transform"><a class="viewcode-back" href="../../../kernels/neighborhood_subgraph_pairwise_distance.html#grakel.kernels.neighborhood_subgraph_pairwise_distance.fit_transform">[docs]</a>    <span class="k">def</span> <span class="nf">fit_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+<div class="viewcode-block" id="neighborhood_subgraph_pairwise_distance.fit_transform"><a class="viewcode-back" href="../../../generated/grakel.kernels.neighborhood_subgraph_pairwise_distance.html#grakel.kernels.neighborhood_subgraph_pairwise_distance.fit_transform">[docs]</a>    <span class="k">def</span> <span class="nf">fit_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Fit and transform, on the same dataset.</span>
 
 <span class="sd">        Parameters</span>
@@ -486,7 +487,7 @@
         <span class="k">else</span><span class="p">:</span></div>
             <span class="k">return</span> <span class="n">S</span>
 
-<div class="viewcode-block" id="neighborhood_subgraph_pairwise_distance.diagonal"><a class="viewcode-back" href="../../../kernels/neighborhood_subgraph_pairwise_distance.html#grakel.kernels.neighborhood_subgraph_pairwise_distance.diagonal">[docs]</a>    <span class="k">def</span> <span class="nf">diagonal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="neighborhood_subgraph_pairwise_distance.diagonal"><a class="viewcode-back" href="../../../generated/grakel.kernels.neighborhood_subgraph_pairwise_distance.html#grakel.kernels.neighborhood_subgraph_pairwise_distance.diagonal">[docs]</a>    <span class="k">def</span> <span class="nf">diagonal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate the kernel matrix diagonal of the fitted data.</span>
 
 <span class="sd">        Static. Added for completeness.</span>

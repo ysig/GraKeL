@@ -32,8 +32,6 @@
   
     <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
   
-    <link rel="stylesheet" href="../../../_static/_static/suplementary.css" type="text/css" />
-  
 
   
         <link rel="index" title="Index"
@@ -185,7 +183,7 @@
 <span class="kn">from</span> <span class="nn">six</span> <span class="k">import</span> <span class="n">itervalues</span>
 
 
-<div class="viewcode-block" id="weisfeiler_lehman"><a class="viewcode-back" href="../../../kernels/weisfeiler_lehman.html#grakel.kernels.weisfeiler_lehman">[docs]</a><span class="k">class</span> <span class="nc">weisfeiler_lehman</span><span class="p">(</span><span class="n">kernel</span><span class="p">):</span>
+<div class="viewcode-block" id="weisfeiler_lehman"><a class="viewcode-back" href="../../../generated/grakel.kernels.weisfeiler_lehman.html#grakel.kernels.weisfeiler_lehman">[docs]</a><span class="k">class</span> <span class="nc">weisfeiler_lehman</span><span class="p">(</span><span class="n">kernel</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Compute the Weisfeiler Lehman Kernel.</span>
 
 <span class="sd">     See :cite:`Shervashidze2011WeisfeilerLehmanGK`.</span>
@@ -222,7 +220,7 @@
 
     <span class="n">_graph_format</span> <span class="o">=</span> <span class="s2">&quot;dictionary&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">):</span>
+<div class="viewcode-block" id="weisfeiler_lehman.__init__"><a class="viewcode-back" href="../../../generated/grakel.kernels.weisfeiler_lehman.html#grakel.kernels.weisfeiler_lehman.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialise a `weisfeiler_lehman` kernel.&quot;&quot;&quot;</span>
         <span class="n">base_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_valid_parameters</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_valid_parameters</span> <span class="o">|=</span> <span class="p">{</span><span class="s2">&quot;base_kernel&quot;</span><span class="p">,</span> <span class="s2">&quot;niter&quot;</span><span class="p">}</span>
@@ -261,10 +259,10 @@
 
             <span class="n">params</span><span class="p">[</span><span class="s2">&quot;normalize&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="n">params</span><span class="p">[</span><span class="s2">&quot;verbose&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_verbose</span>
-            <span class="n">params</span><span class="p">[</span><span class="s2">&quot;executor&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_executor</span>
+            <span class="n">params</span><span class="p">[</span><span class="s2">&quot;executor&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_executor</span></div>
             <span class="bp">self</span><span class="o">.</span><span class="n">_base_kernel</span> <span class="o">=</span> <span class="k">lambda</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">base_kernel</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
 
-<div class="viewcode-block" id="weisfeiler_lehman.parse_input"><a class="viewcode-back" href="../../../kernels/weisfeiler_lehman.html#grakel.kernels.weisfeiler_lehman.parse_input">[docs]</a>    <span class="k">def</span> <span class="nf">parse_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+<div class="viewcode-block" id="weisfeiler_lehman.parse_input"><a class="viewcode-back" href="../../../generated/grakel.kernels.weisfeiler_lehman.html#grakel.kernels.weisfeiler_lehman.parse_input">[docs]</a>    <span class="k">def</span> <span class="nf">parse_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Parse input for weisfeiler lehman.</span>
 
 <span class="sd">        Parameters</span>
@@ -395,7 +393,7 @@
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_method_calling</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span></div>
             <span class="k">return</span> <span class="n">K</span><span class="p">,</span> <span class="n">base_kernel</span>
 
-<div class="viewcode-block" id="weisfeiler_lehman.fit_transform"><a class="viewcode-back" href="../../../kernels/weisfeiler_lehman.html#grakel.kernels.weisfeiler_lehman.fit_transform">[docs]</a>    <span class="k">def</span> <span class="nf">fit_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+<div class="viewcode-block" id="weisfeiler_lehman.fit_transform"><a class="viewcode-back" href="../../../generated/grakel.kernels.weisfeiler_lehman.html#grakel.kernels.weisfeiler_lehman.fit_transform">[docs]</a>    <span class="k">def</span> <span class="nf">fit_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Fit and transform, on the same dataset.</span>
 
 <span class="sd">        Parameters</span>
@@ -407,6 +405,9 @@
 <span class="sd">            node_labels and the third edge_labels (that fitting the given graph</span>
 <span class="sd">            format). If None the kernel matrix is calculated upon fit data.</span>
 <span class="sd">            The test samples.</span>
+
+<span class="sd">        y : Object, default=None</span>
+<span class="sd">            Ignored argument, added for the pipeline.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -427,7 +428,7 @@
         <span class="k">else</span><span class="p">:</span></div>
             <span class="k">return</span> <span class="n">km</span>
 
-<div class="viewcode-block" id="weisfeiler_lehman.transform"><a class="viewcode-back" href="../../../kernels/weisfeiler_lehman.html#grakel.kernels.weisfeiler_lehman.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+<div class="viewcode-block" id="weisfeiler_lehman.transform"><a class="viewcode-back" href="../../../generated/grakel.kernels.weisfeiler_lehman.html#grakel.kernels.weisfeiler_lehman.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate the kernel matrix, between given and fitted dataset.</span>
 
 <span class="sd">        Parameters</span>
@@ -552,7 +553,7 @@
         <span class="k">else</span><span class="p">:</span></div>
             <span class="k">return</span> <span class="n">K</span>
 
-<div class="viewcode-block" id="weisfeiler_lehman.diagonal"><a class="viewcode-back" href="../../../kernels/weisfeiler_lehman.html#grakel.kernels.weisfeiler_lehman.diagonal">[docs]</a>    <span class="k">def</span> <span class="nf">diagonal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="weisfeiler_lehman.diagonal"><a class="viewcode-back" href="../../../generated/grakel.kernels.weisfeiler_lehman.html#grakel.kernels.weisfeiler_lehman.diagonal">[docs]</a>    <span class="k">def</span> <span class="nf">diagonal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate the kernel matrix diagonal for fitted data.</span>
 
 <span class="sd">        A funtion called on transform on a seperate dataset to apply</span>

@@ -2,7 +2,12 @@
 GraKeL
 ======
 
-* :doc:`kernels`
-* :doc:`graph_kernel`
-* :doc:`graph`
-* :doc:`datasets`
+The :code:`grakel` module is structured as follows
+
+  .. toctree::
+    :maxdepth: 1
+
+    kernels
+    graph_kernel
+    graph
+    datasets
