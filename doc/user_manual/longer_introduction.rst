@@ -208,9 +208,9 @@ So the way we conceptually attached the kernel definition to that design pattern
 
 - The :code:`fit` part should fix a graph dataset as the base of comparison calculating necessary features.
 
-- The :code:`fit_transform` should fit and calculate the fitted dataset with itself.
+- The :code:`fit_transform` should fit and calculate the kernel matrix on the fitted dataset.
 
-- The :code:`transform` should calculate the matrix produced by between a new dataset (namely the *test*) and the dataset fitted in fit.
+- The :code:`transform` should calculate the matrix produced between a new dataset (namely the *test*) and the fitted dataset.
 
 The deconstruction of the kernel matrix calculation from a function :math:`\mathcal{K}: \mathcal{G}^{\text{train}} \times \mathcal{G}^{\text{test}} \rightarrow \mathbb{R}^{n_{\text{test}}} \times \mathbb{R}^{n_{\text{train}}}`
 to a `currying`_ scheme :math:`\mathcal{K}: \mathcal{G}^{\text{train}} \rightarrow \mathcal{G}^{\text{test}} \rightarrow \mathbb{R}^{n_{\text{test}}} \times \mathbb{R}^{n_{\text{train}}}` is not always equivalent in the
