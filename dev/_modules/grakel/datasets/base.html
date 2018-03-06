@@ -556,13 +556,13 @@
                     <span class="n">check_call</span><span class="p">([</span><span class="s1">&#39;curl&#39;</span><span class="p">,</span> <span class="n">dataset_metadata</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)][</span><span class="s2">&quot;link&quot;</span><span class="p">],</span>
                                 <span class="s1">&#39;-LOk&#39;</span><span class="p">,</span> <span class="s1">&#39;-o&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.zip&#39;</span><span class="p">])</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="n">check_call</span><span class="p">([</span><span class="s1">&#39;curl&#39;</span><span class="p">,</span> <span class="s1">&#39;--silent&#39;</span><span class="p">,</span> 
+                    <span class="n">check_call</span><span class="p">([</span><span class="s1">&#39;curl&#39;</span><span class="p">,</span> <span class="s1">&#39;--silent&#39;</span><span class="p">,</span>
                                 <span class="n">dataset_metadata</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)][</span><span class="s2">&quot;link&quot;</span><span class="p">],</span>
                                 <span class="s1">&#39;-LOk&#39;</span><span class="p">,</span> <span class="s1">&#39;-o&#39;</span><span class="p">,</span> <span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;.zip&quot;</span><span class="p">])</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s1">&#39;Dataset &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span>
                               <span class="s1">&#39; was not found on &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">data_home</span><span class="p">))</span>
-        <span class="k">else</span><span class="p">:</span>   
+        <span class="k">else</span><span class="p">:</span>
             <span class="c1"># move to the general data directory</span>
             <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">data_home</span><span class="p">)</span>
 
@@ -573,7 +573,6 @@
 
         <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Parsing dataset &quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;..&quot;</span><span class="p">)</span>
-
 
         <span class="n">data</span> <span class="o">=</span> <span class="n">read_data</span><span class="p">(</span><span class="n">name</span><span class="p">,</span>
                          <span class="n">with_classes</span><span class="o">=</span><span class="n">with_classes</span><span class="p">,</span>
@@ -586,7 +585,6 @@
         <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Deleting unzipped dataset files..&quot;</span><span class="p">)</span>
         <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
-
 
         <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Going back to the original directory..&quot;</span><span class="p">)</span>

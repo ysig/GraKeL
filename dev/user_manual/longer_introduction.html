@@ -378,8 +378,8 @@ This raises two issues, namely one of efficiency and one of compatibility:</p>
 <p>So the way we conceptually attached the kernel definition to that design pattern was:</p>
 <ul class="simple">
 <li>The <code class="code docutils literal notranslate"><span class="pre">fit</span></code> part should fix a graph dataset as the base of comparison calculating necessary features.</li>
-<li>The <code class="code docutils literal notranslate"><span class="pre">fit_transform</span></code> should fit and calculate the fitted dataset with itself.</li>
-<li>The <code class="code docutils literal notranslate"><span class="pre">transform</span></code> should calculate the matrix produced by between a new dataset (namely the <em>test</em>) and the dataset fitted in fit.</li>
+<li>The <code class="code docutils literal notranslate"><span class="pre">fit_transform</span></code> should fit and calculate the kernel matrix on the fitted dataset.</li>
+<li>The <code class="code docutils literal notranslate"><span class="pre">transform</span></code> should calculate the matrix produced between a new dataset (namely the <em>test</em>) and the fitted dataset.</li>
 </ul>
 <p>The deconstruction of the kernel matrix calculation from a function <img class="math" src="../_images/math/a4301f1553dae347454e8ef973d372480fe6477d.png" alt="\mathcal{K}: \mathcal{G}^{\text{train}} \times \mathcal{G}^{\text{test}} \rightarrow \mathbb{R}^{n_{\text{test}}} \times \mathbb{R}^{n_{\text{train}}}"/>
 to a <a class="reference external" href="https://en.wikipedia.org/wiki/Currying">currying</a> scheme <img class="math" src="../_images/math/34e6962b12b99b4ffe9c9f23194841c4065b6874.png" alt="\mathcal{K}: \mathcal{G}^{\text{train}} \rightarrow \mathcal{G}^{\text{test}} \rightarrow \mathbb{R}^{n_{\text{test}}} \times \mathbb{R}^{n_{\text{train}}}"/> is not always equivalent in the
