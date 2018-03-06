@@ -171,6 +171,10 @@ class kernel(BaseEstimator, TransformerMixin):
             format). If None the kernel matrix is calculated upon fit data.
             The test samples.
 
+        y : None
+            There is no need of a target in a transformer, yet the pipeline API
+            requires this parameter.
+
         Returns
         -------
         K : numpy array, shape = [n_targets, n_input_graphs]

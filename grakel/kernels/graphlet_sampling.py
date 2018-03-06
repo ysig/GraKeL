@@ -240,6 +240,10 @@ class graphlet_sampling(kernel):
             format). If None the kernel matrix is calculated upon fit data.
             The test samples.
 
+        y : None
+            There is no need of a target in a transformer, yet the pipeline API
+            requires this parameter.
+
         Returns
         -------
         K : numpy array, shape = [n_input_graphs, n_input_graphs]

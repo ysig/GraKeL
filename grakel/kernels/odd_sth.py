@@ -121,7 +121,7 @@ class odd_sth(kernel):
                 raise ValueError('parsed input is empty')
             return out
 
-    def fit_transform(self, X):
+    def fit_transform(self, X, y=None):
         """Fit and transform, on the same dataset.
 
         Parameters
@@ -133,6 +133,9 @@ class odd_sth(kernel):
             node_labels and the third edge_labels (that fitting the given graph
             format). If None the kernel matrix is calculated upon fit data.
             The test samples.
+
+        y : Object, default=None
+            Ignored argument, added for the pipeline.
 
         Returns
         -------

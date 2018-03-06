@@ -1,0 +1,23 @@
+rm -rf _build/*
+rm -rf auto_examples/
+rm -rf generated/*
+rm -rf modules/generated/*
+# These two lines make the build a bit more lengthy, and the
+# the embedding of images more robust
+rm -rf _build/html/_images
+#rm -rf _build/doctrees/
+sphinx-build -b html -d _build/doctrees   . _build/html
+Running Sphinx v1.7.1
+making output directory...
+loading pickled environment... not yet created
+[autosummary] generating autosummary for: .special.rst, api.rst, classes.rst, datasets.rst, graph.rst, graph_kernel.rst, index.rst, kernels.rst, kernels/edge_histogram.rst, kernels/graphlet_sampling.rst, ..., kernels/subgraph_matching.rst, kernels/subtree_wl.rst, kernels/svm_theta.rst, kernels/vertex_histogram.rst, kernels/weisfeiler_lehman.rst, user_manual/contributing.rst, user_manual/installation.rst, user_manual/introduction.rst, user_manual/longer_introduction.rst, user_manual/make_your_own_kernel.rst
+[autosummary] generating autosummary for: /home/mary/Ecole Polytechnique/GraKeL/code/GraKeL/doc/generated/grakel.Graph.rst, /home/mary/Ecole Polytechnique/GraKeL/code/GraKeL/doc/generated/grakel.GraphKernel.rst, /home/mary/Ecole Polytechnique/GraKeL/code/GraKeL/doc/generated/grakel.datasets.fetch_dataset.rst, /home/mary/Ecole Polytechnique/GraKeL/code/GraKeL/doc/generated/grakel.datasets.get_dataset_info.rst, /home/mary/Ecole Polytechnique/GraKeL/code/GraKeL/doc/generated/grakel.graph.floyd_warshall.rst, /home/mary/Ecole Polytechnique/GraKeL/code/GraKeL/doc/generated/grakel.graph.is_adjacency.rst, /home/mary/Ecole Polytechnique/GraKeL/code/GraKeL/doc/generated/grakel.graph.is_edge_dictionary.rst, /home/mary/Ecole Polytechnique/GraKeL/code/GraKeL/doc/generated/grakel.graph.laplacian.rst
+loading intersphinx inventory from http://scikit-learn.org/stable/objects.inv...
+intersphinx inventory has moved: http://scikit-learn.org/stable/objects.inv -> https://ucopia.saclay.inria.fr/101/portal/
+WARNING: failed to reach any of the inventories with the following issues:
+WARNING: intersphinx inventory 'http://scikit-learn.org/stable/objects.inv' not readable due to ValueError: ('intersphinx inventory %r not readable due to %s: %s', 'http://scikit-learn.org/stable/objects.inv', 'ValueError', ValueError(...))
+loading intersphinx inventory from https://docs.scipy.org/doc/scipy/reference/objects.inv...
+
+interrupted!
+Makefile:56: recipe for target 'html' failed
+make: *** [html] Error 2

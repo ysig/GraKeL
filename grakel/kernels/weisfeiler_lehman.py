@@ -225,7 +225,7 @@ class weisfeiler_lehman(kernel):
         elif self._method_calling == 2:
             return K, base_kernel
 
-    def fit_transform(self, X):
+    def fit_transform(self, X, y=None):
         """Fit and transform, on the same dataset.
 
         Parameters
@@ -237,6 +237,9 @@ class weisfeiler_lehman(kernel):
             node_labels and the third edge_labels (that fitting the given graph
             format). If None the kernel matrix is calculated upon fit data.
             The test samples.
+
+        y : Object, default=None
+            Ignored argument, added for the pipeline.
 
         Returns
         -------

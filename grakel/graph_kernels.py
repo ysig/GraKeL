@@ -229,7 +229,7 @@ class GraphKernel(BaseEstimator, TransformerMixin):
 
         where (**o**): stands for optional parameters
 
-    Nystroem : int, optional
+    Nystroem : int or bool, optional
         Defines the number of nystroem components.
         To initialize the default (100 components), set -1 or 0.
 
@@ -249,16 +249,13 @@ class GraphKernel(BaseEstimator, TransformerMixin):
 
     Attributes
     ----------
-    kernel : function
+    kernel_ : function
         The full kernel applied between graph objects.
 
-    nystroem : int
+    nystroem_ : int
         Holds the nystroem, number of components.
         If not initialised, it stands as a False
         boolean variable.
-
-    normalize : bool
-        Normalize the output of the graph kernel.
 
     components_ : array, shape=(n_components, n_features)
         Subset of training graphs used to construct the feature map.
@@ -270,98 +267,237 @@ class GraphKernel(BaseEstimator, TransformerMixin):
     component_indices_ : array, shape=(n_components)
         Indices of ``components_`` in the training set.
 
-    _verbose : bool, default=False
-        Print messages in on stdout.
-
-    _pairwise_kernel_executor : function
+    pairwise_kernel_executor_ : function
         The final executor destined for a single kernel calculation.
 
-    _concurrent_executor : ThreadPoolExecutor
+    concurrent_executor_ : ThreadPoolExecutor
         An executor for applying concurrency, for the fast pairwise
         computations of the kernel matrix calculation.
 
-    _global_random_seed : int
-        The seed applying randomness.
-
     """
 
-    _nystroem = False
-    _normalize = False
+    initialised_ = None
 
-    def __init__(self, **kargs):
+    def __init__(self,
+                 kernel=None,
+                 normalize=False,
+                 verbose=False,
+                 n_jobs=0,
+                 random_seed=default_random_seed_value,
+                 Nystroem=False):
         """`__init__` for `GraphKernel` object."""
-        self._verbose = kargs.get("verbose", default_verbose_value)
+        self.kernel = kernel
+        self.normalize = normalize
+        self.verbose = verbose
+        self.n_jobs = n_jobs
+        self.random_seed = random_seed
+        self.Nystroem = Nystroem
+        self.initialised_ = {"kernel": False,
+                             "Nystroem": False,
+                             "n_jobs": False}
 
-        if "Nystroem" in kargs:
-            if type(kargs["Nystroem"]) is not int:
-                raise ValueError('nystroem parameter must be an int, '
-                                 'indicating the number of components')
-            elif kargs["Nystroem"] in [0, -1]:
+    def fit(self, X, y=None):
+        """Fit a dataset, for a transformer.
+
+        Parameters
+        ----------
+        X : iterable
+            Each element must be an iterable with at most three features and at
+            least one. The first that is obligatory is a valid graph structure
+            (adjacency matrix or edge_dictionary) while the second is
+            node_labels and the third edge_labels (that fitting the given grap
+            format). The train samples.
+
+        y : None
+            There is no need of a target in a transformer, yet the pipeline API
+            requires this parameter.
+
+        Returns
+        -------
+        self : object
+            Returns self.
+
+        """
+        # Initialise the Graph Kernel.
+        self.initialise_()
+
+        # Input validation and parsing
+        if bool(self.nystroem_):
+            X = list(X)
+            nx = len(X)
+            # get basis vectors
+            if self.nystroem_ > nx:
+                n_components = nx
+                warnings.warn("n_components > n_samples. This is not "
+                              "possible.\nn_components was set to n_samples"
+                              ", which results in inefficient evaluation of"
+                              " the full kernel.")
+            else:
+                n_components = self.nystroem_
+
+            n_components = min(nx, n_components)
+            inds = np.random.permutation(nx)
+            basis_inds = inds[:n_components]
+            basis = [X[i] for i in basis_inds]
+
+            # sqrt of kernel matrix on basis vectors
+            U, S, V = svd(self.kernel_.fit_transform(basis))
+            S = np.maximum(S, 1e-12)
+            self.nystroem_ = n_components
+            self.nystroem_normalization_ = np.dot(U / np.sqrt(S), V)
+            self.components_ = basis
+            self.component_indices_ = inds
+        else:
+            self.kernel.fit(X)
+
+        # Return the transformer
+        return self
+
+    def transform(self, X):
+        """Calculate the kernel matrix, between given and fitted dataset.
+
+        Parameters
+        ----------
+        X : iterable
+            Each element must be an iterable with at most three features and at
+            least one. The first that is obligatory is a valid graph structure
+            (adjacency matrix or edge_dictionary) while the second is
+            node_labels and the third edge_labels (that fitting the given graph
+            format). If None the kernel matrix is calculated upon fit data.
+            The test samples.
+
+        Returns
+        -------
+        K : numpy array, shape = [n_targets, n_input_graphs]
+            corresponding to the kernel matrix, a calculation between
+            all pairs of graphs between target an features
+
+        """
+        # Check if nystroem has been initialised had been called
+        if bool(self.nystroem_):
+            check_is_fitted(self, 'components_')
+
+        # Transform - calculate kernel matrix
+        if bool(self.nystroem_):
+            K = self.kernel_.transform(X).dot(self.nystroem_normalization_.T)
+        else:
+            K = self.kernel_.transform(X)
+
+        if K.shape == (1, 1):
+            return K[0, 0]
+        else:
+            return K
+
+    def fit_transform(self, X, y=None):
+        """Fit and transform, on the same dataset.
+
+        Parameters
+        ----------
+        X : iterable
+            Each element must be an iterable with at most three features and at
+            least one. The first that is obligatory is a valid graph structure
+            (adjacency matrix or edge_dictionary) while the second is
+            node_labels and the third edge_labels (that fitting the given graph
+            format). If None the kernel matrix is calculated upon fit data.
+            The test samples.
+
+        y : None
+            There is no need of a target in a transformer, yet the pipeline API
+            requires this parameter.
+
+        Returns
+        -------
+        K : numpy array, shape = [n_targets, n_input_graphs]
+            corresponding to the kernel matrix, a calculation between
+            all pairs of graphs between target an features
+
+        """
+        # Initialise the Graph Kernel
+        self.initialise_()
+
+        # Transform - calculate kernel matrix
+        if bool(self.nystroem_):
+            self.fit(X)
+            K = self.kernel_.transform(X).dot(self.nystroem_normalization_.T)
+        else:
+            K = self.kernel_.fit_transform(X)
+
+        if K.shape == (1, 1):
+            return K[0, 0]
+        else:
+            return K
+
+    def initialise_(self):
+        """Initialise all transformer arguments, needing initialisation. """
+        if not self.initialised_["Nystroem"]:
+            if type(self.Nystroem) not in [int, bool]:
+                raise ValueError('Nystroem parameter must be an int, '
+                                 'indicating the number of components'
+                                 'or a boolean')
+            elif self.Nystroem is False:
+                self.nystroem_ = False
+            elif self.Nystroem in [0, -1] or self.Nystroem is True:
                 # picking default number of components
-                self._nystroem = default_n_components
-            elif kargs["Nystroem"] <= 0:
-                raise ValueError('number of nystroem components '
-                                 'must be positive')
+                self.nystroem_ = default_n_components
+            elif self.Nystroem <= 0:
+                    raise ValueError('number of nystroem components '
+                                     'must be positive')
             else:
-                self._nystroem = kargs["Nystroem"]
+                self.nystroem_ = self.Nystroem
+                
+            self.initialised_["Nystroem"] = True
 
-        if "n_jobs" in kargs:
-            warnings.warn('feature is currently not implemented')
-            if type(kargs["n_jobs"]) is not int:
-                raise ValueError('n_jobs parameter must be an int, '
-                                 'indicating the number of workers')
-            elif kargs["n_jobs"] in [0, -1]:
+        if not self.initialised_["n_jobs"]:
+            if self.n_jobs == 0:
                 pass
-                # Initialise an executor
-                # self._concurrent_executor = ThreadPoolExecutor()
-            elif kargs["n_jobs"] <= 0:
-                raise ValueError('number of jobs (concurrent workers) '
-                                 'must be positive')
+                # self._pairwise_kernel_executor = lambda fn, *eargs, **ekargs: \
+                #    fn(*eargs, **ekargs)
             else:
-                pass
-                # self._concurrent_executor = ThreadPoolExecutor(
-                #    max_workers=kargs["n_jobs"])
-            # self._pairwise_kernel_executor = lambda fn, *eargs, **ekargs: \
-            # self._concurrent_executor.submit(fn, *eargs, **ekargs).result()
-        else:
-            pass
-            # self._pairwise_kernel_executor = lambda fn, *eargs, **ekargs: \
-            #    fn(*eargs, **ekargs)
-        self._pairwise_kernel_executor = lambda fn, *eargs, **ekargs: \
-            fn(*eargs, **ekargs)
+                warnings.warn('feature is currently not implemented')
+                if type(kargs["n_jobs"]) is not int:
+                    raise ValueError('n_jobs parameter must be an int, '
+                                     'indicating the number of workers')
+                elif self.n_jobs == -1:
+                    pass
+                    # Initialise an executor
+                    # self._concurrent_executor = ThreadPoolExecutor()
+                elif self.n_jobs <= 0:
+                    raise ValueError('number of jobs (concurrent workers) '
+                                     'must be positive')
+                else:
+                    pass
+                    # self._concurrent_executor = ThreadPoolExecutor(
+                    #    max_workers=kargs["n_jobs"])
+                # self._pairwise_kernel_executor = lambda fn, *eargs, **ekargs: \
+                # self._concurrent_executor.submit(fn, *eargs, **ekargs).result()
+            self.initialised_["Nystroem"] = True
 
-        self._normalize = kargs.get("normalize", False)
+            self.pairwise_kernel_executor_ = lambda fn, *eargs, **ekargs: \
+                fn(*eargs, **ekargs)
 
-        self._global_random_seed = kargs.get("random_seed",
-                                             default_random_seed_value)
-
-        if "kernel" in kargs:
-            hidden_args = {"verbose": self._verbose,
-                           "normalize": self._normalize,
-                           "executor": self._pairwise_kernel_executor}
-            if type(kargs["kernel"]) is dict:
-                # allow single kernel dictionary inputs
-                kernel, params = self._make_kernel(
-                    [kargs["kernel"]], hidden_args)
-
-            elif type(kargs["kernel"]) is list:
-                kernel, params = self._make_kernel(
-                    copy.deepcopy(kargs["kernel"]), hidden_args)
+        if not self.initialised_["kernel"]:
+            if self.kernel is None:
+                raise ValueError('kernel must be defined at the __init__ '
+                                 'function of the graph kernel decorator ')
             else:
-                raise ValueError('unsupported kernel format')
-            self._kernel = kernel(**params)
-        else:
-            raise ValueError('kernel must be defined at the __init__ '
-                             'function of the graph kernel decorator')
+                hidden_args = {"verbose": self.verbose,
+                               "normalize": self.normalize,
+                               "executor": self.pairwise_kernel_executor_}
 
-        unrecognised_args = set(kargs.keys()) - valid_parameters
+                k = self.kernel
+                if type(k) is dict:
+                    # allow single kernel dictionary inputs
+                    k = [self.kernel]
+                elif type(k) is not list:
+                    raise ValueError('unsupported kernel format')
 
-        if len(unrecognised_args) > 0:
-            warnings.warn(
-                'Ignoring unrecognised arguments:' +
-                ', '.join('"' + str(arg) + '"' for arg in unrecognised_args))
+                kernel, params = self.make_kernel_(
+                    copy.deepcopy(k), hidden_args)
+                
+                self.kernel_ = kernel(**params)
+            self.initialised_["kernel"] = True
 
-    def _make_kernel(self, kernel_list, hidden_args):
+    def make_kernel_(self, kernel_list, hidden_args):
         """Produce the desired kernel function.
 
         Parameters
@@ -372,8 +508,9 @@ class GraphKernel(BaseEstimator, TransformerMixin):
 
         Returns
         -------
-        function.
-        Returns the kernel, as a function of two arguments.
+        kernel : kernel (class).
+            Returns an instance of a kernel type object corresponding to the
+            certain kernel.
 
         """
         kernel = kernel_list.pop(0)
@@ -404,9 +541,9 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                 raise ValueError('still developing')
             elif kernel_name == "graphlet_sampling":
                 if ("random_seed" not in kernel and
-                    self._global_random_seed is not
+                    self.random_seed is not
                         default_random_seed_value):
-                        kernel["random_seed"] = self._global_random_seed
+                        kernel["random_seed"] = self.random_seed
                 return graphlet_sampling, kernel
             elif kernel_name == "multiscale_laplacian":
                 if kernel.pop("which", None) == "simple":
@@ -414,23 +551,23 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                     return (multiscale_laplacian, kernel)
                 else:
                     if ("random_seed" not in kernel and
-                        self._global_random_seed is not
+                        self.random_seed is not
                             default_random_seed_value):
-                        kernel["random_seed"] = self._global_random_seed
+                        kernel["random_seed"] = self.random_seed
                     return (multiscale_laplacian_fast, kernel)
             elif kernel_name == "subgraph_matching":
                 return subgraph_matching, kernel
             elif kernel_name == "lovasz_theta":
                 if ("random_seed" not in kernel and
-                        self._global_random_seed is not
+                        self.random_seed is not
                         default_random_seed_value):
-                    kernel["random_seed"] = self._global_random_seed
+                    kernel["random_seed"] = self.random_seed
                 return lovasz_theta, kernel
             elif kernel_name == "svm_theta":
                 if ("random_seed" not in kernel and
-                    self._global_random_seed is not
+                    self.random_seed is not
                         default_random_seed_value):
-                    kernel["random_seed"] = self._global_random_seed
+                    kernel["random_seed"] = self.random_seed
                 return svm_theta, kernel
             elif kernel_name == "neighborhood_hash":
                 return neighborhood_hash, kernel
@@ -440,9 +577,9 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                 return odd_sth, kernel
             elif kernel_name == "propagation":
                 if ("random_seed" not in kernel and
-                    self._global_random_seed is not
+                    self.random_seed is not
                         default_random_seed_value):
-                    kernel["random_seed"] = self._global_random_seed
+                    kernel["random_seed"] = self.random_seed
                 return propagation, kernel
             elif kernel_name == "pyramid_match":
                 return pyramid_match, kernel
@@ -456,7 +593,7 @@ class GraphKernel(BaseEstimator, TransformerMixin):
             if (len(kernel_list) == 0):
                 raise ValueError(str(kernel_name)+' is not a base kernel')
             else:
-                kernel["base_kernel"] = self._make_kernel(kernel_list, {})
+                kernel["base_kernel"] = self.make_kernel_(kernel_list, {})
             if kernel_name == "weisfeiler_lehman":
                 return (weisfeiler_lehman, kernel)
             if kernel_name == "hadamard_code":
@@ -464,126 +601,19 @@ class GraphKernel(BaseEstimator, TransformerMixin):
         else:
             raise ValueError('unsupported kernel: ' + str(kernel_name))
 
-    def fit(self, X, y=None):
-        """Fit a dataset, for a transformer.
+    def set_params(self, **params):
+        """ Call the parent method."""
+        # Copy the parameters
+        params = copy.deepcopy(params)
 
-        Parameters
-        ----------
-        X : iterable
-            Each element must be an iterable with at most three features and at
-            least one. The first that is obligatory is a valid graph structure
-            (adjacency matrix or edge_dictionary) while the second is
-            node_labels and the third edge_labels (that fitting the given grap
-            format). The train samples.
+        # Iterate over the parameters
+        for key, value in iteritems(params):
+            key, delim, sub_key = key.partition('__')
+            if delim:
+                if sub_key in self.initialised_:
+                    self.initialised_[sub_key] = False
+            elif key in self.initialised_:
+                self.initialised_[key] = False
 
-        y : None
-            There is no need of a target in a transformer, yet the pipeline API
-            requires this parameter.
-
-        Returns
-        -------
-        self : object
-            Returns self.
-
-        """
-        # Input validation and parsing
-        if bool(self._nystroem):
-            X = list(X)
-            nx = len(X)
-            # get basis vectors
-            if self._nystroem > nx:
-                n_components = nx
-                warnings.warn("n_components > n_samples. This is not "
-                              "possible.\nn_components was set to n_samples"
-                              ", which results in inefficient evaluation of"
-                              " the full kernel.")
-            else:
-                n_components = self._nystroem
-
-            n_components = min(nx, n_components)
-            inds = np.random.permutation(nx)
-            basis_inds = inds[:n_components]
-            basis = [X[i] for i in basis_inds]
-
-            self.components_ = basis
-            self._nystroem = n_components
-
-            # sqrt of kernel matrix on basis vectors
-            U, S, V = svd(self._kernel.fit_transform(basis))
-            S = np.maximum(S, 1e-12)
-            self._nystroem = n_components
-            self.nystroem_normalization_ = np.dot(U / np.sqrt(S), V)
-            self.components_ = basis
-            self.component_indices_ = inds
-        else:
-            self._kernel.fit(X)
-
-        # Return the transformer
-        return self
-
-    def transform(self, X):
-        """Calculate the kernel matrix, between given and fitted dataset.
-
-        Parameters
-        ----------
-        X : iterable
-            Each element must be an iterable with at most three features and at
-            least one. The first that is obligatory is a valid graph structure
-            (adjacency matrix or edge_dictionary) while the second is
-            node_labels and the third edge_labels (that fitting the given graph
-            format). If None the kernel matrix is calculated upon fit data.
-            The test samples.
-
-        Returns
-        -------
-        K : numpy array, shape = [n_targets, n_input_graphs]
-            corresponding to the kernel matrix, a calculation between
-            all pairs of graphs between target an features
-
-        """
-        # Check if nystroem has been initialised had been called
-        if bool(self._nystroem):
-            check_is_fitted(self, 'components_')
-
-        # Transform - calculate kernel matrix
-        if bool(self._nystroem):
-            K = self._kernel.transform(X).dot(self.nystroem_normalization_.T)
-        else:
-            K = self._kernel.transform(X)
-
-        if K.shape == (1, 1):
-            return K[0, 0]
-        else:
-            return K
-
-    def fit_transform(self, X):
-        """Fit and transform, on the same dataset.
-
-        Parameters
-        ----------
-        X : iterable
-            Each element must be an iterable with at most three features and at
-            least one. The first that is obligatory is a valid graph structure
-            (adjacency matrix or edge_dictionary) while the second is
-            node_labels and the third edge_labels (that fitting the given graph
-            format). If None the kernel matrix is calculated upon fit data.
-            The test samples.
-
-        Returns
-        -------
-        K : numpy array, shape = [n_targets, n_input_graphs]
-            corresponding to the kernel matrix, a calculation between
-            all pairs of graphs between target an features
-
-        """
-        # Transform - calculate kernel matrix
-        if bool(self._nystroem):
-            self.fit(X)
-            K = self._kernel.transform(X).dot(self.nystroem_normalization_.T)
-        else:
-            K = self._kernel.fit_transform(X)
-
-        if K.shape == (1, 1):
-            return K[0, 0]
-        else:
-            return K
+        # Set parameters
+        super(GraphKernel, self).set_params(**kargs)

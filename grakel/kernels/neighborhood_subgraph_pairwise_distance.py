@@ -229,7 +229,7 @@ class neighborhood_subgraph_pairwise_distance(kernel):
 
             return M
 
-    def transform(self, X):
+    def transform(self, X, y=None):
         """Calculate the kernel matrix, between given and fitted dataset.
 
         Parameters
@@ -240,6 +240,9 @@ class neighborhood_subgraph_pairwise_distance(kernel):
             (adjacency matrix or edge_dictionary) while the second is
             node_labels and the third edge_labels (that fitting the given graph
             format).
+
+        y : Object, default=None
+            Ignored argument, added for the pipeline.
 
         Returns
         -------

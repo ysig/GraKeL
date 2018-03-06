@@ -5,7 +5,7 @@ import zipfile
 
 import numpy as np
 
-from subprocess import call
+from subprocess import check_call
 
 from sklearn.utils import Bunch
 
@@ -316,6 +316,8 @@ def read_data(
 def fetch_dataset(
         name,
         verbose=True,
+        data_home=None,
+        download_if_missing=True,
         with_classes=True,
         prefer_attr_nodes=False,
         prefer_attr_edges=False):
@@ -330,6 +332,14 @@ def fetch_dataset(
 
     verbose : bool, default=True
         Print messages, throughout execution.
+
+    data_home : string, default=None
+        Specify another download and cache folder for the datasets.
+        By default all grakel data is stored in ‘~/grakel_data’ subfolders.
+
+    download_if_missing : boolean, default=True
+        If False, raise a IOError if the data is not locally available instead
+        of trying to download the data from the source site.
 
     with_classes : bool, default=False
         Return an iterable of class labels based on the enumeration.
@@ -354,20 +364,39 @@ def fetch_dataset(
 
     """
     if name in dataset_metadata:
-        if verbose:
-            print("Downloading dataset for", str(name) + "..")
-            print('curl',
-                  dataset_metadata[str(name)]["link"],
-                  '-LOk',
-                  '-o',
-                  str(name) + '.zip')
+        if data_home is None:
+            data_home = os.path.join(os.path.expanduser("~"), 'grakel_data')
 
-        if verbose:
-            call(['curl', dataset_metadata[str(name)]["link"],
-                  '-LOk', '-o', str(name) + '.zip'])
-        else:
-            call(['curl', '--silent', dataset_metadata[str(name)]["link"],
-                  '-LOk', '-o', str(name) + '.zip'])
+        exists = os.path.isdir(data_home)
+        missing = not os.path.exists(os.path.join(data_home, name + ".zip"))
+        cwd = os.getcwd()
+
+        if missing:
+            if download_if_missing:
+                if not exists:
+                    if verbose:
+                        print("Initializing folder at", str(data_home))
+                    os.makedirs(data_home)
+                os.chdir(data_home)
+                if verbose:
+                    print("Downloading dataset for", str(name) + "..")
+                    print('curl',
+                          dataset_metadata[str(name)]["link"],
+                          '-LOk',
+                          '-o',
+                          name + ".zip")
+                    check_call(['curl', dataset_metadata[str(name)]["link"],
+                                '-LOk', '-o', str(name) + '.zip'])
+                else:
+                    check_call(['curl', '--silent', 
+                                dataset_metadata[str(name)]["link"],
+                                '-LOk', '-o', name + ".zip"])
+            else:
+                raise IOError('Dataset ' + str(name) +
+                              ' was not found on ' + str(data_home))
+        else:   
+            # move to the general data directory
+            os.chdir(data_home)
 
         with zipfile.ZipFile(str(name) + '.zip', "r") as zip_ref:
             if verbose:
@@ -377,21 +406,23 @@ def fetch_dataset(
         if verbose:
             print("Parsing dataset ", str(name) + "..")
 
+
         data = read_data(name,
                          with_classes=with_classes,
                          prefer_attr_nodes=prefer_attr_nodes,
                          prefer_attr_edges=prefer_attr_edges,
                          is_symmetric=symmetric_dataset)
-
         if verbose:
             print("Parse was succesful..")
 
-        # Delete zip and extracted folder
-        os.remove(str(name) + '.zip')
+        if verbose:
+            print("Deleting unzipped dataset files..")
         shutil.rmtree(str(name))
 
+
         if verbose:
-            print("Dataset data deleted..")
+            print("Going back to the original directory..")
+        os.chdir(cwd)
 
         return data
     else:

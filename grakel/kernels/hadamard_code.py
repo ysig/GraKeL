@@ -362,7 +362,7 @@ class hadamard_code(kernel):
 
         return km
 
-    def fit_transform(self, X):
+    def fit_transform(self, X, y=None):
         """Fit and transform, on the same dataset.
 
         Parameters
@@ -374,6 +374,10 @@ class hadamard_code(kernel):
             node_labels and the third edge_labels (that fitting the given graph
             format). If None the kernel matrix is calculated upon fit data.
             The test samples.
+        
+        y : None
+            There is no need of a target in a transformer, yet the pipeline API
+            requires this parameter.
 
         Returns
         -------

@@ -324,7 +324,7 @@ class shortest_path(kernel):
         Y_diag = np.sum(np.square(self._phi_Y), axis=1)
         return self._X_diag, np.reshape(Y_diag, (Y_diag.shape[0], 1))
 
-    def fit_transform(self, X):
+    def fit_transform(self, X, y=None):
         """Fit and transform, on the same dataset.
 
         Parameters
@@ -335,6 +335,9 @@ class shortest_path(kernel):
             (adjacency matrix or edge_dictionary) while the second is
             node_labels and the third edge_labels (that fitting the given graph
             format).
+
+        y : Object, default=None
+            Ignored argument, added for the pipeline.
 
         Returns
         -------
