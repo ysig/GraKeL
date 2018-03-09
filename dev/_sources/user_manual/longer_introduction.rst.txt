@@ -223,24 +223,25 @@ The decorator **does not** restrict any *user-oriented* interface of the kernels
 If you want to know more about the kernel structure in order to write your own see :ref:`myok`.
 
 To demonstrate a small example of the above we will construct our own a WL-subtree kernel instead of using the decorator.
-To do so first import the :code:`weisfeiler_lehman` and :code:`subtree_wl` kernels as
+To do so first import the :code:`weisfeiler_lehman` and :code:`vertex_histogram` (where :code:`vertex_histogram` is equivalent
+with the :code:`subtree_kernel`) kernels as
 
 .. code-block:: python
 
     >>> from grakel import weisfeiler_lehman
-    >>> from grakel import subtree_wl
+    >>> from grakel import vertex_histogram
 
 If we see the documentation of :ref:`weisfeiler_lehman`, we can see that it accepts two arguments upon initialization: a :code:`niter` and a :code:`base_kernel`. The :code:`base_kernel` is a tuple consisting of a :code:`kernel` type object and a dictionary of arguments. To initialize a Weisfeiler-Lehman with 5 iterations and a subtree base-kernel.
 
 .. code-block:: python
 
-    >>> wl_kernel = weisfeiler_lehman(niter=5, base_kernel=(subtree_wl, {}))
+    >>> wl_kernel = weisfeiler_lehman(niter=5, base_kernel=(vertex_histogram, {}))
 
 This is also equivalent with doing (as long as we have no arguments)
 
 .. code-block:: python
 
-    >>> wl_kernel = weisfeiler_lehman(niter=5, base_kernel=subtree_wl)
+    >>> wl_kernel = weisfeiler_lehman(niter=5, base_kernel=vertex_histogram)
 
 Now let's go back again to our favorite MUTAG problem.
 
@@ -258,6 +259,7 @@ If what we said till now is correct, the :code:`GraphKernel` object should produ
 
     >>> from grakel import GraphKernel
     >>> wl_graph_kernel = GraphKernel(kernel = [{"name": "weisfeiler_lehman", "niter": 5}, {"name": "subtree_wl"}])
+    >>> # The alias "subtree_wl" is supported inside the decorator
     >>> from numpy import array_equal
     >>> array_equal(wl_graph_kernel.fit_transform(X), wl_kernel.fit_transform(X))
     True

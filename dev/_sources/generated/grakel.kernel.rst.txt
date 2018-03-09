@@ -1,9 +1,9 @@
-:mod:`grakel.kernels`.subtree_wl
-=======================================
+:mod:`grakel`.kernel
+===========================
 
-.. currentmodule:: grakel.kernels
+.. currentmodule:: grakel
 
-.. autoclass:: subtree_wl
+.. autoclass:: kernel
 
    
    .. automethod:: __init__
@@ -15,7 +15,7 @@ Bibliography
 .. bibliography:: ../kernels/graph_kernels.bib
    :filter: docname in docnames
 
-.. include:: grakel.kernels.subtree_wl.examples
+.. include:: grakel.kernel.examples
 
 .. raw:: html
 

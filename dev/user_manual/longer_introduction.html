@@ -62,6 +62,9 @@
           
 
           
+            
+            <img src="../_static/logo.png" class="logo" />
+          
           </a>
 
           
@@ -390,17 +393,18 @@ before fit we advise him to use the <code class="code docutils literal notransla
 The decorator <strong>does not</strong> restrict any <em>user-oriented</em> interface of the kernels, except if the user wants to write a kernel of his own.
 If you want to know more about the kernel structure in order to write your own see <a class="reference internal" href="make_your_own_kernel.html#myok"><span class="std std-ref">Write your own kernel</span></a>.</p>
 <p>To demonstrate a small example of the above we will construct our own a WL-subtree kernel instead of using the decorator.
-To do so first import the <code class="code docutils literal notranslate"><span class="pre">weisfeiler_lehman</span></code> and <code class="code docutils literal notranslate"><span class="pre">subtree_wl</span></code> kernels as</p>
+To do so first import the <code class="code docutils literal notranslate"><span class="pre">weisfeiler_lehman</span></code> and <code class="code docutils literal notranslate"><span class="pre">vertex_histogram</span></code> (where <code class="code docutils literal notranslate"><span class="pre">vertex_histogram</span></code> is equivalent
+with the <code class="code docutils literal notranslate"><span class="pre">subtree_kernel</span></code>) kernels as</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">grakel</span> <span class="kn">import</span> <span class="n">weisfeiler_lehman</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">grakel</span> <span class="kn">import</span> <span class="n">subtree_wl</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">grakel</span> <span class="kn">import</span> <span class="n">vertex_histogram</span>
 </pre></div>
 </div>
 <p>If we see the documentation of <a class="reference internal" href="../kernels/weisfeiler_lehman.html#weisfeiler-lehman"><span class="std std-ref">Weisfeiler Lehman Kernel</span></a>, we can see that it accepts two arguments upon initialization: a <code class="code docutils literal notranslate"><span class="pre">niter</span></code> and a <code class="code docutils literal notranslate"><span class="pre">base_kernel</span></code>. The <code class="code docutils literal notranslate"><span class="pre">base_kernel</span></code> is a tuple consisting of a <code class="code docutils literal notranslate"><span class="pre">kernel</span></code> type object and a dictionary of arguments. To initialize a Weisfeiler-Lehman with 5 iterations and a subtree base-kernel.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">wl_kernel</span> <span class="o">=</span> <span class="n">weisfeiler_lehman</span><span class="p">(</span><span class="n">niter</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">base_kernel</span><span class="o">=</span><span class="p">(</span><span class="n">subtree_wl</span><span class="p">,</span> <span class="p">{}))</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">wl_kernel</span> <span class="o">=</span> <span class="n">weisfeiler_lehman</span><span class="p">(</span><span class="n">niter</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">base_kernel</span><span class="o">=</span><span class="p">(</span><span class="n">vertex_histogram</span><span class="p">,</span> <span class="p">{}))</span>
 </pre></div>
 </div>
 <p>This is also equivalent with doing (as long as we have no arguments)</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">wl_kernel</span> <span class="o">=</span> <span class="n">weisfeiler_lehman</span><span class="p">(</span><span class="n">niter</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">base_kernel</span><span class="o">=</span><span class="n">subtree_wl</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">wl_kernel</span> <span class="o">=</span> <span class="n">weisfeiler_lehman</span><span class="p">(</span><span class="n">niter</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">base_kernel</span><span class="o">=</span><span class="n">vertex_histogram</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Now let’s go back again to our favorite MUTAG problem.</p>
@@ -414,6 +418,7 @@ To do so first import the <code class="code docutils literal notranslate"><span 
 <p>If what we said till now is correct, the <code class="code docutils literal notranslate"><span class="pre">GraphKernel</span></code> object should produce the same kernel matrix output on the MUTAG train/test data split.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">grakel</span> <span class="kn">import</span> <span class="n">GraphKernel</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">wl_graph_kernel</span> <span class="o">=</span> <span class="n">GraphKernel</span><span class="p">(</span><span class="n">kernel</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;weisfeiler_lehman&quot;</span><span class="p">,</span> <span class="s2">&quot;niter&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">},</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;subtree_wl&quot;</span><span class="p">}])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># The alias &quot;subtree_wl&quot; is supported inside the decorator</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">array_equal</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">array_equal</span><span class="p">(</span><span class="n">wl_graph_kernel</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="n">wl_kernel</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">))</span>
 <span class="go">True</span>

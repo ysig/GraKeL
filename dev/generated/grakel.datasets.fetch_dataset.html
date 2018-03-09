@@ -63,6 +63,9 @@
           
 
           
+            
+            <img src="../_static/logo.png" class="logo" />
+          
           </a>
 
           
@@ -188,7 +191,7 @@
 <h1><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel.datasets</span></code>.fetch_dataset<a class="headerlink" href="#grakel-datasets-fetch-dataset" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="grakel.datasets.fetch_dataset">
-<code class="descclassname">grakel.datasets.</code><code class="descname">fetch_dataset</code><span class="sig-paren">(</span><em>name</em>, <em>verbose=True</em>, <em>data_home=None</em>, <em>download_if_missing=True</em>, <em>with_classes=True</em>, <em>prefer_attr_nodes=False</em>, <em>prefer_attr_edges=False</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/9049101/grakel/datasets/base.py#L316"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/datasets/base.html#fetch_dataset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.datasets.fetch_dataset" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">grakel.datasets.</code><code class="descname">fetch_dataset</code><span class="sig-paren">(</span><em>name</em>, <em>verbose=True</em>, <em>data_home=None</em>, <em>download_if_missing=True</em>, <em>with_classes=True</em>, <em>prefer_attr_nodes=False</em>, <em>prefer_attr_edges=False</em>, <em>as_graphs=False</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/54cf543/grakel/datasets/base.py#L330"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/datasets/base.html#fetch_dataset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.datasets.fetch_dataset" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load a dataset from <a class="reference external" href="https://ls11-www.cs.tu-dortmund.de/staff/morris/graphkerneldatasets">gd</a>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -226,6 +229,10 @@ set as labels for the graph object for <em>nodes</em> the attributes.</p>
 <div><p>If a dataset has both <em>edge</em> labels and <em>edge</em> attributes
 set as labels for the graph object for <em>edge</em> the attributes.</p>
 </div></blockquote>
+<p><strong>as_graphs</strong> : bool, default=False</p>
+<blockquote>
+<div><p>Return data as a list of Graph Objects.</p>
+</div></blockquote>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>graphs</strong> : iterable</p>
@@ -261,6 +268,10 @@ order of input.</p>
 </div><div class="sphx-glr-thumbcontainer" tooltip="An example plot of :class:`grakel.GraphKernel` "><div class="figure" id="id4">
 <img alt="../_images/sphx_glr__plot_classification_statistics_thumb.png" src="../_images/sphx_glr__plot_classification_statistics_thumb.png" />
 <p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/_plot_classification_statistics.html#sphx-glr-auto-examples-plot-classification-statistics-py"><span class="std std-ref">Classification statistics on the MUTAG, ENZYMES datasets.</span></a></span></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="An example plot of :class:`grakel.GraphKernel`, :class:`grakel.kernels.multiscale_laplacian_fas..."><div class="figure" id="id5">
+<img alt="../_images/sphx_glr_plot_KFold_MLG_thumb.png" src="../_images/sphx_glr_plot_KFold_MLG_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/plot_KFold_MLG.html#sphx-glr-auto-examples-plot-kfold-mlg-py"><span class="std std-ref">KFold classification of a dataset [Cuneiform] using the fast Multiscale Laplacian kernel.</span></a></span></p>
 </div>
 </div><div class="clearer"></div></div>
 </div>

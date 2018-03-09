@@ -62,6 +62,9 @@
           
 
           
+            
+            <img src="../_static/logo.png" class="logo" />
+          
           </a>
 
           
@@ -194,7 +197,7 @@ by the pre-referenced programming languages. So except than computationally opti
 which is generally done by the users or through the scientific community in time, it can be important to either re-implement
 existing kernel functions using wrapped C++ packages, that we either write ourselves or import from existing libraries
 like numpy, scipy, sklearn etc.</li>
-<li><strong>Optimization the Graph class</strong>: As discussed at <a class="reference internal" href="longer_introduction.html#longer-introduction"><span class="std std-ref">A longer Introduction</span></a>, <code class="code docutils literal notranslate"><span class="pre">Graph</span></code> solves as a uniform representation
+<li><strong>Optimization of the Graph class</strong>: As discussed at <a class="reference internal" href="longer_introduction.html#longer-introduction"><span class="std std-ref">A longer Introduction</span></a>, <code class="code docutils literal notranslate"><span class="pre">Graph</span></code> solves as a uniform representation
 that supports both vertex-oriented and edge-oriented representations of graphs, while resolving conversions, importing of
 various types of inputs and finally a small group of important operations concerning graph objects, while being at the same
 time memory and computationally efficient. To achieve that goal the code of the <code class="code docutils literal notranslate"><span class="pre">Graph</span></code> should be optimized in python
@@ -208,8 +211,8 @@ the classification accuracy concerning kernel-matrix-computation in benchmark da
 through the use of <code class="code docutils literal notranslate"><span class="pre">fit_transform</span></code>, we would like to be able to apply a more thorough unit-testing, that will expose the kernels calculation
 validity in relation to the theoretical foundation.</li>
 <li><strong>Utilizing Parallel/Concurrent computation</strong>: It is important that the <code class="code docutils literal notranslate"><span class="pre">GraphKernel</span></code> decorator through the objects of the <code class="code docutils literal notranslate"><span class="pre">kernel</span></code>
-class supports a parallel computation scheme for executing procedures faster if the user wants so. This seems currently as something implemented
-but actually its implementation is wrong. This seems as a major problem to solve that on the other hand, seems not be so difficult.</li>
+class supports a parallel computation scheme for executing procedures faster if the user wants so. This feature appears as currently implemented,
+but actually its implementation is wrong. It is a major problem to tackle that on the other hand, should not be so difficult.</li>
 </ul>
 </div>
 <div class="section" id="who-to-blame-for-the-grakel-project">

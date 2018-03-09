@@ -26,7 +26,7 @@ A list of areas where contribution seems important are the following:
   existing kernel functions using wrapped C++ packages, that we either write ourselves or import from existing libraries
   like numpy, scipy, sklearn etc.
 
-* **Optimization the Graph class**: As discussed at :ref:`longer_introduction`, :code:`Graph` solves as a uniform representation
+* **Optimization of the Graph class**: As discussed at :ref:`longer_introduction`, :code:`Graph` solves as a uniform representation
   that supports both vertex-oriented and edge-oriented representations of graphs, while resolving conversions, importing of
   various types of inputs and finally a small group of important operations concerning graph objects, while being at the same
   time memory and computationally efficient. To achieve that goal the code of the :code:`Graph` should be optimized in python
@@ -43,8 +43,8 @@ A list of areas where contribution seems important are the following:
   validity in relation to the theoretical foundation.
 
 * **Utilizing Parallel/Concurrent computation**: It is important that the :code:`GraphKernel` decorator through the objects of the :code:`kernel`
-  class supports a parallel computation scheme for executing procedures faster if the user wants so. This seems currently as something implemented
-  but actually its implementation is wrong. This seems as a major problem to solve that on the other hand, seems not be so difficult.
+  class supports a parallel computation scheme for executing procedures faster if the user wants so. This feature appears as currently implemented,
+  but actually its implementation is wrong. It is a major problem to tackle that on the other hand, should not be so difficult.
 
 .. _master: https://github.com/ysig/GraKeL
 .. _develop: https://github.com/ysig/GraKeL/tree/develop

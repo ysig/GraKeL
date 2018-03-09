@@ -61,6 +61,9 @@
           
 
           
+            
+            <img src="../../_static/logo.png" class="logo" />
+          
           </a>
 
           
@@ -181,7 +184,6 @@
 
 <span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">graphlet_sampling</span>
 <span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">random_walk</span>
-<span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">subtree_wl</span>
 <span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">shortest_path</span>
 <span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">shortest_path_attr</span>
 <span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">weisfeiler_lehman</span>
@@ -219,6 +221,7 @@
     <span class="s2">&quot;multiscale_laplacian&quot;</span><span class="p">,</span>
     <span class="s2">&quot;lovasz_theta&quot;</span><span class="p">,</span> <span class="s2">&quot;svm_theta&quot;</span><span class="p">,</span>
     <span class="s2">&quot;neighborhood_hash&quot;</span><span class="p">,</span> <span class="s2">&quot;neighborhood_subgraph_pairwise_distance&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;NSPDK&quot;</span><span class="p">,</span>
     <span class="s2">&quot;odd_sth&quot;</span><span class="p">,</span> <span class="s2">&quot;propagation&quot;</span><span class="p">,</span>
     <span class="s2">&quot;pyramid_match&quot;</span><span class="p">,</span> <span class="s2">&quot;jsm&quot;</span><span class="p">,</span>
     <span class="s2">&quot;propagation&quot;</span><span class="p">,</span> <span class="s2">&quot;vertex_histogram&quot;</span><span class="p">,</span> <span class="s2">&quot;edge_histogram&quot;</span>
@@ -256,8 +259,6 @@
 
 <span class="sd">        available &quot;names&quot; / &quot;parametres&quot; are:</span>
 <span class="sd">            1. base_kernels (the structure must always reach a base kernel)</span>
-<span class="sd">                - &quot;dirac&quot;</span>
-<span class="sd">                    *No arguments*</span>
 
 <span class="sd">                - &quot;random_walk&quot;</span>
 <span class="sd">                    + (**o**) &quot;lambda&quot; : float</span>
@@ -340,9 +341,9 @@
 
 <span class="sd">                    + (**o**) &quot;R&quot; : [int] &gt; 0</span>
 
-<span class="sd">                    + (**o**) &quot;bytes&quot; : [int] &gt; 0</span>
+<span class="sd">                    + (**o**) &quot;bits&quot; : [int] &gt; 0</span>
 
-<span class="sd">                - &quot;neighborhood_subgraph_pairwise_distance&quot;</span>
+<span class="sd">                - &quot;neighborhood_subgraph_pairwise_distance&quot; or &quot;NSPD&quot;</span>
 <span class="sd">                    + (**o**) &quot;r&quot; : (int) positive integer</span>
 
 <span class="sd">                    + (**o**) &quot;d&quot; : (int) positive integer</span>
@@ -374,10 +375,10 @@
 
 <span class="sd">                    + (**o**) h: [int] &gt; 0</span>
 
-<span class="sd">                - &quot;edge&quot;</span>
+<span class="sd">                - &quot;vertex_histogram&quot; or &quot;subtree_wl&quot;</span>
 <span class="sd">                    *No arguments*</span>
 
-<span class="sd">                - &quot;vertex&quot;</span>
+<span class="sd">                - &quot;edge_histogram&quot;</span>
 <span class="sd">                    *No arguments*</span>
 
 <span class="sd">            2. general_kernels (this kernel will use the next kernel</span>
@@ -442,9 +443,10 @@
 <span class="sd">        An executor for applying concurrency, for the fast pairwise</span>
 <span class="sd">        computations of the kernel matrix calculation.</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    initialised_ : dict</span>
+<span class="sd">        Monitors which parameter derived object should be initialized.</span>
 
-    <span class="n">initialised_</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="GraphKernel.__init__"><a class="viewcode-back" href="../../generated/grakel.GraphKernel.html#grakel.GraphKernel.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                  <span class="n">kernel</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -698,8 +700,8 @@
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">kernel_list</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;rest kernel arguments are being ignored</span><span class="se">\</span>
 <span class="s1">                               - reached base kernel&#39;</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">kernel_name</span> <span class="o">==</span> <span class="s2">&quot;subtree_wl&quot;</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">subtree_wl</span><span class="p">,</span> <span class="n">kernel</span>
+            <span class="k">if</span> <span class="n">kernel_name</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;vertex_histogram&quot;</span><span class="p">,</span> <span class="s2">&quot;subtree_wl&quot;</span><span class="p">]:</span>
+                <span class="k">return</span> <span class="n">vertex_histogram</span><span class="p">,</span> <span class="n">kernel</span>
             <span class="k">elif</span> <span class="n">kernel_name</span> <span class="o">==</span> <span class="s2">&quot;random_walk&quot;</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">random_walk</span><span class="p">,</span> <span class="n">kernel</span>
             <span class="k">elif</span> <span class="n">kernel_name</span> <span class="o">==</span> <span class="s2">&quot;shortest_path&quot;</span><span class="p">:</span>
@@ -708,7 +710,7 @@
                 <span class="k">else</span><span class="p">:</span>
                     <span class="k">return</span> <span class="p">(</span><span class="n">shortest_path</span><span class="p">,</span> <span class="n">kernel</span><span class="p">)</span>
             <span class="k">elif</span> <span class="n">kernel_name</span> <span class="o">==</span> <span class="s2">&quot;subtree_rg&quot;</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;still developing&#39;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">vertex_histogram</span><span class="p">,</span> <span class="n">kernel</span>
             <span class="k">elif</span> <span class="n">kernel_name</span> <span class="o">==</span> <span class="s2">&quot;graphlet_sampling&quot;</span><span class="p">:</span>
                 <span class="k">if</span> <span class="p">(</span><span class="s2">&quot;random_seed&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kernel</span> <span class="ow">and</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">random_seed</span> <span class="ow">is</span> <span class="ow">not</span>
@@ -741,7 +743,8 @@
                 <span class="k">return</span> <span class="n">svm_theta</span><span class="p">,</span> <span class="n">kernel</span>
             <span class="k">elif</span> <span class="n">kernel_name</span> <span class="o">==</span> <span class="s2">&quot;neighborhood_hash&quot;</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">neighborhood_hash</span><span class="p">,</span> <span class="n">kernel</span>
-            <span class="k">elif</span> <span class="n">kernel_name</span> <span class="o">==</span> <span class="s2">&quot;neighborhood_subgraph_pairwise_distance&quot;</span><span class="p">:</span>
+            <span class="k">elif</span> <span class="n">kernel_name</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;neighborhood_subgraph_pairwise_distance&quot;</span><span class="p">,</span>
+                                 <span class="s2">&quot;NSPD&quot;</span><span class="p">]:</span>
                 <span class="k">return</span> <span class="n">neighborhood_subgraph_pairwise_distance</span><span class="p">,</span> <span class="n">kernel</span>
             <span class="k">elif</span> <span class="n">kernel_name</span> <span class="o">==</span> <span class="s2">&quot;odd_sth&quot;</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">odd_sth</span><span class="p">,</span> <span class="n">kernel</span>
@@ -755,8 +758,6 @@
                 <span class="k">return</span> <span class="n">pyramid_match</span><span class="p">,</span> <span class="n">kernel</span>
             <span class="k">elif</span> <span class="n">kernel_name</span> <span class="o">==</span> <span class="s2">&quot;jsm&quot;</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">jsm</span><span class="p">,</span> <span class="n">kernel</span>
-            <span class="k">elif</span> <span class="n">kernel_name</span> <span class="o">==</span> <span class="s2">&quot;vertex_histogram&quot;</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">vertex_histogram</span><span class="p">,</span> <span class="n">kernel</span>
             <span class="k">elif</span> <span class="n">kernel_name</span> <span class="o">==</span> <span class="s2">&quot;edge_histogram&quot;</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">edge_histogram</span><span class="p">,</span> <span class="n">kernel</span>
         <span class="k">elif</span> <span class="n">kernel_name</span> <span class="ow">in</span> <span class="n">supported_general_kernels</span><span class="p">:</span>

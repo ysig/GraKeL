@@ -88,6 +88,26 @@ Introductory examples.
    :hidden:
 
    /auto_examples/_plot_classification_statistics
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="An example plot of :class:`grakel.GraphKernel`, :class:`grakel.kernels.multiscale_laplacian_fas...">
+
+.. only:: html
+
+    .. figure:: /auto_examples/images/thumb/sphx_glr_plot_KFold_MLG_thumb.png
+
+        :ref:`sphx_glr_auto_examples_plot_KFold_MLG.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/plot_KFold_MLG
 .. raw:: html
 
     <div style='clear:both'></div>

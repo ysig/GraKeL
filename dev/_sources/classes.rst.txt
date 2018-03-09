@@ -59,6 +59,14 @@ Graph Kernel (decorator)
 Kernels
 -------
 
+.. currentmodule:: grakel
+
+.. autosummary::
+   :toctree: generated/
+   :template: kernel.rst
+
+   grakel.kernel
+
 .. currentmodule:: grakel.kernels
 
 .. autosummary::
@@ -66,7 +74,6 @@ Kernels
    :template: kernel.rst
 
    grakel.kernels.kernel
-   grakel.kernels.graphlet_sampling
    grakel.kernels.random_walk
    grakel.kernels.pyramid_match
    grakel.kernels.neighborhood_hash

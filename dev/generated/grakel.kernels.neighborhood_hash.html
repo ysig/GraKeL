@@ -63,6 +63,9 @@
           
 
           
+            
+            <img src="../_static/logo.png" class="logo" />
+          
           </a>
 
           
@@ -107,8 +110,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-graph-kernels-a-kernel-decorator"><code class="docutils literal notranslate"><span class="pre">grakel.graph_kernels</span></code>: A kernel decorator</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../classes.html#grakel-kernels-a-collection-of-graph-kernels"><code class="docutils literal notranslate"><span class="pre">grakel.kernels</span></code>: A collection of graph kernels</a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="../classes.html#kernels">Kernels</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="grakel.kernel.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.kernel</a></li>
 <li class="toctree-l4"><a class="reference internal" href="grakel.kernels.kernel.html"><code class="docutils literal notranslate"><span class="pre">grakel.kernels</span></code>.kernel</a></li>
-<li class="toctree-l4"><a class="reference internal" href="grakel.kernels.graphlet_sampling.html"><code class="docutils literal notranslate"><span class="pre">grakel.kernels</span></code>.graphlet_sampling</a></li>
 <li class="toctree-l4"><a class="reference internal" href="grakel.kernels.random_walk.html"><code class="docutils literal notranslate"><span class="pre">grakel.kernels</span></code>.random_walk</a></li>
 <li class="toctree-l4"><a class="reference internal" href="grakel.kernels.pyramid_match.html"><code class="docutils literal notranslate"><span class="pre">grakel.kernels</span></code>.pyramid_match</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">grakel.kernels</span></code>.neighborhood_hash</a></li>
@@ -116,7 +119,6 @@
 <li class="toctree-l4"><a class="reference internal" href="grakel.kernels.shortest_path_attr.html"><code class="docutils literal notranslate"><span class="pre">grakel.kernels</span></code>.shortest_path_attr</a></li>
 <li class="toctree-l4"><a class="reference internal" href="grakel.kernels.subgraph_matching.html"><code class="docutils literal notranslate"><span class="pre">grakel.kernels</span></code>.subgraph_matching</a></li>
 <li class="toctree-l4"><a class="reference internal" href="grakel.kernels.weisfeiler_lehman.html"><code class="docutils literal notranslate"><span class="pre">grakel.kernels</span></code>.weisfeiler_lehman</a></li>
-<li class="toctree-l4"><a class="reference internal" href="grakel.kernels.subtree_wl.html"><code class="docutils literal notranslate"><span class="pre">grakel.kernels</span></code>.subtree_wl</a></li>
 <li class="toctree-l4"><a class="reference internal" href="grakel.kernels.hadamard_code.html"><code class="docutils literal notranslate"><span class="pre">grakel.kernels</span></code>.hadamard_code</a></li>
 <li class="toctree-l4"><a class="reference internal" href="grakel.kernels.neighborhood_subgraph_pairwise_distance.html"><code class="docutils literal notranslate"><span class="pre">grakel.kernels</span></code>.neighborhood_subgraph_pairwise_distance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="grakel.kernels.lovasz_theta.html"><code class="docutils literal notranslate"><span class="pre">grakel.kernels</span></code>.lovasz_theta</a></li>
@@ -205,7 +207,7 @@
 <h1><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel.kernels</span></code>.neighborhood_hash<a class="headerlink" href="#grakel-kernels-neighborhood-hash" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="grakel.kernels.neighborhood_hash">
-<em class="property">class </em><code class="descclassname">grakel.kernels.</code><code class="descname">neighborhood_hash</code><span class="sig-paren">(</span><em>**kargs</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/9049101/grakel/kernels/neighborhood_hash.py#L12"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/neighborhood_hash.html#neighborhood_hash"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.neighborhood_hash" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">grakel.kernels.</code><code class="descname">neighborhood_hash</code><span class="sig-paren">(</span><em>**kargs</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/54cf543/grakel/kernels/neighborhood_hash.py#L18"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/neighborhood_hash.html#neighborhood_hash"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.neighborhood_hash" title="Permalink to this definition">¶</a></dt>
 <dd><p>Neighborhood hashing kernel as proposed in <a class="reference internal" href="#hido2009alg" id="id1">[HK09]</a>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -220,8 +222,12 @@
 <div><p>The existing neighborhood hash type as defined in <a class="reference internal" href="#hido2009alg" id="id2">[HK09]</a>.</p>
 </div></blockquote>
 <p><strong>bytes</strong> : int, default=2</p>
-<blockquote class="last">
+<blockquote>
 <div><p>Byte size of hashes.</p>
+</div></blockquote>
+<p><strong>random_seed</strong> : int, default=15487103</p>
+<blockquote class="last">
+<div><p>Random seed for intialising labels.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -243,8 +249,8 @@
 <tr class="row-odd"><td><strong>_noc_f</strong></td>
 <td>(bool) A flag concerning the number of occurencies metric.</td>
 </tr>
-<tr class="row-even"><td><strong>_bytes</strong></td>
-<td>(int) Defines the byte size of hashes.</td>
+<tr class="row-even"><td><strong>_bits</strong></td>
+<td>(int) Defines the bit size of hashes.</td>
 </tr>
 </tbody>
 </table>
@@ -255,19 +261,25 @@
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.kernels.neighborhood_hash.diagonal" title="grakel.kernels.neighborhood_hash.diagonal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">diagonal</span></code></a></td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.kernels.neighborhood_hash.ROT" title="grakel.kernels.neighborhood_hash.ROT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ROT</span></code></a></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.kernels.neighborhood_hash.fit" title="grakel.kernels.neighborhood_hash.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a></td>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.kernels.neighborhood_hash.diagonal" title="grakel.kernels.neighborhood_hash.diagonal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">diagonal</span></code></a></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.kernels.neighborhood_hash.fit_transform" title="grakel.kernels.neighborhood_hash.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code></a></td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.kernels.neighborhood_hash.fit" title="grakel.kernels.neighborhood_hash.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.kernels.neighborhood_hash.get_params" title="grakel.kernels.neighborhood_hash.get_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code></a></td>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.kernels.neighborhood_hash.fit_transform" title="grakel.kernels.neighborhood_hash.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code></a></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.kernels.neighborhood_hash.hash_labels" title="grakel.kernels.neighborhood_hash.hash_labels"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hash_labels</span></code></a></td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.kernels.neighborhood_hash.get_params" title="grakel.kernels.neighborhood_hash.get_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.kernels.neighborhood_hash.neighborhood_hash_count_sensitive" title="grakel.kernels.neighborhood_hash.neighborhood_hash_count_sensitive"><code class="xref py py-obj docutils literal notranslate"><span class="pre">neighborhood_hash_count_sensitive</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.kernels.neighborhood_hash.neighborhood_hash_simple" title="grakel.kernels.neighborhood_hash.neighborhood_hash_simple"><code class="xref py py-obj docutils literal notranslate"><span class="pre">neighborhood_hash_simple</span></code></a></td>
 <td></td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#grakel.kernels.neighborhood_hash.pairwise_operation" title="grakel.kernels.neighborhood_hash.pairwise_operation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pairwise_operation</span></code></a></td>
@@ -276,15 +288,21 @@
 <tr class="row-odd"><td><a class="reference internal" href="#grakel.kernels.neighborhood_hash.parse_input" title="grakel.kernels.neighborhood_hash.parse_input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_input</span></code></a></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.kernels.neighborhood_hash.set_params" title="grakel.kernels.neighborhood_hash.set_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code></a></td>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.kernels.neighborhood_hash.radix_sort_rot" title="grakel.kernels.neighborhood_hash.radix_sort_rot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">radix_sort_rot</span></code></a></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.kernels.neighborhood_hash.transform" title="grakel.kernels.neighborhood_hash.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a></td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.kernels.neighborhood_hash.set_params" title="grakel.kernels.neighborhood_hash.set_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.kernels.neighborhood_hash.transform" title="grakel.kernels.neighborhood_hash.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.kernels.neighborhood_hash.vertex_sort_" title="grakel.kernels.neighborhood_hash.vertex_sort_"><code class="xref py py-obj docutils literal notranslate"><span class="pre">vertex_sort_</span></code></a></td>
 <td></td>
 </tr>
 </tbody>
 </table>
-<p>Initialise a <cite>pyramid_match</cite> kernel.</p>
+<p>Initialize a <cite>neighborhood_hash</cite> kernel.</p>
 <p class="rubric">Attributes</p>
 <table border="1" class="docutils">
 <colgroup>
@@ -304,19 +322,25 @@
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.kernels.neighborhood_hash.diagonal" title="grakel.kernels.neighborhood_hash.diagonal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">diagonal</span></code></a></td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.kernels.neighborhood_hash.ROT" title="grakel.kernels.neighborhood_hash.ROT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ROT</span></code></a></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.kernels.neighborhood_hash.fit" title="grakel.kernels.neighborhood_hash.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a></td>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.kernels.neighborhood_hash.diagonal" title="grakel.kernels.neighborhood_hash.diagonal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">diagonal</span></code></a></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.kernels.neighborhood_hash.fit_transform" title="grakel.kernels.neighborhood_hash.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code></a></td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.kernels.neighborhood_hash.fit" title="grakel.kernels.neighborhood_hash.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.kernels.neighborhood_hash.get_params" title="grakel.kernels.neighborhood_hash.get_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code></a></td>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.kernels.neighborhood_hash.fit_transform" title="grakel.kernels.neighborhood_hash.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code></a></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.kernels.neighborhood_hash.hash_labels" title="grakel.kernels.neighborhood_hash.hash_labels"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hash_labels</span></code></a></td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.kernels.neighborhood_hash.get_params" title="grakel.kernels.neighborhood_hash.get_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.kernels.neighborhood_hash.neighborhood_hash_count_sensitive" title="grakel.kernels.neighborhood_hash.neighborhood_hash_count_sensitive"><code class="xref py py-obj docutils literal notranslate"><span class="pre">neighborhood_hash_count_sensitive</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.kernels.neighborhood_hash.neighborhood_hash_simple" title="grakel.kernels.neighborhood_hash.neighborhood_hash_simple"><code class="xref py py-obj docutils literal notranslate"><span class="pre">neighborhood_hash_simple</span></code></a></td>
 <td></td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#grakel.kernels.neighborhood_hash.pairwise_operation" title="grakel.kernels.neighborhood_hash.pairwise_operation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pairwise_operation</span></code></a></td>
@@ -325,24 +349,58 @@
 <tr class="row-odd"><td><a class="reference internal" href="#grakel.kernels.neighborhood_hash.parse_input" title="grakel.kernels.neighborhood_hash.parse_input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_input</span></code></a></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.kernels.neighborhood_hash.set_params" title="grakel.kernels.neighborhood_hash.set_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code></a></td>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.kernels.neighborhood_hash.radix_sort_rot" title="grakel.kernels.neighborhood_hash.radix_sort_rot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">radix_sort_rot</span></code></a></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.kernels.neighborhood_hash.transform" title="grakel.kernels.neighborhood_hash.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a></td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.kernels.neighborhood_hash.set_params" title="grakel.kernels.neighborhood_hash.set_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.kernels.neighborhood_hash.transform" title="grakel.kernels.neighborhood_hash.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.kernels.neighborhood_hash.vertex_sort_" title="grakel.kernels.neighborhood_hash.vertex_sort_"><code class="xref py py-obj docutils literal notranslate"><span class="pre">vertex_sort_</span></code></a></td>
 <td></td>
 </tr>
 </tbody>
 </table>
 <dl class="method">
 <dt id="grakel.kernels.neighborhood_hash.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>**kargs</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/9049101/grakel/kernels/neighborhood_hash.py#L42"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/neighborhood_hash.html#neighborhood_hash.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.neighborhood_hash.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialise a <cite>pyramid_match</cite> kernel.</p>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>**kargs</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/54cf543/grakel/kernels/neighborhood_hash.py#L51"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/neighborhood_hash.html#neighborhood_hash.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.neighborhood_hash.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a <cite>neighborhood_hash</cite> kernel.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="grakel.kernels.neighborhood_hash.ROT">
+<code class="descname">ROT</code><span class="sig-paren">(</span><em>n</em>, <em>d</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/54cf543/grakel/kernels/neighborhood_hash.py#L347"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/neighborhood_hash.html#neighborhood_hash.ROT"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.neighborhood_hash.ROT" title="Permalink to this definition">¶</a></dt>
+<dd><p><cite>rot</cite> operation for binary numbers.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>n</strong> : int</p>
+<blockquote>
+<div><p>The value which will be rotated.</p>
+</div></blockquote>
+<p><strong>d</strong> : int</p>
+<blockquote>
+<div><p>The number of rotations.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>rot</strong> : int</p>
+<blockquote class="last">
+<div><p>The result of a rot operation.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="grakel.kernels.neighborhood_hash.diagonal">
-<code class="descname">diagonal</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/9049101/grakel/kernels/kernel.py#L235"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.neighborhood_hash.diagonal" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate the kernel matrix diagonal of the fitted data.</p>
+<code class="descname">diagonal</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/54cf543/grakel/kernels/neighborhood_hash.py#L326"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/neighborhood_hash.html#neighborhood_hash.diagonal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.neighborhood_hash.diagonal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the kernel matrix diagonal of the fit/transfromed data.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -351,9 +409,14 @@
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>X_diag</strong> : np.array</p>
+<blockquote>
+<div><p>The diagonal of the kernel matrix between the fitted data.
+This consists of each element calculated with itself.</p>
+</div></blockquote>
+<p><strong>Y_diag</strong> : np.array</p>
 <blockquote class="last">
-<div><p>The diagonal of the kernel matrix, of the fitted. This consists
-of each element calculated with itself.</p>
+<div><p>The diagonal of the kernel matrix, of the transform.
+This consists of each element calculated with itself.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -363,7 +426,7 @@ of each element calculated with itself.</p>
 
 <dl class="method">
 <dt id="grakel.kernels.neighborhood_hash.fit">
-<code class="descname">fit</code><span class="sig-paren">(</span><em>X</em>, <em>y=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/9049101/grakel/kernels/kernel.py#L91"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.neighborhood_hash.fit" title="Permalink to this definition">¶</a></dt>
+<code class="descname">fit</code><span class="sig-paren">(</span><em>X</em>, <em>y=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/54cf543/grakel/kernels/neighborhood_hash.py#L78"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/neighborhood_hash.html#neighborhood_hash.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.neighborhood_hash.fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fit a dataset, for a transformer.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -394,7 +457,7 @@ requires this parameter.</p>
 
 <dl class="method">
 <dt id="grakel.kernels.neighborhood_hash.fit_transform">
-<code class="descname">fit_transform</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/9049101/grakel/kernels/kernel.py#L161"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.neighborhood_hash.fit_transform" title="Permalink to this definition">¶</a></dt>
+<code class="descname">fit_transform</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/54cf543/grakel/kernels/neighborhood_hash.py#L193"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/neighborhood_hash.html#neighborhood_hash.fit_transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.neighborhood_hash.fit_transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fit and transform, on the same dataset.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -429,7 +492,7 @@ all pairs of graphs between target an features</p>
 
 <dl class="method">
 <dt id="grakel.kernels.neighborhood_hash.get_params">
-<code class="descname">get_params</code><span class="sig-paren">(</span><em>deep=True</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/9049101/grakel/../../../../usr/local/lib/python3.5/site-packages/sklearn/base.py#L213"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.neighborhood_hash.get_params" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_params</code><span class="sig-paren">(</span><em>deep=True</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/54cf543/grakel/../../../../usr/local/lib/python3.5/site-packages/sklearn/base.py#L213"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.neighborhood_hash.get_params" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get parameters for this estimator.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -453,36 +516,50 @@ contained subobjects that are estimators.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="grakel.kernels.neighborhood_hash.hash_labels">
-<code class="descname">hash_labels</code><span class="sig-paren">(</span><em>labels</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/9049101/grakel/kernels/neighborhood_hash.py#L167"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/neighborhood_hash.html#neighborhood_hash.hash_labels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.neighborhood_hash.hash_labels" title="Permalink to this definition">¶</a></dt>
-<dd><p>Hashes existing labels to 16-bit integer.</p>
-<p>Hashing without collisions and with consistency in same labels.</p>
+<dt id="grakel.kernels.neighborhood_hash.neighborhood_hash_count_sensitive">
+<code class="descname">neighborhood_hash_count_sensitive</code><span class="sig-paren">(</span><em>G</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/54cf543/grakel/kernels/neighborhood_hash.py#L400"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/neighborhood_hash.html#neighborhood_hash.neighborhood_hash_count_sensitive"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.neighborhood_hash.neighborhood_hash_count_sensitive" title="Permalink to this definition">¶</a></dt>
+<dd><p>Count sensitive neighborhood hash as defined in <a class="reference internal" href="#hido2009alg" id="id3">[HK09]</a>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>labels</strong> : dict</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>G</strong> : tuple, len=3</p>
 <blockquote>
-<div><p>Labels for vertices.</p>
-</div></blockquote>
-<p><strong>labels_hash_dict</strong> : dict</p>
-<blockquote>
-<div><p>A hash table for labels.</p>
-</div></blockquote>
-<p><strong>nh_type</strong> : str, valid_values={‘simple’,’count-sensitive’},</p>
-<blockquote>
-<div><p>The existing neighborhood hash type as defined in
-<a class="reference internal" href="#hido2009alg" id="id3">[HK09]</a>.</p>
-</div></blockquote>
-<p><strong>bytes</strong> : int, default=2</p>
-<blockquote>
-<div><p>Byte size of hashes.</p>
+<div><p>A tuple three elements consisting of vertices sorted by labels,
+vertex label dict, edge dict and number of occurencies dict for
+labels.</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>new_labels</strong> : dict</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>vertices_labels_edges_noc</strong> : tuple</p>
 <blockquote class="last">
-<div><p>The new hashed labels for vertices.</p>
+<div><p>A tuple of 4 elements consisting of vertices sorted by labels,
+vertex label dict, edge dict and number of occurencies dict.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="grakel.kernels.neighborhood_hash.neighborhood_hash_simple">
+<code class="descname">neighborhood_hash_simple</code><span class="sig-paren">(</span><em>G</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/54cf543/grakel/kernels/neighborhood_hash.py#L372"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/neighborhood_hash.html#neighborhood_hash.neighborhood_hash_simple"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.neighborhood_hash.neighborhood_hash_simple" title="Permalink to this definition">¶</a></dt>
+<dd><p>(simple) neighborhood hashing as defined in <a class="reference internal" href="#hido2009alg" id="id4">[HK09]</a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>G</strong> : tuple</p>
+<blockquote>
+<div><p>A tuple of three elements consisting of vertices sorted by labels,
+vertex label dictionary and edge dictionary.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>vertices_labels_edges</strong> : tuple</p>
+<blockquote class="last">
+<div><p>A tuple of vertices, new_labels-dictionary and edges.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -492,17 +569,17 @@ contained subobjects that are estimators.</p>
 
 <dl class="method">
 <dt id="grakel.kernels.neighborhood_hash.pairwise_operation">
-<code class="descname">pairwise_operation</code><span class="sig-paren">(</span><em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/9049101/grakel/kernels/neighborhood_hash.py#L149"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/neighborhood_hash.html#neighborhood_hash.pairwise_operation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.neighborhood_hash.pairwise_operation" title="Permalink to this definition">¶</a></dt>
+<code class="descname">pairwise_operation</code><span class="sig-paren">(</span><em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/54cf543/grakel/kernels/neighborhood_hash.py#L307"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/neighborhood_hash.html#neighborhood_hash.pairwise_operation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.neighborhood_hash.pairwise_operation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate a pairwise kernel between two elements.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>x, y</strong> : dict</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>x, y</strong> : list</p>
 <blockquote>
 <div><p>Dict of len=2, tuples, consisting of vertices sorted by
-(labels, vertices) and edge-labels dict, for each radius
-from 0 .. R-1.</p>
+(labels, vertices) and edge-labels dict, for all levels
+from 0 up to self._R-1.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -518,8 +595,8 @@ from 0 .. R-1.</p>
 
 <dl class="method">
 <dt id="grakel.kernels.neighborhood_hash.parse_input">
-<code class="descname">parse_input</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/9049101/grakel/kernels/neighborhood_hash.py#L66"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/neighborhood_hash.html#neighborhood_hash.parse_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.neighborhood_hash.parse_input" title="Permalink to this definition">¶</a></dt>
-<dd><p>Parse and create features for shortest_path kernel.</p>
+<code class="descname">parse_input</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/54cf543/grakel/kernels/kernel.py#L269"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.neighborhood_hash.parse_input" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse the given input and raise errors if it is invalid.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -535,9 +612,33 @@ graph format). A valid input also consists of graph type objects.</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>H</strong> : list</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>Xp</strong> : list</p>
 <blockquote class="last">
-<div><p>A list of lists of Histograms for all levels for each graph.</p>
+<div><p>List of graph type objects.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="grakel.kernels.neighborhood_hash.radix_sort_rot">
+<code class="descname">radix_sort_rot</code><span class="sig-paren">(</span><em>labels</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/54cf543/grakel/kernels/neighborhood_hash.py#L431"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/neighborhood_hash.html#neighborhood_hash.radix_sort_rot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.neighborhood_hash.radix_sort_rot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sorts vertices based on labels.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>labels</strong> : dict</p>
+<blockquote>
+<div><p>Dictionary of labels for vertices.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>labels_counts</strong> : list</p>
+<blockquote class="last">
+<div><p>A list of labels with their counts (sorted).</p>
 </div></blockquote>
 </td>
 </tr>
@@ -547,7 +648,7 @@ graph format). A valid input also consists of graph type objects.</p>
 
 <dl class="method">
 <dt id="grakel.kernels.neighborhood_hash.set_params">
-<code class="descname">set_params</code><span class="sig-paren">(</span><em>**params</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/9049101/grakel/../../../../usr/local/lib/python3.5/site-packages/sklearn/base.py#L250"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.neighborhood_hash.set_params" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_params</code><span class="sig-paren">(</span><em>**params</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/54cf543/grakel/../../../../usr/local/lib/python3.5/site-packages/sklearn/base.py#L250"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.neighborhood_hash.set_params" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the parameters of this estimator.</p>
 <p>The method works on simple estimators as well as on nested objects
 (such as pipelines). The latter have parameters of the form
@@ -565,7 +666,7 @@ component of a nested object.</p>
 
 <dl class="method">
 <dt id="grakel.kernels.neighborhood_hash.transform">
-<code class="descname">transform</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/9049101/grakel/kernels/kernel.py#L123"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.neighborhood_hash.transform" title="Permalink to this definition">¶</a></dt>
+<code class="descname">transform</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/54cf543/grakel/kernels/neighborhood_hash.py#L224"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/neighborhood_hash.html#neighborhood_hash.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.neighborhood_hash.transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the kernel matrix, between given and fitted dataset.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -593,6 +694,34 @@ all pairs of graphs between target an features</p>
 </table>
 </dd></dl>
 
+<dl class="method">
+<dt id="grakel.kernels.neighborhood_hash.vertex_sort_">
+<code class="descname">vertex_sort_</code><span class="sig-paren">(</span><em>vertices</em>, <em>labels</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/54cf543/grakel/kernels/neighborhood_hash.py#L488"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/neighborhood_hash.html#neighborhood_hash.vertex_sort_"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.neighborhood_hash.vertex_sort_" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sorts vertices based on labels.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>vertices</strong> : listable</p>
+<blockquote>
+<div><p>A listable of vertices.</p>
+</div></blockquote>
+<p><strong>labels</strong> : dict</p>
+<blockquote>
+<div><p>Dictionary of labels for vertices.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>vertices_labels</strong> : tuple, len=2</p>
+<blockquote class="last">
+<div><p>The sorted vertices based on labels and labels for vertices.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </dd></dl>
 
 <div class="section" id="bibliography">
@@ -600,7 +729,7 @@ all pairs of graphs between target an features</p>
 <p id="bibtex-bibliography-generated/grakel.kernels.neighborhood_hash-0"><table class="docutils citation" frame="void" id="hido2009alg" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label">[HK09]</td><td><em>(<a class="fn-backref" href="#id1">1</a>, <a class="fn-backref" href="#id2">2</a>, <a class="fn-backref" href="#id3">3</a>)</em> Shohei Hido and Hisashi Kashima. A linear-time graph kernel. <em>2009 Ninth IEEE International Conference on Data Mining</em>, pages 179–188, 2009.</td></tr>
+<tr><td class="label">[HK09]</td><td><em>(<a class="fn-backref" href="#id1">1</a>, <a class="fn-backref" href="#id2">2</a>, <a class="fn-backref" href="#id3">3</a>, <a class="fn-backref" href="#id4">4</a>)</em> Shohei Hido and Hisashi Kashima. A linear-time graph kernel. <em>2009 Ninth IEEE International Conference on Data Mining</em>, pages 179–188, 2009.</td></tr>
 </tbody>
 </table>
 </p>

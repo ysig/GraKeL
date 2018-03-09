@@ -61,6 +61,9 @@
           
 
           
+            
+            <img src="../../../_static/logo.png" class="logo" />
+          
           </a>
 
           
@@ -176,6 +179,8 @@
 <span class="kn">from</span> <span class="nn">subprocess</span> <span class="k">import</span> <span class="n">check_call</span>
 
 <span class="kn">from</span> <span class="nn">sklearn.utils</span> <span class="k">import</span> <span class="n">Bunch</span>
+
+<span class="kn">from</span> <span class="nn">grakel.graph</span> <span class="k">import</span> <span class="n">Graph</span>
 
 <span class="k">global</span> <span class="n">datasets_metadata</span><span class="p">,</span> <span class="n">symmetric_dataset</span>
 
@@ -349,6 +354,7 @@
         <span class="n">with_classes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">prefer_attr_nodes</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">prefer_attr_edges</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">as_graphs</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">is_symmetric</span><span class="o">=</span><span class="n">symmetric_dataset</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Create a dataset iterable for GraphKernel.</span>
 
@@ -367,6 +373,12 @@
 <span class="sd">    prefer_attr_edges : bool, default=False</span>
 <span class="sd">        If a dataset has both *edge* labels and *edge* attributes</span>
 <span class="sd">        set as labels for the graph object for *edge* the attributes.</span>
+
+<span class="sd">    as_graphs : bool, default=False</span>
+<span class="sd">        Return data as a list of Graph Objects.</span>
+
+<span class="sd">    is_symmetric : bool, default=False</span>
+<span class="sd">        Defines if the graph data describe a symmetric graph.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -453,6 +465,7 @@
                 <span class="n">edge_labels</span><span class="p">[</span><span class="n">ngc</span><span class="p">[</span><span class="n">elc</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]]][</span><span class="n">elc</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="n">attrs</span>
                 <span class="k">if</span> <span class="n">is_symmetric</span><span class="p">:</span>
                     <span class="n">edge_labels</span><span class="p">[</span><span class="n">ngc</span><span class="p">[</span><span class="n">elc</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]]][(</span><span class="n">elc</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">elc</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">])]</span> <span class="o">=</span> <span class="n">attrs</span>
+
     <span class="c1"># Extract edge labels</span>
     <span class="k">elif</span> <span class="n">dataset_metadata</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
             <span class="s2">&quot;el&quot;</span><span class="p">,</span>
@@ -466,8 +479,12 @@
                         <span class="nb">int</span><span class="p">(</span><span class="n">line</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
 
     <span class="n">Gs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">Graphs</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
-        <span class="n">Gs</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">Graphs</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">node_labels</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">edge_labels</span><span class="p">[</span><span class="n">i</span><span class="p">]])</span>
+    <span class="k">if</span> <span class="n">as_graphs</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">Graphs</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">Gs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Graph</span><span class="p">(</span><span class="n">Graphs</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">node_labels</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">edge_labels</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">Graphs</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">Gs</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">Graphs</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">node_labels</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">edge_labels</span><span class="p">[</span><span class="n">i</span><span class="p">]])</span>
 
     <span class="k">if</span> <span class="n">with_classes</span><span class="p">:</span>
         <span class="n">classes</span> <span class="o">=</span> <span class="p">[]</span>
@@ -488,7 +505,8 @@
         <span class="n">download_if_missing</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">with_classes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">prefer_attr_nodes</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-        <span class="n">prefer_attr_edges</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="n">prefer_attr_edges</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">as_graphs</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Load a dataset from `gd`_.</span>
 
 <span class="sd">    .. _gd: https://ls11-www.cs.tu-dortmund.de/staff/morris/graphkerneldatasets</span>
@@ -503,7 +521,7 @@
 
 <span class="sd">    data_home : string, default=None</span>
 <span class="sd">        Specify another download and cache folder for the datasets.</span>
-<span class="sd">        By default all grakel data is stored in ‘~/grakel_data’ subfolders.</span>
+<span class="sd">        By default all grakel data is stored in &#39;~/grakel_data&#39; subfolders.</span>
 
 <span class="sd">    download_if_missing : boolean, default=True</span>
 <span class="sd">        If False, raise a IOError if the data is not locally available instead</span>
@@ -519,6 +537,9 @@
 <span class="sd">    prefer_attr_edges : bool, default=False</span>
 <span class="sd">        If a dataset has both *edge* labels and *edge* attributes</span>
 <span class="sd">        set as labels for the graph object for *edge* the attributes.</span>
+
+<span class="sd">    as_graphs : bool, default=False</span>
+<span class="sd">        Return data as a list of Graph Objects.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -578,7 +599,8 @@
                          <span class="n">with_classes</span><span class="o">=</span><span class="n">with_classes</span><span class="p">,</span>
                          <span class="n">prefer_attr_nodes</span><span class="o">=</span><span class="n">prefer_attr_nodes</span><span class="p">,</span>
                          <span class="n">prefer_attr_edges</span><span class="o">=</span><span class="n">prefer_attr_edges</span><span class="p">,</span>
-                         <span class="n">is_symmetric</span><span class="o">=</span><span class="n">symmetric_dataset</span><span class="p">)</span>
+                         <span class="n">is_symmetric</span><span class="o">=</span><span class="n">symmetric_dataset</span><span class="p">,</span>
+                         <span class="n">as_graphs</span><span class="o">=</span><span class="n">as_graphs</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Parse was succesful..&quot;</span><span class="p">)</span>
 

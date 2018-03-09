@@ -63,6 +63,9 @@
           
 
           
+            
+            <img src="../_static/logo.png" class="logo" />
+          
           </a>
 
           
@@ -107,8 +110,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-graph-kernels-a-kernel-decorator"><code class="docutils literal notranslate"><span class="pre">grakel.graph_kernels</span></code>: A kernel decorator</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../classes.html#grakel-kernels-a-collection-of-graph-kernels"><code class="docutils literal notranslate"><span class="pre">grakel.kernels</span></code>: A collection of graph kernels</a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="../classes.html#kernels">Kernels</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="grakel.kernel.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.kernel</a></li>
 <li class="toctree-l4"><a class="reference internal" href="grakel.kernels.kernel.html"><code class="docutils literal notranslate"><span class="pre">grakel.kernels</span></code>.kernel</a></li>
-<li class="toctree-l4"><a class="reference internal" href="grakel.kernels.graphlet_sampling.html"><code class="docutils literal notranslate"><span class="pre">grakel.kernels</span></code>.graphlet_sampling</a></li>
 <li class="toctree-l4"><a class="reference internal" href="grakel.kernels.random_walk.html"><code class="docutils literal notranslate"><span class="pre">grakel.kernels</span></code>.random_walk</a></li>
 <li class="toctree-l4"><a class="reference internal" href="grakel.kernels.pyramid_match.html"><code class="docutils literal notranslate"><span class="pre">grakel.kernels</span></code>.pyramid_match</a></li>
 <li class="toctree-l4"><a class="reference internal" href="grakel.kernels.neighborhood_hash.html"><code class="docutils literal notranslate"><span class="pre">grakel.kernels</span></code>.neighborhood_hash</a></li>
@@ -116,7 +119,6 @@
 <li class="toctree-l4"><a class="reference internal" href="grakel.kernels.shortest_path_attr.html"><code class="docutils literal notranslate"><span class="pre">grakel.kernels</span></code>.shortest_path_attr</a></li>
 <li class="toctree-l4"><a class="reference internal" href="grakel.kernels.subgraph_matching.html"><code class="docutils literal notranslate"><span class="pre">grakel.kernels</span></code>.subgraph_matching</a></li>
 <li class="toctree-l4"><a class="reference internal" href="grakel.kernels.weisfeiler_lehman.html"><code class="docutils literal notranslate"><span class="pre">grakel.kernels</span></code>.weisfeiler_lehman</a></li>
-<li class="toctree-l4"><a class="reference internal" href="grakel.kernels.subtree_wl.html"><code class="docutils literal notranslate"><span class="pre">grakel.kernels</span></code>.subtree_wl</a></li>
 <li class="toctree-l4"><a class="reference internal" href="grakel.kernels.hadamard_code.html"><code class="docutils literal notranslate"><span class="pre">grakel.kernels</span></code>.hadamard_code</a></li>
 <li class="toctree-l4"><a class="reference internal" href="grakel.kernels.neighborhood_subgraph_pairwise_distance.html"><code class="docutils literal notranslate"><span class="pre">grakel.kernels</span></code>.neighborhood_subgraph_pairwise_distance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="grakel.kernels.lovasz_theta.html"><code class="docutils literal notranslate"><span class="pre">grakel.kernels</span></code>.lovasz_theta</a></li>
@@ -205,7 +207,7 @@
 <h1><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel.kernels</span></code>.shortest_path<a class="headerlink" href="#grakel-kernels-shortest-path" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="grakel.kernels.shortest_path">
-<em class="property">class </em><code class="descclassname">grakel.kernels.</code><code class="descname">shortest_path</code><span class="sig-paren">(</span><em>**kargs</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/9049101/grakel/kernels/shortest_path.py#L153"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/shortest_path.html#shortest_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.shortest_path" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">grakel.kernels.</code><code class="descname">shortest_path</code><span class="sig-paren">(</span><em>**kargs</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/54cf543/grakel/kernels/shortest_path.py#L153"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/shortest_path.html#shortest_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.shortest_path" title="Permalink to this definition">¶</a></dt>
 <dd><p>The shortest path kernel class.</p>
 <p>See <a class="reference internal" href="#borgwardt2005shortestpathko" id="id1">[BK05]</a>.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -343,13 +345,13 @@ current graph format (“auto”).</p>
 </table>
 <dl class="method">
 <dt id="grakel.kernels.shortest_path.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>**kargs</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/9049101/grakel/kernels/shortest_path.py#L210"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/shortest_path.html#shortest_path.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.shortest_path.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>**kargs</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/54cf543/grakel/kernels/shortest_path.py#L210"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/shortest_path.html#shortest_path.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.shortest_path.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialise a subtree_wl kernel.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="grakel.kernels.shortest_path.diagonal">
-<code class="descname">diagonal</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/9049101/grakel/kernels/shortest_path.py#L293"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/shortest_path.html#shortest_path.diagonal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.shortest_path.diagonal" title="Permalink to this definition">¶</a></dt>
+<code class="descname">diagonal</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/54cf543/grakel/kernels/shortest_path.py#L293"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/shortest_path.html#shortest_path.diagonal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.shortest_path.diagonal" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the kernel matrix diagonal for fitted data.</p>
 <p>A funtion called on transform on a seperate dataset to apply
 normalization on the exterior.</p>
@@ -378,7 +380,7 @@ This consists of kernel calculation for each element with itself.</p>
 
 <dl class="method">
 <dt id="grakel.kernels.shortest_path.fit">
-<code class="descname">fit</code><span class="sig-paren">(</span><em>X</em>, <em>y=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/9049101/grakel/kernels/kernel.py#L91"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.shortest_path.fit" title="Permalink to this definition">¶</a></dt>
+<code class="descname">fit</code><span class="sig-paren">(</span><em>X</em>, <em>y=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/54cf543/grakel/kernels/kernel.py#L91"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.shortest_path.fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fit a dataset, for a transformer.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -409,7 +411,7 @@ requires this parameter.</p>
 
 <dl class="method">
 <dt id="grakel.kernels.shortest_path.fit_transform">
-<code class="descname">fit_transform</code><span class="sig-paren">(</span><em>X</em>, <em>y=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/9049101/grakel/kernels/shortest_path.py#L327"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/shortest_path.html#shortest_path.fit_transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.shortest_path.fit_transform" title="Permalink to this definition">¶</a></dt>
+<code class="descname">fit_transform</code><span class="sig-paren">(</span><em>X</em>, <em>y=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/54cf543/grakel/kernels/shortest_path.py#L327"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/shortest_path.html#shortest_path.fit_transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.shortest_path.fit_transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fit and transform, on the same dataset.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -442,7 +444,7 @@ all pairs of graphs between target an features</p>
 
 <dl class="method">
 <dt id="grakel.kernels.shortest_path.get_params">
-<code class="descname">get_params</code><span class="sig-paren">(</span><em>deep=True</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/9049101/grakel/../../../../usr/local/lib/python3.5/site-packages/sklearn/base.py#L213"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.shortest_path.get_params" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_params</code><span class="sig-paren">(</span><em>deep=True</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/54cf543/grakel/../../../../usr/local/lib/python3.5/site-packages/sklearn/base.py#L213"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.shortest_path.get_params" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get parameters for this estimator.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -467,7 +469,7 @@ contained subobjects that are estimators.</p>
 
 <dl class="method">
 <dt id="grakel.kernels.shortest_path.pairwise_operation">
-<code class="descname">pairwise_operation</code><span class="sig-paren">(</span><em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/9049101/grakel/kernels/kernel.py#L314"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.shortest_path.pairwise_operation" title="Permalink to this definition">¶</a></dt>
+<code class="descname">pairwise_operation</code><span class="sig-paren">(</span><em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/54cf543/grakel/kernels/kernel.py#L317"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.shortest_path.pairwise_operation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate a pairwise kernel between two elements.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -491,7 +493,7 @@ contained subobjects that are estimators.</p>
 
 <dl class="method">
 <dt id="grakel.kernels.shortest_path.parse_input">
-<code class="descname">parse_input</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/9049101/grakel/kernels/shortest_path.py#L369"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/shortest_path.html#shortest_path.parse_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.shortest_path.parse_input" title="Permalink to this definition">¶</a></dt>
+<code class="descname">parse_input</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/54cf543/grakel/kernels/shortest_path.py#L369"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/shortest_path.html#shortest_path.parse_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.shortest_path.parse_input" title="Permalink to this definition">¶</a></dt>
 <dd><p>Parse and create features for shortest_path kernel.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -521,7 +523,7 @@ tuples.</p>
 
 <dl class="method">
 <dt id="grakel.kernels.shortest_path.set_params">
-<code class="descname">set_params</code><span class="sig-paren">(</span><em>**params</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/9049101/grakel/../../../../usr/local/lib/python3.5/site-packages/sklearn/base.py#L250"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.shortest_path.set_params" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_params</code><span class="sig-paren">(</span><em>**params</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/54cf543/grakel/../../../../usr/local/lib/python3.5/site-packages/sklearn/base.py#L250"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.shortest_path.set_params" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the parameters of this estimator.</p>
 <p>The method works on simple estimators as well as on nested objects
 (such as pipelines). The latter have parameters of the form
@@ -539,7 +541,7 @@ component of a nested object.</p>
 
 <dl class="method">
 <dt id="grakel.kernels.shortest_path.transform">
-<code class="descname">transform</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/9049101/grakel/kernels/shortest_path.py#L238"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/shortest_path.html#shortest_path.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.shortest_path.transform" title="Permalink to this definition">¶</a></dt>
+<code class="descname">transform</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/54cf543/grakel/kernels/shortest_path.py#L238"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/shortest_path.html#shortest_path.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.kernels.shortest_path.transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the kernel matrix, between given and fitted dataset.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />

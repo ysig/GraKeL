@@ -63,6 +63,9 @@
           
 
           
+            
+            <img src="_static/logo.png" class="logo" />
+          
           </a>
 
           
@@ -186,6 +189,127 @@
 <p>Documentation for the graph-kernel decorator.</p>
 <div class="section" id="the-graphkernel-decorator">
 <h2>The <cite>GraphKernel</cite> <em>Decorator</em><a class="headerlink" href="#the-graphkernel-decorator" title="Permalink to this headline">¶</a></h2>
+<p>A specification follows for GraphKernel where each of the supported kernel is presented
+with whether it utilizes information from node-labels, edge-labels, node-attributes, edge-attributes
+inside the kernel calculation.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="9%" />
+<col width="9%" />
+<col width="16%" />
+<col width="16%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head" rowspan="2">Kernels</th>
+<th class="head" colspan="2">Labels</th>
+<th class="head" colspan="2">Attributes</th>
+</tr>
+<tr class="row-even"><th class="head">node</th>
+<th class="head">edge</th>
+<th class="head">node</th>
+<th class="head">edge</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-odd"><td>random_walk</td>
+<td>Ignores</td>
+<td>Ignores</td>
+<td>Ignores</td>
+<td>Ignores</td>
+</tr>
+<tr class="row-even"><td>shortest_path, with_labels=False</td>
+<td>Ignores</td>
+<td>Ignores</td>
+<td>Ignores</td>
+<td>Ignores</td>
+</tr>
+<tr class="row-odd"><td>shortest_path, with_labels=True</td>
+<td>Needs</td>
+<td>Ignores</td>
+<td>Nonce-Behavior</td>
+<td>Ignores</td>
+</tr>
+<tr class="row-even"><td>shortest_path, as_attributes=True</td>
+<td>Slow</td>
+<td>Ignores</td>
+<td>Needs</td>
+<td>Ignores</td>
+</tr>
+<tr class="row-odd"><td>graphlet_sampling</td>
+<td>Ignores</td>
+<td>Ignores</td>
+<td>Ignores</td>
+<td>Ignores</td>
+</tr>
+<tr class="row-even"><td>multiscale_laplacian</td>
+<td>Forbids</td>
+<td>Ignores</td>
+<td>Needs</td>
+<td>Ignores</td>
+</tr>
+<tr class="row-odd"><td>subgraph_matching</td>
+<td>Forbids</td>
+<td>Ignores</td>
+<td>Needs</td>
+<td>Ignores</td>
+</tr>
+<tr class="row-even"><td>lovasz_theta</td>
+<td>Ignores</td>
+<td>Ignores</td>
+<td>Ignores</td>
+<td>Ignores</td>
+</tr>
+<tr class="row-odd"><td>svm_theta</td>
+<td>Ignores</td>
+<td>Ignores</td>
+<td>Ignores</td>
+<td>Ignores</td>
+</tr>
+<tr class="row-even"><td>neighborhood_hash</td>
+<td>Needs</td>
+<td>Ignores</td>
+<td>Nonce-Behavior</td>
+<td>Ignores</td>
+</tr>
+<tr class="row-odd"><td>neighborhood_subgraph_pairwise_distance, NSPD</td>
+<td>Needs</td>
+<td>Needs</td>
+<td>Nonce-Behavior</td>
+<td>Nonce-Behavior</td>
+</tr>
+<tr class="row-even"><td>odd_sth</td>
+<td>Needs</td>
+<td>Ignores</td>
+<td>Nonce-Behavior</td>
+<td>Ignores</td>
+</tr>
+<tr class="row-odd"><td>propagation</td>
+<td>Needs</td>
+<td>Ignores</td>
+<td>Nonce-Behavior</td>
+<td>Ignores</td>
+</tr>
+<tr class="row-even"><td>pyramid_match</td>
+<td>Needs</td>
+<td>Ignores</td>
+<td>Nonce-Behavior</td>
+<td>Ignores</td>
+</tr>
+<tr class="row-odd"><td>vertex_histogram, subtree_wl</td>
+<td>Needs</td>
+<td>Ignores</td>
+<td>Nonce-Behavior</td>
+<td>Ignores</td>
+</tr>
+<tr class="row-even"><td>edge_histogram</td>
+<td>Ignores</td>
+<td>Needs</td>
+<td>Ignores</td>
+<td>Nonce-Behavior</td>
+</tr>
+</tbody>
+</table>
 <table border="1" class="longtable docutils">
 <colgroup>
 <col width="10%" />
