@@ -130,7 +130,7 @@ class subgraph_matching(kernel):
         return np.dot(self._lambdas, tv)
 
     def parse_input(self, X):
-        """Parse and create features for graphlet_sampling kernel.
+        """Parse and create features for subgraph_matching kernel.
 
         Parameters
         ----------

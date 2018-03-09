@@ -96,10 +96,8 @@ class odd_sth(kernel):
                         continue
                     elif len(x) == 1:
                         x = Graph(x[0], {}, {}, self._graph_format)
-                    elif len(x) == 2:
+                    elif len(x) > 2:
                         x = Graph(x[0], x[1], {}, self._graph_format)
-                    else:
-                        x = Graph(x[0], x[1], x[2], self._graph_format)
                 elif type(x) is not Graph:
                     raise ValueError('each element of X must have either ' +
                                      'a graph with labels for node and edge ' +

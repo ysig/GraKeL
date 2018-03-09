@@ -13,6 +13,7 @@ jobs:
       - run: sudo pip install --upgrade scipy matplotlib setuptools nose coverage sphinx pillow sphinx-gallery sphinx_rtd_theme sphinxcontrib-bibtex nb2plots
       - run: sudo -E apt-get -yq update
       - run: sudo -E apt-get -yq --no-install-suggests --no-install-recommends --force-yes install dvipng texlive-latex-base texlive-latex-extra
+      - run: sudo pip install --upgrade tqdm
       - run: sudo pip install --upgrade cython numpydoc
       - run: sudo pip install --upgrade scikit-learn
       - run: sudo pip install --upgrade cvxopt

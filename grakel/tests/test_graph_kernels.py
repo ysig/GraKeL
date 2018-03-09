@@ -1,4 +1,6 @@
 """Tests for the GraphKernel class."""
+from time import time
+
 from sklearn.model_selection import train_test_split
 
 from grakel.datasets import fetch_dataset
@@ -15,6 +17,8 @@ if __name__ == '__main__':
 
     parser.add_argument('--verbose', help='print kernels with their outputs' +
                         ' on stdout', action="store_true")
+    parser.add_argument('--time', help='time the kernel computation (has ef' +
+                        'fect only on verbose)', action="store_true")
     parser.add_argument('--problematic', help='allow execution of problemati' +
                         'c test cases in development', action="store_true")
     parser.add_argument('--slow', help='allow execution of slow test cases' +
@@ -48,6 +52,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     verbose = bool(args.verbose)
+    time_kernel = bool(args.time)
     if args.all:
         main, develop = True, True
     elif args.develop:
@@ -66,28 +71,30 @@ if __name__ == '__main__':
     dataset_name = args.dataset
     dataset_attr_name = args.dataset_attr
 
-    # consistency check for the dataset
-    info = get_dataset_info(dataset_name)
-    if info is None:
-        raise TypeError('dataset not found')
-    elif not (info["nl"] and info["el"]):
-        raise TypeError('dataset mus have both node and edge labels')
-
-    # consistency check for the attribute dataset
-    info = get_dataset_info(dataset_attr_name)
-    if info is None:
-        raise TypeError('dataset for attributes not found')
-    elif not info["na"]:
-        raise TypeError('dataset must have both node')
 else:
     import warnings
     warnings.filterwarnings('ignore', category=UserWarning)
     main, develop, problematic, slow = True, False, False, False
-    normalize, verbose = False, False
+    normalize, verbose, time_kernel = False, False, False
     dataset_name = "MUTAG"
     dataset_attr_name = "Cuneiform"
 
 global dataset_tr, dataset_te, dataset_attr_tr, dataset_attr_te
+
+# consistency check for the dataset
+dinfo = get_dataset_info(dataset_name)
+if dinfo is None:
+    raise TypeError('dataset not found')
+elif not dinfo["nl"] and not dinfo["el"]:
+    raise TypeError('dataset must have either node and edge labels')
+
+# consistency check for the attribute dataset
+dinfo_attr = get_dataset_info(dataset_attr_name)
+if dinfo is None:
+    raise TypeError('dataset for attributes not found')
+elif not dinfo_attr["nl"] and not dinfo_attr["el"]:
+    raise TypeError('dataset must have node attributes')
+
 
 # The baseline dataset for node, edge_labels
 global dataset, dataset_tr, dataset_te
@@ -105,14 +112,6 @@ dataset_attr = fetch_dataset(dataset_attr_name, with_classes=False,
 dataset_attr_tr, dataset_attr_te = train_test_split(dataset_attr,
                                                     test_size=0.2,
                                                     random_state=42)
-
-
-def test_subtree_wl():
-    """Test the wl subtree kernel."""
-    gk = GraphKernel(kernel={"name": "subtree_wl"}, verbose=verbose,
-                     normalize=normalize)
-    if verbose:
-        print_kernel_decorator("Subtree WL", gk, dataset_tr, dataset_te)
 
 
 def test_random_walk():
@@ -142,7 +141,7 @@ def test_graphlet_sampling():
 def test_weisfeiler_lehman():
     """Test the Weisfeiler Lehman kernel."""
     gk = GraphKernel(kernel=[{"name": "weisfeiler_lehman"},
-                     {"name": "subtree_wl"}],
+                     {"name": "vertex_histogram"}],
                      verbose=verbose, normalize=normalize)
     if verbose:
         print_kernel_decorator("WL/Subtree", gk, dataset_tr, dataset_te)
@@ -287,20 +286,66 @@ def test_multiscale_laplacian_fast():
                                gk, dataset_attr_tr, dataset_attr_te)
 
 
+def sec_to_time(sec):
+    """Print time in a correct format."""
+    dt = list()
+    days = int(sec // 86400)
+    if days > 0:
+        sec -= 86400*days
+        dt.append(str(days) + " d")
+
+    hrs = int(sec // 3600)
+    if hrs > 0:
+        sec -= 3600*hrs
+        dt.append(str(hrs) + " h")
+
+    mins = int(sec // 60)
+    if mins > 0:
+        sec -= 60*mins
+        dt.append(str(mins) + " m")
+
+    if sec > 0:
+        dt.append(str(round(sec, 2)) + " s")
+    return " ".join(dt)
+
+
 def print_kernel_decorator(name, kernel, X, Y):
     """Print kernels in case of verbose execution."""
-    name += " [decorator]"
-    print(str(name) + ":\n" + (len(str(name)) * "-") + "-\n")
-    print("fit_transform\n-------------")
-    print(kernel.fit_transform(X))
-    print("\ntransform\n---------")
-    print(kernel.transform(Y))
-    print("--------------------------------------" +
-          "--------------------------------------\n")
+    if time_kernel:
+        name += " [decorator]"
+        print(str(name) + ":\n" + (len(str(name)) * "-") + "-\n")
+        print("fit_transform\n-------------")
+
+        # [time] fit_transform
+        start = time()
+        Kft = kernel.fit_transform(X)
+        ft_time = time() - start
+
+        print(Kft)
+        print("[TIME] fit_transform:", sec_to_time(ft_time))
+        print("\ntransform\n---------")
+
+        start = time()
+        Kt = kernel.transform(Y)
+        t_time = time() - start
+        print(Kt)
+        print("[TIME] transform:", sec_to_time(t_time))
+        print("[TIME] total:", sec_to_time(ft_time+t_time))
+        print("--------------------------------------" +
+              "--------------------------------------\n")
+    else:
+        name += " [decorator]"
+        print(str(name) + ":\n" + (len(str(name)) * "-") + "-\n")
+        print("fit_transform\n-------------")
+        print(kernel.fit_transform(X))
+
+        print("\ntransform\n---------")
+        print(kernel.transform(Y))
+        print("--------------------------------------" +
+              "--------------------------------------\n")
 
 
 if verbose and main:
-    test_subtree_wl()
     test_random_walk()
     test_shortest_path()
     test_weisfeiler_lehman()

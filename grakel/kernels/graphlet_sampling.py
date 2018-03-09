@@ -21,7 +21,7 @@ from six import iteritems
 from six import itervalues
 from builtins import range
 
-default_random_seed_value = 15487103
+default_random_seed_value = 42
 
 
 class graphlet_sampling(kernel):

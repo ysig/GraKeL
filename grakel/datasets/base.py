@@ -9,6 +9,8 @@ from subprocess import check_call
 
 from sklearn.utils import Bunch
 
+from grakel.graph import Graph
+
 global datasets_metadata, symmetric_dataset
 
 dataset_metadata = {
@@ -181,6 +183,7 @@ def read_data(
         with_classes=True,
         prefer_attr_nodes=False,
         prefer_attr_edges=False,
+        as_graphs=False,
         is_symmetric=symmetric_dataset):
     """Create a dataset iterable for GraphKernel.
 
@@ -199,6 +202,12 @@ def read_data(
     prefer_attr_edges : bool, default=False
         If a dataset has both *edge* labels and *edge* attributes
         set as labels for the graph object for *edge* the attributes.
+
+    as_graphs : bool, default=False
+        Return data as a list of Graph Objects.
+
+    is_symmetric : bool, default=False
+        Defines if the graph data describe a symmetric graph.
 
     Returns
     -------
@@ -285,6 +294,7 @@ def read_data(
                 edge_labels[ngc[elc[i][0]]][elc[i]] = attrs
                 if is_symmetric:
                     edge_labels[ngc[elc[i][1]]][(elc[i][1], elc[i][0])] = attrs
+
     # Extract edge labels
     elif dataset_metadata[name].get(
             "el",
@@ -298,8 +308,12 @@ def read_data(
                         int(line[:-1])
 
     Gs = list()
-    for i in range(1, len(Graphs)+1):
-        Gs.append([Graphs[i], node_labels[i], edge_labels[i]])
+    if as_graphs:
+        for i in range(1, len(Graphs)+1):
+            Gs.append(Graph(Graphs[i], node_labels[i], edge_labels[i]))
+    else:
+        for i in range(1, len(Graphs)+1):
+            Gs.append([Graphs[i], node_labels[i], edge_labels[i]])
 
     if with_classes:
         classes = []
@@ -320,7 +334,8 @@ def fetch_dataset(
         download_if_missing=True,
         with_classes=True,
         prefer_attr_nodes=False,
-        prefer_attr_edges=False):
+        prefer_attr_edges=False,
+        as_graphs=False):
     """Load a dataset from `gd`_.
 
     .. _gd: https://ls11-www.cs.tu-dortmund.de/staff/morris/graphkerneldatasets
@@ -335,7 +350,7 @@ def fetch_dataset(
 
     data_home : string, default=None
         Specify another download and cache folder for the datasets.
-        By default all grakel data is stored in ‘~/grakel_data’ subfolders.
+        By default all grakel data is stored in '~/grakel_data' subfolders.
 
     download_if_missing : boolean, default=True
         If False, raise a IOError if the data is not locally available instead
@@ -351,6 +366,9 @@ def fetch_dataset(
     prefer_attr_edges : bool, default=False
         If a dataset has both *edge* labels and *edge* attributes
         set as labels for the graph object for *edge* the attributes.
+
+    as_graphs : bool, default=False
+        Return data as a list of Graph Objects.
 
     Returns
     -------
@@ -410,7 +428,8 @@ def fetch_dataset(
                          with_classes=with_classes,
                          prefer_attr_nodes=prefer_attr_nodes,
                          prefer_attr_edges=prefer_attr_edges,
-                         is_symmetric=symmetric_dataset)
+                         is_symmetric=symmetric_dataset,
+                         as_graphs=as_graphs)
         if verbose:
             print("Parse was succesful..")
 

@@ -13,7 +13,6 @@ from sklearn.utils.validation import check_is_fitted
 
 from grakel.kernels import graphlet_sampling
 from grakel.kernels import random_walk
-from grakel.kernels import subtree_wl
 from grakel.kernels import shortest_path
 from grakel.kernels import shortest_path_attr
 from grakel.kernels import weisfeiler_lehman
@@ -51,6 +50,7 @@ supported_base_kernels = [
     "multiscale_laplacian",
     "lovasz_theta", "svm_theta",
     "neighborhood_hash", "neighborhood_subgraph_pairwise_distance",
+    "NSPDK",
     "odd_sth", "propagation",
     "pyramid_match", "jsm",
     "propagation", "vertex_histogram", "edge_histogram"
@@ -88,8 +88,6 @@ class GraphKernel(BaseEstimator, TransformerMixin):
 
         available "names" / "parametres" are:
             1. base_kernels (the structure must always reach a base kernel)
-                - "dirac"
-                    *No arguments*
 
                 - "random_walk"
                     + (**o**) "lambda" : float
@@ -172,9 +170,9 @@ class GraphKernel(BaseEstimator, TransformerMixin):
 
                     + (**o**) "R" : [int] > 0
 
-                    + (**o**) "bytes" : [int] > 0
+                    + (**o**) "bits" : [int] > 0
 
-                - "neighborhood_subgraph_pairwise_distance"
+                - "neighborhood_subgraph_pairwise_distance" or "NSPD"
                     + (**o**) "r" : (int) positive integer
 
                     + (**o**) "d" : (int) positive integer
@@ -206,10 +204,10 @@ class GraphKernel(BaseEstimator, TransformerMixin):
 
                     + (**o**) h: [int] > 0
 
-                - "edge"
+                - "vertex_histogram" or "subtree_wl"
                     *No arguments*
 
-                - "vertex"
+                - "edge_histogram"
                     *No arguments*
 
             2. general_kernels (this kernel will use the next kernel
@@ -274,9 +272,10 @@ class GraphKernel(BaseEstimator, TransformerMixin):
         An executor for applying concurrency, for the fast pairwise
         computations of the kernel matrix calculation.
 
-    """
+    initialised_ : dict
+        Monitors which parameter derived object should be initialized.
 
-    initialised_ = None
+    """
 
     def __init__(self,
                  kernel=None,
@@ -530,8 +529,8 @@ class GraphKernel(BaseEstimator, TransformerMixin):
             if len(kernel_list) != 0:
                 warnings.warn('rest kernel arguments are being ignored\
                                - reached base kernel')
-            if kernel_name == "subtree_wl":
-                return subtree_wl, kernel
+            if kernel_name in ["vertex_histogram", "subtree_wl"]:
+                return vertex_histogram, kernel
             elif kernel_name == "random_walk":
                 return random_walk, kernel
             elif kernel_name == "shortest_path":
@@ -540,7 +539,7 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                 else:
                     return (shortest_path, kernel)
             elif kernel_name == "subtree_rg":
-                raise ValueError('still developing')
+                return vertex_histogram, kernel
             elif kernel_name == "graphlet_sampling":
                 if ("random_seed" not in kernel and
                     self.random_seed is not
@@ -573,7 +572,8 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                 return svm_theta, kernel
             elif kernel_name == "neighborhood_hash":
                 return neighborhood_hash, kernel
-            elif kernel_name == "neighborhood_subgraph_pairwise_distance":
+            elif kernel_name in ["neighborhood_subgraph_pairwise_distance",
+                                 "NSPD"]:
                 return neighborhood_subgraph_pairwise_distance, kernel
             elif kernel_name == "odd_sth":
                 return odd_sth, kernel
@@ -587,8 +587,6 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                 return pyramid_match, kernel
             elif kernel_name == "jsm":
                 return jsm, kernel
-            elif kernel_name == "vertex_histogram":
-                return vertex_histogram, kernel
             elif kernel_name == "edge_histogram":
                 return edge_histogram, kernel
         elif kernel_name in supported_general_kernels:

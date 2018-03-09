@@ -229,11 +229,11 @@ class kernel(BaseEstimator, TransformerMixin):
             K = np.zeros(shape=(len(Y), len(self.X)))
             for (j, y) in enumerate(Y):
                 for (i, x) in enumerate(self.X):
-                    K[j, i] = self._executor(self.pairwise_operation, x, y)
+                    K[j, i] = self._executor(self.pairwise_operation, y, x)
         return K
 
     def diagonal(self):
-        """Calculate the kernel matrix diagonal of the fitted data.
+        """Calculate the kernel matrix diagonal of the fit/transformed data.
 
         Parameters
         ----------
@@ -242,9 +242,12 @@ class kernel(BaseEstimator, TransformerMixin):
         Returns
         -------
         X_diag : np.array
-            The diagonal of the kernel matrix, of the fitted. This consists
-            of each element calculated with itself.
+            The diagonal of the kernel matrix between the fitted data.
+            This consists of each element calculated with itself.
 
+        Y_diag : np.array
+            The diagonal of the kernel matrix, of the transform.
+            This consists of each element calculated with itself.
 
         """
         # Check is fit had been called

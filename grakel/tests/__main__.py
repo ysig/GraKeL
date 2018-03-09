@@ -27,11 +27,11 @@ if __name__ == '__main__':
     print('Testing Kernels..')
     print('-----------------')
     call([python_executable_address, test_dir + "/test_kernels.py",
-          "--verbose", "--ignore_warnings", "--all"])
+          "--verbose", "--time", "--ignore_warnings", "--all"])
     print('................................................................\n')
 
     print('Testing Graph Kernels..')
     print('-----------------------')
     call([python_executable_address, test_dir + "/test_graph_kernels.py",
-         "--verbose", "--ignore_warnings", "--all"])
+         "--verbose", "--time", "--ignore_warnings", "--all"])
     print('................................................................')

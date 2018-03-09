@@ -1,12 +1,18 @@
 """The neighborhood hashing kernel as defined in :cite:`Hido2009ALG`."""
 import collections
-import os
 import warnings
 
+from numpy.random import seed
+from numpy.random import choice
+
 from grakel.graph import Graph
-from grakel.tools import rotl
-from grakel.tools import rotr
 from grakel.kernels import kernel
+
+from sklearn.utils.validation import check_is_fitted
+
+# Python 2/3 cross-compatibility import
+from six import itervalues
+from six import iteritems
 
 
 class neighborhood_hash(kernel):
@@ -23,6 +29,9 @@ class neighborhood_hash(kernel):
     bytes : int, default=2
         Byte size of hashes.
 
+    random_seed : int, default=15487103
+        Random seed for intialising labels.
+
     Attributes
     ----------
     _R : number
@@ -34,16 +43,17 @@ class neighborhood_hash(kernel):
     _noc_f : bool
         A flag concerning the number of occurencies metric.
 
-    _bytes : int
-        Defines the byte size of hashes.
+    _bits : int
+        Defines the bit size of hashes.
 
     """
 
     def __init__(self, **kargs):
-        """Initialise a `pyramid_match` kernel."""
-        self._valid_parameters |= {"R", "nh_type", "byte"}
+        """Initialize a `neighborhood_hash` kernel."""
+        self._valid_parameters |= {"R", "nh_type", "byte", "random_seed"}
         super(neighborhood_hash, self).__init__(**kargs)
 
+        seed(int(kargs.get("random_seed", 42)))
         self._R = kargs.get("R", 3)
 
         if self._R <= 0:
@@ -52,46 +62,53 @@ class neighborhood_hash(kernel):
         nh_type = kargs.get("nh_type", "simple")
         if nh_type == 'simple':
             self._noc_f = False
-            self._NH = lambda G: neighborhood_hash_simple(G)
-        elif nh_type == 'count-sensitive':
+            self._NH = lambda G: self.neighborhood_hash_simple(G)
+        elif nh_type == 'count_sensitive':
             self._noc_f = True
-            self._NH = lambda G: neighborhood_hash_count_sensitive(G)
+            self._NH = lambda G: self.neighborhood_hash_count_sensitive(G)
         else:
             raise ValueError('unrecognised neighborhood hashing type')
 
-        self._bytes = int(kargs.get("bytes", 2))
-        if self._bytes <= 0:
-            raise ValueError('illegal number of bytes for hashing')
+        self._bits = int(kargs.get("bits", 8))
+        if self._bits <= 0:
+            raise ValueError('illegal number of bits for hashing')
+        self._max_number = 1 << self._bits
+        self._mask = self._max_number-1
 
-    def parse_input(self, X):
-        """Parse and create features for shortest_path kernel.
+    def fit(self, X, y=None):
+        """Fit a dataset, for a transformer.
 
         Parameters
         ----------
         X : iterable
-            For the input to pass the test, we must have:
             Each element must be an iterable with at most three features and at
             least one. The first that is obligatory is a valid graph structure
             (adjacency matrix or edge_dictionary) while the second is
-            node_labels and the third edge_labels (that correspond to the given
-            graph format). A valid input also consists of graph type objects.
+            node_labels and the third edge_labels (that fitting the given graph
+            format). The train samples.
+
+        y : None
+            There is no need of a target in a transformer, yet the pipeline API
+            requires this parameter.
 
         Returns
         -------
-        H : list
-            A list of lists of Histograms for all levels for each graph.
+        self : object
+        Returns self.
 
         """
-        if not isinstance(X, collections.Iterable):
-            raise ValueError('input must be an iterable\n')
+        self._method_calling = 1
+        # Input validation and parsing
+        if X is None:
+            raise ValueError('`fit` input cannot be None')
         else:
+            if not isinstance(X, collections.Iterable):
+                raise ValueError('input must be an iterable\n')
+
             i = 0
+            out = list()
             gs = list()
-            if self._method_calling in [1, 2]:
-                self._labels_hash_dict, self._labels_hash_set = dict(), set()
-            elif self._method_calling == 3:
-                self._Y_labels_hash_dict = dict()
-                self._Y_labels_hash_set = set()
+            self._labels_hash_dict, labels_hash_set = dict(), set()
             for (idx, x) in enumerate(iter(X)):
                 is_iter = isinstance(x, collections.Iterable)
                 if is_iter:
@@ -105,56 +122,197 @@ class neighborhood_hash(kernel):
                         warnings.warn(
                             'Ignoring empty element on index: '
                             + str(i) + '\nLabels must be provided.')
-                        i += 1
                     else:
                         x = Graph(x[0], x[1], {}, self._graph_format)
-                        v = list(x.get_vertices(purpose="any"))
-                        L = x.get_labels(purpose="any")
-                        i += 1
+                        vertices = list(x.get_vertices(purpose="any"))
+                        Labels = x.get_labels(purpose="any")
                 elif type(x) is Graph:
-                    v = list(x.get_vertices(purpose="any"))
-                    L = x.get_labels(purpose="any")
+                    vertices = list(x.get_vertices(purpose="any"))
+                    Labels = x.get_labels(purpose="any")
                 else:
-                    raise ValueError('each element of X must be either a ' +
-                                     'graph object or a list with at least ' +
-                                     'a graph like object and node labels ' +
-                                     'dict \n')
+                    raise ValueError('each element of X must be either '
+                                     'a graph object or a list with at '
+                                     'least a graph like object and '
+                                     'node labels dict \n')
 
-                if self._method_calling in [1, 2]:
-                    labels = self.hash_labels(L)
+                g = (vertices, Labels,
+                     {n: x.neighbors(n, purpose="any") for n in vertices})
 
-                g = tuple(radix_sort(v, L)) + \
-                    ({n: x.neighbors(n, purpose="any") for n in v},)
-
-                if self._noc_f:
-                    noc = dict()
-                    for k in labels.keys():
-                        if labels[k] not in noc:
-                            noc[labels[k]] = 1
-                        else:
-                            noc[labels[k]] += 1
-                    g += (noc,)
-
-                gr = dict()
-                gr[0] = self._NH(g)
-                for r in range(1, self._R):
-                    gr[r] = self._NH(gr[r-1])
-                gs.append(gr)
+                # collect all the labels
+                labels_hash_set |= set(itervalues(Labels))
+                gs.append(g)
+                i += 1
 
             if i == 0:
                 raise ValueError('parsed input is empty')
 
-            return gs
+            # Hash labels
+            if len(labels_hash_set) > self._max_number:
+                warnings.warn('Number of labels is smaller than'
+                              'the biggest possible.. '
+                              'Collisions will appear on the '
+                              'new labels.')
+
+                # If labels exceed the biggest possible size
+                nl, nrl = list(), len(labels_hash_set)
+                while nrl > self._max_number:
+                    nl += choice(self._max_number,
+                                 self._max_number,
+                                 replace=False).tolist()
+                    nrl -= self._max_number
+                if nrl > 0:
+                    nl += choice(self._max_number,
+                                 nrl,
+                                 replace=False).tolist()
+                # unify the collisions per element.
+
+            else:
+                # else draw n random numbers.
+                nl = choice(self._max_number, len(labels_hash_set),
+                            replace=False).tolist()
+
+            self._labels_hash_dict = dict(zip(labels_hash_set, nl))
+
+            # for all graphs
+            for vertices, labels, neighbors in gs:
+                new_labels = {v: self._labels_hash_dict[l]
+                              for v, l in iteritems(labels)}
+                g = (vertices, new_labels, neighbors,)
+                gr = {0: self._NH(g)}
+                for r in range(1, self._R):
+                    gr[r] = self._NH(gr[r-1])
+
+                # save the output for all levels
+                out.append(gr)
+
+        self.X = out
+
+        # Return the transformer
+        return self
+
+    def fit_transform(self, X):
+        """Fit and transform, on the same dataset.
+
+        Parameters
+        ----------
+        X : iterable
+            Each element must be an iterable with at most three features and at
+            least one. The first that is obligatory is a valid graph structure
+            (adjacency matrix or edge_dictionary) while the second is
+            node_labels and the third edge_labels (that fitting the given graph
+            format). If None the kernel matrix is calculated upon fit data.
+            The test samples.
+
+        y : None
+            There is no need of a target in a transformer, yet the pipeline API
+            requires this parameter.
+
+        Returns
+        -------
+        K : numpy array, shape = [n_targets, n_input_graphs]
+            corresponding to the kernel matrix, a calculation between
+            all pairs of graphs between target an features
+
+        """
+        self._method_calling = 2
+        self.fit(X)
+
+        # Transform - calculate kernel matrix
+        # Output is always normalized
+        return self._calculate_kernel_matrix()
+
+    def transform(self, X):
+        """Calculate the kernel matrix, between given and fitted dataset.
+
+        Parameters
+        ----------
+        X : iterable
+            Each element must be an iterable with at most three features and at
+            least one. The first that is obligatory is a valid graph structure
+            (adjacency matrix or edge_dictionary) while the second is
+            node_labels and the third edge_labels (that fitting the given graph
+            format). If None the kernel matrix is calculated upon fit data.
+            The test samples.
+
+        Returns
+        -------
+        K : numpy array, shape = [n_targets, n_input_graphs]
+            corresponding to the kernel matrix, a calculation between
+            all pairs of graphs between target an features
+
+        """
+        self._method_calling = 3
+        # Check is fit had been called
+        check_is_fitted(self, ['X'])
+
+        # Input validation and parsing
+        if X is None:
+            raise ValueError('`transform` input cannot be None')
+        else:
+            if not isinstance(X, collections.Iterable):
+                raise ValueError('input must be an iterable\n')
+
+            i = 0
+            out = list()
+            for (idx, x) in enumerate(iter(X)):
+                is_iter = isinstance(x, collections.Iterable)
+                if is_iter:
+                    x = list(x)
+                if is_iter and len(x) in [0, 1, 2, 3]:
+                    if len(x) == 0:
+                        warnings.warn('Ignoring empty element on index: '
+                                      + str(idx))
+                        continue
+                    elif len(x) == 1:
+                        warnings.warn(
+                            'Ignoring empty element on index: '
+                            + str(i) + '\nLabels must be provided.')
+                    else:
+                        x = Graph(x[0], x[1], {}, self._graph_format)
+                        vertices = list(x.get_vertices(purpose="any"))
+                        Labels = x.get_labels(purpose="any")
+                elif type(x) is Graph:
+                    vertices = list(x.get_vertices(purpose="any"))
+                    Labels = x.get_labels(purpose="any")
+                else:
+                    raise ValueError('each element of X must be either '
+                                     'a graph object or a list with at '
+                                     'least a graph like object and '
+                                     'node labels dict \n')
+
+                # Hash based on the labels of fit
+                new_labels = {v: self._labels_hash_dict.get(l, None)
+                              for v, l in iteritems(Labels)}
+
+                # Radix sort the other
+                g = ((vertices, new_labels) +
+                     ({n: x.neighbors(n, purpose="any")
+                       for n in vertices},))
+
+                gr = {0: self._NH(g)}
+                for r in range(1, self._R):
+                    gr[r] = self._NH(gr[r-1])
+
+                # save the output for all levels
+                out.append(gr)
+                i += 1
+
+                if i == 0:
+                    raise ValueError('parsed input is empty')
+
+        # Transform - calculate kernel matrix
+        # Output is always normalized
+        return self._calculate_kernel_matrix(out)
 
     def pairwise_operation(self, x, y):
         """Calculate a pairwise kernel between two elements.
 
         Parameters
         ----------
-        x, y : dict
+        x, y : list
             Dict of len=2, tuples, consisting of vertices sorted by
-            (labels, vertices) and edge-labels dict, for each radius
-            from 0 .. R-1.
+            (labels, vertices) and edge-labels dict, for all levels
+            from 0 up to self._R-1.
 
         Returns
         -------
@@ -162,168 +320,194 @@ class neighborhood_hash(kernel):
             The kernel value.
 
         """
-        return sum(nh_compare_labels(x[r], y[r]) for r in range(self._R))
+        k = sum(nh_compare_labels(x[r], y[r]) for r in range(self._R))
+        return k / (1.0*self._R)
 
-    def hash_labels(self, labels):
-        """Hashes existing labels to 16-bit integer.
+    def diagonal(self):
+        """Calculate the kernel matrix diagonal of the fit/transfromed data.
 
-        Hashing without collisions and with consistency in same labels.
+        Parameters
+        ----------
+        None.
+
+        Returns
+        -------
+        X_diag : np.array
+            The diagonal of the kernel matrix between the fitted data.
+            This consists of each element calculated with itself.
+
+        Y_diag : np.array
+            The diagonal of the kernel matrix, of the transform.
+            This consists of each element calculated with itself.
+
+        """
+        # Output is always normalized
+        return 1.0, 1.0
+
+    def ROT(self, n, d):
+        """`rot` operation for binary numbers.
+
+        Parameters
+        ----------
+        n : int
+            The value which will be rotated.
+
+        d : int
+            The number of rotations.
+
+        Returns
+        -------
+        rot : int
+            The result of a rot operation.
+
+        """
+        m = d % self._bits
+
+        if m > 0:
+            return (n << m) & self._mask | \
+                   ((n & self._mask) >> (self._bits-m))
+        else:
+            return n
+
+    def neighborhood_hash_simple(self, G):
+        """(simple) neighborhood hashing as defined in :cite:`Hido2009ALG`.
+
+        Parameters
+        ----------
+        G : tuple
+            A tuple of three elements consisting of vertices sorted by labels,
+            vertex label dictionary and edge dictionary.
+
+        Returns
+        -------
+        vertices_labels_edges : tuple
+            A tuple of vertices, new_labels-dictionary and edges.
+
+        """
+        vertices, labels, neighbors = G
+        new_labels = dict()
+        for u in vertices:
+            if (labels[u] is None or
+                    any(labels[n] is None for n in neighbors[u])):
+                new_labels[u] = None
+            else:
+                label = self.ROT(labels[u], 1)
+                for n in neighbors[u]:
+                    label ^= labels[n]
+                new_labels[u] = label
+        return tuple(self.vertex_sort_(vertices, new_labels)) + (neighbors,)
+
+    def neighborhood_hash_count_sensitive(self, G):
+        """Count sensitive neighborhood hash as defined in :cite:`Hido2009ALG`.
+
+        Parameters
+        ----------
+        G : tuple, len=3
+           A tuple three elements consisting of vertices sorted by labels,
+           vertex label dict, edge dict and number of occurencies dict for
+           labels.
+
+        Returns
+        -------
+        vertices_labels_edges_noc : tuple
+            A tuple of 4 elements consisting of vertices sorted by labels,
+            vertex label dict, edge dict and number of occurencies dict.
+
+        """
+        vertices, labels, neighbors = G
+        new_labels = dict()
+        for u in vertices:
+            if (labels[u] is None or
+                    any(labels[n] is None for n in neighbors[u])):
+                new_labels[u] = None
+            else:
+                label = self.ROT(labels[u], 1)
+                label ^= self.radix_sort_rot([labels[n] is None
+                                              for n in neighbors[u]])
+                new_labels[u] = label
+
+        return tuple(self.vertex_sort_(vertices, new_labels)) + (neighbors,)
+
+    def radix_sort_rot(self, labels):
+        """Sorts vertices based on labels.
 
         Parameters
         ----------
         labels : dict
-            Labels for vertices.
-
-        labels_hash_dict : dict
-            A hash table for labels.
-
-        nh_type : str, valid_values={'simple','count-sensitive'},
-            The existing neighborhood hash type as defined in
-            :cite:`Hido2009ALG`.
-
-        bytes : int, default=2
-            Byte size of hashes.
+            Dictionary of labels for vertices.
 
         Returns
         -------
-        new_labels : dict
-            The new hashed labels for vertices.
+        labels_counts : list
+            A list of labels with their counts (sorted).
 
         """
-        new_labels = dict()
-        if self._method_calling not in [1, 2]:
-            for k in labels.keys():
-                if labels[k] not in self._labels_hash_dict:
-                        f = True
-                        while f:
-                            r = int.from_bytes(os.urandom(self._bytes),
-                                               'little')
-                            f = r in self._labels_hash_set
-                        self._labels_hash_set.add(r)
-                        self._labels_hash_dict[labels[k]] = r
-                        new_labels[k] = r
-                else:
-                    new_labels[k] = self._labels_hash_dict[labels[k]]
+        n = len(labels)
+        result = 0
+        if n == 0:
+            return result
+
+        for b in range(self._bits):
+            # The output array elements that will have sorted arr
+            output = [0]*n
+
+            # initialize count array as 0
+            count = [0, 0]
+
+            # Store count of occurrences in count[]
+            for i in range(n):
+                count[(labels[i] >> b) % 2] += 1
+
+            # Change count[i] so that count[i] now contains actual
+            #  position of this digit in output array
+            count[1] += count[0]
+
+            # Build the output array
+            for i in range(n-1, -1, -1):
+                index = (labels[i] >> b)
+                output[count[index % 2] - 1] = labels[i]
+                count[index % 2] -= 1
+
+            # Copying the output array to arr[],
+            # so that arr now contains sorted numbers
+            labels = output
+
+        previous, occ = labels[0], 1
+        for i in range(1, len(labels)):
+            label = labels[i]
+            if label == previous:
+                occ += 1
+            else:
+                result ^= self.ROT(previous ^ occ, occ)
+                occ = 1
+            previous = label
+        if occ > 0:
+            result ^= self.ROT(previous ^ occ, occ)
+        return result
+
+    def vertex_sort_(self, vertices, labels):
+        """Sorts vertices based on labels.
+
+        Parameters
+        ----------
+        vertices : listable
+            A listable of vertices.
+
+        labels : dict
+            Dictionary of labels for vertices.
+
+        Returns
+        -------
+        vertices_labels : tuple, len=2
+            The sorted vertices based on labels and labels for vertices.
+
+        """
         if self._method_calling == 3:
-            for k in labels.keys():
-                if labels[k] not in self._labels_hash_dict:
-                    if labels[k] not in self._Y_labels_hash_dict:
-                        f = True
-                        while f:
-                            r = int.from_bytes(os.urandom(self._bytes),
-                                               'little')
-                            f = r in self._labels_hash_set or \
-                                r in self._Y_labels_hash_set
-                        self._Y_labels_hash_set.add(r)
-                        self._Y_labels_hash_dict[labels[k]] = r
-                        new_labels[k] = r
-                    else:
-                        new_labels[k] = self._Y_labels_hash_dict[labels[k]]
-                else:
-                    new_labels[k] = self._labels_hash_dict[labels[k]]
-        return new_labels
-
-
-def radix_sort(vertices, labels):
-    """Sorts vertices based on labels.
-
-    Parameters
-    ----------
-    vertices : listable
-        A listable of vertices.
-
-    labels : dict
-        Dictionary of labels for vertices.
-
-    Returns
-    -------
-    vertices_labels : tuple, len=2
-        The sorted vertices based on labels and labels for vertices.
-
-    """
-    return (sorted(list(vertices), key=lambda x: labels[x]), labels)
-
-
-def neighborhood_hash_simple(G):
-    """(simple) neighborhood hashing as defined in :cite:`Hido2009ALG`.
-
-    Parameters
-    ----------
-    G : tuple
-        A tuple of three elements consisting of vertices sorted by labels,
-        vertex label dictionary and edge dictionary.
-
-    Returns
-    -------
-    vertices_labels_edges : tuple
-        A tuple of vertices, new_labels-dictionary and edges.
-
-    """
-    vertices, labels, edges = G
-    new_labels = dict()
-    for u in vertices:
-        label = ROT(labels[u], 1)
-        for n in edges[u]:
-            label ^= labels[n]
-        new_labels[u] = label
-    return (vertices, new_labels, edges)
-
-
-def neighborhood_hash_count_sensitive(G):
-    """Count sensitive neighborhood hash as defined in :cite:`Hido2009ALG`.
-
-    Parameters
-    ----------
-    G : tuple, len=3
-       A tuple three elements consisting of vertices sorted by labels,
-       vertex label dict, edge dict and number of occurencies dict for labels
-
-    Returns
-    -------
-    vertices_labels_edges_noc : tuple
-        A tuple of 4 elements consisting of vertices sorted by labels,
-        vertex label dict, edge dict and number of occurencies dict.
-
-    """
-    vertices, labels, edges, noc = G
-    new_labels = dict()
-    new_noc = dict()
-    for u in vertices:
-        label = ROT(labels[u], 1)
-        for n in edges[u]:
-            o = noc[labels[n]]
-            label ^= ROT(labels[n] ^ o, o)
-        if label not in new_noc:
-            new_noc[label] = 1
+            return (sorted(list(vertices),
+                           key=lambda x: float('inf')
+                           if labels[x] is None else labels[x]), labels)
         else:
-            new_noc[label] += 1
-        new_labels[u] = label
-    return (vertices, new_labels, edges, new_noc)
-
-
-def ROT(l, n):
-    """`rot` operation for binary numbers.
-
-    Parameters
-    ----------
-    n : int
-        An integer.
-
-    l : int
-        A valid number.
-
-    Returns
-    -------
-    rot : int
-        The result of a rot operation.
-
-    """
-    if n < 0:
-        return rotr(l, -n)
-    elif n > 0:
-        return rotl(l, n)
-    else:
-        return l
+            return (sorted(vertices, key=lambda x: labels[x]), labels)
 
 
 def nh_compare_labels(Gx, Gy):
@@ -342,7 +526,7 @@ def nh_compare_labels(Gx, Gy):
 
     """
     # get vertices
-    vx, vy = iter(Gx[0]), iter(Gy[0])
+    vx, vy = Gx[0], Gy[0]
 
     # get size of vertices
     nv_x, nv_y = len(Gx[0]), len(Gy[0])
@@ -350,16 +534,19 @@ def nh_compare_labels(Gx, Gy):
     # get labels for vertices
     Lx, Ly = Gx[1], Gy[1]
 
-    c = 0
-    ui, uj = next(vx, None), next(vy, None)
-    while (ui is not None) and (uj is not None):
-        if Lx[ui] == Ly[uj]:
+    c, a, b = 0, 0, 0
+    while a < nv_x and b < nv_y:
+        la = Lx[vx[a]]
+        lb = Ly[vy[b]]
+        if la is None:
+            break
+        if la == lb:
             c += 1
-            ui = next(vx, None)
-            uj = next(vy, None)
-        elif Lx[ui] < Ly[uj]:
-            ui = next(vx, None)
+            a += 1
+            b += 1
+        elif la < lb:
+            a += 1
         else:
-            uj = next(vy, None)
+            b += 1
 
     return c/float(nv_x+nv_y-c)
