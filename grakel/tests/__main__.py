@@ -5,7 +5,7 @@ if __name__ == '__main__':
     import sys
     import warnings
 
-    from subprocess import call
+    from subprocess import check_call
 
     warnings.filterwarnings('ignore', category=UserWarning)
 
@@ -15,23 +15,32 @@ if __name__ == '__main__':
 
     print('Installing the latest "GraKeL"..')
     print('--------------------------------')
-    call([python_executable_address, project_dir + "/setup.py", "install"])
+
+    cwd = os.getcwd()
+    os.chdir(project_dir)
+    try:
+        check_call([python_executable_address, project_dir + "/setup.py",
+                    "install"])
+    finally:
+        os.chdir(cwd)
+
     print('................................................................\n')
 
     print('Testing Graph..')
     print('---------------')
-    call([python_executable_address, test_dir + "/test_graph.py",
-         "--ignore_warnings", "--verbose"])
+    check_call([python_executable_address, test_dir + "/test_graph.py",
+                "--ignore_warnings", "--verbose"])
     print('................................................................\n')
 
     print('Testing Kernels..')
     print('-----------------')
-    call([python_executable_address, test_dir + "/test_kernels.py",
-          "--verbose", "--time", "--ignore_warnings", "--all"])
+    check_call([python_executable_address, test_dir + "/test_kernels.py",
+                "--verbose", "--time", "--ignore_warnings", "--all"])
     print('................................................................\n')
 
     print('Testing Graph Kernels..')
     print('-----------------------')
-    call([python_executable_address, test_dir + "/test_graph_kernels.py",
-         "--verbose", "--time", "--ignore_warnings", "--all"])
+    check_call([python_executable_address,
+                test_dir + "/test_graph_kernels.py",
+                "--verbose", "--time", "--ignore_warnings", "--all"])
     print('................................................................')

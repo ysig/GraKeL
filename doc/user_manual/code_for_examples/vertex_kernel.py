@@ -2,7 +2,7 @@ from warnings import warn
 from collections import Counter, Iterable
 from grakel import kernel, Graph
 
-new_parameters = set()
+default_executor = lambda fn, *eargs, **ekargs: fn(*eargs, **ekargs)
 
 
 class vertex_histogram(kernel):
@@ -17,22 +17,44 @@ class vertex_histogram(kernel):
     None.
 
     """
+
     # Define the graph format that this kernel needs (if needed)
     # _graph_format = "auto" (default: "auto")
 
-    def __init__(self, **kargs):
+    def __init__(self,
+                 executor=default_executor,
+                 verbose=False,
+                 normalize=False,
+                 # kernel_param_1=kernel_param_1_default,
+                 # ...
+                 # kernel_param_n=kernel_param_n_default,
+                 ):
         """Initialise an `odd_sth` kernel."""
 
         # Add new parameters
         self._valid_parameters |= new_parameters
 
-        super(vertex_histogram, self).__init__(**kargs)
+        super(vertex_histogram, self).__init__(
+            executor=executor, verbose=verbose, normalize=normalize)
 
         # Get parameters and check the new ones
         # @for i=1 to num_new_parameters
-        # self._param_i = kargs.get("param_i", default_param_i_value)
-        # if self._param_i is not type(param_i_type) and not satisfy_constraint(self.param_i, param_i_constraint):
-        #     raise ValueError('Param_i should be of @param_i_type type and must satisfy the @param_i_constraint')
+        #   self.kernel_param_i = kernel_param_i
+
+        # self.initialized_ = {
+        #    param_needing_initialization_1 : False
+        #             ...
+        #    param_needing_initialization_m : False
+        # }
+
+    def initialize_(self):
+        """Initialize all transformer arguments, needing initialization."""
+        # for i=1 .. m
+        #     if not self.initialized_["param_needing_initialization_i"]:
+        #         # Apply checks (raise ValueError or TypeError accordingly)
+        #         # calculate derived fields stored on self._derived_field_ia .. z
+        #         self.initialized_["param_needing_initialization_i"] = True
+        pass
 
     def parse_input(self, X):
         """Parse and check the given input for vertex kernel.
@@ -54,7 +76,7 @@ class vertex_histogram(kernel):
 
         """
         if not isinstance(X, Iterable):
-            raise ValueError('input must be an iterable\n')
+            raise TypeError('input must be an iterable\n')
         else:
             out = list()
             for (i, x) in enumerate(iter(X)):
@@ -72,7 +94,7 @@ class vertex_histogram(kernel):
                     # get labels in any existing format
                     labels = x.get_labels(purpose="any")
                 else:
-                    raise ValueError('each element of X must be either a ' +
+                    raise TypeError('each element of X must be either a ' +
                                      'graph object or a list with at least ' +
                                      'a graph like object and node labels ' +
                                      'dict \n')

@@ -1,5 +1,6 @@
 #include "../include/functions.hpp"
 #include <list>
+#include <cmath>
 #include <stdlib.h>
 
 using namespace std;

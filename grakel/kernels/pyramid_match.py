@@ -13,6 +13,8 @@ from grakel.kernels import kernel
 # Python 2/3 cross-compatibility import
 from six import itervalues
 
+default_executor = lambda fn, *eargs, **ekargs: fn(*eargs, **ekargs)
+
 
 class pyramid_match(kernel):
     """Pyramid match kernel class.
@@ -32,13 +34,13 @@ class pyramid_match(kernel):
 
     Attributes
     ----------
-    _L : int
+    L : int
         Defines the histogram level of the pyramid.
 
-    _d : int
+    d : int
         The dimension of the hypercube.
 
-    _with_labels : bool
+    with_labels : bool
         Defines if to use labels in the calculation of the `pyramid_match`
         kernel.
 
@@ -52,26 +54,43 @@ class pyramid_match(kernel):
 
     _graph_format = "adjacency"
 
-    def __init__(self, **kargs):
+    def __init__(self, executor=default_executor,
+                 normalize=False,
+                 verbose=False,
+                 with_labels=True,
+                 L=4,
+                 d=6):
         """Initialise a `pyramid_match` kernel."""
-        self._valid_parameters |= {"L", "d", "with_labels"}
-        super(pyramid_match, self).__init__(**kargs)
+        super(pyramid_match, self).__init__(executor=executor,
+                                            normalize=normalize,
+                                            verbose=verbose)
 
-        self._with_labels = kargs.get("with_labels", True)
-        if type(self._with_labels) != bool:
-            raise ValueError('with labels must be a boolean variable')
+        self.with_labels = with_labels
+        self.L = L
+        self.d = d
+        self.initialized_ = {"d": False, "L": False, "with_labels": False}
 
-        self._L = kargs.get("L", 4)
-        if self._L < 0:
-            raise ValueError('L: the number of levels must be bigger equal' +
-                             ' to 0')
+    def initialize_(self):
+        """Initialize all transformer arguments, needing initialization."""
+        if not self.initialized_["with_labels"]:
+            if type(self.with_labels) != bool:
+                raise TypeError('with labels must be a boolean variable')
+            self.initialized_["with_labels"] = True
 
-        self._d = kargs.get("d", 6)
-        if self._d < 1:
-            raise ValueError('d: hypercube dimension must be bigger than 1')
+        if not self.initialized_["L"]:
+            if type(self.L) is not int or self.L < 0:
+                raise TypeError('L: the number of levels must be an integer '
+                                'bigger equal to 0')
+            self.initialized_["L"] = True
+
+        if not self.initialized_["d"]:
+            if type(self.d) is not int or self.d < 1:
+                raise TypeError('d: hypercube dimension must be an '
+                                'integer bigger than 1')
+            self.initialized_["d"] = True
 
     def parse_input(self, X):
-        """Parse and create features for shortest_path kernel.
+        """Parse and create features for pyramid_match kernel.
 
         Parameters
         ----------
@@ -90,11 +109,11 @@ class pyramid_match(kernel):
 
         """
         if not isinstance(X, collections.Iterable):
-            raise ValueError('input must be an iterable\n')
+            raise TypeError('input must be an iterable\n')
         else:
             i = 0
             Us = []
-            if self._with_labels:
+            if self.with_labels:
                 Ls = []
             for (idx, x) in enumerate(iter(X)):
                 is_iter = isinstance(x, collections.Iterable)
@@ -108,41 +127,41 @@ class pyramid_match(kernel):
                     else:
                         x = Graph(x[0], x[1], {}, self._graph_format)
                 elif not type(x) is Graph:
-                    raise ValueError('each element of X must be either a ' +
-                                     'graph object or a list with at least ' +
-                                     'a graph like object and node labels ' +
-                                     'dict \n')
+                    raise TypeError('each element of X must be either a ' +
+                                    'graph object or a list with at least ' +
+                                    'a graph like object and node labels ' +
+                                    'dict \n')
                 A = x.get_adjacency_matrix()
-                if self._with_labels:
+                if self.with_labels:
                     L = x.get_labels(purpose="adjacency")
                 i += 1
                 if A.shape[0] == 0:
-                    Us.append(np.zeros((1, self._d)))
+                    Us.append(np.zeros((1, self.d)))
                 else:
                     # Perform eigenvalue decomposition.
                     # Rows of matrix U correspond to vertex representations
                     # Embed vertices into the d-dimensional space
-                    if A.shape[0] > self._d+1:
+                    if A.shape[0] > self.d+1:
                         # If size of graph smaller than d, pad with zeros
                         Lambda, U = eigs(csr_matrix(A, dtype=np.float),
-                                         k=self._d, ncv=10*self._d)
+                                         k=self.d, ncv=10*self.d)
                         idx = Lambda.argsort()[::-1]
                         U = U[:, idx]
                     else:
                         Lambda, U = np.linalg.eig(A)
                         idx = Lambda.argsort()[::-1]
                         U = U[:, idx]
-                        U = U[:, :self._d]
+                        U = U[:, :self.d]
                     # Replace all components by their absolute values
                     U = np.absolute(U)
                     Us.append((A.shape[0], U))
-                if self._with_labels:
+                if self.with_labels:
                     Ls.append(L)
 
         if i == 0:
             raise ValueError('parsed input is empty')
 
-        if self._with_labels:
+        if self.with_labels:
             # Map labels to values between 0 and |L|-1
             # where |L| is the number of distinct labels
             if self._method_calling in [1, 2]:
@@ -194,13 +213,13 @@ class pyramid_match(kernel):
             for (i, (n, u)) in enumerate(Us):
                 if n > 0:
                     du = list()
-                    for j in range(self._L):
+                    for j in range(self.L):
                         # Number of cells along each dimension at level j
                         k = 2**j
                         # Determines the cells in which each vertex lies
                         # along each dimension since nodes lie in the unit
                         # hypercube in R^d
-                        D = np.zeros((self._d, k))
+                        D = np.zeros((self.d, k))
                         T = np.floor(Us[i]*k)
                         T[np.where(T == k)] = k-1
                         for p in range(u.shape[0]):
@@ -219,13 +238,13 @@ class pyramid_match(kernel):
             for (i, ((n, u), L)) in enumerate(zip(Us, Ls)):
                 du = list()
                 if n > 0:
-                    for j in range(self._L):
+                    for j in range(self.L):
                         # Number of cells along each dimension at level j
                         k = 2**j
                         # To store the number of vertices that are assigned
                         # a specific label and lie in each of the 2^j cells
                         # of each dimension at level j
-                        D = np.zeros((self._d*self._num_labels, k))
+                        D = np.zeros((self.d*self._num_labels, k))
                         T = np.floor(u*k)
                         T[np.where(T == k)] = k-1
                         for p in range(u.shape[0]):
@@ -234,9 +253,9 @@ class pyramid_match(kernel):
                             for q in range(u.shape[1]):
                                 # Identify the cell into which the i-th
                                 # vertex lies and increase its value by 1
-                                D[Labels[L[p]]*self._d + q,
+                                D[Labels[L[p]]*self.d + q,
                                   int(T[p, q])] = \
-                                    D[Labels[L[p]]*self._d + q,
+                                    D[Labels[L[p]]*self.d + q,
                                       int(T[p, q])] + 1
                             du.append(D)
                     Hs.append(du)
@@ -257,15 +276,15 @@ class pyramid_match(kernel):
 
         """
         k = 0
-        intersec = np.zeros(self._L)
-        for (p, xp, yp) in zip(range(self._L), x, y):
+        intersec = np.zeros(self.L)
+        for (p, xp, yp) in zip(range(self.L), x, y):
             # Calculate histogram intersection
             # (eq. 6 in :cite:`Nikolentzos2017MatchingNE`)
             intersec[p] = np.sum(np.minimum(xp, yp))
-            k += intersec[self._L-1]
-            for p in range(self._L-1):
+            k += intersec[self.L-1]
+            for p in range(self.L-1):
                 # Computes the new matches that occur at level p.
                 # These matches weight less than those that occur at
                 # higher levels (e.g. p+1 level)
-                k += (1.0/(2**(self._L-p-1)))*(intersec[p]-intersec[p+1])
+                k += (1.0/(2**(self.L-p-1)))*(intersec[p]-intersec[p+1])
         return k

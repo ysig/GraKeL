@@ -3,10 +3,9 @@
 =========================
 Dataset loading utilities
 =========================
+.. module:: grakel.datasets
 
 A module for loading and fetching datasets related with graph kernels.
-
-.. currentmodule:: grakel.datasets
 
 .. autosummary::
    :toctree: generated/

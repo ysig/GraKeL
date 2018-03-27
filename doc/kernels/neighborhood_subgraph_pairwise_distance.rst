@@ -6,8 +6,8 @@ The Neighborhood Subgraph Pairwise Distance Kernel.
 
 **Theoretical definition missing**
 
-.. currentmodule:: grakel.kernels
+.. currentmodule:: grakel
 
 .. autosummary::
 
-   grakel.kernels.neighborhood_subgraph_pairwise_distance
+   neighborhood_subgraph_pairwise_distance

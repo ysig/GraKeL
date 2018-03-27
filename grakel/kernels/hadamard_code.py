@@ -19,9 +19,11 @@ from grakel.kernels import kernel
 from six import iteritems
 from six import itervalues
 
+default_executor = lambda fn, *eargs, **ekargs: fn(*eargs, **ekargs)
+
 
 class hadamard_code(kernel):
-    """Hadamard code kernel, as proposed in :cite:`icpram16`.
+    """The simple Hadamard code kernel, as proposed in :cite:`icpram16`.
 
     Parameters
     ----------
@@ -30,9 +32,6 @@ class hadamard_code(kernel):
         dictionary of parameters. General parameters concerning
         normalization, concurrency, .. will be ignored, and the
         ones of given on `__init__` will be passed in case it is needed.
-
-    hc_type : str, valid_inputs={"simple", "shortened"}, default="simple"
-        The hadamard code kernel type as defined in :cite:`icpram16`.
 
     rho : int, condition_of_appearance: hc_type=="shortened", default=-1
         The size of each single bit arrays. If -1 is chosen r is calculated as
@@ -68,76 +67,55 @@ class hadamard_code(kernel):
 
     _graph_format = "auto"
 
-    def __init__(self, **kargs):
+    def __init__(self, executor=default_executor, verbose=False,
+                 normalize=False, niter=5, base_kernel=None):
         """Initialise a `hadamard_code` kernel."""
-        base_params = self._valid_parameters.copy()
-        self._valid_parameters |= {"base_kernel",
-                                   "niter",
-                                   "hc_type",
-                                   "rho",
-                                   "L"}
-        super(hadamard_code, self).__init__(**kargs)
+        super(hadamard_code, self).__init__(
+            executor=executor, verbose=verbose, normalize=normalize)
 
-        self._niter = kargs.get("niter", 5)
-        if self._niter < 1:
-            raise ValueError('niter must be an integer bigger than zero')
+        self.niter = niter
+        self.base_kernel = base_kernel
+        self.initialized_ = {"niter": False, "base_kernel": False}
 
-        hc_type = kargs.get("hc_type", 'simple')
-        if hc_type == 'simple':
-            self._shortened = False
-            self._add = np.add
-            self._get = lambda A, i: A[i, :]
-        elif hc_type == 'shortened':
-            # extract rho
-            self._rho = kargs.get('rho', -1)
-            if self._rho <= 0 and self._rho != -1:
-                raise ValueError('rho must be bigger than zero or equal to 1')
+    def initialize_(self):
+        """Initialize all transformer arguments, needing initialization."""
+        if not self.initialized_["base_kernel"]:
+            base_kernel = self.base_kernel
+            if base_kernel is not None:
+                if type(base_kernel) is type and issubclass(base_kernel, kernel):
+                    params = dict()
+                else:
+                    try:
+                        base_kernel, params = base_kernel
+                    except Exception:
+                        raise TypeError('Base kernel was not formulated in '
+                                        'the correct way. '
+                                        'Check documentation.')
 
-            # extract L
-            self._L = kargs.get('L', 4)
-            if self._L <= 0:
-                raise ValueError('L must be a positive integer as it ' +
-                                 'corresponds to the number of bytes')
+                    if not (type(base_kernel) is type and
+                            issubclass(base_kernel, kernel)):
+                        raise TypeError('The first argument must be a valid '
+                                        'grakel.kernel.kernel Object')
+                    if type(params) is not dict:
+                        raise ValueError('If the second argument of base '
+                                         'kernel exists, it must be a diction'
+                                         'ary between parameters names and '
+                                         'values')
+                    params.pop("normalize", None)
 
-            self._L = self._L * 8
-
-            # initialise addition labels and get for an internal use
-            self._shortened = True
-            self._add = lambda x, y: x + y
-            self._get = lambda A, i: A[i]
-        else:
-            raise ValueError('unrecognised hadamard code kernel type')
-
-        if "base_kernel" not in kargs:
-            raise ValueError('User must provide a base kernel.')
-        else:
-            if type(kargs["base_kernel"]) is type and \
-                    issubclass(kargs["base_kernel"], kernel):
-                base_kernel = kargs["base_kernel"]
-                params = dict()
+                params["normalize"] = False
+                params["verbose"] = self.verbose
+                params["executor"] = self.executor
+                self._base_kernel = lambda *args: base_kernel(**params)
             else:
-                try:
-                    base_kernel, params = kargs["base_kernel"]
-                except Exception:
-                    raise ValueError('Base kernel was not provided in the ' +
-                                     'correct way. Check documentation.')
+                raise ValueError('Upon initialization base_kernel cannot be '
+                                 'None')
+            self.initialized_["base_kernel"] = True
 
-                if not (type(base_kernel) is type and
-                        issubclass(base_kernel, kernel)):
-                    raise ValueError('The first argument must be a valid ' +
-                                     'grakel.kernel.kernel Object')
-                if type(params) is not dict:
-                    raise ValueError('If the second argument of base ' +
-                                     'kernel exists, it must be a diction' +
-                                     'ary between parameters names and values')
-                params.pop("normalize", None)
-                for p in base_params:
-                        params.pop(p, None)
-
-            params["normalize"] = False
-            params["verbose"] = self._verbose
-            params["executor"] = self._executor
-            self._base_kernel = lambda *args: base_kernel(**params)
+        if not self.initialized_["niter"]:
+            if type(self.niter) is not int or self.niter <= 0:
+                raise TypeError("'niter' must be a positive integer")
+            self.initialized_["niter"] = True
 
     def parse_input(self, X):
         """Parse input for weisfeiler lehman.
@@ -162,16 +140,18 @@ class hadamard_code(kernel):
             `fit_transform`.
 
         """
+        if self._base_kernel is None:
+            raise ValueError('User must provide a base_kernel')
         # Input validation and parsing
         if not isinstance(X, collections.Iterable):
-            raise ValueError('input must be an iterable\n')
+            raise TypeError('input must be an iterable\n')
         else:
             nx = 0
             if self._method_calling in [1, 2]:
                 nl = 0
                 labels_enum = dict()
                 base_kernel = dict()
-                for kidx in range(self._niter):
+                for kidx in range(self.niter):
                     base_kernel[kidx] = self._base_kernel()
             elif self._method_calling == 3:
                 nl = len(self._labels_enum)
@@ -192,10 +172,10 @@ class hadamard_code(kernel):
                         x = Graph(x[0], x[1], {},
                                   graph_format=self._graph_format)
                 elif type(x) is not Graph:
-                    raise ValueError('each element of X must be either a ' +
-                                     'graph object or a list with at least ' +
-                                     'a graph like object and node labels ' +
-                                     'dict \n')
+                    raise TypeError('each element of X must be either a ' +
+                                    'graph object or a list with at least ' +
+                                    'a graph like object and node labels ' +
+                                    'dict \n')
 
                 label = x.get_labels(purpose='any')
                 inp.append((x.get_graph_object(), label))
@@ -209,73 +189,7 @@ class hadamard_code(kernel):
                 raise ValueError('parsed input is empty')
 
         # Calculate the hadamard matrix
-        ord_H = int(2**(ceil(log2(nl))))
-        H = hadamard(ord_H)
-
-        if self._shortened:
-            # In order to apply shortened correctly all the transform
-            # elements must be considered upon fit. This is not possible
-            # on the fit transform model. So we keep the fit labels for fit
-            # and add new on transform.
-            if self._method_calling in [1, 2]:
-                if self._rho == -1:
-                    rho = int(self._L/(ord_H-1))
-                    if rho <= 0:
-                        raise ValueError('The default calculated rho is too ' +
-                                         'small, raise more L ~ L must' +
-                                         ' approach the number of labels (' +
-                                         str(ord_H) + ')')
-                elif self._rho*(ord_H-1) > self._L:
-                    raise ValueError('rho*(ord_H-1)='+str(self._rho)+'*(' +
-                                     str(ord_H) + '-1) > L='+str(self._L))
-                else:
-                    rho = self._rho
-
-                bit_array = dict()
-                bool_H = (H > 0).astype(bool)
-                # construct the bit array as string concatenation
-                header_size = (self._L - rho*(ord_H-1))
-                for i in range(ord_H):
-                    bit_array[i] = header_size * str(int(bool_H[i, -1]))
-                    for j in range(ord_H-1, -1, -1):
-                        bit_array[i] = bit_array[i] + \
-                            rho*str(int(bool_H[i, j]))
-                    bit_array[i] = int('0b'+bit_array[i], 2)
-                Labeling = bit_array
-
-                # Store information for handling of transform
-                self._fit_bit_array_ = bit_array
-                self._fit_ord_H_ = ord_H
-                self._fit_rho_ = rho
-            elif self._method_calling == 3:
-                if self._fit_ord_H_ < ord_H:
-                    # Length *L* is being ommited by the new elements
-                    # Length *L* stays valid for elements of fit.
-                    rho = self._fit_rho_
-                    bit_array = dict()
-                    bool_H = (H > 0).astype(bool)
-                    header_size = (self._L - rho*(self._fit_ord_H_-1))
-                    for i in range(self._fit_ord_H_, ord_H):
-                        # All the first elements keep fit_rho steady
-                        for j in range(ord_H, self._fit_ord_H_, -1):
-                            bit_array[i] = bit_array[i] + \
-                                rho*str(int(bool_H[i, j]))
-
-                        # continue normally first element of fit as in fit
-                        bit_array[i] = bit_array[i] + \
-                            header_size * str(int(bool_H[i, -1]))
-
-                        # all continuing elements the same
-                        for j in range(self._fit_ord_H_-1, -1, -1):
-                            bit_array[i] = bit_array[i] + \
-                                rho*str(int(bool_H[i, j]))
-                        bit_array[i] = int('0b'+bit_array[i], 2)
-
-                    Labeling = dict(self._fit_bit_array_, **bit_array)
-                else:
-                    Labeling = self._fit_bit_array_
-        else:
-            Labeling = H
+        H = hadamard(int(2**(ceil(log2(nl)))))
 
         # Intial labeling of vertices based on their corresponding Hadamard
         # code (i-th row of the Hadamard matrix) where i is the i-th label on
@@ -284,7 +198,7 @@ class hadamard_code(kernel):
         for (obj, label) in inp:
             new_labels = dict()
             for (k, v) in iteritems(label):
-                new_labels[k] = self._get(Labeling, labels_enum[v])
+                new_labels[k] = H[labels_enum[v], :]
             new_graphs.append((obj, label))
 
         # Add the zero iteration element
@@ -296,7 +210,7 @@ class hadamard_code(kernel):
             K = base_kernel[0].transform(new_graphs)
 
         # Main
-        for i in range(1, self._niter):
+        for i in range(1, self.niter):
             graphs = new_graphs
             new_graphs = list()
             for ((obj, old_labels), neighbor) in zip(graphs, neighbors):
@@ -306,7 +220,7 @@ class hadamard_code(kernel):
                 for (k, ns) in iteritems(neighbor):
                     new_labels[k] = old_labels[k]
                     for q in ns:
-                        new_labels[k] = self._add(new_labels[k], old_labels[q])
+                        new_labels[k] = np.add(new_labels[k], old_labels[q])
                 new_graphs.append((obj, new_labels))
 
             # calculate kernel
@@ -356,7 +270,7 @@ class hadamard_code(kernel):
         else:
             km = self.parse_input(X)
 
-        if self._normalize:
+        if self.normalize:
             X_diag, Y_diag = self.diagonal()
             km /= np.sqrt(np.outer(Y_diag, X_diag))
 
@@ -387,13 +301,14 @@ class hadamard_code(kernel):
 
         """
         self._method_calling = 2
+        self.initialize_()
         if X is None:
             raise ValueError('transform input cannot be None')
         else:
             km, self.X = self.parse_input(X)
 
         self._X_diag = np.reshape(np.diagonal(km), (km.shape[0], 1))
-        if self._normalize:
+        if self.normalize:
             return np.divide(km,
                              np.sqrt(np.outer(self._X_diag, self._X_diag)))
         else:
@@ -425,13 +340,13 @@ class hadamard_code(kernel):
         try:
             check_is_fitted(self, ['_X_diag'])
             Y_diag = self.X[0].diagonal()[1]
-            for i in range(1, self._niter):
+            for i in range(1, self.niter):
                 Y_diag += self.X[i].diagonal()[1]
         except NotFittedError:
             # Calculate diagonal of X
             X_diag, Y_diag = self.X[0].diagonal()
             X_diag.flags.writeable = True
-            for i in range(1, self._niter):
+            for i in range(1, self.niter):
                 x, y = self.X[i].diagonal()
                 X_diag += x
                 Y_diag += y

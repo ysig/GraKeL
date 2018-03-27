@@ -20,7 +20,6 @@ from grakel.kernels import subgraph_matching
 from grakel.kernels import neighborhood_subgraph_pairwise_distance
 from grakel.kernels import lovasz_theta
 from grakel.kernels import svm_theta
-from grakel.kernels import jsm
 from grakel.kernels import odd_sth
 from grakel.kernels import propagation
 from grakel.kernels import hadamard_code
@@ -173,7 +172,7 @@ def test_shortest_path():
 def test_graphlet_sampling():
     """Test the Graphlet Sampling Kernel."""
     gs_kernel = graphlet_sampling(verbose=verbose, normalize=normalize,
-                                  n_samples=150)
+                                  sampling=dict(n_samples=150))
     if verbose:
         print_kernel("Graphlet Sampling", gs_kernel, dataset_tr, dataset_te)
     else:
@@ -245,13 +244,6 @@ def test_svm_theta():
         positive_eig(svm_kernel, dataset)
 
 
-def test_jsm_theta():
-    """Test the Jensen Shannon Representaion Alignment kernel."""
-    jsm_kernel = jsm(verbose=verbose, normalize=normalize)
-    if verbose:
-        print_kernel("JSM", jsm_kernel, dataset_tr, dataset_te)
-
-
 def test_odd_sth():
     """Test the ODD-STh kernel."""
     odd_sth_kernel = odd_sth(verbose=verbose, normalize=normalize)
@@ -276,17 +268,6 @@ def test_hadamard_code():
                                          base_kernel=vertex_histogram)
     if verbose:
         print_kernel("Hadamard-Code/VH [Simple]",
-                     hadamard_code_kernel, dataset_tr, dataset_te)
-    else:
-        positive_eig(hadamard_code_kernel, dataset)
-
-    hadamard_code_kernel = hadamard_code(verbose=verbose,
-                                         normalize=normalize,
-                                         base_kernel=vertex_histogram,
-                                         hc_type="shortened",
-                                         L=2)
-    if verbose:
-        print_kernel("Hadamard-Code/VH [Shortened]",
                      hadamard_code_kernel, dataset_tr, dataset_te)
     else:
         positive_eig(hadamard_code_kernel, dataset)
@@ -417,7 +398,6 @@ if verbose and main:
 
 if verbose and develop:
     if slow:
-        test_jsm_theta()
         test_multiscale_laplacian()
     if problematic:
         pass

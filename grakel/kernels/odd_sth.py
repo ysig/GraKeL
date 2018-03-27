@@ -1,9 +1,11 @@
 """The ODD-Sth kernel as defined in :cite:`Martino2012ATK`."""
 import copy
-import collections
 import warnings
 
 import numpy as np
+
+from collections import Iterable
+from collections import defaultdict
 
 from sklearn.utils.validation import check_is_fitted
 from sklearn.exceptions import NotFittedError
@@ -13,6 +15,8 @@ from grakel.graph import Graph
 
 # Python 2/3 cross-compatibility import
 from six import iteritems
+
+default_executor = lambda fn, *eargs, **ekargs: fn(*eargs, **ekargs)
 
 
 class odd_sth(kernel):
@@ -26,6 +30,9 @@ class odd_sth(kernel):
 
     Attributes
     ----------
+    h : int
+        Maximum dag height.
+
     _nx : int
         The number of parsed inputs on fit.
 
@@ -48,19 +55,31 @@ class odd_sth(kernel):
 
     """
 
-    def __init__(self, **kargs):
+    def __init__(self, executor=default_executor,
+                 normalize=False, verbose=False, h=None):
         """Initialise an `odd_sth` kernel."""
-        self._valid_parameters |= {"h"}
-        super(odd_sth, self).__init__(**kargs)
+        super(odd_sth, self).__init__(executor=executor,
+                                      normalize=normalize,
+                                      verbose=verbose)
+        self.h = h
+        self.initialized_ = {"h": False}
 
-        self._h = kargs.get("h", None)
+    def initialize_(self):
+        """Initialize all transformer arguments, needing initialization."""
+        if not self.initialized_["h"]:
+            if self.h is not None and (type(self.h) is not int or self.h <= 0):
+                raise ValueError('h must be an integer bigger than zero')
 
-        if self._h is not None and \
-                (type(self._h) is not int or self._h <= 0):
-            raise ValueError('h must be an integer bigger than zero')
+            if self.h is None:
+                self._make_big_dag = lambda x: make_big_dag(x, h=-1)
+            else:
+                self._make_big_dag = lambda x: make_big_dag(x, h=self.h)
+            self.maria = 1
+
+            self.initialized_["h"] = True
 
     def parse_input(self, X):
-        """Parse and create features for graphlet_sampling kernel.
+        """Parse and create features for the propagation kernel.
 
         Parameters
         ----------
@@ -78,15 +97,15 @@ class odd_sth(kernel):
             A tuple corresponding to the calculated bigDAG.
 
         """
-        if not isinstance(X, collections.Iterable):
-            raise ValueError('input must be an iterable\n')
+        if not isinstance(X, Iterable):
+            raise TypeError('input must be an iterable\n')
         else:
             i = 0
             out = None
             if self._method_calling == 3:
                 out = copy.deepcopy(self.X)
             for (idx, x) in enumerate(iter(X)):
-                is_iter = isinstance(x, collections.Iterable)
+                is_iter = isinstance(x, Iterable)
                 if is_iter:
                     x = list(x)
                 if is_iter and len(x) in [0, 3]:
@@ -99,16 +118,13 @@ class odd_sth(kernel):
                     elif len(x) > 2:
                         x = Graph(x[0], x[1], {}, self._graph_format)
                 elif type(x) is not Graph:
-                    raise ValueError('each element of X must have either ' +
-                                     'a graph with labels for node and edge ' +
-                                     'or 3 elements consisting of a graph ' +
-                                     'type object, labels for vertices and ' +
-                                     'labels for edges.')
-                q = make_big_dag(x, h=self._h)
-                if self._method_calling == 1:
-                    out = big_dag_append(q, out, merge_features=False)
-                elif self._method_calling == 3:
-                    out = big_dag_append(q, out, merge_features=False)
+                    raise TypeError('each element of X must have either ' +
+                                    'a graph with labels for node and edge ' +
+                                    'or 3 elements consisting of a graph ' +
+                                    'type object, labels for vertices and ' +
+                                    'labels for edges.')
+
+                out = big_dag_append(self._make_big_dag(x), out, merge_features=False)
                 i += 1
 
             if self._method_calling == 1:
@@ -116,7 +132,8 @@ class odd_sth(kernel):
             elif self._method_calling == 3:
                 self._ny = i
             if i == 0:
-                raise ValueError('parsed input is empty')
+                raise ValueError
+                ('parsed input is empty')
             return out
 
     def fit_transform(self, X, y=None):
@@ -160,7 +177,7 @@ class odd_sth(kernel):
         km = np.dot(phi.T, np.multiply(phi, C))
 
         self._X_diag = np.diagonal(km).reshape(km.shape[0], 1)
-        if self._normalize:
+        if self.normalize:
             return np.divide(km, np.sqrt(np.outer(self._X_diag, self._X_diag)))
         else:
             return km
@@ -211,7 +228,7 @@ class odd_sth(kernel):
 
         self._phi_x, self._phi_y, self._C = phi_x, phi_y, C
         km = np.dot(phi_y.T, np.multiply(phi_x, C))
-        if self._normalize:
+        if self.normalize:
             X_diag, Y_diag = self.diagonal()
             km /= np.sqrt(np.outer(Y_diag, X_diag))
         return km
@@ -246,7 +263,7 @@ class odd_sth(kernel):
         return self._X_diag, Y_diag
 
 
-def make_big_dag(g, h=None):
+def make_big_dag(g, h):
     """Compose a big dag out of all dags of a graph.
 
     Parameters
@@ -272,7 +289,7 @@ def make_big_dag(g, h=None):
     """
     big_dag = None
     for v in g.get_vertices(purpose='any'):
-        dag_odd = make_dag_odd(v, g, h=h)
+        dag_odd = make_dag_odd(v, g, h)
         dag = tuple(hash_trees(dag_odd))+tuple([])+(dag_odd[1], dag_odd[3])
         big_dag = big_dag_append(dag, big_dag)
 
@@ -287,7 +304,7 @@ def make_big_dag(g, h=None):
     return big_dag
 
 
-def make_dag_odd(v, g, h=None):
+def make_dag_odd(v, g, h):
     """Calculate the vertex rooted dag and apply inverse topological sorting.
 
     Parameters
@@ -312,11 +329,11 @@ def make_dag_odd(v, g, h=None):
             + A dictionary of labels for each node
 
     """
-    vertices, edges = dag(v, g, h=None)
+    vertices, edges = dag(v, g, h)
     return odd(vertices, edges, g.get_labels(purpose='any'))
 
 
-def dag(v, g, h=None):
+def dag(v, g, h):
     """BFS exploration that returns a dag.
 
     Parameters
@@ -339,16 +356,9 @@ def dag(v, g, h=None):
         The dictionary of edges. For each node a list of vertices.
 
     """
-    if h is None:
-        h = -1
-    else:
-        h = int(h)
-        if h <= 0:
-            raise ValueError('depth of visits must be bigger than zero')
-
     q = [(v, 0)]
     vertices = dict()
-    edges = dict()
+    edges = defaultdict(list)
 
     vertices[v] = 0
     while len(q) > 0:
@@ -357,8 +367,6 @@ def dag(v, g, h=None):
         if level == h:
             break
 
-        if u not in edges:
-            edges[u] = list()
         for n in g.neighbors(u, purpose='any'):
             if n not in vertices:
                 edges[u].append(n)
@@ -415,7 +423,7 @@ def odd(vertices, edges, labels):
         zero_indegrees = set(vertices.keys())
         visited_nodes = len(vertices.keys())
     else:
-        raise ValueError('unsupported vertices type')
+        raise TypeError('unsupported vertices type')
 
     for (k, e) in iteritems(edges):
         for v in e:

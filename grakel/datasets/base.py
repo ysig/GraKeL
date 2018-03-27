@@ -448,7 +448,7 @@ def fetch_dataset(
                          'https://ls11-www.cs.tu-dortmund.de/staff/morris/' +
                          'graphkerneldatasets. If your dataset name appears' +
                          ' them send us a pm, to explain you either why we ' +
-                         'don\'t support it, or to update are dataset ' +
+                         'don\'t support it, or to update our dataset ' +
                          'database.')
 
 

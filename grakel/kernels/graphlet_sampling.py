@@ -21,7 +21,7 @@ from six import iteritems
 from six import itervalues
 from builtins import range
 
-default_random_seed_value = 42
+default_executor = lambda fn, *eargs, **ekargs: fn(*eargs, **ekargs)
 
 
 class graphlet_sampling(kernel):
@@ -37,34 +37,45 @@ class graphlet_sampling(kernel):
 
     Parameters
     ----------
-    random_seed : int, default=15487103
+    random_seed : int, default=42
 
     k : int, default=5
         The dimension of the given graphlets.
 
-    delta : float, default=0.05
-        Confidence level (typically 0.05 or 0.1).
-        For calculation of the number of samples achieving the certain bound.
-        n_samples argument must not be provided and for initialising the
-        default value either "epsilon" or "a" must be set.
+    sampling : None or dict
+        Defines if random sampling of graphlets will be utilised.
+        If not None the dictionary can either contain:
 
-    epsilon : float, default=0.05
-        Precision level (typically 0.05 or 0.1).
-        For calculation of the number of samples achieving the certain bound.
-        n_samples argument must not be provided and for initialising the
-        default value either "delta" or "a" must be set.
+            - n_samples : int
+                Sets the value of randomly drawn random samples,
+                from sizes between 3..k. Overides the parameters a, epsilon,
+                delta.
+        or
 
-    a : int
-        Number of isomorphism classes of graphlets.
-        If -1 the number is the maximum possible, from a database 1 until 9
-        or else predicted through interpolation.
-        For calculation of the number of samples achieving the certain bound.
-        n_samples argument must not be provided and for initialising the
-        default value either "delta" or "epsilon" must be set.
+            -  delta : float, default=0.05
+               Confidence level (typically 0.05 or 0.1).
+               For calculation of the number of samples achieving the certain
+               bound. n_samples argument must not be provided and for
+               initialising the default value either "epsilon" or
+               "a" must be set.
 
-    n_samples : int
-        Sets the value of randomly drawn random samples,
-        from sizes between 3..k. Overides the parameters a, epsilon, delta.
+            - epsilon : float, default=0.05
+                Precision level (typically 0.05 or 0.1).
+                For calculation of the number of samples achieving the certain
+                bound. n_samples argument must not be provided and for
+                initialising the default value either "delta" or
+                "a" must be set.
+
+            - a : int
+                Number of isomorphism classes of graphlets.
+                If -1 the number is the maximum possible, from a database
+                1 until 9 or else predicted through interpolation.
+                For calculation of the number of samples achieving the certain
+                bound. n_samples argument must not be provided and for
+                initializing the default value either "delta" or "epsilon" must
+                be set.
+
+
 
     Attributes
     ----------
@@ -97,84 +108,114 @@ class graphlet_sampling(kernel):
     """
 
     _graph_format = "adjacency"
-    _graph_bins = dict()
 
-    def __init__(self, **kargs):
+    def __init__(self,
+                 executor=default_executor,
+                 normalize=False, verbose=False,
+                 random_seed=42,
+                 k=5,
+                 sampling=None):
         """Initialise a subtree_wl kernel."""
-        self._valid_parameters |= {"random_seed",
-                                   "k", "delta", "epsilon", "a", "n_samples"}
-        super(graphlet_sampling, self).__init__(**kargs)
+        super(graphlet_sampling, self).__init__(executor=executor,
+                                                normalize=normalize,
+                                                verbose=verbose)
 
-        np.random.seed(int(kargs.get("random_seed",
-                                     default_random_seed_value)))
+        self.random_seed = random_seed
+        self.k = k
+        self.sampling = sampling
+        self.initialized_ = {"random_seed": False, "k": False, "sampling": False}
 
-        k = kargs.get("k", 5)
+    def initialize_(self):
+        """Initialize all transformer arguments, needing initialization."""
+        self._graph_bins = dict()
+        if not self.initialized_["random_seed"]:
+            np.random.seed(self.random_seed)
+            self.initialized_["random_seed"] = True
 
-        if k > 10:
-            warnings.warn('graphlets are too big - computation may be slow')
-        elif k < 3:
-            raise ValueError('k must be bigger than 3')
+        if not self.initialized_["k"]:
+            if type(self.k) is not int:
+                raise TypeError('k must be an int')
 
-        if "n_samples" in kargs:
-            # Get the numbr of samples
-            n_samples = kargs["n_samples"]
+            if self.k > 10:
+                warnings.warn('graphlets are too big - '
+                              'computation may be slow')
+            elif self.k < 3:
+                raise TypeError('k must be bigger than 3')
 
-            # Display a warning if arguments ignored
-            args = [arg for arg in ["delta", "epsilon", "a"] if arg in kargs]
-            if len(args):
-                warnings.warn('Number of samples defined as input, ' +
-                              'ignoring arguments:', ', '.join(args))
+            self.initialized_["k"] = True
 
-            # Initialise the sample graphlets function
-            self._sample_graphlets = lambda A: \
-                sample_graphlets_probabilistic(A, k, n_samples)
-        elif "delta" in kargs or "epsilon" in kargs or "a" in kargs:
-            # Otherwise if delta exists
-            delta = kargs.get("delta", 0.05)
-            # or epsilon
-            epsilon = kargs.get("epsilon", 0.05)
-            # or a
-            a = kargs.get("a", -1)
+        if not self.initialized_["sampling"]:
+            sampling = self.sampling
+            k = self.k
+            if sampling is None:
+                self._sample_graphlets = lambda A: \
+                    sample_graphlets_all_connected(A, k)
+            elif type(sampling) is dict:
+                if "n_samples" in sampling:
+                    # Get the number of samples
+                    n_samples = sampling["n_samples"]
 
-            # check the fit constraints
-            if delta > 1 or delta < 0:
-                raise ValueError('delta must be in the range (0,1)')
+                    # Display a warning if arguments ignored
+                    args = [arg for arg in ["delta", "epsilon", "a"]
+                            if arg in sampling]
+                    if len(args):
+                        warnings.warn('Number of samples defined as input, ' +
+                                      'ignoring arguments:', ', '.join(args))
 
-            if epsilon > 1 or epsilon < 0:
-                raise ValueError('epsilon must be in the range (0,1)')
+                    # Initialise the sample graphlets function
+                    self._sample_graphlets = lambda A: \
+                        sample_graphlets_probabilistic(A, k, n_samples)
+                if ("delta" in sampling or "epsilon" in sampling
+                        or "a" in sampling):
+                    # Otherwise if delta exists
+                    delta = sampling.get("delta", 0.05)
+                    # or epsilon
+                    epsilon = sampling.get("epsilon", 0.05)
+                    # or a
+                    a = sampling.get("a", -1)
 
-            if type(a) is not int:
-                raise ValueError('a must be an integer')
-            elif a == 0:
-                raise ValueError('a cannot be zero')
-            elif a < -1:
-                raise ValueError('negative a smaller than -1 have no meaning')
+                    # check the fit constraints
+                    if delta > 1 or delta < 0:
+                        raise TypeError('delta must be in the range (0,1)')
 
-            if(a == -1):
-                fallback_map = {1: 1, 2: 2, 3: 4, 4: 8, 5: 19, 6: 53, 7: 209,
-                                8: 1253, 9: 13599}
-                if(k > 9):
-                    warnings.warn(
-                        'warning for such size number of isomorphisms is not' +
-                        ' known - interpolation on know values will be used')
-                    # Use interpolations
+                    if epsilon > 1 or epsilon < 0:
+                        raise TypeError('epsilon must be in the range (0,1)')
 
-                    isomorphism_prediction = \
-                        interp1d(list(fallback_map.keys()),
-                                 list(itervalues(fallback_map)), kind='cubic')
-                    a = isomorphism_prediction(k)
-                else:
-                    a = fallback_map[k]
+                    if type(a) is not int:
+                        raise TypeError('a must be an integer')
+                    elif a == 0:
+                        raise TypeError('a cannot be zero')
+                    elif a < -1:
+                        raise TypeError('negative a smaller than -1 have '
+                                        'no meaning')
 
-            # and calculate number of samples
-            n_samples = math.ceil(2*(a*np.log10(2) +
-                                  np.log10(1/delta))/(epsilon**2))
+                    if(a == -1):
+                        fallback_map = {1: 1, 2: 2, 3: 4, 4: 8, 5: 19, 6: 53,
+                                        7: 209, 8: 1253, 9: 13599}
+                        if(k > 9):
+                            warnings.warn(
+                                'warning for such size number of isomorphisms '
+                                'is not known - interpolation on know values '
+                                'will be used')
+                            # Use interpolations
 
-            self._sample_graphlets = lambda A: \
-                sample_graphlets_probabilistic(A, k, n_samples)
-        else:
-            self._sample_graphlets = lambda A: \
-                sample_graphlets_all_connected(A, k)
+                            isomorphism_prediction = \
+                                interp1d(list(fallback_map.keys()),
+                                         list(itervalues(fallback_map)),
+                                         kind='cubic')
+                            a = isomorphism_prediction(k)
+                        else:
+                            a = fallback_map[k]
+
+                    # and calculate number of samples
+                    n_samples = math.ceil(2*(a*np.log10(2) +
+                                          np.log10(1/delta))/(epsilon**2))
+
+                    self._sample_graphlets = lambda A: \
+                        sample_graphlets_probabilistic(A, k, n_samples)
+            else:
+                raise TypeError('sampling can either be a dictionary or None')
+            self.initialized_["sampling"] = True
 
     def transform(self, X):
         """Calculate the kernel matrix, between given and fitted dataset.
@@ -222,7 +263,7 @@ class graphlet_sampling(kernel):
         # store _phi_Y for independent (of normalization arg diagonal-calls)
         self._phi_Y = phi_y
         km = np.dot(phi_y[:, :len(self._graph_bins)], phi_x.T)
-        if self._normalize:
+        if self.normalize:
             X_diag, Y_diag = self.diagonal()
             km /= np.sqrt(np.outer(Y_diag, X_diag))
         return km
@@ -264,7 +305,7 @@ class graphlet_sampling(kernel):
         km = phi_x.dot(phi_x.T)
 
         self._X_diag = np.diagonal(km).reshape(km.shape[0], 1)
-        if self._normalize:
+        if self.normalize:
             return np.divide(km, np.sqrt(np.outer(self._X_diag, self._X_diag)))
         else:
             return km
@@ -324,7 +365,7 @@ class graphlet_sampling(kernel):
 
         """
         if not isinstance(X, collections.Iterable):
-            raise ValueError('input must be an iterable\n')
+            raise TypeError('input must be an iterable\n')
         else:
             i = -1
             if self._method_calling == 1:
@@ -348,9 +389,9 @@ class graphlet_sampling(kernel):
                         A = Graph(x[0], {}, {},
                                   self._graph_format).get_adjacency_matrix()
                 else:
-                    raise ValueError('each element of X must be either a ' +
-                                     'graph or an iterable with at least 1 ' +
-                                     'and at most 3 elements\n')
+                    raise TypeError('each element of X must be either a ' +
+                                    'graph or an iterable with at least 1 ' +
+                                    'and at most 3 elements\n')
                 A = (A > 0).astype(int)
                 i += 1
                 # sample graphlets based on the initialized method

@@ -6,8 +6,8 @@ The ODD-STh Kernel.
 
 **Theoretical definition missing**
 
-.. currentmodule:: grakel.kernels
+.. currentmodule:: grakel
 
 .. autosummary::
 
-   grakel.kernels.odd_sth
+   odd_sth

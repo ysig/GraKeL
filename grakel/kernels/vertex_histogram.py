@@ -17,6 +17,8 @@ from numpy import einsum
 from six import iteritems
 from six import itervalues
 
+default_executor = lambda fn, *eargs, **ekargs: fn(*eargs, **ekargs)
+
 
 class vertex_histogram(kernel):
     """Vertex Histogram kernel as found in :cite:`Sugiyama2015NIPS_VH`.
@@ -31,9 +33,14 @@ class vertex_histogram(kernel):
 
     """
 
-    def __init__(self, **kargs):
-        """Initialise a vertex kernel."""
-        super(vertex_histogram, self).__init__(**kargs)
+    def __init__(self,
+                 executor=default_executor,
+                 normalize=False,
+                 verbose=False):
+        """Initialise a vertex histogram kernel."""
+        super(vertex_histogram, self).__init__(executor=executor,
+                                               normalize=normalize,
+                                               verbose=verbose)
 
     def parse_input(self, X):
         """Parse and check the given input for VH kernel.
@@ -55,7 +62,7 @@ class vertex_histogram(kernel):
 
         """
         if not isinstance(X, Iterable):
-            raise ValueError('input must be an iterable\n')
+            raise TypeError('input must be an iterable\n')
         else:
             rows, cols, data = list(), list(), list()
             if self._method_calling in [1, 2]:
@@ -79,10 +86,10 @@ class vertex_histogram(kernel):
                     # get labels in any existing format
                     L = x.get_labels(purpose="any")
                 else:
-                    raise ValueError('each element of X must be either a ' +
-                                     'graph object or a list with at least ' +
-                                     'a graph like object and node labels ' +
-                                     'dict \n')
+                    raise TypeError('each element of X must be either a '
+                                    'graph object or a list with at least '
+                                    'a graph like object and node labels '
+                                    'dict \n')
 
                 # construct the data input for the numpy array
                 for (label, frequency) in iteritems(Counter(itervalues(L))):

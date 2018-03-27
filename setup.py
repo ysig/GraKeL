@@ -56,7 +56,7 @@ ext = Extension(name="grakel.kernels._c_functions",
                 extra_compile_args=["-O3", "-std=c++11"])
 
 setup(name='grakel',
-      version='0.1a1',
+      version='0.1a2',
       description='A scikit-learn compatible library for graph kernels',
       project_urls={
         'Documentation': 'https://ysig.github.io/GraKeL/dev/',

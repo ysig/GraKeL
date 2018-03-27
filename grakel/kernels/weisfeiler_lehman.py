@@ -14,6 +14,8 @@ from grakel.kernels import kernel
 from six import iteritems
 from six import itervalues
 
+default_executor = lambda fn, *eargs, **ekargs: fn(*eargs, **ekargs)
+
 
 class weisfeiler_lehman(kernel):
     """Compute the Weisfeiler Lehman Kernel.
@@ -52,47 +54,58 @@ class weisfeiler_lehman(kernel):
 
     _graph_format = "dictionary"
 
-    def __init__(self, **kargs):
+    def __init__(self, executor=default_executor, verbose=False,
+                 normalize=False, niter=5, base_kernel=None):
         """Initialise a `weisfeiler_lehman` kernel."""
-        base_params = self._valid_parameters.copy()
-        self._valid_parameters |= {"base_kernel", "niter"}
-        super(weisfeiler_lehman, self).__init__(**kargs)
+        super(weisfeiler_lehman, self).__init__(
+            executor=executor, verbose=verbose, normalize=normalize)
 
-        self._niter = kargs.get("niter", 5)
-        if self._niter <= 0:
-            raise ValueError('number of iterations must be greater than zero')
-        self._niter += 1
+        self.niter = niter
+        self.base_kernel = base_kernel
+        self.initialized_ = {"niter": False, "base_kernel": False}
+        self._base_kernel = None
 
-        if "base_kernel" not in kargs:
-            raise ValueError('User must provide a base kernel.')
-        else:
-            if type(kargs["base_kernel"]) is type and \
-                    issubclass(kargs["base_kernel"], kernel):
-                base_kernel = kargs["base_kernel"]
-                params = dict()
+    def initialize_(self):
+        """Initialize all transformer arguments, needing initialization."""
+        if not self.initialized_["base_kernel"]:
+            base_kernel = self.base_kernel
+            if base_kernel is not None:
+                if type(base_kernel) is type and \
+                        issubclass(base_kernel, kernel):
+                    params = dict()
+                else:
+                    try:
+                        base_kernel, params = base_kernel
+                    except Exception:
+                        raise TypeError('Base kernel was not formulated in '
+                                        'the correct way. '
+                                        'Check documentation.')
+
+                    if not (type(base_kernel) is type and
+                            issubclass(base_kernel, kernel)):
+                        raise TypeError('The first argument must be a valid '
+                                        'grakel.kernel.kernel Object')
+                    if type(params) is not dict:
+                        raise ValueError('If the second argument of base '
+                                         'kernel exists, it must be a diction'
+                                         'ary between parameters names and '
+                                         'values')
+                    params.pop("normalize", None)
+
+                params["normalize"] = False
+                params["verbose"] = self.verbose
+                params["executor"] = self.executor
+                self._base_kernel = lambda *args: base_kernel(**params)
             else:
-                try:
-                    base_kernel, params = kargs["base_kernel"]
-                except Exception:
-                    raise ValueError('Base kernel was not provided in the' +
-                                     ' correct way. Check documentation.')
+                raise ValueError('Upon initialization base_kernel cannot be '
+                                 'None')
+            self.initialized_["base_kernel"] = True
 
-                if not (type(base_kernel) is type and
-                        issubclass(base_kernel, kernel)):
-                    raise ValueError('The first argument must be a valid ' +
-                                     'grakel.kernel.kernel Object')
-                if type(params) is not dict:
-                    raise ValueError('If the second argument of base' +
-                                     ' kernel exists, it must be a diction' +
-                                     'ary between parameters names and values')
-                params.pop("normalize", None)
-                for p in base_params:
-                        params.pop(p, None)
-
-            params["normalize"] = False
-            params["verbose"] = self._verbose
-            params["executor"] = self._executor
-            self._base_kernel = lambda *args: base_kernel(**params)
+        if not self.initialized_["niter"]:
+            if type(self.niter) is not int or self.niter <= 0:
+                raise TypeError("'niter' must be a positive integer")
+            self._niter = self.niter + 1
+            self.initialized_["niter"] = True
 
     def parse_input(self, X):
         """Parse input for weisfeiler lehman.
@@ -118,7 +131,7 @@ class weisfeiler_lehman(kernel):
                              'or fit-transform')
         # Input validation and parsing
         if not isinstance(X, collections.Iterable):
-            raise ValueError('input must be an iterable\n')
+            raise TypeError('input must be an iterable\n')
         else:
             nx = 0
             Gs_ed, L, distinct_values = dict(), dict(), set()
@@ -139,10 +152,10 @@ class weisfeiler_lehman(kernel):
                                   x.get_labels(purpose="dictionary"), {},
                                   graph_format=self._graph_format)
                 else:
-                    raise ValueError('each element of X must be either a ' +
-                                     'graph object or a list with at least ' +
-                                     'a graph like object and node labels ' +
-                                     'dict \n')
+                    raise TypeError('each element of X must be either a ' +
+                                    'graph object or a list with at least ' +
+                                    'a graph like object and node labels ' +
+                                    'dict \n')
                 Gs_ed[nx] = x.get_edge_dictionary()
                 L[nx] = x.get_labels(purpose="dictionary")
                 distinct_values |= set(itervalues(L[nx]))
@@ -249,13 +262,14 @@ class weisfeiler_lehman(kernel):
 
         """
         self._method_calling = 2
+        self.initialize_()
         if X is None:
             raise ValueError('transform input cannot be None')
         else:
             km, self.X = self.parse_input(X)
 
         self._X_diag = np.reshape(np.diagonal(km), (km.shape[0], 1))
-        if self._normalize:
+        if self.normalize:
             return np.divide(km, np.sqrt(np.outer(self._X_diag, self._X_diag)))
         else:
             return km
@@ -379,7 +393,7 @@ class weisfeiler_lehman(kernel):
             # Calculate the kernel marix
             K += self.X[i].transform(new_graphs)
 
-        if self._normalize:
+        if self.normalize:
             X_diag, Y_diag = self.diagonal()
             return np.divide(K, np.sqrt(np.outer(Y_diag, X_diag)))
         else:

@@ -10,10 +10,14 @@ from sklearn.utils.validation import check_is_fitted
 from grakel.graph import Graph
 from grakel.kernels import kernel
 
+default_executor = lambda fn, *eargs, **ekargs: fn(*eargs, **ekargs)
+
 
 class shortest_path_attr(kernel):
     r"""The shortest path kernel for attributes.
 
+    The Graph labels are considered as attributes.
+    The computational efficiency is decreased to :math:`O(|V|^4)`
     See :cite:`Borgwardt2005ShortestpathKO_attr`.
 
     Parameters
@@ -22,10 +26,6 @@ class shortest_path_attr(kernel):
         Apply the dijkstra or floyd_warshall algorithm for calculating
         shortest path, or chose automatically ("auto") based on the
         current graph format ("auto").
-
-    as_attributes : bool, default=False
-        The labels are considered as attributes. The computational
-        efficiency is decreased to :math:`O(|V|^4)`
 
     attribute_kernel : function, default=:math:`f(x,y)=\sum_{i}x_{i}*y_{i}`,
         The kernel applied between attributes of the graph labels.
@@ -40,29 +40,41 @@ class shortest_path_attr(kernel):
 
     """
 
-    def __init__(self, **kargs):
-        """Initialise a subtree_wl kernel."""
-        self._valid_parameters |= {"algorithm_type",
-                                   "as_attributes",
-                                   "attribute_kernel"}
-        super(shortest_path_attr, self).__init__(**kargs)
+    def __init__(self, executor=default_executor,
+                 normalize=False,
+                 verbose=False,
+                 algorithm_type="auto",
+                 attribute_kernel=lambda x, y: np.dot(x, y)):
+        """Initialise a `shortest_path_attr` kernel."""
+        super(shortest_path_attr, self).__init__(
+            executor=executor, normalize=normalize, verbose=verbose)
 
-        self._algorithm_type = kargs.get("algorithm_type", "auto")
+        self.algorithm_type = algorithm_type
+        self.attribute_kernel = attribute_kernel
+        self.initialized_ = {"algorithm_type": False, "attribute_kernel": False}
 
-        if self._algorithm_type == "auto":
-            self._graph_format = "auto"
-        elif self._algorithm_type == "floyd_warshall":
-            self._algorithm_type = "adjacency"
-        elif self._algorithm_type == "dijkstra":
-            self._algorithm_type = "dictionary"
-        else:
-            raise ValueError('Unsupported "algorithm_type"')
+    def initialize_(self):
+        """Initialize all transformer arguments, needing initialization."""
+        if not self.initialized_["algorithm_type"]:
+            if self.algorithm_type == "auto":
+                self._graph_format = "auto"
+            elif self.algorithm_type == "floyd_warshall":
+                self._graph_format = "adjacency"
+            elif self.algorithm_type == "dijkstra":
+                self._graph_format = "dictionary"
+            else:
+                raise ValueError('Unsupported value ' +
+                                 str(self.algorithm_type) +
+                                 ' for "algorithm_type"')
+            self.initialized_["algorithm_type"] = True
 
-        self._attribute_kernel = kargs.get(
-            "attribute_kernel", lambda x, y: np.dot(x, y))
+        if not self.initialized_["attribute_kernel"]:
+            if not callable(self.attribute_kernel):
+                raise TypeError('"attribute_kernel" must be callable')
+            self.initialized_["attribute_kernel"] = True
 
     def parse_input(self, X):
-        """Parse and create features for shortest_path kernel.
+        """Parse and create features for the `shortest_path` kernel.
 
         Parameters
         ----------
@@ -81,7 +93,7 @@ class shortest_path_attr(kernel):
 
         """
         if not isinstance(X, collections.Iterable):
-            raise ValueError('input must be an iterable\n')
+            raise TypeError('input must be an iterable\n')
         else:
             sp_attr_tup = list()
             for (i, x) in enumerate(iter(X)):
@@ -97,13 +109,13 @@ class shortest_path_attr(kernel):
                         S, L = Graph(
                             x[0], x[1], {},
                             self._graph_format).build_shortest_path_matrix(
-                                self._algorithm_type)
+                                self.algorithm_type)
                 elif type(x) is Graph:
-                    S, L = x.build_shortest_path_matrix(self._algorithm_type)
+                    S, L = x.build_shortest_path_matrix(self.algorithm_type)
                 else:
-                    raise ValueError('each element of X must be either a ' +
-                                     'graph or an iterable with at least 2 ' +
-                                     'and at most 3 elements\n')
+                    raise TypeError('each element of X must be either a ' +
+                                    'graph or an iterable with at least 2 ' +
+                                    'and at most 3 elements\n')
 
                 sp_attr_tup.append((S, L))
                 raise ValueError('parsed input is empty')
@@ -207,33 +219,41 @@ class shortest_path(kernel):
 
     _graph_bins = dict()
 
-    def __init__(self, **kargs):
-        """Initialise a subtree_wl kernel."""
-        self._valid_parameters |= {"with_labels",
-                                   "algorithm_type"}
-        super(shortest_path, self).__init__(**kargs)
+    def __init__(self, executor=default_executor,
+                 normalize=False,
+                 verbose=False,
+                 with_labels=True,
+                 algorithm_type="auto"):
+        """Initialize a `shortest_path` kernel."""
+        super(shortest_path, self).__init__(
+            executor=executor, normalize=normalize, verbose=verbose)
 
-        self._with_labels = kargs.get("with_labels", True)
-        if self._with_labels:
-            self._lt = "vertex"
-            self._lhash = lambda S, u, v, *args: \
-                (args[0][u], args[0][v], S[u, v])
-            self._decompose_input = lambda *args: (args[0], args[1:])
-        else:
-            self._lt = "none"
-            self._lhash = lambda S, u, v, *args: S[u, v]
-            self._decompose_input = lambda *args: (args[0], [])
+        self.with_labels = with_labels
+        self.algorithm_type = algorithm_type
+        self.initialized_ = {"with_labels": False, "algorithm_type": False}
 
-        self._algorithm_type = kargs.get("algorithm_type", "auto")
+    def initialize_(self):
+        """Initialize all transformer arguments, needing initialization."""
+        if not self.initialized_["algorithm_type"]:
+            if self.algorithm_type == "auto":
+                self._graph_format = "auto"
+            elif self.algorithm_type == "floyd_warshall":
+                self._graph_format = "adjacency"
+            elif self.algorithm_type == "dijkstra":
+                self._graph_format = "dictionary"
+            else:
+                raise ValueError('Unsupported "algorithm_type"')
 
-        if self._algorithm_type == "auto":
-            self._graph_format = "auto"
-        elif self._algorithm_type == "floyd_warshall":
-            self._algorithm_type = "adjacency"
-        elif self._algorithm_type == "dijkstra":
-            self._algorithm_type = "dictionary"
-        else:
-            raise ValueError('Unsupported "algorithm_type"')
+        if not self.initialized_["with_labels"]:
+            if self.with_labels:
+                self._lt = "vertex"
+                self._lhash = lambda S, u, v, *args: \
+                    (args[0][u], args[0][v], S[u, v])
+                self._decompose_input = lambda *args: (args[0], args[1:])
+            else:
+                self._lt = "none"
+                self._lhash = lambda S, u, v, *args: S[u, v]
+                self._decompose_input = lambda *args: (args[0], [])
 
     def transform(self, X):
         """Calculate the kernel matrix, between given and fitted dataset.
@@ -284,7 +304,7 @@ class shortest_path(kernel):
         # store _phi_Y for independent (of normalization arg diagonal-calls)
         self._phi_Y = phi_y
         km = np.dot(phi_y[:, :len(self._enum)], phi_x.T)
-        if self._normalize:
+        if self.normalize:
             X_diag, Y_diag = self.diagonal()
             return km / np.sqrt(np.outer(Y_diag, X_diag))
         else:
@@ -361,13 +381,13 @@ class shortest_path(kernel):
         km = np.dot(phi_x, phi_x.T)
 
         self._X_diag = np.diagonal(km).reshape(km.shape[0], 1)
-        if self._normalize:
+        if self.normalize:
             return np.divide(km, np.sqrt(np.outer(self._X_diag, self._X_diag)))
         else:
             return km
 
     def parse_input(self, X):
-        """Parse and create features for shortest_path kernel.
+        """Parse and create features for "shortest path" kernel.
 
         Parameters
         ----------
@@ -382,12 +402,12 @@ class shortest_path(kernel):
         Returns
         -------
         sp_counts : dict
-            A dictionary that for each vertex holds the counts of shortest_path
+            A dictionary that for each vertex holds the counts of shortest path
             tuples.
 
         """
         if not isinstance(X, collections.Iterable):
-            raise ValueError('input must be an iterable\n')
+            raise TypeError('input must be an iterable\n')
             # Not a dictionary
         else:
             i = -1
@@ -401,7 +421,7 @@ class shortest_path(kernel):
                 if is_iter:
                     x = list(x)
                 if is_iter and (len(x) == 0 or
-                                (len(x) == 1 and not self._with_labels) or
+                                (len(x) == 1 and not self.with_labels) or
                                 len(x) in [2, 3]):
                     if len(x) == 0:
                         warnings.warn('Ignoring empty element on index: '
@@ -411,21 +431,21 @@ class shortest_path(kernel):
                         spm_data = Graph(
                             x[0], {}, {},
                             self._graph_format).build_shortest_path_matrix(
-                                self._algorithm_type,
+                                self.algorithm_type,
                                 labels=self._lt)
                     else:
                         spm_data = Graph(
                             x[0], x[1], {},
                             self._graph_format).build_shortest_path_matrix(
-                                self._algorithm_type,
+                                self.algorithm_type,
                                 labels=self._lt)
                 elif type(x) is Graph:
                     spm_data = x.build_shortest_path_matrix(
-                        self._algorithm_type,
+                        self.algorithm_type,
                         labels=self._lt)
                 else:
-                    raise ValueError('each element of X must have at least' +
-                                     ' one and at most 3 elements\n')
+                    raise TypeError('each element of X must have at least' +
+                                    ' one and at most 3 elements\n')
                 i += 1
 
                 S, L = self._decompose_input(*spm_data)

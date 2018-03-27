@@ -6,8 +6,8 @@ The neighborhood hash kernel.
 
 **Theoretical definition missing**
 
-.. currentmodule:: grakel.kernels
+.. currentmodule:: grakel
 
 .. autosummary::
 
-   grakel.kernels.neighborhood_hash
+   neighborhood_hash

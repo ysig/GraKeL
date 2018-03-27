@@ -3,6 +3,7 @@ from grakel.kernels.kernel import kernel
 
 from grakel.kernels.graphlet_sampling import graphlet_sampling
 from grakel.kernels.random_walk import random_walk
+from grakel.kernels.random_walk import random_walk_labeled
 from grakel.kernels.shortest_path import shortest_path
 from grakel.kernels.shortest_path import shortest_path_attr
 from grakel.kernels.weisfeiler_lehman import weisfeiler_lehman
@@ -13,7 +14,6 @@ from grakel.kernels.neighborhood_subgraph_pairwise_distance import \
     neighborhood_subgraph_pairwise_distance
 from grakel.kernels.lovasz_theta import lovasz_theta
 from grakel.kernels.svm_theta import svm_theta
-from grakel.kernels.jsm import jsm
 from grakel.kernels.odd_sth import odd_sth
 from grakel.kernels.propagation import propagation
 from grakel.kernels.hadamard_code import hadamard_code
@@ -26,6 +26,7 @@ __all__ = [
     "kernel",
     "graphlet_sampling",
     "random_walk",
+    "random_walk_labeled",
     "shortest_path",
     "shortest_path_attr",
     "weisfeiler_lehman",

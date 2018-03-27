@@ -19,6 +19,8 @@ from six import iteritems
 from six.moves import filterfalse
 from builtins import range
 
+default_executor = lambda fn, *eargs, **ekargs: fn(*eargs, **ekargs)
+
 
 class neighborhood_subgraph_pairwise_distance(kernel):
     """The Neighborhood subgraph pairwise distance kernel.
@@ -35,10 +37,10 @@ class neighborhood_subgraph_pairwise_distance(kernel):
 
     Attributes
     ----------
-    _r : int
+    r : int
         The maximum considered radius between vertices.
 
-    _d : int
+    d : int
         Neighborhood depth.
 
     _ngx : int
@@ -60,23 +62,36 @@ class neighborhood_subgraph_pairwise_distance(kernel):
 
     _graph_format = "dictionary"
 
-    def __init__(self, **kargs):
+    def __init__(self,
+                 executor=default_executor,
+                 normalize=False,
+                 verbose=False,
+                 r=3, d=4):
         """Initialize an NSPD kernel."""
         # setup valid parameters and initialise from parent
-        self._valid_parameters |= {"r", "d"}
-        super(neighborhood_subgraph_pairwise_distance, self).__init__(**kargs)
+        super(neighborhood_subgraph_pairwise_distance, self).__init__(
+            executor=executor,
+            normalize=normalize,
+            verbose=verbose)
 
-        self._r = kargs.get("r", 3)
-        self._d = kargs.get("d", 4)
+        self.r = r
+        self.d = d
+        self.initialized_ = {"r": False, "d": False}
 
-        if self._r < 0:
-            raise ValueError('r must be a positive integer')
+    def initialize_(self):
+        """Initialize all transformer arguments, needing initialization."""
+        if not self.initialized_["r"]:
+            if type(self.r) is not int or self.r < 0:
+                raise ValueError('r must be a positive integer')
+            self.initialized_["r"] = True
 
-        if self._d < 0:
-            raise ValueError('d must be a positive integer')
+        if not self.initialized_["d"]:
+            if type(self.d) is not int or self.d < 0:
+                raise ValueError('d must be a positive integer')
+            self.initialized_["d"] = True
 
     def parse_input(self, X):
-        """Parse and create features for graphlet_sampling kernel.
+        """Parse and create features for the NSPD kernel.
 
         Parameters
         ----------
@@ -91,7 +106,7 @@ class neighborhood_subgraph_pairwise_distance(kernel):
         Returns
         -------
         M : dict
-            A dictionary with keys all the distances from 0 to self._d
+            A dictionary with keys all the distances from 0 to self.d
             and values the the np.arrays with rows corresponding to the
             non-null input graphs and columns to the enumerations of tuples
             consisting of pairs of hash values and radius, from all the given
@@ -99,7 +114,7 @@ class neighborhood_subgraph_pairwise_distance(kernel):
 
         """
         if not isinstance(X, collections.Iterable):
-            raise ValueError('input must be an iterable\n')
+            raise TypeError('input must be an iterable\n')
         else:
             # Hold the number of graphs
             ng = 0
@@ -129,11 +144,11 @@ class neighborhood_subgraph_pairwise_distance(kernel):
                                            label_type="edge"))
 
                 else:
-                    raise ValueError('each element of X must have either ' +
-                                     'a graph with labels for node and edge ' +
-                                     'or 3 elements consisting of a graph ' +
-                                     'type object, labels for vertices and ' +
-                                     'labels for edges.')
+                    raise TypeError('each element of X must have either ' +
+                                    'a graph with labels for node and edge ' +
+                                    'or 3 elements consisting of a graph ' +
+                                    'type object, labels for vertices and ' +
+                                    'labels for edges.')
 
                 # Bring to the desired format
                 g.change_format(self._graph_format)
@@ -156,8 +171,8 @@ class neighborhood_subgraph_pairwise_distance(kernel):
                 # Produce all the neighborhoods and the distance pairs
                 # up to the desired radius and maximum distance
                 N, D, D_pair = g.produce_neighborhoods(
-                    self._r, purpose="dictionary",
-                    with_distances=True, d=self._d)
+                    self.r, purpose="dictionary",
+                    with_distances=True, d=self.d)
 
                 # Hash all the neighborhoods
                 H = self._hash_neighborhoods(vertices, edges, Lv,
@@ -165,9 +180,9 @@ class neighborhood_subgraph_pairwise_distance(kernel):
 
                 if self._method_calling == 1:
                     for d in filterfalse(lambda x: x not in D,
-                                         range(self._d+1)):
+                                         range(self.d+1)):
                         for (A, B) in D[d]:
-                            for r in range(self._r+1):
+                            for r in range(self.r+1):
                                 key = (H[r, A], H[r, B])
                                 keys = all_keys[r, d]
                                 idx = keys.get(key, None)
@@ -179,10 +194,10 @@ class neighborhood_subgraph_pairwise_distance(kernel):
 
                 elif self._method_calling == 3:
                     for d in filterfalse(lambda x: x not in D,
-                                         range(self._d+1)):
+                                         range(self.d+1)):
                         for (A, B) in D[d]:
                             # Based on the edges of the bidirected graph
-                            for r in range(self._r+1):
+                            for r in range(self.r+1):
                                 keys = all_keys[r, d]
                                 fit_keys = self._fit_keys[r, d]
                                 key = (H[r, A], H[r, B])
@@ -278,7 +293,7 @@ class neighborhood_subgraph_pairwise_distance(kernel):
                                       N[key]))
 
         self._Y = Y
-        if self._normalize:
+        if self.normalize:
             S /= np.sqrt(np.outer(*self.diagonal()))
         return S
 
@@ -314,7 +329,7 @@ class neighborhood_subgraph_pairwise_distance(kernel):
 
         self._X_level_norm_factor = N
 
-        if self._normalize:
+        if self.normalize:
             return S / len(self.X)
         else:
             return S
@@ -378,7 +393,7 @@ class neighborhood_subgraph_pairwise_distance(kernel):
         H, sel = dict(), sorted(list(edges))
         for v in vertices:
             re, lv, le = sel, Lv, Le
-            for radius in range(self._r, -1, -1):
+            for radius in range(self.r, -1, -1):
                 sub_vertices = sorted(N[radius][v])
                 re = {(i, j) for (i, j) in re
                       if i in sub_vertices and j in sub_vertices}

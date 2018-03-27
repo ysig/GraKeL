@@ -14,6 +14,8 @@ from grakel.tools import distribute_samples
 positive_eigenvalue_limit = float("+1e-6")
 min_weight = float("1e-10")
 
+default_executor = lambda fn, *eargs, **ekargs: fn(*eargs, **ekargs)
+
 
 class svm_theta(kernel):
     """Calculate the SVM theta kernel.
@@ -51,31 +53,49 @@ class svm_theta(kernel):
 
     _graph_format = "adjacency"
 
-    def __init__(self, **kargs):
+    def __init__(self, executor=default_executor, normalize=False,
+                 verbose=False, random_seed=42, n_samples=50,
+                 subsets_size_range=(2, 8),
+                 base_kernel=lambda x, y: x.T.dot(y)):
         """Initialise a lovasz_theta kernel."""
         # setup valid parameters and initialise from parent
-        self._valid_parameters |= {"n_samples", "random_seed",
-                                   "subsets_size_range", "metric"}
-        super(svm_theta, self).__init__(**kargs)
+        super(svm_theta, self).__init__(executor=default_executor,
+                                        normalize=normalize,
+                                        verbose=verbose)
 
-        self._n_samples = kargs.get("n_samples", 50)
-        if self._n_samples <= 0 or type(self._n_samples) is not int:
-            raise ValueError('n_samples must an integer be bigger than zero')
+        self.n_samples = n_samples
+        self.subsets_size_range = subsets_size_range
+        self.base_kernel = base_kernel
+        self.random_seed = random_seed
+        self.initialized_ = {"n_samples": False, "subsets_size_range": False,
+                             "base_kernel": False, "random_seed": False}
 
-        self._ssr = kargs.get("subsets_size_range", (2, 8))
-        if (type(self._ssr) is not tuple or len(self._ssr) != 2 or
-                any(type(i) is not int for i in self._ssr) or
-                self._ssr[0] > self._ssr[1]):
-            raise ValueError('subsets_size_range subset size range must ' +
-                             'be a tuple of two integers in increasing order')
+    def initialized_(self):
+        """Initialize all transformer arguments, needing initialization."""
+        if not self.initialized_["n_samles"]:
+            if self.n_samples <= 0 or type(self.n_samples) is not int:
+                raise TypeError('n_samples must an integer be bigger '
+                                'than zero')
+            self.initialized_["n_samles"] = True
 
-        self._base_kernel = kargs.get("base_kernel", lambda x, y: x.T.dot(y))
-        if not callable(self._base_kernel):
-            raise ValueError('base_kernel between arguments' +
-                             'must be a function')
+        if not self.initialized_["subsets_size_range"]:
+            if (type(self.subsets_size_range) is not tuple or
+                    len(self.subsets_size_range) != 2 or
+                    any(type(i) is not int for i in self.subsets_size_range) or
+                    self.subsets_size_range[0] > self.subsets_size_range[1]):
+                raise TypeError('subsets_size_range subset size range must be '
+                                'a tuple of two integers in increasing order')
+            self.initialized_["subsets_size_range"] = True
 
-        rs = kargs.get("random_seed", 6578909)
-        np.random.seed(rs)
+        if not self.initialized_["base_kernel"]:
+            if not callable(self.base_kernel):
+                raise TypeError('base_kernel between arguments' +
+                                'must be a function')
+            self.initialized_["base_kernel"] = True
+
+        if not self.initialized_["random_seed"]:
+            np.random.seed(self.random_seed)
+            self.initialized_["random_seed"] = True
 
     def parse_input(self, X):
         """Parse and create features for svm_theta kernel.
@@ -97,7 +117,7 @@ class svm_theta(kernel):
 
         """
         if not isinstance(X, collections.Iterable):
-            raise ValueError('input must be an iterable\n')
+            raise TypeError('input must be an iterable\n')
         else:
             i = 0
             out = list()
@@ -113,9 +133,9 @@ class svm_theta(kernel):
                     else:
                         x = Graph(x[0], {}, {}, self._graph_format)
                 elif type(x) is not Graph:
-                    raise ValueError('each element of X must be either a ' +
-                                     'graph or an iterable with at least 1 ' +
-                                     'and at most 3 elements\n')
+                    raise TypeError('each element of X must be either a ' +
+                                    'graph or an iterable with at least 1 ' +
+                                    'and at most 3 elements\n')
                 i += 1
                 A = x.get_adjacency_matrix()
                 dual_coeffs = _calculate_svm_theta_(A)
@@ -140,7 +160,7 @@ class svm_theta(kernel):
             The kernel value.
 
         """
-        return self._base_kernel(x, y)
+        return self.base_kernel(x, y)
 
     def _calculate_svm_theta_levels_(self, A, dual_coefs):
         """Calculate the svm_theta by levels for amaximum number of samples.
@@ -159,11 +179,14 @@ class svm_theta(kernel):
         """
         # Calculate subsets
         n = A.shape[0]
-        samples_on_subsets = distribute_samples(n, self._ssr, self._n_samples)
+        samples_on_subsets = distribute_samples(n, self.subsets_size_range,
+                                                self.n_samples)
 
         # Calculate level dictionary with lovasz values
-        phi = np.zeros(shape=(self._ssr[1]-self._ssr[0]+1, 1))
-        for (i, level) in enumerate(range(self._ssr[0], self._ssr[1]+1)):
+        phi = np.zeros(shape=(self.subsets_size_range[1] -
+                              self.subsets_size_range[0]+1, 1))
+        for (i, level) in enumerate(range(self.subsets_size_range[0],
+                                          self.subsets_size_range[1]+1)):
             v = samples_on_subsets.get(level, None)
             if v is not None:
                 level_values = list()

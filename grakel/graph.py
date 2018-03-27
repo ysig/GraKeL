@@ -59,9 +59,7 @@ class Graph(object):
         A labels dictionary corresponding to all edges of the graph
         with keys: index/symbol-tuples and value: labels.
 
-    graph_format : str, valid_values={"dictionary", "adjacency", "all",
-                   "auto"}, default=None
-
+    graph_format : str, valid_values={"dictionary", "adjacency", "all", "auto"}, default=None
         Defines the internal representation of the graph object which can be
         a dictionary as a matrix, or both:
             + for dictionary: "dictionary"
@@ -148,8 +146,9 @@ class Graph(object):
             self,
             initialization_object=None,
             node_labels=None, edge_labels=None,
-            graph_format="auto"):
+            graph_format="auto", construct_labels=False):
         """__init__ function of the graph object."""
+        self.construct_label = construct_labels
         if graph_format in ["adjacency", "dictionary", "auto", "all"]:
             self._format = graph_format
             if (initialization_object is not None):
@@ -311,11 +310,10 @@ class Graph(object):
 
         Parameters
         ----------
-        label_type: str, valid_values={"vertex", "edge"}, default="vertex"
+        label_type : str, valid_values={"vertex", "edge"}, default="vertex"
             What kind of labels are going to be constructed
 
-        purpose: str, valid_values={"adjacency", "dictionary"},
-                 default="adjacency"
+        purpose : str, valid_values={"adjacency", "dictionary"}, default="adjacency"
             Defines if the labels correspond to dictionary or adjacency matrix
 
         Returns
@@ -354,16 +352,14 @@ class Graph(object):
 
         Parameters
         ----------
-        target_format: str, valid_values={"adjacency", "dictionary"},
-                       default="dictionary"
+        target_format : str, valid_values={"adjacency", "dictionary"}, default="dictionary"
             Defines what the target format for conversion will be.
 
-        purpose: str, valid_values={"adjacency", "dictionary", "all"},
-                 default="all"
+        purpose : str, valid_values={"adjacency", "dictionary", "all"}, default="all"
             Defines if the labels will be converted for dictionary, adjacency
             matrix or both.
 
-        init: bool, default=False
+        init : bool, default=False
             An override parameter for format checks,
             usefull for initialisation.
 
@@ -446,8 +442,7 @@ class Graph(object):
             Defines if the lookup of the label
             will be done for vertices or edges.
 
-        purpose : str, valid_values={"dictionary", "adjacency", "any"},
-        default="dictionary"
+        purpose : str, valid_values={"dictionary", "adjacency", "any"}, default="dictionary"
             Defines if the lookup will be done on the existing
             ("any" - if "all" default is adjacency) to the "dictionary"
             or to the "adjacency" format of the graph.
@@ -504,8 +499,7 @@ class Graph(object):
         new_labels : dict
             The new labels corresponding to the label type and purpose.
 
-        purpose : str, valid_values={"dictionary", "adjacency"},
-                  default="dictionary"
+        purpose : str, valid_values={"dictionary", "adjacency"}, default="dictionary"
             Defines if the new labels are given for
             "adjacency" or "dictionary".
 
@@ -596,8 +590,7 @@ class Graph(object):
 
         Parameters
         ----------
-        algorithm_type : str, valid_values={"auto", "adjacency", "dictionary"},
-                         default="auto"
+        algorithm_type : str, valid_values={"auto", "adjacency", "dictionary"}, default="auto"
             Defines which shortest-path algorithm will be used for building the
             shortest path matrix:
                 + "dijkstra" : choses the dijkstra algorithm (Matrix
@@ -613,8 +606,7 @@ class Graph(object):
             Construct the shortest path matrix from scratch or output existing
             if exists
 
-        labels : str, valid_values={"vertex", "edge", "all", "none"},
-                 default="vertex"
+        labels : str, valid_values={"vertex", "edge", "all", "none"}, default="vertex"
             Returns labels corresponding for the indexes of the shortest path
             matrix for vertices, for edge (only for the valid ones on the
             original graph), for both ("all") and for no labels ("none")
@@ -716,11 +708,20 @@ class Graph(object):
             self.desired_format("adjacency", warn=True)
             if label_type == "vertex":
                 if not bool(self.index_node_labels):
-                    self.construct_labels(label_type, purpose)
+                    if self.construct_label:
+                        self.construct_labels(label_type, purpose)
+                    else:
+                        raise ValueError('Graph does not have any labels for '
+                                         'vertices.')
+
                 return self.index_node_labels
             elif label_type == "edge":
                 if not bool(self.index_edge_labels):
-                    self.construct_labels(label_type, purpose)
+                    if self.construct_label:
+                        self.construct_labels(label_type, purpose)
+                    else:
+                        raise ValueError('Graph does not have any labels for '
+                                         'edges.')
                 return self.index_edge_labels
             else:
                 raise ValueError('label type can only be "vertex" or "edge"')
@@ -728,13 +729,22 @@ class Graph(object):
             self.desired_format("dictionary", warn=True)
             if label_type == "vertex":
                 if not bool(self.node_labels):
-                    self.construct_labels(label_type, purpose)
+                    if self.construct_label:
+                        self.construct_labels(label_type, purpose)
+                    else:
+                        raise ValueError('Graph does not have any labels for '
+                                         'vertices.')
                 return self.node_labels
             elif label_type == "edge":
                 if not bool(self.edge_labels):
-                    self.construct_labels(label_type, purpose)
+                    if self.construct_label:
+                        self.construct_labels(label_type, purpose)
+                    else:
+                        raise ValueError('Graph does not have any labels for '
+                                         'edges.')
                 return self.edge_labels
             else:
+
                 raise ValueError('label type can only be "vertex" or "edge"')
 
     def get_label_group(self, label_type="vertex", purpose="dictionary"):
@@ -1023,12 +1033,12 @@ class Graph(object):
 
         Parameters
         ----------
-        save: bool, default=True
+        save : bool, default=True
             Optional parameter to store the matrix.
 
         Returns
         -------
-        laplacian: array-like
+        laplacian : array-like
             Returns the graph laplacian
 
         """
@@ -1080,8 +1090,7 @@ class Graph(object):
 
         Parameters
         ----------
-        purpose : str, valid_values={"adjacency", "dictionary"},
-        default="adjacency"
+        purpose : str, valid_values={"adjacency", "dictionary"}, default="adjacency"
             Defines if the edges is given for the "dictionary" format of the
             graph (symbol) to the "adjacency" (index).
 
@@ -1200,7 +1209,7 @@ class Graph(object):
             for the "dictionary" format of the graph (symbol) to the
             "adjacency" (index).
 
-        with_distances: bool, default=False
+        with_distances : bool, default=False
             Defines if we need to calculate BFS distances for each pair.
 
         d : int, default=-1
@@ -1317,7 +1326,7 @@ class Graph(object):
 
         Parameters
         ----------
-        vertices: iterable
+        vertices : iterable
             An iterbale vertices extracted from the original graph.
 
         Returns

@@ -132,7 +132,8 @@ def test_shortest_path():
 
 def test_graphlet_sampling():
     """Test the Graphlet Sampling Kernel."""
-    gk = GraphKernel(kernel={"name": "graphlet_sampling", "n_samples": 200},
+    gk = GraphKernel(kernel={"name": "graphlet_sampling",
+                             "sampling": {"n_samples": 200}},
                      verbose=verbose, normalize=normalize)
     if verbose:
         print_kernel_decorator("Graphlet Sampling", gk, dataset_tr, dataset_te)
@@ -199,15 +200,6 @@ def test_svm_theta():
         print_kernel_decorator("SVM-theta", gk, dataset_tr, dataset_te)
 
 
-def test_jsm():
-    """Test the Jensen Shannon Representation Alignment kernel."""
-    gk = GraphKernel(kernel={"name": "jsm"},
-                     verbose=verbose, normalize=normalize)
-
-    if verbose:
-        print_kernel_decorator("JSM", gk, dataset_tr, dataset_te)
-
-
 def test_odd_sth():
     """Test the ODD-STh kernel."""
     gk = GraphKernel(kernel={"name": "odd_sth"},
@@ -234,15 +226,6 @@ def test_hadamard_code():
 
     if verbose:
         print_kernel_decorator("Hadamard-Code/Subtree-WL [Simple]",
-                               gk, dataset_tr, dataset_te)
-
-    gk = GraphKernel(kernel=[{"name": "hadamard_code",
-                              "L": 2, "hc_type": "shortened"},
-                             {"name": "subtree_wl"}],
-                     verbose=verbose, normalize=normalize)
-
-    if verbose:
-        print_kernel_decorator("Hadamard-Code/Subtree-WL [Shortened]",
                                gk, dataset_tr, dataset_te)
 
 
@@ -366,7 +349,6 @@ if verbose and main:
 
 if verbose and develop:
     if slow:
-        test_jsm()
         test_multiscale_laplacian()
     if problematic:
         pass

@@ -1,6 +1,7 @@
 """The main class file representing a kernel."""
 import collections
 import warnings
+import copy
 
 import numpy as np
 
@@ -11,8 +12,10 @@ from sklearn.utils.validation import check_is_fitted
 
 from grakel.graph import Graph
 
-default_verbose_value = False
-default_normalize_value = False
+# Python 2/3 cross-compatibility import
+from six import iteritems
+
+default_executor = lambda fn, *eargs, **ekargs: fn(*eargs, **ekargs)
 
 
 class kernel(BaseEstimator, TransformerMixin):
@@ -65,28 +68,17 @@ class kernel(BaseEstimator, TransformerMixin):
 
     X = None
     _graph_format = "dictionary"
-
-    _valid_parameters = {"executor",
-                         "normalize",
-                         "verbose"}
     _method_calling = 0
 
-    def __init__(self, **kargs):
+    def __init__(self,
+                 executor=default_executor,
+                 normalize=False,
+                 verbose=False):
         """`__init__` for `kernel` object."""
-        self._verbose = kargs.get("verbose", default_verbose_value)
-
-        self._executor = kargs.get("executor", None)
-        if self._executor is None:
-            self._executor = lambda fn, *eargs, **ekargs: fn(*eargs, **ekargs)
-
-        self._normalize = kargs.get("normalize", default_normalize_value)
-
-        unrecognised_args = set(kargs.keys()) - self._valid_parameters
-
-        if len(unrecognised_args) > 0:
-            warnings.warn(
-                'Ignoring unrecognised arguments: ' +
-                ', '.join('"' + str(arg) + '"' for arg in unrecognised_args))
+        self.verbose = verbose
+        self.executor = default_executor
+        self.normalize = normalize
+        self.initialized_ = dict()
 
     def fit(self, X, y=None):
         """Fit a dataset, for a transformer.
@@ -111,6 +103,10 @@ class kernel(BaseEstimator, TransformerMixin):
 
         """
         self._method_calling = 1
+
+        # Parameter initialization
+        self.initialize_()
+
         # Input validation and parsing
         if X is None:
             raise ValueError('`fit` input cannot be None')
@@ -153,7 +149,7 @@ class kernel(BaseEstimator, TransformerMixin):
         # Transform - calculate kernel matrix
         km = self._calculate_kernel_matrix(Y)
         self._Y = Y
-        if self._normalize:
+        if self.normalize:
             X_diag, Y_diag = self.diagonal()
             km /= np.sqrt(np.outer(Y_diag, X_diag))
         return km
@@ -189,7 +185,7 @@ class kernel(BaseEstimator, TransformerMixin):
         km = self._calculate_kernel_matrix()
 
         self._X_diag = np.diagonal(km).reshape(km.shape[0], 1)
-        if self._normalize:
+        if self.normalize:
             return km / np.sqrt(np.outer(self._X_diag, self._X_diag))
         else:
             return km
@@ -219,9 +215,9 @@ class kernel(BaseEstimator, TransformerMixin):
             K = np.zeros(shape=(len(self.X), len(self.X)))
             cache = list()
             for (i, x) in enumerate(self.X):
-                K[i, i] = self._executor(self.pairwise_operation, x, x)
+                K[i, i] = self.executor(self.pairwise_operation, x, x)
                 for (j, y) in enumerate(cache):
-                    K[j, i] = self._executor(self.pairwise_operation, y, x)
+                    K[j, i] = self.executor(self.pairwise_operation, y, x)
                 cache.append(x)
             K = np.triu(K) + np.triu(K, 1).T
 
@@ -229,7 +225,7 @@ class kernel(BaseEstimator, TransformerMixin):
             K = np.zeros(shape=(len(Y), len(self.X)))
             for (j, y) in enumerate(Y):
                 for (i, x) in enumerate(self.X):
-                    K[j, i] = self._executor(self.pairwise_operation, y, x)
+                    K[j, i] = self.executor(self.pairwise_operation, y, x)
         return K
 
     def diagonal(self):
@@ -258,11 +254,11 @@ class kernel(BaseEstimator, TransformerMixin):
             # Calculate diagonal of X
             self._X_diag = np.empty(shape=(len(self.X), 1))
             for (i, x) in enumerate(self.X):
-                self._X_diag[i] = self._executor(self.pairwise_operation, x, x)
+                self._X_diag[i] = self.executor(self.pairwise_operation, x, x)
 
         Y_diag = np.empty(shape=(len(self._Y), 1))
         for (i, y) in enumerate(self._Y):
-            Y_diag[i] = self._executor(self.pairwise_operation, y, y)
+            Y_diag[i] = self.executor(self.pairwise_operation, y, y)
 
         return self._X_diag, Y_diag
 
@@ -286,7 +282,7 @@ class kernel(BaseEstimator, TransformerMixin):
 
         """
         if not isinstance(X, collections.Iterable):
-            raise ValueError('input must be an iterable\n')
+            raise TypeError('input must be an iterable\n')
         else:
             Xp = list()
             for (i, x) in enumerate(iter(X)):
@@ -308,11 +304,15 @@ class kernel(BaseEstimator, TransformerMixin):
                 elif type(x) is Graph:
                     Xp.append(x)
                 else:
-                    raise ValueError('Each element of X must have at least ' +
-                                     'one and at most 3 elements.\n')
+                    raise TypeError('Each element of X must have at least ' +
+                                    'one and at most 3 elements.\n')
             if len(Xp) == 0:
                 raise ValueError('Parsed input is empty.')
             return Xp
+
+    def initialize_(self):
+        """Initialize all transformer arguments, needing initialisation."""
+        pass
 
     def pairwise_operation(self, x, y):
         """Calculate a pairwise kernel between two elements.
@@ -328,4 +328,22 @@ class kernel(BaseEstimator, TransformerMixin):
             The kernel value.
 
         """
-        raise ValueError('Pairwise operation is not implemented!')
+        raise NotImplementedError('Pairwise operation is not implemented!')
+
+    def set_params(self, **params):
+        """Call the parent method."""
+        if len(self.initialized_):
+            # Copy the parameters
+            params = copy.deepcopy(params)
+
+            # Iterate over the parameters
+            for key, value in iteritems(params):
+                key, delim, sub_key = key.partition('__')
+                if delim:
+                    if sub_key in self.initialized_:
+                        self.initialized_[sub_key] = False
+                elif key in self.initialized_:
+                    self.initialized_[key] = False
+
+        # Set parameters
+        super(kernel, self).set_params(**params)

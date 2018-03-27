@@ -6,8 +6,8 @@ The pyramid match kernel.
 
 **Theoretical definition missing**
 
-.. currentmodule:: grakel.kernels
+.. currentmodule:: grakel
 
 .. autosummary::
 
-   grakel.kernels.pyramid_match
+   pyramid_match

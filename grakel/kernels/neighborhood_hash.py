@@ -14,6 +14,8 @@ from sklearn.utils.validation import check_is_fitted
 from six import itervalues
 from six import iteritems
 
+default_executor = lambda fn, *eargs, **ekargs: fn(*eargs, **ekargs)
+
 
 class neighborhood_hash(kernel):
     """Neighborhood hashing kernel as proposed in :cite:`Hido2009ALG`.
@@ -34,8 +36,14 @@ class neighborhood_hash(kernel):
 
     Attributes
     ----------
-    _R : number
+    R : number
         The maximum number of neighborhood hash.
+
+    bits : int
+        Defines the bit size of hashes.
+
+    nh_type : str
+        The existing neighborhood hash type as defined in :cite:`Hido2009ALG`.
 
     _NH : function
         The neighborhood hashing function.
@@ -43,37 +51,57 @@ class neighborhood_hash(kernel):
     _noc_f : bool
         A flag concerning the number of occurencies metric.
 
-    _bits : int
-        Defines the bit size of hashes.
-
     """
 
-    def __init__(self, **kargs):
+    def __init__(self,
+                 executor=default_executor,
+                 normalize=False,
+                 verbose=False,
+                 random_seed=42,
+                 R=3,
+                 nh_type='simple',
+                 bits=8):
         """Initialize a `neighborhood_hash` kernel."""
-        self._valid_parameters |= {"R", "nh_type", "byte", "random_seed"}
-        super(neighborhood_hash, self).__init__(**kargs)
+        super(neighborhood_hash, self).__init__(executor=executor,
+                                                normalize=normalize,
+                                                verbose=False)
 
-        seed(int(kargs.get("random_seed", 42)))
-        self._R = kargs.get("R", 3)
+        self.random_seed = random_seed
+        self.R = R
+        self.nh_type = nh_type
+        self.bits = bits
+        self.initialized_ = {"random_seed": False, "R": False, "nh_type": False,
+                             "bits": False}
 
-        if self._R <= 0:
-            raise ValueError('R must be bigger than zero')
+    def initialize_(self):
+        """Initialize all transformer arguments, needing initialization."""
+        if not self.initialized_["random_seed"]:
+            seed(self.random_seed)
+            self.initialized_["random_seed"] = True
 
-        nh_type = kargs.get("nh_type", "simple")
-        if nh_type == 'simple':
-            self._noc_f = False
-            self._NH = lambda G: self.neighborhood_hash_simple(G)
-        elif nh_type == 'count_sensitive':
-            self._noc_f = True
-            self._NH = lambda G: self.neighborhood_hash_count_sensitive(G)
-        else:
-            raise ValueError('unrecognised neighborhood hashing type')
+        if not self.initialized_["R"]:
+            if type(self.R) is not int or self.R <= 0:
+                raise TypeError('R must be an intger bigger than zero')
+            self.initialized_["R"] = True
 
-        self._bits = int(kargs.get("bits", 8))
-        if self._bits <= 0:
-            raise ValueError('illegal number of bits for hashing')
-        self._max_number = 1 << self._bits
-        self._mask = self._max_number-1
+        if not self.initialized_["nh_type"]:
+            if self.nh_type == 'simple':
+                self._noc_f = False
+                self._NH = lambda G: self.neighborhood_hash_simple(G)
+            elif self.nh_type == 'count_sensitive':
+                self._noc_f = True
+                self._NH = lambda G: self.neighborhood_hash_count_sensitive(G)
+            else:
+                raise TypeError('unrecognised neighborhood hashing type')
+            self.initialized_["nh_type"] = True
+
+        if not self.initialized_["bits"]:
+            if type(self.bits) is not int or self.bits <= 0:
+                raise TypeError('illegal number of bits for hashing')
+
+            self._max_number = 1 << self.bits
+            self._mask = self._max_number-1
+            self.initialized_["bits"] = True
 
     def fit(self, X, y=None):
         """Fit a dataset, for a transformer.
@@ -99,11 +127,12 @@ class neighborhood_hash(kernel):
         """
         self._method_calling = 1
         # Input validation and parsing
+        self.initialize_()
         if X is None:
             raise ValueError('`fit` input cannot be None')
         else:
             if not isinstance(X, collections.Iterable):
-                raise ValueError('input must be an iterable\n')
+                raise TypeError('input must be an iterable\n')
 
             i = 0
             out = list()
@@ -130,10 +159,10 @@ class neighborhood_hash(kernel):
                     vertices = list(x.get_vertices(purpose="any"))
                     Labels = x.get_labels(purpose="any")
                 else:
-                    raise ValueError('each element of X must be either '
-                                     'a graph object or a list with at '
-                                     'least a graph like object and '
-                                     'node labels dict \n')
+                    raise TypeError('each element of X must be either '
+                                    'a graph object or a list with at '
+                                    'least a graph like object and '
+                                    'node labels dict \n')
 
                 g = (vertices, Labels,
                      {n: x.neighbors(n, purpose="any") for n in vertices})
@@ -179,7 +208,7 @@ class neighborhood_hash(kernel):
                               for v, l in iteritems(labels)}
                 g = (vertices, new_labels, neighbors,)
                 gr = {0: self._NH(g)}
-                for r in range(1, self._R):
+                for r in range(1, self.R):
                     gr[r] = self._NH(gr[r-1])
 
                 # save the output for all levels
@@ -250,7 +279,7 @@ class neighborhood_hash(kernel):
             raise ValueError('`transform` input cannot be None')
         else:
             if not isinstance(X, collections.Iterable):
-                raise ValueError('input must be an iterable\n')
+                raise TypeError('input must be an iterable\n')
 
             i = 0
             out = list()
@@ -275,10 +304,10 @@ class neighborhood_hash(kernel):
                     vertices = list(x.get_vertices(purpose="any"))
                     Labels = x.get_labels(purpose="any")
                 else:
-                    raise ValueError('each element of X must be either '
-                                     'a graph object or a list with at '
-                                     'least a graph like object and '
-                                     'node labels dict \n')
+                    raise TypeError('each element of X must be either '
+                                    'a graph object or a list with at '
+                                    'least a graph like object and '
+                                    'node labels dict \n')
 
                 # Hash based on the labels of fit
                 new_labels = {v: self._labels_hash_dict.get(l, None)
@@ -290,7 +319,7 @@ class neighborhood_hash(kernel):
                        for n in vertices},))
 
                 gr = {0: self._NH(g)}
-                for r in range(1, self._R):
+                for r in range(1, self.R):
                     gr[r] = self._NH(gr[r-1])
 
                 # save the output for all levels
@@ -312,7 +341,7 @@ class neighborhood_hash(kernel):
         x, y : list
             Dict of len=2, tuples, consisting of vertices sorted by
             (labels, vertices) and edge-labels dict, for all levels
-            from 0 up to self._R-1.
+            from 0 up to self.R-1.
 
         Returns
         -------
@@ -320,8 +349,8 @@ class neighborhood_hash(kernel):
             The kernel value.
 
         """
-        k = sum(nh_compare_labels(x[r], y[r]) for r in range(self._R))
-        return k / (1.0*self._R)
+        k = sum(nh_compare_labels(x[r], y[r]) for r in range(self.R))
+        return k / (1.0*self.R)
 
     def diagonal(self):
         """Calculate the kernel matrix diagonal of the fit/transfromed data.
@@ -361,11 +390,11 @@ class neighborhood_hash(kernel):
             The result of a rot operation.
 
         """
-        m = d % self._bits
+        m = d % self.bits
 
         if m > 0:
             return (n << m) & self._mask | \
-                   ((n & self._mask) >> (self._bits-m))
+                   ((n & self._mask) >> (self.bits-m))
         else:
             return n
 
@@ -447,7 +476,7 @@ class neighborhood_hash(kernel):
         if n == 0:
             return result
 
-        for b in range(self._bits):
+        for b in range(self.bits):
             # The output array elements that will have sorted arr
             output = [0]*n
 

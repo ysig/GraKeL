@@ -13,6 +13,8 @@ from grakel.kernels._c_functions import sm_kernel
 # Define default vertex, edge and lambda weight functions
 k_default = lambda a, b: 1 if a == b else 0
 
+default_executor = lambda fn, *eargs, **ekargs: fn(*eargs, **ekargs)
+
 
 class subgraph_matching(kernel):
     r"""Calculate the subgraph matching kernel.
@@ -21,12 +23,6 @@ class subgraph_matching(kernel):
 
     Parameters
     ----------
-    X,Y : *valid-graph-format*
-        The pair of graphs on which the kernel is applied.
-
-    L{x,y} : dict
-        Corresponding graph labels for vertices.
-
     k : int, default=5
         The upper bound for the maximum size of subgraphs.
 
@@ -45,13 +41,13 @@ class subgraph_matching(kernel):
 
     Attributes
     ----------
-    _kv : function (`vertex_label, `vertex_label`, -> number),
+    kv : function (`vertex_label, `vertex_label`, -> number),
         The kernel function between two edge_labels.
 
-    _ke : function (`edge_label`, `edge_label` -> number),
+    ke : function (`edge_label`, `edge_label` -> number),
         The kernel function between two edge_labels.
 
-    _k : int
+    k : int
         The kernel function between two edge_labels.
 
     _lambdas : np.array, shape=(1, k+1)
@@ -61,56 +57,75 @@ class subgraph_matching(kernel):
 
     _graph_format = "all"
 
-    def __init__(self, **kargs):
-        """Initialise a subtree_wl kernel."""
-        self._valid_parameters |= {"kv", "ke", "lw"}
+    def __init__(self, executor=default_executor, verbose=False,
+                 normalize=False, k=5, kv=k_default,
+                 ke=k_default, lw="uniform"):
+        """Initialise a `subgraph_matching` kernel."""
+        super(subgraph_matching, self).__init__(
+            executor=executor, verbose=verbose, normalize=normalize)
 
-        super(subgraph_matching, self).__init__(**kargs)
-        self._kv = kargs.get("kv", k_default)
-        self._ke = kargs.get("ke", k_default)
+        self.k = k
+        self.kv = kv
+        self.ke = ke
+        self.lw = lw
+        self.initialized_ = {"k": False, "kv": False, "ke": False, "lw": False}
 
-        self._k = kargs.get("k", 3)
-        if self._k < 1:
-            raise ValueError('k must be greater-equal than 1')
+    def initialize_(self):
+        """Initialize all transformer arguments, needing initialization."""
+        if not self.initialized_["k"]:
+            if type(self.k) is not int and self.k < 1:
+                raise TypeError('k must be an integer greater-equal than 1')
+            self.initialized_["k"] = True
 
-        lw = kargs.get("lw", "uniform")
+        if not self.initialized_["kv"]:
+            if not callable(self.kv):
+                raise TypeError('kv must be callable')
+            self.initialized_["kv"] = True
 
-        self._k += 1
+        if not self.initialized_["ke"]:
+            if not callable(self.ke):
+                raise TypeError('ke must be callable')
+            self.initialized_["ke"] = True
 
-        if type(lw) is not str and isinstance(lw, collections.Iterable):
-            lw = list(lw)
+        if not self.initialized_["lw"]:
+            k = self.k + 1
+            not_str_iter = type(self.lw) is not str and \
+                isinstance(self.lw, collections.Iterable)
+            if not_str_iter:
+                lw = list(self.lw)
 
-        if lw == "uniform":
-            self._lambdas = np.full((1, self._k), 1.0)
-        elif lw == "increasing":
-            self._lambdas = np.arange(1.0,
-                                      float(self._k) + 1.0).reshape(1, self._k)
-        elif lw == "decreasing":
-            self._lambdas = np.full((1, self._k), 1.0) / \
-                            np.arange(1.0,
-                                      float(self._k) + 1.0).reshape(1, self._k)
-        elif lw == "strong_decreasing":
-            self._lambdas = np.full((1, self._k), 1.0) / \
-                            np.square(np.arange(1.0,
-                                                float(self._k) + 1.0)
-                                      ).reshape(1, self._k)
-        elif len(lw) == self._k and all(isinstance(x, Real) for x in lw):
-            np.array(lw).reshape((1, self._k))
-        elif callable(lw):
-            try:
-                np.array([lw(i)
-                          for i in range(self._k)]).reshape((1, self._k))
-            except Exception as e:
-                raise ValueError('Incorrect Callable: ' + str(e))
-        else:
-            raise ValueError('lw can either be str with values ' +
-                             '"uniform", "increasing", "decreasing", ' +
-                             '"strong_decreasing" or an iterable of k+1 ' +
-                             'elements or a callable of one integer argument.')
-        self._k -= 1
+            if (not_str_iter and len(lw) == self.k and
+                    all(isinstance(x, Real) for x in lw)):
+                self._lambdas = np.array(lw).reshape((1, k))
+            elif self.lw == "uniform":
+                self._lambdas = np.full((1, k), 1.0)
+            elif self.lw == "increasing":
+                self._lambdas = np.arange(1.0,
+                                          float(k) + 1.0).reshape(1, k)
+            elif self.lw == "decreasing":
+                self._lambdas = np.full((1, k), 1.0) / \
+                                np.arange(1.0, float(k) + 1.0).reshape(1, k)
+            elif self.lw == "strong_decreasing":
+                self._lambdas = np.full((1, k), 1.0) / \
+                                np.square(np.arange(1.0, float(k) + 1.0)
+                                          ).reshape(1, k)
+            elif callable(self.lw):
+                try:
+                    self._lambdas = \
+                        np.array([self.lw(i) for i in range(k)]).reshape((1, k))
+                except Exception as e:
+                    raise TypeError('Incorrect Callable: ' + str(e))
+            else:
+                raise TypeError('lw can either be str with values '
+                                '"uniform", "increasing", "decreasing", '
+                                '"strong_decreasing" or an iterable of k+1 '
+                                'elements or a callable of one integer '
+                                'argument.')
+
+            self.initialized_["lw"] = True
 
     def pairwise_operation(self, x, y):
-        """Calculate the subgraph matching kernel.
+        """Calculate the `subgraph_matching` kernel.
 
         See :cite:`Kriege2012SubgraphMK`.
 
@@ -126,11 +141,11 @@ class subgraph_matching(kernel):
             The kernel value.
 
         """
-        tv = sm_kernel(x, y, self._kv, self._ke, self._k)
+        tv = sm_kernel(x, y, self.kv, self.ke, self.k)
         return np.dot(self._lambdas, tv)
 
     def parse_input(self, X):
-        """Parse and create features for subgraph_matching kernel.
+        """Parse and create features for the `subgraph_matching` kernel.
 
         Parameters
         ----------
@@ -149,7 +164,7 @@ class subgraph_matching(kernel):
 
         """
         if not isinstance(X, collections.Iterable):
-            raise ValueError('input must be an iterable\n')
+            raise TypeError('input must be an iterable\n')
         else:
             i = 0
             out = list()
@@ -175,10 +190,10 @@ class subgraph_matching(kernel):
                         g = Graph(x[0], x[1], x[2], "adjacency")
                         g.change_format(self._graph_format)
                 else:
-                    raise ValueError('each element of X must be either a ' +
-                                     'graph object or a list with at least ' +
-                                     'a graph like object and node, ' +
-                                     'edge labels dict \n')
+                    raise TypeError('each element of X must be either a ' +
+                                    'graph object or a list with at least ' +
+                                    'a graph like object and node, ' +
+                                    'edge labels dict \n')
                 n = g.nv()
                 E = g.get_edge_dictionary()
                 L = g.get_labels(purpose="dictionary")

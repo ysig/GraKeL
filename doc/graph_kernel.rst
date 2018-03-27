@@ -28,7 +28,7 @@ inside the kernel calculation.
 +--------------------------------------------------+---------+---------+----------------+----------------+
 | multiscale_laplacian                             | Forbids | Ignores | Needs          | Ignores        |
 +--------------------------------------------------+---------+---------+----------------+----------------+
-| subgraph_matching                                | Forbids | Ignores | Needs          | Ignores        |
+| subgraph_matching [type(kv)=type(ke)='labels']   | type(kv)| type(ke)| type(kv)       | type(ke)       |
 +--------------------------------------------------+---------+---------+----------------+----------------+
 | lovasz_theta                                     | Ignores | Ignores | Ignores        | Ignores        |
 +--------------------------------------------------+---------+---------+----------------+----------------+

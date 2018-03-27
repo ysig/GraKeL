@@ -4,6 +4,7 @@ import warnings
 import numpy as np
 import time
 
+from numbers import Real
 from math import sqrt
 
 from numpy.linalg import det
@@ -19,7 +20,7 @@ from grakel.kernels import kernel
 # Python 2/3 cross-compatibility import
 from six import iteritems
 
-default_random_seed_value = 6282698
+default_executor = lambda fn, *eargs, **ekargs: fn(*eargs, **ekargs)
 positive_eigenvalue_limit = float("+1e-6")
 
 
@@ -42,54 +43,82 @@ class multiscale_laplacian_fast(kernel):
 
     Attributes
     ----------
-    _L : int
+    L : int
         The number of neihborhoods.
 
-    _gamma : float
+    gamma : float
         A smoothing parameter for calculation of S matrices.
 
-    _heta : float
+    heta : float
         A smoothing parameter for calculation of S matrices.
 
-    _N : int
+    N : int
         The number of vertex samples.
 
-    _ksi : np.array, len(shape)=2
+    ksi : np.array, len(shape)=2
         The total ksi transformation of phi's as produced on fit.
 
     """
 
     _graph_format = "adjacency"
 
-    def __init__(self, **kargs):
+    def __init__(self,
+                 executor=default_executor,
+                 normalize=False, verbose=False,
+                 random_seed=42,
+                 L=3,
+                 gamma=0.01,
+                 heta=0.01,
+                 N=50):
         """Initialise a `multiscale_laplacian` kernel."""
-        self._valid_parameters |= {"L", "gamma", "heta", "N", "random_seed"}
-        super(multiscale_laplacian_fast, self).__init__(**kargs)
+        super(multiscale_laplacian_fast, self).__init__(
+            executor=executor,
+            normalize=normalize,
+            verbose=verbose)
 
-        np.random.seed(int(kargs.get("random_seed",
-                                     default_random_seed_value)))
+        self.random_seed = random_seed
+        self.gamma = gamma
+        self.heta = heta
+        self.L = L
+        self.N = N
+        self.initialized_ = {"random_seed": False, "gamma": False,
+                             "heta": False, "L": False, "N": False}
 
-        self._gamma = kargs.get("gamma", 0.01)
-        if self._gamma == .0:
-            warnings.warn('with zero gamma the calculation may crash')
-        elif self._gamma < 0:
-            raise ValueError('gamma must be positive')
+    def initialize_(self):
+        """Initialize all transformer arguments, needing initialization."""
+        if not self.initialized_["random_seed"]:
+            np.random.seed(self.random_seed)
+            self.initialized_["random_seed"] = True
 
-        self._heta = kargs.get("heta", 0.01)
-        if self._heta == .0:
-            warnings.warn('with zero heta the calculation may crash')
-        elif self._heta < 0:
-            raise ValueError('heta must be positive')
+        if not self.initialized_["gamma"]:
+            if not isinstance(self.gamma, Real):
+                raise TypeError('gamma must be an real number')
+            elif self.gamma == .0:
+                warnings.warn('with zero gamma the calculation may crash')
+            elif self.gamma < 0:
+                raise TypeError('gamma must be positive')
+            self.initialized_["gamma"] = True
 
-        self._L = kargs.get("L", 3)
-        if type(self._L) is not int:
-            raise ValueError('L must be an integer')
-        elif self._L < 0:
-            raise ValueError('L must be positive')
+        if not self.initialized_["heta"]:
+            if not isinstance(self.gamma, Real):
+                raise TypeError('heta must be a real number')
+            elif self.heta == .0:
+                warnings.warn('with zero heta the calculation may crash')
+            elif self.heta < 0:
+                raise TypeError('heta must be positive')
+            self.initialized_["heta"] = True
 
-        self._N = kargs.get("N", 50)
-        if type(self._N) is not int or self._N <= 0:
-            raise ValueError('N must be a positive integer')
+        if not self.initialized_["L"]:
+            if type(self.L) is not int:
+                raise TypeError('L must be an integer')
+            elif self.L < 0:
+                raise TypeError('L must be positive')
+            self.initialized_["L"] = True
+
+        if not self.initialized_["N"]:
+            if type(self.N) is not int or self.N <= 0:
+                raise TypeError('N must be a positive integer')
+            self.initialized_["N"] = True
 
     def parse_input(self, X):
         """Fast ML Graph Kernel.
@@ -114,7 +143,7 @@ class multiscale_laplacian_fast(kernel):
 
         """
         if not isinstance(X, collections.Iterable):
-            raise ValueError('input must be an iterable\n')
+            raise TypeError('input must be an iterable\n')
         else:
             ng = 0
 
@@ -135,19 +164,19 @@ class multiscale_laplacian_fast(kernel):
                 elif type(x) is not Graph:
                     x.desired_format(self._graph_format)
                 else:
-                    raise ValueError('each element of X must be either a ' +
-                                     'graph or an iterable with at least 1 ' +
-                                     'and at most 3 elements\n')
+                    raise TypeError('each element of X must be either a '
+                                    'graph or an iterable with at least 1 '
+                                    'and at most 3 elements\n')
                 phi_d = x.get_labels()
                 A = x.get_adjacency_matrix()
                 try:
                     phi = np.array([list(phi_d[i]) for i in range(A.shape[0])])
                 except TypeError:
-                    raise TypeError('Features must be iterable and castable ' +
+                    raise TypeError('Features must be iterable and castable '
                                     'in total to a numpy array.')
 
                 Lap = laplacian(A)
-                _increment_diagonal_(Lap, self._heta)
+                _increment_diagonal_(Lap, self.heta)
                 data[ng] = {0: A, 1: phi, 2: inv(Lap)}
                 neighborhoods[ng] = x
                 ng += 1
@@ -159,7 +188,7 @@ class multiscale_laplacian_fast(kernel):
                 V = [(k, j) for k in range(ng)
                      for j in range(data[k][0].shape[0])]
 
-                ns = min(len(V), self._N)
+                ns = min(len(V), self.N)
 
                 np.random.shuffle(V)
                 vs = V[:ns]
@@ -180,23 +209,22 @@ class multiscale_laplacian_fast(kernel):
                     # (n, k) * (k, P)
                     data[j][1] = data[j][1].dot(ksi)
 
-                for l in range(1, self._L+1):
+                for l in range(1, self.L+1):
                     np.random.shuffle(V)
                     vs = V[:ns]
                     K = np.zeros(shape=(len(vs), len(vs)))
                     C = dict()
                     for (m, (k, j)) in enumerate(vs):
                         if type(neighborhoods[k]) is Graph:
-                            neighborhoods[k] = \
-                                neighborhoods[k].produce_neighborhoods(
-                                    r=self._L, sort_neighbors=False)
+                            neighborhoods[k] = neighborhoods[k].produce_neighborhoods(
+                                r=self.L, sort_neighbors=False)
 
                         indexes = neighborhoods[k][l][j]
                         L = laplacian(data[k][0][indexes, :][:, indexes])
-                        _increment_diagonal_(L, self._heta)
+                        _increment_diagonal_(L, self.heta)
                         U = data[k][1][indexes, :].T
                         S = multi_dot((U, inv(L), U.T))
-                        _increment_diagonal_(S, self._gamma)
+                        _increment_diagonal_(S, self.gamma)
                         C[m] = (inv(S)/2.0, sqrt(sqrt(det(S))))
 
                     for m in range(len(C)):
@@ -230,13 +258,13 @@ class multiscale_laplacian_fast(kernel):
 
             for k in range(ng):
                 S = multi_dot((data[k][1].T, data[k][2], data[k][1]))
-                _increment_diagonal_(S, self._gamma)
+                _increment_diagonal_(S, self.gamma)
                 out.append((inv(S)/2.0, sqrt(sqrt(det(S)))))
 
             return out
 
     def pairwise_operation(self, x, y):
-        """FLG calculation for the fast multiscale gaussian.
+        """FLG calculation for the fast multiscale laplacian.
 
         Parameters
         ----------
@@ -280,41 +308,63 @@ class multiscale_laplacian(kernel):
 
     Attributes
     ----------
-    _L : int
+    L : int
         The number of neighborhoods.
 
-    _gamma : float
+    gamma : float
         A smoothing parameter for calculation of S matrices.
 
-    _heta : float
+    heta : float
         A smoothing parameter for calculation of S matrices.
 
     """
 
     _graph_format = "adjacency"
 
-    def __init__(self, **kargs):
+    def __init__(self,
+                 executor=default_executor,
+                 normalize=False,
+                 verbose=False,
+                 L=3,
+                 gamma=0.01,
+                 heta=0.01):
         """Initialise a `multiscale_laplacian` kernel."""
-        self._valid_parameters |= {"L", "gamma"}
-        super(multiscale_laplacian, self).__init__(**kargs)
+        super(multiscale_laplacian, self).__init__(executor=executor,
+                                                   normalize=normalize,
+                                                   verbose=verbose)
 
-        self._gamma = kargs.get("gamma", 0.01)
-        if self._gamma == .0:
-            warnings.warn('with zero gamma the calculation may crash')
-        elif self._gamma < 0:
-            raise ValueError('gamma must be positive')
+        self.gamma = gamma
+        self.heta = heta
+        self.L = L
+        self.initialized_ = {"gamma": False, "heta": False, "L": False}
 
-        self._heta = kargs.get("heta", 0.01)
-        if self._heta == .0:
-            warnings.warn('with zero heta the calculation may crash')
-        elif self._heta < 0:
-            raise ValueError('heta must be positive')
+    def initialize_(self):
+        """Initialize all transformer arguments, needing initialization."""
+        if not self.initialized_["gamma"]:
+            if type(self.gamma) is not int:
+                raise TypeError('gamma must be an integer')
+            elif self.gamma == .0:
+                warnings.warn('with zero gamma the calculation may crash')
+            elif self.gamma < 0:
+                raise TypeError('gamma must be a positive integer')
+            self.initialized_["gamma"] = True
 
-        self._L = kargs.get("L", 3)
-        if type(self._L) is not int:
-            raise ValueError('L must be an integer')
-        elif self._L < 0:
-            raise ValueError('L must be positive')
+        if not self.initialized_["heta"]:
+            if type(self.heta) is not int:
+                raise TypeError('heta must be an integer')
+
+            if self.heta == .0:
+                warnings.warn('with zero heta the calculation may crash')
+            elif self.heta < 0:
+                raise TypeError('heta must be positive')
+            self.initialized_["heta"] = True
+
+        if not self.initialized_["L"]:
+            if type(self.L) is not int:
+                raise TypeError('L must be an integer')
+            elif self.L < 0:
+                raise TypeError('L must be positive')
+            self.initialized_["L"] = True
 
     def parse_input(self, X):
         """Parse and create features for multiscale_laplacian kernel.
@@ -334,11 +384,11 @@ class multiscale_laplacian(kernel):
         out : list
             Tuples consisting of the Adjacency matrix, phi, phi_outer
             dictionary of neihborhood indexes and inverse laplacians
-            up to level self._L and the inverse Laplacian of A.
+            up to level self.L and the inverse Laplacian of A.
 
         """
         if not isinstance(X, collections.Iterable):
-            raise ValueError('input must be an iterable\n')
+            raise TypeError('input must be an iterable\n')
         else:
             ng = 0
             out = list()
@@ -357,13 +407,13 @@ class multiscale_laplacian(kernel):
                 elif type(x) is not Graph:
                     x.desired_format(self._graph_format)
                 else:
-                    raise ValueError('each element of X must be either a ' +
-                                     'graph or an iterable with at least 1 ' +
-                                     'and at most 3 elements\n')
+                    raise TypeError('each element of X must be either a ' +
+                                    'graph or an iterable with at least 1 ' +
+                                    'and at most 3 elements\n')
                 ng += 1
                 phi_d = x.get_labels()
                 A = x.get_adjacency_matrix()
-                N = x.produce_neighborhoods(r=self._L, sort_neighbors=False)
+                N = x.produce_neighborhoods(r=self.L, sort_neighbors=False)
                 try:
                     phi = np.array([list(phi_d[i]) for i in range(A.shape[0])])
                 except TypeError:
@@ -372,18 +422,18 @@ class multiscale_laplacian(kernel):
                 phi_outer = np.dot(phi, phi.T)
 
                 Lap = x.laplacian(save=False)
-                _increment_diagonal_(Lap, self._gamma)
+                _increment_diagonal_(Lap, self.gamma)
                 L = inv(Lap)
 
                 Q = dict()
-                for level in range(1, self._L+1):
+                for level in range(1, self.L+1):
                     Q[level] = dict()
                     for (key, item) in iteritems(N[level]):
                         Q[level][key] = dict()
                         Q[level][key]["n"] = np.array(item)
                         if len(item) < A.shape[0]:
                             laplac = laplacian(A[item, :][:, item])
-                            _increment_diagonal_(laplac, self._gamma)
+                            _increment_diagonal_(laplac, self.gamma)
                             laplac = inv(laplac)
                         else:
                             laplac = L
@@ -403,7 +453,7 @@ class multiscale_laplacian(kernel):
         Parameters
         ----------
         x, y : tuple
-            Tuple consisting of A, phi, neighborhoods up to self._L and the
+            Tuple consisting of A, phi, neighborhoods up to self.L and the
             laplacian of A.
 
         Returns
@@ -426,7 +476,7 @@ class multiscale_laplacian(kernel):
         # a lambda that calculates indexes inside the gram matrix
         # and the corresponindg laplacian given a node and a level
 
-        for level in range(1, self._L+1):
+        for level in range(1, self.L+1):
             gram_matrix_n = np.empty(shape=gram_matrix.shape)
 
             for i in range(nx):
@@ -439,9 +489,7 @@ class multiscale_laplacian(kernel):
                     extracted_gm = gram_matrix[idx_ij, :][:, idx_ij]
 
                     gram_matrix_n[i, j] =\
-                        self._generalized_FLG_core_(qi["l"],
-                                                    qj["l"],
-                                                    extracted_gm)
+                        self._generalized_FLG_core_(qi["l"], qj["l"], extracted_gm)
 
                 # xy
                 for j in range(i, ny):
@@ -450,9 +498,7 @@ class multiscale_laplacian(kernel):
                     extracted_gm = gram_matrix[idx_ij, :][:, idx_ij]
 
                     gram_matrix_n[i, j + nx] =\
-                        self._generalized_FLG_core_(qi["l"],
-                                                    qj["l"],
-                                                    extracted_gm)
+                        self._generalized_FLG_core_(qi["l"], qj["l"], extracted_gm)
 
             for i in range(ny):
                 idx = i + nx
@@ -466,9 +512,7 @@ class multiscale_laplacian(kernel):
                     extracted_gm = gram_matrix[idx_ij, :][:, idx_ij]
 
                     gram_matrix_n[idx, j] =\
-                        self._generalized_FLG_core_(qi["l"],
-                                                    qj["l"],
-                                                    extracted_gm)
+                        self._generalized_FLG_core_(qi["l"], qj["l"], extracted_gm)
 
                 # yy
                 for j in range(i, ny):
@@ -477,9 +521,7 @@ class multiscale_laplacian(kernel):
                     extracted_gm = gram_matrix[idx_ij, :][:, idx_ij]
 
                     gram_matrix_n[idx, j + nx] =\
-                        self._generalized_FLG_core_(qi["l"],
-                                                    qj["l"],
-                                                    extracted_gm)
+                        self._generalized_FLG_core_(qi["l"], qj["l"], extracted_gm)
 
             gram_matrix = np.triu(gram_matrix) + np.triu(gram_matrix, 1).T
 
@@ -521,8 +563,8 @@ class multiscale_laplacian(kernel):
             Sx = multi_dot((Qx.T, Lx, Qx))
             Sy = multi_dot((Qy.T, Ly, Qy))
 
-            _increment_diagonal_(Sx, self._gamma)
-            _increment_diagonal_(Sy, self._gamma)
+            _increment_diagonal_(Sx, self.gamma)
+            _increment_diagonal_(Sy, self.gamma)
 
             # A small lambda to calculate ^ 1/4
             quatre = lambda x: sqrt(sqrt(x))

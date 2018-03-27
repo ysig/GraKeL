@@ -6,8 +6,8 @@ The Subgraph-Matching kernel.
 
 **Theoretical definition missing**
 
-.. currentmodule:: grakel.kernels
+.. currentmodule:: grakel
 
 .. autosummary::
 
-   grakel.kernels.graphlet_sampling
+   subgraph_matching

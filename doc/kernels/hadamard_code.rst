@@ -5,12 +5,10 @@ Hadamard Code Kernel
 
 The Hadamard Code Kernel.
 
-.. currentmodule:: grakel.kernels
-
 **Theoretical definition missing**
 
-.. currentmodule:: grakel.kernels
+.. currentmodule:: grakel
 
 .. autosummary::
 
-   grakel.kernels.hadamard_code
+   hadamard_code

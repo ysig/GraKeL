@@ -1,7 +1,7 @@
 """
-==============================================================================
-Fit-Transform and classification on the MUTAG dataset using a WL-dirac kernel.
-==============================================================================
+=============================================================
+Classification on the MUTAG dataset using a WL-subtree kernel
+=============================================================
 
 An example plot of :class:`grakel.GraphKernel`, :class:`grakel.kernels.weisfeiler_lehman`, :class:`grakel.kernels.subtree_wl`
 """

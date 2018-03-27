@@ -18,7 +18,7 @@ def APHash(word):
 def sm_kernel(x, y, kv, ke, k):
     """Calculate the weighted product graph and calculate the sm_kernel.
 
-    For a definition of the weighted product graph see 
+    For a definition of the weighted product graph see
     :cite:`Kriege2012SubgraphMK` (p.5, Definition 5).
 
     Parameters
@@ -95,7 +95,15 @@ def sm_kernel(x, y, kv, ke, k):
                         value = .0
                     else:
                         # possible c-edge
-                        value = ke(Lex[ea], Ley[eb])
+                        try:
+                          lea = Lex[ea]
+                          leb = Ley[eb]
+                        except KeyError as key_error:
+                          raise KeyError(key_error +
+                                         '\nEdge labels must exist for '
+                                         'all edges.')
+                        value = ke(lea, leb)
+
                 ce[j][i] = ce[i][j] = value
 
 

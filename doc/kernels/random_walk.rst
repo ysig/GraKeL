@@ -6,8 +6,9 @@ The random walk kernel.
 
 **Theoretical definition missing**
 
-.. currentmodule:: grakel.kernels
+.. currentmodule:: grakel
 
 .. autosummary::
 
-   grakel.kernels.random_walk
+   random_walk
+   random_walk_labeled

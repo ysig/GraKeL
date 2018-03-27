@@ -10,6 +10,7 @@ from grakel.kernels import vertex_histogram
 from grakel.kernels import edge_histogram
 from grakel.kernels import graphlet_sampling
 from grakel.kernels import random_walk
+from grakel.kernels import random_walk_labeled
 from grakel.kernels import shortest_path
 from grakel.kernels import shortest_path_attr
 from grakel.kernels import weisfeiler_lehman
@@ -19,7 +20,6 @@ from grakel.kernels import subgraph_matching
 from grakel.kernels import neighborhood_subgraph_pairwise_distance
 from grakel.kernels import lovasz_theta
 from grakel.kernels import svm_theta
-from grakel.kernels import jsm
 from grakel.kernels import odd_sth
 from grakel.kernels import propagation
 from grakel.kernels import hadamard_code
@@ -33,6 +33,7 @@ __all__ = [
     "kernel",
     "graphlet_sampling",
     "random_walk",
+    "random_walk_labeled",
     "shortest_path",
     "shortest_path_attr",
     "weisfeiler_lehman",
@@ -42,7 +43,6 @@ __all__ = [
     "neighborhood_subgraph_pairwise_distance",
     "lovasz_theta",
     "svm_theta",
-    "jsm",
     "odd_sth",
     "propagation",
     "hadamard_code",
@@ -65,4 +65,4 @@ __all__ = [
 # Dev branch marker is: 'X.Y.dev' or 'X.Y.devN' where N is an integer.
 # 'X.Y.dev0' is the canonical version of 'X.Y.dev'
 #
-__version__ = '0.1a1'
+__version__ = '0.1a2'

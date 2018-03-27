@@ -7,8 +7,8 @@ The Lovasz Theta Kernel.
 
 **Theoretical definition missing**
 
-.. currentmodule:: grakel.kernels
+.. currentmodule:: grakel
 
 .. autosummary::
 
-   grakel.kernels.lovasz_theta
+   lovasz_theta

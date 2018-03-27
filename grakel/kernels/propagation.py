@@ -1,6 +1,5 @@
 """The propagation kernel as defined in :cite:`Neumann2015PropagationKE`."""
 import collections
-import random
 import warnings
 
 import numpy as np
@@ -11,7 +10,7 @@ from grakel.kernels import kernel
 # Python 2/3 cross-compatibility import
 from six import itervalues
 
-default_random_seed_value = 1235476565
+default_executor = lambda fn, *eargs, **ekargs: fn(*eargs, **ekargs)
 
 
 class propagation(kernel):
@@ -41,56 +40,79 @@ class propagation(kernel):
 
     Attributes
     ----------
+    M : str
+        The preserved distance metric (on local sensitive hashing).
+
+    tmax : int
+        Holds the maximum number of iterations.
+
+    w : int
+        Holds the bin width.
+
+    base_kernel : function (np.array, np.array -> number)
+        A base_kernel between two 1-dimensional numpy arrays of numbers
+        that outputs a number.
+
     _enum_labels : dict
         Holds the enumeration of the input labels.
 
     _parent_labels : set
         Holds a set of the input labels.
 
-    _M : str
-        The preserved distance metric (on local sensitive hashing).
-
-    _tmax : int
-        Holds the maximum number of iterations.
-
-    _w : int
-        Holds the bin width.
-
-    _base_kernel : function (np.array, np.array -> number)
-        A base_kernel between two 1-dimensional numpy arrays of numbers
-        that outputs a number.
-
     """
 
     _graph_format = "adjacency"
 
-    def __init__(self, **kargs):
+    def __init__(self,
+                 executor=default_executor,
+                 verbose=False,
+                 normalize=False,
+                 random_seed=42,
+                 base_kernel=lambda x, y: np.sum(np.array(x)*np.array(y)),
+                 M="TV",
+                 t_max=5,
+                 w=10):
         """Initialise a subtree_wl kernel."""
-        self._valid_parameters |= {"random_seed", "base_kernel"
-                                   "M", "t_max", "w"}
-        super(propagation, self).__init__(**kargs)
+        super(propagation, self).__init__(executor=executor,
+                                          verbose=verbose,
+                                          normalize=normalize)
 
-        random.seed(int(kargs.get("random_seed", default_random_seed_value)))
+        self.random_seed = random_seed
+        self.M = M
+        self.t_max = t_max
+        self.w = w
+        self.base_kernel = base_kernel
+        self.initialized_ = {"M": False, "t_max": False, "w": False,
+                             "random_seed": False, "base_kernel": False}
 
-        self._M = kargs.get("M", "TV")
-        if type(self._M) is not str or self._M not in ["H", "L1", "L2", "TV"]:
-            raise ValueError('Metric type must be a str, one of "H", "L1", ' +
-                             '"L2", "TV".')
+    def initialize_(self):
+        """Initialize all transformer arguments, needing initialization."""
+        if not self.initialized_["random_seed"]:
+            np.random.seed(self.random_seed)
+            self.initialized_["random_seed"] = True
 
-        self._tmax = kargs.get("t_max", 5)
-        if type(self._tmax) is not int or self._tmax <= 0:
-            raise ValueError('The number of iterations must be a ' +
-                             'positive integer.')
+        if not self.initialized_["base_kernel"]:
+            if (type(self.M) is not str or
+                    self.M not in ["H", "L1", "L2", "TV"]):
+                raise TypeError('Metric type must be a str, one of "H", "L1", '
+                                '"L2", "TV".')
+            self.initialized_["base_kernel"] = True
 
-        self._w = kargs.get("w", 10)
-        if type(self._w) is not int or self._w <= 0:
-            raise ValueError('The bin width must be a positive integer.')
+        if not self.initialized_["t_max"]:
+            if type(self.t_max) is not int or self.t_max <= 0:
+                raise TypeError('The number of iterations must be a ' +
+                                'positive integer.')
+            self.initialized_["t_max"] = True
 
-        self._base_kernel = \
-            kargs.get("base_kernel",
-                      lambda x, y: np.sum(np.array(x)*np.array(y)))
-        if not callable(self._base_kernel):
-            raise ValueError('The base kernel must be callable.')
+        if not self.initialized_["w"]:
+            if type(self.w) is not int or self.w <= 0:
+                raise TypeError('The bin width must be a positive integer.')
+            self.initialized_["w"] = True
+
+        if not self.initialized_["base_kernel"]:
+            if not callable(self.base_kernel):
+                raise TypeError('The base kernel must be callable.')
+            self.initialized_["base_kernel"] = True
 
     def pairwise_operation(self, x, y):
         """Calculate the kernel value between two elements.
@@ -107,13 +129,13 @@ class propagation(kernel):
 
         """
         k = .0
-        for t in range(self._tmax):
+        for t in range(self.t_max):
             max_idx = min(len(x[t]), len(y[t]))
-            k += self._base_kernel(x[t][:max_idx], y[t][:max_idx])
+            k += self.base_kernel(x[t][:max_idx], y[t][:max_idx])
         return k
 
     def parse_input(self, X):
-        """Parse and create features for graphlet_sampling kernel.
+        """Parse and create features for the propation kernel.
 
         Parameters
         ----------
@@ -165,13 +187,13 @@ class propagation(kernel):
 
                 if T is not None:
                     if T.shape[0] != T.shape[1]:
-                        raise ValueError('Transition matrix on index' +
-                                         ' ' + str(idx) + 'must be ' +
-                                         'a square matrix.')
+                        raise TypeError('Transition matrix on index' +
+                                        ' ' + str(idx) + 'must be ' +
+                                        'a square matrix.')
                     if T.shape[0] != g.nv():
-                        raise ValueError('Propagation matrix must ' +
-                                         'have the same dimension ' +
-                                         'as the number of vertices.')
+                        raise TypeError('Propagation matrix must ' +
+                                        'have the same dimension ' +
+                                        'as the number of vertices.')
                 else:
                     T = g.get_adjacency_matrix()
                 T = (T > 0).astype(int)
@@ -213,14 +235,14 @@ class propagation(kernel):
 
             # feature vectors
             phi = {k: dict() for k in range(n)}
-            for t in range(self._tmax):
+            for t in range(self.t_max):
                 # for each graph hash P and produce the feature vectors
                 for k in range(n):
                     phi[k][t] = np.bincount(calculate_LSH(P[k],
-                                                          self._w, self._M))
+                                                          self.w, self.M))
 
                 # calculate the Propagation matrix if needed
-                if t < self._tmax-1:
+                if t < self.t_max-1:
                     for k in range(n):
                         P[k] = np.dot(transition_matrix[k], P[k])
 
