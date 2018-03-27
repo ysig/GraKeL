@@ -1,0 +1,22 @@
+:mod:`grakel`.pyramid_match
+==================================
+
+.. currentmodule:: grakel
+
+.. autoclass:: pyramid_match
+
+   
+   .. automethod:: __init__
+   
+
+
+Bibliography
+------------
+.. bibliography:: ../kernels/graph_kernels.bib
+   :filter: docname in docnames
+
+.. include:: grakel.pyramid_match.examples
+
+.. raw:: html
+
+    <div class="clearer"></div>

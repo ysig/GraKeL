@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>A longer Introduction &mdash; GraKeL 0.1a1 documentation</title>
+  <title>A longer Introduction &mdash; GraKeL 0.1a2 documentation</title>
   
 
   
@@ -32,12 +32,15 @@
   
     <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
   
+    <link rel="stylesheet" href="../_static/_static/css/supplementary.css" type="text/css" />
+  
 
   
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="GraKeL 0.1a1 documentation" href="../index.html"/>
+    <link rel="top" title="GraKeL 0.1a2 documentation" href="../index.html"/>
+        <link rel="up" title="User Manual" href="../user_manual.html"/>
         <link rel="next" title="Write your own kernel" href="make_your_own_kernel.html"/>
         <link rel="prev" title="A short Introduction" href="introduction.html"/> 
 
@@ -71,7 +74,7 @@
             
             
               <div class="version">
-                0.1a1
+                0.1a2
               </div>
             
           
@@ -96,16 +99,19 @@
             
             
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="installation.html">Installing grakel</a></li>
-<li class="toctree-l1"><a class="reference internal" href="introduction.html">A short Introduction</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">A longer Introduction</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#what-is-the-graphkernel-class">What is the <cite>GraphKernel</cite> class</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#the-kernel-class">The <cite>kernel</cite> class</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#why-not-a-more-structured-input-for-graphs">Why not a more structured input for Graphs?</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../user_manual.html">User Manual</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="installation.html">Installing grakel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html">A short Introduction</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">A longer Introduction</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#what-is-the-graphkernel-class">What is the <cite>GraphKernel</cite> class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#the-kernel-class">The <cite>kernel</cite> class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#why-not-a-more-structured-input-for-graphs">Why not a more structured input for Graphs?</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="make_your_own_kernel.html">Write your own kernel</a></li>
-<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="make_your_own_kernel.html">Write your own kernel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html">Contributing</a></li>
+</ul>
+</li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../api.html">GraKeL</a></li>
@@ -154,6 +160,8 @@
   <ul class="wy-breadcrumbs">
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../user_manual.html">User Manual</a> &raquo;</li>
         
       <li>A longer Introduction</li>
     
@@ -306,7 +314,7 @@ possible workers and if given a positive number, initializes that amount of work
 procedures of the <code class="code docutils literal notranslate"><span class="pre">GraphKernel</span></code> that need randomization such as <code class="code docutils literal notranslate"><span class="pre">Nystroem</span></code>, where the
 decorator draws probabilistically a number of components from the number of fitted samples.</p>
 <p>Let’s give an example of a probabilistic kernel using our old water example. We will use a very well known kernel called <em>Graphlet-Sampling</em>, where we will
-sample probabilistically 5 subgraph samples from each graph either <img class="math" src="../_images/math/0f5aa0b3c5dbb09e4d0e74b9faa856646d7eb87d.png" alt="\mathbf{H}_{2}\mathbf{O}"/> or <img class="math" src="../_images/math/b6a74bb3e538c404c065e7ba2b71ef2cb76891b8.png" alt="\mathbf{H}_{3}\mathbf{O}^{+}"/>.</p>
+sample probabilistically 5 subgraph samples from each graph either <span class="math notranslate">\(\mathbf{H}_{2}\mathbf{O}\)</span> or <span class="math notranslate">\(\mathbf{H}_{3}\mathbf{O}^{+}\)</span>.</p>
 <p>After initializing the input</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">grakel</span> <span class="kn">import</span> <span class="n">GraphKernel</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">H2O</span> <span class="o">=</span> <span class="p">[[[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s1">&#39;O&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="s1">&#39;H&#39;</span><span class="p">}]]</span>
@@ -372,7 +380,7 @@ covered by the decorator, as expected. To demonstrate we will show is the follow
 <h2>The <cite>kernel</cite> class<a class="headerlink" href="#the-kernel-class" title="Permalink to this headline">¶</a></h2>
 <p>This <code class="code docutils literal notranslate"><span class="pre">Object</span></code> is any object inherited from the <a class="reference internal" href="../kernels/kernel.html#kernel"><span class="std std-ref">kernel [class]</span></a> class (which can be imported from <code class="code docutils literal notranslate"><span class="pre">grakel</span></code>).</p>
 <p>Normally a kernel function, between graphs should be considered as a function with to arguments,
-such as <img class="math" src="../_images/math/f91cfc75af5b411b0563758bf70b730ed8949c15.png" alt="k \; : \; \mathcal{G} \times \mathcal{G} \rightarrow \mathbb{R}"/>.
+such as <span class="math notranslate">\(k \; : \; \mathcal{G} \times \mathcal{G} \rightarrow \mathbb{R}\)</span>.
 This raises two issues, namely one of efficiency and one of compatibility:</p>
 <ol class="arabic simple">
 <li>The first one has to do with the fact, that there are major computational advantages if instead of calculating the kernel pairwise, we calculate the whole kernel matrix.</li>
@@ -384,10 +392,10 @@ This raises two issues, namely one of efficiency and one of compatibility:</p>
 <li>The <code class="code docutils literal notranslate"><span class="pre">fit_transform</span></code> should fit and calculate the kernel matrix on the fitted dataset.</li>
 <li>The <code class="code docutils literal notranslate"><span class="pre">transform</span></code> should calculate the matrix produced between a new dataset (namely the <em>test</em>) and the fitted dataset.</li>
 </ul>
-<p>The deconstruction of the kernel matrix calculation from a function <img class="math" src="../_images/math/a4301f1553dae347454e8ef973d372480fe6477d.png" alt="\mathcal{K}: \mathcal{G}^{\text{train}} \times \mathcal{G}^{\text{test}} \rightarrow \mathbb{R}^{n_{\text{test}}} \times \mathbb{R}^{n_{\text{train}}}"/>
-to a <a class="reference external" href="https://en.wikipedia.org/wiki/Currying">currying</a> scheme <img class="math" src="../_images/math/34e6962b12b99b4ffe9c9f23194841c4065b6874.png" alt="\mathcal{K}: \mathcal{G}^{\text{train}} \rightarrow \mathcal{G}^{\text{test}} \rightarrow \mathbb{R}^{n_{\text{test}}} \times \mathbb{R}^{n_{\text{train}}}"/> is not always equivalent in the
-result, if some of the data of <img class="math" src="../_images/math/f090d84290ea186bfc545c4795548e2a85df2530.png" alt="\mathcal{G}^{\text{train}}"/>, must be combined with data of <img class="math" src="../_images/math/d1e2e89b7013bbe559686f617928406fd64f09dc.png" alt="\mathcal{G}^{\text{test}}"/> to produce the fit reference-features. In such cases
-as mentioned above, namely in the case of <code class="code docutils literal notranslate"><span class="pre">multiscale_laplacian</span></code>, if the user wants <img class="math" src="../_images/math/47802fb866adff114d07b12af5ccf0101b99f5c4.png" alt="\mathcal{G}^{\text{train}} \rightarrow \mathcal{G}^{\text{test}}"/> to be concerned
+<p>The deconstruction of the kernel matrix calculation from a function <span class="math notranslate">\(\mathcal{K}: \mathcal{G}^{\text{train}} \times \mathcal{G}^{\text{test}} \rightarrow \mathbb{R}^{n_{\text{test}}} \times \mathbb{R}^{n_{\text{train}}}\)</span>
+to a <a class="reference external" href="https://en.wikipedia.org/wiki/Currying">currying</a> scheme <span class="math notranslate">\(\mathcal{K}: \mathcal{G}^{\text{train}} \rightarrow \mathcal{G}^{\text{test}} \rightarrow \mathbb{R}^{n_{\text{test}}} \times \mathbb{R}^{n_{\text{train}}}\)</span> is not always equivalent in the
+result, if some of the data of <span class="math notranslate">\(\mathcal{G}^{\text{train}}\)</span>, must be combined with data of <span class="math notranslate">\(\mathcal{G}^{\text{test}}\)</span> to produce the fit reference-features. In such cases
+as mentioned above, namely in the case of <code class="code docutils literal notranslate"><span class="pre">multiscale_laplacian</span></code>, if the user wants <span class="math notranslate">\(\mathcal{G}^{\text{train}} \rightarrow \mathcal{G}^{\text{test}}\)</span> to be concerned
 before fit we advise him to use the <code class="code docutils literal notranslate"><span class="pre">fit_transform</span></code>, function in the whole of the train and test data and separate the kernel matrices on the result.</p>
 <p>Using a <code class="code docutils literal notranslate"><span class="pre">kernel</span></code> type object through the decorator, should be equivalent with doing so without the decorator, if the correct parametrization is given.
 The decorator <strong>does not</strong> restrict any <em>user-oriented</em> interface of the kernels, except if the user wants to write a kernel of his own.
@@ -539,7 +547,7 @@ First initialize those objects:</p>
 <span class="go">1.0</span>
 </pre></div>
 </div>
-<p>and finally the normalized kernel value, between <img class="math" src="../_images/math/0f5aa0b3c5dbb09e4d0e74b9faa856646d7eb87d.png" alt="\mathbf{H}_{2}\mathbf{O}"/> and <img class="math" src="../_images/math/b6a74bb3e538c404c065e7ba2b71ef2cb76891b8.png" alt="\mathbf{H}_{3}\mathbf{O}^{+}"/></p>
+<p>and finally the normalized kernel value, between <span class="math notranslate">\(\mathbf{H}_{2}\mathbf{O}\)</span> and <span class="math notranslate">\(\mathbf{H}_{3}\mathbf{O}^{+}\)</span></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sp_kernel</span><span class="o">.</span><span class="n">transform</span><span class="p">([</span><span class="n">H3O</span><span class="p">])</span>
 <span class="go">0.9428090415820634</span>
 </pre></div>
@@ -592,7 +600,7 @@ First initialize those objects:</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.1a1',
+            VERSION:'0.1a2',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -602,6 +610,7 @@ First initialize those objects:</p>
       <script type="text/javascript" src="../_static/jquery.js"></script>
       <script type="text/javascript" src="../_static/underscore.js"></script>
       <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

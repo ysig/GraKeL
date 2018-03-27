@@ -7,8 +7,8 @@ Documentation for the general kernel class.
 
 **Theoretical definition missing**
 
-.. currentmodule:: grakel.kernels
+.. currentmodule:: grakel
 
 .. autosummary::
 
-   grakel.kernels.kernel
+   kernel

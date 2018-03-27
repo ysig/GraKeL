@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>grakel.kernels.vertex_histogram &mdash; GraKeL 0.1a1 documentation</title>
+  <title>grakel.kernels.vertex_histogram &mdash; GraKeL 0.1a2 documentation</title>
   
 
   
@@ -32,12 +32,14 @@
   
     <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
   
+    <link rel="stylesheet" href="../../../_static/_static/css/supplementary.css" type="text/css" />
+  
 
   
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="GraKeL 0.1a1 documentation" href="../../../index.html"/>
+    <link rel="top" title="GraKeL 0.1a2 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -70,7 +72,7 @@
             
             
               <div class="version">
-                0.1a1
+                0.1a2
               </div>
             
           
@@ -95,11 +97,7 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../user_manual/installation.html">Installing grakel</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../user_manual/introduction.html">A short Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../user_manual/longer_introduction.html">A longer Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../user_manual/make_your_own_kernel.html">Write your own kernel</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../user_manual/contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../user_manual.html">User Manual</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../api.html">GraKeL</a></li>
@@ -188,8 +186,10 @@
 <span class="kn">from</span> <span class="nn">six</span> <span class="k">import</span> <span class="n">iteritems</span>
 <span class="kn">from</span> <span class="nn">six</span> <span class="k">import</span> <span class="n">itervalues</span>
 
+<span class="n">default_executor</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">fn</span><span class="p">,</span> <span class="o">*</span><span class="n">eargs</span><span class="p">,</span> <span class="o">**</span><span class="n">ekargs</span><span class="p">:</span> <span class="n">fn</span><span class="p">(</span><span class="o">*</span><span class="n">eargs</span><span class="p">,</span> <span class="o">**</span><span class="n">ekargs</span><span class="p">)</span>
 
-<div class="viewcode-block" id="vertex_histogram"><a class="viewcode-back" href="../../../generated/grakel.kernels.vertex_histogram.html#grakel.kernels.vertex_histogram">[docs]</a><span class="k">class</span> <span class="nc">vertex_histogram</span><span class="p">(</span><span class="n">kernel</span><span class="p">):</span>
+
+<div class="viewcode-block" id="vertex_histogram"><a class="viewcode-back" href="../../../generated/grakel.vertex_histogram.html#grakel.vertex_histogram">[docs]</a><span class="k">class</span> <span class="nc">vertex_histogram</span><span class="p">(</span><span class="n">kernel</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Vertex Histogram kernel as found in :cite:`Sugiyama2015NIPS_VH`.</span>
 
 <span class="sd">    Parameters</span>
@@ -202,11 +202,16 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="vertex_histogram.__init__"><a class="viewcode-back" href="../../../generated/grakel.kernels.vertex_histogram.html#grakel.kernels.vertex_histogram.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Initialise a vertex kernel.&quot;&quot;&quot;</span></div>
-        <span class="nb">super</span><span class="p">(</span><span class="n">vertex_histogram</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kargs</span><span class="p">)</span>
+<div class="viewcode-block" id="vertex_histogram.__init__"><a class="viewcode-back" href="../../../generated/grakel.vertex_histogram.html#grakel.vertex_histogram.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">executor</span><span class="o">=</span><span class="n">default_executor</span><span class="p">,</span>
+                 <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialise a vertex histogram kernel.&quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">vertex_histogram</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">executor</span><span class="o">=</span><span class="n">executor</span><span class="p">,</span>
+                                               <span class="n">normalize</span><span class="o">=</span><span class="n">normalize</span><span class="p">,</span>
+                                               <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="vertex_histogram.parse_input"><a class="viewcode-back" href="../../../generated/grakel.kernels.vertex_histogram.html#grakel.kernels.vertex_histogram.parse_input">[docs]</a>    <span class="k">def</span> <span class="nf">parse_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+<div class="viewcode-block" id="vertex_histogram.parse_input"><a class="viewcode-back" href="../../../generated/grakel.vertex_histogram.html#grakel.vertex_histogram.parse_input">[docs]</a>    <span class="k">def</span> <span class="nf">parse_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Parse and check the given input for VH kernel.</span>
 
 <span class="sd">        Parameters</span>
@@ -226,7 +231,7 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;input must be an iterable</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;input must be an iterable</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">rows</span><span class="p">,</span> <span class="n">cols</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(),</span> <span class="nb">list</span><span class="p">(),</span> <span class="nb">list</span><span class="p">()</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_method_calling</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]:</span>
@@ -250,10 +255,10 @@
                     <span class="c1"># get labels in any existing format</span>
                     <span class="n">L</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">get_labels</span><span class="p">(</span><span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;any&quot;</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;each element of X must be either a &#39;</span> <span class="o">+</span>
-                                     <span class="s1">&#39;graph object or a list with at least &#39;</span> <span class="o">+</span>
-                                     <span class="s1">&#39;a graph like object and node labels &#39;</span> <span class="o">+</span>
-                                     <span class="s1">&#39;dict </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;each element of X must be either a &#39;</span>
+                                    <span class="s1">&#39;graph object or a list with at least &#39;</span>
+                                    <span class="s1">&#39;a graph like object and node labels &#39;</span>
+                                    <span class="s1">&#39;dict </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
 
                 <span class="c1"># construct the data input for the numpy array</span>
                 <span class="k">for</span> <span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">frequency</span><span class="p">)</span> <span class="ow">in</span> <span class="n">iteritems</span><span class="p">(</span><span class="n">Counter</span><span class="p">(</span><span class="n">itervalues</span><span class="p">(</span><span class="n">L</span><span class="p">))):</span>
@@ -279,8 +284,8 @@
             <span class="n">features</span><span class="p">[</span><span class="n">rows</span><span class="p">,</span> <span class="n">cols</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span>
 
             <span class="k">if</span> <span class="n">ni</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;parsed input is empty&#39;</span><span class="p">)</span></div>
-            <span class="k">return</span> <span class="n">features</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;parsed input is empty&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">features</span></div>
 
     <span class="k">def</span> <span class="nf">_calculate_kernel_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate the kernel matrix given a target_graph and a kernel.</span>
@@ -308,7 +313,7 @@
             <span class="n">K</span> <span class="o">=</span> <span class="n">Y</span><span class="p">[:,</span> <span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">K</span>
 
-<div class="viewcode-block" id="vertex_histogram.diagonal"><a class="viewcode-back" href="../../../generated/grakel.kernels.vertex_histogram.html#grakel.kernels.vertex_histogram.diagonal">[docs]</a>    <span class="k">def</span> <span class="nf">diagonal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="vertex_histogram.diagonal"><a class="viewcode-back" href="../../../generated/grakel.vertex_histogram.html#grakel.vertex_histogram.diagonal">[docs]</a>    <span class="k">def</span> <span class="nf">diagonal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate the kernel matrix diagonal of the fitted data.</span>
 
 <span class="sd">        Parameters</span>
@@ -332,8 +337,8 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_X_diag</span> <span class="o">=</span> <span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;ij,ij-&gt;i&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">)</span>
 
         <span class="n">Y_diag</span> <span class="o">=</span> <span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;ij,ij-&gt;i&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_Y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_Y</span><span class="p">)</span>
-</div></div>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_X_diag</span><span class="p">,</span> <span class="n">Y_diag</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_X_diag</span><span class="p">,</span> <span class="n">Y_diag</span></div></div>
 </pre></div>
 
            </div>
@@ -370,7 +375,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.1a1',
+            VERSION:'0.1a2',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -380,6 +385,7 @@
       <script type="text/javascript" src="../../../_static/jquery.js"></script>
       <script type="text/javascript" src="../../../_static/underscore.js"></script>
       <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

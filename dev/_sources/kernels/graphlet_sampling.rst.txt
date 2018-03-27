@@ -7,8 +7,8 @@ The graphlet sampling kernel.
 
 **Theoretical definition missing**
 
-.. currentmodule:: grakel.kernels
+.. currentmodule:: grakel
 
 .. autosummary::
 
-   grakel.kernels.graphlet_sampling
+   graphlet_sampling

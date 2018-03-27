@@ -1,0 +1,649 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>grakel.lovasz_theta &mdash; GraKeL 0.1a2 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+  
+    <link rel="stylesheet" href="../_static/_static/css/supplementary.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="GraKeL 0.1a2 documentation" href="../index.html"/>
+        <link rel="up" title="API Reference" href="../classes.html"/>
+        <link rel="next" title="grakel.svm_theta" href="grakel.svm_theta.html"/>
+        <link rel="prev" title="grakel.neighborhood_subgraph_pairwise_distance" href="grakel.neighborhood_subgraph_pairwise_distance.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> GraKeL
+          
+
+          
+            
+            <img src="../_static/logo.png" class="logo" />
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1a2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../user_manual.html">User Manual</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../api.html">GraKeL</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../classes.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-graph-graph-class-with-its-utility-functions"><code class="docutils literal notranslate"><span class="pre">grakel.graph</span></code>: Graph class with its utility functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-graph-kernels-a-kernel-decorator"><code class="docutils literal notranslate"><span class="pre">grakel.graph_kernels</span></code>: A kernel decorator</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../classes.html#grakel-kernels-a-collection-of-graph-kernels"><code class="docutils literal notranslate"><span class="pre">grakel.kernels</span></code>: A collection of graph kernels</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../classes.html#kernels">Kernels</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="grakel.kernel.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.kernel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.random_walk.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.random_walk</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.random_walk_labeled.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.random_walk_labeled</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.pyramid_match.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.pyramid_match</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.neighborhood_hash.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.neighborhood_hash</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.shortest_path.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.shortest_path</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.shortest_path_attr.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.shortest_path_attr</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.subgraph_matching.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.subgraph_matching</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.weisfeiler_lehman.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.weisfeiler_lehman</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.hadamard_code.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.hadamard_code</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.neighborhood_subgraph_pairwise_distance.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.neighborhood_subgraph_pairwise_distance</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.lovasz_theta</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.svm_theta.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.svm_theta</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.propagation.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.propagation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.odd_sth.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.odd_sth</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.multiscale_laplacian.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.multiscale_laplacian</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.multiscale_laplacian_fast.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.multiscale_laplacian_fast</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.hadamard_code.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.hadamard_code</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.vertex_histogram.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.vertex_histogram</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.edge_histogram.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.edge_histogram</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-datasets-datasets"><code class="docutils literal notranslate"><span class="pre">grakel.datasets</span></code>: Datasets</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">General examples</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">GraKeL</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../classes.html">API Reference</a> &raquo;</li>
+        
+      <li><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.lovasz_theta</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/generated/grakel.lovasz_theta.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="grakel-lovasz-theta">
+<h1><a class="reference internal" href="../api.html#module-grakel" title="grakel"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code></a>.lovasz_theta<a class="headerlink" href="#grakel-lovasz-theta" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="grakel.lovasz_theta">
+<em class="property">class </em><code class="descclassname">grakel.</code><code class="descname">lovasz_theta</code><span class="sig-paren">(</span><em>executor=&lt;function &lt;lambda&gt;&gt;</em>, <em>normalize=False</em>, <em>verbose=False</em>, <em>random_seed=42</em>, <em>n_samples=50</em>, <em>subsets_size_range=(2</em>, <em>8)</em>, <em>base_kernel=&lt;function lovasz_theta.&lt;lambda&gt;&gt;</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/040cd3e/grakel/kernels/lovasz_theta.py#L30"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/lovasz_theta.html#lovasz_theta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.lovasz_theta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Lovasz theta kernel as proposed in <a class="reference internal" href="#johansson2015learningws-lovasz" id="id1">[JD15]</a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X,Y</strong> : <em>valid-graph-format</em></p>
+<blockquote>
+<div><p>The pair of graphs on which the kernel is applied.</p>
+</div></blockquote>
+<p><strong>n_samples</strong> : int, default=50</p>
+<blockquote>
+<div><p>The number of samples.</p>
+</div></blockquote>
+<p><strong>subsets_size_range</strong> : tuple, len=2, default=(2,8)</p>
+<blockquote>
+<div><p>(min, max) size of the vertex set of sampled subgraphs.</p>
+</div></blockquote>
+<p><strong>base_kernel</strong> : function (np.1darray, np.1darray -&gt; number),</p>
+<blockquote class="last">
+<div><blockquote>
+<div><p>default=:math:<cite>f(x,y) = x*y</cite></p>
+</div></blockquote>
+<p>The applied metric between the lovasz_theta numbers of subgraphs.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="9%" />
+<col width="91%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><strong>_n_samples</strong></td>
+<td>(int) Number of samples drawn for the computation of lovasz theta.</td>
+</tr>
+<tr class="row-even"><td><strong>_ssr</strong></td>
+<td>(tuple, len=2) A tuple containing two integers designating the minimum and the maximum size of the vertex set of considered subgraphs.</td>
+</tr>
+<tr class="row-odd"><td><strong>_d</strong></td>
+<td>(int,) The maximum matrix dimension of fit plus 1. Signifies the number of features assigned for lovasz labelling.</td>
+</tr>
+<tr class="row-even"><td><strong>_base_kernel</strong></td>
+<td>(function (number, number -&gt; number)) The applied base_kernel between features of the mean lovasz_theta numbers samples for all levels of the two graphs.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.lovasz_theta.diagonal" title="grakel.lovasz_theta.diagonal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">diagonal</span></code></a>()</td>
+<td>Calculate the kernel matrix diagonal of the fit/transformed data.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.lovasz_theta.fit" title="grakel.lovasz_theta.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(X[,&nbsp;y])</td>
+<td>Fit a dataset, for a transformer.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.lovasz_theta.fit_transform" title="grakel.lovasz_theta.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code></a>(X)</td>
+<td>Fit and transform, on the same dataset.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.lovasz_theta.get_params" title="grakel.lovasz_theta.get_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code></a>([deep])</td>
+<td>Get parameters for this estimator.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.lovasz_theta.initialize_" title="grakel.lovasz_theta.initialize_"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize_</span></code></a>()</td>
+<td>Initialize all transformer arguments, needing initialization.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.lovasz_theta.pairwise_operation" title="grakel.lovasz_theta.pairwise_operation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pairwise_operation</span></code></a>(x,&nbsp;y)</td>
+<td>Lovasz theta kernel as proposed in <a class="reference internal" href="#johansson2015learningws-lovasz" id="id2">[JD15]</a>.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.lovasz_theta.parse_input" title="grakel.lovasz_theta.parse_input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_input</span></code></a>(X)</td>
+<td>Parse and create features for lovasz_theta kernel.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.lovasz_theta.set_params" title="grakel.lovasz_theta.set_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code></a>(**params)</td>
+<td>Call the parent method.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.lovasz_theta.transform" title="grakel.lovasz_theta.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(X)</td>
+<td>Calculate the kernel matrix, between given and fitted dataset.</td>
+</tr>
+</tbody>
+</table>
+<p>Initialise a lovasz_theta kernel.</p>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="67%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><strong>X</strong></td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.lovasz_theta.diagonal" title="grakel.lovasz_theta.diagonal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">diagonal</span></code></a>()</td>
+<td>Calculate the kernel matrix diagonal of the fit/transformed data.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.lovasz_theta.fit" title="grakel.lovasz_theta.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(X[,&nbsp;y])</td>
+<td>Fit a dataset, for a transformer.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.lovasz_theta.fit_transform" title="grakel.lovasz_theta.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code></a>(X)</td>
+<td>Fit and transform, on the same dataset.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.lovasz_theta.get_params" title="grakel.lovasz_theta.get_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code></a>([deep])</td>
+<td>Get parameters for this estimator.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.lovasz_theta.initialize_" title="grakel.lovasz_theta.initialize_"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize_</span></code></a>()</td>
+<td>Initialize all transformer arguments, needing initialization.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.lovasz_theta.pairwise_operation" title="grakel.lovasz_theta.pairwise_operation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pairwise_operation</span></code></a>(x,&nbsp;y)</td>
+<td>Lovasz theta kernel as proposed in <a class="reference internal" href="#johansson2015learningws-lovasz" id="id3">[JD15]</a>.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.lovasz_theta.parse_input" title="grakel.lovasz_theta.parse_input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_input</span></code></a>(X)</td>
+<td>Parse and create features for lovasz_theta kernel.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.lovasz_theta.set_params" title="grakel.lovasz_theta.set_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code></a>(**params)</td>
+<td>Call the parent method.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.lovasz_theta.transform" title="grakel.lovasz_theta.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(X)</td>
+<td>Calculate the kernel matrix, between given and fitted dataset.</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="grakel.lovasz_theta.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>executor=&lt;function &lt;lambda&gt;&gt;</em>, <em>normalize=False</em>, <em>verbose=False</em>, <em>random_seed=42</em>, <em>n_samples=50</em>, <em>subsets_size_range=(2</em>, <em>8)</em>, <em>base_kernel=&lt;function lovasz_theta.&lt;lambda&gt;&gt;</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/040cd3e/grakel/kernels/lovasz_theta.py#L69"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/lovasz_theta.html#lovasz_theta.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.lovasz_theta.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialise a lovasz_theta kernel.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="grakel.lovasz_theta.diagonal">
+<code class="descname">diagonal</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/040cd3e/grakel/kernels/kernel.py#L231"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.lovasz_theta.diagonal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the kernel matrix diagonal of the fit/transformed data.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>None.</strong></p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>X_diag</strong> : np.array</p>
+<blockquote>
+<div><p>The diagonal of the kernel matrix between the fitted data.
+This consists of each element calculated with itself.</p>
+</div></blockquote>
+<p><strong>Y_diag</strong> : np.array</p>
+<blockquote class="last">
+<div><p>The diagonal of the kernel matrix, of the transform.
+This consists of each element calculated with itself.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="grakel.lovasz_theta.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>X</em>, <em>y=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/040cd3e/grakel/kernels/kernel.py#L83"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.lovasz_theta.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit a dataset, for a transformer.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X</strong> : iterable</p>
+<blockquote>
+<div><p>Each element must be an iterable with at most three features and at
+least one. The first that is obligatory is a valid graph structure
+(adjacency matrix or edge_dictionary) while the second is
+node_labels and the third edge_labels (that fitting the given graph
+format). The train samples.</p>
+</div></blockquote>
+<p><strong>y</strong> : None</p>
+<blockquote>
+<div><p>There is no need of a target in a transformer, yet the pipeline API
+requires this parameter.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>self</strong> : object</p>
+<p class="last">Returns self.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="grakel.lovasz_theta.fit_transform">
+<code class="descname">fit_transform</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/040cd3e/grakel/kernels/kernel.py#L157"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.lovasz_theta.fit_transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit and transform, on the same dataset.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X</strong> : iterable</p>
+<blockquote>
+<div><p>Each element must be an iterable with at most three features and at
+least one. The first that is obligatory is a valid graph structure
+(adjacency matrix or edge_dictionary) while the second is
+node_labels and the third edge_labels (that fitting the given graph
+format). If None the kernel matrix is calculated upon fit data.
+The test samples.</p>
+</div></blockquote>
+<p><strong>y</strong> : None</p>
+<blockquote>
+<div><p>There is no need of a target in a transformer, yet the pipeline API
+requires this parameter.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>K</strong> : numpy array, shape = [n_targets, n_input_graphs]</p>
+<blockquote class="last">
+<div><p>corresponding to the kernel matrix, a calculation between
+all pairs of graphs between target an features</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="grakel.lovasz_theta.get_params">
+<code class="descname">get_params</code><span class="sig-paren">(</span><em>deep=True</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/040cd3e/grakel/../../../../usr/local/lib/python3.5/site-packages/sklearn/base.py#L213"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.lovasz_theta.get_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get parameters for this estimator.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>deep</strong> : boolean, optional</p>
+<blockquote>
+<div><p>If True, will return the parameters for this estimator and
+contained subobjects that are estimators.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>params</strong> : mapping of string to any</p>
+<blockquote class="last">
+<div><p>Parameter names mapped to their values.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="grakel.lovasz_theta.initialize_">
+<code class="descname">initialize_</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/040cd3e/grakel/kernels/lovasz_theta.py#L90"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/lovasz_theta.html#lovasz_theta.initialize_"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.lovasz_theta.initialize_" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize all transformer arguments, needing initialization.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="grakel.lovasz_theta.pairwise_operation">
+<code class="descname">pairwise_operation</code><span class="sig-paren">(</span><em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/040cd3e/grakel/kernels/lovasz_theta.py#L179"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/lovasz_theta.html#lovasz_theta.pairwise_operation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.lovasz_theta.pairwise_operation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Lovasz theta kernel as proposed in <a class="reference internal" href="#johansson2015learningws-lovasz" id="id4">[JD15]</a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>x, y</strong> : dict</p>
+<blockquote>
+<div><p>Subgraph samples metric dictionaries for all levels.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>kernel</strong> : number</p>
+<blockquote class="last">
+<div><p>The kernel value.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="grakel.lovasz_theta.parse_input">
+<code class="descname">parse_input</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/040cd3e/grakel/kernels/lovasz_theta.py#L119"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/lovasz_theta.html#lovasz_theta.parse_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.lovasz_theta.parse_input" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse and create features for lovasz_theta kernel.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X</strong> : iterable</p>
+<blockquote>
+<div><p>For the input to pass the test, we must have:
+Each element must be an iterable with at most three features and at
+least one. The first that is obligatory is a valid graph structure
+(adjacency matrix or edge_dictionary) while the second is
+node_labels and the third edge_labels (that correspond to the given
+graph format). A valid input also consists of graph type objects.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : list</p>
+<blockquote class="last">
+<div><p>The lovasz metrics for the given input.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="grakel.lovasz_theta.set_params">
+<code class="descname">set_params</code><span class="sig-paren">(</span><em>**params</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/040cd3e/grakel/kernels/kernel.py#L333"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.lovasz_theta.set_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call the parent method.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="grakel.lovasz_theta.transform">
+<code class="descname">transform</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/040cd3e/grakel/kernels/kernel.py#L119"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.lovasz_theta.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the kernel matrix, between given and fitted dataset.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X</strong> : iterable</p>
+<blockquote>
+<div><p>Each element must be an iterable with at most three features and at
+least one. The first that is obligatory is a valid graph structure
+(adjacency matrix or edge_dictionary) while the second is
+node_labels and the third edge_labels (that fitting the given graph
+format). If None the kernel matrix is calculated upon fit data.
+The test samples.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>K</strong> : numpy array, shape = [n_targets, n_input_graphs]</p>
+<blockquote class="last">
+<div><p>corresponding to the kernel matrix, a calculation between
+all pairs of graphs between target an features</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<div class="section" id="bibliography">
+<h2>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">¶</a></h2>
+<p id="bibtex-bibliography-generated/grakel.lovasz_theta-0"><table class="docutils citation" frame="void" id="johansson2015learningws-lovasz" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[JD15]</td><td><em>(<a class="fn-backref" href="#id1">1</a>, <a class="fn-backref" href="#id2">2</a>, <a class="fn-backref" href="#id3">3</a>, <a class="fn-backref" href="#id4">4</a>)</em> Fredrik&nbsp;D. Johansson and Devdatt&nbsp;P. Dubhashi. Learning with similarity functions on graphs using matchings of geometric embeddings. In <em>KDD</em>. 2015.</td></tr>
+</tbody>
+</table>
+</p>
+<div class="clearer"></div></div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="grakel.svm_theta.html" class="btn btn-neutral float-right" title="grakel.svm_theta" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="grakel.neighborhood_subgraph_pairwise_distance.html" class="btn btn-neutral" title="grakel.neighborhood_subgraph_pairwise_distance" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, DaSciM (BSD License).
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.1a2',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

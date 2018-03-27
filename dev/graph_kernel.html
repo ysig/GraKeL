@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>GraphKernel (class) &mdash; GraKeL 0.1a1 documentation</title>
+  <title>GraphKernel (class) &mdash; GraKeL 0.1a2 documentation</title>
   
 
   
@@ -32,12 +32,14 @@
   
     <link rel="stylesheet" href="_static/gallery.css" type="text/css" />
   
+    <link rel="stylesheet" href="_static/_static/css/supplementary.css" type="text/css" />
+  
 
   
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="GraKeL 0.1a1 documentation" href="index.html"/>
+    <link rel="top" title="GraKeL 0.1a2 documentation" href="index.html"/>
         <link rel="up" title="GraKeL" href="api.html"/>
         <link rel="next" title="grakel.GraphKernel" href="generated/grakel.GraphKernel.html"/>
         <link rel="prev" title="Weisfeiler Lehman Kernel" href="kernels/weisfeiler_lehman.html"/> 
@@ -72,7 +74,7 @@
             
             
               <div class="version">
-                0.1a1
+                0.1a2
               </div>
             
           
@@ -97,11 +99,7 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="user_manual/installation.html">Installing grakel</a></li>
-<li class="toctree-l1"><a class="reference internal" href="user_manual/introduction.html">A short Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="user_manual/longer_introduction.html">A longer Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="user_manual/make_your_own_kernel.html">Write your own kernel</a></li>
-<li class="toctree-l1"><a class="reference internal" href="user_manual/contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user_manual.html">User Manual</a></li>
 </ul>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="api.html">GraKeL</a><ul class="current">
@@ -248,11 +246,11 @@ inside the kernel calculation.</p>
 <td>Needs</td>
 <td>Ignores</td>
 </tr>
-<tr class="row-odd"><td>subgraph_matching</td>
-<td>Forbids</td>
-<td>Ignores</td>
-<td>Needs</td>
-<td>Ignores</td>
+<tr class="row-odd"><td>subgraph_matching [type(kv)=type(ke)=’labels’]</td>
+<td>type(kv)</td>
+<td>type(ke)</td>
+<td>type(kv)</td>
+<td>type(ke)</td>
 </tr>
 <tr class="row-even"><td>lovasz_theta</td>
 <td>Ignores</td>
@@ -368,7 +366,7 @@ inside the kernel calculation.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.1a1',
+            VERSION:'0.1a2',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -378,6 +376,7 @@ inside the kernel calculation.</p>
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

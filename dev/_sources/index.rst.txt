@@ -11,15 +11,11 @@ area in data-mining and machine learning, known as graph kernels.
 Getting Started
 
   .. toctree::
-    :maxdepth: 1
+    :maxdepth: 2
 
-    user_manual/installation
-    user_manual/introduction
-    user_manual/longer_introduction
-    user_manual/make_your_own_kernel
-    user_manual/contributing
+    user_manual
 
-For seeing this version of the GraKeL project on the relevant **GitHub** repository you can have a look on the `README <https://github.com/ysig/GraKeL/blob/develop/README.md>`_.
+For seeing this version of the **GraKeL** project on the relevant **GitHub** repository you can have a look on the `README <https://github.com/ysig/GraKeL/blob/develop/README.md>`_.
 
 =============
 Documentation
@@ -44,4 +40,3 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-

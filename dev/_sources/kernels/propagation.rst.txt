@@ -6,8 +6,8 @@ The Propagation Kernel.
 
 **Theoretical definition missing**
 
-.. currentmodule:: grakel.kernels
+.. currentmodule:: grakel
 
 .. autosummary::
 
-   grakel.kernels.propagation
+   propagation

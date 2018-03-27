@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>grakel.datasets.fetch_dataset &mdash; GraKeL 0.1a1 documentation</title>
+  <title>grakel.datasets.fetch_dataset &mdash; GraKeL 0.1a2 documentation</title>
   
 
   
@@ -32,12 +32,14 @@
   
     <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
   
+    <link rel="stylesheet" href="../_static/_static/css/supplementary.css" type="text/css" />
+  
 
   
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="GraKeL 0.1a1 documentation" href="../index.html"/>
+    <link rel="top" title="GraKeL 0.1a2 documentation" href="../index.html"/>
         <link rel="up" title="Dataset loading utilities" href="../datasets.html"/>
         <link rel="next" title="grakel.datasets.get_dataset_info" href="grakel.datasets.get_dataset_info.html"/>
         <link rel="prev" title="Dataset loading utilities" href="../datasets.html"/> 
@@ -72,7 +74,7 @@
             
             
               <div class="version">
-                0.1a1
+                0.1a2
               </div>
             
           
@@ -97,28 +99,24 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../user_manual/installation.html">Installing grakel</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../user_manual/introduction.html">A short Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../user_manual/longer_introduction.html">A longer Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../user_manual/make_your_own_kernel.html">Write your own kernel</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../user_manual/contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_manual.html">User Manual</a></li>
 </ul>
 <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="../api.html">GraKeL</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="../kernels.html">Kernels (between graphs)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../graph_kernel.html">GraphKernel (class)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../graph.html">Graph (class)</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="../datasets.html">Dataset loading utilities</a><ul class="current">
-<li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">grakel.datasets</span></code>.fetch_dataset</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#examples-using-grakel-datasets-fetch-dataset">Examples using <code class="docutils literal notranslate"><span class="pre">grakel.datasets.fetch_dataset</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">GraKeL</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../classes.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-graph-graph-class-with-its-utility-functions"><code class="docutils literal notranslate"><span class="pre">grakel.graph</span></code>: Graph class with its utility functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-graph-kernels-a-kernel-decorator"><code class="docutils literal notranslate"><span class="pre">grakel.graph_kernels</span></code>: A kernel decorator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-kernels-a-collection-of-graph-kernels"><code class="docutils literal notranslate"><span class="pre">grakel.kernels</span></code>: A collection of graph kernels</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../classes.html#grakel-datasets-datasets"><code class="docutils literal notranslate"><span class="pre">grakel.datasets</span></code>: Datasets</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../classes.html#fetch">Fetch</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">grakel.datasets</span></code>.fetch_dataset</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.datasets.get_dataset_info.html"><code class="docutils literal notranslate"><span class="pre">grakel.datasets</span></code>.get_dataset_info</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="grakel.datasets.get_dataset_info.html"><code class="docutils literal notranslate"><span class="pre">grakel.datasets</span></code>.get_dataset_info</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../classes.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">General examples</a></li>
 </ul>
 
@@ -188,10 +186,10 @@
            <div itemprop="articleBody">
             
   <div class="section" id="grakel-datasets-fetch-dataset">
-<h1><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel.datasets</span></code>.fetch_dataset<a class="headerlink" href="#grakel-datasets-fetch-dataset" title="Permalink to this headline">¶</a></h1>
+<h1><a class="reference internal" href="../datasets.html#module-grakel.datasets" title="grakel.datasets"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel.datasets</span></code></a>.fetch_dataset<a class="headerlink" href="#grakel-datasets-fetch-dataset" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="grakel.datasets.fetch_dataset">
-<code class="descclassname">grakel.datasets.</code><code class="descname">fetch_dataset</code><span class="sig-paren">(</span><em>name</em>, <em>verbose=True</em>, <em>data_home=None</em>, <em>download_if_missing=True</em>, <em>with_classes=True</em>, <em>prefer_attr_nodes=False</em>, <em>prefer_attr_edges=False</em>, <em>as_graphs=False</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/54cf543/grakel/datasets/base.py#L330"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/datasets/base.html#fetch_dataset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.datasets.fetch_dataset" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">grakel.datasets.</code><code class="descname">fetch_dataset</code><span class="sig-paren">(</span><em>name</em>, <em>verbose=True</em>, <em>data_home=None</em>, <em>download_if_missing=True</em>, <em>with_classes=True</em>, <em>prefer_attr_nodes=False</em>, <em>prefer_attr_edges=False</em>, <em>as_graphs=False</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/040cd3e/grakel/datasets/base.py#L330"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/datasets/base.html#fetch_dataset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.datasets.fetch_dataset" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load a dataset from <a class="reference external" href="https://ls11-www.cs.tu-dortmund.de/staff/morris/graphkerneldatasets">gd</a>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -259,11 +257,11 @@ order of input.</p>
 </div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="An example plot of :class:`grakel.GraphKernel`, :class:`grakel.kernels.weisfeiler_lehman`, :cla..."><div class="figure" id="id2">
 <img alt="../_images/sphx_glr_plot_wl_subtree_MUTAG_thumb.png" src="../_images/sphx_glr_plot_wl_subtree_MUTAG_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/plot_wl_subtree_MUTAG.html#sphx-glr-auto-examples-plot-wl-subtree-mutag-py"><span class="std std-ref">Fit-Transform and classification on the MUTAG dataset using a WL-dirac kernel.</span></a></span></p>
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/plot_wl_subtree_MUTAG.html#sphx-glr-auto-examples-plot-wl-subtree-mutag-py"><span class="std std-ref">Classification on the MUTAG dataset using a WL-subtree kernel</span></a></span></p>
 </div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="An example plot of :class:`grakel.GraphKernel` "><div class="figure" id="id3">
 <img alt="../_images/sphx_glr__plot_lovasz_svm_theta_thumb.png" src="../_images/sphx_glr__plot_lovasz_svm_theta_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/_plot_lovasz_svm_theta.html#sphx-glr-auto-examples-plot-lovasz-svm-theta-py"><span class="std std-ref">Fit-Transform/Classification on MUTAG using a lovasz, svm-theta kernels.</span></a></span></p>
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/_plot_lovasz_svm_theta.html#sphx-glr-auto-examples-plot-lovasz-svm-theta-py"><span class="std std-ref">Classification on MUTAG using a lovasz, svm-theta kernels</span></a></span></p>
 </div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="An example plot of :class:`grakel.GraphKernel` "><div class="figure" id="id4">
 <img alt="../_images/sphx_glr__plot_classification_statistics_thumb.png" src="../_images/sphx_glr__plot_classification_statistics_thumb.png" />
@@ -320,7 +318,7 @@ order of input.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.1a1',
+            VERSION:'0.1a2',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -330,6 +328,7 @@ order of input.</p>
       <script type="text/javascript" src="../_static/jquery.js"></script>
       <script type="text/javascript" src="../_static/underscore.js"></script>
       <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

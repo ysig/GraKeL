@@ -7,8 +7,8 @@ The Edge Histogram Kernel.
 
 **Theoretical definition missing**
 
-.. currentmodule:: grakel.kernels
+.. currentmodule:: grakel
 
 .. autosummary::
 
-   grakel.kernels.edge_histogram
+   edge_histogram

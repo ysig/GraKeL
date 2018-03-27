@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>grakel.graph.laplacian &mdash; GraKeL 0.1a1 documentation</title>
+  <title>grakel.graph.laplacian &mdash; GraKeL 0.1a2 documentation</title>
   
 
   
@@ -32,12 +32,14 @@
   
     <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
   
+    <link rel="stylesheet" href="../_static/_static/css/supplementary.css" type="text/css" />
+  
 
   
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="GraKeL 0.1a1 documentation" href="../index.html"/>
+    <link rel="top" title="GraKeL 0.1a2 documentation" href="../index.html"/>
         <link rel="up" title="Graph (class)" href="../graph.html"/>
         <link rel="next" title="grakel.graph.floyd_warshall" href="grakel.graph.floyd_warshall.html"/>
         <link rel="prev" title="grakel.graph.is_edge_dictionary" href="grakel.graph.is_edge_dictionary.html"/> 
@@ -72,7 +74,7 @@
             
             
               <div class="version">
-                0.1a1
+                0.1a2
               </div>
             
           
@@ -97,28 +99,27 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../user_manual/installation.html">Installing grakel</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../user_manual/introduction.html">A short Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../user_manual/longer_introduction.html">A longer Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../user_manual/make_your_own_kernel.html">Write your own kernel</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../user_manual/contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_manual.html">User Manual</a></li>
 </ul>
 <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="../api.html">GraKeL</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="../kernels.html">Kernels (between graphs)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../graph_kernel.html">GraphKernel (class)</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="../graph.html">Graph (class)</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="grakel.Graph.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.Graph</a></li>
-<li class="toctree-l3"><a class="reference internal" href="grakel.graph.is_adjacency.html"><code class="docutils literal notranslate"><span class="pre">grakel.graph</span></code>.is_adjacency</a></li>
-<li class="toctree-l3"><a class="reference internal" href="grakel.graph.is_edge_dictionary.html"><code class="docutils literal notranslate"><span class="pre">grakel.graph</span></code>.is_edge_dictionary</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">grakel.graph</span></code>.laplacian</a></li>
-<li class="toctree-l3"><a class="reference internal" href="grakel.graph.floyd_warshall.html"><code class="docutils literal notranslate"><span class="pre">grakel.graph</span></code>.floyd_warshall</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">GraKeL</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../classes.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../classes.html#grakel-graph-graph-class-with-its-utility-functions"><code class="docutils literal notranslate"><span class="pre">grakel.graph</span></code>: Graph class with its utility functions</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../classes.html#base-class">Base Class</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../classes.html#utility-functions">Utility Functions</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="grakel.graph.is_adjacency.html"><code class="docutils literal notranslate"><span class="pre">grakel.graph</span></code>.is_adjacency</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.graph.is_edge_dictionary.html"><code class="docutils literal notranslate"><span class="pre">grakel.graph</span></code>.is_edge_dictionary</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">grakel.graph</span></code>.laplacian</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.graph.floyd_warshall.html"><code class="docutils literal notranslate"><span class="pre">grakel.graph</span></code>.floyd_warshall</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../datasets.html">Dataset loading utilities</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../classes.html">API Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-graph-kernels-a-kernel-decorator"><code class="docutils literal notranslate"><span class="pre">grakel.graph_kernels</span></code>: A kernel decorator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-kernels-a-collection-of-graph-kernels"><code class="docutils literal notranslate"><span class="pre">grakel.kernels</span></code>: A collection of graph kernels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-datasets-datasets"><code class="docutils literal notranslate"><span class="pre">grakel.datasets</span></code>: Datasets</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">General examples</a></li>
 </ul>
 
@@ -191,7 +192,7 @@
 <h1><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel.graph</span></code>.laplacian<a class="headerlink" href="#grakel-graph-laplacian" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="grakel.graph.laplacian">
-<code class="descclassname">grakel.graph.</code><code class="descname">laplacian</code><span class="sig-paren">(</span><em>csgraph</em>, <em>normed=False</em>, <em>return_diag=False</em>, <em>use_out_degree=False</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/54cf543/grakel/../../../../usr/local/lib/python3.5/site-packages/scipy/sparse/csgraph/_laplacian.py#L18"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/scipy/sparse/csgraph/_laplacian.html#laplacian"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.graph.laplacian" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">grakel.graph.</code><code class="descname">laplacian</code><span class="sig-paren">(</span><em>csgraph</em>, <em>normed=False</em>, <em>return_diag=False</em>, <em>use_out_degree=False</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/040cd3e/grakel/../../../../usr/local/lib/python3.5/site-packages/scipy/sparse/csgraph/_laplacian.py#L18"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/scipy/sparse/csgraph/_laplacian.html#laplacian"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.graph.laplacian" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the Laplacian matrix of a directed graph.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -302,7 +303,7 @@ of the laplacian matrix can give insight into many properties of the graph.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.1a1',
+            VERSION:'0.1a2',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -312,6 +313,7 @@ of the laplacian matrix can give insight into many properties of the graph.</p>
       <script type="text/javascript" src="../_static/jquery.js"></script>
       <script type="text/javascript" src="../_static/underscore.js"></script>
       <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

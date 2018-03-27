@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>grakel.kernels.neighborhood_subgraph_pairwise_distance &mdash; GraKeL 0.1a1 documentation</title>
+  <title>grakel.kernels.neighborhood_subgraph_pairwise_distance &mdash; GraKeL 0.1a2 documentation</title>
   
 
   
@@ -32,12 +32,14 @@
   
     <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
   
+    <link rel="stylesheet" href="../../../_static/_static/css/supplementary.css" type="text/css" />
+  
 
   
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="GraKeL 0.1a1 documentation" href="../../../index.html"/>
+    <link rel="top" title="GraKeL 0.1a2 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -70,7 +72,7 @@
             
             
               <div class="version">
-                0.1a1
+                0.1a2
               </div>
             
           
@@ -95,11 +97,7 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../user_manual/installation.html">Installing grakel</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../user_manual/introduction.html">A short Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../user_manual/longer_introduction.html">A longer Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../user_manual/make_your_own_kernel.html">Write your own kernel</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../user_manual/contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../user_manual.html">User Manual</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../api.html">GraKeL</a></li>
@@ -190,8 +188,10 @@
 <span class="kn">from</span> <span class="nn">six.moves</span> <span class="k">import</span> <span class="n">filterfalse</span>
 <span class="kn">from</span> <span class="nn">builtins</span> <span class="k">import</span> <span class="nb">range</span>
 
+<span class="n">default_executor</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">fn</span><span class="p">,</span> <span class="o">*</span><span class="n">eargs</span><span class="p">,</span> <span class="o">**</span><span class="n">ekargs</span><span class="p">:</span> <span class="n">fn</span><span class="p">(</span><span class="o">*</span><span class="n">eargs</span><span class="p">,</span> <span class="o">**</span><span class="n">ekargs</span><span class="p">)</span>
 
-<div class="viewcode-block" id="neighborhood_subgraph_pairwise_distance"><a class="viewcode-back" href="../../../generated/grakel.kernels.neighborhood_subgraph_pairwise_distance.html#grakel.kernels.neighborhood_subgraph_pairwise_distance">[docs]</a><span class="k">class</span> <span class="nc">neighborhood_subgraph_pairwise_distance</span><span class="p">(</span><span class="n">kernel</span><span class="p">):</span>
+
+<div class="viewcode-block" id="neighborhood_subgraph_pairwise_distance"><a class="viewcode-back" href="../../../generated/grakel.neighborhood_subgraph_pairwise_distance.html#grakel.neighborhood_subgraph_pairwise_distance">[docs]</a><span class="k">class</span> <span class="nc">neighborhood_subgraph_pairwise_distance</span><span class="p">(</span><span class="n">kernel</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;The Neighborhood subgraph pairwise distance kernel.</span>
 
 <span class="sd">    See :cite:`Costa2010FastNS`.</span>
@@ -206,10 +206,10 @@
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
-<span class="sd">    _r : int</span>
+<span class="sd">    r : int</span>
 <span class="sd">        The maximum considered radius between vertices.</span>
 
-<span class="sd">    _d : int</span>
+<span class="sd">    d : int</span>
 <span class="sd">        Neighborhood depth.</span>
 
 <span class="sd">    _ngx : int</span>
@@ -231,23 +231,36 @@
 
     <span class="n">_graph_format</span> <span class="o">=</span> <span class="s2">&quot;dictionary&quot;</span>
 
-<div class="viewcode-block" id="neighborhood_subgraph_pairwise_distance.__init__"><a class="viewcode-back" href="../../../generated/grakel.kernels.neighborhood_subgraph_pairwise_distance.html#grakel.kernels.neighborhood_subgraph_pairwise_distance.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">):</span>
+<div class="viewcode-block" id="neighborhood_subgraph_pairwise_distance.__init__"><a class="viewcode-back" href="../../../generated/grakel.neighborhood_subgraph_pairwise_distance.html#grakel.neighborhood_subgraph_pairwise_distance.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">executor</span><span class="o">=</span><span class="n">default_executor</span><span class="p">,</span>
+                 <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">r</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialize an NSPD kernel.&quot;&quot;&quot;</span>
         <span class="c1"># setup valid parameters and initialise from parent</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_valid_parameters</span> <span class="o">|=</span> <span class="p">{</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="s2">&quot;d&quot;</span><span class="p">}</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">neighborhood_subgraph_pairwise_distance</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kargs</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">neighborhood_subgraph_pairwise_distance</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">executor</span><span class="o">=</span><span class="n">executor</span><span class="p">,</span>
+            <span class="n">normalize</span><span class="o">=</span><span class="n">normalize</span><span class="p">,</span>
+            <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_r</span> <span class="o">=</span> <span class="n">kargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_d</span> <span class="o">=</span> <span class="n">kargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">r</span> <span class="o">=</span> <span class="n">r</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">d</span> <span class="o">=</span> <span class="n">d</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;r&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;d&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span></div>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_r</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;r must be a positive integer&#39;</span><span class="p">)</span>
+<div class="viewcode-block" id="neighborhood_subgraph_pairwise_distance.initialize_"><a class="viewcode-back" href="../../../generated/grakel.neighborhood_subgraph_pairwise_distance.html#grakel.neighborhood_subgraph_pairwise_distance.initialize_">[docs]</a>    <span class="k">def</span> <span class="nf">initialize_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize all transformer arguments, needing initialization.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span><span class="p">[</span><span class="s2">&quot;r&quot;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">r</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">int</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">r</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;r must be a positive integer&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span><span class="p">[</span><span class="s2">&quot;r&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span></div>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;d must be a positive integer&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span><span class="p">[</span><span class="s2">&quot;d&quot;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">int</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">d</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;d must be a positive integer&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span><span class="p">[</span><span class="s2">&quot;d&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span></div>
 
-<div class="viewcode-block" id="neighborhood_subgraph_pairwise_distance.parse_input"><a class="viewcode-back" href="../../../generated/grakel.kernels.neighborhood_subgraph_pairwise_distance.html#grakel.kernels.neighborhood_subgraph_pairwise_distance.parse_input">[docs]</a>    <span class="k">def</span> <span class="nf">parse_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Parse and create features for graphlet_sampling kernel.</span>
+<div class="viewcode-block" id="neighborhood_subgraph_pairwise_distance.parse_input"><a class="viewcode-back" href="../../../generated/grakel.neighborhood_subgraph_pairwise_distance.html#grakel.neighborhood_subgraph_pairwise_distance.parse_input">[docs]</a>    <span class="k">def</span> <span class="nf">parse_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Parse and create features for the NSPD kernel.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -262,7 +275,7 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        M : dict</span>
-<span class="sd">            A dictionary with keys all the distances from 0 to self._d</span>
+<span class="sd">            A dictionary with keys all the distances from 0 to self.d</span>
 <span class="sd">            and values the the np.arrays with rows corresponding to the</span>
 <span class="sd">            non-null input graphs and columns to the enumerations of tuples</span>
 <span class="sd">            consisting of pairs of hash values and radius, from all the given</span>
@@ -270,7 +283,7 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">collections</span><span class="o">.</span><span class="n">Iterable</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;input must be an iterable</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;input must be an iterable</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># Hold the number of graphs</span>
             <span class="n">ng</span> <span class="o">=</span> <span class="mi">0</span>
@@ -300,11 +313,11 @@
                                            <span class="n">label_type</span><span class="o">=</span><span class="s2">&quot;edge&quot;</span><span class="p">))</span>
 
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;each element of X must have either &#39;</span> <span class="o">+</span>
-                                     <span class="s1">&#39;a graph with labels for node and edge &#39;</span> <span class="o">+</span>
-                                     <span class="s1">&#39;or 3 elements consisting of a graph &#39;</span> <span class="o">+</span>
-                                     <span class="s1">&#39;type object, labels for vertices and &#39;</span> <span class="o">+</span>
-                                     <span class="s1">&#39;labels for edges.&#39;</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;each element of X must have either &#39;</span> <span class="o">+</span>
+                                    <span class="s1">&#39;a graph with labels for node and edge &#39;</span> <span class="o">+</span>
+                                    <span class="s1">&#39;or 3 elements consisting of a graph &#39;</span> <span class="o">+</span>
+                                    <span class="s1">&#39;type object, labels for vertices and &#39;</span> <span class="o">+</span>
+                                    <span class="s1">&#39;labels for edges.&#39;</span><span class="p">)</span>
 
                 <span class="c1"># Bring to the desired format</span>
                 <span class="n">g</span><span class="o">.</span><span class="n">change_format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_graph_format</span><span class="p">)</span>
@@ -327,8 +340,8 @@
                 <span class="c1"># Produce all the neighborhoods and the distance pairs</span>
                 <span class="c1"># up to the desired radius and maximum distance</span>
                 <span class="n">N</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">D_pair</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">produce_neighborhoods</span><span class="p">(</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">_r</span><span class="p">,</span> <span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;dictionary&quot;</span><span class="p">,</span>
-                    <span class="n">with_distances</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_d</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">r</span><span class="p">,</span> <span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;dictionary&quot;</span><span class="p">,</span>
+                    <span class="n">with_distances</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="p">)</span>
 
                 <span class="c1"># Hash all the neighborhoods</span>
                 <span class="n">H</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hash_neighborhoods</span><span class="p">(</span><span class="n">vertices</span><span class="p">,</span> <span class="n">edges</span><span class="p">,</span> <span class="n">Lv</span><span class="p">,</span>
@@ -336,9 +349,9 @@
 
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_method_calling</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
                     <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">filterfalse</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">D</span><span class="p">,</span>
-                                         <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_d</span><span class="o">+</span><span class="mi">1</span><span class="p">)):</span>
+                                         <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="o">+</span><span class="mi">1</span><span class="p">)):</span>
                         <span class="k">for</span> <span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span> <span class="ow">in</span> <span class="n">D</span><span class="p">[</span><span class="n">d</span><span class="p">]:</span>
-                            <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_r</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+                            <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">r</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
                                 <span class="n">key</span> <span class="o">=</span> <span class="p">(</span><span class="n">H</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">A</span><span class="p">],</span> <span class="n">H</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">B</span><span class="p">])</span>
                                 <span class="n">keys</span> <span class="o">=</span> <span class="n">all_keys</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">d</span><span class="p">]</span>
                                 <span class="n">idx</span> <span class="o">=</span> <span class="n">keys</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
@@ -350,10 +363,10 @@
 
                 <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_method_calling</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
                     <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">filterfalse</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">D</span><span class="p">,</span>
-                                         <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_d</span><span class="o">+</span><span class="mi">1</span><span class="p">)):</span>
+                                         <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="o">+</span><span class="mi">1</span><span class="p">)):</span>
                         <span class="k">for</span> <span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span> <span class="ow">in</span> <span class="n">D</span><span class="p">[</span><span class="n">d</span><span class="p">]:</span>
                             <span class="c1"># Based on the edges of the bidirected graph</span>
-                            <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_r</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+                            <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">r</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
                                 <span class="n">keys</span> <span class="o">=</span> <span class="n">all_keys</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">d</span><span class="p">]</span>
                                 <span class="n">fit_keys</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fit_keys</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">d</span><span class="p">]</span>
                                 <span class="n">key</span> <span class="o">=</span> <span class="p">(</span><span class="n">H</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">A</span><span class="p">],</span> <span class="n">H</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">B</span><span class="p">])</span>
@@ -397,10 +410,10 @@
                                <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_fit_keys</span><span class="p">[</span><span class="n">key</span><span class="p">])))</span>
 
                 <span class="bp">self</span><span class="o">.</span><span class="n">_ngy</span> <span class="o">=</span> <span class="n">ng</span>
-</div>
-            <span class="k">return</span> <span class="n">M</span>
 
-<div class="viewcode-block" id="neighborhood_subgraph_pairwise_distance.transform"><a class="viewcode-back" href="../../../generated/grakel.kernels.neighborhood_subgraph_pairwise_distance.html#grakel.kernels.neighborhood_subgraph_pairwise_distance.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">M</span></div>
+
+<div class="viewcode-block" id="neighborhood_subgraph_pairwise_distance.transform"><a class="viewcode-back" href="../../../generated/grakel.neighborhood_subgraph_pairwise_distance.html#grakel.neighborhood_subgraph_pairwise_distance.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate the kernel matrix, between given and fitted dataset.</span>
 
 <span class="sd">        Parameters</span>
@@ -449,11 +462,11 @@
                                       <span class="n">N</span><span class="p">[</span><span class="n">key</span><span class="p">]))</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_Y</span> <span class="o">=</span> <span class="n">Y</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_normalize</span><span class="p">:</span>
-            <span class="n">S</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">diagonal</span><span class="p">()))</span></div>
-        <span class="k">return</span> <span class="n">S</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalize</span><span class="p">:</span>
+            <span class="n">S</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">diagonal</span><span class="p">()))</span>
+        <span class="k">return</span> <span class="n">S</span></div>
 
-<div class="viewcode-block" id="neighborhood_subgraph_pairwise_distance.fit_transform"><a class="viewcode-back" href="../../../generated/grakel.kernels.neighborhood_subgraph_pairwise_distance.html#grakel.kernels.neighborhood_subgraph_pairwise_distance.fit_transform">[docs]</a>    <span class="k">def</span> <span class="nf">fit_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+<div class="viewcode-block" id="neighborhood_subgraph_pairwise_distance.fit_transform"><a class="viewcode-back" href="../../../generated/grakel.neighborhood_subgraph_pairwise_distance.html#grakel.neighborhood_subgraph_pairwise_distance.fit_transform">[docs]</a>    <span class="k">def</span> <span class="nf">fit_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Fit and transform, on the same dataset.</span>
 
 <span class="sd">        Parameters</span>
@@ -485,12 +498,12 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_X_level_norm_factor</span> <span class="o">=</span> <span class="n">N</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_normalize</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalize</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">S</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span></div>
-            <span class="k">return</span> <span class="n">S</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">S</span></div>
 
-<div class="viewcode-block" id="neighborhood_subgraph_pairwise_distance.diagonal"><a class="viewcode-back" href="../../../generated/grakel.kernels.neighborhood_subgraph_pairwise_distance.html#grakel.kernels.neighborhood_subgraph_pairwise_distance.diagonal">[docs]</a>    <span class="k">def</span> <span class="nf">diagonal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="neighborhood_subgraph_pairwise_distance.diagonal"><a class="viewcode-back" href="../../../generated/grakel.neighborhood_subgraph_pairwise_distance.html#grakel.neighborhood_subgraph_pairwise_distance.diagonal">[docs]</a>    <span class="k">def</span> <span class="nf">diagonal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate the kernel matrix diagonal of the fitted data.</span>
 
 <span class="sd">        Static. Added for completeness.</span>
@@ -516,8 +529,8 @@
             <span class="c1"># Calculate diagonal of X</span>
             <span class="n">X_diag</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_X_diag</span> <span class="o">=</span> <span class="n">X_diag</span>
-</div>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_X_diag</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_Y</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_X_diag</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_Y</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">_hash_neighborhoods</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vertices</span><span class="p">,</span> <span class="n">edges</span><span class="p">,</span> <span class="n">Lv</span><span class="p">,</span> <span class="n">Le</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">D_pair</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Hash all neighborhoods and all root nodes.</span>
@@ -549,14 +562,14 @@
         <span class="n">H</span><span class="p">,</span> <span class="n">sel</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(),</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">edges</span><span class="p">))</span>
         <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">vertices</span><span class="p">:</span>
             <span class="n">re</span><span class="p">,</span> <span class="n">lv</span><span class="p">,</span> <span class="n">le</span> <span class="o">=</span> <span class="n">sel</span><span class="p">,</span> <span class="n">Lv</span><span class="p">,</span> <span class="n">Le</span>
-            <span class="k">for</span> <span class="n">radius</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_r</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">radius</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">r</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
                 <span class="n">sub_vertices</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">N</span><span class="p">[</span><span class="n">radius</span><span class="p">][</span><span class="n">v</span><span class="p">])</span>
                 <span class="n">re</span> <span class="o">=</span> <span class="p">{(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="ow">in</span> <span class="n">re</span>
                       <span class="k">if</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">sub_vertices</span> <span class="ow">and</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">sub_vertices</span><span class="p">}</span>
                 <span class="n">lv</span> <span class="o">=</span> <span class="p">{</span><span class="n">v</span><span class="p">:</span> <span class="n">lv</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">sub_vertices</span><span class="p">}</span>
                 <span class="n">le</span> <span class="o">=</span> <span class="p">{</span><span class="n">e</span><span class="p">:</span> <span class="n">le</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">}</span>
-                <span class="n">H</span><span class="p">[</span><span class="n">radius</span><span class="p">,</span> <span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">hash_graph</span><span class="p">(</span><span class="n">D_pair</span><span class="p">,</span> <span class="n">sub_vertices</span><span class="p">,</span> <span class="n">re</span><span class="p">,</span> <span class="n">lv</span><span class="p">,</span> <span class="n">le</span><span class="p">)</span></div>
-        <span class="k">return</span> <span class="n">H</span>
+                <span class="n">H</span><span class="p">[</span><span class="n">radius</span><span class="p">,</span> <span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">hash_graph</span><span class="p">(</span><span class="n">D_pair</span><span class="p">,</span> <span class="n">sub_vertices</span><span class="p">,</span> <span class="n">re</span><span class="p">,</span> <span class="n">lv</span><span class="p">,</span> <span class="n">le</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">H</span></div>
 
 
 <span class="k">def</span> <span class="nf">hash_graph</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">vertices</span><span class="p">,</span> <span class="n">edges</span><span class="p">,</span> <span class="n">glv</span><span class="p">,</span> <span class="n">gle</span><span class="p">):</span>
@@ -643,7 +656,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.1a1',
+            VERSION:'0.1a2',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -653,6 +666,7 @@
       <script type="text/javascript" src="../../../_static/jquery.js"></script>
       <script type="text/javascript" src="../../../_static/underscore.js"></script>
       <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

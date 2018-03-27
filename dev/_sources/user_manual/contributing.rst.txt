@@ -55,7 +55,7 @@ Who to blame for the GraKeL project
 The GraKeL project is currently developed by the editor [Ioannis Siglidis] inside a one year project founded from the `Labex DigiCosme`_
 organization of the *Paris-Saclay* University at the `DaSciM`_ laboratory of LiX.
 
-The project is currently curried out under the administrative supervision of the DaSciM Team Leader, `Michalis Vazirgiannis`_ as well as the scientific
+The project is currently carried out under the administrative supervision of the DaSciM Team Leader, `Michalis Vazirgiannis`_ as well as the scientific
 supervision of Giannis Nikolentzos a Post-Doc researcher with a PhD on the field of Graph Kernels.
 Other members of the lab aiding with the construction of this library are: Xristos Giatsidis, Stratis Limnios and Konstantinos Skianis.
 

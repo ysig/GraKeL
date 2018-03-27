@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>grakel.kernels.random_walk &mdash; GraKeL 0.1a1 documentation</title>
+  <title>grakel.kernels.random_walk &mdash; GraKeL 0.1a2 documentation</title>
   
 
   
@@ -32,12 +32,14 @@
   
     <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
   
+    <link rel="stylesheet" href="../../../_static/_static/css/supplementary.css" type="text/css" />
+  
 
   
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="GraKeL 0.1a1 documentation" href="../../../index.html"/>
+    <link rel="top" title="GraKeL 0.1a2 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -70,7 +72,7 @@
             
             
               <div class="version">
-                0.1a1
+                0.1a2
               </div>
             
           
@@ -95,11 +97,7 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../user_manual/installation.html">Installing grakel</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../user_manual/introduction.html">A short Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../user_manual/longer_introduction.html">A longer Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../user_manual/make_your_own_kernel.html">Write your own kernel</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../user_manual/contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../user_manual.html">User Manual</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../api.html">GraKeL</a></li>
@@ -175,6 +173,9 @@
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="k">import</span> <span class="n">product</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="k">import</span> <span class="n">array</span>
+
 <span class="kn">from</span> <span class="nn">numpy</span> <span class="k">import</span> <span class="n">ComplexWarning</span>
 <span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="k">import</span> <span class="n">inv</span>
 <span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="k">import</span> <span class="n">eig</span>
@@ -183,8 +184,14 @@
 <span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">kernel</span>
 <span class="kn">from</span> <span class="nn">grakel.graph</span> <span class="k">import</span> <span class="n">Graph</span>
 
+<span class="c1"># Python 2/3 cross-compatibility import</span>
+<span class="kn">from</span> <span class="nn">six.moves</span> <span class="k">import</span> <span class="n">filterfalse</span>
+<span class="kn">from</span> <span class="nn">builtins</span> <span class="k">import</span> <span class="nb">range</span>
 
-<div class="viewcode-block" id="random_walk"><a class="viewcode-back" href="../../../generated/grakel.kernels.random_walk.html#grakel.kernels.random_walk">[docs]</a><span class="k">class</span> <span class="nc">random_walk</span><span class="p">(</span><span class="n">kernel</span><span class="p">):</span>
+<span class="n">default_executor</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">fn</span><span class="p">,</span> <span class="o">*</span><span class="n">eargs</span><span class="p">,</span> <span class="o">**</span><span class="n">ekargs</span><span class="p">:</span> <span class="n">fn</span><span class="p">(</span><span class="o">*</span><span class="n">eargs</span><span class="p">,</span> <span class="o">**</span><span class="n">ekargs</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="random_walk"><a class="viewcode-back" href="../../../generated/grakel.random_walk.html#grakel.random_walk">[docs]</a><span class="k">class</span> <span class="nc">random_walk</span><span class="p">(</span><span class="n">kernel</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;The random walk kernel class.</span>
 
 <span class="sd">    See :cite:`Kashima2003MarginalizedKB`, :cite:`Grtner2003OnGK`</span>
@@ -205,19 +212,19 @@
 <span class="sd">    kernel_type : str, valid_values={&quot;geometric&quot;, &quot;exponential&quot;}</span>
 <span class="sd">        Defines how inner summation will be applied.</span>
 
-<span class="sd">    p : int, optional</span>
+<span class="sd">    p : int or None</span>
 <span class="sd">        If initialised defines the number of steps.</span>
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
-<span class="sd">    _lambda : float, default=0.1</span>
+<span class="sd">    lamda : float, default=0.1</span>
 <span class="sd">        A lambda factor concerning summation.</span>
 
-<span class="sd">    _kernel_type : str, valid_values={&quot;geometric&quot;, &quot;exponential&quot;},</span>
+<span class="sd">    kernel_type : str, valid_values={&quot;geometric&quot;, &quot;exponential&quot;},</span>
 <span class="sd">    default=&quot;geometric&quot;</span>
 <span class="sd">        Defines how inner summation will be applied.</span>
 
-<span class="sd">    _method_type : str valid_values={&quot;baseline&quot;, &quot;fast&quot;},</span>
+<span class="sd">    method_type : str valid_values={&quot;baseline&quot;, &quot;fast&quot;},</span>
 <span class="sd">    default=&quot;fast&quot;</span>
 <span class="sd">        The method to use for calculating random walk kernel:</span>
 <span class="sd">            + &quot;baseline&quot; *Complexity*: :math:`O(|V|^6)`</span>
@@ -225,67 +232,84 @@
 <span class="sd">            + &quot;fast&quot; *Complexity*: :math:`O((|E|+|V|)|V||M|)`</span>
 <span class="sd">              (see :cite:`Vishwanathan2006FastCO`)</span>
 
-<span class="sd">    _p : int, default=1</span>
-<span class="sd">        If not -1, the number of steps of the random walk kernel.</span>
+<span class="sd">    p : int or None</span>
+<span class="sd">        If initialised defines the number of steps.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">_graph_format</span> <span class="o">=</span> <span class="s2">&quot;adjacency&quot;</span>
 
-    <span class="n">_method_type</span> <span class="o">=</span> <span class="s2">&quot;fast&quot;</span>
-    <span class="n">_kernel_type</span> <span class="o">=</span> <span class="s2">&quot;geometric&quot;</span>
-    <span class="n">_p</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-    <span class="n">_lambda</span> <span class="o">=</span> <span class="mf">0.1</span>
-
-<div class="viewcode-block" id="random_walk.__init__"><a class="viewcode-back" href="../../../generated/grakel.kernels.random_walk.html#grakel.kernels.random_walk.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">):</span>
+<div class="viewcode-block" id="random_walk.__init__"><a class="viewcode-back" href="../../../generated/grakel.random_walk.html#grakel.random_walk.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">executor</span><span class="o">=</span><span class="n">default_executor</span><span class="p">,</span>
+                 <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">lamda</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">method_type</span><span class="o">=</span><span class="s2">&quot;fast&quot;</span><span class="p">,</span>
+                 <span class="n">kernel_type</span><span class="o">=</span><span class="s2">&quot;geometric&quot;</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialise a random_walk kernel.&quot;&quot;&quot;</span>
         <span class="c1"># setup valid parameters and initialise from parent</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_valid_parameters</span> <span class="o">|=</span> <span class="p">{</span><span class="s2">&quot;lambda&quot;</span><span class="p">,</span> <span class="s2">&quot;method_type&quot;</span><span class="p">}</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">random_walk</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kargs</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">random_walk</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">executor</span><span class="o">=</span><span class="n">executor</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="n">normalize</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
 
+        <span class="c1"># Ignores ComplexWarning as it does not signify anything problematic</span>
         <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="n">ComplexWarning</span><span class="p">)</span>
 
         <span class="c1"># Setup method type and define operation.</span>
-        <span class="n">method_type</span> <span class="o">=</span> <span class="n">kargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;method_type&quot;</span><span class="p">,</span> <span class="s2">&quot;fast&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">method_type</span> <span class="o">==</span> <span class="s2">&quot;fast&quot;</span><span class="p">:</span>
-            <span class="n">invert</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">n</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">/</span><span class="n">n</span><span class="p">,</span>
-                                      <span class="n">w</span><span class="p">,</span>
-                                      <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">inv</span><span class="p">(</span><span class="n">v</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">n</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_add_input</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">invert</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">*</span><span class="n">eig</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_add_input</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">method_type</span> <span class="o">=</span> <span class="n">method_type</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kernel_type</span> <span class="o">=</span> <span class="n">kernel_type</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">p</span> <span class="o">=</span> <span class="n">p</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lamda</span> <span class="o">=</span> <span class="n">lamda</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;method_type&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;kernel_type&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                             <span class="s2">&quot;p&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;lamda&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span></div>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_kernel_type</span> <span class="o">=</span> <span class="n">kargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;kernel_type&quot;</span><span class="p">,</span> <span class="s2">&quot;geometric&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_kernel_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;geometric&quot;</span><span class="p">,</span> <span class="s2">&quot;exponential&quot;</span><span class="p">]:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;unsupported kernel type: either &quot;geometric&quot; &#39;</span> <span class="o">+</span>
-                             <span class="s1">&#39;or &quot;exponential&quot;&#39;</span><span class="p">)</span>
+<div class="viewcode-block" id="random_walk.initialize_"><a class="viewcode-back" href="../../../generated/grakel.random_walk.html#grakel.random_walk.initialize_">[docs]</a>    <span class="k">def</span> <span class="nf">initialize_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize all transformer arguments, needing initialization.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span><span class="p">[</span><span class="s2">&quot;method_type&quot;</span><span class="p">]:</span>
+            <span class="c1"># Setup method type and define operation.</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">method_type</span> <span class="o">==</span> <span class="s2">&quot;fast&quot;</span><span class="p">:</span>
+                <span class="n">invert</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">n</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">/</span><span class="n">n</span><span class="p">,</span>
+                                          <span class="n">w</span><span class="p">,</span>
+                                          <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">inv</span><span class="p">(</span><span class="n">v</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">n</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_add_input</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">invert</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">*</span><span class="n">eig</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">method_type</span> <span class="o">==</span> <span class="s2">&quot;baseline&quot;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_add_input</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;unsupported method_type&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span><span class="p">[</span><span class="s2">&quot;method_type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
 
-        <span class="k">if</span> <span class="s2">&quot;p&quot;</span> <span class="ow">in</span> <span class="n">kargs</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">kargs</span><span class="p">[</span><span class="s2">&quot;p&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_p</span> <span class="o">=</span> <span class="n">kargs</span><span class="p">[</span><span class="s2">&quot;p&quot;</span><span class="p">]</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_kernel_type</span> <span class="o">==</span> <span class="s2">&quot;geometric&quot;</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">_mu</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-                    <span class="n">fact</span> <span class="o">=</span> <span class="mi">1</span>
-                    <span class="n">power</span> <span class="o">=</span> <span class="mi">1</span>
-                    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_p</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
-                        <span class="n">fact</span> <span class="o">*=</span> <span class="n">k</span>
-                        <span class="n">power</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lambda</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">_mu</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fact</span><span class="o">/</span><span class="n">power</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span><span class="p">[</span><span class="s2">&quot;kernel_type&quot;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;geometric&quot;</span><span class="p">,</span> <span class="s2">&quot;exponential&quot;</span><span class="p">]:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;unsupported kernel type: either &quot;geometric&quot; &#39;</span>
+                                 <span class="s1">&#39;or &quot;exponential&quot;&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span><span class="p">[</span><span class="s2">&quot;p&quot;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">int</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel_type</span> <span class="o">==</span> <span class="s2">&quot;geometric&quot;</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_mu</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                        <span class="n">fact</span> <span class="o">=</span> <span class="mi">1</span>
+                        <span class="n">power</span> <span class="o">=</span> <span class="mi">1</span>
+                        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+                            <span class="n">fact</span> <span class="o">*=</span> <span class="n">k</span>
+                            <span class="n">power</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lamda</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">_mu</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fact</span><span class="o">/</span><span class="n">power</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_mu</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                        <span class="n">power</span> <span class="o">=</span> <span class="mi">1</span>
+                        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+                            <span class="n">power</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lamda</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">_mu</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">power</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">_mu</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-                    <span class="n">power</span> <span class="o">=</span> <span class="mi">1</span>
-                    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_p</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
-                        <span class="n">power</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lambda</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">_mu</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">power</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;p must be a positive integer bigger than &#39;</span>
+                                    <span class="s1">&#39;zero or nonetype&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span><span class="p">[</span><span class="s2">&quot;kernel_type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_lambda</span> <span class="o">=</span> <span class="n">kargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;lambda&quot;</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lambda</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;lambda must be positive bigger than equal&#39;</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lambda</span> <span class="o">&gt;</span> <span class="mf">0.5</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_p</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span></div>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span><span class="p">[</span><span class="s2">&quot;lamda&quot;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lamda</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;lambda must be positive bigger than equal&#39;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">lamda</span> <span class="o">&gt;</span> <span class="mf">0.5</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;ranodm-walk series may fail to converge&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span><span class="p">[</span><span class="s2">&quot;lamda&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span></div>
 
-<div class="viewcode-block" id="random_walk.parse_input"><a class="viewcode-back" href="../../../generated/grakel.kernels.random_walk.html#grakel.kernels.random_walk.parse_input">[docs]</a>    <span class="k">def</span> <span class="nf">parse_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Parse and create features for graphlet_sampling kernel.</span>
+<div class="viewcode-block" id="random_walk.parse_input"><a class="viewcode-back" href="../../../generated/grakel.random_walk.html#grakel.random_walk.parse_input">[docs]</a>    <span class="k">def</span> <span class="nf">parse_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Parse and create features for random_walk kernel.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -304,7 +328,7 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">collections</span><span class="o">.</span><span class="n">Iterable</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;input must be an iterable</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;input must be an iterable</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="n">out</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
@@ -323,18 +347,18 @@
                 <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">is</span> <span class="n">Graph</span><span class="p">:</span>
                     <span class="n">A</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">get_adjacency_matrix</span><span class="p">()</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;each element of X must be either a &#39;</span> <span class="o">+</span>
-                                     <span class="s1">&#39;graph or an iterable with at least 1 &#39;</span> <span class="o">+</span>
-                                     <span class="s1">&#39;and at most 3 elements</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;each element of X must be either a &#39;</span> <span class="o">+</span>
+                                    <span class="s1">&#39;graph or an iterable with at least 1 &#39;</span> <span class="o">+</span>
+                                    <span class="s1">&#39;and at most 3 elements</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
                 <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
                 <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_add_input</span><span class="p">(</span><span class="n">A</span><span class="p">))</span>
 
             <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;parsed input is empty&#39;</span><span class="p">)</span>
-</div>
-            <span class="k">return</span> <span class="n">out</span>
 
-<div class="viewcode-block" id="random_walk.pairwise_operation"><a class="viewcode-back" href="../../../generated/grakel.kernels.random_walk.html#grakel.kernels.random_walk.pairwise_operation">[docs]</a>    <span class="k">def</span> <span class="nf">pairwise_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="random_walk.pairwise_operation"><a class="viewcode-back" href="../../../generated/grakel.random_walk.html#grakel.random_walk.pairwise_operation">[docs]</a>    <span class="k">def</span> <span class="nf">pairwise_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate the random walk kernel.</span>
 
 <span class="sd">        Fast:</span>
@@ -357,7 +381,7 @@
 <span class="sd">            The kernel value.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_method_type</span> <span class="o">==</span> <span class="s2">&quot;baseline&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">method_type</span> <span class="o">==</span> <span class="s2">&quot;baseline&quot;</span><span class="p">:</span>
             <span class="c1"># calculate the product graph</span>
             <span class="n">XY</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
 
@@ -369,15 +393,16 @@
             <span class="n">s</span> <span class="o">=</span> <span class="n">XY</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
             <span class="n">Id</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
 
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_kernel_type</span> <span class="o">==</span> <span class="s2">&quot;geometric&quot;</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">multi_dot</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">s</span><span class="p">),</span> <span class="n">inv</span><span class="p">(</span><span class="n">Id</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lambda</span><span class="o">*</span><span class="n">XY</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">,</span>
-                                     <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">s</span><span class="p">))))</span>
-            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_kernel_type</span> <span class="o">==</span> <span class="s2">&quot;exponential&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel_type</span> <span class="o">==</span> <span class="s2">&quot;geometric&quot;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">multi_dot</span><span class="p">(</span>
+                    <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">s</span><span class="p">),</span>
+                     <span class="n">inv</span><span class="p">(</span><span class="n">Id</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">lamda</span><span class="o">*</span><span class="n">XY</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">s</span><span class="p">))))</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel_type</span> <span class="o">==</span> <span class="s2">&quot;exponential&quot;</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">multi_dot</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">s</span><span class="p">),</span>
-                                            <span class="n">expm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_lambda</span><span class="o">*</span><span class="n">XY</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">,</span>
+                                            <span class="n">expm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lamda</span><span class="o">*</span><span class="n">XY</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">,</span>
                                             <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">s</span><span class="p">))))</span>
 
-        <span class="k">else</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">method_type</span> <span class="o">==</span> <span class="s2">&quot;fast&quot;</span><span class="p">:</span>
             <span class="c1"># Spectral demoposition algorithm as presented in</span>
             <span class="c1"># [Vishwanathan et al., 2006] p.13, s.4.4, with</span>
             <span class="c1"># complexity of O((|E|+|V|)|E||V|^2) for graphs</span>
@@ -393,7 +418,7 @@
 
             <span class="c1"># calculate D based on the method</span>
             <span class="n">Dij</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">wi</span><span class="p">,</span> <span class="n">wj</span><span class="p">)</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_p</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">Q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diagonal</span><span class="p">(</span><span class="n">Dij</span><span class="p">)</span>
                 <span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">Q</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
                 <span class="n">S</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mu</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">Q</span>
@@ -402,11 +427,213 @@
                     <span class="n">S</span> <span class="o">+=</span> <span class="n">k</span><span class="o">*</span><span class="n">D</span>
 
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_kernel_type</span> <span class="o">==</span> <span class="s2">&quot;geometric&quot;</span><span class="p">:</span>
-                    <span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diagflat</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">_lambda</span><span class="o">*</span><span class="n">Dij</span><span class="p">))</span>
-                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_kernel_type</span> <span class="o">==</span> <span class="s2">&quot;exponential&quot;</span><span class="p">:</span>
-                    <span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diagflat</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_lambda</span><span class="o">*</span><span class="n">Dij</span><span class="p">))</span></div></div>
-            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">multi_dot</span><span class="p">((</span><span class="n">fl</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">fr</span><span class="p">))</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel_type</span> <span class="o">==</span> <span class="s2">&quot;geometric&quot;</span><span class="p">:</span>
+                    <span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diagflat</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">lamda</span><span class="o">*</span><span class="n">Dij</span><span class="p">))</span>
+                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel_type</span> <span class="o">==</span> <span class="s2">&quot;exponential&quot;</span><span class="p">:</span>
+                    <span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diagflat</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lamda</span><span class="o">*</span><span class="n">Dij</span><span class="p">))</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">multi_dot</span><span class="p">((</span><span class="n">fl</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">fr</span><span class="p">))</span></div></div>
+
+
+<div class="viewcode-block" id="random_walk_labeled"><a class="viewcode-back" href="../../../generated/grakel.random_walk_labeled.html#grakel.random_walk_labeled">[docs]</a><span class="k">class</span> <span class="nc">random_walk_labeled</span><span class="p">(</span><span class="n">random_walk</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;The labeled random walk kernel class.</span>
+
+<span class="sd">    See :cite:`Kashima2003MarginalizedKB_lbld`, :cite:`Grtner2003OnGK_lbld`</span>
+<span class="sd">    and :cite:`Vishwanathan2006FastCO_lbld`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    lambda : float</span>
+<span class="sd">        A lambda factor concerning summation.</span>
+
+<span class="sd">    method_type : str, valid_values={&quot;baseline&quot;, &quot;fast&quot;}</span>
+<span class="sd">        The method to use for calculating random walk kernel:</span>
+<span class="sd">            + &quot;baseline&quot; *Complexity*: :math:`O(|V|^6)`</span>
+<span class="sd">              (see :cite:`Kashima2003MarginalizedKB_lbld`,</span>
+<span class="sd">              :cite:`Grtner2003OnGK_lbld`)</span>
+<span class="sd">            + &quot;fast&quot; *Complexity*: :math:`O((|E|+|V|)|V||M|)`</span>
+<span class="sd">              (see :cite:`Vishwanathan2006FastCO_lbld`)</span>
+
+<span class="sd">    kernel_type : str, valid_values={&quot;geometric&quot;, &quot;exponential&quot;}</span>
+<span class="sd">        Defines how inner summation will be applied.</span>
+
+<span class="sd">    p : int, optional</span>
+<span class="sd">        If initialised defines the number of steps.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    _lamda : float, default=0.1</span>
+<span class="sd">        A lambda factor concerning summation.</span>
+
+<span class="sd">    _kernel_type : str, valid_values={&quot;geometric&quot;, &quot;exponential&quot;},</span>
+<span class="sd">    default=&quot;geometric&quot;</span>
+<span class="sd">        Defines how inner summation will be applied.</span>
+
+<span class="sd">    _method_type : str valid_values={&quot;baseline&quot;, &quot;fast&quot;},</span>
+<span class="sd">    default=&quot;fast&quot;</span>
+<span class="sd">        The method to use for calculating random walk kernel:</span>
+<span class="sd">            + &quot;baseline&quot; *Complexity*: :math:`O(|V|^6)`</span>
+<span class="sd">              (see :cite:`Kashima2003MarginalizedKB_lbld`,</span>
+<span class="sd">              :cite:`Grtner2003OnGK_lbld`)</span>
+<span class="sd">            + &quot;fast&quot; *Complexity*: :math:`O((|E|+|V|)|V||M|)`</span>
+<span class="sd">              (see :cite:`Vishwanathan2006FastCO_lbld`)</span>
+
+<span class="sd">    _p : int, default=1</span>
+<span class="sd">        If not -1, the number of steps of the random walk kernel.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_graph_format</span> <span class="o">=</span> <span class="s2">&quot;adjacency&quot;</span>
+
+<div class="viewcode-block" id="random_walk_labeled.__init__"><a class="viewcode-back" href="../../../generated/grakel.random_walk_labeled.html#grakel.random_walk_labeled.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">executor</span><span class="o">=</span><span class="n">default_executor</span><span class="p">,</span>
+                 <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">lamda</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">method_type</span><span class="o">=</span><span class="s2">&quot;fast&quot;</span><span class="p">,</span>
+                 <span class="n">kernel_type</span><span class="o">=</span><span class="s2">&quot;geometric&quot;</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialise a labeled random_walk kernel.&quot;&quot;&quot;</span>
+        <span class="c1"># Initialise from parent</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">random_walk_labeled</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">executor</span><span class="o">=</span><span class="n">executor</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="n">normalize</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span>
+            <span class="n">lamda</span><span class="o">=</span><span class="n">lamda</span><span class="p">,</span> <span class="n">method_type</span><span class="o">=</span><span class="n">method_type</span><span class="p">,</span> <span class="n">kernel_type</span><span class="o">=</span><span class="n">kernel_type</span><span class="p">,</span>
+            <span class="n">p</span><span class="o">=</span><span class="n">p</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="random_walk_labeled.parse_input"><a class="viewcode-back" href="../../../generated/grakel.random_walk_labeled.html#grakel.random_walk_labeled.parse_input">[docs]</a>    <span class="k">def</span> <span class="nf">parse_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Parse and create features for graphlet_sampling kernel.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : iterable</span>
+<span class="sd">            For the input to pass the test, we must have:</span>
+<span class="sd">            Each element must be an iterable with at most three features and at</span>
+<span class="sd">            least one. The first that is obligatory is a valid graph structure</span>
+<span class="sd">            (adjacency matrix or edge_dictionary) while the second is</span>
+<span class="sd">            node_labels and the third edge_labels (that correspond to the given</span>
+<span class="sd">            graph format). A valid input also consists of graph type objects.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out : list</span>
+<span class="sd">            The extracted adjacency matrices for any given input.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">collections</span><span class="o">.</span><span class="n">Iterable</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;input must be an iterable</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+            <span class="k">for</span> <span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">X</span><span class="p">)):</span>
+                <span class="n">is_iter</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">collections</span><span class="o">.</span><span class="n">Iterable</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">is_iter</span><span class="p">:</span>
+                    <span class="n">x</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">is_iter</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;Ignoring empty element&#39;</span> <span class="o">+</span>
+                                      <span class="s1">&#39; on index: &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">idx</span><span class="p">))</span>
+                        <span class="k">continue</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">x</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="p">{},</span> <span class="bp">self</span><span class="o">.</span><span class="n">_graph_format</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">Graph</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;each element of X must be either a &#39;</span> <span class="o">+</span>
+                                    <span class="s1">&#39;graph or an iterable with at least 2 &#39;</span> <span class="o">+</span>
+                                    <span class="s1">&#39;and at most 3 elements</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">x</span><span class="o">.</span><span class="n">desired_format</span><span class="p">(</span><span class="s2">&quot;adjacency&quot;</span><span class="p">)</span>
+                <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">_add_input</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">get_adjacency_matrix</span><span class="p">()),</span>
+                            <span class="n">x</span><span class="o">.</span><span class="n">get_labels</span><span class="p">(</span><span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;adjacency&quot;</span><span class="p">)))</span>
+
+            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;parsed input is empty&#39;</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="random_walk_labeled.pairwise_operation"><a class="viewcode-back" href="../../../generated/grakel.random_walk_labeled.html#grakel.random_walk_labeled.pairwise_operation">[docs]</a>    <span class="k">def</span> <span class="nf">pairwise_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Calculate the labeled random walk kernel.</span>
+
+<span class="sd">        Fast:</span>
+<span class="sd">        Spectral demoposition algorithm as presented in</span>
+<span class="sd">        :cite:`Vishwanathan2006FastCO_lbld` p.13, s.4.4, with</span>
+<span class="sd">        complexity of :math:`O((|E|+|V|)|E||V|^2)` for graphs witout labels.</span>
+
+<span class="sd">        Baseline:</span>
+<span class="sd">        Algorithm presented in :cite:`Kashima2003MarginalizedKB_lbld`,</span>
+<span class="sd">        :cite:`Grtner2003OnGK_lbld` with complexity of :math:`O(|V|^6)`</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X, Y : tuples</span>
+<span class="sd">            Tuples of adjacency matrices and labels.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        kernel : number</span>
+<span class="sd">            The kernel value.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">X</span><span class="p">,</span> <span class="n">Lx</span> <span class="o">=</span> <span class="n">X</span>
+        <span class="n">Y</span><span class="p">,</span> <span class="n">Ly</span> <span class="o">=</span> <span class="n">Y</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">method_type</span> <span class="o">==</span> <span class="s2">&quot;baseline&quot;</span><span class="p">:</span>
+            <span class="c1"># calculate the labeled kronecker product graph</span>
+            <span class="n">XY</span> <span class="o">=</span> <span class="p">[[</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">l</span><span class="p">]</span> <span class="o">*</span> <span class="n">Y</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">l</span><span class="p">,</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">filterfalse</span><span class="p">(</span>
+                    <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">Lx</span><span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">!=</span> <span class="n">Ly</span><span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span>
+                    <span class="n">product</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="nb">range</span><span class="p">(</span><span class="n">Y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])))]</span>
+                  <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">filterfalse</span><span class="p">(</span>
+                    <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">Lx</span><span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">!=</span> <span class="n">Ly</span><span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span>
+                    <span class="n">product</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">range</span><span class="p">(</span><span class="n">Y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])))]</span>
+
+            <span class="c1"># Check that the matrix is not empty.</span>
+            <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">XY</span><span class="p">):</span>
+                <span class="k">return</span> <span class="o">.</span><span class="mi">0</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">XY</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">XY</span><span class="p">)</span>
+
+            <span class="c1"># algorithm presented in</span>
+            <span class="c1"># [Kashima et al., 2003; Gartner et al., 2003]</span>
+            <span class="c1"># complexity of O(|V|^6)</span>
+
+            <span class="c1"># XY is a square matrix</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="n">XY</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">Id</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel_type</span> <span class="o">==</span> <span class="s2">&quot;geometric&quot;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">multi_dot</span><span class="p">(</span>
+                    <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">s</span><span class="p">),</span> <span class="n">inv</span><span class="p">(</span><span class="n">Id</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">lamda</span><span class="o">*</span><span class="n">XY</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">,</span>
+                     <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">s</span><span class="p">))))</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel_type</span> <span class="o">==</span> <span class="s2">&quot;exponential&quot;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">multi_dot</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">s</span><span class="p">),</span>
+                                            <span class="n">expm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lamda</span><span class="o">*</span><span class="n">XY</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">,</span>
+                                            <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">s</span><span class="p">))))</span>
+
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">method_type</span> <span class="o">==</span> <span class="s2">&quot;fast&quot;</span><span class="p">:</span>
+            <span class="c1"># Spectral demoposition algorithm as presented in</span>
+            <span class="c1"># [Vishwanathan et al., 2006] p.13, s.4.4, with</span>
+            <span class="c1"># complexity of O((|E|+|V|)|E||V|^2) for graphs</span>
+            <span class="c1"># witout labels</span>
+
+            <span class="c1"># calculate kernel</span>
+            <span class="n">qi_Pi</span><span class="p">,</span> <span class="n">wi</span><span class="p">,</span> <span class="n">Pi_inv_pi</span> <span class="o">=</span> <span class="n">X</span>
+            <span class="n">qj_Pj</span><span class="p">,</span> <span class="n">wj</span><span class="p">,</span> <span class="n">Pj_inv_pj</span> <span class="o">=</span> <span class="n">Y</span>
+
+            <span class="c1"># calculate left right flanking factors</span>
+            <span class="n">label_idx</span> <span class="o">=</span> <span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">qi_Pi</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                         <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">qj_Pj</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span>
+            <span class="n">fl</span> <span class="o">=</span> <span class="n">array</span><span class="p">([</span><span class="n">qi_Pi</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">qj_Pj</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">label_idx</span><span class="p">])</span>
+            <span class="n">fr</span> <span class="o">=</span> <span class="n">array</span><span class="p">([</span><span class="n">Pi_inv_pi</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">Pj_inv_pj</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">label_idx</span><span class="p">])</span>
+
+            <span class="c1"># calculate D based on the method</span>
+            <span class="n">Dij</span> <span class="o">=</span> <span class="n">array</span><span class="p">([</span><span class="n">wi</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">wj</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">label_idx</span><span class="p">])</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">Q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diagonal</span><span class="p">(</span><span class="n">Dij</span><span class="p">)</span>
+                <span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">Q</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="n">S</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mu</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">Q</span>
+                <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mu</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+                    <span class="n">D</span> <span class="o">*=</span> <span class="n">Q</span>
+                    <span class="n">S</span> <span class="o">+=</span> <span class="n">k</span><span class="o">*</span><span class="n">D</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel_type</span> <span class="o">==</span> <span class="s2">&quot;geometric&quot;</span><span class="p">:</span>
+                    <span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diagflat</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">lamda</span><span class="o">*</span><span class="n">Dij</span><span class="p">))</span>
+                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel_type</span> <span class="o">==</span> <span class="s2">&quot;exponential&quot;</span><span class="p">:</span>
+                    <span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diagflat</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lamda</span><span class="o">*</span><span class="n">Dij</span><span class="p">))</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">multi_dot</span><span class="p">((</span><span class="n">fl</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">fr</span><span class="p">))</span></div></div>
 </pre></div>
 
            </div>
@@ -443,7 +670,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.1a1',
+            VERSION:'0.1a2',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -453,6 +680,7 @@
       <script type="text/javascript" src="../../../_static/jquery.js"></script>
       <script type="text/javascript" src="../../../_static/underscore.js"></script>
       <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

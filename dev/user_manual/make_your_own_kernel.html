@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Write your own kernel &mdash; GraKeL 0.1a1 documentation</title>
+  <title>Write your own kernel &mdash; GraKeL 0.1a2 documentation</title>
   
 
   
@@ -32,12 +32,15 @@
   
     <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
   
+    <link rel="stylesheet" href="../_static/_static/css/supplementary.css" type="text/css" />
+  
 
   
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="GraKeL 0.1a1 documentation" href="../index.html"/>
+    <link rel="top" title="GraKeL 0.1a2 documentation" href="../index.html"/>
+        <link rel="up" title="User Manual" href="../user_manual.html"/>
         <link rel="next" title="Contributing" href="contributing.html"/>
         <link rel="prev" title="A longer Introduction" href="longer_introduction.html"/> 
 
@@ -71,7 +74,7 @@
             
             
               <div class="version">
-                0.1a1
+                0.1a2
               </div>
             
           
@@ -96,27 +99,30 @@
             
             
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="installation.html">Installing grakel</a></li>
-<li class="toctree-l1"><a class="reference internal" href="introduction.html">A short Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="longer_introduction.html">A longer Introduction</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Write your own kernel</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#overriding-the-kernel-class-methods">Overriding the <code class="code docutils literal notranslate"><span class="pre">kernel</span></code> class methods</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#which-methods-should-i-implement">Which methods should I implement</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#the-parse-input-pairwise-operation-methods">The <code class="code docutils literal notranslate"><span class="pre">parse_input</span></code>, <code class="code docutils literal notranslate"><span class="pre">pairwise_operation</span></code> methods</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#why-should-i-follow-the-list-format-on-parse-input">Why should I follow the list format on parse input?</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#but-why-not-always-use-a-pairwise-operation">But why not always use a pairwise operation?</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#what-if-i-don-t-want-to-follow-this-structure-at-all">What if I don’t want to follow, this structure at all?</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../user_manual.html">User Manual</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="installation.html">Installing grakel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html">A short Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="longer_introduction.html">A longer Introduction</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Write your own kernel</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#overriding-the-kernel-class-methods">Overriding the <code class="code docutils literal notranslate"><span class="pre">kernel</span></code> class methods</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#which-methods-should-i-implement">Which methods should I implement</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#the-parse-input-pairwise-operation-methods">The <code class="code docutils literal notranslate"><span class="pre">parse_input</span></code>, <code class="code docutils literal notranslate"><span class="pre">pairwise_operation</span></code> methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#why-should-i-follow-the-list-format-on-parse-input">Why should I follow the list format on parse input?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#but-why-not-always-use-a-pairwise-operation">But why not always use a pairwise operation?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#what-if-i-don-t-want-to-follow-this-structure-at-all">What if I don’t want to follow, this structure at all?</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#getting-more-advanced">Getting more advanced</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#wrapping-c-functions-for-the-kernels-to-use">Wrapping C++ functions for the kernels to use</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#allow-execution-parallelization">Allow execution parallelization</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#bibliography">Bibliography</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#getting-more-advanced">Getting more advanced</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#wrapping-c-functions-for-the-kernels-to-use">Wrapping C++ functions for the kernels to use</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#allow-execution-parallelization">Allow execution parallelization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#bibliography">Bibliography</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html">Contributing</a></li>
+</ul>
+</li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../api.html">GraKeL</a></li>
@@ -165,6 +171,8 @@
   <ul class="wy-breadcrumbs">
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../user_manual.html">User Manual</a> &raquo;</li>
         
       <li>Write your own kernel</li>
     
@@ -220,7 +228,10 @@ occurrences</em>.</p>
 </pre></div>
 </div>
 <p>and let’s define the <em>vertex-histogram-kernel</em></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">vertex_histogram</span><span class="p">(</span><span class="n">kernel</span><span class="p">):</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">default_executor</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">fn</span><span class="p">,</span> <span class="o">*</span><span class="n">eargs</span><span class="p">,</span> <span class="o">**</span><span class="n">ekargs</span><span class="p">:</span> <span class="n">fn</span><span class="p">(</span><span class="o">*</span><span class="n">eargs</span><span class="p">,</span> <span class="o">**</span><span class="n">ekargs</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">vertex_histogram</span><span class="p">(</span><span class="n">kernel</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Vertex Histogram kernel as found in :cite:`Sugiyama2015NIPS`</span>
 
 <span class="sd">    Parameters</span>
@@ -232,28 +243,54 @@ occurrences</em>.</p>
 <span class="sd">    None.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="c1"># Define the graph format that this kernel needs (if needed)</span>
     <span class="c1"># _graph_format = &quot;auto&quot; (default: &quot;auto&quot;)</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">executor</span><span class="o">=</span><span class="n">default_executor</span><span class="p">,</span>
+                 <span class="n">verbose</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+                 <span class="n">normalize</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+                 <span class="c1"># kernel_param_1=kernel_param_1_default,</span>
+                 <span class="c1"># ...</span>
+                 <span class="c1"># kernel_param_n=kernel_param_n_default,</span>
+                 <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialise an `odd_sth` kernel.&quot;&quot;&quot;</span>
 
         <span class="c1"># Add new parameters</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_valid_parameters</span> <span class="o">|=</span> <span class="n">new_parameters</span>
 
-        <span class="nb">super</span><span class="p">(</span><span class="n">vertex_histogram</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kargs</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">vertex_histogram</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">executor</span><span class="o">=</span><span class="n">executor</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="n">normalize</span><span class="p">)</span>
 
         <span class="c1"># Get parameters and check the new ones</span>
         <span class="c1"># @for i=1 to num_new_parameters</span>
-        <span class="c1"># self._param_i = kargs.get(&quot;param_i&quot;, default_param_i_value)</span>
-        <span class="c1"># if self._param_i is not type(param_i_type) and not satisfy_constraint(self.param_i, param_i_constraint):</span>
-        <span class="c1">#     raise ValueError(&#39;Param_i should be of @param_i_type type and must satisfy the @param_i_constraint&#39;)</span>
+        <span class="c1">#   self.kernel_param_i = kernel_param_i</span>
+
+        <span class="c1"># self.initialized_ = {</span>
+        <span class="c1">#    param_needing_initialization_1 : False</span>
+        <span class="c1">#             ...</span>
+        <span class="c1">#    param_needing_initialization_m : False</span>
+        <span class="c1"># }</span>
+
+    <span class="k">def</span> <span class="nf">initialize_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize all transformer arguments, needing initialization.&quot;&quot;&quot;</span>
+        <span class="c1"># for i=1 .. m</span>
+        <span class="c1">#     if not self.initialized_[&quot;param_needing_initialization_i&quot;]:</span>
+        <span class="c1">#         # Apply checks (raise ValueError or TypeError accordingly)</span>
+        <span class="c1">#         # calculate derived fields stored on self._derived_field_ia .. z</span>
+        <span class="c1">#         self.initialized_[&quot;param_needing_initialization_i&quot;] = True</span>
+        <span class="k">pass</span>
 </pre></div>
 </div>
-<p>As you see there a few things we should note. Firstly the <code class="code docutils literal notranslate"><span class="pre">new_parameters</span></code> variable, which is used for popping
-a specifically constructed message to the user, when entering a wrong parameter, while ignoring it.
-Afterwards we call the <code class="code docutils literal notranslate"><span class="pre">__init__</span></code> of the father process and provide a coding scheme of how
-to read all the other parameters (in our case there are no parameters).</p>
+<p>As you see there a few things we should note. Firstly the <code class="code docutils literal notranslate"><span class="pre">verbose</span></code>, <code class="code docutils literal notranslate"><span class="pre">normalize</span></code>,
+<code class="code docutils literal notranslate"><span class="pre">executor</span></code> parameters should be always included in the kernel definition and passed as is,
+to the father method by calling his <code class="code docutils literal notranslate"><span class="pre">__init__</span></code> method. All <code class="code docutils literal notranslate"><span class="pre">__init__</span></code> parameters should be stored
+to class method parameters with attributes of the exactly same name, as this is important for the sci-kit learn
+transformer <strong>Pipeline</strong> and any needed initialization registered in <code class="code docutils literal notranslate"><span class="pre">initialized_</span></code> attribute must be registered
+inside <code class="code docutils literal notranslate"><span class="pre">initialize_</span></code> method. If the user decides to overwrite <code class="code docutils literal notranslate"><span class="pre">fit</span></code> or <code class="code docutils literal notranslate"><span class="pre">fit_transform</span></code> he
+must call <code class="code docutils literal notranslate"><span class="pre">self.initialize_()</span></code> as the first command of any process inside the kernel. This allows a valid
+parameter <em>resetting</em> through <code class="code docutils literal notranslate"><span class="pre">set_params</span></code>, satisfying an important aspect for <strong>Pipeline</strong> consistency.</p>
 <p>Irrelevant from the interface the <code class="code docutils literal notranslate"><span class="pre">kernel</span></code> class offers two methods, overriding which, a user can write
 his own kernel. These methods are <code class="code docutils literal notranslate"><span class="pre">parse_input</span></code> and <code class="code docutils literal notranslate"><span class="pre">pairwise_operation</span></code>.</p>
 </div>
@@ -291,7 +328,7 @@ this word is omitted on the kernel name definition.</p>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;input must be an iterable</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;input must be an iterable</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">out</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
             <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">X</span><span class="p">)):</span>
@@ -309,7 +346,7 @@ this word is omitted on the kernel name definition.</p>
                     <span class="c1"># get labels in any existing format</span>
                     <span class="n">labels</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">get_labels</span><span class="p">(</span><span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;any&quot;</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;each element of X must be either a &#39;</span> <span class="o">+</span>
+                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;each element of X must be either a &#39;</span> <span class="o">+</span>
                                      <span class="s1">&#39;graph object or a list with at least &#39;</span> <span class="o">+</span>
                                      <span class="s1">&#39;a graph like object and node labels &#39;</span> <span class="o">+</span>
                                      <span class="s1">&#39;dict </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
@@ -345,7 +382,7 @@ the kernel value is</p>
         <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">*</span><span class="n">y</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">x</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
 </pre></div>
 </div>
-<p>where we count the <img class="math" src="../_images/math/696107694f23745c8e8aea0eac7a3bd50eaac00d.png" alt="\sum_{l \in L_{i} \cap L_{j}} f^{i}_{l}*f^{j}_{l}"/>, using the property of a <code class="code docutils literal notranslate"><span class="pre">Counter</span></code>
+<p>where we count the <span class="math notranslate">\(\sum_{l \in L_{i} \cap L_{j}} f^{i}_{l}*f^{j}_{l}\)</span>, using the property of a <code class="code docutils literal notranslate"><span class="pre">Counter</span></code>
 object, returning a <strong>0</strong> value on empty occurrences.</p>
 <p>Now going back to the fascinating water-example</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">H2O</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s1">&#39;O&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="s1">&#39;H&#39;</span><span class="p">})</span>
@@ -384,11 +421,11 @@ We will redefine the <code class="code docutils literal notranslate"><span class
 </pre></div>
 </div>
 <p>and define the new <code class="code docutils literal notranslate"><span class="pre">parse_input</span></code></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">new_parameters</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">default_executor</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">fn</span><span class="p">,</span> <span class="o">*</span><span class="n">eargs</span><span class="p">,</span> <span class="o">**</span><span class="n">ekargs</span><span class="p">:</span> <span class="n">fn</span><span class="p">(</span><span class="o">*</span><span class="n">eargs</span><span class="p">,</span> <span class="o">**</span><span class="n">ekargs</span><span class="p">)</span>
 
 
 <span class="k">class</span> <span class="nc">vertex_histogram</span><span class="p">(</span><span class="n">kernel</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Vertex Histogram kernel as found in :cite:`Sugiyama2015NIPS`.</span>
+    <span class="sd">&quot;&quot;&quot;Vertex Histogram kernel as found in :cite:`Sugiyama2015NIPS`</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -399,22 +436,44 @@ We will redefine the <code class="code docutils literal notranslate"><span class
 <span class="sd">    None.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="c1"># Define the graph format that this kernel needs (if needed)</span>
     <span class="c1"># _graph_format = &quot;auto&quot; (default: &quot;auto&quot;)</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">executor</span><span class="o">=</span><span class="n">default_executor</span><span class="p">,</span>
+                 <span class="n">verbose</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+                 <span class="n">normalize</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+                 <span class="c1"># kernel_param_1=kernel_param_1_default,</span>
+                 <span class="c1"># ...</span>
+                 <span class="c1"># kernel_param_n=kernel_param_n_default,</span>
+                 <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialise an `odd_sth` kernel.&quot;&quot;&quot;</span>
 
         <span class="c1"># Add new parameters</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_valid_parameters</span> <span class="o">|=</span> <span class="n">new_parameters</span>
 
-        <span class="nb">super</span><span class="p">(</span><span class="n">vertex</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kargs</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">vertex_histogram</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">executor</span><span class="o">=</span><span class="n">executor</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="n">normalize</span><span class="p">)</span>
 
         <span class="c1"># Get parameters and check the new ones</span>
         <span class="c1"># @for i=1 to num_new_parameters</span>
-        <span class="c1"># self._param_i = kargs.get(&quot;param_i&quot;, default_param_i_value)</span>
-        <span class="c1"># if self._param_i is not type(param_i_type) and not satisfy_constraint(self.param_i, param_i_constraint):</span>
-        <span class="c1">#     raise ValueError(&#39;Param_i should be of @param_i_type type and must satisfy the @param_i_constraint&#39;)</span>
+        <span class="c1">#   self.kernel_param_i = kernel_param_i</span>
+
+        <span class="c1"># self.initialized_ = {</span>
+        <span class="c1">#    param_needing_initialization_1 : False</span>
+        <span class="c1">#             ...</span>
+        <span class="c1">#    param_needing_initialization_m : False</span>
+        <span class="c1"># }</span>
+
+    <span class="k">def</span> <span class="nf">initialize_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize all transformer arguments, needing initialization.&quot;&quot;&quot;</span>
+        <span class="c1"># for i=1 .. m</span>
+        <span class="c1">#     if not self.initialized_[&quot;param_needing_initialization_i&quot;]:</span>
+        <span class="c1">#         # Apply checks (raise ValueError or TypeError accordingly)</span>
+        <span class="c1">#         # calculate derived fields stored on self._derived_field_ia .. z</span>
+        <span class="c1">#         self.initialized_[&quot;param_needing_initialization_i&quot;] = True</span>
+        <span class="k">pass</span>
 
 
     <span class="k">def</span> <span class="nf">parse_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
@@ -437,7 +496,7 @@ We will redefine the <code class="code docutils literal notranslate"><span class
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;input must be an iterable</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;input must be an iterable</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">rows</span><span class="p">,</span> <span class="n">cols</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(),</span> <span class="nb">list</span><span class="p">(),</span> <span class="nb">list</span><span class="p">()</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_method_calling</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]:</span>
@@ -462,7 +521,7 @@ We will redefine the <code class="code docutils literal notranslate"><span class
                     <span class="c1"># get labels in any existing format</span>
                     <span class="n">L</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">get_labels</span><span class="p">(</span><span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;any&quot;</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;each element of X must be either a &#39;</span> <span class="o">+</span>
+                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;each element of X must be either a &#39;</span> <span class="o">+</span>
                                      <span class="s1">&#39;graph object or a list with at least &#39;</span> <span class="o">+</span>
                                      <span class="s1">&#39;a graph like object and node labels &#39;</span> <span class="o">+</span>
                                      <span class="s1">&#39;dict </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
@@ -722,7 +781,7 @@ the <code class="code docutils literal notranslate"><span class="pre">_c_functio
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.1a1',
+            VERSION:'0.1a2',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -732,6 +791,7 @@ the <code class="code docutils literal notranslate"><span class="pre">_c_functio
       <script type="text/javascript" src="../_static/jquery.js"></script>
       <script type="text/javascript" src="../_static/underscore.js"></script>
       <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

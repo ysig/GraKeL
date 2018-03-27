@@ -1,0 +1,22 @@
+:mod:`grakel`.vertex_histogram
+=====================================
+
+.. currentmodule:: grakel
+
+.. autoclass:: vertex_histogram
+
+   
+   .. automethod:: __init__
+   
+
+
+Bibliography
+------------
+.. bibliography:: ../kernels/graph_kernels.bib
+   :filter: docname in docnames
+
+.. include:: grakel.vertex_histogram.examples
+
+.. raw:: html
+
+    <div class="clearer"></div>

@@ -3,9 +3,9 @@
 .. _sphx_glr_auto_examples__plot_lovasz_svm_theta.py:
 
 
-========================================================================
-Fit-Transform/Classification on MUTAG using a lovasz, svm-theta kernels.
-========================================================================
+=========================================================
+Classification on MUTAG using a lovasz, svm-theta kernels
+=========================================================
 
 An example plot of :class:`grakel.GraphKernel`
 

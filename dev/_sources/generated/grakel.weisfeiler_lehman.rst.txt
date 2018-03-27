@@ -1,0 +1,22 @@
+:mod:`grakel`.weisfeiler_lehman
+======================================
+
+.. currentmodule:: grakel
+
+.. autoclass:: weisfeiler_lehman
+
+   
+   .. automethod:: __init__
+   
+
+
+Bibliography
+------------
+.. bibliography:: ../kernels/graph_kernels.bib
+   :filter: docname in docnames
+
+.. include:: grakel.weisfeiler_lehman.examples
+
+.. raw:: html
+
+    <div class="clearer"></div>

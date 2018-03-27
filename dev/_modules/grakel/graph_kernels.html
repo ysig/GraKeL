@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>grakel.graph_kernels &mdash; GraKeL 0.1a1 documentation</title>
+  <title>grakel.graph_kernels &mdash; GraKeL 0.1a2 documentation</title>
   
 
   
@@ -32,12 +32,14 @@
   
     <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
   
+    <link rel="stylesheet" href="../../_static/_static/css/supplementary.css" type="text/css" />
+  
 
   
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="GraKeL 0.1a1 documentation" href="../../index.html"/>
+    <link rel="top" title="GraKeL 0.1a2 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -70,7 +72,7 @@
             
             
               <div class="version">
-                0.1a1
+                0.1a2
               </div>
             
           
@@ -95,11 +97,7 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../user_manual/installation.html">Installing grakel</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../user_manual/introduction.html">A short Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../user_manual/longer_introduction.html">A longer Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../user_manual/make_your_own_kernel.html">Write your own kernel</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../user_manual/contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user_manual.html">User Manual</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../api.html">GraKeL</a></li>
@@ -184,6 +182,7 @@
 
 <span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">graphlet_sampling</span>
 <span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">random_walk</span>
+<span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">random_walk_labeled</span>
 <span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">shortest_path</span>
 <span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">shortest_path_attr</span>
 <span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">weisfeiler_lehman</span>
@@ -193,7 +192,6 @@
 <span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">neighborhood_subgraph_pairwise_distance</span>
 <span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">lovasz_theta</span>
 <span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">svm_theta</span>
-<span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">jsm</span>
 <span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">odd_sth</span>
 <span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">propagation</span>
 <span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">hadamard_code</span>
@@ -207,23 +205,16 @@
 
 <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()))</span>
 
-<span class="n">valid_parameters</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;kernel&quot;</span><span class="p">,</span>
-                    <span class="s2">&quot;Nystroem&quot;</span><span class="p">,</span>
-                    <span class="s2">&quot;n_jobs&quot;</span><span class="p">,</span>
-                    <span class="s2">&quot;normalize&quot;</span><span class="p">,</span>
-                    <span class="s2">&quot;verbose&quot;</span><span class="p">,</span>
-                    <span class="s2">&quot;random_seed&quot;</span><span class="p">}</span>
-
 <span class="n">supported_base_kernels</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s2">&quot;subtree_wl&quot;</span><span class="p">,</span> <span class="s2">&quot;random_walk&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;shortest_path&quot;</span><span class="p">,</span> <span class="s2">&quot;subtree_rg&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;shortest_path&quot;</span><span class="p">,</span>
     <span class="s2">&quot;graphlet_sampling&quot;</span><span class="p">,</span> <span class="s2">&quot;subgraph_matching&quot;</span><span class="p">,</span>
     <span class="s2">&quot;multiscale_laplacian&quot;</span><span class="p">,</span>
     <span class="s2">&quot;lovasz_theta&quot;</span><span class="p">,</span> <span class="s2">&quot;svm_theta&quot;</span><span class="p">,</span>
     <span class="s2">&quot;neighborhood_hash&quot;</span><span class="p">,</span> <span class="s2">&quot;neighborhood_subgraph_pairwise_distance&quot;</span><span class="p">,</span>
     <span class="s2">&quot;NSPDK&quot;</span><span class="p">,</span>
     <span class="s2">&quot;odd_sth&quot;</span><span class="p">,</span> <span class="s2">&quot;propagation&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;pyramid_match&quot;</span><span class="p">,</span> <span class="s2">&quot;jsm&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;pyramid_match&quot;</span><span class="p">,</span>
     <span class="s2">&quot;propagation&quot;</span><span class="p">,</span> <span class="s2">&quot;vertex_histogram&quot;</span><span class="p">,</span> <span class="s2">&quot;edge_histogram&quot;</span>
     <span class="p">]</span>
 
@@ -234,7 +225,7 @@
 
 <span class="n">default_verbose_value</span> <span class="o">=</span> <span class="kc">True</span>
 
-<span class="n">default_random_seed_value</span> <span class="o">=</span> <span class="mi">5344973</span>
+<span class="n">default_random_seed_value</span> <span class="o">=</span> <span class="mi">42</span>
 
 <span class="n">default_n_components</span> <span class="o">=</span> <span class="mi">100</span>
 
@@ -245,8 +236,7 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    kernel : list(dict(key:str, value:value))</span>
-<span class="sd">        A list of dictionaries, or a single dicitonary that have the following</span>
-<span class="sd">        structure:</span>
+<span class="sd">        A list of dictionaries, or a single dictionary that has the following structure:</span>
 <span class="sd">            * &quot;name&quot; : [str] - with the kernel name</span>
 
 <span class="sd">            * &quot;name_of_parameter_1&quot; : value</span>
@@ -261,40 +251,30 @@
 <span class="sd">            1. base_kernels (the structure must always reach a base kernel)</span>
 
 <span class="sd">                - &quot;random_walk&quot;</span>
-<span class="sd">                    + (**o**) &quot;lambda&quot; : float</span>
+<span class="sd">                    + (**o**) &quot;with_labels&quot; : bool</span>
+
+<span class="sd">                    + (**o**) &quot;lamda&quot; : float</span>
 
 <span class="sd">                    + (**o**) &quot;method_type&quot; : [str], &quot;baseline&quot;, &quot;fast&quot;</span>
 
-<span class="sd">                    + (**o**) &quot;kernel_type&quot; : [str], &quot;geometric&quot;,</span>
-<span class="sd">                      &quot;exponential&quot;</span>
+<span class="sd">                    + (**o**) &quot;kernel_type&quot; : [str], &quot;geometric&quot;, &quot;exponential&quot;</span>
 
 <span class="sd">                    + (**o**) &quot;p&quot; : [int] &gt; 0</span>
 
 
 <span class="sd">                - &quot;shortest_path&quot;</span>
-<span class="sd">                    + (**o**) &quot;algorithm_type&quot; : [str] &quot;dijkstra&quot;,</span>
-<span class="sd">                      &quot;floyd_warshall&quot;</span>
+<span class="sd">                    + (**o**) &quot;algorithm_type&quot; : [str] &quot;dijkstra&quot;, &quot;floyd_warshall&quot;</span>
 
 <span class="sd">                    + (**o**) &quot;as_attributes&quot; : [bool]</span>
 
-<span class="sd">                    + (**o**) &quot;attribute_kernel&quot; : [function] :</span>
-<span class="sd">                      (attribute_x, attribute_y) -&gt; number</span>
+<span class="sd">                    + (**o**) &quot;attribute_kernel&quot; : [function] : (attribute_x, attribute_y) -&gt; number</span>
 
 <span class="sd">                    + (**o**) &quot;with_labels&quot; : [bool]</span>
-
-<span class="sd">                - &quot;subtree_rg&quot;</span>
-<span class="sd">                    + (**o**) &quot;h&quot; : [int]</span>
 
 <span class="sd">                - &quot;graphlet_sampling&quot;</span>
 <span class="sd">                    + (**o**) &quot;k&quot; : [int]</span>
 
-<span class="sd">                    + (**o**) &quot;delta&quot; : [float]</span>
-
-<span class="sd">                    + (**o**) &quot;epsilon&quot; : [float]</span>
-
-<span class="sd">                    + (**o**) &quot;a&quot; : [int]</span>
-
-<span class="sd">                    + (**o**) &quot;n_samples&quot; : [int]</span>
+<span class="sd">                    + (**o**) &quot;sampling&quot; : [dict] or **None**</span>
 
 <span class="sd">                - &quot;multiscale_laplacian&quot;</span>
 <span class="sd">                    + (**o**) &quot;which&quot; : [str] &quot;slow&quot;, &quot;fast&quot;</span>
@@ -308,36 +288,28 @@
 <span class="sd">                    + (**o**) &quot;N&quot; : [int] &gt; 0, if &quot;which&quot;: &quot;fast&quot;</span>
 
 <span class="sd">                - &quot;subgraph_matching&quot;</span>
-<span class="sd">                    + (**o**) &quot;kv&quot; : [function] :</span>
-<span class="sd">                      (node_x, node_y, Lx, Ly) -&gt; number</span>
+<span class="sd">                    + (**o**) &quot;kv&quot; : [function] : (node_x, node_y, Lx, Ly) -&gt; number</span>
 
-<span class="sd">                    + (**o**) &quot;ke&quot; : [function] :</span>
-<span class="sd">                      (edge_x, edge_y, Lx, Ly) -&gt; number</span>
+<span class="sd">                    + (**o**) &quot;ke&quot; : [function] : (edge_x, edge_y, Lx, Ly) -&gt; number</span>
 
-<span class="sd">                    + (**o**) &quot;lw&quot; :</span>
-<span class="sd">                      a lambda weight function for cliques: set -&gt; number</span>
+<span class="sd">                    + (**o**) &quot;lw&quot; : a lambda weight function for cliques: set -&gt; number</span>
 
 <span class="sd">                - &quot;lovasz_theta&quot;</span>
 <span class="sd">                    + (**o**) &quot;n_samples&quot; : [int] &gt; 1</span>
 
-<span class="sd">                    + (**o**) &quot;subsets_size_range&quot; :</span>
-<span class="sd">                      [touple] of two [int]</span>
+<span class="sd">                    + (**o**) &quot;subsets_size_range&quot; : [tuple] of two [int]</span>
 
-<span class="sd">                    + (**o**) &quot;metric&quot; :</span>
-<span class="sd">                      [function] (number, number) -&gt; number</span>
+<span class="sd">                    + (**o**) &quot;metric&quot; : [function] (number, number) -&gt; number</span>
 
 <span class="sd">                - &quot;svm_theta&quot;</span>
 <span class="sd">                    + (**o**) &quot;n_samples&quot; : [int] &gt; 1</span>
 
-<span class="sd">                    + (**o**) &quot;subsets_size_range&quot; :</span>
-<span class="sd">                      [touple] with 2 [int] elements</span>
+<span class="sd">                    + (**o**) &quot;subsets_size_range&quot; : [tuple] with 2 [int] elements</span>
 
-<span class="sd">                    + (**o**) &quot;metric&quot; :</span>
-<span class="sd">                      [function] (number, number) -&gt; number</span>
+<span class="sd">                    + (**o**) &quot;metric&quot; : [function] (number, number) -&gt; number</span>
 
 <span class="sd">                - &quot;neighborhood_hash&quot;</span>
-<span class="sd">                    + (**o**) &quot;nh_type&quot; :</span>
-<span class="sd">                      [str] &quot;simple&quot; or &quot;count-sensitive&quot;</span>
+<span class="sd">                    + (**o**) &quot;nh_type&quot; : [str] &quot;simple&quot; or &quot;count-sensitive&quot;</span>
 
 <span class="sd">                    + (**o**) &quot;R&quot; : [int] &gt; 0</span>
 
@@ -360,8 +332,7 @@
 
 <span class="sd">                    + (**o**) w: [int] &gt; 0</span>
 
-<span class="sd">                    + (**o**) base_kernel: [function]</span>
-<span class="sd">                      x:[list[int]] , y:[list[int]] -&gt; [number]</span>
+<span class="sd">                    + (**o**) base_kernel: [function] x:[list[int]] , y:[list[int]] -&gt; [number]</span>
 
 <span class="sd">                - &quot;pyramid_match&quot;</span>
 <span class="sd">                    + (**o**) with_labels: [bool]</span>
@@ -369,11 +340,6 @@
 <span class="sd">                    + (**o**) d: [int] &gt; 0</span>
 
 <span class="sd">                    + (**o**) L: [int] &gt;= 0</span>
-
-<span class="sd">                - &quot;jsm&quot;</span>
-<span class="sd">                    + (**o**) M: [int] &gt; 0</span>
-
-<span class="sd">                    + (**o**) h: [int] &gt; 0</span>
 
 <span class="sd">                - &quot;vertex_histogram&quot; or &quot;subtree_wl&quot;</span>
 <span class="sd">                    *No arguments*</span>
@@ -384,17 +350,10 @@
 <span class="sd">            2. general_kernels (this kernel will use the next kernel</span>
 <span class="sd">               on the list as base kernel)</span>
 <span class="sd">                - &quot;weisfeiler_lehman&quot;</span>
-<span class="sd">                    + (**o**) &quot;niter&quot; : [int]</span>
+<span class="sd">                    + (**o**) &quot;niter&quot; : [int] &gt;= 0</span>
 
 <span class="sd">                - &quot;hadamard_code&quot;</span>
-<span class="sd">                    + (**o**) &quot;niter&quot; : [int]</span>
-
-<span class="sd">                    + (**o**) &quot;hc_type&quot; : [str] &quot;simple&quot;, &quot;shortened&quot;</span>
-
-<span class="sd">                    + (**o**) &quot;rho&quot; : [int] &gt; 0 or -1</span>
-
-<span class="sd">                    + (**o**) &quot;L&quot; : int, condition_of_appearance:</span>
-<span class="sd">                      hc_type==&quot;shortened&quot;, default=4</span>
+<span class="sd">                    + (**o**) &quot;niter&quot; : [int] &gt; 0</span>
 
 <span class="sd">        where (**o**): stands for optional parameters</span>
 
@@ -414,7 +373,7 @@
 <span class="sd">        Define if messages will be printed on stdout.</span>
 
 <span class="sd">    random_seed : int, optional</span>
-<span class="sd">        Initialise can provide a randomness by providing a random seed.</span>
+<span class="sd">        Initialize can provide a randomness by providing a random seed.</span>
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
@@ -423,7 +382,7 @@
 
 <span class="sd">    nystroem_ : int</span>
 <span class="sd">        Holds the nystroem, number of components.</span>
-<span class="sd">        If not initialised, it stands as a False</span>
+<span class="sd">        If not initialized, it stands as a False</span>
 <span class="sd">        boolean variable.</span>
 
 <span class="sd">    components_ : array, shape=(n_components, n_features)</span>
@@ -443,7 +402,7 @@
 <span class="sd">        An executor for applying concurrency, for the fast pairwise</span>
 <span class="sd">        computations of the kernel matrix calculation.</span>
 
-<span class="sd">    initialised_ : dict</span>
+<span class="sd">    initialized_ : dict</span>
 <span class="sd">        Monitors which parameter derived object should be initialized.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -462,9 +421,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span> <span class="o">=</span> <span class="n">n_jobs</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">random_seed</span> <span class="o">=</span> <span class="n">random_seed</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">Nystroem</span> <span class="o">=</span> <span class="n">Nystroem</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">initialised_</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;kernel&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
-                             <span class="s2">&quot;Nystroem&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span></div>
-                             <span class="s2">&quot;n_jobs&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;kernel&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                             <span class="s2">&quot;Nystroem&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                             <span class="s2">&quot;n_jobs&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span></div>
 
 <div class="viewcode-block" id="GraphKernel.fit"><a class="viewcode-back" href="../../generated/grakel.GraphKernel.html#grakel.GraphKernel.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Fit a dataset, for a transformer.</span>
@@ -488,8 +447,8 @@
 <span class="sd">            Returns self.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># Initialise the Graph Kernel.</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">initialise_</span><span class="p">()</span>
+        <span class="c1"># Initialize the Graph Kernel.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initialize_</span><span class="p">()</span>
 
         <span class="c1"># Input validation and parsing</span>
         <span class="k">if</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nystroem_</span><span class="p">):</span>
@@ -520,8 +479,8 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 
-        <span class="c1"># Return the transformer</span></div>
-        <span class="k">return</span> <span class="bp">self</span>
+        <span class="c1"># Return the transformer</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
 
 <div class="viewcode-block" id="GraphKernel.transform"><a class="viewcode-back" href="../../generated/grakel.GraphKernel.html#grakel.GraphKernel.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate the kernel matrix, between given and fitted dataset.</span>
@@ -543,7 +502,7 @@
 <span class="sd">            all pairs of graphs between target an features</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># Check if nystroem has been initialised had been called</span>
+        <span class="c1"># Check if nystroem has been initialized had been called</span>
         <span class="k">if</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nystroem_</span><span class="p">):</span>
             <span class="n">check_is_fitted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;components_&#39;</span><span class="p">)</span>
 
@@ -555,8 +514,8 @@
 
         <span class="k">if</span> <span class="n">K</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">K</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
-        <span class="k">else</span><span class="p">:</span></div>
-            <span class="k">return</span> <span class="n">K</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">K</span></div>
 
 <div class="viewcode-block" id="GraphKernel.fit_transform"><a class="viewcode-back" href="../../generated/grakel.GraphKernel.html#grakel.GraphKernel.fit_transform">[docs]</a>    <span class="k">def</span> <span class="nf">fit_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Fit and transform, on the same dataset.</span>
@@ -582,8 +541,8 @@
 <span class="sd">            all pairs of graphs between target an features</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># Initialise the Graph Kernel</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">initialise_</span><span class="p">()</span>
+        <span class="c1"># Initialize the Graph Kernel</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initialize_</span><span class="p">()</span>
 
         <span class="c1"># Transform - calculate kernel matrix</span>
         <span class="k">if</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nystroem_</span><span class="p">):</span>
@@ -594,12 +553,12 @@
 
         <span class="k">if</span> <span class="n">K</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">K</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
-        <span class="k">else</span><span class="p">:</span></div>
-            <span class="k">return</span> <span class="n">K</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">K</span></div>
 
-<div class="viewcode-block" id="GraphKernel.initialise_"><a class="viewcode-back" href="../../generated/grakel.GraphKernel.html#grakel.GraphKernel.initialise_">[docs]</a>    <span class="k">def</span> <span class="nf">initialise_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Initialise all transformer arguments, needing initialisation.&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">initialised_</span><span class="p">[</span><span class="s2">&quot;Nystroem&quot;</span><span class="p">]:</span>
+<div class="viewcode-block" id="GraphKernel.initialize_"><a class="viewcode-back" href="../../generated/grakel.GraphKernel.html#grakel.GraphKernel.initialize_">[docs]</a>    <span class="k">def</span> <span class="nf">initialize_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize all transformer arguments, needing initialisation.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span><span class="p">[</span><span class="s2">&quot;Nystroem&quot;</span><span class="p">]:</span>
             <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Nystroem</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Nystroem parameter must be an int, &#39;</span>
                                  <span class="s1">&#39;indicating the number of components&#39;</span>
@@ -614,9 +573,9 @@
                                      <span class="s1">&#39;must be positive&#39;</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">nystroem_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Nystroem</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">initialised_</span><span class="p">[</span><span class="s2">&quot;Nystroem&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span><span class="p">[</span><span class="s2">&quot;Nystroem&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
 
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">initialised_</span><span class="p">[</span><span class="s2">&quot;n_jobs&quot;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span><span class="p">[</span><span class="s2">&quot;n_jobs&quot;</span><span class="p">]:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="k">pass</span>
                 <span class="c1"># self._pairwise_kernel_executor =</span>
@@ -629,7 +588,7 @@
                                      <span class="s1">&#39;indicating the number of workers&#39;</span><span class="p">)</span>
                 <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
                     <span class="k">pass</span>
-                    <span class="c1"># Initialise an executor</span>
+                    <span class="c1"># Initialize an executor</span>
                     <span class="c1"># self._concurrent_executor = ThreadPoolExecutor()</span>
                 <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;number of jobs (concurrent workers) &#39;</span>
@@ -642,12 +601,12 @@
                 <span class="c1"># \</span>
                 <span class="c1"># self._concurrent_executor.submit(fn, *eargs, **ekargs).</span>
                 <span class="c1"># result()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">initialised_</span><span class="p">[</span><span class="s2">&quot;Nystroem&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span><span class="p">[</span><span class="s2">&quot;Nystroem&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
 
             <span class="bp">self</span><span class="o">.</span><span class="n">pairwise_kernel_executor_</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">fn</span><span class="p">,</span> <span class="o">*</span><span class="n">eargs</span><span class="p">,</span> <span class="o">**</span><span class="n">ekargs</span><span class="p">:</span> \
                 <span class="n">fn</span><span class="p">(</span><span class="o">*</span><span class="n">eargs</span><span class="p">,</span> <span class="o">**</span><span class="n">ekargs</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">initialised_</span><span class="p">[</span><span class="s2">&quot;kernel&quot;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span><span class="p">[</span><span class="s2">&quot;kernel&quot;</span><span class="p">]:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;kernel must be defined at the __init__ &#39;</span>
                                  <span class="s1">&#39;function of the graph kernel decorator &#39;</span><span class="p">)</span>
@@ -666,15 +625,15 @@
                 <span class="n">kernel</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_kernel_</span><span class="p">(</span>
                     <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">k</span><span class="p">),</span> <span class="n">hidden_args</span><span class="p">)</span>
 
-                <span class="bp">self</span><span class="o">.</span><span class="n">kernel_</span> <span class="o">=</span> <span class="n">kernel</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span></div>
-            <span class="bp">self</span><span class="o">.</span><span class="n">initialised_</span><span class="p">[</span><span class="s2">&quot;kernel&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">kernel_</span> <span class="o">=</span> <span class="n">kernel</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span><span class="p">[</span><span class="s2">&quot;kernel&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span></div>
 
 <div class="viewcode-block" id="GraphKernel.make_kernel_"><a class="viewcode-back" href="../../generated/grakel.GraphKernel.html#grakel.GraphKernel.make_kernel_">[docs]</a>    <span class="k">def</span> <span class="nf">make_kernel_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kernel_list</span><span class="p">,</span> <span class="n">hidden_args</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Produce the desired kernel function.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        kernel_list: (list)</span>
+<span class="sd">        kernel_list : (list)</span>
 <span class="sd">            List of kernel dictionaries as defined at the documentation</span>
 <span class="sd">            of class parameters.</span>
 
@@ -703,14 +662,15 @@
             <span class="k">if</span> <span class="n">kernel_name</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;vertex_histogram&quot;</span><span class="p">,</span> <span class="s2">&quot;subtree_wl&quot;</span><span class="p">]:</span>
                 <span class="k">return</span> <span class="n">vertex_histogram</span><span class="p">,</span> <span class="n">kernel</span>
             <span class="k">elif</span> <span class="n">kernel_name</span> <span class="o">==</span> <span class="s2">&quot;random_walk&quot;</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">random_walk</span><span class="p">,</span> <span class="n">kernel</span>
+                <span class="k">if</span> <span class="n">kernel</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;with_labels&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="n">random_walk_labeled</span><span class="p">,</span> <span class="n">kernel</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">random_walk</span><span class="p">,</span> <span class="n">kernel</span>
             <span class="k">elif</span> <span class="n">kernel_name</span> <span class="o">==</span> <span class="s2">&quot;shortest_path&quot;</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">kernel</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;as_attributes&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
                     <span class="k">return</span> <span class="n">shortest_path_attr</span><span class="p">,</span> <span class="n">kernel</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="k">return</span> <span class="p">(</span><span class="n">shortest_path</span><span class="p">,</span> <span class="n">kernel</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="n">kernel_name</span> <span class="o">==</span> <span class="s2">&quot;subtree_rg&quot;</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">vertex_histogram</span><span class="p">,</span> <span class="n">kernel</span>
             <span class="k">elif</span> <span class="n">kernel_name</span> <span class="o">==</span> <span class="s2">&quot;graphlet_sampling&quot;</span><span class="p">:</span>
                 <span class="k">if</span> <span class="p">(</span><span class="s2">&quot;random_seed&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kernel</span> <span class="ow">and</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">random_seed</span> <span class="ow">is</span> <span class="ow">not</span>
@@ -756,8 +716,6 @@
                 <span class="k">return</span> <span class="n">propagation</span><span class="p">,</span> <span class="n">kernel</span>
             <span class="k">elif</span> <span class="n">kernel_name</span> <span class="o">==</span> <span class="s2">&quot;pyramid_match&quot;</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">pyramid_match</span><span class="p">,</span> <span class="n">kernel</span>
-            <span class="k">elif</span> <span class="n">kernel_name</span> <span class="o">==</span> <span class="s2">&quot;jsm&quot;</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">jsm</span><span class="p">,</span> <span class="n">kernel</span>
             <span class="k">elif</span> <span class="n">kernel_name</span> <span class="o">==</span> <span class="s2">&quot;edge_histogram&quot;</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">edge_histogram</span><span class="p">,</span> <span class="n">kernel</span>
         <span class="k">elif</span> <span class="n">kernel_name</span> <span class="ow">in</span> <span class="n">supported_general_kernels</span><span class="p">:</span>
@@ -769,8 +727,8 @@
                 <span class="k">return</span> <span class="p">(</span><span class="n">weisfeiler_lehman</span><span class="p">,</span> <span class="n">kernel</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">kernel_name</span> <span class="o">==</span> <span class="s2">&quot;hadamard_code&quot;</span><span class="p">:</span>
                 <span class="k">return</span> <span class="p">(</span><span class="n">hadamard_code</span><span class="p">,</span> <span class="n">kernel</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span></div>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;unsupported kernel: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">kernel_name</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;unsupported kernel: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">kernel_name</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="GraphKernel.set_params"><a class="viewcode-back" href="../../generated/grakel.GraphKernel.html#grakel.GraphKernel.set_params">[docs]</a>    <span class="k">def</span> <span class="nf">set_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Call the parent method.&quot;&quot;&quot;</span>
@@ -781,13 +739,13 @@
         <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">iteritems</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
             <span class="n">key</span><span class="p">,</span> <span class="n">delim</span><span class="p">,</span> <span class="n">sub_key</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="s1">&#39;__&#39;</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">delim</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">sub_key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">initialised_</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">initialised_</span><span class="p">[</span><span class="n">sub_key</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
-            <span class="k">elif</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">initialised_</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">initialised_</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="k">if</span> <span class="n">sub_key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span><span class="p">[</span><span class="n">sub_key</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">elif</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
 
-        <span class="c1"># Set parameters</span></div></div>
-        <span class="nb">super</span><span class="p">(</span><span class="n">GraphKernel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">set_params</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
+        <span class="c1"># Set parameters</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">GraphKernel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">set_params</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span></div></div>
 </pre></div>
 
            </div>
@@ -824,7 +782,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.1a1',
+            VERSION:'0.1a2',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -834,6 +792,7 @@
       <script type="text/javascript" src="../../_static/jquery.js"></script>
       <script type="text/javascript" src="../../_static/underscore.js"></script>
       <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

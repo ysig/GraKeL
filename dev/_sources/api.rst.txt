@@ -1,6 +1,7 @@
 ======
 GraKeL
 ======
+.. module:: grakel
 
 The :code:`grakel` module is structured as follows
 

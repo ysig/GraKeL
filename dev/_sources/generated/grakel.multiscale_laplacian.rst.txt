@@ -1,0 +1,22 @@
+:mod:`grakel`.multiscale_laplacian
+=========================================
+
+.. currentmodule:: grakel
+
+.. autoclass:: multiscale_laplacian
+
+   
+   .. automethod:: __init__
+   
+
+
+Bibliography
+------------
+.. bibliography:: ../kernels/graph_kernels.bib
+   :filter: docname in docnames
+
+.. include:: grakel.multiscale_laplacian.examples
+
+.. raw:: html
+
+    <div class="clearer"></div>

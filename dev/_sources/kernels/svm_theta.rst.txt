@@ -6,8 +6,8 @@ The SVM Theta Kernel.
 
 **Theoretical definition missing**
 
-.. currentmodule:: grakel.kernels
+.. currentmodule:: grakel
 
 .. autosummary::
 
-   grakel.kernels.svm_theta
+   svm_theta

@@ -40,9 +40,9 @@ Issues) section, in the current page.
 .. _circle_ci: https://circleci.com/
 .. _appveyor: https://www.appveyor.com/
 
----------------------------
-Windows Comatibility Issues
----------------------------
+----------------------------
+Windows Compatibility Issues
+----------------------------
 There are two major compatibility issues concerning **Windows**. 
 The first one concerning `cvxopt`_ has to do with the fact that `cvxopt developers`_
 use for their python build, `a package called Mingwpy`_ which constrains the valid

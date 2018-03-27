@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>scipy.sparse.csgraph._laplacian &mdash; GraKeL 0.1a1 documentation</title>
+  <title>scipy.sparse.csgraph._laplacian &mdash; GraKeL 0.1a2 documentation</title>
   
 
   
@@ -32,12 +32,14 @@
   
     <link rel="stylesheet" href="../../../../_static/gallery.css" type="text/css" />
   
+    <link rel="stylesheet" href="../../../../_static/_static/css/supplementary.css" type="text/css" />
+  
 
   
         <link rel="index" title="Index"
               href="../../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../../search.html"/>
-    <link rel="top" title="GraKeL 0.1a1 documentation" href="../../../../index.html"/>
+    <link rel="top" title="GraKeL 0.1a2 documentation" href="../../../../index.html"/>
         <link rel="up" title="Module code" href="../../../index.html"/> 
 
   
@@ -70,7 +72,7 @@
             
             
               <div class="version">
-                0.1a1
+                0.1a2
               </div>
             
           
@@ -95,11 +97,7 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../user_manual/installation.html">Installing grakel</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../user_manual/introduction.html">A short Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../user_manual/longer_introduction.html">A longer Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../user_manual/make_your_own_kernel.html">Write your own kernel</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../user_manual/contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../user_manual.html">User Manual</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../api.html">GraKeL</a></li>
@@ -248,8 +246,8 @@
     <span class="n">degree_axis</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">use_out_degree</span> <span class="k">else</span> <span class="mi">0</span>
     <span class="n">lap</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="n">create_lap</span><span class="p">(</span><span class="n">csgraph</span><span class="p">,</span> <span class="n">normed</span><span class="o">=</span><span class="n">normed</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">degree_axis</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">return_diag</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">lap</span><span class="p">,</span> <span class="n">d</span></div>
-    <span class="k">return</span> <span class="n">lap</span>
+        <span class="k">return</span> <span class="n">lap</span><span class="p">,</span> <span class="n">d</span>
+    <span class="k">return</span> <span class="n">lap</span></div>
 
 
 <span class="k">def</span> <span class="nf">_setdiag_dense</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
@@ -333,7 +331,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../../',
-            VERSION:'0.1a1',
+            VERSION:'0.1a2',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -343,6 +341,7 @@
       <script type="text/javascript" src="../../../../_static/jquery.js"></script>
       <script type="text/javascript" src="../../../../_static/underscore.js"></script>
       <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

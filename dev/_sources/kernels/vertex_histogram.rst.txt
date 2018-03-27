@@ -6,8 +6,8 @@ The Vertex Histogram Kernel.
 
 **Theoretical definition missing**
 
-.. currentmodule:: grakel.kernels
+.. currentmodule:: grakel
 
 .. autosummary::
 
-   grakel.kernels.vertex_histogram
+   vertex_histogram

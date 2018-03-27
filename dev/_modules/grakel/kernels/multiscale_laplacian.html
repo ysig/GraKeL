@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>grakel.kernels.multiscale_laplacian &mdash; GraKeL 0.1a1 documentation</title>
+  <title>grakel.kernels.multiscale_laplacian &mdash; GraKeL 0.1a2 documentation</title>
   
 
   
@@ -32,12 +32,14 @@
   
     <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
   
+    <link rel="stylesheet" href="../../../_static/_static/css/supplementary.css" type="text/css" />
+  
 
   
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="GraKeL 0.1a1 documentation" href="../../../index.html"/>
+    <link rel="top" title="GraKeL 0.1a2 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -70,7 +72,7 @@
             
             
               <div class="version">
-                0.1a1
+                0.1a2
               </div>
             
           
@@ -95,11 +97,7 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../user_manual/installation.html">Installing grakel</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../user_manual/introduction.html">A short Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../user_manual/longer_introduction.html">A longer Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../user_manual/make_your_own_kernel.html">Write your own kernel</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../user_manual/contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../user_manual.html">User Manual</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../api.html">GraKeL</a></li>
@@ -175,6 +173,7 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">time</span>
 
+<span class="kn">from</span> <span class="nn">numbers</span> <span class="k">import</span> <span class="n">Real</span>
 <span class="kn">from</span> <span class="nn">math</span> <span class="k">import</span> <span class="n">sqrt</span>
 
 <span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="k">import</span> <span class="n">det</span>
@@ -190,11 +189,11 @@
 <span class="c1"># Python 2/3 cross-compatibility import</span>
 <span class="kn">from</span> <span class="nn">six</span> <span class="k">import</span> <span class="n">iteritems</span>
 
-<span class="n">default_random_seed_value</span> <span class="o">=</span> <span class="mi">6282698</span>
+<span class="n">default_executor</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">fn</span><span class="p">,</span> <span class="o">*</span><span class="n">eargs</span><span class="p">,</span> <span class="o">**</span><span class="n">ekargs</span><span class="p">:</span> <span class="n">fn</span><span class="p">(</span><span class="o">*</span><span class="n">eargs</span><span class="p">,</span> <span class="o">**</span><span class="n">ekargs</span><span class="p">)</span>
 <span class="n">positive_eigenvalue_limit</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;+1e-6&quot;</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="multiscale_laplacian_fast"><a class="viewcode-back" href="../../../generated/grakel.kernels.multiscale_laplacian_fast.html#grakel.kernels.multiscale_laplacian_fast">[docs]</a><span class="k">class</span> <span class="nc">multiscale_laplacian_fast</span><span class="p">(</span><span class="n">kernel</span><span class="p">):</span>
+<div class="viewcode-block" id="multiscale_laplacian_fast"><a class="viewcode-back" href="../../../generated/grakel.multiscale_laplacian_fast.html#grakel.multiscale_laplacian_fast">[docs]</a><span class="k">class</span> <span class="nc">multiscale_laplacian_fast</span><span class="p">(</span><span class="n">kernel</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Laplacian Graph Kernel as proposed in :cite:`Kondor2016TheML_fast`.</span>
 
 <span class="sd">    Parameters</span>
@@ -213,56 +212,84 @@
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
-<span class="sd">    _L : int</span>
+<span class="sd">    L : int</span>
 <span class="sd">        The number of neihborhoods.</span>
 
-<span class="sd">    _gamma : float</span>
+<span class="sd">    gamma : float</span>
 <span class="sd">        A smoothing parameter for calculation of S matrices.</span>
 
-<span class="sd">    _heta : float</span>
+<span class="sd">    heta : float</span>
 <span class="sd">        A smoothing parameter for calculation of S matrices.</span>
 
-<span class="sd">    _N : int</span>
+<span class="sd">    N : int</span>
 <span class="sd">        The number of vertex samples.</span>
 
-<span class="sd">    _ksi : np.array, len(shape)=2</span>
+<span class="sd">    ksi : np.array, len(shape)=2</span>
 <span class="sd">        The total ksi transformation of phi&#39;s as produced on fit.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">_graph_format</span> <span class="o">=</span> <span class="s2">&quot;adjacency&quot;</span>
 
-<div class="viewcode-block" id="multiscale_laplacian_fast.__init__"><a class="viewcode-back" href="../../../generated/grakel.kernels.multiscale_laplacian_fast.html#grakel.kernels.multiscale_laplacian_fast.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">):</span>
+<div class="viewcode-block" id="multiscale_laplacian_fast.__init__"><a class="viewcode-back" href="../../../generated/grakel.multiscale_laplacian_fast.html#grakel.multiscale_laplacian_fast.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">executor</span><span class="o">=</span><span class="n">default_executor</span><span class="p">,</span>
+                 <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">random_seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+                 <span class="n">L</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                 <span class="n">gamma</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+                 <span class="n">heta</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+                 <span class="n">N</span><span class="o">=</span><span class="mi">50</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialise a `multiscale_laplacian` kernel.&quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_valid_parameters</span> <span class="o">|=</span> <span class="p">{</span><span class="s2">&quot;L&quot;</span><span class="p">,</span> <span class="s2">&quot;gamma&quot;</span><span class="p">,</span> <span class="s2">&quot;heta&quot;</span><span class="p">,</span> <span class="s2">&quot;N&quot;</span><span class="p">,</span> <span class="s2">&quot;random_seed&quot;</span><span class="p">}</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">multiscale_laplacian_fast</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kargs</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">multiscale_laplacian_fast</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">executor</span><span class="o">=</span><span class="n">executor</span><span class="p">,</span>
+            <span class="n">normalize</span><span class="o">=</span><span class="n">normalize</span><span class="p">,</span>
+            <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
 
-        <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">kargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;random_seed&quot;</span><span class="p">,</span>
-                                     <span class="n">default_random_seed_value</span><span class="p">)))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">random_seed</span> <span class="o">=</span> <span class="n">random_seed</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span> <span class="o">=</span> <span class="n">gamma</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">heta</span> <span class="o">=</span> <span class="n">heta</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">L</span> <span class="o">=</span> <span class="n">L</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">N</span> <span class="o">=</span> <span class="n">N</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;random_seed&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;gamma&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                             <span class="s2">&quot;heta&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;L&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;N&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span></div>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_gamma</span> <span class="o">=</span> <span class="n">kargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;gamma&quot;</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gamma</span> <span class="o">==</span> <span class="o">.</span><span class="mi">0</span><span class="p">:</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;with zero gamma the calculation may crash&#39;</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gamma</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;gamma must be positive&#39;</span><span class="p">)</span>
+<div class="viewcode-block" id="multiscale_laplacian_fast.initialize_"><a class="viewcode-back" href="../../../generated/grakel.multiscale_laplacian_fast.html#grakel.multiscale_laplacian_fast.initialize_">[docs]</a>    <span class="k">def</span> <span class="nf">initialize_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize all transformer arguments, needing initialization.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span><span class="p">[</span><span class="s2">&quot;random_seed&quot;</span><span class="p">]:</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">random_seed</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span><span class="p">[</span><span class="s2">&quot;random_seed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_heta</span> <span class="o">=</span> <span class="n">kargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;heta&quot;</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_heta</span> <span class="o">==</span> <span class="o">.</span><span class="mi">0</span><span class="p">:</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;with zero heta the calculation may crash&#39;</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_heta</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;heta must be positive&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span><span class="p">[</span><span class="s2">&quot;gamma&quot;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gamma</span><span class="p">,</span> <span class="n">Real</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;gamma must be an real number&#39;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span> <span class="o">==</span> <span class="o">.</span><span class="mi">0</span><span class="p">:</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;with zero gamma the calculation may crash&#39;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;gamma must be positive&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span><span class="p">[</span><span class="s2">&quot;gamma&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_L</span> <span class="o">=</span> <span class="n">kargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;L&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_L</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">int</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;L must be an integer&#39;</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_L</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;L must be positive&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span><span class="p">[</span><span class="s2">&quot;heta&quot;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gamma</span><span class="p">,</span> <span class="n">Real</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;heta must be a real number&#39;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">heta</span> <span class="o">==</span> <span class="o">.</span><span class="mi">0</span><span class="p">:</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;with zero heta the calculation may crash&#39;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">heta</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;heta must be positive&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span><span class="p">[</span><span class="s2">&quot;heta&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_N</span> <span class="o">=</span> <span class="n">kargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;N&quot;</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_N</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">int</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_N</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span></div>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;N must be a positive integer&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span><span class="p">[</span><span class="s2">&quot;L&quot;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">L</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">int</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;L must be an integer&#39;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">L</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;L must be positive&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span><span class="p">[</span><span class="s2">&quot;L&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
 
-<div class="viewcode-block" id="multiscale_laplacian_fast.parse_input"><a class="viewcode-back" href="../../../generated/grakel.kernels.multiscale_laplacian_fast.html#grakel.kernels.multiscale_laplacian_fast.parse_input">[docs]</a>    <span class="k">def</span> <span class="nf">parse_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span><span class="p">[</span><span class="s2">&quot;N&quot;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">N</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">int</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">N</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;N must be a positive integer&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span><span class="p">[</span><span class="s2">&quot;N&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="multiscale_laplacian_fast.parse_input"><a class="viewcode-back" href="../../../generated/grakel.multiscale_laplacian_fast.html#grakel.multiscale_laplacian_fast.parse_input">[docs]</a>    <span class="k">def</span> <span class="nf">parse_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Fast ML Graph Kernel.</span>
 
 <span class="sd">        See supplementary material :cite:`Kondor2016TheML`, algorithm 1.</span>
@@ -285,7 +312,7 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">collections</span><span class="o">.</span><span class="n">Iterable</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;input must be an iterable</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;input must be an iterable</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">ng</span> <span class="o">=</span> <span class="mi">0</span>
 
@@ -306,19 +333,19 @@
                 <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">Graph</span><span class="p">:</span>
                     <span class="n">x</span><span class="o">.</span><span class="n">desired_format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_graph_format</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;each element of X must be either a &#39;</span> <span class="o">+</span>
-                                     <span class="s1">&#39;graph or an iterable with at least 1 &#39;</span> <span class="o">+</span>
-                                     <span class="s1">&#39;and at most 3 elements</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;each element of X must be either a &#39;</span>
+                                    <span class="s1">&#39;graph or an iterable with at least 1 &#39;</span>
+                                    <span class="s1">&#39;and at most 3 elements</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
                 <span class="n">phi_d</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">get_labels</span><span class="p">()</span>
                 <span class="n">A</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">get_adjacency_matrix</span><span class="p">()</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">phi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">list</span><span class="p">(</span><span class="n">phi_d</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])])</span>
                 <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Features must be iterable and castable &#39;</span> <span class="o">+</span>
+                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Features must be iterable and castable &#39;</span>
                                     <span class="s1">&#39;in total to a numpy array.&#39;</span><span class="p">)</span>
 
                 <span class="n">Lap</span> <span class="o">=</span> <span class="n">laplacian</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
-                <span class="n">_increment_diagonal_</span><span class="p">(</span><span class="n">Lap</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_heta</span><span class="p">)</span>
+                <span class="n">_increment_diagonal_</span><span class="p">(</span><span class="n">Lap</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">heta</span><span class="p">)</span>
                 <span class="n">data</span><span class="p">[</span><span class="n">ng</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="n">A</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="n">phi</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="n">inv</span><span class="p">(</span><span class="n">Lap</span><span class="p">)}</span>
                 <span class="n">neighborhoods</span><span class="p">[</span><span class="n">ng</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span>
                 <span class="n">ng</span> <span class="o">+=</span> <span class="mi">1</span>
@@ -330,7 +357,7 @@
                 <span class="n">V</span> <span class="o">=</span> <span class="p">[(</span><span class="n">k</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ng</span><span class="p">)</span>
                      <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span>
 
-                <span class="n">ns</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">V</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_N</span><span class="p">)</span>
+                <span class="n">ns</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">V</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">N</span><span class="p">)</span>
 
                 <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>
                 <span class="n">vs</span> <span class="o">=</span> <span class="n">V</span><span class="p">[:</span><span class="n">ns</span><span class="p">]</span>
@@ -351,23 +378,22 @@
                     <span class="c1"># (n, k) * (k, P)</span>
                     <span class="n">data</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">ksi</span><span class="p">)</span>
 
-                <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_L</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">L</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
                     <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>
                     <span class="n">vs</span> <span class="o">=</span> <span class="n">V</span><span class="p">[:</span><span class="n">ns</span><span class="p">]</span>
                     <span class="n">K</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">vs</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">vs</span><span class="p">)))</span>
                     <span class="n">C</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
                     <span class="k">for</span> <span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">j</span><span class="p">))</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">vs</span><span class="p">):</span>
                         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">neighborhoods</span><span class="p">[</span><span class="n">k</span><span class="p">])</span> <span class="ow">is</span> <span class="n">Graph</span><span class="p">:</span>
-                            <span class="n">neighborhoods</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> \
-                                <span class="n">neighborhoods</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">produce_neighborhoods</span><span class="p">(</span>
-                                    <span class="n">r</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_L</span><span class="p">,</span> <span class="n">sort_neighbors</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                            <span class="n">neighborhoods</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">neighborhoods</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">produce_neighborhoods</span><span class="p">(</span>
+                                <span class="n">r</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">L</span><span class="p">,</span> <span class="n">sort_neighbors</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
                         <span class="n">indexes</span> <span class="o">=</span> <span class="n">neighborhoods</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">l</span><span class="p">][</span><span class="n">j</span><span class="p">]</span>
                         <span class="n">L</span> <span class="o">=</span> <span class="n">laplacian</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">indexes</span><span class="p">,</span> <span class="p">:][:,</span> <span class="n">indexes</span><span class="p">])</span>
-                        <span class="n">_increment_diagonal_</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_heta</span><span class="p">)</span>
+                        <span class="n">_increment_diagonal_</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">heta</span><span class="p">)</span>
                         <span class="n">U</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="n">indexes</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">T</span>
                         <span class="n">S</span> <span class="o">=</span> <span class="n">multi_dot</span><span class="p">((</span><span class="n">U</span><span class="p">,</span> <span class="n">inv</span><span class="p">(</span><span class="n">L</span><span class="p">),</span> <span class="n">U</span><span class="o">.</span><span class="n">T</span><span class="p">))</span>
-                        <span class="n">_increment_diagonal_</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gamma</span><span class="p">)</span>
+                        <span class="n">_increment_diagonal_</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span><span class="p">)</span>
                         <span class="n">C</span><span class="p">[</span><span class="n">m</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">inv</span><span class="p">(</span><span class="n">S</span><span class="p">)</span><span class="o">/</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">sqrt</span><span class="p">(</span><span class="n">det</span><span class="p">(</span><span class="n">S</span><span class="p">))))</span>
 
                     <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">C</span><span class="p">)):</span>
@@ -401,13 +427,13 @@
 
             <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ng</span><span class="p">):</span>
                 <span class="n">S</span> <span class="o">=</span> <span class="n">multi_dot</span><span class="p">((</span><span class="n">data</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">2</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">1</span><span class="p">]))</span>
-                <span class="n">_increment_diagonal_</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gamma</span><span class="p">)</span>
+                <span class="n">_increment_diagonal_</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span><span class="p">)</span>
                 <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">inv</span><span class="p">(</span><span class="n">S</span><span class="p">)</span><span class="o">/</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">sqrt</span><span class="p">(</span><span class="n">det</span><span class="p">(</span><span class="n">S</span><span class="p">)))))</span>
-</div>
-            <span class="k">return</span> <span class="n">out</span>
 
-<div class="viewcode-block" id="multiscale_laplacian_fast.pairwise_operation"><a class="viewcode-back" href="../../../generated/grakel.kernels.multiscale_laplacian_fast.html#grakel.kernels.multiscale_laplacian_fast.pairwise_operation">[docs]</a>    <span class="k">def</span> <span class="nf">pairwise_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;FLG calculation for the fast multiscale gaussian.</span>
+            <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="multiscale_laplacian_fast.pairwise_operation"><a class="viewcode-back" href="../../../generated/grakel.multiscale_laplacian_fast.html#grakel.multiscale_laplacian_fast.pairwise_operation">[docs]</a>    <span class="k">def</span> <span class="nf">pairwise_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;FLG calculation for the fast multiscale laplacian.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -431,11 +457,11 @@
 
         <span class="c1"># Calculate the kernel denominator</span>
         <span class="n">k_denom</span> <span class="o">=</span> <span class="n">det_x_q</span> <span class="o">*</span> <span class="n">det_y_q</span>
-</div></div>
-        <span class="k">return</span> <span class="n">k_nom</span><span class="o">/</span><span class="n">k_denom</span>
+
+        <span class="k">return</span> <span class="n">k_nom</span><span class="o">/</span><span class="n">k_denom</span></div></div>
 
 
-<div class="viewcode-block" id="multiscale_laplacian"><a class="viewcode-back" href="../../../generated/grakel.kernels.multiscale_laplacian.html#grakel.kernels.multiscale_laplacian">[docs]</a><span class="k">class</span> <span class="nc">multiscale_laplacian</span><span class="p">(</span><span class="n">kernel</span><span class="p">):</span>
+<div class="viewcode-block" id="multiscale_laplacian"><a class="viewcode-back" href="../../../generated/grakel.multiscale_laplacian.html#grakel.multiscale_laplacian">[docs]</a><span class="k">class</span> <span class="nc">multiscale_laplacian</span><span class="p">(</span><span class="n">kernel</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Laplacian Graph Kernel as proposed in :cite:`Kondor2016TheML`.</span>
 
 <span class="sd">    Parameters</span>
@@ -451,43 +477,65 @@
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
-<span class="sd">    _L : int</span>
+<span class="sd">    L : int</span>
 <span class="sd">        The number of neighborhoods.</span>
 
-<span class="sd">    _gamma : float</span>
+<span class="sd">    gamma : float</span>
 <span class="sd">        A smoothing parameter for calculation of S matrices.</span>
 
-<span class="sd">    _heta : float</span>
+<span class="sd">    heta : float</span>
 <span class="sd">        A smoothing parameter for calculation of S matrices.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">_graph_format</span> <span class="o">=</span> <span class="s2">&quot;adjacency&quot;</span>
 
-<div class="viewcode-block" id="multiscale_laplacian.__init__"><a class="viewcode-back" href="../../../generated/grakel.kernels.multiscale_laplacian.html#grakel.kernels.multiscale_laplacian.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">):</span>
+<div class="viewcode-block" id="multiscale_laplacian.__init__"><a class="viewcode-back" href="../../../generated/grakel.multiscale_laplacian.html#grakel.multiscale_laplacian.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">executor</span><span class="o">=</span><span class="n">default_executor</span><span class="p">,</span>
+                 <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">L</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                 <span class="n">gamma</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+                 <span class="n">heta</span><span class="o">=</span><span class="mf">0.01</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialise a `multiscale_laplacian` kernel.&quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_valid_parameters</span> <span class="o">|=</span> <span class="p">{</span><span class="s2">&quot;L&quot;</span><span class="p">,</span> <span class="s2">&quot;gamma&quot;</span><span class="p">}</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">multiscale_laplacian</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kargs</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">multiscale_laplacian</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">executor</span><span class="o">=</span><span class="n">executor</span><span class="p">,</span>
+                                                   <span class="n">normalize</span><span class="o">=</span><span class="n">normalize</span><span class="p">,</span>
+                                                   <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_gamma</span> <span class="o">=</span> <span class="n">kargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;gamma&quot;</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gamma</span> <span class="o">==</span> <span class="o">.</span><span class="mi">0</span><span class="p">:</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;with zero gamma the calculation may crash&#39;</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gamma</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;gamma must be positive&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span> <span class="o">=</span> <span class="n">gamma</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">heta</span> <span class="o">=</span> <span class="n">heta</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">L</span> <span class="o">=</span> <span class="n">L</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;gamma&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;heta&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;L&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span></div>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_heta</span> <span class="o">=</span> <span class="n">kargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;heta&quot;</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_heta</span> <span class="o">==</span> <span class="o">.</span><span class="mi">0</span><span class="p">:</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;with zero heta the calculation may crash&#39;</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_heta</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;heta must be positive&#39;</span><span class="p">)</span>
+<div class="viewcode-block" id="multiscale_laplacian.initialize_"><a class="viewcode-back" href="../../../generated/grakel.multiscale_laplacian.html#grakel.multiscale_laplacian.initialize_">[docs]</a>    <span class="k">def</span> <span class="nf">initialize_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize all transformer arguments, needing initialization.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span><span class="p">[</span><span class="s2">&quot;gamma&quot;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gamma</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">int</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;gamma must be an integer&#39;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span> <span class="o">==</span> <span class="o">.</span><span class="mi">0</span><span class="p">:</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;with zero gamma the calculation may crash&#39;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;gamma must be a positive integer&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span><span class="p">[</span><span class="s2">&quot;gamma&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_L</span> <span class="o">=</span> <span class="n">kargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;L&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_L</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">int</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;L must be an integer&#39;</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_L</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span></div>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;L must be positive&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span><span class="p">[</span><span class="s2">&quot;heta&quot;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">heta</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">int</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;heta must be an integer&#39;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="multiscale_laplacian.parse_input"><a class="viewcode-back" href="../../../generated/grakel.kernels.multiscale_laplacian.html#grakel.kernels.multiscale_laplacian.parse_input">[docs]</a>    <span class="k">def</span> <span class="nf">parse_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">heta</span> <span class="o">==</span> <span class="o">.</span><span class="mi">0</span><span class="p">:</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;with zero heta the calculation may crash&#39;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">heta</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;heta must be positive&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span><span class="p">[</span><span class="s2">&quot;heta&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span><span class="p">[</span><span class="s2">&quot;L&quot;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">L</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">int</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;L must be an integer&#39;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">L</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;L must be positive&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span><span class="p">[</span><span class="s2">&quot;L&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="multiscale_laplacian.parse_input"><a class="viewcode-back" href="../../../generated/grakel.multiscale_laplacian.html#grakel.multiscale_laplacian.parse_input">[docs]</a>    <span class="k">def</span> <span class="nf">parse_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Parse and create features for multiscale_laplacian kernel.</span>
 
 <span class="sd">        Parameters</span>
@@ -505,11 +553,11 @@
 <span class="sd">        out : list</span>
 <span class="sd">            Tuples consisting of the Adjacency matrix, phi, phi_outer</span>
 <span class="sd">            dictionary of neihborhood indexes and inverse laplacians</span>
-<span class="sd">            up to level self._L and the inverse Laplacian of A.</span>
+<span class="sd">            up to level self.L and the inverse Laplacian of A.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">collections</span><span class="o">.</span><span class="n">Iterable</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;input must be an iterable</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;input must be an iterable</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">ng</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="n">out</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
@@ -528,13 +576,13 @@
                 <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">Graph</span><span class="p">:</span>
                     <span class="n">x</span><span class="o">.</span><span class="n">desired_format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_graph_format</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;each element of X must be either a &#39;</span> <span class="o">+</span>
-                                     <span class="s1">&#39;graph or an iterable with at least 1 &#39;</span> <span class="o">+</span>
-                                     <span class="s1">&#39;and at most 3 elements</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;each element of X must be either a &#39;</span> <span class="o">+</span>
+                                    <span class="s1">&#39;graph or an iterable with at least 1 &#39;</span> <span class="o">+</span>
+                                    <span class="s1">&#39;and at most 3 elements</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
                 <span class="n">ng</span> <span class="o">+=</span> <span class="mi">1</span>
                 <span class="n">phi_d</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">get_labels</span><span class="p">()</span>
                 <span class="n">A</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">get_adjacency_matrix</span><span class="p">()</span>
-                <span class="n">N</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">produce_neighborhoods</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_L</span><span class="p">,</span> <span class="n">sort_neighbors</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="n">N</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">produce_neighborhoods</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">L</span><span class="p">,</span> <span class="n">sort_neighbors</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">phi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">list</span><span class="p">(</span><span class="n">phi_d</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])])</span>
                 <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
@@ -543,18 +591,18 @@
                 <span class="n">phi_outer</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">phi</span><span class="p">,</span> <span class="n">phi</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
 
                 <span class="n">Lap</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">laplacian</span><span class="p">(</span><span class="n">save</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-                <span class="n">_increment_diagonal_</span><span class="p">(</span><span class="n">Lap</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gamma</span><span class="p">)</span>
+                <span class="n">_increment_diagonal_</span><span class="p">(</span><span class="n">Lap</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span><span class="p">)</span>
                 <span class="n">L</span> <span class="o">=</span> <span class="n">inv</span><span class="p">(</span><span class="n">Lap</span><span class="p">)</span>
 
                 <span class="n">Q</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-                <span class="k">for</span> <span class="n">level</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_L</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">level</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">L</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
                     <span class="n">Q</span><span class="p">[</span><span class="n">level</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
                     <span class="k">for</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span> <span class="ow">in</span> <span class="n">iteritems</span><span class="p">(</span><span class="n">N</span><span class="p">[</span><span class="n">level</span><span class="p">]):</span>
                         <span class="n">Q</span><span class="p">[</span><span class="n">level</span><span class="p">][</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
                         <span class="n">Q</span><span class="p">[</span><span class="n">level</span><span class="p">][</span><span class="n">key</span><span class="p">][</span><span class="s2">&quot;n&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
                         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">A</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
                             <span class="n">laplac</span> <span class="o">=</span> <span class="n">laplacian</span><span class="p">(</span><span class="n">A</span><span class="p">[</span><span class="n">item</span><span class="p">,</span> <span class="p">:][:,</span> <span class="n">item</span><span class="p">])</span>
-                            <span class="n">_increment_diagonal_</span><span class="p">(</span><span class="n">laplac</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gamma</span><span class="p">)</span>
+                            <span class="n">_increment_diagonal_</span><span class="p">(</span><span class="n">laplac</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span><span class="p">)</span>
                             <span class="n">laplac</span> <span class="o">=</span> <span class="n">inv</span><span class="p">(</span><span class="n">laplac</span><span class="p">)</span>
                         <span class="k">else</span><span class="p">:</span>
                             <span class="n">laplac</span> <span class="o">=</span> <span class="n">L</span>
@@ -565,16 +613,16 @@
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Preprocessing took:&quot;</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">,</span> <span class="s2">&quot;s.&quot;</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">ng</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;parsed input is empty&#39;</span><span class="p">)</span>
-</div>
-            <span class="k">return</span> <span class="n">out</span>
 
-<div class="viewcode-block" id="multiscale_laplacian.pairwise_operation"><a class="viewcode-back" href="../../../generated/grakel.kernels.multiscale_laplacian.html#grakel.kernels.multiscale_laplacian.pairwise_operation">[docs]</a>    <span class="k">def</span> <span class="nf">pairwise_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="multiscale_laplacian.pairwise_operation"><a class="viewcode-back" href="../../../generated/grakel.multiscale_laplacian.html#grakel.multiscale_laplacian.pairwise_operation">[docs]</a>    <span class="k">def</span> <span class="nf">pairwise_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;ML kernel as proposed in :cite:`Kondor2016TheML`..</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        x, y : tuple</span>
-<span class="sd">            Tuple consisting of A, phi, neighborhoods up to self._L and the</span>
+<span class="sd">            Tuple consisting of A, phi, neighborhoods up to self.L and the</span>
 <span class="sd">            laplacian of A.</span>
 
 <span class="sd">        Returns</span>
@@ -597,7 +645,7 @@
         <span class="c1"># a lambda that calculates indexes inside the gram matrix</span>
         <span class="c1"># and the corresponindg laplacian given a node and a level</span>
 
-        <span class="k">for</span> <span class="n">level</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_L</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">level</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">L</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
             <span class="n">gram_matrix_n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">gram_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nx</span><span class="p">):</span>
@@ -610,9 +658,7 @@
                     <span class="n">extracted_gm</span> <span class="o">=</span> <span class="n">gram_matrix</span><span class="p">[</span><span class="n">idx_ij</span><span class="p">,</span> <span class="p">:][:,</span> <span class="n">idx_ij</span><span class="p">]</span>
 
                     <span class="n">gram_matrix_n</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span>\
-                        <span class="bp">self</span><span class="o">.</span><span class="n">_generalized_FLG_core_</span><span class="p">(</span><span class="n">qi</span><span class="p">[</span><span class="s2">&quot;l&quot;</span><span class="p">],</span>
-                                                    <span class="n">qj</span><span class="p">[</span><span class="s2">&quot;l&quot;</span><span class="p">],</span>
-                                                    <span class="n">extracted_gm</span><span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_generalized_FLG_core_</span><span class="p">(</span><span class="n">qi</span><span class="p">[</span><span class="s2">&quot;l&quot;</span><span class="p">],</span> <span class="n">qj</span><span class="p">[</span><span class="s2">&quot;l&quot;</span><span class="p">],</span> <span class="n">extracted_gm</span><span class="p">)</span>
 
                 <span class="c1"># xy</span>
                 <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">ny</span><span class="p">):</span>
@@ -621,9 +667,7 @@
                     <span class="n">extracted_gm</span> <span class="o">=</span> <span class="n">gram_matrix</span><span class="p">[</span><span class="n">idx_ij</span><span class="p">,</span> <span class="p">:][:,</span> <span class="n">idx_ij</span><span class="p">]</span>
 
                     <span class="n">gram_matrix_n</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">+</span> <span class="n">nx</span><span class="p">]</span> <span class="o">=</span>\
-                        <span class="bp">self</span><span class="o">.</span><span class="n">_generalized_FLG_core_</span><span class="p">(</span><span class="n">qi</span><span class="p">[</span><span class="s2">&quot;l&quot;</span><span class="p">],</span>
-                                                    <span class="n">qj</span><span class="p">[</span><span class="s2">&quot;l&quot;</span><span class="p">],</span>
-                                                    <span class="n">extracted_gm</span><span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_generalized_FLG_core_</span><span class="p">(</span><span class="n">qi</span><span class="p">[</span><span class="s2">&quot;l&quot;</span><span class="p">],</span> <span class="n">qj</span><span class="p">[</span><span class="s2">&quot;l&quot;</span><span class="p">],</span> <span class="n">extracted_gm</span><span class="p">)</span>
 
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ny</span><span class="p">):</span>
                 <span class="n">idx</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="n">nx</span>
@@ -637,9 +681,7 @@
                     <span class="n">extracted_gm</span> <span class="o">=</span> <span class="n">gram_matrix</span><span class="p">[</span><span class="n">idx_ij</span><span class="p">,</span> <span class="p">:][:,</span> <span class="n">idx_ij</span><span class="p">]</span>
 
                     <span class="n">gram_matrix_n</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span>\
-                        <span class="bp">self</span><span class="o">.</span><span class="n">_generalized_FLG_core_</span><span class="p">(</span><span class="n">qi</span><span class="p">[</span><span class="s2">&quot;l&quot;</span><span class="p">],</span>
-                                                    <span class="n">qj</span><span class="p">[</span><span class="s2">&quot;l&quot;</span><span class="p">],</span>
-                                                    <span class="n">extracted_gm</span><span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_generalized_FLG_core_</span><span class="p">(</span><span class="n">qi</span><span class="p">[</span><span class="s2">&quot;l&quot;</span><span class="p">],</span> <span class="n">qj</span><span class="p">[</span><span class="s2">&quot;l&quot;</span><span class="p">],</span> <span class="n">extracted_gm</span><span class="p">)</span>
 
                 <span class="c1"># yy</span>
                 <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">ny</span><span class="p">):</span>
@@ -648,13 +690,11 @@
                     <span class="n">extracted_gm</span> <span class="o">=</span> <span class="n">gram_matrix</span><span class="p">[</span><span class="n">idx_ij</span><span class="p">,</span> <span class="p">:][:,</span> <span class="n">idx_ij</span><span class="p">]</span>
 
                     <span class="n">gram_matrix_n</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="n">j</span> <span class="o">+</span> <span class="n">nx</span><span class="p">]</span> <span class="o">=</span>\
-                        <span class="bp">self</span><span class="o">.</span><span class="n">_generalized_FLG_core_</span><span class="p">(</span><span class="n">qi</span><span class="p">[</span><span class="s2">&quot;l&quot;</span><span class="p">],</span>
-                                                    <span class="n">qj</span><span class="p">[</span><span class="s2">&quot;l&quot;</span><span class="p">],</span>
-                                                    <span class="n">extracted_gm</span><span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_generalized_FLG_core_</span><span class="p">(</span><span class="n">qi</span><span class="p">[</span><span class="s2">&quot;l&quot;</span><span class="p">],</span> <span class="n">qj</span><span class="p">[</span><span class="s2">&quot;l&quot;</span><span class="p">],</span> <span class="n">extracted_gm</span><span class="p">)</span>
 
             <span class="n">gram_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">triu</span><span class="p">(</span><span class="n">gram_matrix</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">triu</span><span class="p">(</span><span class="n">gram_matrix</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
-</div>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generalized_FLG_core_</span><span class="p">(</span><span class="n">Lx</span><span class="p">,</span> <span class="n">Ly</span><span class="p">,</span> <span class="n">gram_matrix</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generalized_FLG_core_</span><span class="p">(</span><span class="n">Lx</span><span class="p">,</span> <span class="n">Ly</span><span class="p">,</span> <span class="n">gram_matrix</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">_generalized_FLG_core_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Lx</span><span class="p">,</span> <span class="n">Ly</span><span class="p">,</span> <span class="n">gram_matrix</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;FLG core calculation for the multiscale gaussian.</span>
@@ -692,8 +732,8 @@
             <span class="n">Sx</span> <span class="o">=</span> <span class="n">multi_dot</span><span class="p">((</span><span class="n">Qx</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">Lx</span><span class="p">,</span> <span class="n">Qx</span><span class="p">))</span>
             <span class="n">Sy</span> <span class="o">=</span> <span class="n">multi_dot</span><span class="p">((</span><span class="n">Qy</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">Ly</span><span class="p">,</span> <span class="n">Qy</span><span class="p">))</span>
 
-            <span class="n">_increment_diagonal_</span><span class="p">(</span><span class="n">Sx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gamma</span><span class="p">)</span>
-            <span class="n">_increment_diagonal_</span><span class="p">(</span><span class="n">Sy</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gamma</span><span class="p">)</span>
+            <span class="n">_increment_diagonal_</span><span class="p">(</span><span class="n">Sx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span><span class="p">)</span>
+            <span class="n">_increment_diagonal_</span><span class="p">(</span><span class="n">Sy</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span><span class="p">)</span>
 
             <span class="c1"># A small lambda to calculate ^ 1/4</span>
             <span class="n">quatre</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
@@ -706,8 +746,8 @@
             <span class="c1"># Caclulate the kernel denominator</span>
             <span class="n">k_denom</span> <span class="o">=</span> <span class="n">quatre</span><span class="p">(</span><span class="n">det</span><span class="p">(</span><span class="n">Sx</span><span class="p">)</span><span class="o">*</span><span class="n">det</span><span class="p">(</span><span class="n">Sy</span><span class="p">))</span>
 
-            <span class="n">k</span> <span class="o">=</span> <span class="n">k_nom</span><span class="o">/</span><span class="n">k_denom</span></div>
-        <span class="k">return</span> <span class="n">k</span>
+            <span class="n">k</span> <span class="o">=</span> <span class="n">k_nom</span><span class="o">/</span><span class="n">k_denom</span>
+        <span class="k">return</span> <span class="n">k</span></div>
 
 
 <span class="k">def</span> <span class="nf">_increment_diagonal_</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
@@ -766,7 +806,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.1a1',
+            VERSION:'0.1a2',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -776,6 +816,7 @@
       <script type="text/javascript" src="../../../_static/jquery.js"></script>
       <script type="text/javascript" src="../../../_static/underscore.js"></script>
       <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

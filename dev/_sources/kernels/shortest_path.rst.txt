@@ -4,21 +4,17 @@ Shortest Path Kernel
 ====================
 The shortest path kernel.
 
-.. currentmodule:: grakel.kernels
-
 **Theoretical definition missing**
 
-.. currentmodule:: grakel.kernels
+.. currentmodule:: grakel
 
 .. autosummary::
 
-   grakel.kernels.shortest_path
+   shortest_path
 
 
 ** Theoretical definition missing**
 
-.. currentmodule:: grakel.kernels
-
 .. autosummary::
 
-   grakel.kernels.shortest_path_attr
+   shortest_path_attr

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>A short Introduction &mdash; GraKeL 0.1a1 documentation</title>
+  <title>A short Introduction &mdash; GraKeL 0.1a2 documentation</title>
   
 
   
@@ -32,12 +32,15 @@
   
     <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
   
+    <link rel="stylesheet" href="../_static/_static/css/supplementary.css" type="text/css" />
+  
 
   
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="GraKeL 0.1a1 documentation" href="../index.html"/>
+    <link rel="top" title="GraKeL 0.1a2 documentation" href="../index.html"/>
+        <link rel="up" title="User Manual" href="../user_manual.html"/>
         <link rel="next" title="A longer Introduction" href="longer_introduction.html"/>
         <link rel="prev" title="Installing grakel" href="installation.html"/> 
 
@@ -71,7 +74,7 @@
             
             
               <div class="version">
-                0.1a1
+                0.1a2
               </div>
             
           
@@ -96,19 +99,22 @@
             
             
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="installation.html">Installing grakel</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">A short Introduction</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#what-is-grakel">What is grakel?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#what-is-a-graph-kernel">What is a Graph Kernel?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#initializing-a-graph-kernel">Initializing a graph kernel</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#calculate-a-kernel">Calculate a kernel</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#the-input-type">The input type</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#fitting-on-a-dataset">Fitting on a dataset</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../user_manual.html">User Manual</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="installation.html">Installing grakel</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">A short Introduction</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#what-is-grakel">What is grakel?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#what-is-a-graph-kernel">What is a Graph Kernel?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#initializing-a-graph-kernel">Initializing a graph kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#calculate-a-kernel">Calculate a kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#the-input-type">The input type</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fitting-on-a-dataset">Fitting on a dataset</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="longer_introduction.html">A longer Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="make_your_own_kernel.html">Write your own kernel</a></li>
-<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="longer_introduction.html">A longer Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="make_your_own_kernel.html">Write your own kernel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html">Contributing</a></li>
+</ul>
+</li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../api.html">GraKeL</a></li>
@@ -158,6 +164,8 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
+          <li><a href="../user_manual.html">User Manual</a> &raquo;</li>
+        
       <li>A short Introduction</li>
     
     
@@ -195,19 +203,19 @@ to be considered as the state-of-the-art solution for various problems inside th
 mathematical constraint, which is <em>that the calculation of each similarity measure between two graphs implies a representation of this two graphs in a</em> <a class="reference external" href="https://en.wikipedia.org/wiki/Hilbert_space">hilbert space</a>, where those to graphs are represented as vectors. This can be notated as the
 following:</p>
 <blockquote>
-<div><div class="math">
-<p><img src="../_images/math/f2fdccbcec7d577f14c73ed961da661de130d226.png" alt="k \; : \; \mathcal{G} \times \mathcal{G} \rightarrow \mathbb{R} \text{ is a
+<div><div class="math notranslate">
+\[\begin{split}k \; : \; \mathcal{G} \times \mathcal{G} \rightarrow \mathbb{R} \text{ is a
 valid kernel, if there exists a map } \phi \; :\; \mathcal{G} \rightarrow
 \mathbb{H}, \\\text{for a Hilbert space } \mathbb{H} \text{ where each kernel
 value can be computed as }\\ k(G_{i}, G_{j}) = \langle G_{i}, G_{j} \rangle
-\text{ where } \langle \;.\; ,\; .\;\rangle \text{ signifies an inner product inside this space}."/></p>
-</div></div></blockquote>
-<p>The above definition is satisfied in the literature, by proving that the produced kernel matrix from any collection of graphs <img class="math" src="../_images/math/6f5a25d34315423bf66367e01c8342b1f17a268c.png" alt="\{G_{i}, \text{for } i\in [N]\}"/>, where <img class="math" src="../_images/math/83a7080dafec0ea9976f5f38c7c8142c5f8ca58c.png" alt="[K]_{ij} = k(G_{i}, G_{j})"/>, is <a class="reference external" href="https://en.wikipedia.org/wiki/Positive-definite_matrix">Positive Semi Definite</a>.</p>
+\text{ where } \langle \;.\; ,\; .\;\rangle \text{ signifies an inner product inside this space}.\end{split}\]</div>
+</div></blockquote>
+<p>The above definition is satisfied in the literature, by proving that the produced kernel matrix from any collection of graphs <span class="math notranslate">\(\{G_{i}, \text{for } i\in [N]\}\)</span>, where <span class="math notranslate">\([K]_{ij} = k(G_{i}, G_{j})\)</span>, is <a class="reference external" href="https://en.wikipedia.org/wiki/Positive-definite_matrix">Positive Semi Definite</a>.</p>
 </div>
 <div class="section" id="initializing-a-graph-kernel">
 <h2>Initializing a graph kernel<a class="headerlink" href="#initializing-a-graph-kernel" title="Permalink to this headline">¶</a></h2>
 <p>A very well known graph kernel found in literature is the Shortest Path Kernel first introduced by Karsten M. Borgwardt
-and Hans-Peter Kriegel on a 2005 article [see <a class="reference internal" href="../generated/grakel.kernels.shortest_path.html#borgwardt2005shortestpathko" id="id1">[BK05]</a>] titled <strong>“Shortest-Path Kernels on Graphs”</strong>,
+and Hans-Peter Kriegel on a 2005 article [see <a class="reference internal" href="../generated/grakel.shortest_path.html#borgwardt2005shortestpathko" id="id1">[BK05]</a>] titled <strong>“Shortest-Path Kernels on Graphs”</strong>,
 really essential as an origin of the Graph Kernel field.</p>
 <p>After following the instructions found on <a class="reference internal" href="installation.html#installation"><span class="std std-ref">Installing grakel</span></a>, in order to initialize a <em>Shortest Path</em> kernel
 using the <strong>grakel</strong> library, you just need to do the following:</p>
@@ -220,7 +228,7 @@ of Graphs needed only a minor parametrization. A second type of kernels appear i
 we will call <em>meta-kernels</em>, which apply transformation operations upon graph objects in order to apply
 kernel calculations on certain steps using a <em>base kernel</em>, aggregating their result in a certain way.
 A kernel like <em>Weisfeiler-Lehman</em> introduced by Nino Shervashidze at 2011, published on a journal with the title
-“Weisfeiler Lehman Kernels” [see <a class="reference internal" href="../generated/grakel.kernels.weisfeiler_lehman.html#shervashidze2011weisfeilerlehmangk" id="id2">[SSvL+11]</a>], used a method for approximating a
+“Weisfeiler Lehman Kernels” [see <a class="reference internal" href="../generated/grakel.weisfeiler_lehman.html#shervashidze2011weisfeilerlehmangk" id="id2">[SSvL+11]</a>], used a method for approximating a
 solution to the graph isomorphism problem, in order to generate a graph refinement scheme that would imply
 bigger expressiveness to the base_kernel calculations (an interesting <a class="reference external" href="http://blog.smola.org/post/33412570425/the-weisfeiler-lehman-algorithm-and-estimation-on">post</a> explaining the intuition of this kernel).</p>
 <p>To initialize such a kernel, using the default subtree kernel, found originally on the paper’s
@@ -232,8 +240,8 @@ page 9, eq. 2, you can do the following:</p>
 </div>
 <div class="section" id="calculate-a-kernel">
 <h2>Calculate a kernel<a class="headerlink" href="#calculate-a-kernel" title="Permalink to this headline">¶</a></h2>
-<p>Let’s consider a toy example, comparing water <img class="math" src="../_images/math/0f5aa0b3c5dbb09e4d0e74b9faa856646d7eb87d.png" alt="\mathbf{H}_{2}\mathbf{O}"/> with hydronium
-<img class="math" src="../_images/math/b6a74bb3e538c404c065e7ba2b71ef2cb76891b8.png" alt="\mathbf{H}_{3}\mathbf{O}^{+}"/>, an ion of water produced by protonation.</p>
+<p>Let’s consider a toy example, comparing water <span class="math notranslate">\(\mathbf{H}_{2}\mathbf{O}\)</span> with hydronium
+<span class="math notranslate">\(\mathbf{H}_{3}\mathbf{O}^{+}\)</span>, an ion of water produced by protonation.</p>
 <p>For start we would calculate the kernel value of water with itself:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">H2O</span> <span class="o">=</span> <span class="p">[[[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s1">&#39;O&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="s1">&#39;H&#39;</span><span class="p">}]]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sp_kernel</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">H2O</span><span class="p">)</span>
@@ -337,7 +345,7 @@ contains in following order, the next 3 basic elements:</p>
 </div>
 </li>
 <li><div class="first line-block">
-<div class="line">Array representations: Dictionary between numbers with int keys from <img class="math" src="../_images/math/f178cf167bdb1a4b394efcc0477df2c4c20104ea.png" alt="0 \cdots |V|-1"/> to label symbols.</div>
+<div class="line">Array representations: Dictionary between numbers with int keys from <span class="math notranslate">\(0 \cdots |V|-1\)</span> to label symbols.</div>
 <div class="line">Example: <code class="code docutils literal notranslate"><span class="pre">H2O_labels</span> <span class="pre">=</span> <span class="pre">{0:</span> <span class="pre">'O',</span> <span class="pre">1:</span> <span class="pre">'H',</span> <span class="pre">2:'H'}</span></code></div>
 </div>
 </li>
@@ -360,7 +368,7 @@ or attributes for <em>vertices</em> and if it does so, a label representation ca
 </div>
 </li>
 <li><div class="first line-block">
-<div class="line">Array representations: Dictionary between numbers tuples of int keys from <img class="math" src="../_images/math/f178cf167bdb1a4b394efcc0477df2c4c20104ea.png" alt="0 \cdots |V|-1"/> for all matrix entries considered as edges and label symbols.</div>
+<div class="line">Array representations: Dictionary between numbers tuples of int keys from <span class="math notranslate">\(0 \cdots |V|-1\)</span> for all matrix entries considered as edges and label symbols.</div>
 <div class="line">Example: <code class="code docutils literal notranslate"><span class="pre">H2O_edge_labels</span> <span class="pre">=</span> <span class="pre">{(0,</span> <span class="pre">1):</span> <span class="pre">'pcb',</span> <span class="pre">(1,</span> <span class="pre">0):</span> <span class="pre">'pcb',</span> <span class="pre">(0,</span> <span class="pre">2):</span> <span class="pre">'pcb',</span> <span class="pre">(2,</span> <span class="pre">0):</span> <span class="pre">'pcb'}</span></code></div>
 </div>
 </li>
@@ -401,15 +409,15 @@ the graph-data can be found in the data class member of the result.</p>
 </pre></div>
 </div>
 <p>In order to apply classification on a dataset based on the calculation of a kernel matrix, one generally needs
-the matrix between all the training data. Namely given <img class="math" src="../_images/math/f090d84290ea186bfc545c4795548e2a85df2530.png" alt="\mathcal{G}^{\text{train}}"/> a collection of graphs, calculate
-the kernel values with a function <img class="math" src="../_images/math/bc9e1e288ecc01638666079901b56e30b21f3ed2.png" alt="\mathcal{K}: \mathcal{G}^{\text{train}} \rightarrow \mathbb{R}^{n_{\text{train}}} \times \mathbb{R}^{n_{\text{train}}}"/>,
-where <img class="math" src="../_images/math/046128c1df71a8f7c2f337fbff7a64736214175f.png" alt="n_{\text{train}}"/> is the number of graphs inside the training set. This function that simply outputs the kernel
+the matrix between all the training data. Namely given <span class="math notranslate">\(\mathcal{G}^{\text{train}}\)</span> a collection of graphs, calculate
+the kernel values with a function <span class="math notranslate">\(\mathcal{K}: \mathcal{G}^{\text{train}} \rightarrow \mathbb{R}^{n_{\text{train}}} \times \mathbb{R}^{n_{\text{train}}}\)</span>,
+where <span class="math notranslate">\(n_{\text{train}}\)</span> is the number of graphs inside the training set. This function that simply outputs the kernel
 matrix between all graphs of the graphs of the training set is equivalent with</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">K_train</span> <span class="o">=</span> <span class="n">wl_kernel</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The <code class="code docutils literal notranslate"><span class="pre">wl_kernel</span></code> is now fitted with the train data and we would like given a collection of graphs <img class="math" src="../_images/math/d1e2e89b7013bbe559686f617928406fd64f09dc.png" alt="\mathcal{G}^{\text{test}}"/>
-to calculate all the kernel values with a function <img class="math" src="../_images/math/a4301f1553dae347454e8ef973d372480fe6477d.png" alt="\mathcal{K}: \mathcal{G}^{\text{train}} \times \mathcal{G}^{\text{test}} \rightarrow \mathbb{R}^{n_{\text{test}}} \times \mathbb{R}^{n_{\text{train}}}"/> where <img class="math" src="../_images/math/75d6b5e7731bdcea90614cd4b8958100d76e391c.png" alt="n_{\text{test}}"/> is the number of graphs inside the test set. This function can be calculated as:</p>
+<p>The <code class="code docutils literal notranslate"><span class="pre">wl_kernel</span></code> is now fitted with the train data and we would like given a collection of graphs <span class="math notranslate">\(\mathcal{G}^{\text{test}}\)</span>
+to calculate all the kernel values with a function <span class="math notranslate">\(\mathcal{K}: \mathcal{G}^{\text{train}} \times \mathcal{G}^{\text{test}} \rightarrow \mathbb{R}^{n_{\text{test}}} \times \mathbb{R}^{n_{\text{train}}}\)</span> where <span class="math notranslate">\(n_{\text{test}}\)</span> is the number of graphs inside the test set. This function can be calculated as:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">K_test</span> <span class="o">=</span> <span class="n">wl_kernel</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -493,7 +501,7 @@ class labels) as follows:</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.1a1',
+            VERSION:'0.1a2',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -503,6 +511,7 @@ class labels) as follows:</p>
       <script type="text/javascript" src="../_static/jquery.js"></script>
       <script type="text/javascript" src="../_static/underscore.js"></script>
       <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

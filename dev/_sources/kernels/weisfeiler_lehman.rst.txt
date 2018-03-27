@@ -6,8 +6,8 @@ The Weisfeiler Lehman Kernel.
 
 **Theoretical definition missing**
 
-.. currentmodule:: grakel.kernels
+.. currentmodule:: grakel
 
 .. autosummary::
 
-   grakel.kernels.weisfeiler_lehman
+   weisfeiler_lehman

@@ -4,11 +4,9 @@
 API Reference
 =============
 
-This is the class and function reference of grakel.
-.. Please refer to the :ref:`full user guide <user_guide>` for further details, as the class and
-.. function raw specifications may not be enough to give full guidelines on their
-.. uses.
-.. For reference on concepts repeated across the API, see :ref:`glossary`.
+This is the class and function reference of **grakel**.
+In order for the user to understand how to use the **grakel** project and how it works we suggest him
+to read :ref:`user_manual` section.
 
 :mod:`grakel.graph`: Graph class with its utility functions
 ===========================================================
@@ -21,21 +19,21 @@ Base Class
    :toctree: generated/
    :template: class.rst
 
-   grakel.Graph
+   Graph
 
 
 Utility Functions
 -----------------
-.. currentmodule:: grakel.graph
+.. currentmodule:: grakel
 
 .. autosummary::
    :toctree: generated/
    :template: function.rst
 
-   grakel.graph.is_adjacency
-   grakel.graph.is_edge_dictionary
-   grakel.graph.laplacian
-   grakel.graph.floyd_warshall
+   graph.is_adjacency
+   graph.is_edge_dictionary
+   graph.laplacian
+   graph.floyd_warshall
 
 **User guide:** See the :ref:`graph` section for further details.
 
@@ -65,34 +63,26 @@ Kernels
    :toctree: generated/
    :template: kernel.rst
 
-   grakel.kernel
-
-.. currentmodule:: grakel.kernels
-
-.. autosummary::
-   :toctree: generated/
-   :template: kernel.rst
-
-   grakel.kernels.kernel
-   grakel.kernels.random_walk
-   grakel.kernels.pyramid_match
-   grakel.kernels.neighborhood_hash
-   grakel.kernels.shortest_path
-   grakel.kernels.shortest_path_attr
-   grakel.kernels.subgraph_matching
-   grakel.kernels.weisfeiler_lehman
-   grakel.kernels.subtree_wl
-   grakel.kernels.hadamard_code
-   grakel.kernels.neighborhood_subgraph_pairwise_distance
-   grakel.kernels.lovasz_theta
-   grakel.kernels.svm_theta
-   grakel.kernels.propagation
-   grakel.kernels.odd_sth
-   grakel.kernels.multiscale_laplacian
-   grakel.kernels.multiscale_laplacian_fast
-   grakel.kernels.hadamard_code
-   grakel.kernels.vertex_histogram
-   grakel.kernels.edge_histogram
+   kernel
+   random_walk
+   random_walk_labeled
+   pyramid_match
+   neighborhood_hash
+   shortest_path
+   shortest_path_attr
+   subgraph_matching
+   weisfeiler_lehman
+   hadamard_code
+   neighborhood_subgraph_pairwise_distance
+   lovasz_theta
+   svm_theta
+   propagation
+   odd_sth
+   multiscale_laplacian
+   multiscale_laplacian_fast
+   hadamard_code
+   vertex_histogram
+   edge_histogram
 
 **User guide:** See the :ref:`kernels` section for further details.
 
@@ -108,8 +98,8 @@ Fetch
    :toctree: generated/
    :template: function.rst
    
-   grakel.datasets.fetch_dataset
-   grakel.datasets.get_dataset_info
+   fetch_dataset
+   get_dataset_info
 
 **User guide:** See the :ref:`datasets` section for further details.
 
