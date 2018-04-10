@@ -3,7 +3,7 @@
 Cross-Validation sk-learn Pipeline example on MUTAG using ODD-STh Kernel
 ========================================================================
 
-An example plot of :class:`grakel.GraphKernel`
+An example plot of :class:`grakel.GraphKernel`, :class:`grakel.odd_sth`
 """
 print(__doc__)
 import numpy as np

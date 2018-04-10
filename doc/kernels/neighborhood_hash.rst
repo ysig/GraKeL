@@ -2,7 +2,7 @@
 
 Neighborhood Hash Kernel
 =========================
-The neighborhood hash kernel.
+The Neighborhood Hash kernel.
 
 **Theoretical definition missing**
 
@@ -10,4 +10,4 @@ The neighborhood hash kernel.
 
 .. autosummary::
 
-   neighborhood_hash
+   NeighborhoodHash

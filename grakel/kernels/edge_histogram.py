@@ -7,7 +7,7 @@ from collections import Iterable
 from sklearn.exceptions import NotFittedError
 from sklearn.utils.validation import check_is_fitted
 
-from grakel.kernels import kernel
+from grakel.kernels import Kernel
 from grakel.graph import Graph
 
 from numpy import zeros
@@ -20,7 +20,7 @@ from six import itervalues
 default_executor = lambda fn, *eargs, **ekargs: fn(*eargs, **ekargs)
 
 
-class edge_histogram(kernel):
+class EdgeHistogram(Kernel):
     """Edge Histogram kernel as found in :cite:`Sugiyama2015NIPS_EH`.
 
     Parameters
@@ -36,9 +36,9 @@ class edge_histogram(kernel):
     def __init__(self, executor=default_executor,
                  normalize=False, verbose=False):
         """Initialize an edge kernel."""
-        super(edge_histogram, self).__init__(executor=executor,
-                                             normalize=normalize,
-                                             verbose=verbose)
+        super(EdgeHistogram, self).__init__(executor=executor,
+                                            normalize=normalize,
+                                            verbose=verbose)
 
     def parse_input(self, X):
         """Parse and check the given input for EH kernel.

@@ -6,7 +6,7 @@ import numpy as np
 
 from numbers import Real
 
-from grakel.kernels import kernel
+from grakel.kernels import Kernel
 from grakel.graph import Graph
 from grakel.kernels._c_functions import sm_kernel
 
@@ -16,7 +16,7 @@ k_default = lambda a, b: 1 if a == b else 0
 default_executor = lambda fn, *eargs, **ekargs: fn(*eargs, **ekargs)
 
 
-class subgraph_matching(kernel):
+class SubgraphMatching(Kernel):
     r"""Calculate the subgraph matching kernel.
 
     See :cite:`Kriege2012SubgraphMK`.
@@ -61,7 +61,7 @@ class subgraph_matching(kernel):
                  normalize=False, k=5, kv=k_default,
                  ke=k_default, lw="uniform"):
         """Initialise a `subgraph_matching` kernel."""
-        super(subgraph_matching, self).__init__(
+        super(SubgraphMatching, self).__init__(
             executor=executor, verbose=verbose, normalize=normalize)
 
         self.k = k
@@ -211,7 +211,7 @@ class subgraph_matching(kernel):
 
 
 if __name__ == "__main__":
-    k = subgraph_matching()
+    k = SubgraphMatching()
     print("fit")
     k.fit([({(1, 2), (2, 3), (2, 1), (3, 2)},
            {1: 'N', 2: 'C', 3: 'O'},

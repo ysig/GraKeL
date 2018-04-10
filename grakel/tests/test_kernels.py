@@ -10,23 +10,27 @@ from sklearn.model_selection import train_test_split
 from grakel.datasets import fetch_dataset
 from grakel.datasets import get_dataset_info
 
-from grakel.kernels import graphlet_sampling
-from grakel.kernels import random_walk
-from grakel.kernels import shortest_path
-from grakel.kernels import weisfeiler_lehman
-from grakel.kernels import pyramid_match
-from grakel.kernels import neighborhood_hash
-from grakel.kernels import subgraph_matching
-from grakel.kernels import neighborhood_subgraph_pairwise_distance
-from grakel.kernels import lovasz_theta
-from grakel.kernels import svm_theta
-from grakel.kernels import odd_sth
-from grakel.kernels import propagation
-from grakel.kernels import hadamard_code
-from grakel.kernels import multiscale_laplacian
-from grakel.kernels import multiscale_laplacian_fast
-from grakel.kernels import vertex_histogram
-from grakel.kernels import edge_histogram
+from grakel.kernels import GraphletSampling
+from grakel.kernels import RandomWalk
+from grakel.kernels import RandomWalkLabeled
+from grakel.kernels import ShortestPath
+from grakel.kernels import ShortestPathAttr
+from grakel.kernels import WeisfeilerLehman
+from grakel.kernels import NeighborhoodHash
+from grakel.kernels import PyramidMatch
+from grakel.kernels import SubgraphMatching
+from grakel.kernels import NeighborhoodSubgraphPairwiseDistance
+from grakel.kernels import LovaszTheta
+from grakel.kernels import SvmTheta
+from grakel.kernels import OddSth
+from grakel.kernels import Propagation
+from grakel.kernels import PropagationAttr
+from grakel.kernels import HadamardCode
+from grakel.kernels import MultiscaleLaplacian
+from grakel.kernels import MultiscaleLaplacianFast
+from grakel.kernels import VertexHistogram
+from grakel.kernels import EdgeHistogram
+from grakel.kernels import GraphHopper
 
 global verbose, main, development
 
@@ -153,26 +157,37 @@ dataset_attr_tr, dataset_attr_te = train_test_split(dataset_attr,
 
 def test_random_walk():
     """Test the simple random walk kernel."""
-    rw_kernel = random_walk(verbose=verbose, normalize=normalize)
+    rw_kernel = RandomWalk(verbose=verbose, normalize=normalize)
     if verbose:
         print_kernel("Random Walk", rw_kernel, dataset_tr, dataset_te)
     else:
         positive_eig(rw_kernel, dataset)
 
+    rw_kernel_lab = RandomWalkLabeled(verbose=verbose, normalize=normalize)
+    if verbose:
+        print_kernel("Random Walk Labelled", rw_kernel_lab, dataset_tr, dataset_te)
+    else:
+        positive_eig(rw_kernel_lab, dataset)
+
 
 def test_shortest_path():
     """Test Shortest Path kernel."""
-    sp_kernel = shortest_path(verbose=verbose, normalize=normalize)
+    sp_kernel = ShortestPath(verbose=verbose, normalize=normalize)
     if verbose:
         print_kernel("Shortest Path", sp_kernel, dataset_tr, dataset_te)
     else:
         positive_eig(sp_kernel, dataset)
 
+    sp_kernel_attr = ShortestPathAttr(verbose=verbose, normalize=normalize)
+    if verbose and slow:
+        print_kernel("Shortest Path Attr", sp_kernel_attr, dataset_attr_tr, dataset_attr_te)
+    elif not verbose and slow:
+        positive_eig(sp_kernel_attr, dataset_attr)
+
 
 def test_graphlet_sampling():
     """Test the Graphlet Sampling Kernel."""
-    gs_kernel = graphlet_sampling(verbose=verbose, normalize=normalize,
-                                  sampling=dict(n_samples=150))
+    gs_kernel = GraphletSampling(verbose=verbose, normalize=normalize, sampling=dict(n_samples=150))
     if verbose:
         print_kernel("Graphlet Sampling", gs_kernel, dataset_tr, dataset_te)
     else:
@@ -181,8 +196,8 @@ def test_graphlet_sampling():
 
 def test_weisfeiler_lehman():
     """Test the Weisfeiler Lehman kernel."""
-    wl_st_kernel = weisfeiler_lehman(verbose=verbose, normalize=normalize,
-                                     base_kernel=vertex_histogram)
+    wl_st_kernel = WeisfeilerLehman(verbose=verbose, normalize=normalize,
+                                    base_kernel=VertexHistogram)
     if verbose:
         print_kernel("WL/Subtree", wl_st_kernel, dataset_tr, dataset_te)
     else:
@@ -191,7 +206,7 @@ def test_weisfeiler_lehman():
 
 def test_pyramid_match():
     """Test the Pyramid Match kernel."""
-    pm_kernel = pyramid_match(verbose=verbose, normalize=normalize)
+    pm_kernel = PyramidMatch(verbose=verbose, normalize=normalize)
     if verbose:
         print_kernel("Pyramid Match", pm_kernel, dataset_tr, dataset_te)
     else:
@@ -200,7 +215,7 @@ def test_pyramid_match():
 
 def test_neighborhood_hash():
     """Test the Neighborhood Hash kernel."""
-    nh_kernel = neighborhood_hash(verbose=verbose, normalize=normalize)
+    nh_kernel = NeighborhoodHash(verbose=verbose, normalize=normalize)
     if verbose:
         print_kernel("Neighborhood Hash", nh_kernel, dataset_tr, dataset_te)
     else:
@@ -209,7 +224,7 @@ def test_neighborhood_hash():
 
 def test_subgraph_matching():
     """Test the subgraph_matching kernel."""
-    sm_kernel = subgraph_matching(verbose=verbose, normalize=normalize)
+    sm_kernel = SubgraphMatching(verbose=verbose, normalize=normalize)
     if verbose:
         print_kernel("Subgraph Matching", sm_kernel, dataset_tr, dataset_te)
     else:
@@ -218,7 +233,7 @@ def test_subgraph_matching():
 
 def test_neighborhood_subgraph_pairwise_distance():
     """Test the neighborhood subgraph pairwise distance kernel."""
-    nspd_kernel = neighborhood_subgraph_pairwise_distance(
+    nspd_kernel = NeighborhoodSubgraphPairwiseDistance(
         verbose=verbose, normalize=normalize)
     if verbose:
         print_kernel("NSPD", nspd_kernel, dataset_tr, dataset_te)
@@ -228,7 +243,7 @@ def test_neighborhood_subgraph_pairwise_distance():
 
 def test_lovasz_theta():
     """Test the Lovasz-theta distance kernel."""
-    lt_kernel = lovasz_theta(verbose=verbose, normalize=normalize)
+    lt_kernel = LovaszTheta(verbose=verbose, normalize=normalize)
     if verbose:
         print_kernel("Lovasz-theta", lt_kernel, dataset_tr, dataset_te)
     else:
@@ -237,7 +252,7 @@ def test_lovasz_theta():
 
 def test_svm_theta():
     """Test the SVM-theta distance kernel."""
-    svm_kernel = svm_theta(verbose=verbose, normalize=normalize)
+    svm_kernel = SvmTheta(verbose=verbose, normalize=normalize)
     if verbose:
         print_kernel("SVM-theta", svm_kernel, dataset_tr, dataset_te)
     else:
@@ -246,7 +261,7 @@ def test_svm_theta():
 
 def test_odd_sth():
     """Test the ODD-STh kernel."""
-    odd_sth_kernel = odd_sth(verbose=verbose, normalize=normalize)
+    odd_sth_kernel = OddSth(verbose=verbose, normalize=normalize)
     if verbose:
         print_kernel("ODD-STh", odd_sth_kernel, dataset_tr, dataset_te)
     else:
@@ -255,17 +270,23 @@ def test_odd_sth():
 
 def test_propagation():
     """Test the Propagation kernel."""
-    propagation_kernel = propagation(verbose=verbose, normalize=normalize)
+    propagation_kernel = Propagation(verbose=verbose, normalize=normalize)
     if verbose:
         print_kernel("Propagation", propagation_kernel, dataset_tr, dataset_te)
     else:
         positive_eig(propagation_kernel, dataset)
 
+    propagation_kernel_attr = PropagationAttr(verbose=verbose, normalize=normalize)
+    if verbose:
+        print_kernel("Propagation", propagation_kernel_attr, dataset_attr_tr, dataset_attr_te)
+    else:
+        positive_eig(propagation_kernel_attr, dataset_attr)
+
 
 def test_hadamard_code():
     """Test the Hadamard Code kernel."""
-    hadamard_code_kernel = hadamard_code(verbose=verbose, normalize=normalize,
-                                         base_kernel=vertex_histogram)
+    hadamard_code_kernel = HadamardCode(verbose=verbose, normalize=normalize,
+                                        base_kernel=VertexHistogram)
     if verbose:
         print_kernel("Hadamard-Code/VH [Simple]",
                      hadamard_code_kernel, dataset_tr, dataset_te)
@@ -276,19 +297,18 @@ def test_hadamard_code():
 def test_multiscale_laplacian():
     """Test the Multiscale Laplacian kernel."""
     # Intialise kernel
-    ml_kernel = multiscale_laplacian(verbose=verbose, normalize=normalize)
-    if verbose:
+    ml_kernel = MultiscaleLaplacian(verbose=verbose, normalize=normalize)
+    if verbose and slow:
         print_kernel("Multiscale Laplacian", ml_kernel,
                      dataset_attr_tr, dataset_attr_te)
-    # else:
-    #    positive_eig(ml_kernel, dataset_attr)
+    elif not verbose and slow:
+        positive_eig(ml_kernel, dataset_attr)
 
 
 def test_multiscale_laplacian_fast():
     """Test the Fast Multiscale Laplacian kernel."""
     # Initialise kernel
-    mlf_kernel = multiscale_laplacian_fast(verbose=verbose,
-                                           normalize=normalize)
+    mlf_kernel = MultiscaleLaplacianFast(verbose=verbose, normalize=normalize)
     if verbose:
         print_kernel("Multiscale Laplacian Fast", mlf_kernel,
                      dataset_attr_tr, dataset_attr_te)
@@ -298,7 +318,7 @@ def test_multiscale_laplacian_fast():
 
 def test_vertex_histogram():
     """Test the Vertex Histogram Kernel."""
-    vh_kernel = vertex_histogram(verbose=verbose, normalize=normalize)
+    vh_kernel = VertexHistogram(verbose=verbose, normalize=normalize)
     if verbose:
         print_kernel("Vertex Histogram", vh_kernel, dataset_tr, dataset_te)
     else:
@@ -307,11 +327,20 @@ def test_vertex_histogram():
 
 def test_edge_histogram():
     """Test the Edge Histogram Kernel."""
-    eh_kernel = edge_histogram(verbose=verbose, normalize=normalize)
+    eh_kernel = EdgeHistogram(verbose=verbose, normalize=normalize)
     if verbose:
         print_kernel("Edge Histogram", eh_kernel, dataset_tr, dataset_te)
     else:
         positive_eig(eh_kernel, dataset)
+
+
+def test_graph_hopper():
+    """Test the Graph Hopper Kernel."""
+    gh_kernel = GraphHopper(verbose=verbose, normalize=normalize)
+    if verbose:
+        print_kernel("Graph Hopper", gh_kernel, dataset_attr_tr, dataset_attr_te)
+    else:
+        positive_eig(gh_kernel, dataset_attr)
 
 
 def print_kernel(name, kernel, X, Y):
@@ -395,6 +424,7 @@ if verbose and main:
     test_edge_histogram()
     test_vertex_histogram()
     test_subgraph_matching()
+    test_graph_hopper()
 
 if verbose and develop:
     if slow:

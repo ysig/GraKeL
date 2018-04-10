@@ -9,7 +9,7 @@ from scipy.sparse import csr_matrix
 from sklearn.exceptions import NotFittedError
 from sklearn.utils.validation import check_is_fitted
 
-from grakel.kernels import kernel
+from grakel.kernels import Kernel
 from grakel.graph import Graph
 
 from grakel.kernels._c_functions import APHash
@@ -22,7 +22,7 @@ from builtins import range
 default_executor = lambda fn, *eargs, **ekargs: fn(*eargs, **ekargs)
 
 
-class neighborhood_subgraph_pairwise_distance(kernel):
+class NeighborhoodSubgraphPairwiseDistance(Kernel):
     """The Neighborhood subgraph pairwise distance kernel.
 
     See :cite:`Costa2010FastNS`.
@@ -69,7 +69,7 @@ class neighborhood_subgraph_pairwise_distance(kernel):
                  r=3, d=4):
         """Initialize an NSPD kernel."""
         # setup valid parameters and initialise from parent
-        super(neighborhood_subgraph_pairwise_distance, self).__init__(
+        super(NeighborhoodSubgraphPairwiseDistance, self).__init__(
             executor=executor,
             normalize=normalize,
             verbose=verbose)

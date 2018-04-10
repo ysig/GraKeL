@@ -1666,8 +1666,8 @@ def dijkstra(edge_dictionary, start_vertex, end_vertex=None):
             vwLength = dict_fd[v] + edge_dictionary[v][w]
             if w in dict_fd:
                 if vwLength < dict_fd[w]:
-                    raise(ValueError, "Dijkstra: found better path to " +
-                                      "already-final vertex")
+                    raise ValueError("Dijkstra: found better path to "
+                                     "already-final vertex")
             elif w not in queue or vwLength < queue[w]:
                 queue[w] = vwLength
                 dict_pred[w] = v

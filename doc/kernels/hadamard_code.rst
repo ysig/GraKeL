@@ -11,4 +11,4 @@ The Hadamard Code Kernel.
 
 .. autosummary::
 
-   hadamard_code
+   HadamardCode

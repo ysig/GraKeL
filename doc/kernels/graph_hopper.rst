@@ -1,9 +1,8 @@
-.. _lovasz_theta:
+.. _graph_hopper:
 
-Lovasz Theta Kernel
+Graph Hopper Kernel
 ===================
-
-The Lovasz Theta Kernel.
+The Graph Hopper Kernel.
 
 **Theoretical definition missing**
 
@@ -11,4 +10,4 @@ The Lovasz Theta Kernel.
 
 .. autosummary::
 
-   LovaszTheta
+   GraphHopper

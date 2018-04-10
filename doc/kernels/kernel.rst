@@ -1,7 +1,7 @@
 .. _kernel:
 
-kernel [class]
-==============
+Kernel (general class)
+======================
 
 Documentation for the general kernel class.
 
@@ -11,4 +11,4 @@ Documentation for the general kernel class.
 
 .. autosummary::
 
-   kernel
+   Kernel

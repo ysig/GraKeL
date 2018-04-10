@@ -3,7 +3,7 @@
 Classification on the MUTAG dataset using a WL-subtree kernel
 =============================================================
 
-An example plot of :class:`grakel.GraphKernel`, :class:`grakel.kernels.weisfeiler_lehman`, :class:`grakel.kernels.subtree_wl`
+An example plot of :class:`grakel.GraphKernel`, :class:`grakel.weisfeiler_lehman`, :class:`grakel.subtree_wl`
 """
 print(__doc__)
 

@@ -10,7 +10,7 @@ from collections import defaultdict
 from sklearn.utils.validation import check_is_fitted
 from sklearn.exceptions import NotFittedError
 
-from grakel.kernels import kernel
+from grakel.kernels import Kernel
 from grakel.graph import Graph
 
 # Python 2/3 cross-compatibility import
@@ -19,7 +19,7 @@ from six import iteritems
 default_executor = lambda fn, *eargs, **ekargs: fn(*eargs, **ekargs)
 
 
-class odd_sth(kernel):
+class OddSth(Kernel):
     """ODD-Sth kernel as proposed in :cite:`Martino2012ATK`.
 
     Parameters
@@ -58,9 +58,9 @@ class odd_sth(kernel):
     def __init__(self, executor=default_executor,
                  normalize=False, verbose=False, h=None):
         """Initialise an `odd_sth` kernel."""
-        super(odd_sth, self).__init__(executor=executor,
-                                      normalize=normalize,
-                                      verbose=verbose)
+        super(OddSth, self).__init__(executor=executor,
+                                     normalize=normalize,
+                                     verbose=verbose)
         self.h = h
         self.initialized_ = {"h": False}
 

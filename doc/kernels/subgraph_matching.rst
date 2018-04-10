@@ -10,4 +10,4 @@ The Subgraph-Matching kernel.
 
 .. autosummary::
 
-   subgraph_matching
+   SubgraphMatching

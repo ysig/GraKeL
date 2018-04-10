@@ -10,4 +10,4 @@ The Neighborhood Subgraph Pairwise Distance Kernel.
 
 .. autosummary::
 
-   neighborhood_subgraph_pairwise_distance
+   NeighborhoodSubgraphPairwiseDistance

@@ -254,7 +254,7 @@ def test_multiscale_laplacian():
     gk = GraphKernel(kernel={"name": "multiscale_laplacian"},
                      verbose=verbose, normalize=normalize)
 
-    if verbose:
+    if verbose and slow:
         print_kernel_decorator("Multiscale Laplacian",
                                gk, dataset_attr_tr, dataset_attr_te)
 

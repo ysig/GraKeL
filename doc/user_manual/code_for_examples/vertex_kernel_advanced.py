@@ -1,12 +1,12 @@
 from collections import Counter, Iterable
 from sklearn.utils.validation import check_is_fitted
-from grakel import kernel, Graph
+from grakel import Kernel, Graph
 from numpy import zeros, einsum
 
 default_executor = lambda fn, *eargs, **ekargs: fn(*eargs, **ekargs)
 
 
-class vertex_histogram(kernel):
+class VertexHistogram(Kernel):
     """Vertex Histogram kernel as found in :cite:`Sugiyama2015NIPS`
 
     Parameters
@@ -35,7 +35,7 @@ class vertex_histogram(kernel):
         # Add new parameters
         self._valid_parameters |= new_parameters
 
-        super(vertex_histogram, self).__init__(
+        super(VertexHistogram, self).__init__(
             executor=executor, verbose=verbose, normalize=normalize)
 
         # Get parameters and check the new ones

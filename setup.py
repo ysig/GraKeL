@@ -11,7 +11,7 @@ with open('requirements.txt') as f:
 OS = system()
 
 if OS == 'Windows':
-    warn('Installation in Windows is problematic..'
+    warn('Installation in Windows is incomplete..'
          'To see why please check the documentation.')
 
 try:
@@ -21,6 +21,7 @@ except ImportError:
           file=sys.stderr)
     sys.exit(1)
 
+"""
 try:
     import pynauty
 except ImportError as ie:
@@ -36,6 +37,7 @@ except ImportError as ie:
     else:
         print('problematic OS -- pynauty should be installed manually', file=sys.stderr)
         sys.exit(1)
+"""
 
 try:
     import numpy
@@ -83,7 +85,14 @@ setup(name='grakel',
                  ],
       python_requires='>=2.7,>=3.5',
       packages=find_packages(),
+#      entry_points = {
+#        'console_scripts': ['install-pynauty=install_pynauty:main']
+#      },
       install_requires=INSTALL_REQUIRES,
+      extras_require={
+        'graphlet':  ["pynauty>=0.6.0"],
+        'lovasz': ["cvxopt>=1.1.9"]
+      },
       ext_modules=[ext],
       cmdclass={'build_ext': build_ext}
       )

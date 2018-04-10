@@ -15,7 +15,7 @@ from numpy.linalg import multi_dot
 from grakel.graph import Graph
 from scipy.sparse.csgraph import laplacian
 
-from grakel.kernels import kernel
+from grakel.kernels import Kernel
 
 # Python 2/3 cross-compatibility import
 from six import iteritems
@@ -24,7 +24,7 @@ default_executor = lambda fn, *eargs, **ekargs: fn(*eargs, **ekargs)
 positive_eigenvalue_limit = float("+1e-6")
 
 
-class multiscale_laplacian_fast(kernel):
+class MultiscaleLaplacianFast(Kernel):
     """Laplacian Graph Kernel as proposed in :cite:`Kondor2016TheML_fast`.
 
     Parameters
@@ -71,7 +71,7 @@ class multiscale_laplacian_fast(kernel):
                  heta=0.01,
                  N=50):
         """Initialise a `multiscale_laplacian` kernel."""
-        super(multiscale_laplacian_fast, self).__init__(
+        super(MultiscaleLaplacianFast, self).__init__(
             executor=executor,
             normalize=normalize,
             verbose=verbose)
@@ -292,7 +292,7 @@ class multiscale_laplacian_fast(kernel):
         return k_nom/k_denom
 
 
-class multiscale_laplacian(kernel):
+class MultiscaleLaplacian(Kernel):
     """Laplacian Graph Kernel as proposed in :cite:`Kondor2016TheML`.
 
     Parameters
@@ -329,9 +329,9 @@ class multiscale_laplacian(kernel):
                  gamma=0.01,
                  heta=0.01):
         """Initialise a `multiscale_laplacian` kernel."""
-        super(multiscale_laplacian, self).__init__(executor=executor,
-                                                   normalize=normalize,
-                                                   verbose=verbose)
+        super(MultiscaleLaplacian, self).__init__(executor=executor,
+                                                  normalize=normalize,
+                                                  verbose=verbose)
 
         self.gamma = gamma
         self.heta = heta

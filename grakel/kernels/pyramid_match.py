@@ -8,7 +8,7 @@ from scipy.sparse import csr_matrix
 from scipy.sparse.linalg import eigs
 
 from grakel.graph import Graph
-from grakel.kernels import kernel
+from grakel.kernels import Kernel
 
 # Python 2/3 cross-compatibility import
 from six import itervalues
@@ -16,7 +16,7 @@ from six import itervalues
 default_executor = lambda fn, *eargs, **ekargs: fn(*eargs, **ekargs)
 
 
-class pyramid_match(kernel):
+class PyramidMatch(Kernel):
     """Pyramid match kernel class.
 
     Kernel defined in :cite:`Nikolentzos2017MatchingNE`
@@ -61,9 +61,9 @@ class pyramid_match(kernel):
                  L=4,
                  d=6):
         """Initialise a `pyramid_match` kernel."""
-        super(pyramid_match, self).__init__(executor=executor,
-                                            normalize=normalize,
-                                            verbose=verbose)
+        super(PyramidMatch, self).__init__(executor=executor,
+                                           normalize=normalize,
+                                           verbose=verbose)
 
         self.with_labels = with_labels
         self.L = L

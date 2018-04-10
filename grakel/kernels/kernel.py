@@ -18,7 +18,7 @@ from six import iteritems
 default_executor = lambda fn, *eargs, **ekargs: fn(*eargs, **ekargs)
 
 
-class kernel(BaseEstimator, TransformerMixin):
+class Kernel(BaseEstimator, TransformerMixin):
     """A general class for graph kernels.
 
     At default a kernel is considered as pairwise. Doing so the coder that
@@ -346,4 +346,4 @@ class kernel(BaseEstimator, TransformerMixin):
                     self.initialized_[key] = False
 
         # Set parameters
-        super(kernel, self).set_params(**params)
+        super(Kernel, self).set_params(**params)

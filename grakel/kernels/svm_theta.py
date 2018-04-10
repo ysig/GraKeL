@@ -7,7 +7,7 @@ import numpy as np
 from scipy.linalg import eigvalsh
 from sklearn.svm import OneClassSVM
 
-from grakel.kernels import kernel
+from grakel.kernels import Kernel
 from grakel.graph import Graph
 from grakel.tools import distribute_samples
 
@@ -17,7 +17,7 @@ min_weight = float("1e-10")
 default_executor = lambda fn, *eargs, **ekargs: fn(*eargs, **ekargs)
 
 
-class svm_theta(kernel):
+class SvmTheta(Kernel):
     """Calculate the SVM theta kernel.
 
     See :cite:`Johansson2015LearningWS_svm`.
@@ -59,9 +59,9 @@ class svm_theta(kernel):
                  base_kernel=lambda x, y: x.T.dot(y)):
         """Initialise a lovasz_theta kernel."""
         # setup valid parameters and initialise from parent
-        super(svm_theta, self).__init__(executor=default_executor,
-                                        normalize=normalize,
-                                        verbose=verbose)
+        super(SvmTheta, self).__init__(executor=default_executor,
+                                       normalize=normalize,
+                                       verbose=verbose)
 
         self.n_samples = n_samples
         self.subsets_size_range = subsets_size_range

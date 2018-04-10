@@ -16,7 +16,7 @@ These features can be listed as follows:
         To initialize a :code:`base_kernel` kernel the procedure is simple. Any :code:`base_kernel` is a dictionary containing its name under the :code:`'name'` field and its parameterization on separate fields that signify kernel parameters and their values. The :code:`shortest_path` kernel we show on the introduction is such a kernel.
 
         .. note::
-            The decorator sometimes wraps two kernels in one (as in the :code:`multiscale_laplacian` and :code:`multiscale_laplacian_fast`) and in order to learn
+            The decorator sometimes wraps two kernels in one (as in the :code:`MultiscaleLaplacian` and :code:`MultiscaleLaplacianFast`) and in order to learn
             the meaning of each parameter the user is suggested to read the documentation found on :ref:`kernels`.
 
     - :code:`general_kernels` : 
@@ -49,7 +49,7 @@ These features can be listed as follows:
 
     but in the second case we make some more computations, in reward that fit samples are drown from both
     train and test datasets, producing a different result in some kernels by unifying intuitively
-    train and test data when creating features, which may be desired (e.g. on the :code:`multiscale_laplacian_fast`).
+    train and test data when creating features, which may be desired (e.g. on the :code:`MultiscaleLaplacianFast`).
 
 * :code:`Nystroem` : Nystroem is very well known method, for approximating kernel matrices on huge datasets.
     The kernel matrix is calculated only in random drown subsets of graphs, whose size can be defined by the user 
@@ -192,9 +192,9 @@ These features can be listed as follows:
 
 To understand what the :code:`GraphKernel` object is doing, we must see inherently what objects it decorates.
 
-The `kernel` class
+The `Kernel` class
 ------------------
-This :code:`Object` is any object inherited from the :ref:`kernel` class (which can be imported from :code:`grakel`).
+This :code:`Object` is any object inherited from the :ref:`kernel` (which can be imported from :code:`grakel`).
 
 Normally a kernel function, between graphs should be considered as a function with to arguments,
 such as :math:`k \; : \; \mathcal{G} \times \mathcal{G} \rightarrow \mathbb{R}`.
@@ -202,7 +202,7 @@ This raises two issues, namely one of efficiency and one of compatibility:
 
 1. The first one has to do with the fact, that there are major computational advantages if instead of calculating the kernel pairwise, we calculate the whole kernel matrix.
 
-2. The second has to do with the fact, that we wanted our project to be integrable inside the `sk learn template`_. From this template the most relevant structure was the sci-kit transformer, which consists of three inherent methods: :code:`fit`, :code:`fit-transform`, :code:`transform`.
+2. The second has to do with the fact, that we wanted our project to be integrable inside the `sk learn template`_. From this template the most relevant structure was the sci-kit transformer, which consists of three inherent methods: :code:`fit`, :code:`fit_transform`, :code:`transform`.
 
 So the way we conceptually attached the kernel definition to that design pattern was:
 
@@ -218,30 +218,33 @@ result, if some of the data of :math:`\mathcal{G}^{\text{train}}`, must be combi
 as mentioned above, namely in the case of :code:`multiscale_laplacian`, if the user wants :math:`\mathcal{G}^{\text{train}} \rightarrow \mathcal{G}^{\text{test}}` to be concerned
 before fit we advise him to use the :code:`fit_transform`, function in the whole of the train and test data and separate the kernel matrices on the result.
 
+.. note::
+    The very idea that lies before fitting concerns holding a reference dataset. This means a collections of features should be stored into memory and **not** get corrupted throughout various applications of :code:`transform`. This however - the need of copying and protecting the reference data - produces a computational overhead in kernels such as the :code:`odd_sth` where the user will may prefer the computational advantages of applying a sole :code:`fit_transform`.
+
 Using a :code:`kernel` type object through the decorator, should be equivalent with doing so without the decorator, if the correct parametrization is given.
 The decorator **does not** restrict any *user-oriented* interface of the kernels, except if the user wants to write a kernel of his own.
 If you want to know more about the kernel structure in order to write your own see :ref:`myok`.
 
 To demonstrate a small example of the above we will construct our own a WL-subtree kernel instead of using the decorator.
-To do so first import the :code:`weisfeiler_lehman` and :code:`vertex_histogram` (where :code:`vertex_histogram` is equivalent
+To do so first import the :code:`WeisfeilerLehman` and :code:`VertexHistogram` (where :code:`vertex_histogram` is equivalent
 with the :code:`subtree_kernel`) kernels as
 
 .. code-block:: python
 
-    >>> from grakel import weisfeiler_lehman
-    >>> from grakel import vertex_histogram
+    >>> from grakel import WeisfeilerLehman
+    >>> from grakel import VertexHistogram
 
 If we see the documentation of :ref:`weisfeiler_lehman`, we can see that it accepts two arguments upon initialization: a :code:`niter` and a :code:`base_kernel`. The :code:`base_kernel` is a tuple consisting of a :code:`kernel` type object and a dictionary of arguments. To initialize a Weisfeiler-Lehman with 5 iterations and a subtree base-kernel.
 
 .. code-block:: python
 
-    >>> wl_kernel = weisfeiler_lehman(niter=5, base_kernel=(vertex_histogram, {}))
+    >>> wl_kernel = WeisfeilerLehman(niter=5, base_kernel=(VertexHistogram, {}))
 
 This is also equivalent with doing (as long as we have no arguments)
 
 .. code-block:: python
 
-    >>> wl_kernel = weisfeiler_lehman(niter=5, base_kernel=vertex_histogram)
+    >>> wl_kernel = WeisfeilerLehman(niter=5, base_kernel=VertexHistogram)
 
 Now let's go back again to our favorite MUTAG problem.
 

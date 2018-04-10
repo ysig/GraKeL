@@ -12,7 +12,7 @@ from numpy.linalg import inv
 from numpy.linalg import eig
 from scipy.linalg import expm
 
-from grakel.kernels import kernel
+from grakel.kernels import Kernel
 from grakel.graph import Graph
 
 # Python 2/3 cross-compatibility import
@@ -22,7 +22,7 @@ from builtins import range
 default_executor = lambda fn, *eargs, **ekargs: fn(*eargs, **ekargs)
 
 
-class random_walk(kernel):
+class RandomWalk(Kernel):
     """The random walk kernel class.
 
     See :cite:`Kashima2003MarginalizedKB`, :cite:`Grtner2003OnGK`
@@ -76,7 +76,7 @@ class random_walk(kernel):
                  kernel_type="geometric", p=None):
         """Initialise a random_walk kernel."""
         # setup valid parameters and initialise from parent
-        super(random_walk, self).__init__(
+        super(RandomWalk, self).__init__(
             executor=executor, normalize=normalize, verbose=verbose)
 
         # Ignores ComplexWarning as it does not signify anything problematic
@@ -265,7 +265,7 @@ class random_walk(kernel):
             return np.linalg.multi_dot((fl, D, fr))
 
 
-class random_walk_labeled(random_walk):
+class RandomWalkLabeled(RandomWalk):
     """The labeled random walk kernel class.
 
     See :cite:`Kashima2003MarginalizedKB_lbld`, :cite:`Grtner2003OnGK_lbld`
@@ -321,7 +321,7 @@ class random_walk_labeled(random_walk):
                  kernel_type="geometric", p=None):
         """Initialise a labeled random_walk kernel."""
         # Initialise from parent
-        super(random_walk_labeled, self).__init__(
+        super(RandomWalkLabeled, self).__init__(
             executor=executor, normalize=normalize, verbose=verbose,
             lamda=lamda, method_type=method_type, kernel_type=kernel_type,
             p=p)

@@ -8,12 +8,12 @@ from sklearn.exceptions import NotFittedError
 from sklearn.utils.validation import check_is_fitted
 
 from grakel.graph import Graph
-from grakel.kernels import kernel
+from grakel.kernels import Kernel
 
 default_executor = lambda fn, *eargs, **ekargs: fn(*eargs, **ekargs)
 
 
-class shortest_path_attr(kernel):
+class ShortestPathAttr(Kernel):
     r"""The shortest path kernel for attributes.
 
     The Graph labels are considered as attributes.
@@ -46,7 +46,7 @@ class shortest_path_attr(kernel):
                  algorithm_type="auto",
                  attribute_kernel=lambda x, y: np.dot(x, y)):
         """Initialise a `shortest_path_attr` kernel."""
-        super(shortest_path_attr, self).__init__(
+        super(ShortestPathAttr, self).__init__(
             executor=executor, normalize=normalize, verbose=verbose)
 
         self.algorithm_type = algorithm_type
@@ -96,6 +96,7 @@ class shortest_path_attr(kernel):
             raise TypeError('input must be an iterable\n')
         else:
             sp_attr_tup = list()
+            ni = 0
             for (i, x) in enumerate(iter(X)):
                 is_iter = isinstance(x, collections.Iterable)
                 if is_iter:
@@ -118,6 +119,9 @@ class shortest_path_attr(kernel):
                                     'and at most 3 elements\n')
 
                 sp_attr_tup.append((S, L))
+                ni += 1
+
+            if ni == 0:
                 raise ValueError('parsed input is empty')
 
             return sp_attr_tup
@@ -153,16 +157,13 @@ class shortest_path_attr(kernel):
                             continue
                         if (Sx[i, j] == Sy[k, m] and
                                 Sx[i, j] != float('Inf')):
-                            kernel += \
-                                self._attribute_kernel(
-                                    phi_x[i], phi_y[k]) *\
-                                self._attribute_kernel(
-                                    phi_x[j], phi_y[m])
+                            kernel += self.attribute_kernel(phi_x[i], phi_y[k]) *\
+                                self.attribute_kernel(phi_x[j], phi_y[m])
 
         return kernel
 
 
-class shortest_path(kernel):
+class ShortestPath(Kernel):
     r"""The shortest path kernel class.
 
     See :cite:`Borgwardt2005ShortestpathKO`.
@@ -225,7 +226,7 @@ class shortest_path(kernel):
                  with_labels=True,
                  algorithm_type="auto"):
         """Initialize a `shortest_path` kernel."""
-        super(shortest_path, self).__init__(
+        super(ShortestPath, self).__init__(
             executor=executor, normalize=normalize, verbose=verbose)
 
         self.with_labels = with_labels

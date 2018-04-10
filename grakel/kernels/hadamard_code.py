@@ -13,7 +13,7 @@ from sklearn.exceptions import NotFittedError
 from sklearn.utils.validation import check_is_fitted
 
 from grakel.graph import Graph
-from grakel.kernels import kernel
+from grakel.kernels import Kernel
 
 # Python 2/3 cross-compatibility import
 from six import iteritems
@@ -22,7 +22,7 @@ from six import itervalues
 default_executor = lambda fn, *eargs, **ekargs: fn(*eargs, **ekargs)
 
 
-class hadamard_code(kernel):
+class HadamardCode(Kernel):
     """The simple Hadamard code kernel, as proposed in :cite:`icpram16`.
 
     Parameters
@@ -70,7 +70,7 @@ class hadamard_code(kernel):
     def __init__(self, executor=default_executor, verbose=False,
                  normalize=False, niter=5, base_kernel=None):
         """Initialise a `hadamard_code` kernel."""
-        super(hadamard_code, self).__init__(
+        super(HadamardCode, self).__init__(
             executor=executor, verbose=verbose, normalize=normalize)
 
         self.niter = niter
@@ -82,7 +82,7 @@ class hadamard_code(kernel):
         if not self.initialized_["base_kernel"]:
             base_kernel = self.base_kernel
             if base_kernel is not None:
-                if type(base_kernel) is type and issubclass(base_kernel, kernel):
+                if type(base_kernel) is type and issubclass(base_kernel, Kernel):
                     params = dict()
                 else:
                     try:
@@ -93,7 +93,7 @@ class hadamard_code(kernel):
                                         'Check documentation.')
 
                     if not (type(base_kernel) is type and
-                            issubclass(base_kernel, kernel)):
+                            issubclass(base_kernel, Kernel)):
                         raise TypeError('The first argument must be a valid '
                                         'grakel.kernel.kernel Object')
                     if type(params) is not dict:

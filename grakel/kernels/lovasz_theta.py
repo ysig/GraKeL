@@ -4,7 +4,7 @@ import warnings
 
 import numpy as np
 
-from grakel.kernels import kernel
+from grakel.kernels import Kernel
 from grakel.graph import Graph
 from grakel.tools import distribute_samples
 
@@ -15,19 +15,24 @@ from numpy.linalg import norm
 from scipy.linalg import cholesky
 from scipy.linalg import eigvalsh
 from scipy.linalg import solve
-from cvxopt.base import matrix
-from cvxopt.base import spmatrix
-from cvxopt.solvers import sdp
-from cvxopt.solvers import options
+
+cvxopt_installed = True
+try:
+    from cvxopt.base import matrix
+    from cvxopt.base import spmatrix
+    from cvxopt.solvers import sdp
+    from cvxopt.solvers import options
+    options['show_progress'] = False
+except ImportError:
+    cvxopt_installed = False
 
 default_executor = lambda fn, *eargs, **ekargs: fn(*eargs, **ekargs)
-options['show_progress'] = False
 min_weight = float("1e-10")
 angle_precision = float("1e-6")
 tolerance = float("1e-1")
 
 
-class lovasz_theta(kernel):
+class LovaszTheta(Kernel):
     """Lovasz theta kernel as proposed in :cite:`Johansson2015LearningWS_lovasz`.
 
     Parameters
@@ -76,9 +81,13 @@ class lovasz_theta(kernel):
                  base_kernel=lambda x, y: x.T.dot(y)):
         """Initialise a lovasz_theta kernel."""
         # setup valid parameters and initialise from parent
-        super(lovasz_theta, self).__init__(executor=executor,
-                                           normalize=normalize,
-                                           verbose=verbose)
+        if not cvxopt_installed:
+            raise ImportError('cvxopt should be installed for the '
+                              'computation of the Lovasz-Theta Kernel.')
+
+        super(LovaszTheta, self).__init__(executor=executor,
+                                          normalize=normalize,
+                                          verbose=verbose)
 
         self.n_samples = n_samples
         self.subsets_size_range = subsets_size_range

@@ -9,11 +9,11 @@ The grakel library requires:
 * NumPy [>= 1.8.2]
 * SciPy [>= 0.13.3]
 * Cython [>= 0.27.3]
-* cvxopt [>= 1.1.9]
-* pynauty [>= 0.6.0]
+* cvxopt [>= 1.1.9] [optional: lovasz]
+* pynauty [>= 0.6.0] [optional: graphlet]
 
 For installing NumPy, SciPy, cvxopt and Cython the procedure
-is the well known: `pip install extension>=extension_version`.
+is the well known: :code:`pip install extension>=extension_version`.
 
 ----------------------
 Installing **pynauty**
@@ -25,7 +25,7 @@ graph isomorphism problem in a very good complexity.
 Unfortunately the `pynauty`_ package, currently does not support the *pip* installation
 procedure and should be installed manually as follows the installation procedure on the
 package's web-page. To make things easier for the user, we have created a python script
-under the name `install_pynauty.py` on the `official git repo`_ that automates the 
+under the name :code:`install_pynauty.py` on the `official git repo`_ that automates the 
 installation procedure. Allthough this script allows user configuration and is used
 for the package build in `travis`_, `circle_ci`_, `appveyor`_ platforms, used
 for automatic integration of code and documentation, it may not execute correctly

@@ -7,7 +7,7 @@ from collections import Iterable
 from sklearn.exceptions import NotFittedError
 from sklearn.utils.validation import check_is_fitted
 
-from grakel.kernels import kernel
+from grakel.kernels import Kernel
 from grakel.graph import Graph
 
 from numpy import zeros
@@ -20,7 +20,7 @@ from six import itervalues
 default_executor = lambda fn, *eargs, **ekargs: fn(*eargs, **ekargs)
 
 
-class vertex_histogram(kernel):
+class VertexHistogram(Kernel):
     """Vertex Histogram kernel as found in :cite:`Sugiyama2015NIPS_VH`.
 
     Parameters
@@ -38,9 +38,9 @@ class vertex_histogram(kernel):
                  normalize=False,
                  verbose=False):
         """Initialise a vertex histogram kernel."""
-        super(vertex_histogram, self).__init__(executor=executor,
-                                               normalize=normalize,
-                                               verbose=verbose)
+        super(VertexHistogram, self).__init__(executor=executor,
+                                              normalize=normalize,
+                                              verbose=verbose)
 
     def parse_input(self, X):
         """Parse and check the given input for VH kernel.

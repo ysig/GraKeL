@@ -63,26 +63,28 @@ Kernels
    :toctree: generated/
    :template: kernel.rst
 
-   kernel
-   random_walk
-   random_walk_labeled
-   pyramid_match
-   neighborhood_hash
-   shortest_path
-   shortest_path_attr
-   subgraph_matching
-   weisfeiler_lehman
-   hadamard_code
-   neighborhood_subgraph_pairwise_distance
-   lovasz_theta
-   svm_theta
-   propagation
-   odd_sth
-   multiscale_laplacian
-   multiscale_laplacian_fast
-   hadamard_code
-   vertex_histogram
-   edge_histogram
+   Kernel
+   RandomWalk
+   RandomWalkLabeled
+   PyramidMatch
+   NeighborhoodHash
+   ShortestPath
+   ShortestPathAttr
+   SubgraphMatching
+   WeisfeilerLehman
+   HadamardCode
+   NeighborhoodSubgraphPairwiseDistance
+   LovaszTheta
+   SvmTheta
+   Propagation
+   PropagationAttr
+   OddSth
+   MultiscaleLaplacian
+   MultiscaleLaplacianFast
+   HadamardCode
+   VertexHistogram
+   EdgeHistogram
+   GraphHopper
 
 **User guide:** See the :ref:`kernels` section for further details.
 
@@ -97,7 +99,7 @@ Fetch
 .. autosummary::
    :toctree: generated/
    :template: function.rst
-   
+
    fetch_dataset
    get_dataset_info
 

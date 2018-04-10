@@ -6,25 +6,29 @@ import warnings
 
 import numpy as np
 
-import pynauty
-
 from scipy.interpolate import interp1d
 from sklearn.exceptions import NotFittedError
 from sklearn.utils.validation import check_is_fitted
 
 from grakel.graph import Graph
 from grakel.tools import matrix_to_dict
-from grakel.kernels import kernel
+from grakel.kernels import Kernel
 
 # Python 2/3 cross-compatibility import
 from six import iteritems
 from six import itervalues
 from builtins import range
 
+pynauty_installed = True
+try:
+    import pynauty
+except ImportError:
+    pynauty_installed = False
+
 default_executor = lambda fn, *eargs, **ekargs: fn(*eargs, **ekargs)
 
 
-class graphlet_sampling(kernel):
+class GraphletSampling(Kernel):
     r"""The graphlet sampling kernel.
 
     See :cite:`Shervashidze2009EfficientGK`.
@@ -116,9 +120,12 @@ class graphlet_sampling(kernel):
                  k=5,
                  sampling=None):
         """Initialise a subtree_wl kernel."""
-        super(graphlet_sampling, self).__init__(executor=executor,
-                                                normalize=normalize,
-                                                verbose=verbose)
+        if not pynauty_installed:
+            raise ImportError('pynauty should be installed for the graphlet-sampling kernel')
+
+        super(GraphletSampling, self).__init__(executor=executor,
+                                               normalize=normalize,
+                                               verbose=verbose)
 
         self.random_seed = random_seed
         self.k = k
@@ -429,24 +436,23 @@ class graphlet_sampling(kernel):
                         if newbin:
                             if len(self._Y_graph_bins) == 0:
                                 self._Y_graph_bins[0] = sg
-                                local_values[(i,
-                                              len(self._graph_bins))] = 1
+                                local_values[(i, len(self._graph_bins))] = 1
                             else:
                                 newbin_Y = True
                                 start = len(self._graph_bins)
-                                for j in range(len(self._Y_graph_bins)):
-                                    if pynauty.isomorphic(
-                                            self._Y_graph_bins[j], sg):
+                                start_Y = len(self._Y_graph_bins)
+                                for l in range(start_Y):
+                                    if pynauty.isomorphic(self._Y_graph_bins[l], sg):
                                         newbin_Y = False
-                                        bin_key = (i, j + start)
+                                        bin_key = (i, l + start)
                                         if bin_key not in local_values:
                                             local_values[bin_key] = 1
                                         local_values[bin_key] += 1
                                         break
                                 if newbin_Y:
-                                    idx = start + len(self._Y_graph_bins)
+                                    idx = start + start_Y
                                     local_values[(i, idx)] = 1
-                                    self._Y_graph_bins[idx] = sg
+                                    self._Y_graph_bins[start_Y] = sg
 
             if i == -1:
                 raise ValueError('parsed input is empty')

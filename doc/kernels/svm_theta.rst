@@ -10,4 +10,4 @@ The SVM Theta Kernel.
 
 .. autosummary::
 
-   svm_theta
+   SvmTheta

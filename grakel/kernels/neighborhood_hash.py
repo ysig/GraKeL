@@ -6,7 +6,7 @@ from numpy.random import seed
 from numpy.random import choice
 
 from grakel.graph import Graph
-from grakel.kernels import kernel
+from grakel.kernels import Kernel
 
 from sklearn.utils.validation import check_is_fitted
 
@@ -17,7 +17,7 @@ from six import iteritems
 default_executor = lambda fn, *eargs, **ekargs: fn(*eargs, **ekargs)
 
 
-class neighborhood_hash(kernel):
+class NeighborhoodHash(Kernel):
     """Neighborhood hashing kernel as proposed in :cite:`Hido2009ALG`.
 
     Parameters
@@ -62,9 +62,9 @@ class neighborhood_hash(kernel):
                  nh_type='simple',
                  bits=8):
         """Initialize a `neighborhood_hash` kernel."""
-        super(neighborhood_hash, self).__init__(executor=executor,
-                                                normalize=normalize,
-                                                verbose=False)
+        super(NeighborhoodHash, self).__init__(executor=executor,
+                                               normalize=normalize,
+                                               verbose=False)
 
         self.random_seed = random_seed
         self.R = R

@@ -11,25 +11,27 @@ from sklearn.base import BaseEstimator
 from sklearn.base import TransformerMixin
 from sklearn.utils.validation import check_is_fitted
 
-from grakel.kernels import graphlet_sampling
-from grakel.kernels import random_walk
-from grakel.kernels import random_walk_labeled
-from grakel.kernels import shortest_path
-from grakel.kernels import shortest_path_attr
-from grakel.kernels import weisfeiler_lehman
-from grakel.kernels import pyramid_match
-from grakel.kernels import neighborhood_hash
-from grakel.kernels import subgraph_matching
-from grakel.kernels import neighborhood_subgraph_pairwise_distance
-from grakel.kernels import lovasz_theta
-from grakel.kernels import svm_theta
-from grakel.kernels import odd_sth
-from grakel.kernels import propagation
-from grakel.kernels import hadamard_code
-from grakel.kernels import multiscale_laplacian
-from grakel.kernels import multiscale_laplacian_fast
-from grakel.kernels import vertex_histogram
-from grakel.kernels import edge_histogram
+from grakel.kernels import GraphletSampling
+from grakel.kernels import RandomWalk
+from grakel.kernels import RandomWalkLabeled
+from grakel.kernels import ShortestPath
+from grakel.kernels import ShortestPathAttr
+from grakel.kernels import WeisfeilerLehman
+from grakel.kernels import NeighborhoodHash
+from grakel.kernels import PyramidMatch
+from grakel.kernels import SubgraphMatching
+from grakel.kernels import NeighborhoodSubgraphPairwiseDistance
+from grakel.kernels import LovaszTheta
+from grakel.kernels import SvmTheta
+from grakel.kernels import OddSth
+from grakel.kernels import Propagation
+from grakel.kernels import PropagationAttr
+from grakel.kernels import HadamardCode
+from grakel.kernels import MultiscaleLaplacian
+from grakel.kernels import MultiscaleLaplacianFast
+from grakel.kernels import VertexHistogram
+from grakel.kernels import EdgeHistogram
+from grakel.kernels import GraphHopper
 
 # Python 2/3 cross-compatibility import
 from future.utils import iteritems
@@ -46,7 +48,8 @@ supported_base_kernels = [
     "NSPDK",
     "odd_sth", "propagation",
     "pyramid_match",
-    "propagation", "vertex_histogram", "edge_histogram"
+    "propagation", "vertex_histogram", "edge_histogram",
+    "graph_hopper"
     ]
 
 supported_general_kernels = [
@@ -159,11 +162,13 @@ class GraphKernel(BaseEstimator, TransformerMixin):
 
                     + (**o**) T: [dict] [int]: [np.arrays]
 
-                    + (**o**) M: [str] "H", "L1", "L2", "TV"
+                    + (**o**) with_attributes: [bool], default=False
+
+                    + (**o**) M: [str] {"H", "TV"} if `with_attributes=True` else {"L1", "L2"}
 
                     + (**o**) w: [int] > 0
 
-                    + (**o**) base_kernel: [function] x:[list[int]] , y:[list[int]] -> [number]
+                    + (**o**) base_kernel: [function] x:[Counter] , y:[Counter] -> [number]
 
                 - "pyramid_match"
                     + (**o**) with_labels: [bool]
@@ -171,6 +176,10 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                     + (**o**) d: [int] > 0
 
                     + (**o**) L: [int] >= 0
+
+                - "graph_hopper"
+                    + (**o**) kernel_type: [str: {'linear', 'gaussian'}] or [tuple: {('gaussian', mu)}]
+                      or [function] x:[(np.array, np.array)] , y:[(np.array, np.array)] -> [number]
 
                 - "vertex_histogram" or "subtree_wl"
                     *No arguments*
@@ -343,10 +352,7 @@ class GraphKernel(BaseEstimator, TransformerMixin):
         else:
             K = self.kernel_.transform(X)
 
-        if K.shape == (1, 1):
-            return K[0, 0]
-        else:
-            return K
+        return K
 
     def fit_transform(self, X, y=None):
         """Fit and transform, on the same dataset.
@@ -382,10 +388,7 @@ class GraphKernel(BaseEstimator, TransformerMixin):
         else:
             K = self.kernel_.fit_transform(X)
 
-        if K.shape == (1, 1):
-            return K[0, 0]
-        else:
-            return K
+        return K
 
     def initialize_(self):
         """Initialize all transformer arguments, needing initialisation."""
@@ -491,73 +494,78 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                 warnings.warn('rest kernel arguments are being ignored\
                                - reached base kernel')
             if kernel_name in ["vertex_histogram", "subtree_wl"]:
-                return vertex_histogram, kernel
+                return VertexHistogram, kernel
             elif kernel_name == "random_walk":
                 if kernel.pop("with_labels", False):
-                    return random_walk_labeled, kernel
+                    return RandomWalkLabeled, kernel
                 else:
-                    return random_walk, kernel
+                    return RandomWalk, kernel
             elif kernel_name == "shortest_path":
                 if kernel.pop("as_attributes", False):
-                    return shortest_path_attr, kernel
+                    return ShortestPathAttr, kernel
                 else:
-                    return (shortest_path, kernel)
+                    return (ShortestPath, kernel)
             elif kernel_name == "graphlet_sampling":
                 if ("random_seed" not in kernel and
                     self.random_seed is not
                         default_random_seed_value):
                         kernel["random_seed"] = self.random_seed
-                return graphlet_sampling, kernel
+                return GraphletSampling, kernel
             elif kernel_name == "multiscale_laplacian":
                 if kernel.pop("which", None) == "simple":
                     kernel.pop("N", None)
-                    return (multiscale_laplacian, kernel)
+                    return (MultiscaleLaplacian, kernel)
                 else:
                     if ("random_seed" not in kernel and
                         self.random_seed is not
                             default_random_seed_value):
                         kernel["random_seed"] = self.random_seed
-                    return (multiscale_laplacian_fast, kernel)
+                    return (MultiscaleLaplacianFast, kernel)
             elif kernel_name == "subgraph_matching":
-                return subgraph_matching, kernel
+                return SubgraphMatching, kernel
             elif kernel_name == "lovasz_theta":
                 if ("random_seed" not in kernel and
                         self.random_seed is not
                         default_random_seed_value):
                     kernel["random_seed"] = self.random_seed
-                return lovasz_theta, kernel
+                return LovaszTheta, kernel
             elif kernel_name == "svm_theta":
                 if ("random_seed" not in kernel and
                     self.random_seed is not
                         default_random_seed_value):
                     kernel["random_seed"] = self.random_seed
-                return svm_theta, kernel
+                return SvmTheta, kernel
             elif kernel_name == "neighborhood_hash":
-                return neighborhood_hash, kernel
+                return NeighborhoodHash, kernel
             elif kernel_name in ["neighborhood_subgraph_pairwise_distance",
                                  "NSPD"]:
-                return neighborhood_subgraph_pairwise_distance, kernel
+                return NeighborhoodSubgraphPairwiseDistance, kernel
             elif kernel_name == "odd_sth":
-                return odd_sth, kernel
+                return OddSth, kernel
             elif kernel_name == "propagation":
                 if ("random_seed" not in kernel and
                     self.random_seed is not
                         default_random_seed_value):
                     kernel["random_seed"] = self.random_seed
-                return propagation, kernel
+                if kernel.pop("with_attributes", False):
+                    return PropagationAttr, kernel
+                else:
+                    return Propagation, kernel
+            elif kernel_name == "graph_hopper":
+                return GraphHopper, kernel
             elif kernel_name == "pyramid_match":
-                return pyramid_match, kernel
+                return PyramidMatch, kernel
             elif kernel_name == "edge_histogram":
-                return edge_histogram, kernel
+                return EdgeHistogram, kernel
         elif kernel_name in supported_general_kernels:
             if (len(kernel_list) == 0):
                 raise ValueError(str(kernel_name)+' is not a base kernel')
             else:
                 kernel["base_kernel"] = self.make_kernel_(kernel_list, {})
             if kernel_name == "weisfeiler_lehman":
-                return (weisfeiler_lehman, kernel)
+                return (WeisfeilerLehman, kernel)
             if kernel_name == "hadamard_code":
-                return (hadamard_code, kernel)
+                return (HadamardCode, kernel)
         else:
             raise ValueError("unsupported kernel: " + str(kernel_name))
 
