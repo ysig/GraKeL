@@ -25,31 +25,21 @@
   
 
   
-  
     <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  
-
-  
-    <link rel="stylesheet" href="_static/gallery.css" type="text/css" />
-  
-    <link rel="stylesheet" href="_static/_static/css/supplementary.css" type="text/css" />
-  
-
-  
-        <link rel="index" title="Index"
-              href="genindex.html"/>
-        <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="GraKeL 0.1a2 documentation" href="index.html"/>
-        <link rel="up" title="GraKeL" href="api.html"/>
-        <link rel="next" title="grakel.GraphKernel" href="generated/grakel.GraphKernel.html"/>
-        <link rel="prev" title="Weisfeiler Lehman Kernel" href="kernels/weisfeiler_lehman.html"/> 
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="_static/_static/css/supplementary.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="grakel.GraphKernel" href="generated/grakel.GraphKernel.html" />
+    <link rel="prev" title="Weisfeiler Lehman Kernel" href="kernels/weisfeiler_lehman.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -66,7 +56,7 @@
 
           
             
-            <img src="_static/logo.png" class="logo" />
+            <img src="_static/logo.png" class="logo" alt="Logo"/>
           
           </a>
 
@@ -116,7 +106,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="classes.html">API Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">General examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">Classification Examples</a></li>
 </ul>
 
             
@@ -128,7 +118,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">GraKeL</a>
@@ -136,9 +126,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -192,11 +183,11 @@ with whether it utilizes information from node-labels, edge-labels, node-attribu
 inside the kernel calculation.</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="50%" />
-<col width="9%" />
-<col width="9%" />
-<col width="16%" />
-<col width="16%" />
+<col width="47%" />
+<col width="15%" />
+<col width="8%" />
+<col width="15%" />
+<col width="15%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head" rowspan="2">Kernels</th>
@@ -210,111 +201,125 @@ inside the kernel calculation.</p>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-odd"><td>random_walk</td>
+<tr class="row-odd"><td>random_walk, [with_labels=False]</td>
 <td>Ignores</td>
 <td>Ignores</td>
 <td>Ignores</td>
 <td>Ignores</td>
 </tr>
-<tr class="row-even"><td>shortest_path, with_labels=False</td>
+<tr class="row-even"><td>random_walk, with_labels=True</td>
+<td>Needs</td>
+<td>Ignores</td>
+<td>Ignores</td>
+<td>Ignores</td>
+</tr>
+<tr class="row-odd"><td>shortest_path, [with_labels=False]</td>
 <td>Ignores</td>
 <td>Ignores</td>
 <td>Ignores</td>
 <td>Ignores</td>
 </tr>
-<tr class="row-odd"><td>shortest_path, with_labels=True</td>
+<tr class="row-even"><td>shortest_path, with_labels=True</td>
 <td>Needs</td>
 <td>Ignores</td>
 <td>Nonce-Behavior</td>
 <td>Ignores</td>
 </tr>
-<tr class="row-even"><td>shortest_path, as_attributes=True</td>
+<tr class="row-odd"><td>shortest_path, as_attributes=True</td>
 <td>Slow</td>
 <td>Ignores</td>
 <td>Needs</td>
 <td>Ignores</td>
 </tr>
-<tr class="row-odd"><td>graphlet_sampling</td>
+<tr class="row-even"><td>graphlet_sampling</td>
 <td>Ignores</td>
 <td>Ignores</td>
 <td>Ignores</td>
 <td>Ignores</td>
 </tr>
-<tr class="row-even"><td>multiscale_laplacian</td>
+<tr class="row-odd"><td>multiscale_laplacian</td>
 <td>Forbids</td>
 <td>Ignores</td>
 <td>Needs</td>
 <td>Ignores</td>
 </tr>
-<tr class="row-odd"><td>subgraph_matching [type(kv)=type(ke)=’labels’]</td>
+<tr class="row-even"><td>subgraph_matching, [type(kv)=type(ke)=’labels’]</td>
 <td>type(kv)</td>
 <td>type(ke)</td>
 <td>type(kv)</td>
 <td>type(ke)</td>
 </tr>
-<tr class="row-even"><td>lovasz_theta</td>
+<tr class="row-odd"><td>lovasz_theta</td>
 <td>Ignores</td>
 <td>Ignores</td>
 <td>Ignores</td>
 <td>Ignores</td>
 </tr>
-<tr class="row-odd"><td>svm_theta</td>
+<tr class="row-even"><td>svm_theta</td>
 <td>Ignores</td>
 <td>Ignores</td>
 <td>Ignores</td>
 <td>Ignores</td>
 </tr>
-<tr class="row-even"><td>neighborhood_hash</td>
+<tr class="row-odd"><td>neighborhood_hash</td>
 <td>Needs</td>
 <td>Ignores</td>
 <td>Nonce-Behavior</td>
 <td>Ignores</td>
 </tr>
-<tr class="row-odd"><td>neighborhood_subgraph_pairwise_distance, NSPD</td>
+<tr class="row-even"><td>neighborhood_subgraph_pairwise_distance, NSPD</td>
 <td>Needs</td>
 <td>Needs</td>
 <td>Nonce-Behavior</td>
 <td>Nonce-Behavior</td>
 </tr>
-<tr class="row-even"><td>odd_sth</td>
+<tr class="row-odd"><td>odd_sth</td>
 <td>Needs</td>
 <td>Ignores</td>
 <td>Nonce-Behavior</td>
 <td>Ignores</td>
 </tr>
-<tr class="row-odd"><td>propagation</td>
+<tr class="row-even"><td>propagation</td>
 <td>Needs</td>
 <td>Ignores</td>
 <td>Nonce-Behavior</td>
 <td>Ignores</td>
 </tr>
-<tr class="row-even"><td>pyramid_match</td>
+<tr class="row-odd"><td>pyramid_match</td>
 <td>Needs</td>
 <td>Ignores</td>
 <td>Nonce-Behavior</td>
 <td>Ignores</td>
 </tr>
-<tr class="row-odd"><td>vertex_histogram, subtree_wl</td>
+<tr class="row-even"><td>vertex_histogram, subtree_wl</td>
 <td>Needs</td>
 <td>Ignores</td>
 <td>Nonce-Behavior</td>
 <td>Ignores</td>
 </tr>
-<tr class="row-even"><td>edge_histogram</td>
+<tr class="row-odd"><td>edge_histogram</td>
 <td>Ignores</td>
 <td>Needs</td>
 <td>Ignores</td>
 <td>Nonce-Behavior</td>
+</tr>
+<tr class="row-even"><td>graph_hopper</td>
+<td>Nonce-Behavior</td>
+<td>Ignores</td>
+<td>Needs</td>
+<td>Ignores</td>
 </tr>
 </tbody>
 </table>
+<p>where <strong>[</strong>, <strong>]</strong> denounce the default value and the <em>kernel-names</em> and <em>arguments</em> are as given in the <code class="code docutils literal notranslate"><span class="pre">__init__</span></code> of the
+<code class="code docutils literal notranslate"><span class="pre">GraphKernel</span></code> object.</p>
 <table border="1" class="longtable docutils">
 <colgroup>
 <col width="10%" />
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="generated/grakel.GraphKernel.html#grakel.GraphKernel" title="grakel.GraphKernel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">grakel.GraphKernel</span></code></a>([kernel,&nbsp;normalize,&nbsp;…])</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/grakel.GraphKernel.html#grakel.GraphKernel" title="grakel.GraphKernel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GraphKernel</span></code></a>([kernel,&nbsp;normalize,&nbsp;verbose,&nbsp;…])</td>
 <td>A decorator for graph kernels.</td>
 </tr>
 </tbody>
@@ -324,9 +329,7 @@ inside the kernel calculation.</p>
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -348,7 +351,7 @@ inside the kernel calculation.</p>
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -367,6 +370,7 @@ inside the kernel calculation.</p>
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
             VERSION:'0.1a2',
+            LANGUAGE:'en',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -385,14 +389,13 @@ inside the kernel calculation.</p>
     <script type="text/javascript" src="_static/js/theme.js"></script>
   
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          
+          SphinxRtdTheme.Navigation.enableSticky();
+          
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>

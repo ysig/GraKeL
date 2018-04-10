@@ -25,31 +25,21 @@
   
 
   
-  
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-    <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
-  
-    <link rel="stylesheet" href="../_static/_static/css/supplementary.css" type="text/css" />
-  
-
-  
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="GraKeL 0.1a2 documentation" href="../index.html"/>
-        <link rel="up" title="User Manual" href="../user_manual.html"/>
-        <link rel="next" title="A longer Introduction" href="longer_introduction.html"/>
-        <link rel="prev" title="Installing grakel" href="installation.html"/> 
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/_static/css/supplementary.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="A longer Introduction" href="longer_introduction.html" />
+    <link rel="prev" title="Installing grakel" href="installation.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -66,7 +56,7 @@
 
           
             
-            <img src="../_static/logo.png" class="logo" />
+            <img src="../_static/logo.png" class="logo" alt="Logo"/>
           
           </a>
 
@@ -119,7 +109,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../api.html">GraKeL</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../classes.html">API Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">General examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">Classification Examples</a></li>
 </ul>
 
             
@@ -131,7 +121,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">GraKeL</a>
@@ -139,9 +129,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -215,12 +206,12 @@ value can be computed as }\\ k(G_{i}, G_{j}) = \langle G_{i}, G_{j} \rangle
 <div class="section" id="initializing-a-graph-kernel">
 <h2>Initializing a graph kernel<a class="headerlink" href="#initializing-a-graph-kernel" title="Permalink to this headline">¶</a></h2>
 <p>A very well known graph kernel found in literature is the Shortest Path Kernel first introduced by Karsten M. Borgwardt
-and Hans-Peter Kriegel on a 2005 article [see <a class="reference internal" href="../generated/grakel.shortest_path.html#borgwardt2005shortestpathko" id="id1">[BK05]</a>] titled <strong>“Shortest-Path Kernels on Graphs”</strong>,
+and Hans-Peter Kriegel on a 2005 article [see <a class="reference internal" href="../generated/grakel.ShortestPath.html#borgwardt2005shortestpathko" id="id1">[BK05]</a>] titled <strong>“Shortest-Path Kernels on Graphs”</strong>,
 really essential as an origin of the Graph Kernel field.</p>
 <p>After following the instructions found on <a class="reference internal" href="installation.html#installation"><span class="std std-ref">Installing grakel</span></a>, in order to initialize a <em>Shortest Path</em> kernel
 using the <strong>grakel</strong> library, you just need to do the following:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">grakel</span> <span class="kn">import</span> <span class="n">GraphKernel</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">sp_kernel</span> <span class="o">=</span> <span class="n">GraphKernel</span><span class="p">(</span><span class="n">kernel</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;shortest_path&quot;</span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sp_kernel</span> <span class="o">=</span> <span class="n">GraphKernel</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;shortest_path&quot;</span><span class="p">})</span>
 </pre></div>
 </div>
 <p>Kernels as the above are considered as <em>base kernels</em>, meaning that they can be computed onto the sets
@@ -228,13 +219,13 @@ of Graphs needed only a minor parametrization. A second type of kernels appear i
 we will call <em>meta-kernels</em>, which apply transformation operations upon graph objects in order to apply
 kernel calculations on certain steps using a <em>base kernel</em>, aggregating their result in a certain way.
 A kernel like <em>Weisfeiler-Lehman</em> introduced by Nino Shervashidze at 2011, published on a journal with the title
-“Weisfeiler Lehman Kernels” [see <a class="reference internal" href="../generated/grakel.weisfeiler_lehman.html#shervashidze2011weisfeilerlehmangk" id="id2">[SSvL+11]</a>], used a method for approximating a
+“Weisfeiler Lehman Kernels” [see <a class="reference internal" href="../generated/grakel.WeisfeilerLehman.html#shervashidze2011weisfeilerlehmangk" id="id2">[SSvL+11]</a>], used a method for approximating a
 solution to the graph isomorphism problem, in order to generate a graph refinement scheme that would imply
 bigger expressiveness to the base_kernel calculations (an interesting <a class="reference external" href="http://blog.smola.org/post/33412570425/the-weisfeiler-lehman-algorithm-and-estimation-on">post</a> explaining the intuition of this kernel).</p>
 <p>To initialize such a kernel, using the default subtree kernel, found originally on the paper’s
 page 9, eq. 2, you can do the following:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">grakel</span> <span class="kn">import</span> <span class="n">GraphKernel</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">wl_kernel</span> <span class="o">=</span> <span class="n">GraphKernel</span><span class="p">(</span><span class="n">kernel</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;weisfeiler_lehman&quot;</span><span class="p">},</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;subtree_wl&quot;</span><span class="p">}])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">wl_kernel</span> <span class="o">=</span> <span class="n">GraphKernel</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="p">[{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;weisfeiler_lehman&quot;</span><span class="p">},</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;subtree_wl&quot;</span><span class="p">}])</span>
 </pre></div>
 </div>
 </div>
@@ -245,25 +236,25 @@ page 9, eq. 2, you can do the following:</p>
 <p>For start we would calculate the kernel value of water with itself:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">H2O</span> <span class="o">=</span> <span class="p">[[[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s1">&#39;O&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="s1">&#39;H&#39;</span><span class="p">}]]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sp_kernel</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">H2O</span><span class="p">)</span>
-<span class="go">12.0</span>
+<span class="go">array([[12.]])</span>
 </pre></div>
 </div>
 <p>Now to calculate the graph similarity to hydronium based on the shortest path
 graph kernel</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">H3O</span> <span class="o">=</span> <span class="p">[[[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s1">&#39;O&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span><span class="s1">&#39;H&#39;</span><span class="p">}]]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sp_kernel</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">H3O</span><span class="p">)</span>
-<span class="go">24.0</span>
+<span class="go">array([[24.]])</span>
 </pre></div>
 </div>
 <p>This result seems like the water molecule is more similar to hydronium, than with itself.
 This is a false assumption derived from the fact that the kernel calculation is not normalized.</p>
 <p>To apply normalization we add such an argument on the GraphKernel method
 initialization and continue</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sp_kernel</span> <span class="o">=</span> <span class="n">GraphKernel</span><span class="p">(</span><span class="n">kernel</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;shortest_path&quot;</span><span class="p">},</span> <span class="n">normalize</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sp_kernel</span> <span class="o">=</span> <span class="n">GraphKernel</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;shortest_path&quot;</span><span class="p">},</span> <span class="n">normalize</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sp_kernel</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">H2O</span><span class="p">)</span>
-<span class="go">1.0</span>
+<span class="go">array([[1.]])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sp_kernel</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">H3O</span><span class="p">)</span>
-<span class="go">0.9428090415820634</span>
+<span class="go">array([[0.94280904]])</span>
 </pre></div>
 </div>
 </div>
@@ -392,8 +383,8 @@ the user can provide the empty list or a None Object.</p>
 <p>To do so we will utilize the <code class="code docutils literal notranslate"><span class="pre">fetch_dataset</span></code> function found on <a class="reference internal" href="../datasets.html#datasets"><span class="std std-ref">Dataset loading utilities</span></a>.
 Firstly download the dataset:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">grakel</span> <span class="kn">import</span> <span class="n">GraphKernel</span><span class="p">,</span> <span class="n">datasets</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">MUTAG</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">fetch_dataset</span><span class="p">(</span><span class="s2">&quot;MUTAG&quot;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">MUTAG_data</span> <span class="o">=</span> <span class="n">MUTAG</span><span class="o">.</span><span class="n">data</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mutag</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">fetch_dataset</span><span class="p">(</span><span class="s2">&quot;MUTAG&quot;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mutag_data</span> <span class="o">=</span> <span class="n">mutag</span><span class="o">.</span><span class="n">data</span>
 </pre></div>
 </div>
 <p>Note that the <code class="code docutils literal notranslate"><span class="pre">fetch_dataset</span></code> function returns a sklearn.utils.Bunch object, where
@@ -403,9 +394,9 @@ the graph-data can be found in the data class member of the result.</p>
 </pre></div>
 </div>
 <p>Now let’s split the dataset in a train/test manner and calculate fit on the train set.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">split_point</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">MUTAG_data</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.9</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">MUTAG_data</span><span class="p">[:</span><span class="n">split_point</span><span class="p">],</span> <span class="n">MUTAG_data</span><span class="p">[</span><span class="n">split_point</span><span class="p">:]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">wl_kernel</span> <span class="o">=</span> <span class="n">GraphKernel</span><span class="p">(</span><span class="n">kernel</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;weisfeiler_lehman&quot;</span><span class="p">,</span> <span class="s2">&quot;niter&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">},</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;subtree_wl&quot;</span><span class="p">}],</span> <span class="n">normalize</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">split_point</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mutag_data</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.9</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span> <span class="o">=</span> <span class="n">mutag_data</span><span class="p">[:</span><span class="n">split_point</span><span class="p">],</span> <span class="n">mutag_data</span><span class="p">[</span><span class="n">split_point</span><span class="p">:]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">wl_kernel</span> <span class="o">=</span> <span class="n">GraphKernel</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="p">[{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;weisfeiler_lehman&quot;</span><span class="p">,</span> <span class="s2">&quot;niter&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">},</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;subtree_wl&quot;</span><span class="p">}],</span> <span class="n">normalize</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>In order to apply classification on a dataset based on the calculation of a kernel matrix, one generally needs
@@ -413,16 +404,16 @@ the matrix between all the training data. Namely given <span class="math notrans
 the kernel values with a function <span class="math notranslate">\(\mathcal{K}: \mathcal{G}^{\text{train}} \rightarrow \mathbb{R}^{n_{\text{train}}} \times \mathbb{R}^{n_{\text{train}}}\)</span>,
 where <span class="math notranslate">\(n_{\text{train}}\)</span> is the number of graphs inside the training set. This function that simply outputs the kernel
 matrix between all graphs of the graphs of the training set is equivalent with</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">K_train</span> <span class="o">=</span> <span class="n">wl_kernel</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">K_train</span> <span class="o">=</span> <span class="n">wl_kernel</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>The <code class="code docutils literal notranslate"><span class="pre">wl_kernel</span></code> is now fitted with the train data and we would like given a collection of graphs <span class="math notranslate">\(\mathcal{G}^{\text{test}}\)</span>
 to calculate all the kernel values with a function <span class="math notranslate">\(\mathcal{K}: \mathcal{G}^{\text{train}} \times \mathcal{G}^{\text{test}} \rightarrow \mathbb{R}^{n_{\text{test}}} \times \mathbb{R}^{n_{\text{train}}}\)</span> where <span class="math notranslate">\(n_{\text{test}}\)</span> is the number of graphs inside the test set. This function can be calculated as:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">K_test</span> <span class="o">=</span> <span class="n">wl_kernel</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">K_test</span> <span class="o">=</span> <span class="n">wl_kernel</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>which is equivalent to calculating:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">K_test</span> <span class="o">=</span> <span class="n">wl_kernel</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">K_test</span> <span class="o">=</span> <span class="n">wl_kernel</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>except the case where the kernel is not deterministic and aside the fact that fitting in the most
@@ -450,7 +441,7 @@ class labels) as follows:</p>
 </div>
 <p>and print the accuracy score</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span> <span class="mi">2</span><span class="p">)),</span> <span class="s2">&quot;%&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%2.2f</span><span class="s2"> </span><span class="si">%%</span><span class="s2">&quot;</span> <span class="o">%</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="p">)))</span>
 <span class="go">78.95 %</span>
 </pre></div>
 </div>
@@ -459,9 +450,7 @@ class labels) as follows:</p>
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -483,7 +472,7 @@ class labels) as follows:</p>
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -502,6 +491,7 @@ class labels) as follows:</p>
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
             VERSION:'0.1a2',
+            LANGUAGE:'en',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -520,14 +510,13 @@ class labels) as follows:</p>
     <script type="text/javascript" src="../_static/js/theme.js"></script>
   
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          
+          SphinxRtdTheme.Navigation.enableSticky();
+          
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>

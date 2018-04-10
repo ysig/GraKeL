@@ -46,7 +46,7 @@ using the **grakel** library, you just need to do the following:
 .. code-block:: python
 
     >>> from grakel import GraphKernel
-    >>> sp_kernel = GraphKernel(kernel = {"name": "shortest_path"})
+    >>> sp_kernel = GraphKernel(kernel={"name": "shortest_path"})
 
 Kernels as the above are considered as *base kernels*, meaning that they can be computed onto the sets
 of Graphs needed only a minor parametrization. A second type of kernels appear in the literature which
@@ -65,7 +65,7 @@ page 9, eq. 2, you can do the following:
 .. code-block:: python
 
     >>> from grakel import GraphKernel
-    >>> wl_kernel = GraphKernel(kernel = [{"name": "weisfeiler_lehman"}, {"name": "subtree_wl"}])
+    >>> wl_kernel = GraphKernel(kernel=[{"name": "weisfeiler_lehman"}, {"name": "subtree_wl"}])
 
 Calculate a kernel
 ------------------
@@ -78,7 +78,7 @@ For start we would calculate the kernel value of water with itself:
 
     >>> H2O = [[[[0, 1, 1], [1, 0, 0], [1, 0, 0]], {0: 'O', 1: 'H', 2: 'H'}]]
     >>> sp_kernel.fit_transform(H2O)
-    12.0
+    array([[12.]])
 
 Now to calculate the graph similarity to hydronium based on the shortest path
 graph kernel
@@ -87,7 +87,7 @@ graph kernel
 
     >>> H3O = [[[[0, 1, 1, 1], [1, 0, 0, 0], [1, 0, 0, 0], [1, 0, 0, 0]], {0: 'O', 1: 'H', 2: 'H', 3:'H'}]]
     >>> sp_kernel.transform(H3O)
-    24.0
+    array([[24.]])
 
 This result seems like the water molecule is more similar to hydronium, than with itself.
 This is a false assumption derived from the fact that the kernel calculation is not normalized.
@@ -97,11 +97,11 @@ initialization and continue
 
 .. code-block:: python
 
-    >>> sp_kernel = GraphKernel(kernel = {"name": "shortest_path"}, normalize=True)
+    >>> sp_kernel = GraphKernel(kernel={"name": "shortest_path"}, normalize=True)
     >>> sp_kernel.fit_transform(H2O)
-    1.0
+    array([[1.]])
     >>> sp_kernel.transform(H3O)
-    0.9428090415820634
+    array([[0.94280904]])
 
 
 The input type
@@ -186,8 +186,8 @@ Firstly download the dataset:
 .. code-block:: python
 
     >>> from grakel import GraphKernel, datasets
-    >>> MUTAG = datasets.fetch_dataset("MUTAG", verbose=False)
-    >>> MUTAG_data = MUTAG.data
+    >>> mutag = datasets.fetch_dataset("MUTAG", verbose=False)
+    >>> mutag_data = mutag.data
 
 Note that the :code:`fetch_dataset` function returns a sklearn.utils.Bunch object, where
 the graph-data can be found in the data class member of the result.
@@ -202,9 +202,9 @@ Now let's split the dataset in a train/test manner and calculate fit on the trai
 
 .. code-block:: python
 
-    >>> split_point = int(len(MUTAG_data) * 0.9)
-    >>> X, Y = MUTAG_data[:split_point], MUTAG_data[split_point:]
-    >>> wl_kernel = GraphKernel(kernel = [{"name": "weisfeiler_lehman", "niter": 5}, {"name": "subtree_wl"}], normalize=True)
+    >>> split_point = int(len(mutag_data) * 0.9)
+    >>> X_train, X_test = mutag_data[:split_point], mutag_data[split_point:]
+    >>> wl_kernel = GraphKernel(kernel=[{"name": "weisfeiler_lehman", "niter": 5}, {"name": "subtree_wl"}], normalize=True)
 
 In order to apply classification on a dataset based on the calculation of a kernel matrix, one generally needs 
 the matrix between all the training data. Namely given :math:`\mathcal{G}^{\text{train}}` a collection of graphs, calculate
@@ -214,20 +214,20 @@ matrix between all graphs of the graphs of the training set is equivalent with
 
 .. code-block:: python
 
-    >>> K_train = wl_kernel.fit_transform(X)
+    >>> K_train = wl_kernel.fit_transform(X_train)
 
 The :code:`wl_kernel` is now fitted with the train data and we would like given a collection of graphs :math:`\mathcal{G}^{\text{test}}`
 to calculate all the kernel values with a function :math:`\mathcal{K}: \mathcal{G}^{\text{train}} \times \mathcal{G}^{\text{test}} \rightarrow \mathbb{R}^{n_{\text{test}}} \times \mathbb{R}^{n_{\text{train}}}` where :math:`n_{\text{test}}` is the number of graphs inside the test set. This function can be calculated as:
 
 .. code-block:: python
 
-    >>> K_test = wl_kernel.transform(Y)
+    >>> K_test = wl_kernel.transform(X_test)
 
 which is equivalent to calculating:
 
 .. code-block:: python
 
-    >>> K_test = wl_kernel.fit(X).transform(Y)
+    >>> K_test = wl_kernel.fit(X_train).transform(X_test)
 
 except the case where the kernel is not deterministic and aside the fact that fitting in the most
 cases takes the majority of the overall kernel computation time.
@@ -264,5 +264,5 @@ and print the accuracy score
 .. code-block:: python
 
     >>> from sklearn.metrics import accuracy_score
-    >>> print(str(round(accuracy_score(y_test, y_pred)*100, 2)), "%")
+    >>> print("%2.2f %%" %(round(accuracy_score(y_test, y_pred)*100)))
     78.95 %

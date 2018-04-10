@@ -10,11 +10,11 @@ The shortest path kernel.
 
 .. autosummary::
 
-   shortest_path
+   ShortestPath
 
 
-** Theoretical definition missing**
+**Theoretical definition missing**
 
 .. autosummary::
 
-   shortest_path_attr
+   ShortestPathAttr

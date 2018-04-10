@@ -10,4 +10,4 @@ The pyramid match kernel.
 
 .. autosummary::
 
-   pyramid_match
+   PyramidMatch

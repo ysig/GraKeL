@@ -10,4 +10,5 @@ The Propagation Kernel.
 
 .. autosummary::
 
-   propagation
+   Propagation
+   PropagationAttr

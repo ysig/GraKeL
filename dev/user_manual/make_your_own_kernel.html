@@ -25,31 +25,21 @@
   
 
   
-  
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-    <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
-  
-    <link rel="stylesheet" href="../_static/_static/css/supplementary.css" type="text/css" />
-  
-
-  
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="GraKeL 0.1a2 documentation" href="../index.html"/>
-        <link rel="up" title="User Manual" href="../user_manual.html"/>
-        <link rel="next" title="Contributing" href="contributing.html"/>
-        <link rel="prev" title="A longer Introduction" href="longer_introduction.html"/> 
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/_static/css/supplementary.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Contributing" href="contributing.html" />
+    <link rel="prev" title="A longer Introduction" href="longer_introduction.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -66,7 +56,7 @@
 
           
             
-            <img src="../_static/logo.png" class="logo" />
+            <img src="../_static/logo.png" class="logo" alt="Logo"/>
           
           </a>
 
@@ -104,7 +94,7 @@
 <li class="toctree-l2"><a class="reference internal" href="introduction.html">A short Introduction</a></li>
 <li class="toctree-l2"><a class="reference internal" href="longer_introduction.html">A longer Introduction</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Write your own kernel</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#overriding-the-kernel-class-methods">Overriding the <code class="code docutils literal notranslate"><span class="pre">kernel</span></code> class methods</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#overriding-the-kernel-class-methods">Overriding the <code class="code docutils literal notranslate"><span class="pre">Kernel</span></code> class methods</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#which-methods-should-i-implement">Which methods should I implement</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#the-parse-input-pairwise-operation-methods">The <code class="code docutils literal notranslate"><span class="pre">parse_input</span></code>, <code class="code docutils literal notranslate"><span class="pre">pairwise_operation</span></code> methods</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#why-should-i-follow-the-list-format-on-parse-input">Why should I follow the list format on parse input?</a></li>
@@ -127,7 +117,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../api.html">GraKeL</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../classes.html">API Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">General examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">Classification Examples</a></li>
 </ul>
 
             
@@ -139,7 +129,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">GraKeL</a>
@@ -147,9 +137,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -196,15 +187,15 @@
   <div class="section" id="write-your-own-kernel">
 <span id="myok"></span><h1>Write your own kernel<a class="headerlink" href="#write-your-own-kernel" title="Permalink to this headline">¶</a></h1>
 <p>As mentioned before on the <a class="reference internal" href="longer_introduction.html#longer-introduction"><span class="std std-ref">A longer Introduction</span></a>, each kernel imported from the <code class="code docutils literal notranslate"><span class="pre">GraphKernel</span></code> decorator
-and found inside <code class="code docutils literal notranslate"><span class="pre">grakel.kernels</span></code> sub-package, inherits the <code class="code docutils literal notranslate"><span class="pre">kernel</span></code> class found there.
+and found inside <code class="code docutils literal notranslate"><span class="pre">grakel.kernels</span></code> sub-package, inherits the <code class="code docutils literal notranslate"><span class="pre">Kernel</span></code> class found there.
 In order to write any kernel that will be integrated (see <a class="reference internal" href="contributing.html#contributing"><span class="std std-ref">Contributing</span></a>), in our package we would like the
 user to inherit that class. This may seem restricting but is not. We will try to demonstrate this in the
 following sections and we would like to mention the fact that the whole kernel package <strong>is not final</strong>, but must
 be always considered final when deploying a new package, because all the kernels should have a unified common interface.</p>
 <div class="section" id="overriding-the-kernel-class-methods">
-<h2>Overriding the <code class="code docutils literal notranslate"><span class="pre">kernel</span></code> class methods<a class="headerlink" href="#overriding-the-kernel-class-methods" title="Permalink to this headline">¶</a></h2>
-<p>In order to start we will present the current interface of the <code class="code docutils literal notranslate"><span class="pre">kernel</span></code> class
-(public methods) and guide the user how he can write a simple base <code class="code docutils literal notranslate"><span class="pre">kernel</span></code>, such as the <em>vertex-histogram-kernel</em>.</p>
+<h2>Overriding the <code class="code docutils literal notranslate"><span class="pre">Kernel</span></code> class methods<a class="headerlink" href="#overriding-the-kernel-class-methods" title="Permalink to this headline">¶</a></h2>
+<p>In order to start we will present the current interface of the <code class="code docutils literal notranslate"><span class="pre">Kernel</span></code> class
+(public methods) and guide the user how he can write a simple base <code class="code docutils literal notranslate"><span class="pre">Kernel</span></code>, such as the <em>vertex-histogram-kernel</em>.</p>
 <p>The <em>vertex-histogram-kernel</em>, defined in <a class="reference internal" href="#sugiyama2015nipsd" id="id1">[SB15]</a> p.4 section 2.3 is a simple kernel, that
 calculates label histograms for each graph, that is: <em>counts the number of occurrences for each label
 value and as a kernel between two graphs calculates the sum of products between frequencies of common
@@ -224,14 +215,14 @@ occurrences</em>.</p>
 <p>Let’s import some library elements we will use</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">warnings</span> <span class="kn">import</span> <span class="n">warn</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span><span class="p">,</span> <span class="n">Iterable</span>
-<span class="kn">from</span> <span class="nn">grakel</span> <span class="kn">import</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">Graph</span>
+<span class="kn">from</span> <span class="nn">grakel</span> <span class="kn">import</span> <span class="n">Kernel</span><span class="p">,</span> <span class="n">Graph</span>
 </pre></div>
 </div>
 <p>and let’s define the <em>vertex-histogram-kernel</em></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">default_executor</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">fn</span><span class="p">,</span> <span class="o">*</span><span class="n">eargs</span><span class="p">,</span> <span class="o">**</span><span class="n">ekargs</span><span class="p">:</span> <span class="n">fn</span><span class="p">(</span><span class="o">*</span><span class="n">eargs</span><span class="p">,</span> <span class="o">**</span><span class="n">ekargs</span><span class="p">)</span>
 
 
-<span class="k">class</span> <span class="nc">vertex_histogram</span><span class="p">(</span><span class="n">kernel</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">VertexHistogram</span><span class="p">(</span><span class="n">Kernel</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Vertex Histogram kernel as found in :cite:`Sugiyama2015NIPS`</span>
 
 <span class="sd">    Parameters</span>
@@ -260,7 +251,7 @@ occurrences</em>.</p>
         <span class="c1"># Add new parameters</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_valid_parameters</span> <span class="o">|=</span> <span class="n">new_parameters</span>
 
-        <span class="nb">super</span><span class="p">(</span><span class="n">vertex_histogram</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">VertexHistogram</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">executor</span><span class="o">=</span><span class="n">executor</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="n">normalize</span><span class="p">)</span>
 
         <span class="c1"># Get parameters and check the new ones</span>
@@ -291,7 +282,7 @@ transformer <strong>Pipeline</strong> and any needed initialization registered i
 inside <code class="code docutils literal notranslate"><span class="pre">initialize_</span></code> method. If the user decides to overwrite <code class="code docutils literal notranslate"><span class="pre">fit</span></code> or <code class="code docutils literal notranslate"><span class="pre">fit_transform</span></code> he
 must call <code class="code docutils literal notranslate"><span class="pre">self.initialize_()</span></code> as the first command of any process inside the kernel. This allows a valid
 parameter <em>resetting</em> through <code class="code docutils literal notranslate"><span class="pre">set_params</span></code>, satisfying an important aspect for <strong>Pipeline</strong> consistency.</p>
-<p>Irrelevant from the interface the <code class="code docutils literal notranslate"><span class="pre">kernel</span></code> class offers two methods, overriding which, a user can write
+<p>Irrelevant from the interface the <code class="code docutils literal notranslate"><span class="pre">Kernel</span></code> class offers two methods, overriding which, a user can write
 his own kernel. These methods are <code class="code docutils literal notranslate"><span class="pre">parse_input</span></code> and <code class="code docutils literal notranslate"><span class="pre">pairwise_operation</span></code>.</p>
 </div>
 <div class="section" id="the-parse-input-pairwise-operation-methods">
@@ -307,7 +298,7 @@ method, calculating a final kernel value.</p>
 <p class="last">In order not to repeat again-again the word <em>kernel</em>, when defining a kernel class
 this word is omitted on the kernel name definition.</p>
 </div>
-<p>So to continue or example we first define <code class="code docutils literal notranslate"><span class="pre">parse_input</span></code> inside the <code class="code docutils literal notranslate"><span class="pre">vertex_histogram</span></code> class:</p>
+<p>So to continue or example we first define <code class="code docutils literal notranslate"><span class="pre">parse_input</span></code> inside the <code class="code docutils literal notranslate"><span class="pre">VertexHistogram</span></code> class:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="nf">parse_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Parse and check the given input for vertex kernel.</span>
 
@@ -416,7 +407,7 @@ We will redefine the <code class="code docutils literal notranslate"><span class
 <p>Let’s start with some new import statements</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span><span class="p">,</span> <span class="n">Iterable</span>
 <span class="kn">from</span> <span class="nn">sklearn.utils.validation</span> <span class="kn">import</span> <span class="n">check_is_fitted</span>
-<span class="kn">from</span> <span class="nn">grakel</span> <span class="kn">import</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">Graph</span>
+<span class="kn">from</span> <span class="nn">grakel</span> <span class="kn">import</span> <span class="n">Kernel</span><span class="p">,</span> <span class="n">Graph</span>
 <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">zeros</span><span class="p">,</span> <span class="n">einsum</span>
 </pre></div>
 </div>
@@ -424,7 +415,7 @@ We will redefine the <code class="code docutils literal notranslate"><span class
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">default_executor</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">fn</span><span class="p">,</span> <span class="o">*</span><span class="n">eargs</span><span class="p">,</span> <span class="o">**</span><span class="n">ekargs</span><span class="p">:</span> <span class="n">fn</span><span class="p">(</span><span class="o">*</span><span class="n">eargs</span><span class="p">,</span> <span class="o">**</span><span class="n">ekargs</span><span class="p">)</span>
 
 
-<span class="k">class</span> <span class="nc">vertex_histogram</span><span class="p">(</span><span class="n">kernel</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">VertexHistogram</span><span class="p">(</span><span class="n">Kernel</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Vertex Histogram kernel as found in :cite:`Sugiyama2015NIPS`</span>
 
 <span class="sd">    Parameters</span>
@@ -453,7 +444,7 @@ We will redefine the <code class="code docutils literal notranslate"><span class
         <span class="c1"># Add new parameters</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_valid_parameters</span> <span class="o">|=</span> <span class="n">new_parameters</span>
 
-        <span class="nb">super</span><span class="p">(</span><span class="n">vertex_histogram</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">VertexHistogram</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">executor</span><span class="o">=</span><span class="n">executor</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="n">normalize</span><span class="p">)</span>
 
         <span class="c1"># Get parameters and check the new ones</span>
@@ -739,9 +730,7 @@ the <code class="code docutils literal notranslate"><span class="pre">_c_functio
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -763,7 +752,7 @@ the <code class="code docutils literal notranslate"><span class="pre">_c_functio
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -782,6 +771,7 @@ the <code class="code docutils literal notranslate"><span class="pre">_c_functio
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
             VERSION:'0.1a2',
+            LANGUAGE:'en',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -800,14 +790,13 @@ the <code class="code docutils literal notranslate"><span class="pre">_c_functio
     <script type="text/javascript" src="../_static/js/theme.js"></script>
   
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          
+          SphinxRtdTheme.Navigation.enableSticky();
+          
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>

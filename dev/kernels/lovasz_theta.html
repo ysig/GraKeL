@@ -25,31 +25,21 @@
   
 
   
-  
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-    <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
-  
-    <link rel="stylesheet" href="../_static/_static/css/supplementary.css" type="text/css" />
-  
-
-  
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="GraKeL 0.1a2 documentation" href="../index.html"/>
-        <link rel="up" title="Kernels (between graphs)" href="../kernels.html"/>
-        <link rel="next" title="Multiscale Laplacian Kernel" href="multiscale_laplacian.html"/>
-        <link rel="prev" title="kernel [class]" href="kernel.html"/> 
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/_static/css/supplementary.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Multiscale Laplacian Kernel" href="multiscale_laplacian.html" />
+    <link rel="prev" title="Kernel (general class)" href="kernel.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -66,7 +56,7 @@
 
           
             
-            <img src="../_static/logo.png" class="logo" />
+            <img src="../_static/logo.png" class="logo" alt="Logo"/>
           
           </a>
 
@@ -105,9 +95,10 @@
 <li class="toctree-l1 current"><a class="reference internal" href="../api.html">GraKeL</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../kernels.html">Kernels (between graphs)</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="edge_histogram.html">Edge Histogram Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="graph_hopper.html">Graph Hopper Kernel</a></li>
 <li class="toctree-l3"><a class="reference internal" href="graphlet_sampling.html">Graphlet Sampling Kernel</a></li>
 <li class="toctree-l3"><a class="reference internal" href="hadamard_code.html">Hadamard Code Kernel</a></li>
-<li class="toctree-l3"><a class="reference internal" href="kernel.html">kernel [class]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kernel.html">Kernel (general class)</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Lovasz Theta Kernel</a></li>
 <li class="toctree-l3"><a class="reference internal" href="multiscale_laplacian.html">Multiscale Laplacian Kernel</a></li>
 <li class="toctree-l3"><a class="reference internal" href="neighborhood_hash.html">Neighborhood Hash Kernel</a></li>
@@ -129,7 +120,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../classes.html">API Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">General examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">Classification Examples</a></li>
 </ul>
 
             
@@ -141,7 +132,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">GraKeL</a>
@@ -149,9 +140,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -207,8 +199,8 @@
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="../generated/grakel.lovasz_theta.html#grakel.lovasz_theta" title="grakel.lovasz_theta"><code class="xref py py-obj docutils literal notranslate"><span class="pre">lovasz_theta</span></code></a>([executor,&nbsp;normalize,&nbsp;verbose,&nbsp;…])</td>
-<td>Lovasz theta kernel as proposed in <a class="reference internal" href="../generated/grakel.lovasz_theta.html#johansson2015learningws-lovasz" id="id1">[JD15]</a>.</td>
+<tr class="row-odd"><td><a class="reference internal" href="../generated/grakel.LovaszTheta.html#grakel.LovaszTheta" title="grakel.LovaszTheta"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LovaszTheta</span></code></a>([executor,&nbsp;normalize,&nbsp;verbose,&nbsp;…])</td>
+<td>Lovasz theta kernel as proposed in <a class="reference internal" href="../generated/grakel.LovaszTheta.html#johansson2015learningws-lovasz" id="id1">[JD15]</a>.</td>
 </tr>
 </tbody>
 </table>
@@ -216,9 +208,7 @@
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -227,7 +217,7 @@
         <a href="multiscale_laplacian.html" class="btn btn-neutral float-right" title="Multiscale Laplacian Kernel" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="kernel.html" class="btn btn-neutral" title="kernel [class]" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="kernel.html" class="btn btn-neutral" title="Kernel (general class)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -240,7 +230,7 @@
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -259,6 +249,7 @@
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
             VERSION:'0.1a2',
+            LANGUAGE:'en',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -277,14 +268,13 @@
     <script type="text/javascript" src="../_static/js/theme.js"></script>
   
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          
+          SphinxRtdTheme.Navigation.enableSticky();
+          
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>

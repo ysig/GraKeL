@@ -11,4 +11,4 @@ The Edge Histogram Kernel.
 
 .. autosummary::
 
-   edge_histogram
+   EdgeHistogram

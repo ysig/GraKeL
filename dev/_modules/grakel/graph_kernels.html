@@ -25,29 +25,19 @@
   
 
   
-  
     <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-  
-
-  
-    <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
-  
-    <link rel="stylesheet" href="../../_static/_static/css/supplementary.css" type="text/css" />
-  
-
-  
-        <link rel="index" title="Index"
-              href="../../genindex.html"/>
-        <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="GraKeL 0.1a2 documentation" href="../../index.html"/>
-        <link rel="up" title="Module code" href="../index.html"/> 
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/_static/css/supplementary.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
 
   
   <script src="../../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -64,7 +54,7 @@
 
           
             
-            <img src="../../_static/logo.png" class="logo" />
+            <img src="../../_static/logo.png" class="logo" alt="Logo"/>
           
           </a>
 
@@ -102,7 +92,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../api.html">GraKeL</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../classes.html">API Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html">General examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html">Classification Examples</a></li>
 </ul>
 
             
@@ -114,7 +104,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../index.html">GraKeL</a>
@@ -122,9 +112,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -154,8 +145,6 @@
     
       <li class="wy-breadcrumbs-aside">
         
-            
-        
       </li>
     
   </ul>
@@ -180,25 +169,27 @@
 <span class="kn">from</span> <span class="nn">sklearn.base</span> <span class="k">import</span> <span class="n">TransformerMixin</span>
 <span class="kn">from</span> <span class="nn">sklearn.utils.validation</span> <span class="k">import</span> <span class="n">check_is_fitted</span>
 
-<span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">graphlet_sampling</span>
-<span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">random_walk</span>
-<span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">random_walk_labeled</span>
-<span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">shortest_path</span>
-<span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">shortest_path_attr</span>
-<span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">weisfeiler_lehman</span>
-<span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">pyramid_match</span>
-<span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">neighborhood_hash</span>
-<span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">subgraph_matching</span>
-<span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">neighborhood_subgraph_pairwise_distance</span>
-<span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">lovasz_theta</span>
-<span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">svm_theta</span>
-<span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">odd_sth</span>
-<span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">propagation</span>
-<span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">hadamard_code</span>
-<span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">multiscale_laplacian</span>
-<span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">multiscale_laplacian_fast</span>
-<span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">vertex_histogram</span>
-<span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">edge_histogram</span>
+<span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">GraphletSampling</span>
+<span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">RandomWalk</span>
+<span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">RandomWalkLabeled</span>
+<span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">ShortestPath</span>
+<span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">ShortestPathAttr</span>
+<span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">WeisfeilerLehman</span>
+<span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">NeighborhoodHash</span>
+<span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">PyramidMatch</span>
+<span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">SubgraphMatching</span>
+<span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">NeighborhoodSubgraphPairwiseDistance</span>
+<span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">LovaszTheta</span>
+<span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">SvmTheta</span>
+<span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">OddSth</span>
+<span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">Propagation</span>
+<span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">PropagationAttr</span>
+<span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">HadamardCode</span>
+<span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">MultiscaleLaplacian</span>
+<span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">MultiscaleLaplacianFast</span>
+<span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">VertexHistogram</span>
+<span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">EdgeHistogram</span>
+<span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">GraphHopper</span>
 
 <span class="c1"># Python 2/3 cross-compatibility import</span>
 <span class="kn">from</span> <span class="nn">future.utils</span> <span class="k">import</span> <span class="n">iteritems</span>
@@ -215,7 +206,8 @@
     <span class="s2">&quot;NSPDK&quot;</span><span class="p">,</span>
     <span class="s2">&quot;odd_sth&quot;</span><span class="p">,</span> <span class="s2">&quot;propagation&quot;</span><span class="p">,</span>
     <span class="s2">&quot;pyramid_match&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;propagation&quot;</span><span class="p">,</span> <span class="s2">&quot;vertex_histogram&quot;</span><span class="p">,</span> <span class="s2">&quot;edge_histogram&quot;</span>
+    <span class="s2">&quot;propagation&quot;</span><span class="p">,</span> <span class="s2">&quot;vertex_histogram&quot;</span><span class="p">,</span> <span class="s2">&quot;edge_histogram&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;graph_hopper&quot;</span>
     <span class="p">]</span>
 
 <span class="n">supported_general_kernels</span> <span class="o">=</span> <span class="p">[</span>
@@ -328,11 +320,13 @@
 
 <span class="sd">                    + (**o**) T: [dict] [int]: [np.arrays]</span>
 
-<span class="sd">                    + (**o**) M: [str] &quot;H&quot;, &quot;L1&quot;, &quot;L2&quot;, &quot;TV&quot;</span>
+<span class="sd">                    + (**o**) with_attributes: [bool], default=False</span>
+
+<span class="sd">                    + (**o**) M: [str] {&quot;H&quot;, &quot;TV&quot;} if `with_attributes=True` else {&quot;L1&quot;, &quot;L2&quot;}</span>
 
 <span class="sd">                    + (**o**) w: [int] &gt; 0</span>
 
-<span class="sd">                    + (**o**) base_kernel: [function] x:[list[int]] , y:[list[int]] -&gt; [number]</span>
+<span class="sd">                    + (**o**) base_kernel: [function] x:[Counter] , y:[Counter] -&gt; [number]</span>
 
 <span class="sd">                - &quot;pyramid_match&quot;</span>
 <span class="sd">                    + (**o**) with_labels: [bool]</span>
@@ -340,6 +334,10 @@
 <span class="sd">                    + (**o**) d: [int] &gt; 0</span>
 
 <span class="sd">                    + (**o**) L: [int] &gt;= 0</span>
+
+<span class="sd">                - &quot;graph_hopper&quot;</span>
+<span class="sd">                    + (**o**) kernel_type: [str: {&#39;linear&#39;, &#39;gaussian&#39;}] or [tuple: {(&#39;gaussian&#39;, mu)}]</span>
+<span class="sd">                      or [function] x:[(np.array, np.array)] , y:[(np.array, np.array)] -&gt; [number]</span>
 
 <span class="sd">                - &quot;vertex_histogram&quot; or &quot;subtree_wl&quot;</span>
 <span class="sd">                    *No arguments*</span>
@@ -512,10 +510,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">K</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel_</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">K</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">K</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">K</span></div>
+        <span class="k">return</span> <span class="n">K</span></div>
 
 <div class="viewcode-block" id="GraphKernel.fit_transform"><a class="viewcode-back" href="../../generated/grakel.GraphKernel.html#grakel.GraphKernel.fit_transform">[docs]</a>    <span class="k">def</span> <span class="nf">fit_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Fit and transform, on the same dataset.</span>
@@ -551,10 +546,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">K</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel_</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">K</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">K</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">K</span></div>
+        <span class="k">return</span> <span class="n">K</span></div>
 
 <div class="viewcode-block" id="GraphKernel.initialize_"><a class="viewcode-back" href="../../generated/grakel.GraphKernel.html#grakel.GraphKernel.initialize_">[docs]</a>    <span class="k">def</span> <span class="nf">initialize_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialize all transformer arguments, needing initialisation.&quot;&quot;&quot;</span>
@@ -660,73 +652,78 @@
                 <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;rest kernel arguments are being ignored</span><span class="se">\</span>
 <span class="s1">                               - reached base kernel&#39;</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">kernel_name</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;vertex_histogram&quot;</span><span class="p">,</span> <span class="s2">&quot;subtree_wl&quot;</span><span class="p">]:</span>
-                <span class="k">return</span> <span class="n">vertex_histogram</span><span class="p">,</span> <span class="n">kernel</span>
+                <span class="k">return</span> <span class="n">VertexHistogram</span><span class="p">,</span> <span class="n">kernel</span>
             <span class="k">elif</span> <span class="n">kernel_name</span> <span class="o">==</span> <span class="s2">&quot;random_walk&quot;</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">kernel</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;with_labels&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
-                    <span class="k">return</span> <span class="n">random_walk_labeled</span><span class="p">,</span> <span class="n">kernel</span>
+                    <span class="k">return</span> <span class="n">RandomWalkLabeled</span><span class="p">,</span> <span class="n">kernel</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="k">return</span> <span class="n">random_walk</span><span class="p">,</span> <span class="n">kernel</span>
+                    <span class="k">return</span> <span class="n">RandomWalk</span><span class="p">,</span> <span class="n">kernel</span>
             <span class="k">elif</span> <span class="n">kernel_name</span> <span class="o">==</span> <span class="s2">&quot;shortest_path&quot;</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">kernel</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;as_attributes&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
-                    <span class="k">return</span> <span class="n">shortest_path_attr</span><span class="p">,</span> <span class="n">kernel</span>
+                    <span class="k">return</span> <span class="n">ShortestPathAttr</span><span class="p">,</span> <span class="n">kernel</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="k">return</span> <span class="p">(</span><span class="n">shortest_path</span><span class="p">,</span> <span class="n">kernel</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="p">(</span><span class="n">ShortestPath</span><span class="p">,</span> <span class="n">kernel</span><span class="p">)</span>
             <span class="k">elif</span> <span class="n">kernel_name</span> <span class="o">==</span> <span class="s2">&quot;graphlet_sampling&quot;</span><span class="p">:</span>
                 <span class="k">if</span> <span class="p">(</span><span class="s2">&quot;random_seed&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kernel</span> <span class="ow">and</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">random_seed</span> <span class="ow">is</span> <span class="ow">not</span>
                         <span class="n">default_random_seed_value</span><span class="p">):</span>
                         <span class="n">kernel</span><span class="p">[</span><span class="s2">&quot;random_seed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">random_seed</span>
-                <span class="k">return</span> <span class="n">graphlet_sampling</span><span class="p">,</span> <span class="n">kernel</span>
+                <span class="k">return</span> <span class="n">GraphletSampling</span><span class="p">,</span> <span class="n">kernel</span>
             <span class="k">elif</span> <span class="n">kernel_name</span> <span class="o">==</span> <span class="s2">&quot;multiscale_laplacian&quot;</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">kernel</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;which&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;simple&quot;</span><span class="p">:</span>
                     <span class="n">kernel</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;N&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-                    <span class="k">return</span> <span class="p">(</span><span class="n">multiscale_laplacian</span><span class="p">,</span> <span class="n">kernel</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="p">(</span><span class="n">MultiscaleLaplacian</span><span class="p">,</span> <span class="n">kernel</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="k">if</span> <span class="p">(</span><span class="s2">&quot;random_seed&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kernel</span> <span class="ow">and</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">random_seed</span> <span class="ow">is</span> <span class="ow">not</span>
                             <span class="n">default_random_seed_value</span><span class="p">):</span>
                         <span class="n">kernel</span><span class="p">[</span><span class="s2">&quot;random_seed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">random_seed</span>
-                    <span class="k">return</span> <span class="p">(</span><span class="n">multiscale_laplacian_fast</span><span class="p">,</span> <span class="n">kernel</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="p">(</span><span class="n">MultiscaleLaplacianFast</span><span class="p">,</span> <span class="n">kernel</span><span class="p">)</span>
             <span class="k">elif</span> <span class="n">kernel_name</span> <span class="o">==</span> <span class="s2">&quot;subgraph_matching&quot;</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">subgraph_matching</span><span class="p">,</span> <span class="n">kernel</span>
+                <span class="k">return</span> <span class="n">SubgraphMatching</span><span class="p">,</span> <span class="n">kernel</span>
             <span class="k">elif</span> <span class="n">kernel_name</span> <span class="o">==</span> <span class="s2">&quot;lovasz_theta&quot;</span><span class="p">:</span>
                 <span class="k">if</span> <span class="p">(</span><span class="s2">&quot;random_seed&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kernel</span> <span class="ow">and</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">random_seed</span> <span class="ow">is</span> <span class="ow">not</span>
                         <span class="n">default_random_seed_value</span><span class="p">):</span>
                     <span class="n">kernel</span><span class="p">[</span><span class="s2">&quot;random_seed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">random_seed</span>
-                <span class="k">return</span> <span class="n">lovasz_theta</span><span class="p">,</span> <span class="n">kernel</span>
+                <span class="k">return</span> <span class="n">LovaszTheta</span><span class="p">,</span> <span class="n">kernel</span>
             <span class="k">elif</span> <span class="n">kernel_name</span> <span class="o">==</span> <span class="s2">&quot;svm_theta&quot;</span><span class="p">:</span>
                 <span class="k">if</span> <span class="p">(</span><span class="s2">&quot;random_seed&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kernel</span> <span class="ow">and</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">random_seed</span> <span class="ow">is</span> <span class="ow">not</span>
                         <span class="n">default_random_seed_value</span><span class="p">):</span>
                     <span class="n">kernel</span><span class="p">[</span><span class="s2">&quot;random_seed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">random_seed</span>
-                <span class="k">return</span> <span class="n">svm_theta</span><span class="p">,</span> <span class="n">kernel</span>
+                <span class="k">return</span> <span class="n">SvmTheta</span><span class="p">,</span> <span class="n">kernel</span>
             <span class="k">elif</span> <span class="n">kernel_name</span> <span class="o">==</span> <span class="s2">&quot;neighborhood_hash&quot;</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">neighborhood_hash</span><span class="p">,</span> <span class="n">kernel</span>
+                <span class="k">return</span> <span class="n">NeighborhoodHash</span><span class="p">,</span> <span class="n">kernel</span>
             <span class="k">elif</span> <span class="n">kernel_name</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;neighborhood_subgraph_pairwise_distance&quot;</span><span class="p">,</span>
                                  <span class="s2">&quot;NSPD&quot;</span><span class="p">]:</span>
-                <span class="k">return</span> <span class="n">neighborhood_subgraph_pairwise_distance</span><span class="p">,</span> <span class="n">kernel</span>
+                <span class="k">return</span> <span class="n">NeighborhoodSubgraphPairwiseDistance</span><span class="p">,</span> <span class="n">kernel</span>
             <span class="k">elif</span> <span class="n">kernel_name</span> <span class="o">==</span> <span class="s2">&quot;odd_sth&quot;</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">odd_sth</span><span class="p">,</span> <span class="n">kernel</span>
+                <span class="k">return</span> <span class="n">OddSth</span><span class="p">,</span> <span class="n">kernel</span>
             <span class="k">elif</span> <span class="n">kernel_name</span> <span class="o">==</span> <span class="s2">&quot;propagation&quot;</span><span class="p">:</span>
                 <span class="k">if</span> <span class="p">(</span><span class="s2">&quot;random_seed&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kernel</span> <span class="ow">and</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">random_seed</span> <span class="ow">is</span> <span class="ow">not</span>
                         <span class="n">default_random_seed_value</span><span class="p">):</span>
                     <span class="n">kernel</span><span class="p">[</span><span class="s2">&quot;random_seed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">random_seed</span>
-                <span class="k">return</span> <span class="n">propagation</span><span class="p">,</span> <span class="n">kernel</span>
+                <span class="k">if</span> <span class="n">kernel</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;with_attributes&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="n">PropagationAttr</span><span class="p">,</span> <span class="n">kernel</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">Propagation</span><span class="p">,</span> <span class="n">kernel</span>
+            <span class="k">elif</span> <span class="n">kernel_name</span> <span class="o">==</span> <span class="s2">&quot;graph_hopper&quot;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">GraphHopper</span><span class="p">,</span> <span class="n">kernel</span>
             <span class="k">elif</span> <span class="n">kernel_name</span> <span class="o">==</span> <span class="s2">&quot;pyramid_match&quot;</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">pyramid_match</span><span class="p">,</span> <span class="n">kernel</span>
+                <span class="k">return</span> <span class="n">PyramidMatch</span><span class="p">,</span> <span class="n">kernel</span>
             <span class="k">elif</span> <span class="n">kernel_name</span> <span class="o">==</span> <span class="s2">&quot;edge_histogram&quot;</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">edge_histogram</span><span class="p">,</span> <span class="n">kernel</span>
+                <span class="k">return</span> <span class="n">EdgeHistogram</span><span class="p">,</span> <span class="n">kernel</span>
         <span class="k">elif</span> <span class="n">kernel_name</span> <span class="ow">in</span> <span class="n">supported_general_kernels</span><span class="p">:</span>
             <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">kernel_list</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">kernel_name</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39; is not a base kernel&#39;</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">kernel</span><span class="p">[</span><span class="s2">&quot;base_kernel&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_kernel_</span><span class="p">(</span><span class="n">kernel_list</span><span class="p">,</span> <span class="p">{})</span>
             <span class="k">if</span> <span class="n">kernel_name</span> <span class="o">==</span> <span class="s2">&quot;weisfeiler_lehman&quot;</span><span class="p">:</span>
-                <span class="k">return</span> <span class="p">(</span><span class="n">weisfeiler_lehman</span><span class="p">,</span> <span class="n">kernel</span><span class="p">)</span>
+                <span class="k">return</span> <span class="p">(</span><span class="n">WeisfeilerLehman</span><span class="p">,</span> <span class="n">kernel</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">kernel_name</span> <span class="o">==</span> <span class="s2">&quot;hadamard_code&quot;</span><span class="p">:</span>
-                <span class="k">return</span> <span class="p">(</span><span class="n">hadamard_code</span><span class="p">,</span> <span class="n">kernel</span><span class="p">)</span>
+                <span class="k">return</span> <span class="p">(</span><span class="n">HadamardCode</span><span class="p">,</span> <span class="n">kernel</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;unsupported kernel: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">kernel_name</span><span class="p">))</span></div>
 
@@ -749,9 +746,7 @@
 </pre></div>
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -764,7 +759,7 @@
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -783,6 +778,7 @@
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
             VERSION:'0.1a2',
+            LANGUAGE:'en',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -801,14 +797,13 @@
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
   
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          
+          SphinxRtdTheme.Navigation.enableSticky();
+          
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>

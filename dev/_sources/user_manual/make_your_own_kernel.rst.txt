@@ -5,17 +5,17 @@ Write your own kernel
 =====================
 
 As mentioned before on the :ref:`longer_introduction`, each kernel imported from the :code:`GraphKernel` decorator
-and found inside :code:`grakel.kernels` sub-package, inherits the :code:`kernel` class found there.
+and found inside :code:`grakel.kernels` sub-package, inherits the :code:`Kernel` class found there.
 In order to write any kernel that will be integrated (see :ref:`contributing`), in our package we would like the
 user to inherit that class. This may seem restricting but is not. We will try to demonstrate this in the
 following sections and we would like to mention the fact that the whole kernel package **is not final**, but must
 be always considered final when deploying a new package, because all the kernels should have a unified common interface.
 
 -------------------------------------------
-Overriding the :code:`kernel` class methods
+Overriding the :code:`Kernel` class methods
 -------------------------------------------
-In order to start we will present the current interface of the :code:`kernel` class
-(public methods) and guide the user how he can write a simple base :code:`kernel`, such as the *vertex-histogram-kernel*.
+In order to start we will present the current interface of the :code:`Kernel` class
+(public methods) and guide the user how he can write a simple base :code:`Kernel`, such as the *vertex-histogram-kernel*.
 
 The *vertex-histogram-kernel*, defined in :cite:`Sugiyama2015NIPSD` p.4 section 2.3 is a simple kernel, that
 calculates label histograms for each graph, that is: *counts the number of occurrences for each label
@@ -60,7 +60,7 @@ inside :code:`initialize_` method. If the user decides to overwrite :code:`fit` 
 must call :code:`self.initialize_()` as the first command of any process inside the kernel. This allows a valid
 parameter *resetting* through :code:`set_params`, satisfying an important aspect for **Pipeline** consistency. 
 
-Irrelevant from the interface the :code:`kernel` class offers two methods, overriding which, a user can write
+Irrelevant from the interface the :code:`Kernel` class offers two methods, overriding which, a user can write
 his own kernel. These methods are :code:`parse_input` and :code:`pairwise_operation`.
 
 The :code:`parse_input`, :code:`pairwise_operation` methods
@@ -76,7 +76,7 @@ method, calculating a final kernel value.
     In order not to repeat again-again the word *kernel*, when defining a kernel class
     this word is omitted on the kernel name definition.
 
-So to continue or example we first define :code:`parse_input` inside the :code:`vertex_histogram` class:
+So to continue or example we first define :code:`parse_input` inside the :code:`VertexHistogram` class:
 
 .. literalinclude:: code_for_examples/vertex_kernel.py
    :language: python
@@ -91,7 +91,7 @@ the kernel value is
 
 .. literalinclude:: code_for_examples/vertex_kernel.py
    :language: python
-   :lines: 109-124
+   :lines: 109-123
 
 where we count the :math:`\sum_{l \in L_{i} \cap L_{j}} f^{i}_{l}*f^{j}_{l}`, using the property of a :code:`Counter`
 object, returning a **0** value on empty occurrences.

@@ -25,29 +25,19 @@
   
 
   
-  
     <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  
-
-  
-    <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
-  
-    <link rel="stylesheet" href="../../../_static/_static/css/supplementary.css" type="text/css" />
-  
-
-  
-        <link rel="index" title="Index"
-              href="../../../genindex.html"/>
-        <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="GraKeL 0.1a2 documentation" href="../../../index.html"/>
-        <link rel="up" title="Module code" href="../../index.html"/> 
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/_static/css/supplementary.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
 
   
   <script src="../../../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -64,7 +54,7 @@
 
           
             
-            <img src="../../../_static/logo.png" class="logo" />
+            <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
           
           </a>
 
@@ -102,7 +92,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../api.html">GraKeL</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../classes.html">API Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html">General examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html">Classification Examples</a></li>
 </ul>
 
             
@@ -114,7 +104,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../../index.html">GraKeL</a>
@@ -122,9 +112,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -154,8 +145,6 @@
     
       <li class="wy-breadcrumbs-aside">
         
-            
-        
       </li>
     
   </ul>
@@ -181,7 +170,7 @@
 <span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="k">import</span> <span class="n">eig</span>
 <span class="kn">from</span> <span class="nn">scipy.linalg</span> <span class="k">import</span> <span class="n">expm</span>
 
-<span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">kernel</span>
+<span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">Kernel</span>
 <span class="kn">from</span> <span class="nn">grakel.graph</span> <span class="k">import</span> <span class="n">Graph</span>
 
 <span class="c1"># Python 2/3 cross-compatibility import</span>
@@ -191,7 +180,7 @@
 <span class="n">default_executor</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">fn</span><span class="p">,</span> <span class="o">*</span><span class="n">eargs</span><span class="p">,</span> <span class="o">**</span><span class="n">ekargs</span><span class="p">:</span> <span class="n">fn</span><span class="p">(</span><span class="o">*</span><span class="n">eargs</span><span class="p">,</span> <span class="o">**</span><span class="n">ekargs</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="random_walk"><a class="viewcode-back" href="../../../generated/grakel.random_walk.html#grakel.random_walk">[docs]</a><span class="k">class</span> <span class="nc">random_walk</span><span class="p">(</span><span class="n">kernel</span><span class="p">):</span>
+<div class="viewcode-block" id="RandomWalk"><a class="viewcode-back" href="../../../generated/grakel.RandomWalk.html#grakel.RandomWalk">[docs]</a><span class="k">class</span> <span class="nc">RandomWalk</span><span class="p">(</span><span class="n">Kernel</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;The random walk kernel class.</span>
 
 <span class="sd">    See :cite:`Kashima2003MarginalizedKB`, :cite:`Grtner2003OnGK`</span>
@@ -239,13 +228,13 @@
 
     <span class="n">_graph_format</span> <span class="o">=</span> <span class="s2">&quot;adjacency&quot;</span>
 
-<div class="viewcode-block" id="random_walk.__init__"><a class="viewcode-back" href="../../../generated/grakel.random_walk.html#grakel.random_walk.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">executor</span><span class="o">=</span><span class="n">default_executor</span><span class="p">,</span>
+<div class="viewcode-block" id="RandomWalk.__init__"><a class="viewcode-back" href="../../../generated/grakel.RandomWalk.html#grakel.RandomWalk.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">executor</span><span class="o">=</span><span class="n">default_executor</span><span class="p">,</span>
                  <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                  <span class="n">lamda</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">method_type</span><span class="o">=</span><span class="s2">&quot;fast&quot;</span><span class="p">,</span>
                  <span class="n">kernel_type</span><span class="o">=</span><span class="s2">&quot;geometric&quot;</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialise a random_walk kernel.&quot;&quot;&quot;</span>
         <span class="c1"># setup valid parameters and initialise from parent</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">random_walk</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">RandomWalk</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">executor</span><span class="o">=</span><span class="n">executor</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="n">normalize</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
 
         <span class="c1"># Ignores ComplexWarning as it does not signify anything problematic</span>
@@ -259,7 +248,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;method_type&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;kernel_type&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
                              <span class="s2">&quot;p&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;lamda&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span></div>
 
-<div class="viewcode-block" id="random_walk.initialize_"><a class="viewcode-back" href="../../../generated/grakel.random_walk.html#grakel.random_walk.initialize_">[docs]</a>    <span class="k">def</span> <span class="nf">initialize_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="RandomWalk.initialize_"><a class="viewcode-back" href="../../../generated/grakel.RandomWalk.html#grakel.RandomWalk.initialize_">[docs]</a>    <span class="k">def</span> <span class="nf">initialize_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialize all transformer arguments, needing initialization.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span><span class="p">[</span><span class="s2">&quot;method_type&quot;</span><span class="p">]:</span>
             <span class="c1"># Setup method type and define operation.</span>
@@ -308,7 +297,7 @@
                 <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;ranodm-walk series may fail to converge&#39;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span><span class="p">[</span><span class="s2">&quot;lamda&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span></div>
 
-<div class="viewcode-block" id="random_walk.parse_input"><a class="viewcode-back" href="../../../generated/grakel.random_walk.html#grakel.random_walk.parse_input">[docs]</a>    <span class="k">def</span> <span class="nf">parse_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+<div class="viewcode-block" id="RandomWalk.parse_input"><a class="viewcode-back" href="../../../generated/grakel.RandomWalk.html#grakel.RandomWalk.parse_input">[docs]</a>    <span class="k">def</span> <span class="nf">parse_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Parse and create features for random_walk kernel.</span>
 
 <span class="sd">        Parameters</span>
@@ -358,7 +347,7 @@
 
             <span class="k">return</span> <span class="n">out</span></div>
 
-<div class="viewcode-block" id="random_walk.pairwise_operation"><a class="viewcode-back" href="../../../generated/grakel.random_walk.html#grakel.random_walk.pairwise_operation">[docs]</a>    <span class="k">def</span> <span class="nf">pairwise_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
+<div class="viewcode-block" id="RandomWalk.pairwise_operation"><a class="viewcode-back" href="../../../generated/grakel.RandomWalk.html#grakel.RandomWalk.pairwise_operation">[docs]</a>    <span class="k">def</span> <span class="nf">pairwise_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate the random walk kernel.</span>
 
 <span class="sd">        Fast:</span>
@@ -434,7 +423,7 @@
             <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">multi_dot</span><span class="p">((</span><span class="n">fl</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">fr</span><span class="p">))</span></div></div>
 
 
-<div class="viewcode-block" id="random_walk_labeled"><a class="viewcode-back" href="../../../generated/grakel.random_walk_labeled.html#grakel.random_walk_labeled">[docs]</a><span class="k">class</span> <span class="nc">random_walk_labeled</span><span class="p">(</span><span class="n">random_walk</span><span class="p">):</span>
+<div class="viewcode-block" id="RandomWalkLabeled"><a class="viewcode-back" href="../../../generated/grakel.RandomWalkLabeled.html#grakel.RandomWalkLabeled">[docs]</a><span class="k">class</span> <span class="nc">RandomWalkLabeled</span><span class="p">(</span><span class="n">RandomWalk</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;The labeled random walk kernel class.</span>
 
 <span class="sd">    See :cite:`Kashima2003MarginalizedKB_lbld`, :cite:`Grtner2003OnGK_lbld`</span>
@@ -484,18 +473,18 @@
 
     <span class="n">_graph_format</span> <span class="o">=</span> <span class="s2">&quot;adjacency&quot;</span>
 
-<div class="viewcode-block" id="random_walk_labeled.__init__"><a class="viewcode-back" href="../../../generated/grakel.random_walk_labeled.html#grakel.random_walk_labeled.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">executor</span><span class="o">=</span><span class="n">default_executor</span><span class="p">,</span>
+<div class="viewcode-block" id="RandomWalkLabeled.__init__"><a class="viewcode-back" href="../../../generated/grakel.RandomWalkLabeled.html#grakel.RandomWalkLabeled.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">executor</span><span class="o">=</span><span class="n">default_executor</span><span class="p">,</span>
                  <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                  <span class="n">lamda</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">method_type</span><span class="o">=</span><span class="s2">&quot;fast&quot;</span><span class="p">,</span>
                  <span class="n">kernel_type</span><span class="o">=</span><span class="s2">&quot;geometric&quot;</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialise a labeled random_walk kernel.&quot;&quot;&quot;</span>
         <span class="c1"># Initialise from parent</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">random_walk_labeled</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">RandomWalkLabeled</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">executor</span><span class="o">=</span><span class="n">executor</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="n">normalize</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span>
             <span class="n">lamda</span><span class="o">=</span><span class="n">lamda</span><span class="p">,</span> <span class="n">method_type</span><span class="o">=</span><span class="n">method_type</span><span class="p">,</span> <span class="n">kernel_type</span><span class="o">=</span><span class="n">kernel_type</span><span class="p">,</span>
             <span class="n">p</span><span class="o">=</span><span class="n">p</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="random_walk_labeled.parse_input"><a class="viewcode-back" href="../../../generated/grakel.random_walk_labeled.html#grakel.random_walk_labeled.parse_input">[docs]</a>    <span class="k">def</span> <span class="nf">parse_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+<div class="viewcode-block" id="RandomWalkLabeled.parse_input"><a class="viewcode-back" href="../../../generated/grakel.RandomWalkLabeled.html#grakel.RandomWalkLabeled.parse_input">[docs]</a>    <span class="k">def</span> <span class="nf">parse_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Parse and create features for graphlet_sampling kernel.</span>
 
 <span class="sd">        Parameters</span>
@@ -544,7 +533,7 @@
 
             <span class="k">return</span> <span class="n">out</span></div>
 
-<div class="viewcode-block" id="random_walk_labeled.pairwise_operation"><a class="viewcode-back" href="../../../generated/grakel.random_walk_labeled.html#grakel.random_walk_labeled.pairwise_operation">[docs]</a>    <span class="k">def</span> <span class="nf">pairwise_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
+<div class="viewcode-block" id="RandomWalkLabeled.pairwise_operation"><a class="viewcode-back" href="../../../generated/grakel.RandomWalkLabeled.html#grakel.RandomWalkLabeled.pairwise_operation">[docs]</a>    <span class="k">def</span> <span class="nf">pairwise_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate the labeled random walk kernel.</span>
 
 <span class="sd">        Fast:</span>
@@ -637,9 +626,7 @@
 </pre></div>
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -652,7 +639,7 @@
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -671,6 +658,7 @@
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
             VERSION:'0.1a2',
+            LANGUAGE:'en',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -689,14 +677,13 @@
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
   
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          
+          SphinxRtdTheme.Navigation.enableSticky();
+          
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>

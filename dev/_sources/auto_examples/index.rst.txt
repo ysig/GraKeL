@@ -2,16 +2,17 @@
 
 .. _general_examples:
 
-General examples
-================
+Classification Examples
+=======================
 
-Introductory examples.
+Examples that demonstrate through a standard classification problem by the use of an SVM with a precomputed kernel, the accuracy of various Graph Kernels (WL-Subtree, Multiscale-Laplacian, Lovasz/SVM-Theta, ODD-STh) while using various measure settings (simple, manual K-Fold with Grid-Search, Pipeline Grid-search, or randomized K-folds).
+
 
 
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="An example plot of :class:`grakel.GraphKernel` ">
+    <div class="sphx-glr-thumbcontainer" tooltip="An example plot of :class:`grakel.GraphKernel`, :class:`grakel.odd_sth` ">
 
 .. only:: html
 
@@ -31,7 +32,7 @@ Introductory examples.
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="An example plot of :class:`grakel.GraphKernel`, :class:`grakel.kernels.weisfeiler_lehman`, :cla...">
+    <div class="sphx-glr-thumbcontainer" tooltip="An example plot of :class:`grakel.GraphKernel`, :class:`grakel.weisfeiler_lehman`, :class:`grak...">
 
 .. only:: html
 
@@ -51,7 +52,7 @@ Introductory examples.
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="An example plot of :class:`grakel.GraphKernel` ">
+    <div class="sphx-glr-thumbcontainer" tooltip="An example plot of :class:`grakel.GraphKernel`, :c;ass:`grakel.lovasz_theta`, :class:`grakel.sv...">
 
 .. only:: html
 
@@ -91,7 +92,7 @@ Introductory examples.
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="An example plot of :class:`grakel.GraphKernel`, :class:`grakel.kernels.multiscale_laplacian_fas...">
+    <div class="sphx-glr-thumbcontainer" tooltip="An example plot of :class:`grakel.GraphKernel`, :class:`grakel.multiscale_laplacian_fast` ">
 
 .. only:: html
 

@@ -10,4 +10,4 @@ The ODD-STh Kernel.
 
 .. autosummary::
 
-   odd_sth
+   OddSth

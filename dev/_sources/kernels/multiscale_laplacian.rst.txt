@@ -14,7 +14,7 @@ Multiscale Laplacian
 
 .. autosummary::
 
-   multiscale_laplacian
+   MultiscaleLaplacian
 
 Approximate Multiscale Laplacian
 --------------------------------
@@ -25,4 +25,4 @@ Approximate Multiscale Laplacian
 
 .. autosummary::
 
-   multiscale_laplacian_fast
+   MultiscaleLaplacianFast

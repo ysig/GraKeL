@@ -10,4 +10,4 @@ The Vertex Histogram Kernel.
 
 .. autosummary::
 
-   vertex_histogram
+   VertexHistogram

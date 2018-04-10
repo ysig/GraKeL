@@ -10,5 +10,5 @@ The random walk kernel.
 
 .. autosummary::
 
-   random_walk
-   random_walk_labeled
+   RandomWalk
+   RandomWalkLabeled

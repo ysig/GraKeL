@@ -25,29 +25,19 @@
   
 
   
-  
     <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  
-
-  
-    <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
-  
-    <link rel="stylesheet" href="../../../_static/_static/css/supplementary.css" type="text/css" />
-  
-
-  
-        <link rel="index" title="Index"
-              href="../../../genindex.html"/>
-        <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="GraKeL 0.1a2 documentation" href="../../../index.html"/>
-        <link rel="up" title="Module code" href="../../index.html"/> 
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/_static/css/supplementary.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
 
   
   <script src="../../../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -64,7 +54,7 @@
 
           
             
-            <img src="../../../_static/logo.png" class="logo" />
+            <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
           
           </a>
 
@@ -102,7 +92,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../api.html">GraKeL</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../classes.html">API Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html">General examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html">Classification Examples</a></li>
 </ul>
 
             
@@ -114,7 +104,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../../index.html">GraKeL</a>
@@ -122,9 +112,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -154,8 +145,6 @@
     
       <li class="wy-breadcrumbs-aside">
         
-            
-        
       </li>
     
   </ul>
@@ -175,7 +164,7 @@
 <span class="kn">from</span> <span class="nn">numpy.random</span> <span class="k">import</span> <span class="n">choice</span>
 
 <span class="kn">from</span> <span class="nn">grakel.graph</span> <span class="k">import</span> <span class="n">Graph</span>
-<span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">kernel</span>
+<span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">Kernel</span>
 
 <span class="kn">from</span> <span class="nn">sklearn.utils.validation</span> <span class="k">import</span> <span class="n">check_is_fitted</span>
 
@@ -186,7 +175,7 @@
 <span class="n">default_executor</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">fn</span><span class="p">,</span> <span class="o">*</span><span class="n">eargs</span><span class="p">,</span> <span class="o">**</span><span class="n">ekargs</span><span class="p">:</span> <span class="n">fn</span><span class="p">(</span><span class="o">*</span><span class="n">eargs</span><span class="p">,</span> <span class="o">**</span><span class="n">ekargs</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="neighborhood_hash"><a class="viewcode-back" href="../../../generated/grakel.neighborhood_hash.html#grakel.neighborhood_hash">[docs]</a><span class="k">class</span> <span class="nc">neighborhood_hash</span><span class="p">(</span><span class="n">kernel</span><span class="p">):</span>
+<div class="viewcode-block" id="NeighborhoodHash"><a class="viewcode-back" href="../../../generated/grakel.NeighborhoodHash.html#grakel.NeighborhoodHash">[docs]</a><span class="k">class</span> <span class="nc">NeighborhoodHash</span><span class="p">(</span><span class="n">Kernel</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Neighborhood hashing kernel as proposed in :cite:`Hido2009ALG`.</span>
 
 <span class="sd">    Parameters</span>
@@ -222,7 +211,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="neighborhood_hash.__init__"><a class="viewcode-back" href="../../../generated/grakel.neighborhood_hash.html#grakel.neighborhood_hash.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+<div class="viewcode-block" id="NeighborhoodHash.__init__"><a class="viewcode-back" href="../../../generated/grakel.NeighborhoodHash.html#grakel.NeighborhoodHash.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                  <span class="n">executor</span><span class="o">=</span><span class="n">default_executor</span><span class="p">,</span>
                  <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                  <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
@@ -231,9 +220,9 @@
                  <span class="n">nh_type</span><span class="o">=</span><span class="s1">&#39;simple&#39;</span><span class="p">,</span>
                  <span class="n">bits</span><span class="o">=</span><span class="mi">8</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialize a `neighborhood_hash` kernel.&quot;&quot;&quot;</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">neighborhood_hash</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">executor</span><span class="o">=</span><span class="n">executor</span><span class="p">,</span>
-                                                <span class="n">normalize</span><span class="o">=</span><span class="n">normalize</span><span class="p">,</span>
-                                                <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">NeighborhoodHash</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">executor</span><span class="o">=</span><span class="n">executor</span><span class="p">,</span>
+                                               <span class="n">normalize</span><span class="o">=</span><span class="n">normalize</span><span class="p">,</span>
+                                               <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">random_seed</span> <span class="o">=</span> <span class="n">random_seed</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">R</span> <span class="o">=</span> <span class="n">R</span>
@@ -242,7 +231,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;random_seed&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;R&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;nh_type&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
                              <span class="s2">&quot;bits&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span></div>
 
-<div class="viewcode-block" id="neighborhood_hash.initialize_"><a class="viewcode-back" href="../../../generated/grakel.neighborhood_hash.html#grakel.neighborhood_hash.initialize_">[docs]</a>    <span class="k">def</span> <span class="nf">initialize_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="NeighborhoodHash.initialize_"><a class="viewcode-back" href="../../../generated/grakel.NeighborhoodHash.html#grakel.NeighborhoodHash.initialize_">[docs]</a>    <span class="k">def</span> <span class="nf">initialize_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialize all transformer arguments, needing initialization.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span><span class="p">[</span><span class="s2">&quot;random_seed&quot;</span><span class="p">]:</span>
             <span class="n">seed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">random_seed</span><span class="p">)</span>
@@ -272,7 +261,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_mask</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_max_number</span><span class="o">-</span><span class="mi">1</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span><span class="p">[</span><span class="s2">&quot;bits&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span></div>
 
-<div class="viewcode-block" id="neighborhood_hash.fit"><a class="viewcode-back" href="../../../generated/grakel.neighborhood_hash.html#grakel.neighborhood_hash.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="NeighborhoodHash.fit"><a class="viewcode-back" href="../../../generated/grakel.NeighborhoodHash.html#grakel.NeighborhoodHash.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Fit a dataset, for a transformer.</span>
 
 <span class="sd">        Parameters</span>
@@ -388,7 +377,7 @@
         <span class="c1"># Return the transformer</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="neighborhood_hash.fit_transform"><a class="viewcode-back" href="../../../generated/grakel.neighborhood_hash.html#grakel.neighborhood_hash.fit_transform">[docs]</a>    <span class="k">def</span> <span class="nf">fit_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+<div class="viewcode-block" id="NeighborhoodHash.fit_transform"><a class="viewcode-back" href="../../../generated/grakel.NeighborhoodHash.html#grakel.NeighborhoodHash.fit_transform">[docs]</a>    <span class="k">def</span> <span class="nf">fit_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Fit and transform, on the same dataset.</span>
 
 <span class="sd">        Parameters</span>
@@ -419,7 +408,7 @@
         <span class="c1"># Output is always normalized</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calculate_kernel_matrix</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="neighborhood_hash.transform"><a class="viewcode-back" href="../../../generated/grakel.neighborhood_hash.html#grakel.neighborhood_hash.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+<div class="viewcode-block" id="NeighborhoodHash.transform"><a class="viewcode-back" href="../../../generated/grakel.NeighborhoodHash.html#grakel.NeighborhoodHash.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate the kernel matrix, between given and fitted dataset.</span>
 
 <span class="sd">        Parameters</span>
@@ -502,7 +491,7 @@
         <span class="c1"># Output is always normalized</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calculate_kernel_matrix</span><span class="p">(</span><span class="n">out</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="neighborhood_hash.pairwise_operation"><a class="viewcode-back" href="../../../generated/grakel.neighborhood_hash.html#grakel.neighborhood_hash.pairwise_operation">[docs]</a>    <span class="k">def</span> <span class="nf">pairwise_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<div class="viewcode-block" id="NeighborhoodHash.pairwise_operation"><a class="viewcode-back" href="../../../generated/grakel.NeighborhoodHash.html#grakel.NeighborhoodHash.pairwise_operation">[docs]</a>    <span class="k">def</span> <span class="nf">pairwise_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate a pairwise kernel between two elements.</span>
 
 <span class="sd">        Parameters</span>
@@ -521,7 +510,7 @@
         <span class="n">k</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">nh_compare_labels</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">r</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">r</span><span class="p">])</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">R</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">k</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.0</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">R</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="neighborhood_hash.diagonal"><a class="viewcode-back" href="../../../generated/grakel.neighborhood_hash.html#grakel.neighborhood_hash.diagonal">[docs]</a>    <span class="k">def</span> <span class="nf">diagonal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="NeighborhoodHash.diagonal"><a class="viewcode-back" href="../../../generated/grakel.NeighborhoodHash.html#grakel.NeighborhoodHash.diagonal">[docs]</a>    <span class="k">def</span> <span class="nf">diagonal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate the kernel matrix diagonal of the fit/transfromed data.</span>
 
 <span class="sd">        Parameters</span>
@@ -542,7 +531,7 @@
         <span class="c1"># Output is always normalized</span>
         <span class="k">return</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span></div>
 
-<div class="viewcode-block" id="neighborhood_hash.ROT"><a class="viewcode-back" href="../../../generated/grakel.neighborhood_hash.html#grakel.neighborhood_hash.ROT">[docs]</a>    <span class="k">def</span> <span class="nf">ROT</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
+<div class="viewcode-block" id="NeighborhoodHash.ROT"><a class="viewcode-back" href="../../../generated/grakel.NeighborhoodHash.html#grakel.NeighborhoodHash.ROT">[docs]</a>    <span class="k">def</span> <span class="nf">ROT</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;`rot` operation for binary numbers.</span>
 
 <span class="sd">        Parameters</span>
@@ -567,7 +556,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">n</span></div>
 
-<div class="viewcode-block" id="neighborhood_hash.neighborhood_hash_simple"><a class="viewcode-back" href="../../../generated/grakel.neighborhood_hash.html#grakel.neighborhood_hash.neighborhood_hash_simple">[docs]</a>    <span class="k">def</span> <span class="nf">neighborhood_hash_simple</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">G</span><span class="p">):</span>
+<div class="viewcode-block" id="NeighborhoodHash.neighborhood_hash_simple"><a class="viewcode-back" href="../../../generated/grakel.NeighborhoodHash.html#grakel.NeighborhoodHash.neighborhood_hash_simple">[docs]</a>    <span class="k">def</span> <span class="nf">neighborhood_hash_simple</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">G</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;(simple) neighborhood hashing as defined in :cite:`Hido2009ALG`.</span>
 
 <span class="sd">        Parameters</span>
@@ -595,7 +584,7 @@
                 <span class="n">new_labels</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="n">label</span>
         <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vertex_sort_</span><span class="p">(</span><span class="n">vertices</span><span class="p">,</span> <span class="n">new_labels</span><span class="p">))</span> <span class="o">+</span> <span class="p">(</span><span class="n">neighbors</span><span class="p">,)</span></div>
 
-<div class="viewcode-block" id="neighborhood_hash.neighborhood_hash_count_sensitive"><a class="viewcode-back" href="../../../generated/grakel.neighborhood_hash.html#grakel.neighborhood_hash.neighborhood_hash_count_sensitive">[docs]</a>    <span class="k">def</span> <span class="nf">neighborhood_hash_count_sensitive</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">G</span><span class="p">):</span>
+<div class="viewcode-block" id="NeighborhoodHash.neighborhood_hash_count_sensitive"><a class="viewcode-back" href="../../../generated/grakel.NeighborhoodHash.html#grakel.NeighborhoodHash.neighborhood_hash_count_sensitive">[docs]</a>    <span class="k">def</span> <span class="nf">neighborhood_hash_count_sensitive</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">G</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Count sensitive neighborhood hash as defined in :cite:`Hido2009ALG`.</span>
 
 <span class="sd">        Parameters</span>
@@ -626,7 +615,7 @@
 
         <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vertex_sort_</span><span class="p">(</span><span class="n">vertices</span><span class="p">,</span> <span class="n">new_labels</span><span class="p">))</span> <span class="o">+</span> <span class="p">(</span><span class="n">neighbors</span><span class="p">,)</span></div>
 
-<div class="viewcode-block" id="neighborhood_hash.radix_sort_rot"><a class="viewcode-back" href="../../../generated/grakel.neighborhood_hash.html#grakel.neighborhood_hash.radix_sort_rot">[docs]</a>    <span class="k">def</span> <span class="nf">radix_sort_rot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
+<div class="viewcode-block" id="NeighborhoodHash.radix_sort_rot"><a class="viewcode-back" href="../../../generated/grakel.NeighborhoodHash.html#grakel.NeighborhoodHash.radix_sort_rot">[docs]</a>    <span class="k">def</span> <span class="nf">radix_sort_rot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Sorts vertices based on labels.</span>
 
 <span class="sd">        Parameters</span>
@@ -683,7 +672,7 @@
             <span class="n">result</span> <span class="o">^=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ROT</span><span class="p">(</span><span class="n">previous</span> <span class="o">^</span> <span class="n">occ</span><span class="p">,</span> <span class="n">occ</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">result</span></div>
 
-<div class="viewcode-block" id="neighborhood_hash.vertex_sort_"><a class="viewcode-back" href="../../../generated/grakel.neighborhood_hash.html#grakel.neighborhood_hash.vertex_sort_">[docs]</a>    <span class="k">def</span> <span class="nf">vertex_sort_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vertices</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
+<div class="viewcode-block" id="NeighborhoodHash.vertex_sort_"><a class="viewcode-back" href="../../../generated/grakel.NeighborhoodHash.html#grakel.NeighborhoodHash.vertex_sort_">[docs]</a>    <span class="k">def</span> <span class="nf">vertex_sort_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vertices</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Sorts vertices based on labels.</span>
 
 <span class="sd">        Parameters</span>
@@ -751,9 +740,7 @@
 </pre></div>
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -766,7 +753,7 @@
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -785,6 +772,7 @@
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
             VERSION:'0.1a2',
+            LANGUAGE:'en',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -803,14 +791,13 @@
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
   
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          
+          SphinxRtdTheme.Navigation.enableSticky();
+          
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>

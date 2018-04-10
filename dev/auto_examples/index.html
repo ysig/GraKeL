@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>General examples &mdash; GraKeL 0.1a2 documentation</title>
+  <title>Classification Examples &mdash; GraKeL 0.1a2 documentation</title>
   
 
   
@@ -25,30 +25,21 @@
   
 
   
-  
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-    <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
-  
-    <link rel="stylesheet" href="../_static/_static/css/supplementary.css" type="text/css" />
-  
-
-  
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="GraKeL 0.1a2 documentation" href="../index.html"/>
-        <link rel="next" title="Cross-Validation sk-learn Pipeline example on MUTAG using ODD-STh Kernel" href="plot_pipeline_odd_sth.html"/>
-        <link rel="prev" title="grakel.edge_histogram" href="../generated/grakel.edge_histogram.html"/> 
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/_static/css/supplementary.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Cross-Validation sk-learn Pipeline example on MUTAG using ODD-STh Kernel" href="plot_pipeline_odd_sth.html" />
+    <link rel="prev" title="grakel.GraphHopper" href="../generated/grakel.GraphHopper.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -65,7 +56,7 @@
 
           
             
-            <img src="../_static/logo.png" class="logo" />
+            <img src="../_static/logo.png" class="logo" alt="Logo"/>
           
           </a>
 
@@ -103,7 +94,7 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../api.html">GraKeL</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../classes.html">API Reference</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">General examples</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Classification Examples</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="plot_pipeline_odd_sth.html">Cross-Validation sk-learn Pipeline example on MUTAG using ODD-STh Kernel</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_wl_subtree_MUTAG.html">Classification on the MUTAG dataset using a WL-subtree kernel</a></li>
 <li class="toctree-l2"><a class="reference internal" href="_plot_lovasz_svm_theta.html">Classification on MUTAG using a lovasz, svm-theta kernels</a></li>
@@ -122,7 +113,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">GraKeL</a>
@@ -130,9 +121,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -155,7 +147,7 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>General examples</li>
+      <li>Classification Examples</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -174,34 +166,34 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="general-examples">
-<span id="id1"></span><h1>General examples<a class="headerlink" href="#general-examples" title="Permalink to this headline">¶</a></h1>
-<p>Introductory examples.</p>
-<div class="sphx-glr-thumbcontainer" tooltip="An example plot of :class:`grakel.GraphKernel` "><div class="figure" id="id2">
+  <div class="section" id="classification-examples">
+<span id="general-examples"></span><h1>Classification Examples<a class="headerlink" href="#classification-examples" title="Permalink to this headline">¶</a></h1>
+<p>Examples that demonstrate through a standard classification problem by the use of an SVM with a precomputed kernel, the accuracy of various Graph Kernels (WL-Subtree, Multiscale-Laplacian, Lovasz/SVM-Theta, ODD-STh) while using various measure settings (simple, manual K-Fold with Grid-Search, Pipeline Grid-search, or randomized K-folds).</p>
+<div class="sphx-glr-thumbcontainer" tooltip="An example plot of :class:`grakel.GraphKernel`, :class:`grakel.odd_sth` "><div class="figure" id="id1">
 <img alt="../_images/sphx_glr_plot_pipeline_odd_sth_thumb.png" src="../_images/sphx_glr_plot_pipeline_odd_sth_thumb.png" />
 <p class="caption"><span class="caption-text"><a class="reference internal" href="plot_pipeline_odd_sth.html#sphx-glr-auto-examples-plot-pipeline-odd-sth-py"><span class="std std-ref">Cross-Validation sk-learn Pipeline example on MUTAG using ODD-STh Kernel</span></a></span></p>
 </div>
 </div><div class="toctree-wrapper compound">
 </div>
-<div class="sphx-glr-thumbcontainer" tooltip="An example plot of :class:`grakel.GraphKernel`, :class:`grakel.kernels.weisfeiler_lehman`, :cla..."><div class="figure" id="id3">
+<div class="sphx-glr-thumbcontainer" tooltip="An example plot of :class:`grakel.GraphKernel`, :class:`grakel.weisfeiler_lehman`, :class:`grak..."><div class="figure" id="id2">
 <img alt="../_images/sphx_glr_plot_wl_subtree_MUTAG_thumb.png" src="../_images/sphx_glr_plot_wl_subtree_MUTAG_thumb.png" />
 <p class="caption"><span class="caption-text"><a class="reference internal" href="plot_wl_subtree_MUTAG.html#sphx-glr-auto-examples-plot-wl-subtree-mutag-py"><span class="std std-ref">Classification on the MUTAG dataset using a WL-subtree kernel</span></a></span></p>
 </div>
 </div><div class="toctree-wrapper compound">
 </div>
-<div class="sphx-glr-thumbcontainer" tooltip="An example plot of :class:`grakel.GraphKernel` "><div class="figure" id="id4">
+<div class="sphx-glr-thumbcontainer" tooltip="An example plot of :class:`grakel.GraphKernel`, :c;ass:`grakel.lovasz_theta`, :class:`grakel.sv..."><div class="figure" id="id3">
 <img alt="../_images/sphx_glr__plot_lovasz_svm_theta_thumb.png" src="../_images/sphx_glr__plot_lovasz_svm_theta_thumb.png" />
 <p class="caption"><span class="caption-text"><a class="reference internal" href="_plot_lovasz_svm_theta.html#sphx-glr-auto-examples-plot-lovasz-svm-theta-py"><span class="std std-ref">Classification on MUTAG using a lovasz, svm-theta kernels</span></a></span></p>
 </div>
 </div><div class="toctree-wrapper compound">
 </div>
-<div class="sphx-glr-thumbcontainer" tooltip="An example plot of :class:`grakel.GraphKernel` "><div class="figure" id="id5">
+<div class="sphx-glr-thumbcontainer" tooltip="An example plot of :class:`grakel.GraphKernel` "><div class="figure" id="id4">
 <img alt="../_images/sphx_glr__plot_classification_statistics_thumb.png" src="../_images/sphx_glr__plot_classification_statistics_thumb.png" />
 <p class="caption"><span class="caption-text"><a class="reference internal" href="_plot_classification_statistics.html#sphx-glr-auto-examples-plot-classification-statistics-py"><span class="std std-ref">Classification statistics on the MUTAG, ENZYMES datasets.</span></a></span></p>
 </div>
 </div><div class="toctree-wrapper compound">
 </div>
-<div class="sphx-glr-thumbcontainer" tooltip="An example plot of :class:`grakel.GraphKernel`, :class:`grakel.kernels.multiscale_laplacian_fas..."><div class="figure" id="id6">
+<div class="sphx-glr-thumbcontainer" tooltip="An example plot of :class:`grakel.GraphKernel`, :class:`grakel.multiscale_laplacian_fast` "><div class="figure" id="id5">
 <img alt="../_images/sphx_glr_plot_KFold_MLG_thumb.png" src="../_images/sphx_glr_plot_KFold_MLG_thumb.png" />
 <p class="caption"><span class="caption-text"><a class="reference internal" href="plot_KFold_MLG.html#sphx-glr-auto-examples-plot-kfold-mlg-py"><span class="std std-ref">KFold classification of a dataset [Cuneiform] using the fast Multiscale Laplacian kernel.</span></a></span></p>
 </div>
@@ -218,9 +210,7 @@
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -229,7 +219,7 @@
         <a href="plot_pipeline_odd_sth.html" class="btn btn-neutral float-right" title="Cross-Validation sk-learn Pipeline example on MUTAG using ODD-STh Kernel" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../generated/grakel.edge_histogram.html" class="btn btn-neutral" title="grakel.edge_histogram" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../generated/grakel.GraphHopper.html" class="btn btn-neutral" title="grakel.GraphHopper" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -242,7 +232,7 @@
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -261,6 +251,7 @@
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
             VERSION:'0.1a2',
+            LANGUAGE:'en',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -279,14 +270,13 @@
     <script type="text/javascript" src="../_static/js/theme.js"></script>
   
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          
+          SphinxRtdTheme.Navigation.enableSticky();
+          
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>

@@ -11,4 +11,4 @@ The graphlet sampling kernel.
 
 .. autosummary::
 
-   graphlet_sampling
+   GraphletSampling

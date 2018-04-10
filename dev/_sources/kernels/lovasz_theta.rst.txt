@@ -11,4 +11,4 @@ The Lovasz Theta Kernel.
 
 .. autosummary::
 
-   lovasz_theta
+   LovaszTheta

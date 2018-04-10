@@ -10,4 +10,4 @@ The Weisfeiler Lehman Kernel.
 
 .. autosummary::
 
-   weisfeiler_lehman
+   WeisfeilerLehman
