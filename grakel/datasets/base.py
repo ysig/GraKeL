@@ -1,4 +1,7 @@
 """The base file for loading default datasets."""
+# Python 2/3 cross-compatibility import
+from __future__ import print_function
+
 import os
 import shutil
 import zipfile
@@ -10,6 +13,7 @@ from subprocess import check_call
 from sklearn.utils import Bunch
 
 from grakel.graph import Graph
+
 
 global datasets_metadata, symmetric_dataset
 

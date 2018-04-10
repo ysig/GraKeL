@@ -34,7 +34,7 @@ from grakel.kernels import GraphHopper
 
 global verbose, main, development
 
-default_eigvalue_precision = float("-1e-6")
+default_eigvalue_precision = float("-1e-5")
 
 if __name__ == '__main__':
     import argparse
