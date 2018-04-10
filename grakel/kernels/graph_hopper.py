@@ -196,7 +196,7 @@ class GraphHopper(Kernel):
 
                     # All neighbors of v in undirected graph who are
                     # one step closer to j than v is; i.e. SP-DAG parents
-                    v_parents = v_nbs[v_nbs_dists == v_dist - 1]
+                    v_parents = v_nbs[v_nbs_dists == (v_dist - 1)]
 
                     # Add SP-DAG parents to A_cc
                     A_cc[v_parents, v] = 1
@@ -205,16 +205,18 @@ class GraphHopper(Kernel):
                 # for all v in the connected component
                 occ_p, des_p = od_vectors_dag(A_cc, D_cc)
 
-                if des_p.shape[0] == 1 and j == 1:
-                    des[j, 1, 1] = des_p
-                    occ[j, 1, 1] = occ_p
+                if des_p.shape[0] == 1 and j == 0:
+                    des[j, 0, 0] = des_p
+                    occ[j, 0, 0] = occ_p
                 else:
                     # Convert back to the indices of the original graph
-                    des[j, conn_comp[:des_p.shape[0]], :des_p.shape[1]] = \
-                        des_p[:des_p.shape[0], :des_p.shape[1]]
+                    for v in range(des_p.shape[0]):
+                        for l in range(des_p.shape[1]):
+                            des[j, conn_comp[v], l] = des_p[v, l]
                     # Convert back to the indices of the original graph
-                    occ[j, conn_comp[:occ_p.shape[0]], :occ_p.shape[1]] = \
-                        occ_p[:des_p.shape[0], :occ_p.shape[1]]
+                    for v in range(occ_p.shape[0]):
+                        for l in range(occ_p.shape[1]):
+                            occ[j, conn_comp[v], l] = occ_p[v, l]
 
             M = np.zeros(shape=(node_nr, max_diam, max_diam))
             # j loops through choices of root
@@ -278,7 +280,7 @@ def linear_kernel(x, y):
     M_j, NA_j = y
     weight_matrix = np.dot(M_i, M_j.T)
     NA_linear_kernel = np.dot(NA_i, NA_j.T)
-    return np.dot(weight_matrix.T.flat, NA_linear_kernel.flat)
+    return np.dot(weight_matrix.flat, NA_linear_kernel.flat)
 
 
 def gaussian_kernel(x, y, mu):
@@ -304,7 +306,7 @@ def gaussian_kernel(x, y, mu):
     NA_linear_kernel = np.dot(NA_i, NA_j.T)
     NA_squared_distmatrix = ((-2*NA_linear_kernel.T + norm2_i).T + norm2_j)
     nodepair = np.exp(-mu*NA_squared_distmatrix)
-    return np.dot(weight_matrix.T.flat, nodepair.flat)
+    return np.dot(weight_matrix.flat, nodepair.flat)
 
 
 def bridge_kernel(x, y):
@@ -330,7 +332,7 @@ def bridge_kernel(x, y):
     NA_i_NA_j_distances = NAs_distances[:NA_i.shape[0], NA_i.shape[0]:]
     nodepair = (4-NA_i_NA_j_distances)/4
     nodepair[nodepair < 0] = 0
-    return np.dot(weight_matrix.T.flat, nodepair.flat)
+    return np.dot(weight_matrix.flat, nodepair.flat)
 
 
 def kernelmatrix2distmatrix(K):
@@ -391,13 +393,13 @@ def od_vectors_dag(G, shortestpath_dists):
     # For a node v at generation i in the tree, give it the vector
     # [0 0 ... 1 ... 0] of length h_tree with the 1 at the ith place.
     occ = np.zeros(shape=(dag_size, delta), dtype=int)
-    occ[1, 1] = 1
+    occ[0, 0] = 1
 
     # Initialize:
     # For a node v at generation i in the tree, give it the vector
     # [0 0 ... 1 ... 0] of length delta with the 1 at the ith place.
     des = np.zeros(shape=(dag_size, delta), dtype=int)
-    des[:, 1] = np.ones(shape=(1, dag_size))
+    des[:, 0] = np.ones(shape=(1, dag_size))
 
     for i in range(dag_size):
         edges_starting_at_ith = np.where(np.squeeze(sortedG[i, :]) == 1)[0]
