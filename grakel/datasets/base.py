@@ -9,17 +9,14 @@ import ssl
 try:
     # Python 2
     from urllib2 import HTTPError
-    from urllib2 import quote
     from urllib2 import urlopen
 except ImportError:
     # Python 3+
     from urllib.error import HTTPError
-    from urllib.parse import quote
     from urllib.request import urlopen
 
 import numpy as np
 
-from subprocess import check_call
 from shutil import copyfileobj
 
 from collections import Counter
@@ -352,6 +349,7 @@ def read_data(
     else:
         return Bunch(data=Gs)
 
+
 def _download_zip(url, output_name, verbose=False):
     """Download a file from a requested url and store locally.
 
@@ -380,10 +378,11 @@ def _download_zip(url, output_name, verbose=False):
     try:
         with open(filename, 'w+b') as zip_file:
             copyfileobj(data_url, zip_file)
-    except:
+    except Exception:
         os.remove(filename)
         raise
     data_url.close()
+
 
 def fetch_dataset(
         name,

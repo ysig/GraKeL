@@ -69,7 +69,7 @@ def test_random_walk_labels():
                                    features=('nl', 3))
 
     rw_kernel = RandomWalkLabeled(verbose=verbose, normalize=normalize)
-    gk = GraphKernel(kernel={"name": "random_walk", "with_labels": True}, 
+    gk = GraphKernel(kernel={"name": "random_walk", "with_labels": True},
                      verbose=verbose, normalize=normalize)
 
     try:
@@ -114,7 +114,7 @@ def test_shortest_path():
                                    features=('na', 5))
 
     sp_kernel = ShortestPathAttr(verbose=verbose, normalize=normalize)
-    gk = GraphKernel(kernel={"name": "shortest_path", "as_attributes": True}, 
+    gk = GraphKernel(kernel={"name": "shortest_path", "as_attributes": True},
                      verbose=verbose, normalize=normalize)
 
     try:
