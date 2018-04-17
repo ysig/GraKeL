@@ -47,7 +47,8 @@ There are two major compatibility issues concerning **Windows**.
 The first one concerning `cvxopt`_ has to do with the fact that `cvxopt developers`_
 use for their python build, `a package called Mingwpy`_ which constrains the valid
 Python 3 version for Windows to 3.4. This huge drawback restricts our project
-compatibility to Python-3.4 except if user installs the `Python prebuilt libraries of Christoph Gohlke`_.
+raises a problem if the lovasz-theta kernel is desired by the user which can
+*experimentally* be overrun if the user installs the `Python prebuilt libraries of Christoph Gohlke`_.
 
 The other compatibility issue concerns pynauty. As mentioned above `pynauty`_ wraps
 the `nauty`_ package, which uses a totally *gcc-oriented* approach and development.
@@ -71,9 +72,13 @@ execution speed.
 As for the installation using pre-built packages, we haven't yet been able to see if 
 this error reproduces on Python-3.5. So as for now there is no recommended installation
 procedure that will produce an end result, as in a unix like environment.
+This again restricts the user from running the graphlet_sampling kernel and only.
 
 Contributions in overriding or overcoming compatibility issues, would be widely accepted
 and for doing so see the section :ref:`contributing`.
+
+Other from that the package should build normally on windows assuring a Visual C++ higher or equal
+to 9 is installed, which is required from Cython.
 
 .. _cvxopt: http://cvxopt.org/
 .. _cvxopt developers: http://cvxopt.org/copyright.html

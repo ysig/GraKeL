@@ -35,6 +35,8 @@ depending on if `pip` has superuser privilages.
 
 **Currently windows installation of the whole package, is not working well because of dependencies.**
 To know more, please read the [documentation][doc] on the section *installation*.
+Because these dependencies are considered optional, while concerning only two kernels (*lovasz-theta* and 
+*graphlet-sampling*) the user can succesfully build and use the rest of the package.
 
 To install the module execute:
 ```shell
