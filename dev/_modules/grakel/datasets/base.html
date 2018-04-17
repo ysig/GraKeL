@@ -168,10 +168,11 @@
 
 <span class="kn">from</span> <span class="nn">subprocess</span> <span class="k">import</span> <span class="n">check_call</span>
 
+<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">Counter</span>
+
 <span class="kn">from</span> <span class="nn">sklearn.utils</span> <span class="k">import</span> <span class="n">Bunch</span>
 
 <span class="kn">from</span> <span class="nn">grakel.graph</span> <span class="k">import</span> <span class="n">Graph</span>
-
 
 <span class="k">global</span> <span class="n">datasets_metadata</span><span class="p">,</span> <span class="n">symmetric_dataset</span>
 
@@ -345,6 +346,7 @@
         <span class="n">with_classes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">prefer_attr_nodes</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">prefer_attr_edges</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">produce_labels_nodes</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">as_graphs</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">is_symmetric</span><span class="o">=</span><span class="n">symmetric_dataset</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Create a dataset iterable for GraphKernel.</span>
@@ -356,6 +358,11 @@
 
 <span class="sd">    with_classes : bool, default=False</span>
 <span class="sd">        Return an iterable of class labels based on the enumeration.</span>
+
+<span class="sd">    produce_labels_nodes : bool, default=False</span>
+<span class="sd">        Produce labels for nodes if not found.</span>
+<span class="sd">        Currently this means labeling its node by its degree inside the Graph.</span>
+<span class="sd">        This operation is applied only if node labels are non existent.</span>
 
 <span class="sd">    prefer_attr_nodes : bool, default=False</span>
 <span class="sd">        If a dataset has both *node* labels and *node* attributes</span>
@@ -442,6 +449,9 @@
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">node_labels_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
                 <span class="n">node_labels</span><span class="p">[</span><span class="n">ngc</span><span class="p">[</span><span class="n">i</span><span class="p">]][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">line</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">elif</span> <span class="n">produce_labels_nodes</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">Graphs</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">node_labels</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">Counter</span><span class="p">(</span><span class="n">s</span> <span class="k">for</span> <span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="ow">in</span> <span class="n">Graphs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">if</span> <span class="n">s</span> <span class="o">!=</span> <span class="n">d</span><span class="p">))</span>
 
     <span class="c1"># Extract edge attributes</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">prefer_attr_edges</span> <span class="ow">and</span>
@@ -495,6 +505,7 @@
         <span class="n">data_home</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">download_if_missing</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">with_classes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">produce_labels_nodes</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">prefer_attr_nodes</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">prefer_attr_edges</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">as_graphs</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -520,6 +531,11 @@
 
 <span class="sd">    with_classes : bool, default=False</span>
 <span class="sd">        Return an iterable of class labels based on the enumeration.</span>
+
+<span class="sd">    produce_labels_nodes : bool, default=False</span>
+<span class="sd">        Produce labels for nodes if not found.</span>
+<span class="sd">        Currently this means labeling its node by its degree inside the Graph.</span>
+<span class="sd">        This operation is applied only if node labels are non existent.</span>
 
 <span class="sd">    prefer_attr_nodes : bool, default=False</span>
 <span class="sd">        If a dataset has both *node* labels and *node* attributes</span>
@@ -590,6 +606,7 @@
                          <span class="n">with_classes</span><span class="o">=</span><span class="n">with_classes</span><span class="p">,</span>
                          <span class="n">prefer_attr_nodes</span><span class="o">=</span><span class="n">prefer_attr_nodes</span><span class="p">,</span>
                          <span class="n">prefer_attr_edges</span><span class="o">=</span><span class="n">prefer_attr_edges</span><span class="p">,</span>
+                         <span class="n">produce_labels_nodes</span><span class="o">=</span><span class="n">produce_labels_nodes</span><span class="p">,</span>
                          <span class="n">is_symmetric</span><span class="o">=</span><span class="n">symmetric_dataset</span><span class="p">,</span>
                          <span class="n">as_graphs</span><span class="o">=</span><span class="n">as_graphs</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>

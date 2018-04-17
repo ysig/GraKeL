@@ -85,6 +85,7 @@ Kernels
    VertexHistogram
    EdgeHistogram
    GraphHopper
+   CoreFramework
 
 **User guide:** See the :ref:`kernels` section for further details.
 

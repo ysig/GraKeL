@@ -296,11 +296,8 @@
                         <span class="n">g</span><span class="o">.</span><span class="n">change_format</span><span class="p">(</span><span class="s2">&quot;adjacency&quot;</span><span class="p">)</span>
                 <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">is</span> <span class="n">Graph</span><span class="p">:</span>
                     <span class="n">g</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">get_adjacency_matrix</span><span class="p">(),</span>
-                              <span class="n">x</span><span class="o">.</span><span class="n">get_labels</span><span class="p">(</span><span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;adjacency&quot;</span><span class="p">,</span>
-                                           <span class="n">label_type</span><span class="o">=</span><span class="s2">&quot;vertex&quot;</span><span class="p">),</span>
-                              <span class="n">x</span><span class="o">.</span><span class="n">get_labels</span><span class="p">(</span><span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;adjacency&quot;</span><span class="p">,</span>
-                                           <span class="n">label_type</span><span class="o">=</span><span class="s2">&quot;edge&quot;</span><span class="p">))</span>
-
+                              <span class="n">x</span><span class="o">.</span><span class="n">get_labels</span><span class="p">(</span><span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;adjacency&quot;</span><span class="p">,</span> <span class="n">label_type</span><span class="o">=</span><span class="s2">&quot;vertex&quot;</span><span class="p">),</span>
+                              <span class="n">x</span><span class="o">.</span><span class="n">get_labels</span><span class="p">(</span><span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;adjacency&quot;</span><span class="p">,</span> <span class="n">label_type</span><span class="o">=</span><span class="s2">&quot;edge&quot;</span><span class="p">))</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;each element of X must have either &#39;</span> <span class="o">+</span>
                                     <span class="s1">&#39;a graph with labels for node and edge &#39;</span> <span class="o">+</span>
@@ -323,18 +320,15 @@
                 <span class="c1"># Extract labels for nodes</span>
                 <span class="n">Lv</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">get_labels</span><span class="p">(</span><span class="n">purpose</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_graph_format</span><span class="p">)</span>
                 <span class="c1"># and for edges</span>
-                <span class="n">Le</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">get_labels</span><span class="p">(</span><span class="n">purpose</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_graph_format</span><span class="p">,</span>
-                                  <span class="n">label_type</span><span class="o">=</span><span class="s2">&quot;edge&quot;</span><span class="p">)</span>
+                <span class="n">Le</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">get_labels</span><span class="p">(</span><span class="n">purpose</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_graph_format</span><span class="p">,</span> <span class="n">label_type</span><span class="o">=</span><span class="s2">&quot;edge&quot;</span><span class="p">)</span>
 
                 <span class="c1"># Produce all the neighborhoods and the distance pairs</span>
                 <span class="c1"># up to the desired radius and maximum distance</span>
-                <span class="n">N</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">D_pair</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">produce_neighborhoods</span><span class="p">(</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">r</span><span class="p">,</span> <span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;dictionary&quot;</span><span class="p">,</span>
-                    <span class="n">with_distances</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="p">)</span>
+                <span class="n">N</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">D_pair</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">produce_neighborhoods</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">r</span><span class="p">,</span> <span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;dictionary&quot;</span><span class="p">,</span>
+                                                       <span class="n">with_distances</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="p">)</span>
 
                 <span class="c1"># Hash all the neighborhoods</span>
-                <span class="n">H</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hash_neighborhoods</span><span class="p">(</span><span class="n">vertices</span><span class="p">,</span> <span class="n">edges</span><span class="p">,</span> <span class="n">Lv</span><span class="p">,</span>
-                                             <span class="n">Le</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">D_pair</span><span class="p">)</span>
+                <span class="n">H</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hash_neighborhoods</span><span class="p">(</span><span class="n">vertices</span><span class="p">,</span> <span class="n">edges</span><span class="p">,</span> <span class="n">Lv</span><span class="p">,</span> <span class="n">Le</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">D_pair</span><span class="p">)</span>
 
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_method_calling</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
                     <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">filterfalse</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">D</span><span class="p">,</span>
@@ -347,8 +341,7 @@
                                 <span class="k">if</span> <span class="n">idx</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                                     <span class="n">idx</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span>
                                     <span class="n">keys</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">idx</span>
-                                <span class="n">data</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">d</span><span class="p">][</span><span class="n">ng</span><span class="p">,</span> <span class="n">idx</span><span class="p">]</span> <span class="o">=</span> \
-                                    <span class="n">data</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">d</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">((</span><span class="n">ng</span><span class="p">,</span> <span class="n">idx</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+                                <span class="n">data</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">d</span><span class="p">][</span><span class="n">ng</span><span class="p">,</span> <span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">d</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">((</span><span class="n">ng</span><span class="p">,</span> <span class="n">idx</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
 
                 <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_method_calling</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
                     <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">filterfalse</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">D</span><span class="p">,</span>
@@ -365,8 +358,7 @@
                                     <span class="k">if</span> <span class="n">idx</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                                         <span class="n">idx</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">fit_keys</span><span class="p">)</span>
                                         <span class="n">keys</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">idx</span>
-                                <span class="n">data</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">d</span><span class="p">][</span><span class="n">ng</span><span class="p">,</span> <span class="n">idx</span><span class="p">]</span> <span class="o">=</span> \
-                                    <span class="n">data</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">d</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">((</span><span class="n">ng</span><span class="p">,</span> <span class="n">idx</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+                                <span class="n">data</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">d</span><span class="p">][</span><span class="n">ng</span><span class="p">,</span> <span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">d</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">((</span><span class="n">ng</span><span class="p">,</span> <span class="n">idx</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
                 <span class="n">ng</span> <span class="o">+=</span> <span class="mi">1</span>
             <span class="k">if</span> <span class="n">ng</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;parsed input is empty&#39;</span><span class="p">)</span>
@@ -451,6 +443,7 @@
                                       <span class="n">N</span><span class="p">[</span><span class="n">key</span><span class="p">]))</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_Y</span> <span class="o">=</span> <span class="n">Y</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_is_transformed</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalize</span><span class="p">:</span>
             <span class="n">S</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">diagonal</span><span class="p">()))</span>
         <span class="k">return</span> <span class="n">S</span></div>
@@ -511,15 +504,18 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># constant based on normalization of krd</span>
-        <span class="n">check_is_fitted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="s1">&#39;_Y&#39;</span><span class="p">])</span>
+        <span class="n">check_is_fitted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;X&#39;</span><span class="p">])</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">check_is_fitted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;_X_diag&#39;</span><span class="p">])</span>
         <span class="k">except</span> <span class="n">NotFittedError</span><span class="p">:</span>
             <span class="c1"># Calculate diagonal of X</span>
-            <span class="n">X_diag</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_X_diag</span> <span class="o">=</span> <span class="n">X_diag</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_X_diag</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_X_diag</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_Y</span><span class="p">)</span></div>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">check_is_fitted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;_Y&#39;</span><span class="p">])</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_X_diag</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_Y</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">NotFittedError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_X_diag</span></div>
 
     <span class="k">def</span> <span class="nf">_hash_neighborhoods</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vertices</span><span class="p">,</span> <span class="n">edges</span><span class="p">,</span> <span class="n">Lv</span><span class="p">,</span> <span class="n">Le</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">D_pair</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Hash all neighborhoods and all root nodes.</span>

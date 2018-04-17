@@ -783,7 +783,7 @@
 <span class="sd">            either &quot;edge&quot; or &quot;all&quot;.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">labels</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;vertex&#39;</span><span class="p">,</span> <span class="s1">&#39;edge&#39;</span><span class="p">,</span> <span class="s1">&#39;all&#39;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">labels</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;vertex&#39;</span><span class="p">,</span> <span class="s1">&#39;edge&#39;</span><span class="p">,</span> <span class="s1">&#39;all&#39;</span><span class="p">,</span> <span class="s1">&#39;none&#39;</span><span class="p">]:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;only labels for vertices and edges exist&#39;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">clean</span><span class="p">:</span>
@@ -830,7 +830,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">shortest_path_mat</span></div>
 
-<div class="viewcode-block" id="Graph.get_labels"><a class="viewcode-back" href="../../generated/grakel.Graph.html#grakel.Graph.get_labels">[docs]</a>    <span class="k">def</span> <span class="nf">get_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label_type</span><span class="o">=</span><span class="s2">&quot;vertex&quot;</span><span class="p">,</span> <span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;adjacency&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="Graph.get_labels"><a class="viewcode-back" href="../../generated/grakel.Graph.html#grakel.Graph.get_labels">[docs]</a>    <span class="k">def</span> <span class="nf">get_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label_type</span><span class="o">=</span><span class="s2">&quot;vertex&quot;</span><span class="p">,</span> <span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;adjacency&quot;</span><span class="p">,</span> <span class="n">return_none</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Get labels corresponding to the purpose.</span>
 
 <span class="sd">        Parameters</span>
@@ -843,6 +843,9 @@
 <span class="sd">            Defines if the labels will correspond to &quot;dictionary&quot; (symbols),</span>
 <span class="sd">            to &quot;adjacency&quot; indexes, or to &quot;any&quot; valid format (if &quot;all&quot; the</span>
 <span class="sd">            result is for &quot;adjacency&quot;).</span>
+
+<span class="sd">        return_none : bool</span>
+<span class="sd">            Defines if get_labels can return None in case of label absence, or raise an error.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -869,8 +872,10 @@
                     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">construct_label</span><span class="p">:</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">construct_labels</span><span class="p">(</span><span class="n">label_type</span><span class="p">,</span> <span class="n">purpose</span><span class="p">)</span>
                     <span class="k">else</span><span class="p">:</span>
-                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Graph does not have any labels for &#39;</span>
-                                         <span class="s1">&#39;vertices.&#39;</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">return_none</span><span class="p">:</span>
+                            <span class="k">return</span> <span class="kc">None</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Graph does not have any labels for vertices.&#39;</span><span class="p">)</span>
 
                 <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">index_node_labels</span>
             <span class="k">elif</span> <span class="n">label_type</span> <span class="o">==</span> <span class="s2">&quot;edge&quot;</span><span class="p">:</span>
@@ -878,8 +883,10 @@
                     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">construct_label</span><span class="p">:</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">construct_labels</span><span class="p">(</span><span class="n">label_type</span><span class="p">,</span> <span class="n">purpose</span><span class="p">)</span>
                     <span class="k">else</span><span class="p">:</span>
-                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Graph does not have any labels for &#39;</span>
-                                         <span class="s1">&#39;edges.&#39;</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">return_none</span><span class="p">:</span>
+                            <span class="k">return</span> <span class="kc">None</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Graph does not have any labels for edges.&#39;</span><span class="p">)</span>
                 <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">index_edge_labels</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;label type can only be &quot;vertex&quot; or &quot;edge&quot;&#39;</span><span class="p">)</span>
@@ -890,16 +897,20 @@
                     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">construct_label</span><span class="p">:</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">construct_labels</span><span class="p">(</span><span class="n">label_type</span><span class="p">,</span> <span class="n">purpose</span><span class="p">)</span>
                     <span class="k">else</span><span class="p">:</span>
-                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Graph does not have any labels for &#39;</span>
-                                         <span class="s1">&#39;vertices.&#39;</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">return_none</span><span class="p">:</span>
+                            <span class="k">return</span> <span class="kc">None</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Graph does not have any labels for vertices.&#39;</span><span class="p">)</span>
                 <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_labels</span>
             <span class="k">elif</span> <span class="n">label_type</span> <span class="o">==</span> <span class="s2">&quot;edge&quot;</span><span class="p">:</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">edge_labels</span><span class="p">):</span>
                     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">construct_label</span><span class="p">:</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">construct_labels</span><span class="p">(</span><span class="n">label_type</span><span class="p">,</span> <span class="n">purpose</span><span class="p">)</span>
                     <span class="k">else</span><span class="p">:</span>
-                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Graph does not have any labels for &#39;</span>
-                                         <span class="s1">&#39;edges.&#39;</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">return_none</span><span class="p">:</span>
+                            <span class="k">return</span> <span class="kc">None</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Graph does not have any labels for edges.&#39;</span><span class="p">)</span>
                 <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">edge_labels</span>
             <span class="k">else</span><span class="p">:</span>
 
@@ -1506,8 +1517,8 @@
                 <span class="k">if</span> <span class="n">v</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">v</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;vertices are not valid &#39;</span>
                                      <span class="s1">&#39;for the original graph format&#39;</span><span class="p">)</span>
-            <span class="n">recipe</span> <span class="o">=</span> <span class="p">[</span><span class="nb">tuple</span><span class="p">([</span><span class="s1">&#39;enum_vertices&#39;</span><span class="p">,</span> <span class="s1">&#39;default&#39;</span><span class="p">]),</span>
-                      <span class="nb">tuple</span><span class="p">([</span><span class="s1">&#39;add_adjacency&#39;</span><span class="p">])]</span>
+            <span class="n">recipe</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;enum_vertices&#39;</span><span class="p">,</span> <span class="s1">&#39;default&#39;</span><span class="p">),</span>
+                      <span class="p">(</span><span class="s1">&#39;add_adjacency&#39;</span><span class="p">,)]</span>
 
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format</span> <span class="o">==</span> <span class="s1">&#39;dictionary&#39;</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">vertices</span><span class="p">:</span>
@@ -1515,8 +1526,8 @@
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;vertices are not valid &#39;</span>
                                      <span class="s1">&#39;for the original graph format&#39;</span><span class="p">)</span>
 
-            <span class="n">recipe</span> <span class="o">=</span> <span class="p">[</span><span class="nb">tuple</span><span class="p">([</span><span class="s1">&#39;get_correct&#39;</span><span class="p">,</span> <span class="s1">&#39;default&#39;</span><span class="p">]),</span>
-                      <span class="nb">tuple</span><span class="p">([</span><span class="s1">&#39;add_adjacency&#39;</span><span class="p">])]</span>
+            <span class="n">recipe</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;get_correct&#39;</span><span class="p">,</span> <span class="s1">&#39;default&#39;</span><span class="p">),</span>
+                      <span class="p">(</span><span class="s1">&#39;add_edge_dict&#39;</span><span class="p">,)]</span>
             <span class="n">get_correct</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">i</span><span class="p">:</span> <span class="n">i</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">fv</span> <span class="o">=</span> <span class="kc">False</span>
@@ -1531,21 +1542,21 @@
                                      <span class="s1">&#39;the original graph format&#39;</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="ow">not</span> <span class="n">fa</span> <span class="ow">and</span> <span class="n">fv</span><span class="p">:</span>
-                <span class="n">recipe</span> <span class="o">=</span> <span class="p">[</span><span class="nb">tuple</span><span class="p">([</span><span class="s1">&#39;enum_vertices&#39;</span><span class="p">,</span> <span class="s1">&#39;default&#39;</span><span class="p">]),</span>
-                          <span class="nb">tuple</span><span class="p">([</span><span class="s1">&#39;get_correct&#39;</span><span class="p">,</span> <span class="s1">&#39;edsamic&#39;</span><span class="p">]),</span>
-                          <span class="nb">tuple</span><span class="p">([</span><span class="s1">&#39;add_adjacency&#39;</span><span class="p">]),</span>
-                          <span class="nb">tuple</span><span class="p">([</span><span class="s1">&#39;add_edge_dict&#39;</span><span class="p">])]</span>
+                <span class="n">recipe</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;enum_vertices&#39;</span><span class="p">,</span> <span class="s1">&#39;default&#39;</span><span class="p">),</span>
+                          <span class="p">(</span><span class="s1">&#39;get_correct&#39;</span><span class="p">,</span> <span class="s1">&#39;edsamic&#39;</span><span class="p">),</span>
+                          <span class="p">(</span><span class="s1">&#39;add_adjacency&#39;</span><span class="p">,),</span>
+                          <span class="p">(</span><span class="s1">&#39;add_edge_dict&#39;</span><span class="p">,)]</span>
             <span class="k">elif</span> <span class="ow">not</span> <span class="n">fa</span><span class="p">:</span>
-                <span class="n">recipe</span> <span class="o">=</span> <span class="p">[</span><span class="nb">tuple</span><span class="p">([</span><span class="s1">&#39;enum_vertices&#39;</span><span class="p">,</span> <span class="s1">&#39;default&#39;</span><span class="p">]),</span>
-                          <span class="nb">tuple</span><span class="p">([</span><span class="s1">&#39;get_correct&#39;</span><span class="p">,</span> <span class="s1">&#39;edsamic&#39;</span><span class="p">]),</span>
-                          <span class="nb">tuple</span><span class="p">([</span><span class="s1">&#39;add_adjacency&#39;</span><span class="p">]),</span>
-                          <span class="nb">tuple</span><span class="p">([</span><span class="s1">&#39;idxs_to_nodes&#39;</span><span class="p">]),</span>
-                          <span class="nb">tuple</span><span class="p">([</span><span class="s1">&#39;add_edge_dict&#39;</span><span class="p">])]</span>
+                <span class="n">recipe</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;enum_vertices&#39;</span><span class="p">,</span> <span class="s1">&#39;default&#39;</span><span class="p">),</span>
+                          <span class="p">(</span><span class="s1">&#39;get_correct&#39;</span><span class="p">,</span> <span class="s1">&#39;edsamic&#39;</span><span class="p">),</span>
+                          <span class="p">(</span><span class="s1">&#39;add_adjacency&#39;</span><span class="p">,),</span>
+                          <span class="p">(</span><span class="s1">&#39;idxs_to_nodes&#39;</span><span class="p">,),</span>
+                          <span class="p">(</span><span class="s1">&#39;add_edge_dict&#39;</span><span class="p">,)]</span>
             <span class="k">elif</span> <span class="ow">not</span> <span class="n">fv</span><span class="p">:</span>
-                <span class="n">recipe</span> <span class="o">=</span> <span class="p">[</span><span class="nb">tuple</span><span class="p">([</span><span class="s1">&#39;enum_vertices&#39;</span><span class="p">,</span> <span class="s1">&#39;edsamic&#39;</span><span class="p">]),</span>
-                          <span class="nb">tuple</span><span class="p">([</span><span class="s1">&#39;get_correct&#39;</span><span class="p">,</span> <span class="s1">&#39;edsamic&#39;</span><span class="p">]),</span>
-                          <span class="nb">tuple</span><span class="p">([</span><span class="s1">&#39;add_adjacency&#39;</span><span class="p">]),</span>
-                          <span class="nb">tuple</span><span class="p">([</span><span class="s1">&#39;add_edge_dict&#39;</span><span class="p">])]</span>
+                <span class="n">recipe</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;enum_vertices&#39;</span><span class="p">,</span> <span class="s1">&#39;edsamic&#39;</span><span class="p">),</span>
+                          <span class="p">(</span><span class="s1">&#39;get_correct&#39;</span><span class="p">,</span> <span class="s1">&#39;edsamic&#39;</span><span class="p">),</span>
+                          <span class="p">(</span><span class="s1">&#39;add_adjacency&#39;</span><span class="p">,),</span>
+                          <span class="p">(</span><span class="s1">&#39;add_edge_dict&#39;</span><span class="p">,)]</span>
 
         <span class="k">for</span> <span class="n">ingredient</span> <span class="ow">in</span> <span class="n">recipe</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">ingredient</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;idxs_to_nodes&#39;</span><span class="p">:</span>
@@ -1566,8 +1577,7 @@
                     <span class="n">new_indexes</span> <span class="o">=</span> <span class="p">{</span><span class="n">l</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">l</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">lov_sorted</span><span class="p">)}</span>
 
             <span class="k">elif</span> <span class="n">ingredient</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;add_adjacency&#39;</span><span class="p">:</span>
-                <span class="n">subgraph</span><span class="o">.</span><span class="n">adjacency_matrix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">adjacency_matrix</span><span class="p">[</span>
-                    <span class="n">lov_sorted</span><span class="p">,</span> <span class="p">:][:,</span> <span class="n">lov_sorted</span><span class="p">]</span>
+                <span class="n">subgraph</span><span class="o">.</span><span class="n">adjacency_matrix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">adjacency_matrix</span><span class="p">[</span><span class="n">lov_sorted</span><span class="p">,</span> <span class="p">:][:,</span> <span class="n">lov_sorted</span><span class="p">]</span>
                 <span class="n">subgraph</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">new_indexes</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
                 <span class="k">if</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">index_node_labels</span><span class="p">):</span>
                     <span class="n">subgraph</span><span class="o">.</span><span class="n">index_node_labels</span> <span class="o">=</span> <span class="p">{</span>

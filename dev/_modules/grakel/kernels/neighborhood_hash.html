@@ -284,6 +284,7 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_method_calling</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_is_transformed</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="c1"># Input validation and parsing</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">initialize_</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">X</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -489,7 +490,9 @@
 
         <span class="c1"># Transform - calculate kernel matrix</span>
         <span class="c1"># Output is always normalized</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calculate_kernel_matrix</span><span class="p">(</span><span class="n">out</span><span class="p">)</span></div>
+        <span class="n">KM</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calculate_kernel_matrix</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_is_transformed</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="n">KM</span></div>
 
 <div class="viewcode-block" id="NeighborhoodHash.pairwise_operation"><a class="viewcode-back" href="../../../generated/grakel.NeighborhoodHash.html#grakel.NeighborhoodHash.pairwise_operation">[docs]</a>    <span class="k">def</span> <span class="nf">pairwise_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate a pairwise kernel between two elements.</span>
@@ -529,7 +532,10 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Output is always normalized</span>
-        <span class="k">return</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span></div>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_transformed</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mf">1.0</span></div>
 
 <div class="viewcode-block" id="NeighborhoodHash.ROT"><a class="viewcode-back" href="../../../generated/grakel.NeighborhoodHash.html#grakel.NeighborhoodHash.ROT">[docs]</a>    <span class="k">def</span> <span class="nf">ROT</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;`rot` operation for binary numbers.</span>
