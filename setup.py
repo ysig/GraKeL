@@ -87,7 +87,7 @@ setup(name='grakel',
                    'Programming Language :: Python :: 3.5',
                    'Programming Language :: Python :: 3.6',
                  ],
-      python_requires='>=2.7,>=3.5',
+      python_requires='>=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, <4',
       packages=find_packages(),
 #      entry_points = {
 #        'console_scripts': ['install-pynauty=install_pynauty:main']
