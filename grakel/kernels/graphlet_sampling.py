@@ -270,6 +270,7 @@ class GraphletSampling(Kernel):
         # store _phi_Y for independent (of normalization arg diagonal-calls)
         self._phi_Y = phi_y
         km = np.dot(phi_y[:, :len(self._graph_bins)], phi_x.T)
+        self._is_transformed = True
         if self.normalize:
             X_diag, Y_diag = self.diagonal()
             km /= np.sqrt(np.outer(Y_diag, X_diag))
@@ -311,7 +312,7 @@ class GraphletSampling(Kernel):
         self._phi_X = phi_x
         km = phi_x.dot(phi_x.T)
 
-        self._X_diag = np.diagonal(km).reshape(km.shape[0], 1)
+        self._X_diag = np.diagonal(km)
         if self.normalize:
             return np.divide(km, np.sqrt(np.outer(self._X_diag, self._X_diag)))
         else:
@@ -339,17 +340,21 @@ class GraphletSampling(Kernel):
 
         """
         # Check is fit had been called
-        check_is_fitted(self, ['_phi_X', '_phi_Y'])
+        check_is_fitted(self, ['_phi_X'])
         try:
-            check_is_fitted(self, ['X_diag'])
+            check_is_fitted(self, ['_X_diag'])
         except NotFittedError:
             # Calculate diagonal of X
             self._X_diag = np.sum(np.square(self._phi_X), axis=1)
-            self._X_diag = np.reshape(self._X_diag, (self._X_diag.shape[0], 1))
-        # Calculate diagonal of Y
-        Y_diag = np.sum(np.square(self._phi_Y), axis=1)
 
-        return self._X_diag, np.reshape(Y_diag, (Y_diag.shape[0], 1))
+        try:
+            # If transform has happened return Y
+            check_is_fitted(self, ['_phi_Y'])
+            Y_diag = np.sum(np.square(self._phi_Y), axis=1)
+            return self._X_diag, Y_diag
+        except NotFittedError:
+            # Calculate diagonal of X
+            return self._X_diag
 
     def parse_input(self, X):
         """Parse and create features for graphlet_sampling kernel.
@@ -496,8 +501,7 @@ def sample_graphlets_probabilistic(A, k, n_samples):
     for i in range(n_samples):
         index_rand = np.random.choice(s, rsamp(), replace=False)
         Q = A[index_rand, :][:, index_rand]
-        yield pynauty.Graph(Q.shape[0],
-                            True, matrix_to_dict(Q, '==', 1, False))
+        yield pynauty.Graph(Q.shape[0], True, matrix_to_dict(Q, '==', 1, False))
 
 
 def sample_graphlets_all_connected(A, k):
@@ -521,5 +525,4 @@ def sample_graphlets_all_connected(A, k):
     for i in itertools.permutations(range(A.shape[0]), min(k, A.shape[0])):
         Q = A[i, :][:, i]
         if 0 not in np.sum(Q, axis=1):
-            yield pynauty.Graph(Q.shape[0], True,
-                                matrix_to_dict(Q, '==', 1, False))
+            yield pynauty.Graph(Q.shape[0], True, matrix_to_dict(Q, '==', 1, False))

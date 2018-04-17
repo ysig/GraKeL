@@ -45,13 +45,6 @@ class HadamardCode(Kernel):
 
     Attributes
     ----------
-    _niter : int
-        The number of iterations.
-
-    _shortened : bool
-        A flag signifying if the shortened version of the algorithm
-        will be used.
-
     _add : function
         A function setted relevant to the version of the algorithm
         for adding hashed labels.
@@ -118,7 +111,7 @@ class HadamardCode(Kernel):
             self.initialized_["niter"] = True
 
     def parse_input(self, X):
-        """Parse input for weisfeiler lehman.
+        """Parse input and create features, while initializing and/or calculating sub-kernels.
 
         Parameters
         ----------
@@ -146,40 +139,51 @@ class HadamardCode(Kernel):
         if not isinstance(X, collections.Iterable):
             raise TypeError('input must be an iterable\n')
         else:
-            nx = 0
+            nx, labels = 0, list()
             if self._method_calling in [1, 2]:
-                nl = 0
-                labels_enum = dict()
-                base_kernel = dict()
+                nl, labels_enum, base_kernel = 0, dict(), dict()
                 for kidx in range(self.niter):
                     base_kernel[kidx] = self._base_kernel()
             elif self._method_calling == 3:
-                nl = len(self._labels_enum)
-                labels_enum = dict(self._labels_enum)
-                base_kernel = self.X
+                nl, labels_enum, base_kernel = len(self._labels_enum), dict(self._labels_enum), self.X
             inp = list()
             neighbors = list()
             for (idx, x) in enumerate(iter(X)):
                 is_iter = False
                 if isinstance(x, collections.Iterable):
                     x, is_iter = list(x), True
-                if is_iter and len(x) in [0, 2, 3]:
+                if is_iter and (len(x) == 0 or len(x) >= 2):
                     if len(x) == 0:
                         warnings.warn('Ignoring empty element on index: '
                                       + str(idx))
                         continue
                     else:
-                        x = Graph(x[0], x[1], {},
-                                  graph_format=self._graph_format)
-                elif type(x) is not Graph:
+                        if len(x) > 2:
+                            extra = tuple()
+                            if len(x) > 3:
+                                extra = tuple(x[3:])
+                            x = Graph(x[0], x[1], x[2], graph_format=self._graph_format)
+                            extra = (x.get_labels(purpose='any',
+                                                  label_type="edge", return_none=True), ) + extra
+                        else:
+                            x = Graph(x[0], x[1], {}, graph_format=self._graph_format)
+                            extra = tuple()
+                elif type(x) is Graph:
+                    el = x.get_labels(purpose=self._graph_format, label_type="edge", return_none=True)
+                    if el is None:
+                        extra = tuple()
+                    else:
+                        extra = (el, )
+                else:
                     raise TypeError('each element of X must be either a ' +
                                     'graph object or a list with at least ' +
                                     'a graph like object and node labels ' +
                                     'dict \n')
 
                 label = x.get_labels(purpose='any')
-                inp.append((x.get_graph_object(), label))
+                inp.append((x.get_graph_object(), extra))
                 neighbors.append(x.get_edge_dictionary())
+                labels.append(label)
                 for v in set(itervalues(label)):
                     if v not in labels_enum:
                         labels_enum[v] = nl
@@ -191,15 +195,15 @@ class HadamardCode(Kernel):
         # Calculate the hadamard matrix
         H = hadamard(int(2**(ceil(log2(nl)))))
 
-        # Intial labeling of vertices based on their corresponding Hadamard
-        # code (i-th row of the Hadamard matrix) where i is the i-th label on
-        # enumeration
-        new_graphs = list()
-        for (obj, label) in inp:
-            new_labels = dict()
+        # Intial labeling of vertices based on their corresponding Hadamard code (i-th row of the
+        # Hadamard matrix) where i is the i-th label on enumeration
+        new_graphs, new_labels = list(), list()
+        for ((obj, extra), label) in zip(inp, labels):
+            new_label = dict()
             for (k, v) in iteritems(label):
-                new_labels[k] = H[labels_enum[v], :]
-            new_graphs.append((obj, label))
+                new_label[k] = H[labels_enum[v], :]
+            new_graphs.append((obj, {i: tuple(j) for (i, j) in iteritems(new_label)}) + extra)
+            new_labels.append(new_label)
 
         # Add the zero iteration element
         if self._method_calling == 1:
@@ -211,17 +215,16 @@ class HadamardCode(Kernel):
 
         # Main
         for i in range(1, self.niter):
-            graphs = new_graphs
-            new_graphs = list()
-            for ((obj, old_labels), neighbor) in zip(graphs, neighbors):
-                # Find unique labels and sort them for both graphs
-                # Keep for each node the temporary
-                new_labels = dict()
+            new_graphs, labels, new_labels = list(), new_labels, list()
+            for ((obj, extra), neighbor, old_label) in zip(inp, neighbors, labels):
+                # Find unique labels and sort them for both graphs and keep for each node the temporary
+                new_label = dict()
                 for (k, ns) in iteritems(neighbor):
-                    new_labels[k] = old_labels[k]
+                    new_label[k] = old_label[k]
                     for q in ns:
-                        new_labels[k] = np.add(new_labels[k], old_labels[q])
-                new_graphs.append((obj, new_labels))
+                        new_label[k] = np.add(new_label[k], old_label[q])
+                new_labels.append(new_label)
+                new_graphs.append((obj, {i: tuple(j) for (i, j) in iteritems(new_label)}) + extra)
 
             # calculate kernel
             if self._method_calling == 1:
@@ -270,9 +273,13 @@ class HadamardCode(Kernel):
         else:
             km = self.parse_input(X)
 
+        self._is_transformed = True
         if self.normalize:
             X_diag, Y_diag = self.diagonal()
+            old_settings = np.seterr(divide='ignore')
             km /= np.sqrt(np.outer(Y_diag, X_diag))
+            km = np.nan_to_num(km)
+            np.seterr(**old_settings)
 
         return km
 
@@ -301,18 +308,19 @@ class HadamardCode(Kernel):
 
         """
         self._method_calling = 2
+        self._is_transformed = False
         self.initialize_()
         if X is None:
             raise ValueError('transform input cannot be None')
         else:
             km, self.X = self.parse_input(X)
 
-        self._X_diag = np.reshape(np.diagonal(km), (km.shape[0], 1))
+        self._X_diag = np.diagonal(km)
         if self.normalize:
-            return np.divide(km,
-                             np.sqrt(np.outer(self._X_diag, self._X_diag)))
-        else:
-            return km
+            old_settings = np.seterr(divide='ignore')
+            km = np.nan_to_num(np.divide(km, np.sqrt(np.outer(self._X_diag, self._X_diag))))
+            np.seterr(**old_settings)
+        return km
 
     def diagonal(self):
         """Calculate the kernel matrix diagonal for fitted data.
@@ -339,17 +347,32 @@ class HadamardCode(Kernel):
         check_is_fitted(self, ['X'])
         try:
             check_is_fitted(self, ['_X_diag'])
-            Y_diag = self.X[0].diagonal()[1]
-            for i in range(1, self.niter):
-                Y_diag += self.X[i].diagonal()[1]
+            if self._is_transformed:
+                Y_diag = self.X[0].diagonal()[1]
+                for i in range(1, self.niter):
+                    Y_diag += self.X[i].diagonal()[1]
         except NotFittedError:
             # Calculate diagonal of X
-            X_diag, Y_diag = self.X[0].diagonal()
-            X_diag.flags.writeable = True
-            for i in range(1, self.niter):
-                x, y = self.X[i].diagonal()
-                X_diag += x
-                Y_diag += y
-            self._X_diag = X_diag
+            if self._is_transformed:
+                X_diag, Y_diag = self.X[0].diagonal()
+                # X_diag is considered a mutable and should not affect the kernel matrix itself.
+                X_diag.flags.writeable = True
+                for i in range(1, self.niter):
+                    x, y = self.X[i].diagonal()
+                    X_diag += x
+                    Y_diag += y
+                self._X_diag = X_diag
+            else:
+                # case sub kernel is only fitted
+                X_diag = self.X[0].diagonal()
+                # X_diag is considered a mutable and should not affect the kernel matrix itself.
+                X_diag.flags.writeable = True
+                for i in range(1, self.niter):
+                    x = self.X[i].diagonal()
+                    X_diag += x
+                self._X_diag = X_diag
 
-        return self._X_diag, Y_diag
+        if self._is_transformed:
+            return self._X_diag, Y_diag
+        else:
+            return self._X_diag

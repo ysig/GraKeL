@@ -1,4 +1,7 @@
 """Multiscale Laplacian Graph Kernel as defined in :cite:`Kondor2016TheML`."""
+# Python 2/3 cross-compatibility import
+from __future__ import print_function
+
 import collections
 import warnings
 import numpy as np
@@ -32,7 +35,7 @@ class MultiscaleLaplacianFast(Kernel):
     L : int, default=3
         The number of neighborhoods.
 
-    gamma : float, default=0.01
+    gamma : Real, default=0.01
         A smoothing parameter of float value.
 
     heta : float, default=0.01
@@ -46,7 +49,7 @@ class MultiscaleLaplacianFast(Kernel):
     L : int
         The number of neihborhoods.
 
-    gamma : float
+    gamma : Real
         A smoothing parameter for calculation of S matrices.
 
     heta : float
@@ -92,7 +95,7 @@ class MultiscaleLaplacianFast(Kernel):
 
         if not self.initialized_["gamma"]:
             if not isinstance(self.gamma, Real):
-                raise TypeError('gamma must be an real number')
+                raise TypeError('gamma must be a real number')
             elif self.gamma == .0:
                 warnings.warn('with zero gamma the calculation may crash')
             elif self.gamma < 0:
@@ -100,7 +103,7 @@ class MultiscaleLaplacianFast(Kernel):
             self.initialized_["gamma"] = True
 
         if not self.initialized_["heta"]:
-            if not isinstance(self.gamma, Real):
+            if not isinstance(self.heta, Real):
                 raise TypeError('heta must be a real number')
             elif self.heta == .0:
                 warnings.warn('with zero heta the calculation may crash')
@@ -175,7 +178,7 @@ class MultiscaleLaplacianFast(Kernel):
                     raise TypeError('Features must be iterable and castable '
                                     'in total to a numpy array.')
 
-                Lap = laplacian(A)
+                Lap = laplacian(A).astype(float)
                 _increment_diagonal_(Lap, self.heta)
                 data[ng] = {0: A, 1: phi, 2: inv(Lap)}
                 neighborhoods[ng] = x
@@ -220,7 +223,7 @@ class MultiscaleLaplacianFast(Kernel):
                                 r=self.L, sort_neighbors=False)
 
                         indexes = neighborhoods[k][l][j]
-                        L = laplacian(data[k][0][indexes, :][:, indexes])
+                        L = laplacian(data[k][0][indexes, :][:, indexes]).astype(float)
                         _increment_diagonal_(L, self.heta)
                         U = data[k][1][indexes, :].T
                         S = multi_dot((U, inv(L), U.T))
@@ -230,8 +233,7 @@ class MultiscaleLaplacianFast(Kernel):
                     for m in range(len(C)):
                         K[m, m] = self.pairwise_operation(C[m], C[m])
                         for k in range(m + 1, len(C)):
-                            K[m, k] = K[k, m] = \
-                                self.pairwise_operation(C[m], C[k])
+                            K[m, k] = K[k, m] = self.pairwise_operation(C[m], C[k])
 
                     phi_k = np.array([data[k][1][j, :] for (k, j) in vs])
 
@@ -243,8 +245,7 @@ class MultiscaleLaplacianFast(Kernel):
                     vpos = np.where(v > positive_eigenvalue_limit)
 
                     # ksi shape=(k, P)
-                    ksi = (w[vpos].dot(phi_k).T /
-                           np.sqrt(v[vpos]))
+                    ksi = w[vpos].dot(phi_k).T / np.sqrt(v[vpos])
 
                     self._ksi = self._ksi.dot(ksi)
                     for j in range(ng):
@@ -300,7 +301,7 @@ class MultiscaleLaplacian(Kernel):
     L : int, default=3
         The number of neighborhoods.
 
-    gamma : float, default=0.01
+    gamma : Real, default=0.01
         A small softening parameter of float value.
 
     heta : float, default=0.01
@@ -311,7 +312,7 @@ class MultiscaleLaplacian(Kernel):
     L : int
         The number of neighborhoods.
 
-    gamma : float
+    gamma : Real
         A smoothing parameter for calculation of S matrices.
 
     heta : float
@@ -341,8 +342,8 @@ class MultiscaleLaplacian(Kernel):
     def initialize_(self):
         """Initialize all transformer arguments, needing initialization."""
         if not self.initialized_["gamma"]:
-            if type(self.gamma) is not int:
-                raise TypeError('gamma must be an integer')
+            if not isinstance(self.gamma, Real):
+                raise TypeError('gamma must be a real number')
             elif self.gamma == .0:
                 warnings.warn('with zero gamma the calculation may crash')
             elif self.gamma < 0:
@@ -350,8 +351,8 @@ class MultiscaleLaplacian(Kernel):
             self.initialized_["gamma"] = True
 
         if not self.initialized_["heta"]:
-            if type(self.heta) is not int:
-                raise TypeError('heta must be an integer')
+            if not isinstance(self.heta, Real):
+                raise TypeError('heta must be a real number')
 
             if self.heta == .0:
                 warnings.warn('with zero heta the calculation may crash')
@@ -421,8 +422,8 @@ class MultiscaleLaplacian(Kernel):
                                     'in total to a numpy array.')
                 phi_outer = np.dot(phi, phi.T)
 
-                Lap = x.laplacian(save=False)
-                _increment_diagonal_(Lap, self.gamma)
+                Lap = laplacian(A).astype(float)
+                _increment_diagonal_(Lap, self.heta)
                 L = inv(Lap)
 
                 Q = dict()
@@ -432,8 +433,8 @@ class MultiscaleLaplacian(Kernel):
                         Q[level][key] = dict()
                         Q[level][key]["n"] = np.array(item)
                         if len(item) < A.shape[0]:
-                            laplac = laplacian(A[item, :][:, item])
-                            _increment_diagonal_(laplac, self.gamma)
+                            laplac = laplacian(A[item, :][:, item]).astype(float)
+                            _increment_diagonal_(laplac, self.heta)
                             laplac = inv(laplac)
                         else:
                             laplac = L
@@ -441,7 +442,8 @@ class MultiscaleLaplacian(Kernel):
 
                 out.append((A, phi, phi_outer, Q, L))
 
-            print("Preprocessing took:", time.time() - start, "s.")
+            if self.verbose:
+                print("Preprocessing took:", time.time() - start, "s.")
             if ng == 0:
                 raise ValueError('parsed input is empty')
 

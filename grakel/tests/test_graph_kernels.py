@@ -269,6 +269,15 @@ def test_multiscale_laplacian_fast():
                                gk, dataset_attr_tr, dataset_attr_te)
 
 
+def test_core_framework():
+    """Test the Graph Hopper Kernel."""
+    kernel = [{"name": "core_framework"}, {"name": "weisfeiler_lehman"}, {"name": "vertex_histogram"}]
+    gk = GraphKernel(kernel=kernel, verbose=verbose, normalize=normalize)
+    if verbose:
+        print_kernel_decorator("Core Framework",
+                               gk, dataset_tr, dataset_te)
+
+
 def sec_to_time(sec):
     """Print time in a correct format."""
     dt = list()
@@ -346,6 +355,7 @@ if verbose and main:
     test_vertex_histogram()
     test_edge_histogram()
     test_multiscale_laplacian_fast()
+    test_core_framework()
 
 if verbose and develop:
     if slow:

@@ -102,6 +102,7 @@ class Kernel(BaseEstimator, TransformerMixin):
         Returns self.
 
         """
+        self._is_transformed = False
         self._method_calling = 1
 
         # Parameter initialization
@@ -149,6 +150,9 @@ class Kernel(BaseEstimator, TransformerMixin):
         # Transform - calculate kernel matrix
         km = self._calculate_kernel_matrix(Y)
         self._Y = Y
+
+        # Self transform must appear before the diagonal call on normilization
+        self._is_transformed = True
         if self.normalize:
             X_diag, Y_diag = self.diagonal()
             km /= np.sqrt(np.outer(Y_diag, X_diag))
@@ -184,7 +188,7 @@ class Kernel(BaseEstimator, TransformerMixin):
         # Transform - calculate kernel matrix
         km = self._calculate_kernel_matrix()
 
-        self._X_diag = np.diagonal(km).reshape(km.shape[0], 1)
+        self._X_diag = np.diagonal(km)
         if self.normalize:
             return km / np.sqrt(np.outer(self._X_diag, self._X_diag))
         else:
@@ -247,20 +251,26 @@ class Kernel(BaseEstimator, TransformerMixin):
 
         """
         # Check is fit had been called
-        check_is_fitted(self, ['X', '_Y'])
+        check_is_fitted(self, ['X'])
         try:
             check_is_fitted(self, ['_X_diag'])
         except NotFittedError:
             # Calculate diagonal of X
-            self._X_diag = np.empty(shape=(len(self.X), 1))
+            self._X_diag = np.empty(shape=(len(self.X),))
             for (i, x) in enumerate(self.X):
                 self._X_diag[i] = self.executor(self.pairwise_operation, x, x)
 
-        Y_diag = np.empty(shape=(len(self._Y), 1))
-        for (i, y) in enumerate(self._Y):
-            Y_diag[i] = self.executor(self.pairwise_operation, y, y)
+        try:
+            # If transform has happened return both diagonals
+            check_is_fitted(self, ['_Y'])
+            Y_diag = np.empty(shape=(len(self._Y),))
+            for (i, y) in enumerate(self._Y):
+                Y_diag[i] = self.executor(self.pairwise_operation, y, y)
 
-        return self._X_diag, Y_diag
+            return self._X_diag, Y_diag
+        except NotFittedError:
+            # Else just return both X_diag
+            return self._X_diag
 
     def parse_input(self, X):
         """Parse the given input and raise errors if it is invalid.

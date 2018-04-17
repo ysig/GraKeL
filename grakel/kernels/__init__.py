@@ -23,6 +23,7 @@ from grakel.kernels.multiscale_laplacian import MultiscaleLaplacianFast
 from grakel.kernels.vertex_histogram import VertexHistogram
 from grakel.kernels.edge_histogram import EdgeHistogram
 from grakel.kernels.graph_hopper import GraphHopper
+from grakel.kernels.core_framework import CoreFramework
 
 __all__ = [
     "Kernel",
@@ -46,5 +47,6 @@ __all__ = [
     "MultiscaleLaplacianFast",
     "VertexHistogram",
     "EdgeHistogram",
-    "GraphHopper"
+    "GraphHopper",
+    "CoreFramework"
 ]

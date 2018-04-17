@@ -29,6 +29,7 @@ from grakel.kernels import MultiscaleLaplacianFast
 from grakel.kernels import VertexHistogram
 from grakel.kernels import EdgeHistogram
 from grakel.kernels import GraphHopper
+from grakel.kernels import CoreFramework
 
 
 __all__ = [
@@ -56,7 +57,8 @@ __all__ = [
     "MultiscaleLaplacianFast",
     "VertexHistogram",
     "EdgeHistogram",
-    "GraphHopper"
+    "GraphHopper",
+    "CoreFramework"
 ]
 
 # Generic release markers:

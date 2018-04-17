@@ -74,7 +74,6 @@ class OddSth(Kernel):
                 self._make_big_dag = lambda x: make_big_dag(x, h=-1)
             else:
                 self._make_big_dag = lambda x: make_big_dag(x, h=self.h)
-            self.maria = 1
 
             self.initialized_["h"] = True
 
@@ -108,14 +107,12 @@ class OddSth(Kernel):
                 is_iter = isinstance(x, Iterable)
                 if is_iter:
                     x = list(x)
-                if is_iter and len(x) in [0, 3]:
+                if is_iter and (len(x) == 0 or len(x) >= 2):
                     if len(x) == 0:
                         warnings.warn('Ignoring empty element' +
                                       ' on index: '+str(idx))
                         continue
-                    elif len(x) == 1:
-                        x = Graph(x[0], {}, {}, self._graph_format)
-                    elif len(x) > 2:
+                    elif len(x) >= 2:
                         x = Graph(x[0], x[1], {}, self._graph_format)
                 elif type(x) is not Graph:
                     raise TypeError('each element of X must have either ' +
@@ -123,7 +120,6 @@ class OddSth(Kernel):
                                     'or 3 elements consisting of a graph ' +
                                     'type object, labels for vertices and ' +
                                     'labels for edges.')
-
                 out = big_dag_append(self._make_big_dag(x), out, merge_features=False)
                 i += 1
 
@@ -176,7 +172,7 @@ class OddSth(Kernel):
 
         km = np.dot(phi.T, np.multiply(phi, C))
 
-        self._X_diag = np.diagonal(km).reshape(km.shape[0], 1)
+        self._X_diag = np.diagonal(km)
         if self.normalize:
             return np.divide(km, np.sqrt(np.outer(self._X_diag, self._X_diag)))
         else:
@@ -228,6 +224,7 @@ class OddSth(Kernel):
 
         self._phi_x, self._phi_y, self._C = phi_x, phi_y, C
         km = np.dot(phi_y.T, np.multiply(phi_x, C))
+        self._is_transformed = True
         if self.normalize:
             X_diag, Y_diag = self.diagonal()
             km /= np.sqrt(np.outer(Y_diag, X_diag))
@@ -249,7 +246,7 @@ class OddSth(Kernel):
 
         """
         # Check is fit had been called
-        check_is_fitted(self, ['_phi_x', '_phi_y', '_C'])
+        check_is_fitted(self, ['_phi_x', '_C'])
         try:
             check_is_fitted(self, ['_X_diag'])
         except NotFittedError:
@@ -257,10 +254,13 @@ class OddSth(Kernel):
             self._X_diag = np.dot(np.square(self._phi_X),
                                   self._C).reshape((self._nx, 1))
 
-        Y_diag = np.dot(np.square(self._phi_y).T,
-                        self._C).reshape((self._ny, 1))
-
-        return self._X_diag, Y_diag
+        try:
+            check_is_fitted(self, ['_phi_y'])
+            Y_diag = np.dot(np.square(self._phi_y).T,
+                            self._C).reshape((self._ny, 1))
+            return self._X_diag, Y_diag
+        except NotFittedError:
+            return self._X_diag
 
 
 def make_big_dag(g, h):

@@ -625,7 +625,7 @@ class Graph(object):
             either "edge" or "all".
 
         """
-        if labels not in ['vertex', 'edge', 'all']:
+        if labels not in ['vertex', 'edge', 'all', 'none']:
             raise ValueError('only labels for vertices and edges exist')
 
         if clean:
@@ -672,7 +672,7 @@ class Graph(object):
         else:
             return shortest_path_mat
 
-    def get_labels(self, label_type="vertex", purpose="adjacency"):
+    def get_labels(self, label_type="vertex", purpose="adjacency", return_none=False):
         """Get labels corresponding to the purpose.
 
         Parameters
@@ -685,6 +685,9 @@ class Graph(object):
             Defines if the labels will correspond to "dictionary" (symbols),
             to "adjacency" indexes, or to "any" valid format (if "all" the
             result is for "adjacency").
+
+        return_none : bool
+            Defines if get_labels can return None in case of label absence, or raise an error.
 
         Returns
         -------
@@ -711,8 +714,10 @@ class Graph(object):
                     if self.construct_label:
                         self.construct_labels(label_type, purpose)
                     else:
-                        raise ValueError('Graph does not have any labels for '
-                                         'vertices.')
+                        if return_none:
+                            return None
+                        else:
+                            raise ValueError('Graph does not have any labels for vertices.')
 
                 return self.index_node_labels
             elif label_type == "edge":
@@ -720,8 +725,10 @@ class Graph(object):
                     if self.construct_label:
                         self.construct_labels(label_type, purpose)
                     else:
-                        raise ValueError('Graph does not have any labels for '
-                                         'edges.')
+                        if return_none:
+                            return None
+                        else:
+                            raise ValueError('Graph does not have any labels for edges.')
                 return self.index_edge_labels
             else:
                 raise ValueError('label type can only be "vertex" or "edge"')
@@ -732,16 +739,20 @@ class Graph(object):
                     if self.construct_label:
                         self.construct_labels(label_type, purpose)
                     else:
-                        raise ValueError('Graph does not have any labels for '
-                                         'vertices.')
+                        if return_none:
+                            return None
+                        else:
+                            raise ValueError('Graph does not have any labels for vertices.')
                 return self.node_labels
             elif label_type == "edge":
                 if not bool(self.edge_labels):
                     if self.construct_label:
                         self.construct_labels(label_type, purpose)
                     else:
-                        raise ValueError('Graph does not have any labels for '
-                                         'edges.')
+                        if return_none:
+                            return None
+                        else:
+                            raise ValueError('Graph does not have any labels for edges.')
                 return self.edge_labels
             else:
 
@@ -1348,8 +1359,8 @@ class Graph(object):
                 if v < 0 or v >= self.n:
                     raise ValueError('vertices are not valid '
                                      'for the original graph format')
-            recipe = [tuple(['enum_vertices', 'default']),
-                      tuple(['add_adjacency'])]
+            recipe = [('enum_vertices', 'default'),
+                      ('add_adjacency',)]
 
         elif self._format == 'dictionary':
             for v in vertices:
@@ -1357,8 +1368,8 @@ class Graph(object):
                     raise ValueError('vertices are not valid '
                                      'for the original graph format')
 
-            recipe = [tuple(['get_correct', 'default']),
-                      tuple(['add_adjacency'])]
+            recipe = [('get_correct', 'default'),
+                      ('add_edge_dict',)]
             get_correct = lambda i: i
         else:
             fv = False
@@ -1373,21 +1384,21 @@ class Graph(object):
                                      'the original graph format')
 
             if not fa and fv:
-                recipe = [tuple(['enum_vertices', 'default']),
-                          tuple(['get_correct', 'edsamic']),
-                          tuple(['add_adjacency']),
-                          tuple(['add_edge_dict'])]
+                recipe = [('enum_vertices', 'default'),
+                          ('get_correct', 'edsamic'),
+                          ('add_adjacency',),
+                          ('add_edge_dict',)]
             elif not fa:
-                recipe = [tuple(['enum_vertices', 'default']),
-                          tuple(['get_correct', 'edsamic']),
-                          tuple(['add_adjacency']),
-                          tuple(['idxs_to_nodes']),
-                          tuple(['add_edge_dict'])]
+                recipe = [('enum_vertices', 'default'),
+                          ('get_correct', 'edsamic'),
+                          ('add_adjacency',),
+                          ('idxs_to_nodes',),
+                          ('add_edge_dict',)]
             elif not fv:
-                recipe = [tuple(['enum_vertices', 'edsamic']),
-                          tuple(['get_correct', 'edsamic']),
-                          tuple(['add_adjacency']),
-                          tuple(['add_edge_dict'])]
+                recipe = [('enum_vertices', 'edsamic'),
+                          ('get_correct', 'edsamic'),
+                          ('add_adjacency',),
+                          ('add_edge_dict',)]
 
         for ingredient in recipe:
             if ingredient[0] == 'idxs_to_nodes':
@@ -1408,8 +1419,7 @@ class Graph(object):
                     new_indexes = {l: i for (i, l) in enumerate(lov_sorted)}
 
             elif ingredient[0] == 'add_adjacency':
-                subgraph.adjacency_matrix = self.adjacency_matrix[
-                    lov_sorted, :][:, lov_sorted]
+                subgraph.adjacency_matrix = self.adjacency_matrix[lov_sorted, :][:, lov_sorted]
                 subgraph.n = len(new_indexes.keys())
                 if bool(self.index_node_labels):
                     subgraph.index_node_labels = {

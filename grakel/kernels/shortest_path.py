@@ -248,13 +248,12 @@ class ShortestPath(Kernel):
         if not self.initialized_["with_labels"]:
             if self.with_labels:
                 self._lt = "vertex"
-                self._lhash = lambda S, u, v, *args: \
-                    (args[0][u], args[0][v], S[u, v])
-                self._decompose_input = lambda *args: (args[0], args[1:])
+                self._lhash = lambda S, u, v, *args: (args[0][u], args[0][v], S[u, v])
+                self._decompose_input = lambda args: (args[0], args[1:])
             else:
                 self._lt = "none"
                 self._lhash = lambda S, u, v, *args: S[u, v]
-                self._decompose_input = lambda *args: (args[0], [])
+                self._decompose_input = lambda a: (a, [])
 
     def transform(self, X):
         """Calculate the kernel matrix, between given and fitted dataset.
@@ -305,6 +304,7 @@ class ShortestPath(Kernel):
         # store _phi_Y for independent (of normalization arg diagonal-calls)
         self._phi_Y = phi_y
         km = np.dot(phi_y[:, :len(self._enum)], phi_x.T)
+        self._is_transformed = True
         if self.normalize:
             X_diag, Y_diag = self.diagonal()
             return km / np.sqrt(np.outer(Y_diag, X_diag))
@@ -333,17 +333,21 @@ class ShortestPath(Kernel):
 
         """
         # Check is fit and transform had been called
-        check_is_fitted(self, ['phi_X', '_phi_Y'])
+        check_is_fitted(self, ['phi_X'])
         try:
             check_is_fitted(self, ['X_diag'])
         except NotFittedError:
             # Calculate diagonal of X
             self._X_diag = np.sum(np.square(self.phi_X), axis=1)
-            self._X_diag = np.reshape(self._X_diag,
-                                      (self._X_diag.shape[0], 1))
-        # Calculate diagonal of Y
-        Y_diag = np.sum(np.square(self._phi_Y), axis=1)
-        return self._X_diag, np.reshape(Y_diag, (Y_diag.shape[0], 1))
+            self._X_diag = np.reshape(self._X_diag, (self._X_diag.shape[0], 1))
+
+        try:
+            check_is_fitted(self, ['_phi_Y'])
+            # Calculate diagonal of Y
+            Y_diag = np.sum(np.square(self._phi_Y), axis=1)
+            return self._X_diag, Y_diag
+        except NotFittedError:
+            return self._X_diag
 
     def fit_transform(self, X, y=None):
         """Fit and transform, on the same dataset.
@@ -381,7 +385,7 @@ class ShortestPath(Kernel):
         self._phi_X = phi_x
         km = np.dot(phi_x, phi_x.T)
 
-        self._X_diag = np.diagonal(km).reshape(km.shape[0], 1)
+        self._X_diag = np.diagonal(km)
         if self.normalize:
             return np.divide(km, np.sqrt(np.outer(self._X_diag, self._X_diag)))
         else:
@@ -429,31 +433,24 @@ class ShortestPath(Kernel):
                                       + str(idx))
                         continue
                     elif len(x) == 1:
-                        spm_data = Graph(
-                            x[0], {}, {},
-                            self._graph_format).build_shortest_path_matrix(
-                                self.algorithm_type,
-                                labels=self._lt)
+                        spm_data = Graph(x[0], {}, {}, self._graph_format
+                                         ).build_shortest_path_matrix(self.algorithm_type,
+                                                                      labels=self._lt)
                     else:
-                        spm_data = Graph(
-                            x[0], x[1], {},
-                            self._graph_format).build_shortest_path_matrix(
-                                self.algorithm_type,
-                                labels=self._lt)
+                        spm_data = Graph(x[0], x[1], {}, self._graph_format
+                                         ).build_shortest_path_matrix(self.algorithm_type,
+                                                                      labels=self._lt)
                 elif type(x) is Graph:
-                    spm_data = x.build_shortest_path_matrix(
-                        self.algorithm_type,
-                        labels=self._lt)
+                    spm_data = x.build_shortest_path_matrix(self.algorithm_type, labels=self._lt)
                 else:
                     raise TypeError('each element of X must have at least' +
                                     ' one and at most 3 elements\n')
                 i += 1
 
-                S, L = self._decompose_input(*spm_data)
-
+                S, L = self._decompose_input(spm_data)
                 sp_counts[i] = dict()
                 for u in range(S.shape[0]):
-                    for v in range(S.shape[0]):
+                    for v in range(S.shape[1]):
                         if u == v or S[u, v] == float("Inf"):
                             continue
                         label = self._lhash(S, u, v, *L)

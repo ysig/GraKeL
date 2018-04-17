@@ -134,23 +134,36 @@ class WeisfeilerLehman(Kernel):
             raise TypeError('input must be an iterable\n')
         else:
             nx = 0
-            Gs_ed, L, distinct_values = dict(), dict(), set()
+            Gs_ed, L, distinct_values, extras = dict(), dict(), set(), dict()
             for (idx, x) in enumerate(iter(X)):
                 is_iter = isinstance(x, collections.Iterable)
                 if is_iter:
                     x = list(x)
-                if is_iter and len(x) in [0, 2, 3]:
+                if is_iter and (len(x) == 0 or len(x) >= 2):
                     if len(x) == 0:
                         warnings.warn('Ignoring empty element on index: '
                                       + str(idx))
                         continue
                     else:
-                        x = Graph(x[0], x[1], {},
-                                  graph_format=self._graph_format)
+                        if len(x) > 2:
+                            extra = tuple()
+                            if len(x) > 3:
+                                extra = tuple(x[3:])
+                            x = Graph(x[0], x[1], x[2], graph_format=self._graph_format)
+                            extra = (x.get_labels(purpose=self._graph_format,
+                                                  label_type="edge", return_none=True), ) + extra
+                        else:
+                            x = Graph(x[0], x[1], {}, graph_format=self._graph_format)
+                            extra = tuple()
+
                 elif type(x) is Graph:
-                        x = Graph(x.get_edge_dictionary(),
-                                  x.get_labels(purpose="dictionary"), {},
-                                  graph_format=self._graph_format)
+                    x.desired_format(self._graph_format)
+                    el = x.get_labels(purpose=self._graph_format, label_type="edge", return_none=True)
+                    if el is None:
+                        extra = tuple()
+                    else:
+                        extra = (el, )
+
                 else:
                     raise TypeError('each element of X must be either a ' +
                                     'graph object or a list with at least ' +
@@ -158,6 +171,7 @@ class WeisfeilerLehman(Kernel):
                                     'dict \n')
                 Gs_ed[nx] = x.get_edge_dictionary()
                 L[nx] = x.get_labels(purpose="dictionary")
+                extras[nx] = extra
                 distinct_values |= set(itervalues(L[nx]))
                 nx += 1
             if nx == 0:
@@ -186,7 +200,7 @@ class WeisfeilerLehman(Kernel):
                 new_labels[k] = WL_labels_inverse[L[j][k]]
             L[j] = new_labels
             # add new labels
-            new_graphs.append([Gs_ed[j], new_labels])
+            new_graphs.append((Gs_ed[j], new_labels) + extras[j])
 
         base_kernel = dict()
         base_kernel[0] = self._base_kernel()
@@ -223,7 +237,7 @@ class WeisfeilerLehman(Kernel):
                     new_labels[k] = WL_labels_inverse[L_temp[j][k]]
                 L[j] = new_labels
                 # relabel
-                new_graphs.append([Gs_ed[j], new_labels])
+                new_graphs.append((Gs_ed[j], new_labels) + extras[j])
 
             # calculate kernel
             base_kernel[i] = self._base_kernel()
@@ -262,17 +276,19 @@ class WeisfeilerLehman(Kernel):
 
         """
         self._method_calling = 2
+        self._is_transformed = False
         self.initialize_()
         if X is None:
             raise ValueError('transform input cannot be None')
         else:
             km, self.X = self.parse_input(X)
 
-        self._X_diag = np.reshape(np.diagonal(km), (km.shape[0], 1))
+        self._X_diag = np.diagonal(km)
         if self.normalize:
-            return np.divide(km, np.sqrt(np.outer(self._X_diag, self._X_diag)))
-        else:
-            return km
+            old_settings = np.seterr(divide='ignore')
+            km = np.nan_to_num(np.divide(km, np.sqrt(np.outer(self._X_diag, self._X_diag))))
+            np.seterr(**old_settings)
+        return km
 
     def transform(self, X):
         """Calculate the kernel matrix, between given and fitted dataset.
@@ -393,11 +409,14 @@ class WeisfeilerLehman(Kernel):
             # Calculate the kernel marix
             K += self.X[i].transform(new_graphs)
 
+        self._is_transformed = True
         if self.normalize:
             X_diag, Y_diag = self.diagonal()
-            return np.divide(K, np.sqrt(np.outer(Y_diag, X_diag)))
-        else:
-            return K
+            old_settings = np.seterr(divide='ignore')
+            K = np.nan_to_num(np.divide(K, np.sqrt(np.outer(Y_diag, X_diag))))
+            np.seterr(**old_settings)
+
+        return K
 
     def diagonal(self):
         """Calculate the kernel matrix diagonal for fitted data.
@@ -424,17 +443,32 @@ class WeisfeilerLehman(Kernel):
         check_is_fitted(self, ['X'])
         try:
             check_is_fitted(self, ['_X_diag'])
-            Y_diag = self.X[0].diagonal()[1]
-            for i in range(1, self._niter):
-                Y_diag += self.X[i].diagonal()[1]
+            if self._is_transformed:
+                Y_diag = self.X[0].diagonal()[1]
+                for i in range(1, self._niter):
+                    Y_diag += self.X[i].diagonal()[1]
         except NotFittedError:
             # Calculate diagonal of X
-            X_diag, Y_diag = self.X[0].diagonal()
-            X_diag.flags.writeable = True
-            for i in range(1, self._niter):
-                x, y = self.X[i].diagonal()
-                X_diag += x
-                Y_diag += y
-            self._X_diag = X_diag
+            if self._is_transformed:
+                X_diag, Y_diag = self.X[0].diagonal()
+                # X_diag is considered a mutable and should not affect the kernel matrix itself.
+                X_diag.flags.writeable = True
+                for i in range(1, self._niter):
+                    x, y = self.X[i].diagonal()
+                    X_diag += x
+                    Y_diag += y
+                self._X_diag = X_diag
+            else:
+                # case sub kernel is only fitted
+                X_diag = self.X[0].diagonal()
+                # X_diag is considered a mutable and should not affect the kernel matrix itself.
+                X_diag.flags.writeable = True
+                for i in range(1, self._niter):
+                    x = self.X[i].diagonal()
+                    X_diag += x
+                self._X_diag = X_diag
 
-        return self._X_diag, Y_diag
+        if self._is_transformed:
+            return self._X_diag, Y_diag
+        else:
+            return self._X_diag

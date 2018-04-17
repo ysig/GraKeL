@@ -10,10 +10,11 @@ import numpy as np
 
 from subprocess import check_call
 
+from collections import Counter
+
 from sklearn.utils import Bunch
 
 from grakel.graph import Graph
-
 
 global datasets_metadata, symmetric_dataset
 
@@ -187,6 +188,7 @@ def read_data(
         with_classes=True,
         prefer_attr_nodes=False,
         prefer_attr_edges=False,
+        produce_labels_nodes=False,
         as_graphs=False,
         is_symmetric=symmetric_dataset):
     """Create a dataset iterable for GraphKernel.
@@ -198,6 +200,11 @@ def read_data(
 
     with_classes : bool, default=False
         Return an iterable of class labels based on the enumeration.
+
+    produce_labels_nodes : bool, default=False
+        Produce labels for nodes if not found.
+        Currently this means labeling its node by its degree inside the Graph.
+        This operation is applied only if node labels are non existent.
 
     prefer_attr_nodes : bool, default=False
         If a dataset has both *node* labels and *node* attributes
@@ -284,6 +291,9 @@ def read_data(
         with open(node_labels_path, "r") as f:
             for (i, line) in enumerate(f, 1):
                 node_labels[ngc[i]][i] = int(line[:-1])
+    elif produce_labels_nodes:
+        for i in range(1, len(Graphs)+1):
+            node_labels[i] = dict(Counter(s for (s, d) in Graphs[i] if s != d))
 
     # Extract edge attributes
     if (prefer_attr_edges and
@@ -337,6 +347,7 @@ def fetch_dataset(
         data_home=None,
         download_if_missing=True,
         with_classes=True,
+        produce_labels_nodes=False,
         prefer_attr_nodes=False,
         prefer_attr_edges=False,
         as_graphs=False):
@@ -362,6 +373,11 @@ def fetch_dataset(
 
     with_classes : bool, default=False
         Return an iterable of class labels based on the enumeration.
+
+    produce_labels_nodes : bool, default=False
+        Produce labels for nodes if not found.
+        Currently this means labeling its node by its degree inside the Graph.
+        This operation is applied only if node labels are non existent.
 
     prefer_attr_nodes : bool, default=False
         If a dataset has both *node* labels and *node* attributes
@@ -432,6 +448,7 @@ def fetch_dataset(
                          with_classes=with_classes,
                          prefer_attr_nodes=prefer_attr_nodes,
                          prefer_attr_edges=prefer_attr_edges,
+                         produce_labels_nodes=produce_labels_nodes,
                          is_symmetric=symmetric_dataset,
                          as_graphs=as_graphs)
         if verbose:

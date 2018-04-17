@@ -160,13 +160,16 @@ class VertexHistogram(Kernel):
 
         """
         # Check is fit had been called
-        check_is_fitted(self, ['X', '_Y'])
+        check_is_fitted(self, ['X'])
         try:
             check_is_fitted(self, ['_X_diag'])
         except NotFittedError:
             # Calculate diagonal of X
             self._X_diag = einsum('ij,ij->i', self.X, self.X)
 
-        Y_diag = einsum('ij,ij->i', self._Y, self._Y)
-
-        return self._X_diag, Y_diag
+        try:
+            check_is_fitted(self, ['_Y'])
+            Y_diag = einsum('ij,ij->i', self._Y, self._Y)
+            return self._X_diag, Y_diag
+        except NotFittedError:
+            return self._X_diag

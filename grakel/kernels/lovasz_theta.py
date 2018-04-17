@@ -226,15 +226,16 @@ class LovaszTheta(Kernel):
                                                 self.n_samples)
 
         # Calculate level dictionary with lovasz values
-        phi = np.zeros(shape=(self.subsets_size_range[1] -
-                              self.subsets_size_range[0]+1, 1))
-        for (i, level) in enumerate(range(self.subsets_size_range[0],
-                                          self.subsets_size_range[1]+1)):
+        phi = np.zeros(shape=(self.subsets_size_range[1] - self.subsets_size_range[0]+1, 1))
+        for (i, level) in enumerate(range(self.subsets_size_range[0], self.subsets_size_range[1] + 1)):
             v = samples_on_subsets.get(level, None)
             if v is not None:
                 level_values = list()
                 for k in range(v):
-                    indexes = np.random.choice(n, level, replace=False)
+                    if level <= n:
+                        indexes = np.random.choice(n, level, replace=False)
+                    else:
+                        indexes = range(n)
                     # calculate the metrix value for that level
                     level_values.append(_minimum_cone_(U[:, indexes]))
                 phi[i] = np.mean(level_values)

@@ -158,13 +158,17 @@ class EdgeHistogram(Kernel):
 
         """
         # Check is fit had been called
-        check_is_fitted(self, ['X', '_Y'])
+        check_is_fitted(self, ['X'])
         try:
             check_is_fitted(self, ['_X_diag'])
         except NotFittedError:
             # Calculate diagonal of X
             self._X_diag = einsum('ij,ij->i', self.X, self.X)
 
-        Y_diag = einsum('ij,ij->i', self._Y, self._Y)
-
-        return self._X_diag, Y_diag
+        try:
+            # If transform has happened return both diagonals
+            check_is_fitted(self, ['_Y'])
+            return self._X_diag, einsum('ij,ij->i', self._Y, self._Y)
+        except NotFittedError:
+            # Else just return both X_diag
+            return self._X_diag

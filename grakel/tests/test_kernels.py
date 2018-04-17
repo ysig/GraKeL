@@ -31,6 +31,7 @@ from grakel.kernels import MultiscaleLaplacianFast
 from grakel.kernels import VertexHistogram
 from grakel.kernels import EdgeHistogram
 from grakel.kernels import GraphHopper
+from grakel.kernels import CoreFramework
 
 global verbose, main, development
 
@@ -343,6 +344,16 @@ def test_graph_hopper():
         positive_eig(gh_kernel, dataset_attr)
 
 
+def test_core_framework():
+    """Test the Graph Hopper Kernel."""
+    base_kernel = (WeisfeilerLehman, dict(base_kernel=VertexHistogram))
+    core_framework = CoreFramework(verbose=verbose, normalize=normalize, base_kernel=base_kernel)
+    if verbose:
+        print_kernel("Core Framework", core_framework, dataset_tr, dataset_te)
+    else:
+        positive_eig(core_framework, dataset)
+
+
 def print_kernel(name, kernel, X, Y):
     """Print kernels in case of verbose execution."""
     if time_kernel:
@@ -425,6 +436,7 @@ if verbose and main:
     test_vertex_histogram()
     test_subgraph_matching()
     test_graph_hopper()
+    test_core_framework()
 
 if verbose and develop:
     if slow:

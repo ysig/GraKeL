@@ -32,6 +32,7 @@ from grakel.kernels import MultiscaleLaplacianFast
 from grakel.kernels import VertexHistogram
 from grakel.kernels import EdgeHistogram
 from grakel.kernels import GraphHopper
+from grakel.kernels import CoreFramework
 
 # Python 2/3 cross-compatibility import
 from future.utils import iteritems
@@ -54,7 +55,8 @@ supported_base_kernels = [
 
 supported_general_kernels = [
     "weisfeiler_lehman",
-    "hadamard_code"
+    "hadamard_code",
+    "core_framework"
     ]
 
 default_verbose_value = True
@@ -194,6 +196,9 @@ class GraphKernel(BaseEstimator, TransformerMixin):
 
                 - "hadamard_code"
                     + (**o**) "niter" : [int] > 0
+
+                - "core_framework"
+                    + (**o**) "min_core" : [int] >= -1
 
         where (**o**): stands for optional parameters
 
@@ -564,8 +569,10 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                 kernel["base_kernel"] = self.make_kernel_(kernel_list, {})
             if kernel_name == "weisfeiler_lehman":
                 return (WeisfeilerLehman, kernel)
-            if kernel_name == "hadamard_code":
+            elif kernel_name == "hadamard_code":
                 return (HadamardCode, kernel)
+            elif kernel_name == "core_framework":
+                return (CoreFramework, kernel)
         else:
             raise ValueError("unsupported kernel: " + str(kernel_name))
 

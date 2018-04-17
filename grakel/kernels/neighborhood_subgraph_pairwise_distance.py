@@ -138,11 +138,8 @@ class NeighborhoodSubgraphPairwiseDistance(Kernel):
                         g.change_format("adjacency")
                 elif type(x) is Graph:
                     g = Graph(x.get_adjacency_matrix(),
-                              x.get_labels(purpose="adjacency",
-                                           label_type="vertex"),
-                              x.get_labels(purpose="adjacency",
-                                           label_type="edge"))
-
+                              x.get_labels(purpose="adjacency", label_type="vertex"),
+                              x.get_labels(purpose="adjacency", label_type="edge"))
                 else:
                     raise TypeError('each element of X must have either ' +
                                     'a graph with labels for node and edge ' +
@@ -165,18 +162,15 @@ class NeighborhoodSubgraphPairwiseDistance(Kernel):
                 # Extract labels for nodes
                 Lv = g.get_labels(purpose=self._graph_format)
                 # and for edges
-                Le = g.get_labels(purpose=self._graph_format,
-                                  label_type="edge")
+                Le = g.get_labels(purpose=self._graph_format, label_type="edge")
 
                 # Produce all the neighborhoods and the distance pairs
                 # up to the desired radius and maximum distance
-                N, D, D_pair = g.produce_neighborhoods(
-                    self.r, purpose="dictionary",
-                    with_distances=True, d=self.d)
+                N, D, D_pair = g.produce_neighborhoods(self.r, purpose="dictionary",
+                                                       with_distances=True, d=self.d)
 
                 # Hash all the neighborhoods
-                H = self._hash_neighborhoods(vertices, edges, Lv,
-                                             Le, N, D_pair)
+                H = self._hash_neighborhoods(vertices, edges, Lv, Le, N, D_pair)
 
                 if self._method_calling == 1:
                     for d in filterfalse(lambda x: x not in D,
@@ -189,8 +183,7 @@ class NeighborhoodSubgraphPairwiseDistance(Kernel):
                                 if idx is None:
                                     idx = len(keys)
                                     keys[key] = idx
-                                data[r, d][ng, idx] = \
-                                    data[r, d].get((ng, idx), 0) + 1
+                                data[r, d][ng, idx] = data[r, d].get((ng, idx), 0) + 1
 
                 elif self._method_calling == 3:
                     for d in filterfalse(lambda x: x not in D,
@@ -207,8 +200,7 @@ class NeighborhoodSubgraphPairwiseDistance(Kernel):
                                     if idx is None:
                                         idx = len(keys) + len(fit_keys)
                                         keys[key] = idx
-                                data[r, d][ng, idx] = \
-                                    data[r, d].get((ng, idx), 0) + 1
+                                data[r, d][ng, idx] = data[r, d].get((ng, idx), 0) + 1
                 ng += 1
             if ng == 0:
                 raise ValueError('parsed input is empty')
@@ -293,6 +285,7 @@ class NeighborhoodSubgraphPairwiseDistance(Kernel):
                                       N[key]))
 
         self._Y = Y
+        self._is_transformed = True
         if self.normalize:
             S /= np.sqrt(np.outer(*self.diagonal()))
         return S
@@ -353,15 +346,18 @@ class NeighborhoodSubgraphPairwiseDistance(Kernel):
 
         """
         # constant based on normalization of krd
-        check_is_fitted(self, ['X', '_Y'])
+        check_is_fitted(self, ['X'])
         try:
             check_is_fitted(self, ['_X_diag'])
         except NotFittedError:
             # Calculate diagonal of X
-            X_diag = len(self.X)
-            self._X_diag = X_diag
+            self._X_diag = len(self.X)
 
-        return self._X_diag, len(self._Y)
+        try:
+            check_is_fitted(self, ['_Y'])
+            return self._X_diag, len(self._Y)
+        except NotFittedError:
+            return self._X_diag
 
     def _hash_neighborhoods(self, vertices, edges, Lv, Le, N, D_pair):
         """Hash all neighborhoods and all root nodes.

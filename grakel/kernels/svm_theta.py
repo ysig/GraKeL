@@ -191,7 +191,10 @@ class SvmTheta(Kernel):
             if v is not None:
                 level_values = list()
                 for k in range(v):
-                    indexes = np.random.choice(n, level, replace=False)
+                    if level <= n:
+                        indexes = np.random.choice(n, level, replace=False)
+                    else:
+                        indexes = range(n)
                     # calculate the metrix value for that level
                     level_values.append(np.sum(dual_coefs[indexes]))
                 phi[i] = np.mean(level_values)

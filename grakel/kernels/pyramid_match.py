@@ -4,6 +4,8 @@ import warnings
 
 import numpy as np
 
+from itertools import chain
+
 from scipy.sparse import csr_matrix
 from scipy.sparse.linalg import eigs
 
@@ -12,6 +14,7 @@ from grakel.kernels import Kernel
 
 # Python 2/3 cross-compatibility import
 from six import itervalues
+from six import iteritems
 
 default_executor = lambda fn, *eargs, **ekargs: fn(*eargs, **ekargs)
 
@@ -119,18 +122,18 @@ class PyramidMatch(Kernel):
                 is_iter = isinstance(x, collections.Iterable)
                 if is_iter:
                     x = list(x)
-                if is_iter and len(x) in [0, 2, 3]:
+                if is_iter and (len(x) == 0 or (len(x) == 1 and not self.with_labels) or
+                                (len(x) >= 2 and self.with_labels)):
                     if len(x) == 0:
-                        warnings.warn('Ignoring empty element on index: ' +
-                                      str(idx))
+                        warnings.warn('Ignoring empty element on index: ' + str(idx))
                         continue
+                    elif len(x) == 1:
+                        x = Graph(x[0], {}, {}, self._graph_format)
                     else:
                         x = Graph(x[0], x[1], {}, self._graph_format)
                 elif not type(x) is Graph:
-                    raise TypeError('each element of X must be either a ' +
-                                    'graph object or a list with at least ' +
-                                    'a graph like object and node labels ' +
-                                    'dict \n')
+                    raise TypeError('each element of X must be either a graph object or a list with '
+                                    'at least a graph like object and node labels dict \n')
                 A = x.get_adjacency_matrix()
                 if self.with_labels:
                     L = x.get_labels(purpose="adjacency")
@@ -178,9 +181,8 @@ class PyramidMatch(Kernel):
                 for L in Ls:
                     labels |= set(itervalues(L))
                 rest_labels = labels - set(self._labels.keys())
-                labels_enum = {l: i for (i, l)
-                               in enumerate(rest_labels, len(self._labels))}
-                nouveau_labels = dict(self._labels, **labels_enum)
+                nouveau_labels = dict(chain(iteritems(self._labels),
+                                      ((j, i) for (i, j) in enumerate(rest_labels, len(self._labels)))))
                 return self._histogram_calculation(Us, Ls, nouveau_labels)
         else:
             return self._histogram_calculation(Us)
@@ -220,7 +222,7 @@ class PyramidMatch(Kernel):
                         # along each dimension since nodes lie in the unit
                         # hypercube in R^d
                         D = np.zeros((self.d, k))
-                        T = np.floor(Us[i]*k)
+                        T = np.floor(u*k)
                         T[np.where(T == k)] = k-1
                         for p in range(u.shape[0]):
                             if p >= n:
@@ -228,13 +230,14 @@ class PyramidMatch(Kernel):
                             for q in range(u.shape[1]):
                                 # Identify the cell into which the i-th
                                 # vertex lies and increase its value by 1
-                                D[q, int(T[p, q])] = D[q, int(T[p, q])] + 1
+                                D[q, int(T[p, q])] += 1
                             du.append(D)
                     Hs.append(du)
 
         elif len(args) > 0:
             Ls = args[0]
             Labels = args[1]
+            num_labels = len(Labels)
             for (i, ((n, u), L)) in enumerate(zip(Us, Ls)):
                 du = list()
                 if n > 0:
@@ -244,7 +247,7 @@ class PyramidMatch(Kernel):
                         # To store the number of vertices that are assigned
                         # a specific label and lie in each of the 2^j cells
                         # of each dimension at level j
-                        D = np.zeros((self.d*self._num_labels, k))
+                        D = np.zeros((self.d*num_labels, k))
                         T = np.floor(u*k)
                         T[np.where(T == k)] = k-1
                         for p in range(u.shape[0]):
@@ -253,10 +256,7 @@ class PyramidMatch(Kernel):
                             for q in range(u.shape[1]):
                                 # Identify the cell into which the i-th
                                 # vertex lies and increase its value by 1
-                                D[Labels[L[p]]*self.d + q,
-                                  int(T[p, q])] = \
-                                    D[Labels[L[p]]*self.d + q,
-                                      int(T[p, q])] + 1
+                                D[Labels[L[p]]*self.d + q, int(T[p, q])] += 1
                             du.append(D)
                     Hs.append(du)
         return Hs
@@ -280,7 +280,13 @@ class PyramidMatch(Kernel):
         for (p, xp, yp) in zip(range(self.L), x, y):
             # Calculate histogram intersection
             # (eq. 6 in :cite:`Nikolentzos2017MatchingNE`)
-            intersec[p] = np.sum(np.minimum(xp, yp))
+            if xp.shape[0] < yp.shape[0]:
+                xpp, ypp = xp, yp[:xp.shape[0], :]
+            elif yp.shape[0] < xp.shape[0]:
+                xpp, ypp = xp[:yp.shape[0], :], yp
+            else:
+                xpp, ypp = xp, yp
+            intersec[p] = np.sum(np.minimum(xpp, ypp))
             k += intersec[self.L-1]
             for p in range(self.L-1):
                 # Computes the new matches that occur at level p.

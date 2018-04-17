@@ -126,6 +126,7 @@ class NeighborhoodHash(Kernel):
 
         """
         self._method_calling = 1
+        self._is_transformed = False
         # Input validation and parsing
         self.initialize_()
         if X is None:
@@ -331,7 +332,9 @@ class NeighborhoodHash(Kernel):
 
         # Transform - calculate kernel matrix
         # Output is always normalized
-        return self._calculate_kernel_matrix(out)
+        KM = self._calculate_kernel_matrix(out)
+        self._is_transformed = True
+        return KM
 
     def pairwise_operation(self, x, y):
         """Calculate a pairwise kernel between two elements.
@@ -371,7 +374,10 @@ class NeighborhoodHash(Kernel):
 
         """
         # Output is always normalized
-        return 1.0, 1.0
+        if self._is_transformed:
+            return 1.0, 1.0
+        else:
+            return 1.0
 
     def ROT(self, n, d):
         """`rot` operation for binary numbers.
