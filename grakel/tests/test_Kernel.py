@@ -4,6 +4,7 @@ import numpy as np
 
 from grakel.datasets import generate_dataset
 
+from grakel import GraphKernel
 from grakel.kernels import GraphletSampling
 from grakel.kernels import RandomWalk
 from grakel.kernels import RandomWalkLabeled
@@ -42,10 +43,16 @@ def test_random_walk():
                                    n_graphs_test=40,
                                    random_seed=rs,
                                    features=None)
+
     rw_kernel = RandomWalk(verbose=verbose, normalize=normalize)
+    gk = GraphKernel(kernel={"name": "random_walk"}, verbose=verbose,
+                     normalize=normalize)
+
     try:
         rw_kernel.fit_transform(train)
         rw_kernel.transform(test)
+        gk.fit_transform(test)
+        gk.transform(test)
         assert True
     except Exception as exception:
         assert False, exception
@@ -60,10 +67,16 @@ def test_random_walk_labels():
                                    n_graphs_test=40,
                                    random_seed=rs,
                                    features=('nl', 3))
+
     rw_kernel = RandomWalkLabeled(verbose=verbose, normalize=normalize)
+    gk = GraphKernel(kernel={"name": "random_walk", "with_labels": True}, 
+                     verbose=verbose, normalize=normalize)
+
     try:
         rw_kernel.fit_transform(train)
         rw_kernel.transform(test)
+        gk.fit_transform(test)
+        gk.transform(test)
         assert True
     except Exception as exception:
         assert False, exception
@@ -78,10 +91,16 @@ def test_shortest_path():
                                    n_graphs_test=40,
                                    random_seed=rs,
                                    features=('nl', 3))
+
     sp_kernel = ShortestPath(verbose=verbose, normalize=normalize)
+    gk = GraphKernel(kernel={"name": "shortest_path"}, verbose=verbose,
+                     normalize=normalize)
+
     try:
         sp_kernel.fit_transform(train)
         sp_kernel.transform(test)
+        gk.fit_transform(test)
+        gk.transform(test)
         assert True
     except Exception as exception:
         assert False, exception
@@ -93,10 +112,16 @@ def test_shortest_path():
                                    n_graphs_test=20,
                                    random_seed=rs,
                                    features=('na', 5))
+
     sp_kernel = ShortestPathAttr(verbose=verbose, normalize=normalize)
+    gk = GraphKernel(kernel={"name": "shortest_path", "as_attributes": True}, 
+                     verbose=verbose, normalize=normalize)
+
     try:
         sp_kernel.fit_transform(train)
         sp_kernel.transform(test)
+        gk.fit_transform(test)
+        gk.transform(test)
         assert True
     except Exception as exception:
         assert False, exception
@@ -111,10 +136,20 @@ def test_graphlet_sampling():
                                    n_graphs_test=40,
                                    random_seed=rs,
                                    features=('nl', 3))
-    gs_kernel = GraphletSampling(verbose=verbose, normalize=normalize, sampling=dict(n_samples=50))
+
+    try:
+        gs_kernel = GraphletSampling(verbose=verbose, normalize=normalize, sampling=dict(n_samples=50))
+        gk = GraphKernel(kernel={"name": "graphlet_sampling",
+                                 "sampling": {"n_samples": 50}},
+                         verbose=verbose, normalize=normalize)
+    except ImportError:
+        return
+
     try:
         gs_kernel.fit_transform(train)
         gs_kernel.transform(test)
+        gk.fit_transform(train)
+        gk.transform(test)
         assert True
     except Exception as exception:
         assert False, exception
@@ -129,11 +164,18 @@ def test_weisfeiler_lehman():
                                    n_graphs_test=40,
                                    random_seed=rs,
                                    features=('nl', 3))
+
     wl_st_kernel = WeisfeilerLehman(verbose=verbose, normalize=normalize,
                                     base_kernel=VertexHistogram)
+    gk = GraphKernel(kernel=[{"name": "weisfeiler_lehman"},
+                     {"name": "vertex_histogram"}],
+                     verbose=verbose, normalize=normalize)
+
     try:
         wl_st_kernel.fit_transform(train)
         wl_st_kernel.transform(test)
+        gk.fit_transform(train)
+        gk.transform(test)
         assert True
     except Exception as exception:
         assert False, exception
@@ -148,10 +190,16 @@ def test_pyramid_match():
                                    n_graphs_test=40,
                                    random_seed=rs,
                                    features=('nl', 3))
+
     pm_kernel = PyramidMatch(verbose=verbose, normalize=normalize)
+    gk = GraphKernel(kernel={"name": "pyramid_match"}, verbose=verbose,
+                     normalize=normalize)
+
     try:
         pm_kernel.fit_transform(train)
         pm_kernel.transform(test)
+        gk.fit_transform(train)
+        gk.transform(test)
         assert True
     except Exception as exception:
         assert False, exception
@@ -166,10 +214,16 @@ def test_pyramid_match_no_labels():
                                    n_graphs_test=40,
                                    random_seed=rs,
                                    features=None)
+
     pm_kernel = PyramidMatch(verbose=verbose, normalize=normalize, with_labels=False)
+    gk = GraphKernel(kernel={"name": "pyramid_match", "with_labels": False},
+                     verbose=verbose, normalize=normalize)
+
     try:
         pm_kernel.fit_transform(train)
         pm_kernel.transform(test)
+        gk.fit_transform(train)
+        gk.transform(test)
         assert True
     except Exception as exception:
         assert False, exception
@@ -184,10 +238,16 @@ def test_neighborhood_hash():
                                    n_graphs_test=40,
                                    random_seed=rs,
                                    features=('nl', 3))
+
     nh_kernel = NeighborhoodHash(verbose=verbose, normalize=normalize)
+    gk = GraphKernel(kernel={"name": "neighborhood_hash"}, verbose=verbose,
+                     normalize=normalize)
+
     try:
         nh_kernel.fit_transform(train)
         nh_kernel.transform(test)
+        gk.fit_transform(train)
+        gk.transform(test)
         assert True
     except Exception as exception:
         assert False, exception
@@ -203,10 +263,16 @@ def test_subgraph_matching():
                                    n_graphs_test=40,
                                    random_seed=rs,
                                    features=('nl', 3, 'el', 4))
+
     sm_kernel = SubgraphMatching(verbose=verbose, normalize=normalize)
+    gk = GraphKernel(kernel={"name": "subgraph_matching"}, verbose=verbose,
+                     normalize=normalize)
+
     try:
         sm_kernel.fit_transform(train)
         sm_kernel.transform(test)
+        gk.fit_transform(train)
+        gk.transform(test)
         assert True
     except Exception as exception:
         assert False, exception
@@ -219,10 +285,16 @@ def test_subgraph_matching():
                                    n_graphs_test=20,
                                    random_seed=rs,
                                    features=('nl', 3, 'ea', 5))
+
     sm_kernel = SubgraphMatching(verbose=verbose, normalize=normalize, ke=np.dot)
+    gk = GraphKernel(kernel={"name": "subgraph_matching", "ke": np.dot},
+                     verbose=verbose, normalize=normalize)
+
     try:
         sm_kernel.fit_transform(train)
         sm_kernel.transform(test)
+        gk.fit_transform(train)
+        gk.transform(test)
         assert True
     except Exception as exception:
         assert False, exception
@@ -235,10 +307,16 @@ def test_subgraph_matching():
                                    n_graphs_test=20,
                                    random_seed=rs,
                                    features=('na', 4, 'el', 3))
+
     sm_kernel = SubgraphMatching(verbose=verbose, normalize=normalize, kv=np.dot)
+    gk = GraphKernel(kernel={"name": "subgraph_matching", "kv": np.dot},
+                     verbose=verbose, normalize=normalize)
+
     try:
         sm_kernel.fit_transform(train)
         sm_kernel.transform(test)
+        gk.fit_transform(train)
+        gk.transform(test)
         assert True
     except Exception as exception:
         assert False, exception
@@ -251,10 +329,16 @@ def test_subgraph_matching():
                                    n_graphs_test=20,
                                    random_seed=rs,
                                    features=('na', 4, 'ea', 6))
+
     sm_kernel = SubgraphMatching(verbose=verbose, normalize=normalize, ke=np.dot, kv=np.dot)
+    gk = GraphKernel(kernel={"name": "subgraph_matching", "kv": np.dot, "ke": np.dot},
+                     verbose=verbose, normalize=normalize)
+
     try:
         sm_kernel.fit_transform(train)
         sm_kernel.transform(test)
+        gk.fit_transform(train)
+        gk.transform(test)
         assert True
     except Exception as exception:
         assert False, exception
@@ -269,10 +353,17 @@ def test_neighborhood_subgraph_pairwise_distance():
                                    n_graphs_test=40,
                                    random_seed=rs,
                                    features=('nl', 5, 'el', 4))
+
     nspd_kernel = NeighborhoodSubgraphPairwiseDistance(verbose=verbose, normalize=normalize)
+    gk = GraphKernel(kernel={
+        "name": "neighborhood_subgraph_pairwise_distance"},
+                     verbose=verbose, normalize=normalize)
+
     try:
         nspd_kernel.fit_transform(train)
         nspd_kernel.transform(test)
+        gk.fit_transform(train)
+        gk.transform(test)
         assert True
     except Exception as exception:
         assert False, exception
@@ -287,10 +378,19 @@ def test_lovasz_theta():
                                    n_graphs_test=20,
                                    random_seed=rs,
                                    features=None)
-    lt_kernel = LovaszTheta(verbose=verbose, normalize=normalize)
+
+    try:
+        lt_kernel = LovaszTheta(verbose=verbose, normalize=normalize)
+        gk = GraphKernel(kernel={"name": "lovasz_theta"},
+                         verbose=verbose, normalize=normalize)
+    except ImportError:
+        return
+
     try:
         lt_kernel.fit_transform(train)
         lt_kernel.transform(test)
+        gk.fit_transform(train)
+        gk.transform(test)
         assert True
     except Exception as exception:
         assert False, exception
@@ -305,10 +405,16 @@ def test_svm_theta():
                                    n_graphs_test=40,
                                    random_seed=rs,
                                    features=None)
+
     svm_kernel = SvmTheta(verbose=verbose, normalize=normalize)
+    gk = GraphKernel(kernel={"name": "svm_theta"},
+                     verbose=verbose, normalize=normalize)
+
     try:
         svm_kernel.fit_transform(train)
         svm_kernel.transform(test)
+        gk.fit_transform(train)
+        gk.transform(test)
         assert True
     except Exception as exception:
         assert False, exception
@@ -323,10 +429,16 @@ def test_odd_sth():
                                    n_graphs_test=40,
                                    random_seed=rs,
                                    features=('nl', 4))
+
     odd_sth_kernel = OddSth(verbose=verbose, normalize=normalize)
+    gk = GraphKernel(kernel={"name": "odd_sth"},
+                     verbose=verbose, normalize=normalize)
+
     try:
         odd_sth_kernel.fit_transform(train)
         odd_sth_kernel.transform(test)
+        gk.fit_transform(train)
+        gk.transform(test)
         assert True
     except Exception as exception:
         assert False, exception
@@ -341,10 +453,16 @@ def test_propagation():
                                    n_graphs_test=40,
                                    random_seed=rs,
                                    features=('nl', 4))
+
     propagation_kernel = Propagation(verbose=verbose, normalize=normalize)
+    gk = GraphKernel(kernel={"name": "propagation"},
+                     verbose=verbose, normalize=normalize)
+
     try:
         propagation_kernel.fit_transform(train)
         propagation_kernel.transform(test)
+        gk.fit_transform(train)
+        gk.transform(test)
         assert True
     except Exception as exception:
         assert False, exception
@@ -356,10 +474,16 @@ def test_propagation():
                                    n_graphs_test=40,
                                    random_seed=rs,
                                    features=('na', 5))
+
     propagation_kernel_attr = PropagationAttr(verbose=verbose, normalize=normalize)
+    gk = GraphKernel(kernel={"name": "propagation", "with_attributes": True},
+                     verbose=verbose, normalize=normalize)
+
     try:
         propagation_kernel_attr.fit_transform(train)
         propagation_kernel_attr.transform(test)
+        gk.fit_transform(train)
+        gk.transform(test)
         assert True
     except Exception as exception:
         assert False, exception
@@ -374,11 +498,18 @@ def test_hadamard_code():
                                    n_graphs_test=40,
                                    random_seed=rs,
                                    features=('nl', 5))
+
     hadamard_code_kernel = HadamardCode(verbose=verbose, normalize=normalize,
                                         base_kernel=VertexHistogram)
+    gk = GraphKernel(kernel=[{"name": "hadamard_code"},
+                             {"name": "subtree_wl"}],
+                     verbose=verbose, normalize=normalize)
+
     try:
         hadamard_code_kernel.fit_transform(train)
         hadamard_code_kernel.transform(test)
+        gk.fit_transform(train)
+        gk.transform(test)
         assert True
     except Exception as exception:
         assert False, exception
@@ -394,10 +525,16 @@ def test_multiscale_laplacian():
                                    n_graphs_test=10,
                                    random_seed=rs,
                                    features=('na', 5))
+
     ml_kernel = MultiscaleLaplacian(verbose=verbose, normalize=normalize)
+    gk = GraphKernel(kernel={"name": "multiscale_laplacian"},
+                     verbose=verbose, normalize=normalize)
+
     try:
         ml_kernel.fit_transform(train)
         ml_kernel.transform(test)
+        gk.fit_transform(train)
+        gk.transform(test)
         assert True
     except Exception as exception:
         assert False, exception
@@ -413,10 +550,16 @@ def test_multiscale_laplacian_fast():
                                    n_graphs_test=40,
                                    random_seed=rs,
                                    features=('na', 5))
+
     mlf_kernel = MultiscaleLaplacianFast(verbose=verbose, normalize=normalize)
+    gk = GraphKernel(kernel={"name": "multiscale_laplacian", "which": "fast"},
+                     verbose=verbose, normalize=normalize)
+
     try:
         mlf_kernel.fit_transform(train)
         mlf_kernel.transform(test)
+        gk.fit_transform(train)
+        gk.transform(test)
         assert True
     except Exception as exception:
         assert False, exception
@@ -431,10 +574,16 @@ def test_vertex_histogram():
                                    n_graphs_test=40,
                                    random_seed=rs,
                                    features=('nl', 5))
+
     vh_kernel = VertexHistogram(verbose=verbose, normalize=normalize)
+    gk = GraphKernel(kernel={"name": "vertex_histogram"},
+                     verbose=verbose, normalize=normalize)
+
     try:
         vh_kernel.fit_transform(train)
         vh_kernel.transform(test)
+        gk.fit_transform(train)
+        gk.transform(test)
         assert True
     except Exception as exception:
         assert False, exception
@@ -449,10 +598,16 @@ def test_edge_histogram():
                                    n_graphs_test=40,
                                    random_seed=rs,
                                    features=('el', 4))
+
     eh_kernel = EdgeHistogram(verbose=verbose, normalize=normalize)
+    gk = GraphKernel(kernel={"name": "edge_histogram"},
+                     verbose=verbose, normalize=normalize)
+
     try:
         eh_kernel.fit_transform(train)
         eh_kernel.transform(test)
+        gk.fit_transform(train)
+        gk.transform(test)
         assert True
     except Exception as exception:
         assert False, exception
@@ -467,10 +622,16 @@ def test_graph_hopper():
                                    n_graphs_test=40,
                                    random_seed=rs,
                                    features=('na', 4))
+
     gh_kernel = GraphHopper(verbose=verbose, normalize=normalize)
+    gk = GraphKernel(kernel={"name": "graph_hopper"},
+                     verbose=verbose, normalize=normalize)
+
     try:
         gh_kernel.fit_transform(train)
         gh_kernel.transform(test)
+        gk.fit_transform(train)
+        gk.transform(test)
         assert True
     except Exception as exception:
         assert False, exception
@@ -485,11 +646,17 @@ def test_core_framework():
                                    n_graphs_test=40,
                                    random_seed=rs,
                                    features=('nl', 4))
+
     base_kernel = (WeisfeilerLehman, dict(base_kernel=VertexHistogram))
     core_framework = CoreFramework(verbose=verbose, normalize=normalize, base_kernel=base_kernel)
+
+    kernel = [{"name": "core_framework"}, {"name": "weisfeiler_lehman"}, {"name": "vertex_histogram"}]
+    gk = GraphKernel(kernel=kernel, verbose=verbose, normalize=normalize)
     try:
         core_framework.fit_transform(train)
         core_framework.transform(test)
+        gk.fit_transform(train)
+        gk.transform(test)
         assert True
     except Exception as exception:
         assert False, exception

@@ -5,10 +5,22 @@ from __future__ import print_function
 import os
 import shutil
 import zipfile
+import ssl
+try:
+    # Python 2
+    from urllib2 import HTTPError
+    from urllib2 import quote
+    from urllib2 import urlopen
+except ImportError:
+    # Python 3+
+    from urllib.error import HTTPError
+    from urllib.parse import quote
+    from urllib.request import urlopen
 
 import numpy as np
 
 from subprocess import check_call
+from shutil import copyfileobj
 
 from collections import Counter
 
@@ -340,6 +352,38 @@ def read_data(
     else:
         return Bunch(data=Gs)
 
+def _download_zip(url, output_name, verbose=False):
+    """Download a file from a requested url and store locally.
+
+    Parameters
+    ----------
+    url : str
+        The url from where the file will be downloaded.
+
+    output_name : str
+        The name of the file in the local directory.
+
+    Returns
+    -------
+    None.
+
+    """
+    ctx = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
+    filename = output_name + ".zip"
+    try:
+        data_url = urlopen(url, context=ctx)
+    except HTTPError as e:
+        if e.code == 404:
+            e.msg = "Dataset '%s' not found on mldata.org." % output_name
+        raise
+    # store Matlab file
+    try:
+        with open(filename, 'w+b') as zip_file:
+            copyfileobj(data_url, zip_file)
+    except:
+        os.remove(filename)
+        raise
+    data_url.close()
 
 def fetch_dataset(
         name,
@@ -401,6 +445,7 @@ def fetch_dataset(
         order of input.
 
     """
+    name = str(name)
     if name in dataset_metadata:
         if data_home is None:
             data_home = os.path.join(os.path.expanduser("~"), 'grakel_data')
@@ -417,20 +462,10 @@ def fetch_dataset(
                     os.makedirs(data_home)
                 os.chdir(data_home)
                 if verbose:
-                    print("Downloading dataset for", str(name) + "..")
-                    print('curl',
-                          dataset_metadata[str(name)]["link"],
-                          '-LOk',
-                          '-o',
-                          name + ".zip")
-                    check_call(['curl', dataset_metadata[str(name)]["link"],
-                                '-LOk', '-o', str(name) + '.zip'])
-                else:
-                    check_call(['curl', '--silent',
-                                dataset_metadata[str(name)]["link"],
-                                '-LOk', '-o', name + ".zip"])
+                    print("Downloading dataset for", name + "..")
+                _download_zip(dataset_metadata[name]["link"], name)
             else:
-                raise IOError('Dataset ' + str(name) +
+                raise IOError('Dataset ' + name +
                               ' was not found on ' + str(data_home))
         else:
             # move to the general data directory

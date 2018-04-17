@@ -19,28 +19,18 @@ environment:
       PYTHON_ARCH: "64"
       MINICONDA: "C:\\Miniconda-x64"
 
-    - PYTHON: C:\python34-x64
-      PYTHON_VERSION: "3.4.3"
-      PYTHON_ARCH: "64"
-      MSYS: C:\msys64
 install:
-  # Delete mingw-64 to avoid clashes
-  - del /s /q C:\mingw-w64 >nul 2>&1
-
-  # SET address of mingw inside MSYS
-  - "SET MGW=%MSYS%\\mingw64"
-
   # Set to the Path variable binaries for linux like commands make, tar
   # and also add gcc, g++ support plus python, pip
-  - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%MGW%\\bin;%MSYS%\\usr\\bin;%PATH%"
+  - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
   
   # Check that we have the expected version and architecture for Python
   - "python --version"
   - "python -c \"import struct; print(struct.calcsize('P') * 8)\""
   - "pip --version"
   
-  # Install the build and runtime dependencies of the project.
-  - "pip install numpy scipy cvxopt cython nose scikit-learn setuptools wheel wheelhouse_uploader nose-timer"
+  # Install the build and runtime dependencies of the project.ip
+  - "pip install future>=0.16.0 six>=1.11.0 numpy>=1.14.0 scipy>=1.0.1 cvxopt cython>=0.27.3 nose>=1.1.2 scikit-learn>=0.19.0 setuptools wheel wheelhouse_uploader nose-timer"
 
   # Install pynauty (in a correct environment)
   # See: https://packaging.python.org/guides/supprting-windows-using-appveyor/
@@ -49,10 +39,10 @@ install:
   # Installation will be done with mingw. Propably will lead to error inside appveyor
   # because of 4GB memory overhead on a x64 3.4 python, upon library import
   # See: https://github.com/ContinuumIO/anaconda-issues/issues/271#issue-58658137
-  - "python install_pynauty.py --use_mingw"
+  # - "python install_pynauty.py --use_mingw"
   
   # Check import of pynauty here and on env
-  - "python %ENSURE_PYNAUTY%"
+  # - "python %ENSURE_PYNAUTY%"
 
   # Install project
   - "%CMD_IN_ENV% python setup.py bdist_wheel bdist_wininst"

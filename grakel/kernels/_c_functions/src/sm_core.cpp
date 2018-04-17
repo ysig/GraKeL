@@ -18,8 +18,8 @@ void sm_core(double value, list<int> c, list<int> p, int* d, int lBound, int uBo
 
 		double nValue = value * cv[i];
 		double* iEdgeValue = ce[i];
-		for (int j : c) {
-			nValue *= abs(iEdgeValue[j]);
+		for (list<int>::const_iterator it = c.begin(); it != c.end(); it++) {
+			nValue *= abs(iEdgeValue[*it]);
 		}
 
 		totalValue[c.size()] += nValue;
@@ -29,7 +29,8 @@ void sm_core(double value, list<int> c, list<int> p, int* d, int lBound, int uBo
 			
 			// prepare candidate set for recursive call
 			list<int> newP;
-			for (int v : p) {
+			for (list<int>::const_iterator it = p.begin(); it != p.end(); it++) {
+				int v = *it;
 				if (iEdgeValue[v] != 0)
 					newP.push_back(v);
 			}

@@ -188,7 +188,10 @@ def test_shortest_path():
 
 def test_graphlet_sampling():
     """Test the Graphlet Sampling Kernel."""
-    gs_kernel = GraphletSampling(verbose=verbose, normalize=normalize, sampling=dict(n_samples=150))
+    try:
+        gs_kernel = GraphletSampling(verbose=verbose, normalize=normalize, sampling=dict(n_samples=150))
+    except ImportError:
+        return
     if verbose:
         print_kernel("Graphlet Sampling", gs_kernel, dataset_tr, dataset_te)
     else:
@@ -244,7 +247,10 @@ def test_neighborhood_subgraph_pairwise_distance():
 
 def test_lovasz_theta():
     """Test the Lovasz-theta distance kernel."""
-    lt_kernel = LovaszTheta(verbose=verbose, normalize=normalize)
+    try:
+        lt_kernel = LovaszTheta(verbose=verbose, normalize=normalize)
+    except ImportError:
+        return
     if verbose:
         print_kernel("Lovasz-theta", lt_kernel, dataset_tr, dataset_te)
     else:

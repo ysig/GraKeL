@@ -13,6 +13,9 @@ OS = system()
 if OS == 'Windows':
     warn('Installation in Windows is incomplete..'
          'To see why please check the documentation.')
+    extra_compile_args = ["/O2"]
+elif OS in ['Linux', 'Darwin']:
+    extra_compile_args = ["-O3"]
 
 try:
     from Cython.Distutils import build_ext
@@ -55,7 +58,7 @@ ext = Extension(name="grakel.kernels._c_functions",
                 include_dirs=[ext_address + "include", numpy.get_include()],
                 depends=[ext_address + "include/functions.hpp"],
                 language="c++",
-                extra_compile_args=["-O3", "-std=c++11"])
+                extra_compile_args=extra_compile_args)
 
 setup(name='grakel',
       version='0.1a2',

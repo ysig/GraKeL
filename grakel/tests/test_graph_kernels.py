@@ -132,9 +132,12 @@ def test_shortest_path():
 
 def test_graphlet_sampling():
     """Test the Graphlet Sampling Kernel."""
-    gk = GraphKernel(kernel={"name": "graphlet_sampling",
-                             "sampling": {"n_samples": 200}},
-                     verbose=verbose, normalize=normalize)
+    try:
+        gk = GraphKernel(kernel={"name": "graphlet_sampling",
+                                 "sampling": {"n_samples": 200}},
+                         verbose=verbose, normalize=normalize)
+    except ImportError:
+        return
     if verbose:
         print_kernel_decorator("Graphlet Sampling", gk, dataset_tr, dataset_te)
 
@@ -184,9 +187,11 @@ def test_neighborhood_pairwise_distance():
 
 def test_lovasz_theta():
     """Test the Lovasz-theta kernel."""
-    gk = GraphKernel(kernel={"name": "lovasz_theta"},
-                     verbose=verbose, normalize=normalize)
-
+    try:
+        gk = GraphKernel(kernel={"name": "lovasz_theta"},
+                         verbose=verbose, normalize=normalize)
+    except ImportError:
+        return
     if verbose:
         print_kernel_decorator("Lovasz-theta", gk, dataset_tr, dataset_te)
 
@@ -266,6 +271,16 @@ def test_multiscale_laplacian_fast():
 
     if verbose:
         print_kernel_decorator("Multiscale Laplacian Fast",
+                               gk, dataset_attr_tr, dataset_attr_te)
+
+
+def test_graph_hopper():
+    """Test the Graph Hopper kernel."""
+    gk = GraphKernel(kernel={"name": "graph_hopper"},
+                     verbose=verbose, normalize=normalize)
+
+    if verbose:
+        print_kernel_decorator("Graph Hopper",
                                gk, dataset_attr_tr, dataset_attr_te)
 
 
@@ -356,6 +371,7 @@ if verbose and main:
     test_edge_histogram()
     test_multiscale_laplacian_fast()
     test_core_framework()
+    test_graph_hopper()
 
 if verbose and develop:
     if slow:
