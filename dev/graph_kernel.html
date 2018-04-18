@@ -183,11 +183,11 @@ with whether it utilizes information from node-labels, edge-labels, node-attribu
 inside the kernel calculation.</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="47%" />
-<col width="15%" />
-<col width="8%" />
-<col width="15%" />
-<col width="15%" />
+<col width="48%" />
+<col width="13%" />
+<col width="12%" />
+<col width="13%" />
+<col width="13%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head" rowspan="2">Kernels</th>
@@ -201,31 +201,31 @@ inside the kernel calculation.</p>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-odd"><td>random_walk, [with_labels=False]</td>
+<tr class="row-odd"><td>random_walk, [<code class="code docutils literal notranslate"><span class="pre">with_labels=False</span></code>]</td>
 <td>Ignores</td>
 <td>Ignores</td>
 <td>Ignores</td>
 <td>Ignores</td>
 </tr>
-<tr class="row-even"><td>random_walk, with_labels=True</td>
+<tr class="row-even"><td>random_walk, <code class="code docutils literal notranslate"><span class="pre">with_labels=True</span></code></td>
 <td>Needs</td>
 <td>Ignores</td>
 <td>Ignores</td>
 <td>Ignores</td>
 </tr>
-<tr class="row-odd"><td>shortest_path, [with_labels=False]</td>
+<tr class="row-odd"><td>shortest_path, [<code class="code docutils literal notranslate"><span class="pre">with_labels=False</span></code>]</td>
 <td>Ignores</td>
 <td>Ignores</td>
 <td>Ignores</td>
 <td>Ignores</td>
 </tr>
-<tr class="row-even"><td>shortest_path, with_labels=True</td>
+<tr class="row-even"><td>shortest_path, <code class="code docutils literal notranslate"><span class="pre">with_labels=True</span></code></td>
 <td>Needs</td>
 <td>Ignores</td>
 <td>Nonce-Behavior</td>
 <td>Ignores</td>
 </tr>
-<tr class="row-odd"><td>shortest_path, as_attributes=True</td>
+<tr class="row-odd"><td>shortest_path, <code class="code docutils literal notranslate"><span class="pre">as_attributes=True</span></code></td>
 <td>Slow</td>
 <td>Ignores</td>
 <td>Needs</td>
@@ -243,7 +243,7 @@ inside the kernel calculation.</p>
 <td>Needs</td>
 <td>Ignores</td>
 </tr>
-<tr class="row-even"><td>subgraph_matching, [type(kv)=type(ke)=’labels’]</td>
+<tr class="row-even"><td>subgraph_matching, [<code class="code docutils literal notranslate"><span class="pre">type(kv)=type(ke)='labels'</span></code>]</td>
 <td>type(kv)</td>
 <td>type(ke)</td>
 <td>type(kv)</td>
@@ -309,10 +309,29 @@ inside the kernel calculation.</p>
 <td>Needs</td>
 <td>Ignores</td>
 </tr>
+<tr class="row-odd"><td>weisfeiler_lehman</td>
+<td>Needs</td>
+<td><em>base_kernel</em></td>
+<td><em>base_kernel</em></td>
+<td><em>base_kernel</em></td>
+</tr>
+<tr class="row-even"><td>hadamard_code</td>
+<td>Needs</td>
+<td><em>base_kernel</em></td>
+<td><em>base_kernel</em></td>
+<td><em>base_kernel</em></td>
+</tr>
+<tr class="row-odd"><td>core_framework</td>
+<td><em>base_kernel</em></td>
+<td><em>base_kernel</em></td>
+<td><em>base_kernel</em></td>
+<td><em>base_kernel</em></td>
+</tr>
 </tbody>
 </table>
 <p>where <strong>[</strong>, <strong>]</strong> denounce the default value and the <em>kernel-names</em> and <em>arguments</em> are as given in the <code class="code docutils literal notranslate"><span class="pre">__init__</span></code> of the
-<code class="code docutils literal notranslate"><span class="pre">GraphKernel</span></code> object.</p>
+<code class="code docutils literal notranslate"><span class="pre">GraphKernel</span></code> object and <strong>base_kernel</strong> signifies means that given input with this type of <em>meta-information</em> the behavior
+of the kernel should <strong>only</strong> depend on the behavior of the base kernel to this type of <em>meta-information</em>.</p>
 <table border="1" class="longtable docutils">
 <colgroup>
 <col width="10%" />

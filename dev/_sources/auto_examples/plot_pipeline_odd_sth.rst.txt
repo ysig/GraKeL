@@ -57,7 +57,7 @@ An example plot of :class:`grakel.GraphKernel`, :class:`grakel.odd_sth`
     acc = accuracy_score(y, cross_val_predict(estimator, G, y, cv=n_folds))
     print("Accuracy:", str(round(acc*100, 2)) + "%")
 
-**Total running time of the script:** ( 0 minutes  35.327 seconds)
+**Total running time of the script:** ( 0 minutes  36.859 seconds)
 
 
 
