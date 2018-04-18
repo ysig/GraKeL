@@ -417,7 +417,7 @@ def sec_to_time(sec):
 
 def positive_eig(kernel, X):
     """Assert true if the calculated kernel matrix is valid."""
-    K = kernel.fit_transform(X)
+    K = np.nan_to_num(kernel.fit_transform(X))
     min_eig = np.real(np.min(np.linalg.eig(K)[0]))
     assert_array_less(default_eigvalue_precision, min_eig)
 
