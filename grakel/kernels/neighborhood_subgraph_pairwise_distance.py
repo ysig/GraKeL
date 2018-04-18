@@ -213,8 +213,8 @@ class NeighborhoodSubgraphPairwiseDistance(Kernel):
                                             iteritems(data)):
                     indexes, data = zip(*iteritems(d))
                     rows, cols = zip(*indexes)
-                    M[key] = csr_matrix((data, (rows, cols)),
-                                        shape=(ng, len(all_keys[key])))
+                    M[key] = csr_matrix((data, (rows, cols)), shape=(ng, len(all_keys[key])),
+                                        dtype=np.int64)
                 self._fit_keys = all_keys
                 self._ngx = ng
 
@@ -226,11 +226,9 @@ class NeighborhoodSubgraphPairwiseDistance(Kernel):
                                             iteritems(data)):
                     indexes, data = zip(*iteritems(d))
                     rows, cols = zip(*indexes)
-                    M[key] = csr_matrix(
-                        (data, (rows, cols)),
-                        shape=(ng,
-                               len(all_keys[key]) +
-                               len(self._fit_keys[key])))
+                    M[key] = csr_matrix((data, (rows, cols)),
+                                        shape=(ng, len(all_keys[key]) + len(self._fit_keys[key])),
+                                        dtype=np.int64)
 
                 self._ngy = ng
 

@@ -157,7 +157,7 @@ dataset_attr_tr, dataset_attr_te = train_test_split(dataset_attr,
 
 
 def test_random_walk():
-    """Test the simple random walk kernel."""
+    """Eigenvalue test for the Simple, Labelled Random Walk kernel."""
     rw_kernel = RandomWalk(verbose=verbose, normalize=normalize)
     if verbose:
         print_kernel("Random Walk", rw_kernel, dataset_tr, dataset_te)
@@ -172,7 +172,7 @@ def test_random_walk():
 
 
 def test_shortest_path():
-    """Test Shortest Path kernel."""
+    """Eigenvalue test for the Shortest Path kernel."""
     sp_kernel = ShortestPath(verbose=verbose, normalize=normalize)
     if verbose:
         print_kernel("Shortest Path", sp_kernel, dataset_tr, dataset_te)
@@ -187,7 +187,7 @@ def test_shortest_path():
 
 
 def test_graphlet_sampling():
-    """Test the Graphlet Sampling Kernel."""
+    """Eigenvalue test for the Graphlet Sampling Kernel."""
     try:
         gs_kernel = GraphletSampling(verbose=verbose, normalize=normalize, sampling=dict(n_samples=150))
     except ImportError:
@@ -199,7 +199,7 @@ def test_graphlet_sampling():
 
 
 def test_weisfeiler_lehman():
-    """Test the Weisfeiler Lehman kernel."""
+    """Eigenvalue test for the Weisfeiler Lehman kernel."""
     wl_st_kernel = WeisfeilerLehman(verbose=verbose, normalize=normalize,
                                     base_kernel=VertexHistogram)
     if verbose:
@@ -209,7 +209,7 @@ def test_weisfeiler_lehman():
 
 
 def test_pyramid_match():
-    """Test the Pyramid Match kernel."""
+    """Eigenvalue test for the Pyramid Match kernel."""
     pm_kernel = PyramidMatch(verbose=verbose, normalize=normalize)
     if verbose:
         print_kernel("Pyramid Match", pm_kernel, dataset_tr, dataset_te)
@@ -218,7 +218,7 @@ def test_pyramid_match():
 
 
 def test_neighborhood_hash():
-    """Test the Neighborhood Hash kernel."""
+    """Eigenvalue test for the Neighborhood Hash kernel."""
     nh_kernel = NeighborhoodHash(verbose=verbose, normalize=normalize)
     if verbose:
         print_kernel("Neighborhood Hash", nh_kernel, dataset_tr, dataset_te)
@@ -227,7 +227,7 @@ def test_neighborhood_hash():
 
 
 def test_subgraph_matching():
-    """Test the subgraph_matching kernel."""
+    """Eigenvalue test for the subgraph_matching kernel."""
     sm_kernel = SubgraphMatching(verbose=verbose, normalize=normalize)
     if verbose:
         print_kernel("Subgraph Matching", sm_kernel, dataset_tr, dataset_te)
@@ -236,7 +236,7 @@ def test_subgraph_matching():
 
 
 def test_neighborhood_subgraph_pairwise_distance():
-    """Test the neighborhood subgraph pairwise distance kernel."""
+    """Eigenvalue test for the neighborhood subgraph pairwise distance kernel."""
     nspd_kernel = NeighborhoodSubgraphPairwiseDistance(
         verbose=verbose, normalize=normalize)
     if verbose:
@@ -246,7 +246,7 @@ def test_neighborhood_subgraph_pairwise_distance():
 
 
 def test_lovasz_theta():
-    """Test the Lovasz-theta distance kernel."""
+    """Eigenvalue test for the Lovasz-theta distance kernel."""
     try:
         lt_kernel = LovaszTheta(verbose=verbose, normalize=normalize)
     except ImportError:
@@ -258,7 +258,7 @@ def test_lovasz_theta():
 
 
 def test_svm_theta():
-    """Test the SVM-theta distance kernel."""
+    """Eigenvalue test for the SVM-theta distance kernel."""
     svm_kernel = SvmTheta(verbose=verbose, normalize=normalize)
     if verbose:
         print_kernel("SVM-theta", svm_kernel, dataset_tr, dataset_te)
@@ -267,7 +267,7 @@ def test_svm_theta():
 
 
 def test_odd_sth():
-    """Test the ODD-STh kernel."""
+    """Eigenvalue test for the ODD-STh kernel."""
     odd_sth_kernel = OddSth(verbose=verbose, normalize=normalize)
     if verbose:
         print_kernel("ODD-STh", odd_sth_kernel, dataset_tr, dataset_te)
@@ -276,7 +276,7 @@ def test_odd_sth():
 
 
 def test_propagation():
-    """Test the Propagation kernel."""
+    """Eigenvalue test for the Propagation kernel."""
     propagation_kernel = Propagation(verbose=verbose, normalize=normalize)
     if verbose:
         print_kernel("Propagation", propagation_kernel, dataset_tr, dataset_te)
@@ -291,7 +291,7 @@ def test_propagation():
 
 
 def test_hadamard_code():
-    """Test the Hadamard Code kernel."""
+    """Eigenvalue test for the Hadamard Code kernel."""
     hadamard_code_kernel = HadamardCode(verbose=verbose, normalize=normalize,
                                         base_kernel=VertexHistogram)
     if verbose:
@@ -302,7 +302,7 @@ def test_hadamard_code():
 
 
 def test_multiscale_laplacian():
-    """Test the Multiscale Laplacian kernel."""
+    """Eigenvalue test for the Multiscale Laplacian kernel."""
     ml_kernel = MultiscaleLaplacian(verbose=verbose, normalize=normalize)
     if verbose and slow:
         print_kernel("Multiscale Laplacian", ml_kernel,
@@ -312,7 +312,7 @@ def test_multiscale_laplacian():
 
 
 def test_multiscale_laplacian_fast():
-    """Test the Fast Multiscale Laplacian kernel."""
+    """Eigenvalue test for the Fast Multiscale Laplacian kernel."""
     mlf_kernel = MultiscaleLaplacianFast(verbose=verbose, normalize=normalize)
     if verbose:
         print_kernel("Multiscale Laplacian Fast", mlf_kernel,
@@ -322,7 +322,7 @@ def test_multiscale_laplacian_fast():
 
 
 def test_vertex_histogram():
-    """Test the Vertex Histogram Kernel."""
+    """Eigenvalue test for the Vertex Histogram Kernel."""
     vh_kernel = VertexHistogram(verbose=verbose, normalize=normalize)
     if verbose:
         print_kernel("Vertex Histogram", vh_kernel, dataset_tr, dataset_te)
@@ -331,7 +331,7 @@ def test_vertex_histogram():
 
 
 def test_edge_histogram():
-    """Test the Edge Histogram Kernel."""
+    """Eigenvalue test for the Edge Histogram Kernel."""
     eh_kernel = EdgeHistogram(verbose=verbose, normalize=normalize)
     if verbose:
         print_kernel("Edge Histogram", eh_kernel, dataset_tr, dataset_te)
@@ -340,7 +340,7 @@ def test_edge_histogram():
 
 
 def test_graph_hopper():
-    """Test the Graph Hopper Kernel."""
+    """Eigenvalue test for the Graph Hopper Kernel."""
     gh_kernel = GraphHopper(verbose=verbose, normalize=normalize)
     if verbose:
         print_kernel("Graph Hopper", gh_kernel, dataset_attr_tr, dataset_attr_te)
@@ -349,7 +349,7 @@ def test_graph_hopper():
 
 
 def test_core_framework():
-    """Test the Graph Hopper Kernel."""
+    """Eigenvalue test for the Core kernel Framework."""
     base_kernel = (WeisfeilerLehman, dict(base_kernel=VertexHistogram))
     core_framework = CoreFramework(verbose=verbose, normalize=normalize, base_kernel=base_kernel)
     if verbose:
@@ -417,7 +417,7 @@ def sec_to_time(sec):
 
 def positive_eig(kernel, X):
     """Assert true if the calculated kernel matrix is valid."""
-    K = np.nan_to_num(kernel.fit_transform(X))
+    K = kernel.fit_transform(X)
     min_eig = np.real(np.min(np.linalg.eig(K)[0]))
     assert_array_less(default_eigvalue_precision, min_eig)
 

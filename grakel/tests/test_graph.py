@@ -33,7 +33,7 @@ else:
 
 
 def test_graph_adjacency():
-    """Tests for adjacency type initialization object."""
+    """Testing Graph object consistency for an adjacency-type initialization object."""
     # Input
     X = np.array([[1, 1, 0, 3], [1, 0, 0, 2], [2, 3, 0, 1], [1, 0, 0, 0]])
     labels = {0: 'banana', 1: 'cherry', 2: 'banana', 3: 'cherry'}
@@ -73,7 +73,7 @@ def test_graph_adjacency():
 
 
 def test_graph_edge_dictionary():
-    """Tests for edge dictionary type initialization object."""
+    """Testing Graph object consistency for an edge-dictionary-type initialization object."""
     # Input
     X = {'a': {'a': 1, 'b': 1, 'd': 3},
          'b': {'a': 1, 'd': 2},
@@ -129,5 +129,6 @@ def test_graph_edge_dictionary():
             npt.assert_equal(spl, desired_labels)
 
 
-test_graph_adjacency()
-test_graph_edge_dictionary()
+if __name__ == '__main__':
+    test_graph_adjacency()
+    test_graph_edge_dictionary()

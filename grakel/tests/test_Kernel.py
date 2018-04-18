@@ -35,7 +35,7 @@ warnings.filterwarnings("ignore")
 
 
 def test_random_walk():
-    """Test the simple random walk kernel."""
+    """Random input test for the Simple Random Walk kernel."""
     train, test = generate_dataset(n_graphs=100,
                                    r_vertices=(10, 20),
                                    r_connectivity=(0.4, 0.8),
@@ -59,7 +59,7 @@ def test_random_walk():
 
 
 def test_random_walk_labels():
-    """Test the labelled random walk kernel."""
+    """Random input test for the Labelled Random Walk kernel."""
     train, test = generate_dataset(n_graphs=100,
                                    r_vertices=(10, 20),
                                    r_connectivity=(0.4, 0.8),
@@ -83,7 +83,7 @@ def test_random_walk_labels():
 
 
 def test_shortest_path():
-    """Test Shortest Path kernel."""
+    """Random input test for the Shortest Path kernel."""
     train, test = generate_dataset(n_graphs=100,
                                    r_vertices=(10, 20),
                                    r_connectivity=(0.4, 0.8),
@@ -128,7 +128,7 @@ def test_shortest_path():
 
 
 def test_graphlet_sampling():
-    """Test the Graphlet Sampling Kernel."""
+    """Random input test for the Graphlet Sampling Kernel."""
     train, test = generate_dataset(n_graphs=100,
                                    r_vertices=(10, 20),
                                    r_connectivity=(0.4, 0.8),
@@ -156,7 +156,7 @@ def test_graphlet_sampling():
 
 
 def test_weisfeiler_lehman():
-    """Test the Weisfeiler Lehman kernel."""
+    """Random input test for the Weisfeiler Lehman kernel."""
     train, test = generate_dataset(n_graphs=100,
                                    r_vertices=(10, 20),
                                    r_connectivity=(0.4, 0.8),
@@ -182,7 +182,7 @@ def test_weisfeiler_lehman():
 
 
 def test_pyramid_match():
-    """Test the Pyramid Match kernel."""
+    """Random input test for the Pyramid Match kernel."""
     train, test = generate_dataset(n_graphs=100,
                                    r_vertices=(10, 20),
                                    r_connectivity=(0.4, 0.8),
@@ -206,7 +206,7 @@ def test_pyramid_match():
 
 
 def test_pyramid_match_no_labels():
-    """Test the Pyramid Match kernel with no labels."""
+    """Random input test for the Pyramid Match kernel with no labels."""
     train, test = generate_dataset(n_graphs=100,
                                    r_vertices=(10, 20),
                                    r_connectivity=(0.4, 0.8),
@@ -230,7 +230,7 @@ def test_pyramid_match_no_labels():
 
 
 def test_neighborhood_hash():
-    """Test the Neighborhood Hash kernel."""
+    """Random input test for the Neighborhood Hash kernel."""
     train, test = generate_dataset(n_graphs=100,
                                    r_vertices=(10, 20),
                                    r_connectivity=(0.4, 0.8),
@@ -254,7 +254,7 @@ def test_neighborhood_hash():
 
 
 def test_subgraph_matching():
-    """Test the subgraph_matching kernel."""
+    """Random input test for the Subgraph Matching kernel."""
     # node-label/edge-label
     train, test = generate_dataset(n_graphs=100,
                                    r_vertices=(10, 20),
@@ -345,7 +345,7 @@ def test_subgraph_matching():
 
 
 def test_neighborhood_subgraph_pairwise_distance():
-    """Test the neighborhood subgraph pairwise distance kernel."""
+    """Random input test for the Neighborhood Subgraph Pairwise Distance kernel."""
     train, test = generate_dataset(n_graphs=100,
                                    r_vertices=(5, 10),
                                    r_connectivity=(0.4, 0.8),
@@ -370,7 +370,7 @@ def test_neighborhood_subgraph_pairwise_distance():
 
 
 def test_lovasz_theta():
-    """Test the Lovasz-theta distance kernel."""
+    """Random input test for the Lovasz-theta distance kernel."""
     train, test = generate_dataset(n_graphs=50,
                                    r_vertices=(5, 10),
                                    r_connectivity=(0.4, 0.8),
@@ -397,7 +397,7 @@ def test_lovasz_theta():
 
 
 def test_svm_theta():
-    """Test the SVM-theta distance kernel."""
+    """Random input test for the SVM-theta distance kernel."""
     train, test = generate_dataset(n_graphs=100,
                                    r_vertices=(10, 20),
                                    r_connectivity=(0.4, 0.8),
@@ -421,7 +421,7 @@ def test_svm_theta():
 
 
 def test_odd_sth():
-    """Test the ODD-STh kernel."""
+    """Random input test for the ODD-STh kernel."""
     train, test = generate_dataset(n_graphs=100,
                                    r_vertices=(10, 20),
                                    r_connectivity=(0.4, 0.8),
@@ -445,7 +445,7 @@ def test_odd_sth():
 
 
 def test_propagation():
-    """Test the Propagation kernel."""
+    """Random input test for the Propagation kernel."""
     train, test = generate_dataset(n_graphs=100,
                                    r_vertices=(10, 20),
                                    r_connectivity=(0.4, 0.8),
@@ -490,7 +490,7 @@ def test_propagation():
 
 
 def test_hadamard_code():
-    """Test the Hadamard Code kernel."""
+    """Random input test for the Hadamard Code kernel."""
     train, test = generate_dataset(n_graphs=100,
                                    r_vertices=(10, 20),
                                    r_connectivity=(0.4, 0.8),
@@ -516,7 +516,7 @@ def test_hadamard_code():
 
 
 def test_multiscale_laplacian():
-    """Test the Multiscale Laplacian kernel."""
+    """Random input test for the Multiscale Laplacian kernel."""
     # Intialise kernel
     train, test = generate_dataset(n_graphs=30,
                                    r_vertices=(5, 10),
@@ -541,7 +541,7 @@ def test_multiscale_laplacian():
 
 
 def test_multiscale_laplacian_fast():
-    """Test the Fast Multiscale Laplacian kernel."""
+    """Random input test for the Fast Multiscale Laplacian kernel."""
     # Initialise kernel
     train, test = generate_dataset(n_graphs=100,
                                    r_vertices=(10, 20),
@@ -566,7 +566,7 @@ def test_multiscale_laplacian_fast():
 
 
 def test_vertex_histogram():
-    """Test the Vertex Histogram Kernel."""
+    """Random input test for the Vertex Histogram Kernel."""
     train, test = generate_dataset(n_graphs=100,
                                    r_vertices=(10, 20),
                                    r_connectivity=(0.4, 0.8),
@@ -590,7 +590,7 @@ def test_vertex_histogram():
 
 
 def test_edge_histogram():
-    """Test the Edge Histogram Kernel."""
+    """Random input test for the Edge Histogram kernel."""
     train, test = generate_dataset(n_graphs=100,
                                    r_vertices=(10, 20),
                                    r_connectivity=(0.4, 0.8),
@@ -614,7 +614,7 @@ def test_edge_histogram():
 
 
 def test_graph_hopper():
-    """Test the Graph Hopper Kernel."""
+    """Random input test for the Graph Hopper kernel."""
     train, test = generate_dataset(n_graphs=100,
                                    r_vertices=(10, 20),
                                    r_connectivity=(0.4, 0.8),
@@ -638,7 +638,7 @@ def test_graph_hopper():
 
 
 def test_core_framework():
-    """Test the Graph Hopper Kernel."""
+    """Random input test for the Core kernel Framework."""
     train, test = generate_dataset(n_graphs=100,
                                    r_vertices=(10, 20),
                                    r_connectivity=(0.4, 0.8),

@@ -5,8 +5,7 @@
 [![CircleCI Status](https://circleci.com/gh/ysig/GraKeL/tree/develop.svg?style=shield)](https://circleci.com/gh/ysig/GraKeL/tree/develop)
 [![Appveyor status](https://ci.appveyor.com/api/projects/status/sss4lpfxwgejn6de/branch/develop?svg=true)](https://ci.appveyor.com/project/ysig/grakel)
 
-**grakel** is a library compatible with the project of
-[scikit-learn](http://scikit-learn.org/)
+**grakel** is a library compatible with the project of [scikit-learn](http://scikit-learn.org/)
 
 Installing grakel
 =================
