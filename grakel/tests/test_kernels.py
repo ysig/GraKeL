@@ -303,7 +303,6 @@ def test_hadamard_code():
 
 def test_multiscale_laplacian():
     """Test the Multiscale Laplacian kernel."""
-    # Intialise kernel
     ml_kernel = MultiscaleLaplacian(verbose=verbose, normalize=normalize)
     if verbose and slow:
         print_kernel("Multiscale Laplacian", ml_kernel,
@@ -314,7 +313,6 @@ def test_multiscale_laplacian():
 
 def test_multiscale_laplacian_fast():
     """Test the Fast Multiscale Laplacian kernel."""
-    # Initialise kernel
     mlf_kernel = MultiscaleLaplacianFast(verbose=verbose, normalize=normalize)
     if verbose:
         print_kernel("Multiscale Laplacian Fast", mlf_kernel,
