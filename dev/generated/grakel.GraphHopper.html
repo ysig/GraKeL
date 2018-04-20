@@ -199,7 +199,7 @@
 <h1><a class="reference internal" href="../api.html#module-grakel" title="grakel"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code></a>.GraphHopper<a class="headerlink" href="#grakel-graphhopper" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="grakel.GraphHopper">
-<em class="property">class </em><code class="descclassname">grakel.</code><code class="descname">GraphHopper</code><span class="sig-paren">(</span><em>executor=&lt;function &lt;lambda&gt;&gt;</em>, <em>normalize=False</em>, <em>verbose=False</em>, <em>kernel_type='linear'</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/d9558de/grakel/kernels/graph_hopper.py#L19"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/graph_hopper.html#GraphHopper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphHopper" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">grakel.</code><code class="descname">GraphHopper</code><span class="sig-paren">(</span><em>executor=&lt;function &lt;lambda&gt;&gt;</em>, <em>normalize=False</em>, <em>verbose=False</em>, <em>kernel_type='linear'</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/d130016/grakel/kernels/graph_hopper.py#L19"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/graph_hopper.html#GraphHopper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphHopper" title="Permalink to this definition">¶</a></dt>
 <dd><p>Graph Hopper Histogram kernel as found in <a class="reference internal" href="#graphhopper" id="id1">[FKP+13]</a>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -321,13 +321,13 @@ corresponding to the M matrix and the attribute matrix and returns a number.</li
 </table>
 <dl class="method">
 <dt id="grakel.GraphHopper.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>executor=&lt;function &lt;lambda&gt;&gt;</em>, <em>normalize=False</em>, <em>verbose=False</em>, <em>kernel_type='linear'</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/d9558de/grakel/kernels/graph_hopper.py#L45"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/graph_hopper.html#GraphHopper.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphHopper.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>executor=&lt;function &lt;lambda&gt;&gt;</em>, <em>normalize=False</em>, <em>verbose=False</em>, <em>kernel_type='linear'</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/d130016/grakel/kernels/graph_hopper.py#L45"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/graph_hopper.html#GraphHopper.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphHopper.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize an Graph Hopper kernel.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="grakel.GraphHopper.diagonal">
-<code class="descname">diagonal</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/d9558de/grakel/kernels/kernel.py#L235"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphHopper.diagonal" title="Permalink to this definition">¶</a></dt>
+<code class="descname">diagonal</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/d130016/grakel/kernels/kernel.py#L235"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphHopper.diagonal" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the kernel matrix diagonal of the fit/transformed data.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -357,7 +357,7 @@ This consists of each element calculated with itself.</p>
 
 <dl class="method">
 <dt id="grakel.GraphHopper.fit">
-<code class="descname">fit</code><span class="sig-paren">(</span><em>X</em>, <em>y=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/d9558de/grakel/kernels/kernel.py#L83"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphHopper.fit" title="Permalink to this definition">¶</a></dt>
+<code class="descname">fit</code><span class="sig-paren">(</span><em>X</em>, <em>y=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/d130016/grakel/kernels/kernel.py#L83"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphHopper.fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fit a dataset, for a transformer.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -392,7 +392,7 @@ requires this parameter.</p>
 
 <dl class="method">
 <dt id="grakel.GraphHopper.fit_transform">
-<code class="descname">fit_transform</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/d9558de/grakel/kernels/kernel.py#L161"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphHopper.fit_transform" title="Permalink to this definition">¶</a></dt>
+<code class="descname">fit_transform</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/d130016/grakel/kernels/kernel.py#L161"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphHopper.fit_transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fit and transform, on the same dataset.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -428,7 +428,7 @@ all pairs of graphs between target an features</p>
 
 <dl class="method">
 <dt id="grakel.GraphHopper.get_params">
-<code class="descname">get_params</code><span class="sig-paren">(</span><em>deep=True</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/d9558de/grakel/../../../../usr/local/lib/python3.5/site-packages/sklearn/base.py#L213"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphHopper.get_params" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_params</code><span class="sig-paren">(</span><em>deep=True</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/d130016/grakel/../../../../usr/local/lib/python3.5/site-packages/sklearn/base.py#L213"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphHopper.get_params" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get parameters for this estimator.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -455,13 +455,13 @@ contained subobjects that are estimators.</p>
 
 <dl class="method">
 <dt id="grakel.GraphHopper.initialize_">
-<code class="descname">initialize_</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/d9558de/grakel/kernels/graph_hopper.py#L54"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/graph_hopper.html#GraphHopper.initialize_"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphHopper.initialize_" title="Permalink to this definition">¶</a></dt>
+<code class="descname">initialize_</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/d130016/grakel/kernels/graph_hopper.py#L54"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/graph_hopper.html#GraphHopper.initialize_"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphHopper.initialize_" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize all transformer arguments, needing initialization.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="grakel.GraphHopper.pairwise_operation">
-<code class="descname">pairwise_operation</code><span class="sig-paren">(</span><em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/d9558de/grakel/kernels/graph_hopper.py#L239"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/graph_hopper.html#GraphHopper.pairwise_operation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphHopper.pairwise_operation" title="Permalink to this definition">¶</a></dt>
+<code class="descname">pairwise_operation</code><span class="sig-paren">(</span><em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/d130016/grakel/kernels/graph_hopper.py#L239"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/graph_hopper.html#GraphHopper.pairwise_operation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphHopper.pairwise_operation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Graph Hopper kernel as proposed in <a class="reference internal" href="#graphhopper" id="id4">[FKP+13]</a>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -487,7 +487,7 @@ contained subobjects that are estimators.</p>
 
 <dl class="method">
 <dt id="grakel.GraphHopper.parse_input">
-<code class="descname">parse_input</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/d9558de/grakel/kernels/graph_hopper.py#L81"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/graph_hopper.html#GraphHopper.parse_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphHopper.parse_input" title="Permalink to this definition">¶</a></dt>
+<code class="descname">parse_input</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/d130016/grakel/kernels/graph_hopper.py#L81"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/graph_hopper.html#GraphHopper.parse_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphHopper.parse_input" title="Permalink to this definition">¶</a></dt>
 <dd><p>Parse and check the given input for the Graph Hopper kernel.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -518,13 +518,13 @@ format).</p>
 
 <dl class="method">
 <dt id="grakel.GraphHopper.set_params">
-<code class="descname">set_params</code><span class="sig-paren">(</span><em>**params</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/d9558de/grakel/kernels/kernel.py#L343"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphHopper.set_params" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_params</code><span class="sig-paren">(</span><em>**params</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/d130016/grakel/kernels/kernel.py#L343"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphHopper.set_params" title="Permalink to this definition">¶</a></dt>
 <dd><p>Call the parent method.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="grakel.GraphHopper.transform">
-<code class="descname">transform</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/d9558de/grakel/kernels/kernel.py#L120"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphHopper.transform" title="Permalink to this definition">¶</a></dt>
+<code class="descname">transform</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/d130016/grakel/kernels/kernel.py#L120"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphHopper.transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the kernel matrix, between given and fitted dataset.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
