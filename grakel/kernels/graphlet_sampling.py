@@ -11,19 +11,13 @@ from sklearn.exceptions import NotFittedError
 from sklearn.utils.validation import check_is_fitted
 
 from grakel.graph import Graph
-from grakel.tools import matrix_to_dict
 from grakel.kernels import Kernel
+from grakel.kernels._isomorphism import Graph as bGraph
 
 # Python 2/3 cross-compatibility import
 from six import iteritems
 from six import itervalues
 from builtins import range
-
-pynauty_installed = True
-try:
-    import pynauty
-except ImportError:
-    pynauty_installed = False
 
 default_executor = lambda fn, *eargs, **ekargs: fn(*eargs, **ekargs)
 
@@ -120,9 +114,6 @@ class GraphletSampling(Kernel):
                  k=5,
                  sampling=None):
         """Initialise a subtree_wl kernel."""
-        if not pynauty_installed:
-            raise ImportError('pynauty should be installed for the graphlet-sampling kernel')
-
         super(GraphletSampling, self).__init__(executor=executor,
                                                normalize=normalize,
                                                verbose=verbose)
@@ -418,7 +409,7 @@ class GraphletSampling(Kernel):
                         else:
                             newbin = True
                             for k in range(len(self._graph_bins)):
-                                if pynauty.isomorphic(self._graph_bins[k], sg):
+                                if self._graph_bins[k].isomorphic(sg):
                                     newbin = False
                                     if (i, k) not in local_values:
                                         local_values[(i, k)] = 1
@@ -432,7 +423,7 @@ class GraphletSampling(Kernel):
                         # add the graph to an isomorphism class
                         newbin = True
                         for k in range(len(self._graph_bins)):
-                            if pynauty.isomorphic(self._graph_bins[k], sg):
+                            if self._graph_bins[k].isomorphic(sg):
                                 newbin = False
                                 if (i, k) not in local_values:
                                     local_values[(i, k)] = 1
@@ -447,7 +438,7 @@ class GraphletSampling(Kernel):
                                 start = len(self._graph_bins)
                                 start_Y = len(self._Y_graph_bins)
                                 for l in range(start_Y):
-                                    if pynauty.isomorphic(self._Y_graph_bins[l], sg):
+                                    if self._Y_graph_bins[l].isomorphic(sg):
                                         newbin_Y = False
                                         bin_key = (i, l + start)
                                         if bin_key not in local_values:
@@ -501,7 +492,7 @@ def sample_graphlets_probabilistic(A, k, n_samples):
     for i in range(n_samples):
         index_rand = np.random.choice(s, rsamp(), replace=False)
         Q = A[index_rand, :][:, index_rand]
-        yield pynauty.Graph(Q.shape[0], True, matrix_to_dict(Q, '==', 1, False))
+        yield bGraph(Q.shape[0], zip(*np.where(Q == 1)))
 
 
 def sample_graphlets_all_connected(A, k):
@@ -525,4 +516,4 @@ def sample_graphlets_all_connected(A, k):
     for i in itertools.permutations(range(A.shape[0]), min(k, A.shape[0])):
         Q = A[i, :][:, i]
         if 0 not in np.sum(Q, axis=1):
-            yield pynauty.Graph(Q.shape[0], True, matrix_to_dict(Q, '==', 1, False))
+            yield bGraph(Q.shape[0], zip(*np.where(Q == 1)))

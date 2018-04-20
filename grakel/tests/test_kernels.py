@@ -188,10 +188,7 @@ def test_shortest_path():
 
 def test_graphlet_sampling():
     """Eigenvalue test for the Graphlet Sampling Kernel."""
-    try:
-        gs_kernel = GraphletSampling(verbose=verbose, normalize=normalize, sampling=dict(n_samples=150))
-    except ImportError:
-        return
+    gs_kernel = GraphletSampling(verbose=verbose, normalize=normalize, sampling=dict(n_samples=150))
     if verbose:
         print_kernel("Graphlet Sampling", gs_kernel, dataset_tr, dataset_te)
     else:

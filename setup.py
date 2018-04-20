@@ -24,24 +24,6 @@ except ImportError:
           file=sys.stderr)
     sys.exit(1)
 
-"""
-try:
-    import pynauty
-except ImportError as ie:
-    if OS in ['Linux', 'Darwin']:
-        from install_pynauty import main_unix
-        from subprocess import CalledProcessError
-        try:
-            main_unix()
-        except CalledProcessError:
-            print('The automatic script-failed to install pynauty..\n'
-                  'Try to install it on your own.', file=sys.stderr)
-            sys.exit(1)
-    else:
-        print('problematic OS -- pynauty should be installed manually', file=sys.stderr)
-        sys.exit(1)
-"""
-
 try:
     import numpy
 except ImportError:
@@ -59,6 +41,28 @@ ext = Extension(name="grakel.kernels._c_functions",
                 depends=[ext_address + "include/functions.hpp"],
                 language="c++",
                 extra_compile_args=extra_compile_args)
+
+# Add the bliss library extension for calculating isomorphism
+isodir = "./grakel/kernels/_isomorphism/"
+blissdir = isodir + 'bliss-0.50/'
+# The essential bliss source files
+blisssrcs = ['graph.cc','heap.cc','orbit.cc','partition.cc','uintseqhash.cc']
+blisssrcs = [blissdir + src for src in blisssrcs]
+pn = str(sys.version_info[0])
+
+intpybliss = Extension(name="grakel.kernels._isomorphism.intpybliss",
+                  define_macros = [('MAJOR_VERSION', '0'),
+                                   ('MINOR_VERSION', '50beta')],
+                  include_dirs = [blissdir],
+                  language="c++",
+                  sources = [isodir + 'intpyblissmodule_' + pn + '.cc']+blisssrcs
+                  )
+
+bliss = Extension(name="grakel.kernels._isomorphism.bliss",
+                  include_dirs = [isodir],
+                  language="c++",
+                  sources = [isodir + 'bliss.pyx']
+                  )
 
 setup(name='grakel',
       version='0.1a2',
@@ -89,14 +93,10 @@ setup(name='grakel',
                  ],
       python_requires='>=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, <4',
       packages=find_packages(),
-#      entry_points = {
-#        'console_scripts': ['install-pynauty=install_pynauty:main']
-#      },
       install_requires=INSTALL_REQUIRES,
       extras_require={
-        'graphlet':  ["pynauty>=0.6.0"],
         'lovasz': ["cvxopt>=1.1.9"]
       },
-      ext_modules=[ext],
+      ext_modules=[intpybliss, bliss, ext],
       cmdclass={'build_ext': build_ext}
       )
