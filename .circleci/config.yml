@@ -17,7 +17,6 @@ jobs:
       - run: sudo pip install --upgrade cython numpydoc
       - run: sudo pip install --upgrade scikit-learn
       - run: sudo pip install --upgrade cvxopt
-      - run: sudo python install_pynauty.py
       - run: sudo python setup.py clean
       - run: sudo python setup.py develop
       - run: set -o pipefail && cd doc && make html 2>&1 | tee ~/log.txt

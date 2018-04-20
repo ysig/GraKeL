@@ -39,7 +39,6 @@ install:
   # Installation will be done with mingw. Propably will lead to error inside appveyor
   # because of 4GB memory overhead on a x64 3.4 python, upon library import
   # See: https://github.com/ContinuumIO/anaconda-issues/issues/271#issue-58658137
-  # - "python install_pynauty.py --use_mingw"
   
   # Check import of pynauty here and on env
   # - "python %ENSURE_PYNAUTY%"
