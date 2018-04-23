@@ -1,0 +1,16 @@
+include README.md
+include requirements.txt
+include grakel/kernels/_c_functions/*.pxd
+include grakel/kernels/_c_functions/*.pyx
+recursive-include grakel/kernels/_c_functions/include *
+recursive-include grakel/kernels/_c_functions/src *
+include doc/*.rst
+include doc/conf.py
+include doc/Makefile
+include doc/make.bat
+recursive-include doc/user_manual *
+recursive-include doc/_static *
+recursive-include doc/_templates *
+recursive-include doc/kernels *
+recursive-include doc/sphinxext *
+recursive-include examples *

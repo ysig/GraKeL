@@ -1,0 +1,29 @@
+Metadata-Version: 2.1
+Name: grakel-dev
+Version: 0.1a2
+Summary: A scikit-learn compatible library for graph kernels
+Home-page: https://ysig.github.io/GraKeL/dev/
+Author: Ioannis Siglidis [LiX / DaSciM]
+Author-email: ioannis.siglidis@inria.fr
+License: BSD
+Project-URL: Tracker, https://github.com/ysig/GraKeL/issues
+Project-URL: Source, https://github.com/ysig/GraKeL/tree/develop
+Project-URL: Send us Feedback!, http://www.lix.polytechnique.fr/dascim/contact/
+Project-URL: Documentation, https://ysig.github.io/GraKeL/dev/
+Description: UNKNOWN
+Platform: UNKNOWN
+Classifier: Intended Audience :: Science/Research
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved
+Classifier: Programming Language :: C
+Classifier: Programming Language :: Python
+Classifier: Topic :: Software Development
+Classifier: Topic :: Scientific/Engineering
+Classifier: Operating System :: POSIX
+Classifier: Operating System :: Unix
+Classifier: Operating System :: MacOS
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3.5
+Classifier: Programming Language :: Python :: 3.6
+Requires-Python: >=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, <4
+Provides-Extra: lovasz
