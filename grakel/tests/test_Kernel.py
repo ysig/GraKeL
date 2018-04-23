@@ -33,6 +33,11 @@ default_eigvalue_precision = float("-1e-5")
 rs = np.random.RandomState(42)
 warnings.filterwarnings("ignore")
 
+cvxopt = True
+try:
+    import cvxopt
+except ImportError:
+    cvxopt = False
 
 def test_random_walk():
     """Random input test for the Simple Random Walk kernel."""
@@ -137,13 +142,10 @@ def test_graphlet_sampling():
                                    random_seed=rs,
                                    features=('nl', 3))
 
-    try:
-        gs_kernel = GraphletSampling(verbose=verbose, normalize=normalize, sampling=dict(n_samples=50))
-        gk = GraphKernel(kernel={"name": "graphlet_sampling",
-                                 "sampling": {"n_samples": 50}},
-                         verbose=verbose, normalize=normalize)
-    except ImportError:
-        return
+    gs_kernel = GraphletSampling(verbose=verbose, normalize=normalize, sampling=dict(n_samples=50))
+    gk = GraphKernel(kernel={"name": "graphlet_sampling",
+                             "sampling": {"n_samples": 50}},
+                     verbose=verbose, normalize=normalize)
 
     try:
         gs_kernel.fit_transform(train)
@@ -368,32 +370,29 @@ def test_neighborhood_subgraph_pairwise_distance():
     except Exception as exception:
         assert False, exception
 
+if cvxopt:
+    def test_lovasz_theta():
+        """Random input test for the Lovasz-theta distance kernel."""
+        train, test = generate_dataset(n_graphs=50,
+                                       r_vertices=(5, 10),
+                                       r_connectivity=(0.4, 0.8),
+                                       r_weight_edges=(1, 1),
+                                       n_graphs_test=20,
+                                       random_seed=rs,
+                                       features=None)
 
-def test_lovasz_theta():
-    """Random input test for the Lovasz-theta distance kernel."""
-    train, test = generate_dataset(n_graphs=50,
-                                   r_vertices=(5, 10),
-                                   r_connectivity=(0.4, 0.8),
-                                   r_weight_edges=(1, 1),
-                                   n_graphs_test=20,
-                                   random_seed=rs,
-                                   features=None)
-
-    try:
         lt_kernel = LovaszTheta(verbose=verbose, normalize=normalize)
         gk = GraphKernel(kernel={"name": "lovasz_theta"},
                          verbose=verbose, normalize=normalize)
-    except ImportError:
-        return
 
-    try:
-        lt_kernel.fit_transform(train)
-        lt_kernel.transform(test)
-        gk.fit_transform(train)
-        gk.transform(test)
-        assert True
-    except Exception as exception:
-        assert False, exception
+        try:
+            lt_kernel.fit_transform(train)
+            lt_kernel.transform(test)
+            gk.fit_transform(train)
+            gk.transform(test)
+            assert True
+        except Exception as exception:
+            assert False, exception
 
 
 def test_svm_theta():

@@ -37,6 +37,14 @@ global verbose, main, development
 
 default_eigvalue_precision = float("-1e-5")
 
+# Mark optional dependencies
+cvxopt = True
+try:
+    import cvxopt
+except ImportError:
+    cvxopt = False
+
+
 if __name__ == '__main__':
     import argparse
     # Create an argument parser for the installer of pynauty
@@ -241,17 +249,15 @@ def test_neighborhood_subgraph_pairwise_distance():
     else:
         positive_eig(nspd_kernel, dataset)
 
-
-def test_lovasz_theta():
-    """Eigenvalue test for the Lovasz-theta distance kernel."""
-    try:
+if cvxopt:
+    def test_lovasz_theta():
+        """Eigenvalue test for the Lovasz-theta distance kernel."""
         lt_kernel = LovaszTheta(verbose=verbose, normalize=normalize)
-    except ImportError:
-        return
-    if verbose:
-        print_kernel("Lovasz-theta", lt_kernel, dataset_tr, dataset_te)
-    else:
-        positive_eig(lt_kernel, dataset)
+
+        if verbose:
+            print_kernel("Lovasz-theta", lt_kernel, dataset_tr, dataset_te)
+        else:
+            positive_eig(lt_kernel, dataset)
 
 
 def test_svm_theta():

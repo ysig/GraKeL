@@ -57,3 +57,30 @@ if [ $? -ne 0 ]; then
 fi
 
 echo $MSG
+
+# Deploy on PyPi
+if [[ $DEPLOY_PYPI == "true" ]]; then
+    # MOve to home repo and install dependencies
+    cd $HOME/$DOC_REPO
+    pip install sphinx-pypi-upload
+
+    # Initialise .pypirc
+    echo "[distutils]" > ~/.pypirc
+    echo "index-servers = pypi" >> ~/.pypirc
+    echo "[pypi]" >> ~/.pypirc
+    echo "repository=https://pypi.python.org/pypi" >> ~/.pypirc
+    echo "username=$USERNAME" >> ~/.pypirc
+    echo "password=$PYPI_PASSWORD" >> ~/.pypirc
+
+    # Initialise setup.cfg
+    echo "[build_sphinx]" >> .setup.cfg
+    echo "source-dir = doc" >> .setup.cfg
+    echo "build-dir  = doc/_build" >> .setup.cfg
+    echo "all_files  = 1" >> .setup.cfg
+    echo "[upload_sphinx]" >> .setup.cfg
+    echo "upload-dir = doc/_build/html" >> .setup.cfg
+
+    # Build & Upload sphinx-docs
+    python setup.py build_sphinx
+    python setup.py upload_sphinx
+fi

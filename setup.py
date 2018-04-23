@@ -11,8 +11,6 @@ with open('requirements.txt') as f:
 OS = system()
 
 if OS == 'Windows':
-    warn('Installation in Windows is incomplete..'
-         'To see why please check the documentation.')
     extra_compile_args = ["/O2"]
 elif OS in ['Linux', 'Darwin']:
     extra_compile_args = ["-O3"]
@@ -20,16 +18,12 @@ elif OS in ['Linux', 'Darwin']:
 try:
     from Cython.Distutils import build_ext
 except ImportError:
-    print('build_ext from Cython.Distutils is required during installation',
-          file=sys.stderr)
-    sys.exit(1)
+    raise ImportError('build_ext from Cython.Distutils is required during installation')
 
 try:
     import numpy
 except ImportError:
-    print('numpy is required during installation', file=sys.stderr)
-    sys.exit(1)
-
+    raise ImportError('numpy is required during installation')
 
 # Add the _c_functions extension on kernels
 ext_address = "./grakel/kernels/_c_functions/"
@@ -64,7 +58,7 @@ bliss = Extension(name="grakel.kernels._isomorphism.bliss",
                   sources = [isodir + 'bliss.pyx']
                   )
 
-setup(name='grakel',
+setup(name='grakel-dev',
       version='0.1a2',
       description='A scikit-learn compatible library for graph kernels',
       project_urls={
@@ -93,6 +87,7 @@ setup(name='grakel',
                  ],
       python_requires='>=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, <4',
       packages=find_packages(),
+      py_modules=["future", "six"],
       install_requires=INSTALL_REQUIRES,
       extras_require={
         'lovasz': ["cvxopt>=1.1.9"]

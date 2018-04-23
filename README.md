@@ -21,14 +21,7 @@ The grakel library requires:
 For installing NumPy, SciPy, cvxopt and Cython the procedure
 is the well known:
 ```shell
-pip install extension>=extension_version
-```
-
-Installing **pynauty**
-----------------------
-For installation of pynauty try doing
-```shell
-$ (sudo) python install_pynauty.py
+(sudo) pip install extension>=extension_version
 ```
 depending on if `pip` has superuser privilages.
 
@@ -40,7 +33,7 @@ met either by installing prebuilt libraries of anaconda (or of Christofer Gholke
 
 To install the module execute:
 ```shell
-$ (sudo) pip install -i https://testpypi.python.org/pypi grakel
+$ (sudo) pip install grakel-dev
 ```
 
 Contributing

@@ -131,12 +131,10 @@ if verbose:
 
     def test_graphlet_sampling():
         """Test the Graphlet Sampling Kernel [decorator]."""
-        try:
-            gk = GraphKernel(kernel={"name": "graphlet_sampling",
-                                     "sampling": {"n_samples": 200}},
-                             verbose=verbose, normalize=normalize)
-        except ImportError:
-            return
+        gk = GraphKernel(kernel={"name": "graphlet_sampling",
+                                 "sampling": {"n_samples": 200}},
+                         verbose=verbose, normalize=normalize)
+
         if verbose:
             print_kernel_decorator("Graphlet Sampling", gk, dataset_tr, dataset_te)
 
@@ -185,6 +183,7 @@ if verbose:
                              verbose=verbose, normalize=normalize)
         except ImportError:
             return
+
         if verbose:
             print_kernel_decorator("Lovasz-theta", gk, dataset_tr, dataset_te)
 

@@ -1,5 +1,36 @@
 version: 2
 jobs:
+  python2:
+      docker:
+        - image: circleci/python:2.7
+      steps:
+        - checkout
+        - run: sudo -E apt-get -yq remove texlive-binaries --purge
+        - run: sudo apt-get update
+        - run: sudo apt-get install libatlas-dev libatlas3gf-base
+        - run: sudo apt-get install build-essential python-dev python-setuptools
+        - run: sudo pip install --upgrade numpy
+        - run: sudo pip install --upgrade scipy matplotlib setuptools nose coverage sphinx pillow sphinx-gallery sphinx_rtd_theme sphinxcontrib-bibtex nb2plots
+        - run: sudo -E apt-get -yq update
+        - run: sudo -E apt-get -yq --no-install-suggests --no-install-recommends --force-yes install dvipng texlive-latex-base texlive-latex-extra
+        - run: sudo pip install --upgrade tqdm
+        - run: sudo pip install --upgrade cython numpydoc
+        - run: sudo pip install --upgrade scikit-learn
+        - run: sudo pip install --upgrade cvxopt
+        - run: sudo python setup.py clean
+        - run: sudo python setup.py develop
+        - run: set -o pipefail && cd doc && make html 2>&1 | tee ~/log.txt
+        - run: cat ~/log.txt && if grep -q "Traceback (most recent call last):" ~/log.txt; then false; else true; fi
+        - store_artifacts:
+            path: doc/_build/html
+            destination: doc
+        - store_artifacts:
+            path: ~/log.txt
+            destination: log.txt
+        - persist_to_workspace:
+            root: doc/_build/html
+            paths: .
+
   python3:
     docker:
       - image: circleci/python:3.5
@@ -47,6 +78,10 @@ jobs:
 
       # The email is to be used for commits in the Github Page
       - EMAIL: "y.siglidis@gmail.com"
+
+      # Deploy on PyPi
+      - DEPLOY_PYPI: "true"
+
     steps:
       - checkout
       - attach_workspace:
@@ -59,8 +94,10 @@ workflows:
   build-doc-and-deploy:
     jobs:
       - python3
+      - python2
       - deploy:
           requires:
+            - python2
             - python3
           filters:
             branches:
