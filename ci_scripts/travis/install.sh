@@ -11,6 +11,7 @@ cd download
 echo "Cached in $HOME/download :"
 ls -l
 echo
+
 if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
    wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh -O miniconda.sh;
 else
@@ -19,7 +20,13 @@ fi
 
 chmod +x miniconda.sh && ./miniconda.sh -b
 cd ..
-export PATH=/home/travis/miniconda/bin:$PATH
+
+if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
+   export PATH=/home/travis/miniconda2/bin:$PATH;
+else
+   export PATH=/home/travis/miniconda3/bin:$PATH;
+fi
+
 conda update --yes conda
 popd
 

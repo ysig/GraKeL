@@ -27,9 +27,6 @@ jobs:
         - store_artifacts:
             path: ~/log.txt
             destination: log.txt
-        - persist_to_workspace:
-            root: doc/_build/html
-            paths: .
 
   python3:
     docker:

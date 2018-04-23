@@ -36,9 +36,11 @@ install:
 
   # Make venv and install dependencies
   - "conda create -q -n grakel python=%PYTHON_VERSION%"
-  - "conda install -n grakel pip \"future>=0.16.0\" \"six>=1.11.0\" \"numpy>=1.14.0\" \"scipy>=1.0.1\" \"cvxopt>=1.1.9\" \"cython>=0.27.3\" \"nose>=1.1.2\" \"scikit-learn>=0.19.0\" setuptools wheel wheelhouse_uploader nose-timer"
-  - "conda update -n voyeur setuptools wheel wheelhouse_uploader nose-timer"
-  - activate grakel
+  - "conda install -n grakel pip \"future>=0.16.0\" \"six>=1.11.0\" \"numpy>=1.14.0\" \"scipy>=1.0.1\" \"cvxopt>=1.1.9\" \"cython>=0.27.3\" \"nose>=1.1.2\" \"scikit-learn>=0.19.0\" setuptools wheel"
+  - "conda update -n grakel setuptools wheel"
+  - "activate grakel"
+  - "pip install wheelhouse_uploader nose-timer --upgrade"
+
 
   # Check that we have the expected version and architecture for Python
   - "python --version"

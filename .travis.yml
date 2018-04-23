@@ -10,7 +10,6 @@ python:
 
 os:
   - linux
-  - osx
 
 cache:
   apt: true
@@ -42,11 +41,3 @@ script: bash ci_scripts/travis/test.sh
 
 after_success:
     - source ci_scripts/travis/success.sh
-    - |
-      if [[ "$DEPLOY_WHEEL" == "true" ]]; then
-        cd $TRAVIS_BUILD_DIR
-        pip install cibuildwheel==0.7.1
-        cibuildwheel --output-dir wheelhouse
-        python -m pip install twine
-        python -m twine upload wheelhouse/*.whl
-      fi

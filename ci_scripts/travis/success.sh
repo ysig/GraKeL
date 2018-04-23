@@ -3,7 +3,7 @@ set -e
 if [[ "$DEPLOY_WHEEL" == "true" ]] && [[ "$TRAVIS_OS_NAME" == "linux" ]] && [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
     cd $TRAVIS_BUILD_DIR
     rm -rf dist/
-    pip install twine
+    pip install twine --upgrade
     python setup.py sdist --formats=zip
     twine upload dist/*.zip
 fi
@@ -19,4 +19,13 @@ if [[ "$COVERAGE" == "true" ]] && [[ "$TRAVIS_OS_NAME" == "linux" ]] && [[ "$TRA
     # in the github UI just because the coverage report failed to
     # be published.
     coveralls || echo "Coveralls upload failed"
+fi
+
+if [[ "$DEPLOY_WHEEL" == "true" ]]; then
+    cd $TRAVIS_BUILD_DIR
+    pip install cibuildwheel==0.7.1
+    cibuildwheel --output-dir wheelhouse
+    source activate testenv
+    python -m pip install twine --upgrade
+    python -m twine upload wheelhouse/*.whl
 fi
