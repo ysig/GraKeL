@@ -194,14 +194,14 @@ to be considered as the state-of-the-art solution for various problems inside th
 mathematical constraint, which is <em>that the calculation of each similarity measure between two graphs implies a representation of this two graphs in a</em> <a class="reference external" href="https://en.wikipedia.org/wiki/Hilbert_space">hilbert space</a>, where those to graphs are represented as vectors. This can be notated as the
 following:</p>
 <blockquote>
-<div><div class="math notranslate">
+<div><div class="math notranslate nohighlight">
 \[\begin{split}k \; : \; \mathcal{G} \times \mathcal{G} \rightarrow \mathbb{R} \text{ is a
 valid kernel, if there exists a map } \phi \; :\; \mathcal{G} \rightarrow
 \mathbb{H}, \\\text{for a Hilbert space } \mathbb{H} \text{ where each kernel
 value can be computed as }\\ k(G_{i}, G_{j}) = \langle G_{i}, G_{j} \rangle
 \text{ where } \langle \;.\; ,\; .\;\rangle \text{ signifies an inner product inside this space}.\end{split}\]</div>
 </div></blockquote>
-<p>The above definition is satisfied in the literature, by proving that the produced kernel matrix from any collection of graphs <span class="math notranslate">\(\{G_{i}, \text{for } i\in [N]\}\)</span>, where <span class="math notranslate">\([K]_{ij} = k(G_{i}, G_{j})\)</span>, is <a class="reference external" href="https://en.wikipedia.org/wiki/Positive-definite_matrix">Positive Semi Definite</a>.</p>
+<p>The above definition is satisfied in the literature, by proving that the produced kernel matrix from any collection of graphs <span class="math notranslate nohighlight">\(\{G_{i}, \text{for } i\in [N]\}\)</span>, where <span class="math notranslate nohighlight">\([K]_{ij} = k(G_{i}, G_{j})\)</span>, is <a class="reference external" href="https://en.wikipedia.org/wiki/Positive-definite_matrix">Positive Semi Definite</a>.</p>
 </div>
 <div class="section" id="initializing-a-graph-kernel">
 <h2>Initializing a graph kernel<a class="headerlink" href="#initializing-a-graph-kernel" title="Permalink to this headline">¶</a></h2>
@@ -231,8 +231,8 @@ page 9, eq. 2, you can do the following:</p>
 </div>
 <div class="section" id="calculate-a-kernel">
 <h2>Calculate a kernel<a class="headerlink" href="#calculate-a-kernel" title="Permalink to this headline">¶</a></h2>
-<p>Let’s consider a toy example, comparing water <span class="math notranslate">\(\mathbf{H}_{2}\mathbf{O}\)</span> with hydronium
-<span class="math notranslate">\(\mathbf{H}_{3}\mathbf{O}^{+}\)</span>, an ion of water produced by protonation.</p>
+<p>Let’s consider a toy example, comparing water <span class="math notranslate nohighlight">\(\mathbf{H}_{2}\mathbf{O}\)</span> with hydronium
+<span class="math notranslate nohighlight">\(\mathbf{H}_{3}\mathbf{O}^{+}\)</span>, an ion of water produced by protonation.</p>
 <p>For start we would calculate the kernel value of water with itself:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">H2O</span> <span class="o">=</span> <span class="p">[[[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s1">&#39;O&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="s1">&#39;H&#39;</span><span class="p">}]]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sp_kernel</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">H2O</span><span class="p">)</span>
@@ -336,7 +336,7 @@ contains in following order, the next 3 basic elements:</p>
 </div>
 </li>
 <li><div class="first line-block">
-<div class="line">Array representations: Dictionary between numbers with int keys from <span class="math notranslate">\(0 \cdots |V|-1\)</span> to label symbols.</div>
+<div class="line">Array representations: Dictionary between numbers with int keys from <span class="math notranslate nohighlight">\(0 \cdots |V|-1\)</span> to label symbols.</div>
 <div class="line">Example: <code class="code docutils literal notranslate"><span class="pre">H2O_labels</span> <span class="pre">=</span> <span class="pre">{0:</span> <span class="pre">'O',</span> <span class="pre">1:</span> <span class="pre">'H',</span> <span class="pre">2:'H'}</span></code></div>
 </div>
 </li>
@@ -359,7 +359,7 @@ or attributes for <em>vertices</em> and if it does so, a label representation ca
 </div>
 </li>
 <li><div class="first line-block">
-<div class="line">Array representations: Dictionary between numbers tuples of int keys from <span class="math notranslate">\(0 \cdots |V|-1\)</span> for all matrix entries considered as edges and label symbols.</div>
+<div class="line">Array representations: Dictionary between numbers tuples of int keys from <span class="math notranslate nohighlight">\(0 \cdots |V|-1\)</span> for all matrix entries considered as edges and label symbols.</div>
 <div class="line">Example: <code class="code docutils literal notranslate"><span class="pre">H2O_edge_labels</span> <span class="pre">=</span> <span class="pre">{(0,</span> <span class="pre">1):</span> <span class="pre">'pcb',</span> <span class="pre">(1,</span> <span class="pre">0):</span> <span class="pre">'pcb',</span> <span class="pre">(0,</span> <span class="pre">2):</span> <span class="pre">'pcb',</span> <span class="pre">(2,</span> <span class="pre">0):</span> <span class="pre">'pcb'}</span></code></div>
 </div>
 </li>
@@ -400,15 +400,15 @@ the graph-data can be found in the data class member of the result.</p>
 </pre></div>
 </div>
 <p>In order to apply classification on a dataset based on the calculation of a kernel matrix, one generally needs
-the matrix between all the training data. Namely given <span class="math notranslate">\(\mathcal{G}^{\text{train}}\)</span> a collection of graphs, calculate
-the kernel values with a function <span class="math notranslate">\(\mathcal{K}: \mathcal{G}^{\text{train}} \rightarrow \mathbb{R}^{n_{\text{train}}} \times \mathbb{R}^{n_{\text{train}}}\)</span>,
-where <span class="math notranslate">\(n_{\text{train}}\)</span> is the number of graphs inside the training set. This function that simply outputs the kernel
+the matrix between all the training data. Namely given <span class="math notranslate nohighlight">\(\mathcal{G}^{\text{train}}\)</span> a collection of graphs, calculate
+the kernel values with a function <span class="math notranslate nohighlight">\(\mathcal{K}: \mathcal{G}^{\text{train}} \rightarrow \mathbb{R}^{n_{\text{train}}} \times \mathbb{R}^{n_{\text{train}}}\)</span>,
+where <span class="math notranslate nohighlight">\(n_{\text{train}}\)</span> is the number of graphs inside the training set. This function that simply outputs the kernel
 matrix between all graphs of the graphs of the training set is equivalent with</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">K_train</span> <span class="o">=</span> <span class="n">wl_kernel</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The <code class="code docutils literal notranslate"><span class="pre">wl_kernel</span></code> is now fitted with the train data and we would like given a collection of graphs <span class="math notranslate">\(\mathcal{G}^{\text{test}}\)</span>
-to calculate all the kernel values with a function <span class="math notranslate">\(\mathcal{K}: \mathcal{G}^{\text{train}} \times \mathcal{G}^{\text{test}} \rightarrow \mathbb{R}^{n_{\text{test}}} \times \mathbb{R}^{n_{\text{train}}}\)</span> where <span class="math notranslate">\(n_{\text{test}}\)</span> is the number of graphs inside the test set. This function can be calculated as:</p>
+<p>The <code class="code docutils literal notranslate"><span class="pre">wl_kernel</span></code> is now fitted with the train data and we would like given a collection of graphs <span class="math notranslate nohighlight">\(\mathcal{G}^{\text{test}}\)</span>
+to calculate all the kernel values with a function <span class="math notranslate nohighlight">\(\mathcal{K}: \mathcal{G}^{\text{train}} \times \mathcal{G}^{\text{test}} \rightarrow \mathbb{R}^{n_{\text{test}}} \times \mathbb{R}^{n_{\text{train}}}\)</span> where <span class="math notranslate nohighlight">\(n_{\text{test}}\)</span> is the number of graphs inside the test set. This function can be calculated as:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">K_test</span> <span class="o">=</span> <span class="n">wl_kernel</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
 </pre></div>
 </div>

@@ -305,7 +305,7 @@ possible workers and if given a positive number, initializes that amount of work
 procedures of the <code class="code docutils literal notranslate"><span class="pre">GraphKernel</span></code> that need randomization such as <code class="code docutils literal notranslate"><span class="pre">Nystroem</span></code>, where the
 decorator draws probabilistically a number of components from the number of fitted samples.</p>
 <p>Let’s give an example of a probabilistic kernel using our old water example. We will use a very well known kernel called <em>Graphlet-Sampling</em>, where we will
-sample probabilistically 5 subgraph samples from each graph either <span class="math notranslate">\(\mathbf{H}_{2}\mathbf{O}\)</span> or <span class="math notranslate">\(\mathbf{H}_{3}\mathbf{O}^{+}\)</span>.</p>
+sample probabilistically 5 subgraph samples from each graph either <span class="math notranslate nohighlight">\(\mathbf{H}_{2}\mathbf{O}\)</span> or <span class="math notranslate nohighlight">\(\mathbf{H}_{3}\mathbf{O}^{+}\)</span>.</p>
 <p>After initializing the input</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">grakel</span> <span class="kn">import</span> <span class="n">GraphKernel</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">H2O</span> <span class="o">=</span> <span class="p">[[[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s1">&#39;O&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="s1">&#39;H&#39;</span><span class="p">}]]</span>
@@ -371,7 +371,7 @@ covered by the decorator, as expected. To demonstrate we will show is the follow
 <h2>The <cite>Kernel</cite> class<a class="headerlink" href="#the-kernel-class" title="Permalink to this headline">¶</a></h2>
 <p>This <code class="code docutils literal notranslate"><span class="pre">Object</span></code> is any object inherited from the <a class="reference internal" href="../kernels/kernel.html#kernel"><span class="std std-ref">Kernel (general class)</span></a> (which can be imported from <code class="code docutils literal notranslate"><span class="pre">grakel</span></code>).</p>
 <p>Normally a kernel function, between graphs should be considered as a function with to arguments,
-such as <span class="math notranslate">\(k \; : \; \mathcal{G} \times \mathcal{G} \rightarrow \mathbb{R}\)</span>.
+such as <span class="math notranslate nohighlight">\(k \; : \; \mathcal{G} \times \mathcal{G} \rightarrow \mathbb{R}\)</span>.
 This raises two issues, namely one of efficiency and one of compatibility:</p>
 <ol class="arabic simple">
 <li>The first one has to do with the fact, that there are major computational advantages if instead of calculating the kernel pairwise, we calculate the whole kernel matrix.</li>
@@ -383,10 +383,10 @@ This raises two issues, namely one of efficiency and one of compatibility:</p>
 <li>The <code class="code docutils literal notranslate"><span class="pre">fit_transform</span></code> should fit and calculate the kernel matrix on the fitted dataset.</li>
 <li>The <code class="code docutils literal notranslate"><span class="pre">transform</span></code> should calculate the matrix produced between a new dataset (namely the <em>test</em>) and the fitted dataset.</li>
 </ul>
-<p>The deconstruction of the kernel matrix calculation from a function <span class="math notranslate">\(\mathcal{K}: \mathcal{G}^{\text{train}} \times \mathcal{G}^{\text{test}} \rightarrow \mathbb{R}^{n_{\text{test}}} \times \mathbb{R}^{n_{\text{train}}}\)</span>
-to a <a class="reference external" href="https://en.wikipedia.org/wiki/Currying">currying</a> scheme <span class="math notranslate">\(\mathcal{K}: \mathcal{G}^{\text{train}} \rightarrow \mathcal{G}^{\text{test}} \rightarrow \mathbb{R}^{n_{\text{test}}} \times \mathbb{R}^{n_{\text{train}}}\)</span> is not always equivalent in the
-result, if some of the data of <span class="math notranslate">\(\mathcal{G}^{\text{train}}\)</span>, must be combined with data of <span class="math notranslate">\(\mathcal{G}^{\text{test}}\)</span> to produce the fit reference-features. In such cases
-as mentioned above, namely in the case of <code class="code docutils literal notranslate"><span class="pre">multiscale_laplacian</span></code>, if the user wants <span class="math notranslate">\(\mathcal{G}^{\text{train}} \rightarrow \mathcal{G}^{\text{test}}\)</span> to be concerned
+<p>The deconstruction of the kernel matrix calculation from a function <span class="math notranslate nohighlight">\(\mathcal{K}: \mathcal{G}^{\text{train}} \times \mathcal{G}^{\text{test}} \rightarrow \mathbb{R}^{n_{\text{test}}} \times \mathbb{R}^{n_{\text{train}}}\)</span>
+to a <a class="reference external" href="https://en.wikipedia.org/wiki/Currying">currying</a> scheme <span class="math notranslate nohighlight">\(\mathcal{K}: \mathcal{G}^{\text{train}} \rightarrow \mathcal{G}^{\text{test}} \rightarrow \mathbb{R}^{n_{\text{test}}} \times \mathbb{R}^{n_{\text{train}}}\)</span> is not always equivalent in the
+result, if some of the data of <span class="math notranslate nohighlight">\(\mathcal{G}^{\text{train}}\)</span>, must be combined with data of <span class="math notranslate nohighlight">\(\mathcal{G}^{\text{test}}\)</span> to produce the fit reference-features. In such cases
+as mentioned above, namely in the case of <code class="code docutils literal notranslate"><span class="pre">multiscale_laplacian</span></code>, if the user wants <span class="math notranslate nohighlight">\(\mathcal{G}^{\text{train}} \rightarrow \mathcal{G}^{\text{test}}\)</span> to be concerned
 before fit we advise him to use the <code class="code docutils literal notranslate"><span class="pre">fit_transform</span></code>, function in the whole of the train and test data and separate the kernel matrices on the result.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -542,7 +542,7 @@ First initialize those objects:</p>
 <span class="go">1.0</span>
 </pre></div>
 </div>
-<p>and finally the normalized kernel value, between <span class="math notranslate">\(\mathbf{H}_{2}\mathbf{O}\)</span> and <span class="math notranslate">\(\mathbf{H}_{3}\mathbf{O}^{+}\)</span></p>
+<p>and finally the normalized kernel value, between <span class="math notranslate nohighlight">\(\mathbf{H}_{2}\mathbf{O}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{H}_{3}\mathbf{O}^{+}\)</span></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sp_kernel</span><span class="o">.</span><span class="n">transform</span><span class="p">([</span><span class="n">H3O</span><span class="p">])</span>
 <span class="go">0.9428090415820634</span>
 </pre></div>
