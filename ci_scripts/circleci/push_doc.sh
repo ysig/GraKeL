@@ -80,12 +80,6 @@ if [[ $DEPLOY_PYPI == "true" ]]; then
     echo "[upload_sphinx]" >> .setup.cfg
     echo "upload-dir = doc/_build/html" >> .setup.cfg
 
-    # Upload source files
-    rm -rf dist/
-    sudo pip install twine --upgrade
-    sudo python setup.py sdist --formats=zip
-    twine upload dist/*.zip
-
     # Build & Upload sphinx-docs
     sudo pip install sphinx-pypi-upload
     sudo python setup.py build_sphinx

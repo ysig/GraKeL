@@ -13,10 +13,21 @@ if [[ "$COVERAGE" == "true" ]] && [[ "$TRAVIS_OS_NAME" == "linux" ]] && [[ "$TRA
 fi
 
 if [[ "$DEPLOY_WHEEL" == "true" ]]; then
+    pip install twine --upgrade
+fi
+
+if [[ "$DEPLOY_WHEEL" == "true" ]] && [[ "$TRAVIS_OS_NAME" == "linux" ]] && [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
+    # Upload source files
+    rm -rf dist/
+    python setup.py sdist --formats=zip
+    twine upload dist/*.zip
+fi
+
+if [[ "$DEPLOY_WHEEL" == "true" ]]; then
     cd $TRAVIS_BUILD_DIR
     source activate testenv
+    pip show cython
     pip install cibuildwheel==0.7.1
     cibuildwheel --output-dir wheelhouse
-    python -m pip install twine --upgrade
-    python -m twine upload wheelhouse/*.whl
+    twine upload wheelhouse/*.whl
 fi

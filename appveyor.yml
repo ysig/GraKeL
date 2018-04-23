@@ -10,7 +10,7 @@ environment:
     ENSURE_PYNAUTY: .\ci_scripts\appveyor\ensure_pynauty.py
     WHEELHOUSE_UPLOADER_USERNAME: ysig
     MODULE: grakel
-    PROJECT_NAME: GraKeL
+    PROJECT_NAME: grakel-dev
     TWINE_USERNAME: ysig    
     DEPLOY_WHEEL: true
 
