@@ -60,9 +60,9 @@ echo $MSG
 
 # Deploy on PyPi
 if [[ $DEPLOY_PYPI == "true" ]]; then
-    # MOve to home repo and install dependencies
+    # Move to home repo
     cd $HOME/$DOC_REPO
-    pip install sphinx-pypi-upload
+    ls -x
 
     # Initialise .pypirc
     echo "[distutils]" > ~/.pypirc
@@ -80,7 +80,14 @@ if [[ $DEPLOY_PYPI == "true" ]]; then
     echo "[upload_sphinx]" >> .setup.cfg
     echo "upload-dir = doc/_build/html" >> .setup.cfg
 
+    # Upload source files
+    rm -rf dist/
+    sudo pip install twine --upgrade
+    sudo python setup.py sdist --formats=zip
+    twine upload dist/*.zip
+
     # Build & Upload sphinx-docs
-    python setup.py build_sphinx
-    python setup.py upload_sphinx
+    sudo pip install sphinx-pypi-upload
+    sudo python setup.py build_sphinx
+    sudo python setup.py upload_sphinx
 fi

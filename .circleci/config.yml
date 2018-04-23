@@ -47,6 +47,7 @@ jobs:
       - run: sudo pip install --upgrade cvxopt
       - run: sudo python setup.py clean
       - run: sudo python setup.py develop
+      - run: nosetests
       - run: set -o pipefail && cd doc && make html 2>&1 | tee ~/log.txt
       - run: cat ~/log.txt && if grep -q "Traceback (most recent call last):" ~/log.txt; then false; else true; fi
       - store_artifacts:

@@ -16,22 +16,15 @@ The grakel library requires:
 * NumPy [>= 1.8.2]
 * SciPy [>= 0.13.3]
 * Cython [>= 0.27.3]
-* cvxopt [>= 1.1.9] [optional: lovasz]
+* cvxopt [>= 1.2.0] [optional: lovasz]
 
-For installing NumPy, SciPy, cvxopt and Cython the procedure
-is the well known:
+For installing dependencies the procedure is the well known:
 ```shell
 (sudo) pip install extension>=extension_version
 ```
 depending on if `pip` has superuser privilages.
 
-**A Windows user concern about dependencies.**
-If the windows user wants to use the *lovasz-theta* kernel, which is the only one that requires cvxopt,
-she/he shoud install it manually. This is restrictive for Python3, because Cython developers have not
-supported yet versions bigger than 3.4. As a result installation of this optional dependency should be
-met either by installing prebuilt libraries of anaconda (or of Christofer Gholke).
-
-To install the module execute:
+To install the *development-version* of the module execute:
 ```shell
 $ (sudo) pip install grakel-dev
 ```

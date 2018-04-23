@@ -41,7 +41,7 @@ if [[ "$COVERAGE" == "true" ]]; then
     pip install coverage coveralls
 fi
 
-pip install 'cvxopt>=1.1.9'
+pip install 'cvxopt>=1.2.0'
 pip install flake8
 # If setuptools are not installed -- upgraded, travis crashes
 pip install --upgrade setuptools

@@ -9,26 +9,10 @@ The grakel library requires:
 * NumPy [>= 1.8.2]
 * SciPy [>= 0.13.3]
 * Cython [>= 0.27.3]
-* cvxopt [>= 1.1.9] [optional: lovasz]
+* cvxopt [>= 1.2.0] [optional: lovasz]
 
 For installing NumPy, SciPy, cvxopt and Cython the procedure
 is the well known: :code:`pip install extension>=extension_version`.
-
-----------------------------
-Windows Compatibility Issues
-----------------------------
-A minor **Windows**. compatibility issue concerns `cvxopt`_ and has to do with the
-fact that `cvxopt developers`_ use for their python build, `a package called Mingwpy`_
-which constrains the valid Python 3 version for Windows to 3.4. This huge drawback
-restricts our project raises a problem if the lovasz-theta kernel is desired by the user which can
-*experimentally* be overrun if the user installs the `Python prebuilt libraries of Christoph Gohlke`_
-as well as by using `anaconda`_.
-
-.. _cvxopt: http://cvxopt.org/
-.. _cvxopt developers: http://cvxopt.org/copyright.html
-.. _a package called Mingwpy: http://cvxopt.org/install/index.html#windows
-.. _Python prebuilt libraries of Christoph Gohlke: https://www.lfd.uci.edu/~gohlke/pythonlibs/#cvxopt
-.. _anaconda: https://anaconda.org/omnia/cvxopt
 
 ---------------------
 Why so many packages?

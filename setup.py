@@ -90,7 +90,7 @@ setup(name='grakel-dev',
       py_modules=["future", "six"],
       install_requires=INSTALL_REQUIRES,
       extras_require={
-        'lovasz': ["cvxopt>=1.1.9"]
+        'lovasz': ["cvxopt>=1.2.0"]
       },
       ext_modules=[intpybliss, bliss, ext],
       cmdclass={'build_ext': build_ext}
