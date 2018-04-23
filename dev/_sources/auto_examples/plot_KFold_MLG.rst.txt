@@ -17,14 +17,13 @@ An example plot of :class:`grakel.GraphKernel`, :class:`grakel.multiscale_laplac
 
  Out::
 
-    Downloading dataset for Cuneiform..
     Extracting dataset  Cuneiform..
     Parsing dataset  Cuneiform..
     Parse was succesful..
     Deleting unzipped dataset files..
     Going back to the original directory..
     Mean values of  10 folds:
-    MLG [Fast] > Accuracy: 15.31 % | Took: 7.59 s
+    MLG [Fast] > Accuracy: 15.31 % | Took: 8.05 s
 
 
 
@@ -161,7 +160,7 @@ An example plot of :class:`grakel.GraphKernel`, :class:`grakel.multiscale_laplac
           str(round(np.mean(stats["acc"])*100, 2)),
           "% | Took:", sec_to_time(np.mean(stats["time"])))
 
-**Total running time of the script:** ( 1 minutes  18.109 seconds)
+**Total running time of the script:** ( 1 minutes  21.440 seconds)
 
 
 

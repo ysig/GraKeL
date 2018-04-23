@@ -91,7 +91,6 @@
               <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../user_manual.html">User Manual</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Installing grakel</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#windows-compatibility-issues">Windows Compatibility Issues</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#why-so-many-packages">Why so many packages?</a></li>
 </ul>
 </li>
@@ -180,19 +179,10 @@
 <li>NumPy [&gt;= 1.8.2]</li>
 <li>SciPy [&gt;= 0.13.3]</li>
 <li>Cython [&gt;= 0.27.3]</li>
-<li>cvxopt [&gt;= 1.1.9] [optional: lovasz]</li>
+<li>cvxopt [&gt;= 1.2.0] [optional: lovasz]</li>
 </ul>
 <p>For installing NumPy, SciPy, cvxopt and Cython the procedure
 is the well known: <code class="code docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">extension&gt;=extension_version</span></code>.</p>
-<div class="section" id="windows-compatibility-issues">
-<h2>Windows Compatibility Issues<a class="headerlink" href="#windows-compatibility-issues" title="Permalink to this headline">¶</a></h2>
-<p>A minor <strong>Windows</strong>. compatibility issue concerns <a class="reference external" href="http://cvxopt.org/">cvxopt</a> and has to do with the
-fact that <a class="reference external" href="http://cvxopt.org/copyright.html">cvxopt developers</a> use for their python build, <a class="reference external" href="http://cvxopt.org/install/index.html#windows">a package called Mingwpy</a>
-which constrains the valid Python 3 version for Windows to 3.4. This huge drawback
-restricts our project raises a problem if the lovasz-theta kernel is desired by the user which can
-<em>experimentally</em> be overrun if the user installs the <a class="reference external" href="https://www.lfd.uci.edu/~gohlke/pythonlibs/#cvxopt">Python prebuilt libraries of Christoph Gohlke</a>
-as well as by using <a class="reference external" href="https://anaconda.org/omnia/cvxopt">anaconda</a>.</p>
-</div>
 <div class="section" id="why-so-many-packages">
 <h2>Why so many packages?<a class="headerlink" href="#why-so-many-packages" title="Permalink to this headline">¶</a></h2>
 <p>The field of computationally efficient <a class="reference external" href="https://en.wikipedia.org/wiki/Graph_kernel">Graph Kernels</a> can be considered
