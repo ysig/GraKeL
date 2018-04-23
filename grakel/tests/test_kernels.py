@@ -249,6 +249,7 @@ def test_neighborhood_subgraph_pairwise_distance():
     else:
         positive_eig(nspd_kernel, dataset)
 
+
 if cvxopt:
     def test_lovasz_theta():
         """Eigenvalue test for the Lovasz-theta distance kernel."""

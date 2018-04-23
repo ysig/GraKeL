@@ -39,6 +39,7 @@ try:
 except ImportError:
     cvxopt = False
 
+
 def test_random_walk():
     """Random input test for the Simple Random Walk kernel."""
     train, test = generate_dataset(n_graphs=100,
@@ -369,6 +370,7 @@ def test_neighborhood_subgraph_pairwise_distance():
         assert True
     except Exception as exception:
         assert False, exception
+
 
 if cvxopt:
     def test_lovasz_theta():

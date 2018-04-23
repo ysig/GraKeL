@@ -1,6 +1,6 @@
 set -e
 
-if [[ "$DEPLOY_WHEEL" == "true" ]] && [[ "$TRAVIS_OS_NAME" == "linux" ]] && [[ "$PYTHON_VERSION" == "2.7" ]]; then
+if [[ "$DEPLOY_WHEEL" == "true" ]] && [[ "$TRAVIS_OS_NAME" == "linux" ]] && [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
     cd $TRAVIS_BUILD_DIR
     rm -rf dist/
     pip install twine
@@ -9,7 +9,7 @@ if [[ "$DEPLOY_WHEEL" == "true" ]] && [[ "$TRAVIS_OS_NAME" == "linux" ]] && [[ "
 fi
     
 
-if [[ "$COVERAGE" == "true" ]]; then
+if [[ "$COVERAGE" == "true" ]] && [[ "$TRAVIS_OS_NAME" == "linux" ]] && [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
     # Need to run coveralls from a git checkout, so we copy .coverage
     # from TEST_DIR where nosetests has been run
     cp $TEST_DIR/.coverage $TRAVIS_BUILD_DIR
