@@ -20,7 +20,7 @@ if [[ "$DEPLOY_WHEEL" == "true" ]] && [[ "$TRAVIS_OS_NAME" == "linux" ]] && [[ "
     # Upload source files
     rm -rf dist/
     python setup.py sdist --formats=zip
-    twine upload dist/*.zip
+    twine upload dist/*.zip || true
 fi
 
 if [[ "$DEPLOY_WHEEL" == "true" ]]; then
@@ -29,5 +29,5 @@ if [[ "$DEPLOY_WHEEL" == "true" ]]; then
     pip show cython
     pip install cibuildwheel==0.7.1
     cibuildwheel --output-dir wheelhouse
-    twine upload wheelhouse/*.whl
+    twine upload wheelhouse/*.whl || true
 fi

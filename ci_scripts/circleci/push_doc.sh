@@ -60,15 +60,16 @@ echo $MSG
 
 # Deploy on PyPi
 if [[ $DEPLOY_PYPI == "true" ]]; then
-    # Move to home repo
-    cd $HOME/$DOC_REPO
-    ls -x
+    # Download clean repo
+    rm -rf ~/tmp && mkdir ~/tmp && cd ~/tmp
+    git clone "git@github.com:$USERNAME/"$DOC_REPO".git"
+    cd $DOC_REPO
+    
 
     # Initialise .pypirc
     echo "[distutils]" > ~/.pypirc
     echo "index-servers = pypi" >> ~/.pypirc
     echo "[pypi]" >> ~/.pypirc
-    echo "repository=https://pypi.python.org/pypi" >> ~/.pypirc
     echo "username=$USERNAME" >> ~/.pypirc
     echo "password=$PYPI_PASSWORD" >> ~/.pypirc
 
@@ -83,5 +84,5 @@ if [[ $DEPLOY_PYPI == "true" ]]; then
     # Build & Upload sphinx-docs
     sudo pip install sphinx-pypi-upload
     sudo python setup.py build_sphinx
-    sudo python setup.py upload_sphinx
+    sudo python setup.py upload_sphinx || true
 fi

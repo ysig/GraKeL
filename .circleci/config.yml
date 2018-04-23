@@ -56,7 +56,7 @@ jobs:
           path: ~/log.txt
           destination: log.txt
       - persist_to_workspace:
-          root: .
+          root: doc/_build/html
           paths: .
 
   deploy:

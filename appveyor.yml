@@ -12,7 +12,7 @@ environment:
     MODULE: grakel
     PROJECT_NAME: grakel-dev
     TWINE_USERNAME: ysig    
-    DEPLOY_WHEEL: true
+    DEPLOY_WHEEL: false
 
   matrix:
     - PYTHON_VERSION: "2.7.14"
@@ -73,7 +73,7 @@ on_success:
     &&
     python -m pip install twine
     &&
-    python -m twine upload dist/*.whl
+    python -m twine upload dist/*.whl && exit 0
     )
 
 
