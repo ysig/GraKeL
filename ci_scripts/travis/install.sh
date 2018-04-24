@@ -1,7 +1,7 @@
 #!/bin/bash
 # Configure the conda environment and put it in the path using the
 # provided versions
-{pip} install --upgrade setuptools flake8
+{pip} install --upgrade setuptools
 {pip} install -r requirements.txt
 {pip} install "cvxopt==1.2.0"
 
@@ -17,5 +17,3 @@ fi
 {python} -c "import cython; print('cython %s' % cython.__version__)"
 {python} -c "import cvxopt; print('cvxopt %s' % cvxopt.__version__)"
 
-# Check PEP-8 compatibility for grakel
-flake8 grakel

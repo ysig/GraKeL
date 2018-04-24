@@ -7,7 +7,14 @@ jobs:
         - DEPLOY_PYPI: "false"
       steps:
         - checkout
-        - run: bash ./ci_scripts/circleci/install.sh
+        - run: |
+          pip install virtualenv
+          virtualenv ~/venv
+          . ~/venv/bin/activate
+        - run: bash ./ci_scripts/circleci/install_2.sh
+        - store_artifacts:
+            path: ~/venv
+            destination: ~/venv
         - store_artifacts:
             path: doc/_build/
             destination: doc
@@ -22,6 +29,9 @@ jobs:
       - DEPLOY_PYPI: "true"
     steps:
       - checkout
+      - run: |
+        python -m venv ~/venv
+        . ~/venv/bin/activate
       - run: bash ./ci_scripts/circleci/install.sh
       - store_artifacts:
           path: doc/_build/
@@ -29,6 +39,9 @@ jobs:
       - store_artifacts:
           path: ~/log.txt
           destination: log.txt
+      - store_artifacts:
+          path: ~/venv
+          destination: ~/venv          
       - persist_to_workspace:
           root: doc/_build/
           paths: .
