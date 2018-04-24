@@ -1,15 +1,4 @@
-dist: trusty
-sudo: required
-
 language: python
-
-python:
-  - "2.7"
-  - "3.5"
-  - "3.6"
-
-os:
-  - linux
 
 cache:
   apt: true
@@ -24,20 +13,28 @@ env:
     # Directory where tests are run from
     - TEST_DIR=/tmp/test_dir/
     - MODULE=grakel
+    - WHEEL_FOLDER=wheelhouse
     - TWINE_USERNAME=ysig
-    - DEPLOY_WHEEL=true
-    - DISTRIB="conda"
-    - COVERAGE="true"
-    - NUMPY_VERSION="1.14.2"
-    - SCIPY_VERSION="1.0.1"
-    - CYTHON_VERSION="0.27.3"
 
-install:
-  - source ci_scripts/travis/install.sh
-  - flake8 --version
-  - flake8 grakel
+matrix:
+  include:
+    - sudo: required
+      services:
+        - docker
+      env:
+        - PIP=pip
+        - COVERAGE="true"
+        - DEPLOY_WHEEL=true
+    - os: osx
+      language: generic
+      env:
+        - PIP=pip2
+        - COVERAGE="false"
+        - DEPLOY_WHEEL=true
 
-script: bash ci_scripts/travis/test.sh
+script:
+  - $PIP install cibuildwheel==0.7.1
+  - set CIBW_BEFORE_BUILD="bash ci_scripts/travis/install.sh"
+  - set CIBW_TEST_COMMAND="bash ci_scripts/travis/test.sh"
+  - cibuildwheel --output-dir $WHEEL_FOLDER
 
-after_success:
-    - source ci_scripts/travis/success.sh

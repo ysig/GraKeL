@@ -1,6 +1,7 @@
+#!/bin/bash
 set -e
     
-if [[ "$COVERAGE" == "true" ]] && [[ "$TRAVIS_OS_NAME" == "linux" ]] && [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
+if [[ "$COVERAGE" == "true" ]] && [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
     # Need to run coveralls from a git checkout, so we copy .coverage
     # from TEST_DIR where nosetests has been run
     cp $TEST_DIR/.coverage $TRAVIS_BUILD_DIR
@@ -13,20 +14,15 @@ if [[ "$COVERAGE" == "true" ]] && [[ "$TRAVIS_OS_NAME" == "linux" ]] && [[ "$TRA
 fi
 
 if [[ "$DEPLOY_WHEEL" == "true" ]]; then
-    pip show cython
-    pip install twine --upgrade
-fi
-
-if [[ "$DEPLOY_WHEEL" == "true" ]] && [[ "$TRAVIS_OS_NAME" == "linux" ]] && [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
-    # Upload source files
-    rm -rf dist/
-    python setup.py sdist --formats=zip
-    twine upload dist/*.zip || true
-fi
-
-if [[ "$DEPLOY_WHEEL" == "true" ]]; then
     cd $TRAVIS_BUILD_DIR
-    pip install cibuildwheel==0.7.1
-    cibuildwheel --output-dir wheelhouse
-    twine upload wheelhouse/*.whl || true
+    rm -rf dist/
+
+    if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+        # Build & Deploy sdist
+        python setup.py sdist --formats=zip 
+        twine upload dist/*.zip || true
+    fi
+
+    # Deploy wheels
+    twine upload $WHEEL_FOLDER/*.whl || true
 fi

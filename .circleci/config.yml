@@ -3,11 +3,13 @@ jobs:
   python2:
       docker:
         - image: circleci/python:2.7
+      environment:
+        - DEPLOY_PYPI: "false"
       steps:
         - checkout
         - run: bash ./ci_scripts/circleci/install.sh
         - store_artifacts:
-            path: doc/_build/html
+            path: doc/_build/
             destination: doc
         - store_artifacts:
             path: ~/log.txt
@@ -16,17 +18,19 @@ jobs:
   python3:
     docker:
       - image: circleci/python:3.5
+    environment:
+      - DEPLOY_PYPI: "true"
     steps:
       - checkout
       - run: bash ./ci_scripts/circleci/install.sh
       - store_artifacts:
-          path: doc/_build/html
+          path: doc/_build/
           destination: doc
       - store_artifacts:
           path: ~/log.txt
           destination: log.txt
       - persist_to_workspace:
-          root: doc/_build/html
+          root: doc/_build/
           paths: .
 
   deploy:
@@ -46,13 +50,13 @@ jobs:
       # The email is to be used for commits in the Github Page
       - EMAIL: "y.siglidis@gmail.com"
 
-      # Deploy on PyPi
+      # Deploy docs on pypi
       - DEPLOY_PYPI: "true"
 
     steps:
       - checkout
       - attach_workspace:
-          at: doc/_build/html
+          at: doc/_build/
       - run: bash ./ci_scripts/circleci/push_doc.sh
       - run: bash ./ci_scripts/circleci/pypi_deploy.sh
 

@@ -1,3 +1,4 @@
+#!/bin/bash
 set -e
 
 # Get into a temp directory to run test from the installed scikit learn and
@@ -13,3 +14,5 @@ if [[ "$COVERAGE" == "true" ]]; then
 else
     nosetests $MODULE
 fi
+
+cd $TRAVIS_BUILD_DIR

@@ -1,17 +1,21 @@
+#!/bin/bash
 # Configure the conda environment and put it in the path using the
 # provided versions
-pip install nose "numpy==$NUMPY_VERSION" "scipy==$SCIPY_VERSION" "cython==$CYTHON_VERSION" future six 'cvxopt>=1.2.0' flake8 --upgrade
+{pip} install --upgrade setuptools flake8
+{pip} install -r requirements.txt
+{pip} install "cvxopt==1.2.0"
 
+# Install coverage if needed
 if [[ "$COVERAGE" == "true" ]]; then
-    pip install coverage coveralls
+    {pip} install coverage coveralls
 fi
 
-# If setuptools are not installed -- upgraded, travis crashes
-pip install --upgrade setuptools
+# Print versions
+{python} --version
+{python} -c "import numpy; print('numpy %s' % numpy.__version__)"
+{python} -c "import scipy; print('scipy %s' % scipy.__version__)"
+{python} -c "import cython; print('cython %s' % cython.__version__)"
+{python} -c "import cvxopt; print('cvxopt %s' % cvxopt.__version__)"
 
-python --version
-python -c "import numpy; print('numpy %s' % numpy.__version__)"
-python -c "import scipy; print('scipy %s' % scipy.__version__)"
-python -c "import cython; print('cython %s' % cython.__version__)"
-python -c "import cvxopt; print('cvxopt %s' % cvxopt.__version__)"
-python setup.py develop
+# Check PEP-8 compatibility for grakel
+flake8 grakel
