@@ -11,7 +11,7 @@ sudo apt-get install libatlas-dev libatlas3gf-base
 sudo apt-get install build-essential python-dev python-setuptools
 
 # Setup a python venv and install basics
-python3 -m venv venv
+python -m venv venv
 . venv/bin/activate
 pip install --upgrade numpy
 pip install --upgrade scipy matplotlib setuptools nose coverage sphinx pillow sphinx-gallery sphinx_rtd_theme sphinxcontrib-bibtex nb2plots
@@ -24,7 +24,7 @@ sudo -E apt-get -yq --no-install-suggests --no-install-recommends --force-yes in
 pip install --upgrade tqdm
 pip install --upgrade cython numpydoc
 pip install --upgrade scikit-learn
-pip install --upgrade cvxopt
+pip install --upgrade "cvxopt>=1.2.0"
 
 # Install project
 python setup.py clean

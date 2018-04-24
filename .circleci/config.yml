@@ -50,10 +50,11 @@ jobs:
       - DEPLOY_PYPI: "true"
 
     steps:
+      - checkout
       - attach_workspace:
           at: doc/_build/html
-      - deploy:
-          command: bash ./ci_scripts/circleci/push_doc.sh
+      - run: bash ./ci_scripts/circleci/push_doc.sh
+      - run: bash ./ci_scripts/circleci/pypi_deploy.sh
 
 workflows:
   version: 2

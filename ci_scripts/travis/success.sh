@@ -13,7 +13,6 @@ if [[ "$COVERAGE" == "true" ]] && [[ "$TRAVIS_OS_NAME" == "linux" ]] && [[ "$TRA
 fi
 
 if [[ "$DEPLOY_WHEEL" == "true" ]]; then
-    source activate grakel-env
     pip show cython
     pip install twine --upgrade
 fi
