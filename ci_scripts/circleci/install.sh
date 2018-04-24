@@ -25,28 +25,8 @@ sudo -E apt-get -yq --no-install-suggests --no-install-recommends --force-yes in
 python setup.py clean
 python setup.py develop
 
+
 # Build Docs
 set -o pipefail && cd doc && make html 2>&1 | tee ~/log.txt && cd ..
 cat ~/log.txt && if grep -q "Traceback (most recent call last):" ~/log.txt; then false; else true; fi
 
-# Build for deploy
-if [[ $DEPLOY_PYPI == "true" ]]; then
-    # Initialise .pypirc
-    echo "[distutils]" > ~/.pypirc
-    echo "index-servers = pypi" >> ~/.pypirc
-    echo "[pypi]" >> ~/.pypirc
-    echo "username=$USERNAME" >> ~/.pypirc
-    echo "password=$PYPI_PASSWORD" >> ~/.pypirc
-
-    # Initialise setup.cfg
-    echo "[build_sphinx]" >> .setup.cfg
-    echo "source-dir = doc" >> .setup.cfg
-    echo "build-dir  = doc/_build" >> .setup.cfg
-    echo "all_files  = 1" >> .setup.cfg
-    echo "[upload_sphinx]" >> .setup.cfg
-    echo "upload-dir = doc/_build/html" >> .setup.cfg
-
-    # Build sphinx docs
-    pip install sphinx-pypi-upload
-    python setup.py build_sphinx
-fi

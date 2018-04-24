@@ -7,6 +7,16 @@
 # Deploy on PyPi
 if [[ $DEPLOY_PYPI == "true" ]]; then
     # Build & Upload sphinx-docs
-    . venv/bin/activate
-    python setup.py upload_sphinx || true
+    # Initialise .pypirc
+    echo "[distutils]" > ~/.pypirc
+    echo "index-servers = pypi" >> ~/.pypirc
+    echo "[pypi]" >> ~/.pypirc
+    echo "username=$USERNAME" >> ~/.pypirc
+    echo "password=$PYPI_PASSWORD" >> ~/.pypirc
+    
+    # Upload sphinx docs
+    cd $HOME/$DOC_REPO
+    . ~/venv/bin/activate
+    pip install sphinx-pypi-upload
+    python setup.py upload_sphinx --upload-dir=doc/_build/html || true
 fi

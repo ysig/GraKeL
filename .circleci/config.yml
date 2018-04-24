@@ -4,15 +4,10 @@ jobs:
   python2:
     docker:
       - image: circleci/python:2.7
-    environment:
-      - DEPLOY_PYPI: false
     steps:
       - checkout
       - run: pip install virtualenv && virtualenv ~/venv
       - run: bash ./ci_scripts/circleci/install.sh
-      - store_artifacts:
-          path: ~/venv
-          destination: ~/venv
       - store_artifacts:
           path: doc/_build/
           destination: doc
@@ -23,8 +18,6 @@ jobs:
   python3:
     docker:
       - image: circleci/python:3.5
-    environment:
-      - DEPLOY_PYPI: true
     steps:
       - checkout
       - run: python -m venv ~/venv
@@ -35,9 +28,6 @@ jobs:
       - store_artifacts:
           path: ~/log.txt
           destination: log.txt
-      - store_artifacts:
-          path: ~/venv
-          destination: ~/venv
       - persist_to_workspace:
           root: doc/_build/
           paths: .
