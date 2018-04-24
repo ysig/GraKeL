@@ -82,7 +82,8 @@ if [[ $DEPLOY_PYPI == "true" ]]; then
     echo "upload-dir = doc/_build/html" >> .setup.cfg
 
     # Build & Upload sphinx-docs
-    sudo pip install sphinx-pypi-upload
-    sudo python setup.py build_sphinx
-    sudo python setup.py upload_sphinx || true
+    . venv/bin/activate
+    pip install sphinx-pypi-upload
+    python setup.py build_sphinx
+    python setup.py upload_sphinx || true
 fi

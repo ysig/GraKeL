@@ -13,6 +13,8 @@ if [[ "$COVERAGE" == "true" ]] && [[ "$TRAVIS_OS_NAME" == "linux" ]] && [[ "$TRA
 fi
 
 if [[ "$DEPLOY_WHEEL" == "true" ]]; then
+    source activate grakel-env
+    pip show cython
     pip install twine --upgrade
 fi
 
@@ -25,8 +27,6 @@ fi
 
 if [[ "$DEPLOY_WHEEL" == "true" ]]; then
     cd $TRAVIS_BUILD_DIR
-    source activate testenv
-    pip show cython
     pip install cibuildwheel==0.7.1
     cibuildwheel --output-dir wheelhouse
     twine upload wheelhouse/*.whl || true
