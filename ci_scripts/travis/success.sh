@@ -1,4 +1,3 @@
-#!/bin/bash
 set -e
     
 if [[ "$COVERAGE" == "true" ]] && [[ "$TRAVIS_OS_NAME" == "linux" ]]; then

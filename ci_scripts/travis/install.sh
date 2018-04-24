@@ -1,4 +1,3 @@
-#!/bin/bash
 # Configure the conda environment and put it in the path using the
 # provided versions
 {pip} install --upgrade setuptools

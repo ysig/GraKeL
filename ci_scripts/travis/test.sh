@@ -1,4 +1,3 @@
-#!/bin/bash
 set -e
 
 # Get into a temp directory to run test from the installed scikit learn and

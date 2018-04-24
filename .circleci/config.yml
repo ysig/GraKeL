@@ -6,7 +6,7 @@ jobs:
       - image: circleci/python:2.7
     steps:
       - checkout
-      - run: pip install virtualenv && virtualenv ~/venv
+      - run: pip install virtualenv && virtualenv ./venv
       - run: bash ./ci_scripts/circleci/install.sh
       - store_artifacts:
           path: doc/_build/
@@ -20,7 +20,7 @@ jobs:
       - image: circleci/python:3.5
     steps:
       - checkout
-      - run: python -m venv ~/venv
+      - run: python -m venv ./venv
       - run: bash ./ci_scripts/circleci/install.sh
       - store_artifacts:
           path: doc/_build/
@@ -29,7 +29,7 @@ jobs:
           path: ~/log.txt
           destination: log.txt
       - persist_to_workspace:
-          root: doc/_build/
+          root: .
           paths: .
 
   deploy:
@@ -54,9 +54,9 @@ jobs:
     steps:
       - checkout
       - attach_workspace:
-          at: doc/_build/
-      - run: bash ./ci_scripts/circleci/push_doc.sh
+          at: project
       - run: bash ./ci_scripts/circleci/pypi_deploy.sh
+      - run: bash ./ci_scripts/circleci/push_doc.sh
 
 workflows:
   version: 2
