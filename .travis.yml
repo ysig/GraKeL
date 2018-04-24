@@ -35,6 +35,7 @@ matrix:
 script:
   - $PIP install flake8 --ugrade && flake8 $TRAVIS_BUILD_DIR/grakel
   - $PIP install cibuildwheel==0.7.1
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install realpath; fi
   - CIBW_BEFORE_BUILD="bash $(realpath ci_scripts/travis/install.sh)"
   - CIBW_TEST_COMMAND="bash $(realpath ci_scripts/travis/test.sh)"
   - cibuildwheel --output-dir $WHEEL_FOLDER

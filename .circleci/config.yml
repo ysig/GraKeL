@@ -1,37 +1,33 @@
 version: 2
+
 jobs:
   python2:
-      docker:
-        - image: circleci/python:2.7
-      environment:
-        - DEPLOY_PYPI: "false"
-      steps:
-        - checkout
-        - run: |
-          pip install virtualenv
-          virtualenv ~/venv
-          . ~/venv/bin/activate
-        - run: bash ./ci_scripts/circleci/install_2.sh
-        - store_artifacts:
-            path: ~/venv
-            destination: ~/venv
-        - store_artifacts:
-            path: doc/_build/
-            destination: doc
-        - store_artifacts:
-            path: ~/log.txt
-            destination: log.txt
+    docker:
+      - image: circleci/python:2.7
+    environment:
+      - DEPLOY_PYPI: false
+    steps:
+      - checkout
+      - run: pip install virtualenv && virtualenv ~/venv
+      - run: bash ./ci_scripts/circleci/install.sh
+      - store_artifacts:
+          path: ~/venv
+          destination: ~/venv
+      - store_artifacts:
+          path: doc/_build/
+          destination: doc
+      - store_artifacts:
+          path: ~/log.txt
+          destination: log.txt
 
   python3:
     docker:
       - image: circleci/python:3.5
     environment:
-      - DEPLOY_PYPI: "true"
+      - DEPLOY_PYPI: true
     steps:
       - checkout
-      - run: |
-        python -m venv ~/venv
-        . ~/venv/bin/activate
+      - run: python -m venv ~/venv
       - run: bash ./ci_scripts/circleci/install.sh
       - store_artifacts:
           path: doc/_build/
@@ -41,7 +37,7 @@ jobs:
           destination: log.txt
       - store_artifacts:
           path: ~/venv
-          destination: ~/venv          
+          destination: ~/venv
       - persist_to_workspace:
           root: doc/_build/
           paths: .
@@ -52,20 +48,19 @@ jobs:
     environment:
       # The github organization or username of the repository which hosts the
       # project and documentation.
-      - USERNAME: "ysig"
+      - USERNAME: ysig
 
       # The repository where the documentation will be hosted
-      - DOC_REPO: "GraKeL"
+      - DOC_REPO: GraKeL
 
       # The base URL for the Github page where the documentation will be hosted
-      - DOC_URL: "dev"
+      - DOC_URL: dev
 
       # The email is to be used for commits in the Github Page
-      - EMAIL: "y.siglidis@gmail.com"
+      - EMAIL: y.siglidis@gmail.com
 
       # Deploy docs on pypi
-      - DEPLOY_PYPI: "true"
-
+      - DEPLOY_PYPI: true
     steps:
       - checkout
       - attach_workspace:
@@ -86,3 +81,4 @@ workflows:
           filters:
             branches:
               only: develop
+
