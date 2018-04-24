@@ -35,6 +35,8 @@ matrix:
 script:
   - $PIP install flake8 --upgrade && flake8 $TRAVIS_BUILD_DIR/grakel
   - $PIP install cibuildwheel==0.7.1
+  - export CIBW_SKIP="cp34-*"
+  - export CIBW_ENVIRONMENT="TEST_DIR=$TEST_DIR MODULE=$MODULE COVERAGE=$COVERAGE"
   - IFS= export CIBW_BEFORE_BUILD="$(cat ci_scripts/travis/install.sh)"
   - IFS= export CIBW_TEST_COMMAND="$(cat ci_scripts/travis/test.sh)"
   - cibuildwheel --output-dir $WHEEL_FOLDER
