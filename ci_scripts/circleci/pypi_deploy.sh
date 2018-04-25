@@ -16,12 +16,12 @@ if [[ $DEPLOY_PYPI == "true" ]]; then
     echo "password=$PYPI_PASSWORD" >> ~/.pypirc
     
     # Upload sphinx docs
-    ls ~/project
-    ls ~/project/doc
     cd ~/project
     sudo apt-get install tree
-    tree -d ~/project || true
     source ~/project/venv/bin/activate
     pip install sphinx-pypi-upload
-    python setup.py upload_sphinx --upload-dir=~/project/doc/_build/html || true
+    ls ./doc/_build/html
+    cp -R ./doc/_build/html/* ./upload_dir/
+    tree -d ~/project || true
+    python setup.py upload_sphinx --upload-dir="./upload_dir" || true
 fi
