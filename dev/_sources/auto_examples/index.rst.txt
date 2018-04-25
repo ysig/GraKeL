@@ -72,7 +72,7 @@ Examples that demonstrate through a standard classification problem by the use o
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="An example plot of :class:`grakel.GraphKernel` ">
+    <div class="sphx-glr-thumbcontainer" tooltip="Example script with invalid Python syntax ">
 
 .. only:: html
 

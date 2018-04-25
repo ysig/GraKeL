@@ -23,8 +23,8 @@ An example plot of :class:`grakel.GraphKernel`, :class:`grakel.multiscale_laplac
     Parse was succesful..
     Deleting unzipped dataset files..
     Going back to the original directory..
-    Mean values of  10 folds:
-    MLG [Fast] > Accuracy: 15.31 % | Took: 8.03 s
+    ('Mean values of ', 10, 'folds:')
+    ('MLG [Fast] > Accuracy:', '15.31', '% | Took:', '6.34 s')
 
 
 
@@ -161,7 +161,7 @@ An example plot of :class:`grakel.GraphKernel`, :class:`grakel.multiscale_laplac
           str(round(np.mean(stats["acc"])*100, 2)),
           "% | Took:", sec_to_time(np.mean(stats["time"])))
 
-**Total running time of the script:** ( 1 minutes  22.478 seconds)
+**Total running time of the script:** ( 1 minutes  5.536 seconds)
 
 
 

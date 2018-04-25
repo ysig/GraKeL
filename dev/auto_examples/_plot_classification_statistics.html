@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Classification statistics on the MUTAG, ENZYMES datasets. &mdash; GraKeL 0.1a2 documentation</title>
+  <title>SyntaxError &mdash; GraKeL 0.1a2 documentation</title>
   
 
   
@@ -98,7 +98,7 @@
 <li class="toctree-l2"><a class="reference internal" href="plot_pipeline_odd_sth.html">Cross-Validation sk-learn Pipeline example on MUTAG using ODD-STh Kernel</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_wl_subtree_MUTAG.html">Classification on the MUTAG dataset using a WL-subtree kernel</a></li>
 <li class="toctree-l2"><a class="reference internal" href="_plot_lovasz_svm_theta.html">Classification on MUTAG using a lovasz, svm-theta kernels</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Classification statistics on the MUTAG, ENZYMES datasets.</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">SyntaxError</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_KFold_MLG.html">KFold classification of a dataset [Cuneiform] using the fast Multiscale Laplacian kernel.</a></li>
 </ul>
 </li>
@@ -149,7 +149,7 @@
         
           <li><a href="index.html">Classification Examples</a> &raquo;</li>
         
-      <li>Classification statistics on the MUTAG, ENZYMES datasets.</li>
+      <li>SyntaxError</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -168,20 +168,27 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="classification-statistics-on-the-mutag-enzymes-datasets">
-<span id="sphx-glr-auto-examples-plot-classification-statistics-py"></span><h1>Classification statistics on the MUTAG, ENZYMES datasets.<a class="headerlink" href="#classification-statistics-on-the-mutag-enzymes-datasets" title="Permalink to this headline">¶</a></h1>
-<p>An example plot of <a class="reference internal" href="../generated/grakel.GraphKernel.html#grakel.GraphKernel" title="grakel.GraphKernel"><code class="xref py py-class docutils literal notranslate"><span class="pre">grakel.GraphKernel</span></code></a></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="vm">__doc__</span><span class="p">)</span>
+  <div class="section" id="syntaxerror">
+<span id="sphx-glr-auto-examples-plot-classification-statistics-py"></span><h1>SyntaxError<a class="headerlink" href="#syntaxerror" title="Permalink to this headline">¶</a></h1>
+<p>Example script with invalid Python syntax</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">=========================================================</span>
+<span class="sd">Classification statistics on the MUTAG, ENZYMES datasets.</span>
+<span class="sd">=========================================================</span>
+
+<span class="sd">An example plot of :class:`grakel.GraphKernel`</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="k">print</span><span class="p">(</span><span class="vm">__doc__</span><span class="p">)</span>
 
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
 
-<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <a href="http://scikit-learn.org/stable/modules/generated/sklearn.metrics.accuracy_score.html#sklearn.metrics.accuracy_score" title="View documentation for sklearn.metrics.accuracy_score"><span class="n">accuracy_score</span></a>
-<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <a href="http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html#sklearn.model_selection.train_test_split" title="View documentation for sklearn.model_selection.train_test_split"><span class="n">train_test_split</span></a>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
 <span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">svm</span>
 
-<span class="kn">from</span> <span class="nn">grakel</span> <span class="kn">import</span> <a href="../datasets.html#module-grakel.datasets" title="View documentation for grakel.datasets"><span class="n">datasets</span></a>
-<span class="kn">from</span> <span class="nn">grakel</span> <span class="kn">import</span> <a href="../generated/grakel.GraphKernel.html#grakel.GraphKernel" title="View documentation for grakel.GraphKernel"><span class="n">GraphKernel</span></a>
+<span class="kn">from</span> <span class="nn">grakel</span> <span class="kn">import</span> <span class="n">datasets</span>
+<span class="kn">from</span> <span class="nn">grakel</span> <span class="kn">import</span> <span class="n">GraphKernel</span>
 
 
 <span class="k">def</span> <span class="nf">sec_to_time</span><span class="p">(</span><span class="n">sec</span><span class="p">):</span>
@@ -211,7 +218,7 @@
 <span class="c1"># https://ls11-www.cs.tu-dortmund.de/staff/morris/graphkerneldatasets</span>
 <span class="c1"># the biggest collection of benchmark datasets for graph_kernels.</span>
 
-<a href="../datasets.html#module-grakel.datasets" title="View documentation for grakel.datasets"><span class="n">datasets</span></a> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;MUTAG&quot;</span><span class="p">,</span> <span class="s2">&quot;MSRC_21C&quot;</span><span class="p">]</span>
+<span class="n">datasets</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;MUTAG&quot;</span><span class="p">,</span> <span class="s2">&quot;MSRC_21C&quot;</span><span class="p">]</span>
 
 <span class="n">kernels</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">&quot;Shortest Path&quot;</span><span class="p">:</span> <span class="p">[{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;shortest_path&quot;</span><span class="p">}],</span>
@@ -224,21 +231,21 @@
                                         <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;shortest_path&quot;</span><span class="p">}]</span>
 <span class="p">}</span>
 
-<span class="n">columns</span> <span class="o">=</span> <a href="../datasets.html#module-grakel.datasets" title="View documentation for grakel.datasets"><span class="n">datasets</span></a>
+<span class="n">columns</span> <span class="o">=</span> <span class="n">datasets</span>
 <span class="n">rows</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">kernels</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
 <span class="n">data_dataset</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
 <span class="k">for</span> <span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">columns</span><span class="p">):</span>
     <span class="k">print</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
     <span class="n">data_kernel</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-    <span class="n">dataset_d</span> <span class="o">=</span> <a href="../generated/grakel.datasets.fetch_dataset.html#grakel.datasets.fetch_dataset" title="View documentation for grakel.datasets.fetch_dataset"><span class="n">datasets</span><span class="o">.</span><span class="n">fetch_dataset</span></a><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">dataset_d</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">fetch_dataset</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
     <span class="n">G</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">dataset_d</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">dataset_d</span><span class="o">.</span><span class="n">target</span>
 
     <span class="c1"># Train-test split of graph data</span>
-    <span class="n">G_train</span><span class="p">,</span> <span class="n">G_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <a href="http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html#sklearn.model_selection.train_test_split" title="View documentation for sklearn.model_selection.train_test_split"><span class="n">train_test_split</span></a><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+    <span class="n">G_train</span><span class="p">,</span> <span class="n">G_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
 
     <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">rows</span><span class="p">):</span>
         <span class="k">print</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
-        <span class="n">gk</span> <span class="o">=</span> <a href="../generated/grakel.GraphKernel.html#grakel.GraphKernel" title="View documentation for grakel.GraphKernel"><span class="n">GraphKernel</span></a><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="n">kernels</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">normalize</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="n">gk</span> <span class="o">=</span> <span class="n">GraphKernel</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="n">kernels</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">normalize</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
         <span class="k">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
 
         <span class="c1"># Calculate the kernel matrix.</span>
@@ -249,7 +256,7 @@
         <span class="k">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
 
         <span class="c1"># Initialise an SVM and fit.</span>
-        <span class="n">clf</span> <span class="o">=</span> <a href="http://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html#sklearn.svm.SVC" title="View documentation for sklearn.svm.SVC"><span class="n">svm</span><span class="o">.</span><span class="n">SVC</span></a><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;precomputed&#39;</span><span class="p">)</span>
+        <span class="n">clf</span> <span class="o">=</span> <span class="n">svm</span><span class="o">.</span><span class="n">SVC</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;precomputed&#39;</span><span class="p">)</span>
         <span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">K_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
         <span class="k">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;. &quot;</span><span class="p">)</span>
 
@@ -259,7 +266,7 @@
         <span class="c1"># Calculate accuracy of classification.</span>
         <span class="n">data_kernel</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
             <span class="n">sec_to_time</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="o">+</span>
-            <span class="s2">&quot; ~ &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><a href="http://scikit-learn.org/stable/modules/generated/sklearn.metrics.accuracy_score.html#sklearn.metrics.accuracy_score" title="View documentation for sklearn.metrics.accuracy_score"><span class="n">accuracy_score</span></a><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot;%&quot;</span><span class="p">)</span>
+            <span class="s2">&quot; ~ &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot;%&quot;</span><span class="p">)</span>
         <span class="k">print</span><span class="p">(</span><span class="n">data_kernel</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
     <span class="n">data_dataset</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data_kernel</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
@@ -267,13 +274,13 @@
 
 <span class="c1"># Print results on a table using pyplot</span>
 <span class="n">bbox</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.45</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">]</span>
-<span class="n">table</span> <span class="o">=</span> <a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.table.html#matplotlib.pyplot.table" title="View documentation for matplotlib.pyplot.table"><span class="n">plt</span><span class="o">.</span><span class="n">table</span></a><span class="p">(</span><span class="n">cellText</span><span class="o">=</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">q</span><span class="p">)</span> <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">data_dataset</span><span class="p">)],</span>
+<span class="n">table</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="n">cellText</span><span class="o">=</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">q</span><span class="p">)</span> <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">data_dataset</span><span class="p">)],</span>
                   <span class="n">rowLabels</span><span class="o">=</span><span class="n">rows</span><span class="p">,</span> <span class="n">colLabels</span><span class="o">=</span><span class="n">columns</span><span class="p">,</span> <span class="n">cellLoc</span> <span class="o">=</span> <span class="s1">&#39;center&#39;</span><span class="p">,</span>
                   <span class="n">rowLoc</span> <span class="o">=</span> <span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">bbox</span><span class="o">=</span><span class="n">bbox</span><span class="p">)</span>
 
-<span class="n">_</span> <span class="o">=</span> <a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.axis.html#matplotlib.pyplot.axis" title="View documentation for matplotlib.pyplot.axis"><span class="n">plt</span><span class="o">.</span><span class="n">axis</span></a><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
 
-<a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.show.html#matplotlib.pyplot.show" title="View documentation for matplotlib.pyplot.show"><span class="n">plt</span><span class="o">.</span><span class="n">show</span></a><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 <p><strong>Total running time of the script:</strong> ( 0 minutes  0.000 seconds)</p>

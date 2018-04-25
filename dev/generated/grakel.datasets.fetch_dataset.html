@@ -99,8 +99,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-kernels-a-collection-of-graph-kernels"><code class="docutils literal notranslate"><span class="pre">grakel.kernels</span></code>: A collection of graph kernels</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../classes.html#grakel-datasets-datasets"><code class="docutils literal notranslate"><span class="pre">grakel.datasets</span></code>: Datasets</a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="../classes.html#fetch">Fetch</a><ul class="current">
-<li class="toctree-l4 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">grakel.datasets</span></code>.fetch_dataset</a></li>
-<li class="toctree-l4"><a class="reference internal" href="grakel.datasets.get_dataset_info.html"><code class="docutils literal notranslate"><span class="pre">grakel.datasets</span></code>.get_dataset_info</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">grakel.datasets.fetch_dataset</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.datasets.get_dataset_info.html">grakel.datasets.get_dataset_info</a></li>
 </ul>
 </li>
 </ul>
@@ -157,7 +157,7 @@
         
           <li><a href="../datasets.html">Dataset loading utilities</a> &raquo;</li>
         
-      <li><code class="docutils literal notranslate"><span class="pre">grakel.datasets</span></code>.fetch_dataset</li>
+      <li>grakel.datasets.fetch_dataset</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -177,10 +177,10 @@
            <div itemprop="articleBody">
             
   <div class="section" id="grakel-datasets-fetch-dataset">
-<h1><a class="reference internal" href="../datasets.html#module-grakel.datasets" title="grakel.datasets"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel.datasets</span></code></a>.fetch_dataset<a class="headerlink" href="#grakel-datasets-fetch-dataset" title="Permalink to this headline">¶</a></h1>
+<h1>grakel.datasets.fetch_dataset<a class="headerlink" href="#grakel-datasets-fetch-dataset" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="grakel.datasets.fetch_dataset">
-<code class="descclassname">grakel.datasets.</code><code class="descname">fetch_dataset</code><span class="sig-paren">(</span><em>name</em>, <em>verbose=True</em>, <em>data_home=None</em>, <em>download_if_missing=True</em>, <em>with_classes=True</em>, <em>produce_labels_nodes=False</em>, <em>prefer_attr_nodes=False</em>, <em>prefer_attr_edges=False</em>, <em>as_graphs=False</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/1ed430b/grakel/datasets/base.py#L387"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/datasets/base.html#fetch_dataset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.datasets.fetch_dataset" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">grakel.datasets.</code><code class="descname">fetch_dataset</code><span class="sig-paren">(</span><em>name</em>, <em>verbose=True</em>, <em>data_home=None</em>, <em>download_if_missing=True</em>, <em>with_classes=True</em>, <em>produce_labels_nodes=False</em>, <em>prefer_attr_nodes=False</em>, <em>prefer_attr_edges=False</em>, <em>as_graphs=False</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/43a7ac9/grakel/datasets/base.py#L387"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/datasets/base.html#fetch_dataset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.datasets.fetch_dataset" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load a dataset from <a class="reference external" href="https://ls11-www.cs.tu-dortmund.de/staff/morris/graphkerneldatasets">gd</a>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -239,29 +239,6 @@ order of input.</p>
 </table>
 </dd></dl>
 
-<div class="section" id="examples-using-grakel-datasets-fetch-dataset">
-<h2>Examples using <code class="docutils literal notranslate"><span class="pre">grakel.datasets.fetch_dataset</span></code><a class="headerlink" href="#examples-using-grakel-datasets-fetch-dataset" title="Permalink to this headline">¶</a></h2>
-<div class="sphx-glr-thumbcontainer" tooltip="An example plot of :class:`grakel.GraphKernel`, :class:`grakel.odd_sth` "><div class="figure" id="id1">
-<img alt="../_images/sphx_glr_plot_pipeline_odd_sth_thumb.png" src="../_images/sphx_glr_plot_pipeline_odd_sth_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/plot_pipeline_odd_sth.html#sphx-glr-auto-examples-plot-pipeline-odd-sth-py"><span class="std std-ref">Cross-Validation sk-learn Pipeline example on MUTAG using ODD-STh Kernel</span></a></span></p>
-</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="An example plot of :class:`grakel.GraphKernel`, :class:`grakel.weisfeiler_lehman`, :class:`grak..."><div class="figure" id="id2">
-<img alt="../_images/sphx_glr_plot_wl_subtree_MUTAG_thumb.png" src="../_images/sphx_glr_plot_wl_subtree_MUTAG_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/plot_wl_subtree_MUTAG.html#sphx-glr-auto-examples-plot-wl-subtree-mutag-py"><span class="std std-ref">Classification on the MUTAG dataset using a WL-subtree kernel</span></a></span></p>
-</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="An example plot of :class:`grakel.GraphKernel`, :c;ass:`grakel.lovasz_theta`, :class:`grakel.sv..."><div class="figure" id="id3">
-<img alt="../_images/sphx_glr__plot_lovasz_svm_theta_thumb.png" src="../_images/sphx_glr__plot_lovasz_svm_theta_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/_plot_lovasz_svm_theta.html#sphx-glr-auto-examples-plot-lovasz-svm-theta-py"><span class="std std-ref">Classification on MUTAG using a lovasz, svm-theta kernels</span></a></span></p>
-</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="An example plot of :class:`grakel.GraphKernel` "><div class="figure" id="id4">
-<img alt="../_images/sphx_glr__plot_classification_statistics_thumb.png" src="../_images/sphx_glr__plot_classification_statistics_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/_plot_classification_statistics.html#sphx-glr-auto-examples-plot-classification-statistics-py"><span class="std std-ref">Classification statistics on the MUTAG, ENZYMES datasets.</span></a></span></p>
-</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="An example plot of :class:`grakel.GraphKernel`, :class:`grakel.multiscale_laplacian_fast` "><div class="figure" id="id5">
-<img alt="../_images/sphx_glr_plot_KFold_MLG_thumb.png" src="../_images/sphx_glr_plot_KFold_MLG_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/plot_KFold_MLG.html#sphx-glr-auto-examples-plot-kfold-mlg-py"><span class="std std-ref">KFold classification of a dataset [Cuneiform] using the fast Multiscale Laplacian kernel.</span></a></span></p>
-</div>
-</div><div class="clearer"></div></div>
 </div>
 
 
