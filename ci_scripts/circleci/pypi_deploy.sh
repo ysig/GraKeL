@@ -4,7 +4,7 @@
 # The behavior of the script is controlled by environment variable defined
 # in the circle.yml in the top level folder of the project.
 
-# Deploy on PyPi
+# Deploy on PyPi: Only works with python2
 if [[ $DEPLOY_PYPI == "true" ]]; then
     # Build & Upload sphinx-docs
     # Initialise .pypirc

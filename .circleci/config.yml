@@ -14,6 +14,9 @@ jobs:
       - store_artifacts:
           path: ~/log.txt
           destination: log.txt
+      - persist_to_workspace:
+          root: .
+          paths: .
 
   python3:
     docker:
@@ -28,13 +31,10 @@ jobs:
       - store_artifacts:
           path: ~/log.txt
           destination: log.txt
-      - persist_to_workspace:
-          root: .
-          paths: .
 
   deploy:
     docker:
-      - image: circleci/python:3.5
+      - image: circleci/python:2.7
     environment:
       # The github organization or username of the repository which hosts the
       # project and documentation.
@@ -62,12 +62,12 @@ workflows:
   version: 2
   build-doc-and-deploy:
     jobs:
-      - python3
       - python2
+      - python3
       - deploy:
           requires:
-            - python2
             - python3
+            - python2
           filters:
             branches:
               only: develop
