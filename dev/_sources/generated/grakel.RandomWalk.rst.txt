@@ -1,0 +1,22 @@
+:mod:`grakel`.RandomWalk
+===============================
+
+.. currentmodule:: grakel
+
+.. autoclass:: RandomWalk
+
+   
+   .. automethod:: __init__
+   
+
+
+Bibliography
+------------
+.. bibliography:: ../kernels/graph_kernels.bib
+   :filter: docname in docnames
+
+.. include:: grakel.RandomWalk.examples
+
+.. raw:: html
+
+    <div class="clearer"></div>
