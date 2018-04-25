@@ -24,5 +24,7 @@ if [[ $DEPLOY_PYPI == "true" ]]; then
     mkdir upload_dir && cp -r ./doc/_build/html ./upload_dir
     tree -d ~/project/ || true
     ls ./upload_dir/html
-    python setup.py upload_sphinx --upload-dir="./upload_dir/html" || true
+    sudo apt-get install realpath
+    ls $(realpath ./upload_dir/html)
+    python setup.py upload_sphinx --upload-dir=$(realpath ./upload_dir/html) || true
 fi
