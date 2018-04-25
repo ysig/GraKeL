@@ -6,7 +6,7 @@
 
 # Install coverage if needed
 if [[ "$COVERAGE" == "true" ]]; then
-    {pip} install coverage coveralls
+    {pip} install coverage
 fi
 
 # Print versions
