@@ -61,6 +61,9 @@ matrix:
         - PYTHON=python2
         - DEPLOY_WHEEL="true"
         - CIBW_SKIP="cp33-* cp34-* cp35-* cp36-* cp27-manylinux1_i686"
+        - CIBW_ENVIRONMENT="TEST_DIR=$TEST_DIR MODULE=$MODULE COVERAGE=$COVERAGE"
+        - CIBW_BEFORE_BUILD="echo "BANANAS"; bash ci_scripts/travis/install.sh"
+        - CIBW_TEST_COMMAND="bash ci_scripts/travis/test.sh"
     - os: osx
       language: generic
       env:
@@ -68,6 +71,9 @@ matrix:
         - PYTHON=python2
         - DEPLOY_WHEEL="true"
         - CIBW_SKIP="cp33-* cp34-* cp35-* cp36-* cp27-manylinux1_x86_64"
+        - CIBW_ENVIRONMENT="TEST_DIR=$TEST_DIR MODULE=$MODULE COVERAGE=$COVERAGE"
+        - CIBW_BEFORE_BUILD="bash ci_scripts/travis/install.sh"
+        - CIBW_TEST_COMMAND="bash ci_scripts/travis/test.sh"
     - os: osx
       language: generic
       env:
@@ -75,6 +81,9 @@ matrix:
         - PYTHON=python2
         - DEPLOY_WHEEL="true"
         - CIBW_SKIP="cp33-* cp34-* cp36-* cp27-*"
+        - CIBW_ENVIRONMENT="TEST_DIR=$TEST_DIR MODULE=$MODULE COVERAGE=$COVERAGE"
+        - CIBW_BEFORE_BUILD="bash ci_scripts/travis/install.sh"
+        - CIBW_TEST_COMMAND="bash ci_scripts/travis/test.sh"
     - os: osx
       language: generic
       env:
@@ -82,6 +91,9 @@ matrix:
         - PYTHON=python2
         - DEPLOY_WHEEL="true"
         - CIBW_SKIP="cp33-* cp34-* cp27-* cp35-*"
+        - CIBW_ENVIRONMENT="TEST_DIR=$TEST_DIR MODULE=$MODULE COVERAGE=$COVERAGE"
+        - CIBW_BEFORE_BUILD="bash ci_scripts/travis/install.sh"
+        - CIBW_TEST_COMMAND="bash ci_scripts/travis/test.sh"
 script:
   - $PIP install flake8 --upgrade && flake8 $TRAVIS_BUILD_DIR/grakel
   - $PIP install cibuildwheel==0.7.1
@@ -91,12 +103,6 @@ script:
         export CIBW_ENVIRONMENT="TEST_DIR=$TEST_DIR MODULE=$MODULE COVERAGE=$COVERAGE";
         export CIBW_BEFORE_BUILD="$(cat ci_scripts/travis/install.sh)";
         export CIBW_TEST_COMMAND="$(cat ci_scripts/travis/test.sh)";
-    else
-        IFS= ;
-        launchctl setenv CIBW_ENVIRONMENT "TEST_DIR=$TEST_DIR MODULE=$MODULE COVERAGE=$COVERAGE";
-        launchctl setenv CIBW_BEFORE_BUILD "$(cat ci_scripts/travis/install.sh)";
-        launchctl setenv CIBW_TEST_COMMAND "$(cat ci_scripts/travis/test.sh)";
-        launchctl getenv CIBW_BEFORE_BUILD
     fi
   - cibuildwheel --output-dir $WHEEL_FOLDER
 
