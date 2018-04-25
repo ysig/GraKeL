@@ -61,6 +61,7 @@ bliss = Extension(name="grakel.kernels._isomorphism.bliss",
 setup(name='grakel-dev',
       version='0.1a2',
       description='A scikit-learn compatible library for graph kernels',
+      long_description='A scikit-learn compatible library for graph kernels',
       project_urls={
         'Documentation': 'https://ysig.github.io/GraKeL/dev/',
         'Send us Feedback!': 'http://www.lix.polytechnique.fr/dascim/contact/',

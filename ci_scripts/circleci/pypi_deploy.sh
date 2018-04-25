@@ -26,5 +26,5 @@ if [[ $DEPLOY_PYPI == "true" ]]; then
     ls ./upload_dir/html
     sudo apt-get install realpath
     ls $(realpath ./upload_dir/html)
-    python setup.py upload_sphinx --upload-dir=$(realpath ./upload_dir/html) || true
+    python setup.py upload_sphinx --upload-dir=$(realpath ./upload_dir/html) --show-response || true
 fi
