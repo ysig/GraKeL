@@ -21,7 +21,8 @@ if [[ $DEPLOY_PYPI == "true" ]]; then
     source ~/project/venv/bin/activate
     pip install sphinx-pypi-upload
     ls ./doc/_build/html
-    mkdir upload_dir && cp -r ./upload_dir/ ./doc/_build/html/*
-    tree -d ~/project || true
-    python setup.py upload_sphinx --upload-dir="./upload_dir" || true
+    mkdir upload_dir && cp -r ./doc/_build/html ./upload_dir
+    tree -d ~/project/ || true
+    ls ./upload_dir/html
+    python setup.py upload_sphinx --upload-dir="./upload_dir/html" || true
 fi
