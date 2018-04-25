@@ -56,7 +56,7 @@ jobs:
       - attach_workspace:
           at: ~/project
       - run: bash ./ci_scripts/circleci/pypi_deploy.sh
-      - run: bash ./ci_scripts/circleci/push_doc.sh
+#      - run: bash ./ci_scripts/circleci/push_doc.sh
 
 workflows:
   version: 2

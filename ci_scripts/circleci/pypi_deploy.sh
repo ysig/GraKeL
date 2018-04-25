@@ -20,6 +20,7 @@ if [[ $DEPLOY_PYPI == "true" ]]; then
     sudo apt-get install tree
     source ~/project/venv/bin/activate
     pip install sphinx-pypi-upload
+    exit 1
     ls ./doc/_build/html
     cp -R ./doc/_build/html/* ./upload_dir/
     tree -d ~/project || true
