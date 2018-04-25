@@ -92,9 +92,11 @@ script:
         export CIBW_BEFORE_BUILD="$(cat ci_scripts/travis/install.sh)";
         export CIBW_TEST_COMMAND="$(cat ci_scripts/travis/test.sh)";
     else
-        export CIBW_ENVIRONMENT="TEST_DIR=$TEST_DIR MODULE=$MODULE COVERAGE=$COVERAGE";
-        export CIBW_BEFORE_BUILD="bash ci_scripts/travis/install.sh";
-        export CIBW_TEST_COMMAND="bash ci_scripts/travis/test.sh";
+        IFS= ;
+        launchctl setenv CIBW_ENVIRONMENT "TEST_DIR=$TEST_DIR MODULE=$MODULE COVERAGE=$COVERAGE";
+        launchctl setenv CIBW_BEFORE_BUILD "$(cat ci_scripts/travis/install.sh)";
+        launchctl setenv CIBW_TEST_COMMAND "$(cat ci_scripts/travis/test.sh)";
+        launchctl getenv CIBW_BEFORE_BUILD
     fi
   - cibuildwheel --output-dir $WHEEL_FOLDER
 
