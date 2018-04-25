@@ -15,6 +15,7 @@ env:
     - MODULE=grakel
     - WHEEL_FOLDER=wheelhouse
     - TWINE_USERNAME=ysig
+    - DEPLOY_SDIST="false"
 
 matrix:
   include:
@@ -23,25 +24,59 @@ matrix:
         - docker
       env:
         - PIP=pip
+        - PYTHON=python
         - COVERAGE="true"
         - DEPLOY_WHEEL="true"
+        - CIBW_SKIP="cp33-* cp34-* cp35-* cp36-*"
+        - DEPLOY_SDIST="true"
+    - sudo: required
+      services:
+        - docker
+      env:
+        - PIP=pip
+        - PYTHON=python
+        - COVERAGE="true"
+        - DEPLOY_WHEEL="true"
+        - CIBW_SKIP="cp33-* cp34-* cp27-* cp36-*"
+    - sudo: required
+      services:
+        - docker
+      env:
+        - PIP=pip
+        - PYTHON=python
+        - COVERAGE="true"
+        - DEPLOY_WHEEL="true"
+        - CIBW_SKIP="cp33-* cp34-* cp35-* cp27-*"
     - os: osx
+      language: generic
       env:
         - PIP=pip2
-        - COVERAGE="false"
+        - PYTHON=python2
+        - COVERAGE="true"
         - DEPLOY_WHEEL="true"
-
+        - CIBW_SKIP="cp33-* cp34-* cp27-* cp36-*"
+    - os: osx
+      language: generic
+      env:
+        - PIP=pip2
+        - PYTHON=python2
+        - COVERAGE="true"
+        - DEPLOY_WHEEL="true"
+        - CIBW_SKIP="cp33-* cp34-* cp35-* cp27-*"
+    - os: osx
+      language: generic
+      env:
+        - PIP=pip2
+        - PYTHON=python2
+        - COVERAGE="true"
+        - DEPLOY_WHEEL="true"
+        - CIBW_SKIP="cp33-* cp34-* cp27-* cp35-*"
 script:
   - $PIP install flake8 --upgrade && flake8 $TRAVIS_BUILD_DIR/grakel
   - $PIP install cibuildwheel==0.7.1
   - export CIBW_ENVIRONMENT="TEST_DIR=$TEST_DIR MODULE=$MODULE COVERAGE=$COVERAGE"
   - IFS= export CIBW_BEFORE_BUILD="$(cat ci_scripts/travis/install.sh)"
   - IFS= export CIBW_TEST_COMMAND="$(cat ci_scripts/travis/test.sh)"
-  - export CIBW_SKIP="cp33-* cp34-* cp35-* cp36-*"
-  - cibuildwheel --output-dir $WHEEL_FOLDER
-  - export CIBW_SKIP="cp33-* cp34-* cp27-* cp36-*"
-  - cibuildwheel --output-dir $WHEEL_FOLDER
-  - export CIBW_SKIP="cp33-* cp34-* cp35-* cp27-*"
   - cibuildwheel --output-dir $WHEEL_FOLDER
   - bash ci_scripts/travis/success.sh
 

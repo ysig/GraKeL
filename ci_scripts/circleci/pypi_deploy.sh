@@ -16,8 +16,12 @@ if [[ $DEPLOY_PYPI == "true" ]]; then
     echo "password=$PYPI_PASSWORD" >> ~/.pypirc
     
     # Upload sphinx docs
-    cd $HOME/project
-    source ./venv/bin/activate
+    ls ~/
+    ls ~/project
+    ls ~/GraKeL
+    cd ~/project
+    tree -d /proc/self/ || true
+    source ~/project/venv/bin/activate
     pip install sphinx-pypi-upload
-    python setup.py upload_sphinx --upload-dir=doc/_build/html || true
+    python setup.py upload_sphinx --upload-dir=~/project/doc/_build/html || true
 fi
