@@ -17,7 +17,7 @@ An example plot of :class:`grakel.GraphKernel`, :class:`grakel.weisfeiler_lehman
 
  Out::
 
-    ('Accuracy:', '84.21', '% | Took:', '0.26', 's')
+    ('Accuracy:', '84.21', '% | Took:', '0.14', 's')
 
 
 
@@ -70,7 +70,7 @@ An example plot of :class:`grakel.GraphKernel`, :class:`grakel.weisfeiler_lehman
     print("Accuracy:", str(round(acc*100, 2)), "% | Took:",
           str(round(end - start, 2)), "s")
 
-**Total running time of the script:** ( 0 minutes  0.310 seconds)
+**Total running time of the script:** ( 0 minutes  0.191 seconds)
 
 
 
