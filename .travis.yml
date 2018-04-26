@@ -96,7 +96,7 @@ matrix:
         - CIBW_TEST_COMMAND="bash ci_scripts/travis/test.sh"
 script:
   - $PIP install flake8 --upgrade && flake8 $TRAVIS_BUILD_DIR/grakel
-  - $PIP install cibuildwheel==0.7.1
+  - $PIP install cibuildwheel==0.7.2
   - |
     if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
         IFS= ;
