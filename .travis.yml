@@ -89,8 +89,8 @@ script:
   - |
     if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
         $PIP install numpy cython --upgrade;
-        export CIBW_BEFORE_BUILD="bash ci_scripts/travis/install.sh";
-        export CIBW_TEST_COMMAND="bash ci_scripts/travis/test.sh";
+        IFS= ; export CIBW_BEFORE_BUILD="$(cat ci_scripts/travis/install.sh)";
+        export CIBW_TEST_COMMAND="sh ci_scripts/travis/test.sh";
     else
         IFS= ; export CIBW_BEFORE_BUILD="$(cat ci_scripts/travis/install.sh)";
         IFS= ; export CIBW_TEST_COMMAND="$(cat ci_scripts/travis/test.sh)";
@@ -99,4 +99,3 @@ script:
 
 after_success:
   - bash ci_scripts/travis/success.sh
-
