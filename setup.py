@@ -25,23 +25,15 @@ if OS == 'Windows':
 elif OS in ['Linux', 'Darwin']:
     extra_compile_args = ["-O3"]
 
-class build_ext(_build_ext, object):
-    def finalize_options(self):
-        if self.distribution.ext_modules:
-            nthreads = getattr(self, 'parallel', None)  # -j option in Py3.5+
-            nthreads = int(nthreads) if nthreads else None
-            try:
-                from Cython.Build.Dependencies import cythonize
-            except ImportError:
-                raise ImportError('cythonize is required to achieve installation')        
-            self.distribution.ext_modules[:] = cythonize(
-                self.distribution.ext_modules, nthreads=nthreads, force=self.force)
-        super(build_ext, self).finalize_options()
-
 try:
     import numpy
 except ImportError:
     raise ImportError('numpy is required during installation')
+
+try:
+    from Cython.Build import build_ext
+except ImportError:
+    raise ImportError('build_ext from Cython.Build is required during installation')
 
 # Add the _c_functions extension on kernels
 ext_address = "./grakel/kernels/_c_functions/"
