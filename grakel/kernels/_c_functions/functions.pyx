@@ -1,20 +1,21 @@
 import numpy as np
 import cython
 
-cimport functions
+from numpy import floor, sqrt
+
 cimport numpy as np
 
 from libc.string cimport const_char
 from libc.stdlib cimport malloc, free
 
-from numpy import floor, sqrt
+from grakel.kernels._c_functions.header cimport ArashPartov, sm_core_init
 
 def APHash(word):
     """C++ wrapped implementation of Arash Partov Hashing."""
     bs = word.encode('UTF-8')
     cdef int length = len(word);
     cdef const_char* string = bs;
-    return functions.ArashPartov(string, length)
+    return ArashPartov(string, length)
 
 
 def sm_kernel(x, y, kv, ke, k):
@@ -115,7 +116,7 @@ def sm_kernel(x, y, kv, ke, k):
 
     try:
         # Run the core function
-        functions.sm_core_init(1, enum, nv, k, cv, ce, tv)
+        sm_core_init(1, enum, nv, k, cv, ce, tv)
 
         tv_np.reshape((k+1, 1))
         return tv_np
