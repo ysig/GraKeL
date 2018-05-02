@@ -26,6 +26,7 @@ from grakel.kernels.graph_hopper import GraphHopper
 from grakel.kernels.core_framework import CoreFramework
 
 __all__ = [
+    "default_executor",
     "Kernel",
     "GraphletSampling",
     "RandomWalk",

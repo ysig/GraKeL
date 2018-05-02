@@ -29,12 +29,6 @@ To install the *development-version* of the module execute:
 $ (sudo) pip install grakel-dev
 ```
 
-Contributing
-============
-For learning how to read to integrate your own kernel, please read section *Write your own kernel* inside
-the package [documentation][doc]. 
-For contributing to the GraKeL project, please read section *contributing* inside the package [documentation][doc].
-
 Usage
 =====
 To learn how to use the GraKeL api **as a user**, please read the [documentation][doc] on sections *Introduction* and *A longer introduction*
@@ -114,5 +108,11 @@ locally by executing:
 ```shell
 $ python setup.py build_ext -i
 ```
+
+Contributing
+============
+For learning how to read to integrate your own kernel, please read section *Write your own kernel* inside
+the package [documentation][doc]. 
+For contributing to the GraKeL project, please read section *contributing* inside the package [documentation][doc].
 
 [doc]: https://ysig.github.io/GraKeL/dev/

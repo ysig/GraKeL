@@ -5,6 +5,16 @@ from warnings import warn
 from platform import system
 from setuptools import setup, find_packages, Extension
 
+if 'setuptools' in sys.modules:
+    try:
+        from setuptools.command.build_ext import build_ext as _build_ext
+    except ImportError:
+        # We may be in the process of importing setuptools, which tries
+        # to import this.
+        from distutils.command.build_ext import build_ext as _build_ext
+else:
+    from distutils.command.build_ext import build_ext as _build_ext
+
 with open('requirements.txt') as f:
     INSTALL_REQUIRES = [l.strip() for l in f.readlines() if l]
 
@@ -15,10 +25,18 @@ if OS == 'Windows':
 elif OS in ['Linux', 'Darwin']:
     extra_compile_args = ["-O3"]
 
-try:
-    from Cython.Distutils import build_ext
-except ImportError:
-    raise ImportError('build_ext from Cython.Distutils is required during installation')
+class build_ext(_build_ext, object):
+    def finalize_options(self):
+        if self.distribution.ext_modules:
+            nthreads = getattr(self, 'parallel', None)  # -j option in Py3.5+
+            nthreads = int(nthreads) if nthreads else None
+            try:
+                from Cython.Build.Dependencies import cythonize
+            except ImportError:
+                raise ImportError('cythonize is required to achieve installation')        
+            self.distribution.ext_modules[:] = cythonize(
+                self.distribution.ext_modules, nthreads=nthreads, force=self.force)
+        super(build_ext, self).finalize_options()
 
 try:
     import numpy
@@ -88,7 +106,6 @@ setup(name='grakel-dev',
                  ],
       python_requires='>=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, <4',
       packages=find_packages(),
-      py_modules=["future", "six"],
       install_requires=INSTALL_REQUIRES,
       extras_require={
         'lovasz': ["cvxopt>=1.2.0"]

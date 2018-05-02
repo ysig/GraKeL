@@ -9,13 +9,18 @@ from sklearn.base import BaseEstimator
 from sklearn.base import TransformerMixin
 from sklearn.exceptions import NotFittedError
 from sklearn.utils.validation import check_is_fitted
+from sklearn.externals import joblib
 
 from grakel.graph import Graph
+from grakel.kernels._c_functions import k_to_ij_triangular
+from grakel.kernels._c_functions import k_to_ij_rectangular
 
 # Python 2/3 cross-compatibility import
 from six import iteritems
-
-default_executor = lambda fn, *eargs, **ekargs: fn(*eargs, **ekargs)
+try:
+    import itertools.imap as map
+except ImportError:
+    pass
 
 
 class Kernel(BaseEstimator, TransformerMixin):
@@ -27,9 +32,9 @@ class Kernel(BaseEstimator, TransformerMixin):
 
     Parameters
     ----------
-    executor : Executor, optional
-        Defines a general executor that can be applied for concurrent
-        computations.
+    n_jobs : int or None, optional
+        Defines the number of jobs of a joblib.Parallel objects needed for parallelization
+        or None for direct execution.
 
     normalize : bool, optional
         Normalize the output of the graph kernel.
@@ -49,9 +54,6 @@ class Kernel(BaseEstimator, TransformerMixin):
     _verbose : bool
         Defines if two print arguments on stdout.
 
-    _executor : Executor
-        A general executor that can be applied for concurrent computations.
-
     _normalize : bool
         Defines if normalization will be applied on the kernel matrix.
 
@@ -64,6 +66,10 @@ class Kernel(BaseEstimator, TransformerMixin):
             - 2 stands for fit_transform
             - 3 stands for transform
 
+    _parallel : sklearn.external.joblib.Parallel or None
+        A Parallel initialized object to imply parallelization to kernel execution.
+        The use of this object depends on the implementation of each base kernel.
+
     """
 
     X = None
@@ -71,14 +77,14 @@ class Kernel(BaseEstimator, TransformerMixin):
     _method_calling = 0
 
     def __init__(self,
-                 executor=default_executor,
+                 n_jobs=None,
                  normalize=False,
                  verbose=False):
         """`__init__` for `kernel` object."""
         self.verbose = verbose
-        self.executor = default_executor
+        self.n_jobs = n_jobs
         self.normalize = normalize
-        self.initialized_ = dict()
+        self.initialized_ = dict(n_jobs=False)
 
     def fit(self, X, y=None):
         """Fit a dataset, for a transformer.
@@ -217,19 +223,43 @@ class Kernel(BaseEstimator, TransformerMixin):
         """
         if Y is None:
             K = np.zeros(shape=(len(self.X), len(self.X)))
-            cache = list()
-            for (i, x) in enumerate(self.X):
-                K[i, i] = self.executor(self.pairwise_operation, x, x)
-                for (j, y) in enumerate(cache):
-                    K[j, i] = self.executor(self.pairwise_operation, y, x)
-                cache.append(x)
+            if self._parallel is None:
+                cache = list()
+                for (i, x) in enumerate(self.X):
+                    K[i, i] = self.pairwise_operation(x, x)
+                    for (j, y) in enumerate(cache):
+                        K[j, i] = self.pairwise_operation(y, x)
+                    cache.append(x)
+            else:
+                dim = len(self.X)
+                n_jobs, nsamples = self._n_jobs, ((dim+1)*(dim))//2
+
+                def kij(k):
+                    return k_to_ij_triangular(k, dim)
+
+                split = [iter(((i, j), (self.X[i], self.X[j])) for i, j in
+                         map(kij, range(*rg))) for rg in indexes(n_jobs, nsamples)]
+
+                self._parallel(joblib.delayed(assign)(s, K, self.pairwise_operation) for s in split)
             K = np.triu(K) + np.triu(K, 1).T
 
         else:
             K = np.zeros(shape=(len(Y), len(self.X)))
-            for (j, y) in enumerate(Y):
-                for (i, x) in enumerate(self.X):
-                    K[j, i] = self.executor(self.pairwise_operation, y, x)
+            if self._parallel is None:
+                for (j, y) in enumerate(Y):
+                    for (i, x) in enumerate(self.X):
+                        K[j, i] = self.pairwise_operation(y, x)
+            else:
+                dim_X, dim_Y = len(self.X), len(Y)
+                n_jobs, nsamples = self._n_jobs, (dim_X * dim_Y)
+
+                def kij(k):
+                    return k_to_ij_rectangular(k, dim_X)
+
+                split = [iter(((j, i), (Y[j], self.X[i])) for i, j in
+                         map(kij, range(*rg))) for rg in indexes(n_jobs, nsamples)]
+
+                self._parallel(joblib.delayed(assign)(s, K, self.pairwise_operation) for s in split)
         return K
 
     def diagonal(self):
@@ -258,14 +288,14 @@ class Kernel(BaseEstimator, TransformerMixin):
             # Calculate diagonal of X
             self._X_diag = np.empty(shape=(len(self.X),))
             for (i, x) in enumerate(self.X):
-                self._X_diag[i] = self.executor(self.pairwise_operation, x, x)
+                self._X_diag[i] = self.pairwise_operation(x, x)
 
         try:
             # If transform has happened return both diagonals
             check_is_fitted(self, ['_Y'])
             Y_diag = np.empty(shape=(len(self._Y),))
             for (i, y) in enumerate(self._Y):
-                Y_diag[i] = self.executor(self.pairwise_operation, y, y)
+                Y_diag[i] = self.pairwise_operation(y, y)
 
             return self._X_diag, Y_diag
         except NotFittedError:
@@ -322,7 +352,18 @@ class Kernel(BaseEstimator, TransformerMixin):
 
     def initialize_(self):
         """Initialize all transformer arguments, needing initialisation."""
-        pass
+        if not self.initialized_["n_jobs"]:
+            if type(self.n_jobs) is not int and self.n_jobs is not None:
+                raise ValueError('n_jobs parameter must be an int '
+                                 'indicating the number of jobs as in joblib or None')
+            elif self.n_jobs is None:
+                self._parallel = None
+            else:
+                self._parallel = joblib.Parallel(n_jobs=self.n_jobs,
+                                                 backend="threading",
+                                                 pre_dispatch='all')
+                self._n_jobs = self._parallel._effective_n_jobs()
+            self.initialized_["n_jobs"] = True
 
     def pairwise_operation(self, x, y):
         """Calculate a pairwise kernel between two elements.
@@ -357,3 +398,26 @@ class Kernel(BaseEstimator, TransformerMixin):
 
         # Set parameters
         super(Kernel, self).set_params(**params)
+
+
+def indexes(n_jobs, nsamples):
+    """Distribute samples accross n_jobs."""
+    n_jobs = n_jobs
+
+    if n_jobs >= nsamples:
+        for i in range(nsamples):
+            yield (i, i+1)
+    else:
+        ns = nsamples/n_jobs
+        start = 0
+        for i in range(n_jobs-1):
+            end = start + ns
+            yield (int(start), int(end))
+            start = end
+        yield (int(start), nsamples)
+
+
+def assign(data, K, pairwise_operation):
+    """Assign list values of an iterable to a numpy array while calculating a pairwise operation."""
+    for d in data:
+        K[d[0][0], d[0][1]] = pairwise_operation(d[1][0], d[1][1])

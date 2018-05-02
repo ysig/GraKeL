@@ -19,8 +19,6 @@ from six import iteritems
 from six.moves import filterfalse
 from builtins import range
 
-default_executor = lambda fn, *eargs, **ekargs: fn(*eargs, **ekargs)
-
 
 class NeighborhoodSubgraphPairwiseDistance(Kernel):
     """The Neighborhood subgraph pairwise distance kernel.
@@ -63,23 +61,28 @@ class NeighborhoodSubgraphPairwiseDistance(Kernel):
     _graph_format = "dictionary"
 
     def __init__(self,
-                 executor=default_executor,
+                 n_jobs=None,
                  normalize=False,
                  verbose=False,
                  r=3, d=4):
         """Initialize an NSPD kernel."""
         # setup valid parameters and initialise from parent
         super(NeighborhoodSubgraphPairwiseDistance, self).__init__(
-            executor=executor,
+            n_jobs=n_jobs,
             normalize=normalize,
             verbose=verbose)
 
         self.r = r
         self.d = d
-        self.initialized_ = {"r": False, "d": False}
+        self.initialized_.update({"r": False, "d": False})
 
     def initialize_(self):
         """Initialize all transformer arguments, needing initialization."""
+        if not self.initialized_["n_jobs"]:
+            if self.n_jobs is not None:
+                warnings.warn('no implemented parallelization for NeighborhoodSubgraphPairwiseDistance')
+            self.initialized_["n_jobs"] = True
+
         if not self.initialized_["r"]:
             if type(self.r) is not int or self.r < 0:
                 raise ValueError('r must be a positive integer')

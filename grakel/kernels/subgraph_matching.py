@@ -10,10 +10,11 @@ from grakel.kernels import Kernel
 from grakel.graph import Graph
 from grakel.kernels._c_functions import sm_kernel
 
-# Define default vertex, edge and lambda weight functions
-k_default = lambda a, b: 1 if a == b else 0
 
-default_executor = lambda fn, *eargs, **ekargs: fn(*eargs, **ekargs)
+# Define default vertex, edge and lambda weight functions
+def k_default(a, b):
+    """Calculate the dirac function for labels."""
+    return int(a == b)
 
 
 class SubgraphMatching(Kernel):
@@ -57,21 +58,22 @@ class SubgraphMatching(Kernel):
 
     _graph_format = "all"
 
-    def __init__(self, executor=default_executor, verbose=False,
+    def __init__(self, n_jobs=None, verbose=False,
                  normalize=False, k=5, kv=k_default,
                  ke=k_default, lw="uniform"):
         """Initialise a `subgraph_matching` kernel."""
         super(SubgraphMatching, self).__init__(
-            executor=executor, verbose=verbose, normalize=normalize)
+            n_jobs=n_jobs, verbose=verbose, normalize=normalize)
 
         self.k = k
         self.kv = kv
         self.ke = ke
         self.lw = lw
-        self.initialized_ = {"k": False, "kv": False, "ke": False, "lw": False}
+        self.initialized_.update({"k": False, "kv": False, "ke": False, "lw": False})
 
     def initialize_(self):
         """Initialize all transformer arguments, needing initialization."""
+        super(SubgraphMatching, self).initialize_()
         if not self.initialized_["k"]:
             if type(self.k) is not int and self.k < 1:
                 raise TypeError('k must be an integer greater-equal than 1')

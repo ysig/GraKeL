@@ -19,8 +19,6 @@ from six import iteritems
 from six import itervalues
 from builtins import range
 
-default_executor = lambda fn, *eargs, **ekargs: fn(*eargs, **ekargs)
-
 
 class GraphletSampling(Kernel):
     r"""The graphlet sampling kernel.
@@ -108,24 +106,29 @@ class GraphletSampling(Kernel):
     _graph_format = "adjacency"
 
     def __init__(self,
-                 executor=default_executor,
+                 n_jobs=None,
                  normalize=False, verbose=False,
                  random_seed=42,
                  k=5,
                  sampling=None):
         """Initialise a subtree_wl kernel."""
-        super(GraphletSampling, self).__init__(executor=executor,
+        super(GraphletSampling, self).__init__(n_jobs=n_jobs,
                                                normalize=normalize,
                                                verbose=verbose)
 
         self.random_seed = random_seed
         self.k = k
         self.sampling = sampling
-        self.initialized_ = {"random_seed": False, "k": False, "sampling": False}
+        self.initialized_.update({"random_seed": False, "k": False, "sampling": False})
 
     def initialize_(self):
         """Initialize all transformer arguments, needing initialization."""
         self._graph_bins = dict()
+        if not self.initialized_["n_jobs"]:
+            if self.n_jobs is not None:
+                warnings.warn('no implemented parallelization for GraphletSampling')
+            self.initialized_["n_jobs"] = True
+
         if not self.initialized_["random_seed"]:
             np.random.seed(self.random_seed)
             self.initialized_["random_seed"] = True
@@ -485,9 +488,11 @@ def sample_graphlets_probabilistic(A, k, n_samples):
     s = list(range(A.shape[0]))
     min_r, max_r = min(3, A.shape[0]), min(k, A.shape[0])
     if min_r == max_r:
-        rsamp = lambda *args: min_r
+        def rsamp(*args):
+            return min_r
     else:
-        rsamp = lambda *args: np.random.randint(min_r, max_r+1)
+        def rsamp(*args):
+            return np.random.randint(min_r, max_r+1)
 
     for i in range(n_samples):
         index_rand = np.random.choice(s, rsamp(), replace=False)

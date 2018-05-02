@@ -23,7 +23,6 @@ from grakel.kernels import Kernel
 # Python 2/3 cross-compatibility import
 from six import iteritems
 
-default_executor = lambda fn, *eargs, **ekargs: fn(*eargs, **ekargs)
 positive_eigenvalue_limit = float("+1e-6")
 
 
@@ -66,7 +65,7 @@ class MultiscaleLaplacianFast(Kernel):
     _graph_format = "adjacency"
 
     def __init__(self,
-                 executor=default_executor,
+                 n_jobs=None,
                  normalize=False, verbose=False,
                  random_seed=42,
                  L=3,
@@ -75,7 +74,7 @@ class MultiscaleLaplacianFast(Kernel):
                  N=50):
         """Initialise a `multiscale_laplacian` kernel."""
         super(MultiscaleLaplacianFast, self).__init__(
-            executor=executor,
+            n_jobs=n_jobs,
             normalize=normalize,
             verbose=verbose)
 
@@ -84,11 +83,13 @@ class MultiscaleLaplacianFast(Kernel):
         self.heta = heta
         self.L = L
         self.N = N
-        self.initialized_ = {"random_seed": False, "gamma": False,
-                             "heta": False, "L": False, "N": False}
+        self.initialized_.update({"random_seed": False, "gamma": False,
+                                  "heta": False, "L": False, "N": False})
 
     def initialize_(self):
         """Initialize all transformer arguments, needing initialization."""
+        super(MultiscaleLaplacianFast, self).initialize_()
+
         if not self.initialized_["random_seed"]:
             np.random.seed(self.random_seed)
             self.initialized_["random_seed"] = True
@@ -323,24 +324,26 @@ class MultiscaleLaplacian(Kernel):
     _graph_format = "adjacency"
 
     def __init__(self,
-                 executor=default_executor,
+                 n_jobs=None,
                  normalize=False,
                  verbose=False,
                  L=3,
                  gamma=0.01,
                  heta=0.01):
         """Initialise a `multiscale_laplacian` kernel."""
-        super(MultiscaleLaplacian, self).__init__(executor=executor,
+        super(MultiscaleLaplacian, self).__init__(n_jobs=n_jobs,
                                                   normalize=normalize,
                                                   verbose=verbose)
 
         self.gamma = gamma
         self.heta = heta
         self.L = L
-        self.initialized_ = {"gamma": False, "heta": False, "L": False}
+        self.initialized_.update({"gamma": False, "heta": False, "L": False})
 
     def initialize_(self):
         """Initialize all transformer arguments, needing initialization."""
+        super(MultiscaleLaplacian, self).initialize_()
+
         if not self.initialized_["gamma"]:
             if not isinstance(self.gamma, Real):
                 raise TypeError('gamma must be a real number')
@@ -569,10 +572,9 @@ class MultiscaleLaplacian(Kernel):
             _increment_diagonal_(Sy, self.gamma)
 
             # A small lambda to calculate ^ 1/4
-            quatre = lambda x: sqrt(sqrt(x))
+            def quatre(x):
+                return sqrt(sqrt(x))
 
-            # !!! Overflow problem!: det(inv(Sx)+inv(Sy))=0.0
-            # Need to solve. Not all executions are fatal
             # Caclulate the kernel nominator
             k_nom = sqrt(det(inv(inv(Sx)/2.0 + inv(Sy)/2.0)))
 

@@ -16,8 +16,6 @@ from grakel.graph import Graph
 # Python 2/3 cross-compatibility import
 from six import iteritems
 
-default_executor = lambda fn, *eargs, **ekargs: fn(*eargs, **ekargs)
-
 
 class OddSth(Kernel):
     """ODD-Sth kernel as proposed in :cite:`Martino2012ATK`.
@@ -55,17 +53,22 @@ class OddSth(Kernel):
 
     """
 
-    def __init__(self, executor=default_executor,
+    def __init__(self, n_jobs=None,
                  normalize=False, verbose=False, h=None):
         """Initialise an `odd_sth` kernel."""
-        super(OddSth, self).__init__(executor=executor,
+        super(OddSth, self).__init__(n_jobs=n_jobs,
                                      normalize=normalize,
                                      verbose=verbose)
         self.h = h
-        self.initialized_ = {"h": False}
+        self.initialized_.update({"h": False})
 
     def initialize_(self):
         """Initialize all transformer arguments, needing initialization."""
+        if not self.initialized_["n_jobs"]:
+            if self.n_jobs is not None:
+                warnings.warn('no implemented parallelization for OddSth')
+            self.initialized_["n_jobs"] = True
+
         if not self.initialized_["h"]:
             if self.h is not None and (type(self.h) is not int or self.h <= 0):
                 raise ValueError('h must be an integer bigger than zero')

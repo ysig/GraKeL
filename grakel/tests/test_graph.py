@@ -95,7 +95,9 @@ def test_graph_edge_dictionary():
     desired_output_label_group_idx = {'banana': set([0, 2]),
                                       'cherry': set([1, 3])}
 
-    proper_dict = lambda x: {key: set(x[key]) for key in x.keys()}
+    def proper_dict(x):
+        return {key: set(x[key]) for key in x.keys()}
+
     for k in g.keys():
         gklg = g[k].get_label_group()
         if verbose:

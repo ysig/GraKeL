@@ -50,13 +50,13 @@ jobs:
       - EMAIL: y.siglidis@gmail.com
 
       # Deploy docs on pypi
-      - DEPLOY_PYPI: true
+      - DEPLOY_PYPI: false
     steps:
       - checkout
       - attach_workspace:
           at: ~/project
       - run: bash ./ci_scripts/circleci/pypi_deploy.sh
-#      - run: bash ./ci_scripts/circleci/push_doc.sh
+      - run: bash ./ci_scripts/circleci/push_doc.sh
 
 workflows:
   version: 2

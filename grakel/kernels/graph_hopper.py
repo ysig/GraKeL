@@ -13,8 +13,6 @@ from grakel.graph import dijkstra
 # Python 2/3 cross-compatibility import
 from six.moves import filterfalse
 
-default_executor = lambda fn, *eargs, **ekargs: fn(*eargs, **ekargs)
-
 
 class GraphHopper(Kernel):
     """Graph Hopper Histogram kernel as found in :cite:`GraphHopper`.
@@ -42,17 +40,18 @@ class GraphHopper(Kernel):
 
     _graph_format = "all"
 
-    def __init__(self, executor=default_executor,
+    def __init__(self, n_jobs=None,
                  normalize=False, verbose=False, kernel_type='linear'):
         """Initialize an Graph Hopper kernel."""
-        super(GraphHopper, self).__init__(executor=executor,
+        super(GraphHopper, self).__init__(n_jobs=n_jobs,
                                           normalize=normalize,
                                           verbose=verbose)
         self.kernel_type = kernel_type
-        self.initialized_ = {"kernel_type": False}
+        self.initialized_.update({"kernel_type": False})
 
     def initialize_(self):
         """Initialize all transformer arguments, needing initialization."""
+        super(GraphHopper, self).initialize_()
         if not self.initialized_["kernel_type"]:
             if type(self.kernel_type) is str:
                 if self.kernel_type == "linear":

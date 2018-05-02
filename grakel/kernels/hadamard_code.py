@@ -11,6 +11,7 @@ from scipy.linalg import hadamard
 
 from sklearn.exceptions import NotFittedError
 from sklearn.utils.validation import check_is_fitted
+from sklearn.externals import joblib
 
 from grakel.graph import Graph
 from grakel.kernels import Kernel
@@ -18,8 +19,6 @@ from grakel.kernels import Kernel
 # Python 2/3 cross-compatibility import
 from six import iteritems
 from six import itervalues
-
-default_executor = lambda fn, *eargs, **ekargs: fn(*eargs, **ekargs)
 
 
 class HadamardCode(Kernel):
@@ -60,18 +59,20 @@ class HadamardCode(Kernel):
 
     _graph_format = "auto"
 
-    def __init__(self, executor=default_executor, verbose=False,
+    def __init__(self, n_jobs=None, verbose=False,
                  normalize=False, niter=5, base_kernel=None):
         """Initialise a `hadamard_code` kernel."""
         super(HadamardCode, self).__init__(
-            executor=executor, verbose=verbose, normalize=normalize)
+            n_jobs=n_jobs, verbose=verbose, normalize=normalize)
 
         self.niter = niter
         self.base_kernel = base_kernel
-        self.initialized_ = {"niter": False, "base_kernel": False}
+        self.initialized_.update({"niter": False, "base_kernel": False})
 
     def initialize_(self):
         """Initialize all transformer arguments, needing initialization."""
+        super(HadamardCode, self).initialize_()
+
         if not self.initialized_["base_kernel"]:
             base_kernel = self.base_kernel
             if base_kernel is not None:
@@ -98,7 +99,7 @@ class HadamardCode(Kernel):
 
                 params["normalize"] = False
                 params["verbose"] = self.verbose
-                params["executor"] = self.executor
+                params["n_jobs"] = None
                 self._base_kernel = lambda *args: base_kernel(**params)
             else:
                 raise ValueError('Upon initialization base_kernel cannot be '
@@ -195,44 +196,62 @@ class HadamardCode(Kernel):
         # Calculate the hadamard matrix
         H = hadamard(int(2**(ceil(log2(nl)))))
 
-        # Intial labeling of vertices based on their corresponding Hadamard code (i-th row of the
-        # Hadamard matrix) where i is the i-th label on enumeration
-        new_graphs, new_labels = list(), list()
-        for ((obj, extra), label) in zip(inp, labels):
-            new_label = dict()
-            for (k, v) in iteritems(label):
-                new_label[k] = H[labels_enum[v], :]
-            new_graphs.append((obj, {i: tuple(j) for (i, j) in iteritems(new_label)}) + extra)
-            new_labels.append(new_label)
-
-        # Add the zero iteration element
-        if self._method_calling == 1:
-            base_kernel[0].fit(new_graphs)
-        elif self._method_calling == 2:
-            K = base_kernel[0].fit_transform(new_graphs)
-        elif self._method_calling == 3:
-            K = base_kernel[0].transform(new_graphs)
-
-        # Main
-        for i in range(1, self.niter):
-            new_graphs, labels, new_labels = list(), new_labels, list()
-            for ((obj, extra), neighbor, old_label) in zip(inp, neighbors, labels):
-                # Find unique labels and sort them for both graphs and keep for each node the temporary
+        def generate_graphs(labels):
+            # Intial labeling of vertices based on their corresponding Hadamard code (i-th row of the
+            # Hadamard matrix) where i is the i-th label on enumeration
+            new_graphs, new_labels = list(), list()
+            for ((obj, extra), label) in zip(inp, labels):
                 new_label = dict()
-                for (k, ns) in iteritems(neighbor):
-                    new_label[k] = old_label[k]
-                    for q in ns:
-                        new_label[k] = np.add(new_label[k], old_label[q])
-                new_labels.append(new_label)
+                for (k, v) in iteritems(label):
+                    new_label[k] = H[labels_enum[v], :]
                 new_graphs.append((obj, {i: tuple(j) for (i, j) in iteritems(new_label)}) + extra)
+                new_labels.append(new_label)
 
-            # calculate kernel
+            yield new_graphs
+            # Main
+            for i in range(1, self.niter):
+                new_graphs, labels, new_labels = list(), new_labels, list()
+                for ((obj, extra), neighbor, old_label) in zip(inp, neighbors, labels):
+                    # Find unique labels and sort them for both graphs and keep for each node
+                    # the temporary
+                    new_label = dict()
+                    for (k, ns) in iteritems(neighbor):
+                        new_label[k] = old_label[k]
+                        for q in ns:
+                            new_label[k] = np.add(new_label[k], old_label[q])
+                    new_labels.append(new_label)
+                    new_graphs.append((obj, {i: tuple(j) for (i, j) in iteritems(new_label)}) +
+                                      extra)
+                yield new_graphs
+
+        if self._method_calling in [1, 2]:
+            base_kernel = {i: self._base_kernel() for i in range(self.niter)}
+
+        if self._parallel is None:
+            # Add the zero iteration element
             if self._method_calling == 1:
-                base_kernel[i].fit(new_graphs)
+                for (i, g) in enumerate(generate_graphs(labels)):
+                    base_kernel[i].fit(g)
             elif self._method_calling == 2:
-                K += base_kernel[i].fit_transform(new_graphs)
+                K = np.sum((base_kernel[i].fit_transform(g) for (i, g)
+                           in enumerate(generate_graphs(labels))), axis=0)
             elif self._method_calling == 3:
-                K += base_kernel[i].transform(new_graphs)
+                # Calculate the kernel matrix without parallelization
+                K = np.sum((self.X[i].transform(g) for (i, g)
+                           in enumerate(generate_graphs(labels))), axis=0)
+
+        else:
+            if self._method_calling == 1:
+                self._parallel(joblib.delayed(efit)(base_kernel[i], g)
+                               for (i, g) in enumerate(generate_graphs(labels)))
+            elif self._method_calling == 2:
+                # Calculate the kernel marix with parallelization
+                K = np.sum(self._parallel(joblib.delayed(efit_transform)(base_kernel[i], g) for (i, g)
+                           in enumerate(generate_graphs(labels))), axis=0)
+            elif self._method_calling == 3:
+                # Calculate the kernel marix with parallelization
+                K = np.sum(self._parallel(joblib.delayed(etransform)(self.X[i], g) for (i, g)
+                           in enumerate(generate_graphs(labels))), axis=0)
 
         if self._method_calling == 1:
             self._labels_enum = labels_enum
@@ -376,3 +395,18 @@ class HadamardCode(Kernel):
             return self._X_diag, Y_diag
         else:
             return self._X_diag
+
+
+def efit(object, data):
+    """Fit an object on data."""
+    object.fit(data)
+
+
+def efit_transform(object, data):
+    """Fit-Transform an object on data."""
+    return object.fit_transform(data)
+
+
+def etransform(object, data):
+    """Transform an object on data."""
+    return object.transform(data)

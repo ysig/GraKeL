@@ -4,7 +4,8 @@ include grakel/kernels/_c_functions/*.pxd
 include grakel/kernels/_c_functions/*.pyx
 recursive-include grakel/kernels/_c_functions/include *
 recursive-include grakel/kernels/_c_functions/src *
-recursive-include grakel/kernels/_isomorphism/src *
+recursive-include grakel/kernels/_isomorphism/bliss-0.50 *
+recursive-include grakel/kernels/_isomorphism/ *
 include doc/*.rst
 include doc/conf.py
 include doc/Makefile

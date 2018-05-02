@@ -14,8 +14,6 @@ from sklearn.utils.validation import check_is_fitted
 from six import itervalues
 from six import iteritems
 
-default_executor = lambda fn, *eargs, **ekargs: fn(*eargs, **ekargs)
-
 
 class NeighborhoodHash(Kernel):
     """Neighborhood hashing kernel as proposed in :cite:`Hido2009ALG`.
@@ -54,7 +52,7 @@ class NeighborhoodHash(Kernel):
     """
 
     def __init__(self,
-                 executor=default_executor,
+                 n_jobs=None,
                  normalize=False,
                  verbose=False,
                  random_seed=42,
@@ -62,7 +60,7 @@ class NeighborhoodHash(Kernel):
                  nh_type='simple',
                  bits=8):
         """Initialize a `neighborhood_hash` kernel."""
-        super(NeighborhoodHash, self).__init__(executor=executor,
+        super(NeighborhoodHash, self).__init__(n_jobs=n_jobs,
                                                normalize=normalize,
                                                verbose=False)
 
@@ -70,11 +68,13 @@ class NeighborhoodHash(Kernel):
         self.R = R
         self.nh_type = nh_type
         self.bits = bits
-        self.initialized_ = {"random_seed": False, "R": False, "nh_type": False,
-                             "bits": False}
+        self.initialized_.update({"random_seed": False, "R": False, "nh_type": False,
+                                  "bits": False})
 
     def initialize_(self):
         """Initialize all transformer arguments, needing initialization."""
+        super(NeighborhoodHash, self).initialize_()
+
         if not self.initialized_["random_seed"]:
             seed(self.random_seed)
             self.initialized_["random_seed"] = True

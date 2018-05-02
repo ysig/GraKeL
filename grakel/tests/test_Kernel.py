@@ -51,12 +51,28 @@ def test_random_walk():
                                    features=None)
 
     rw_kernel = RandomWalk(verbose=verbose, normalize=normalize)
-    gk = GraphKernel(kernel={"name": "random_walk"}, verbose=verbose,
-                     normalize=normalize)
-
     try:
         rw_kernel.fit_transform(train)
         rw_kernel.transform(test)
+        assert True
+    except Exception as exception:
+        assert False, exception
+
+
+def test_random_walk_pd():
+    """Random input test for the Simple Random Walk kernel [n_jobs=-1/decorator]."""
+    train, test = generate_dataset(n_graphs=100,
+                                   r_vertices=(10, 20),
+                                   r_connectivity=(0.4, 0.8),
+                                   r_weight_edges=(0.01, 12.0),
+                                   n_graphs_test=40,
+                                   random_seed=rs,
+                                   features=None)
+
+    gk = GraphKernel(kernel={"name": "random_walk"}, verbose=verbose,
+                     normalize=normalize, n_jobs=-1)
+
+    try:
         gk.fit_transform(test)
         gk.transform(test)
         assert True
@@ -75,12 +91,29 @@ def test_random_walk_labels():
                                    features=('nl', 3))
 
     rw_kernel = RandomWalkLabeled(verbose=verbose, normalize=normalize)
-    gk = GraphKernel(kernel={"name": "random_walk", "with_labels": True},
-                     verbose=verbose, normalize=normalize)
 
     try:
         rw_kernel.fit_transform(train)
         rw_kernel.transform(test)
+        assert True
+    except Exception as exception:
+        assert False, exception
+
+
+def test_random_walk_labels_pd():
+    """Random input test for the Labelled Random Walk kernel [n_jobs=-1/decorator]."""
+    train, test = generate_dataset(n_graphs=100,
+                                   r_vertices=(10, 20),
+                                   r_connectivity=(0.4, 0.8),
+                                   r_weight_edges=(0.01, 12.0),
+                                   n_graphs_test=40,
+                                   random_seed=rs,
+                                   features=('nl', 3))
+
+    gk = GraphKernel(kernel={"name": "random_walk", "with_labels": True},
+                     verbose=verbose, normalize=normalize, )
+
+    try:
         gk.fit_transform(test)
         gk.transform(test)
         assert True
@@ -99,12 +132,46 @@ def test_shortest_path():
                                    features=('nl', 3))
 
     sp_kernel = ShortestPath(verbose=verbose, normalize=normalize)
-    gk = GraphKernel(kernel={"name": "shortest_path"}, verbose=verbose,
-                     normalize=normalize)
 
     try:
         sp_kernel.fit_transform(train)
         sp_kernel.transform(test)
+        assert True
+    except Exception as exception:
+        assert False, exception
+
+    train, test = generate_dataset(n_graphs=50,
+                                   r_vertices=(5, 10),
+                                   r_connectivity=(0.4, 0.8),
+                                   r_weight_edges=(1, 1),
+                                   n_graphs_test=20,
+                                   random_seed=rs,
+                                   features=('na', 5))
+
+    sp_kernel = ShortestPathAttr(verbose=verbose, normalize=normalize)
+
+    try:
+        sp_kernel.fit_transform(train)
+        sp_kernel.transform(test)
+        assert True
+    except Exception as exception:
+        assert False, exception
+
+
+def test_shortest_path_pd():
+    """Random input test for the Shortest Path kernel [n_jobs=-1 (for attributed)/decorator]."""
+    train, test = generate_dataset(n_graphs=100,
+                                   r_vertices=(10, 20),
+                                   r_connectivity=(0.4, 0.8),
+                                   r_weight_edges=(1, 1),
+                                   n_graphs_test=40,
+                                   random_seed=rs,
+                                   features=('nl', 3))
+
+    gk = GraphKernel(kernel={"name": "shortest_path"}, verbose=verbose,
+                     normalize=normalize)
+
+    try:
         gk.fit_transform(test)
         gk.transform(test)
         assert True
@@ -119,13 +186,10 @@ def test_shortest_path():
                                    random_seed=rs,
                                    features=('na', 5))
 
-    sp_kernel = ShortestPathAttr(verbose=verbose, normalize=normalize)
     gk = GraphKernel(kernel={"name": "shortest_path", "as_attributes": True},
-                     verbose=verbose, normalize=normalize)
+                     verbose=verbose, normalize=normalize, n_jobs=-1)
 
     try:
-        sp_kernel.fit_transform(train)
-        sp_kernel.transform(test)
         gk.fit_transform(test)
         gk.transform(test)
         assert True
@@ -134,7 +198,7 @@ def test_shortest_path():
 
 
 def test_graphlet_sampling():
-    """Random input test for the Graphlet Sampling Kernel."""
+    """Random input test for the Graphlet Sampling Kernel [+ decorator]."""
     train, test = generate_dataset(n_graphs=100,
                                    r_vertices=(10, 20),
                                    r_connectivity=(0.4, 0.8),
@@ -170,13 +234,30 @@ def test_weisfeiler_lehman():
 
     wl_st_kernel = WeisfeilerLehman(verbose=verbose, normalize=normalize,
                                     base_kernel=VertexHistogram)
+
+    try:
+        wl_st_kernel.fit_transform(train)
+        wl_st_kernel.transform(test)
+        assert True
+    except Exception as exception:
+        assert False, exception
+
+
+def test_weisfeiler_lehman_pd():
+    """Random input test for the Weisfeiler Lehman kernel [n_jobs=-1/decorator]."""
+    train, test = generate_dataset(n_graphs=100,
+                                   r_vertices=(10, 20),
+                                   r_connectivity=(0.4, 0.8),
+                                   r_weight_edges=(1, 1),
+                                   n_graphs_test=40,
+                                   random_seed=rs,
+                                   features=('nl', 3))
+
     gk = GraphKernel(kernel=[{"name": "weisfeiler_lehman"},
                      {"name": "vertex_histogram"}],
                      verbose=verbose, normalize=normalize)
 
     try:
-        wl_st_kernel.fit_transform(train)
-        wl_st_kernel.transform(test)
         gk.fit_transform(train)
         gk.transform(test)
         assert True
@@ -185,7 +266,7 @@ def test_weisfeiler_lehman():
 
 
 def test_pyramid_match():
-    """Random input test for the Pyramid Match kernel."""
+    """Random input test for the Pyramid Match kernel [+ decorator]."""
     train, test = generate_dataset(n_graphs=100,
                                    r_vertices=(10, 20),
                                    r_connectivity=(0.4, 0.8),
@@ -209,7 +290,7 @@ def test_pyramid_match():
 
 
 def test_pyramid_match_no_labels():
-    """Random input test for the Pyramid Match kernel with no labels."""
+    """Random input test for the Pyramid Match kernel with no labels [+ decorator]."""
     train, test = generate_dataset(n_graphs=100,
                                    r_vertices=(10, 20),
                                    r_connectivity=(0.4, 0.8),
@@ -243,12 +324,29 @@ def test_neighborhood_hash():
                                    features=('nl', 3))
 
     nh_kernel = NeighborhoodHash(verbose=verbose, normalize=normalize)
-    gk = GraphKernel(kernel={"name": "neighborhood_hash"}, verbose=verbose,
-                     normalize=normalize)
 
     try:
         nh_kernel.fit_transform(train)
         nh_kernel.transform(test)
+        assert True
+    except Exception as exception:
+        assert False, exception
+
+
+def test_neighborhood_hash_pd():
+    """Random input test for the Neighborhood Hash kernel [n_jobs=-1/decorator]."""
+    train, test = generate_dataset(n_graphs=100,
+                                   r_vertices=(10, 20),
+                                   r_connectivity=(0.4, 0.8),
+                                   r_weight_edges=(1, 1),
+                                   n_graphs_test=40,
+                                   random_seed=rs,
+                                   features=('nl', 3))
+
+    gk = GraphKernel(kernel={"name": "neighborhood_hash"}, verbose=verbose,
+                     normalize=normalize, n_jobs=-1)
+
+    try:
         gk.fit_transform(train)
         gk.transform(test)
         assert True
@@ -268,12 +366,84 @@ def test_subgraph_matching():
                                    features=('nl', 3, 'el', 4))
 
     sm_kernel = SubgraphMatching(verbose=verbose, normalize=normalize)
-    gk = GraphKernel(kernel={"name": "subgraph_matching"}, verbose=verbose,
-                     normalize=normalize)
 
     try:
         sm_kernel.fit_transform(train)
         sm_kernel.transform(test)
+        assert True
+    except Exception as exception:
+        assert False, exception
+
+    # node-label/edge-attribute
+    train, test = generate_dataset(n_graphs=50,
+                                   r_vertices=(5, 10),
+                                   r_connectivity=(0.4, 0.8),
+                                   r_weight_edges=(1, 1),
+                                   n_graphs_test=20,
+                                   random_seed=rs,
+                                   features=('nl', 3, 'ea', 5))
+
+    sm_kernel = SubgraphMatching(verbose=verbose, normalize=normalize, ke=np.dot)
+
+    try:
+        sm_kernel.fit_transform(train)
+        sm_kernel.transform(test)
+        assert True
+    except Exception as exception:
+        assert False, exception
+
+    # node-attribute/edge-label
+    train, test = generate_dataset(n_graphs=50,
+                                   r_vertices=(5, 10),
+                                   r_connectivity=(0.4, 0.8),
+                                   r_weight_edges=(1, 1),
+                                   n_graphs_test=20,
+                                   random_seed=rs,
+                                   features=('na', 4, 'el', 3))
+
+    sm_kernel = SubgraphMatching(verbose=verbose, normalize=normalize, kv=np.dot)
+
+    try:
+        sm_kernel.fit_transform(train)
+        sm_kernel.transform(test)
+        assert True
+    except Exception as exception:
+        assert False, exception
+
+    # node-attribute/edge-attribute
+    train, test = generate_dataset(n_graphs=50,
+                                   r_vertices=(5, 10),
+                                   r_connectivity=(0.4, 0.8),
+                                   r_weight_edges=(1, 1),
+                                   n_graphs_test=20,
+                                   random_seed=rs,
+                                   features=('na', 4, 'ea', 6))
+
+    sm_kernel = SubgraphMatching(verbose=verbose, normalize=normalize, ke=np.dot, kv=np.dot)
+
+    try:
+        sm_kernel.fit_transform(train)
+        sm_kernel.transform(test)
+        assert True
+    except Exception as exception:
+        assert False, exception
+
+
+def test_subgraph_matching_pd():
+    """Random input test for the Subgraph Matching kernel [n_jobs=-1/decorator]."""
+    # node-label/edge-label
+    train, test = generate_dataset(n_graphs=100,
+                                   r_vertices=(10, 20),
+                                   r_connectivity=(0.4, 0.8),
+                                   r_weight_edges=(1, 1),
+                                   n_graphs_test=40,
+                                   random_seed=rs,
+                                   features=('nl', 3, 'el', 4))
+
+    gk = GraphKernel(kernel={"name": "subgraph_matching"}, verbose=verbose,
+                     normalize=normalize, n_jobs=-1)
+
+    try:
         gk.fit_transform(train)
         gk.transform(test)
         assert True
@@ -289,13 +459,10 @@ def test_subgraph_matching():
                                    random_seed=rs,
                                    features=('nl', 3, 'ea', 5))
 
-    sm_kernel = SubgraphMatching(verbose=verbose, normalize=normalize, ke=np.dot)
     gk = GraphKernel(kernel={"name": "subgraph_matching", "ke": np.dot},
-                     verbose=verbose, normalize=normalize)
+                     verbose=verbose, normalize=normalize, n_jobs=-1)
 
     try:
-        sm_kernel.fit_transform(train)
-        sm_kernel.transform(test)
         gk.fit_transform(train)
         gk.transform(test)
         assert True
@@ -311,13 +478,10 @@ def test_subgraph_matching():
                                    random_seed=rs,
                                    features=('na', 4, 'el', 3))
 
-    sm_kernel = SubgraphMatching(verbose=verbose, normalize=normalize, kv=np.dot)
     gk = GraphKernel(kernel={"name": "subgraph_matching", "kv": np.dot},
-                     verbose=verbose, normalize=normalize)
+                     verbose=verbose, normalize=normalize, n_jobs=-1)
 
     try:
-        sm_kernel.fit_transform(train)
-        sm_kernel.transform(test)
         gk.fit_transform(train)
         gk.transform(test)
         assert True
@@ -333,13 +497,10 @@ def test_subgraph_matching():
                                    random_seed=rs,
                                    features=('na', 4, 'ea', 6))
 
-    sm_kernel = SubgraphMatching(verbose=verbose, normalize=normalize, ke=np.dot, kv=np.dot)
     gk = GraphKernel(kernel={"name": "subgraph_matching", "kv": np.dot, "ke": np.dot},
-                     verbose=verbose, normalize=normalize)
+                     verbose=verbose, normalize=normalize, n_jobs=-1)
 
     try:
-        sm_kernel.fit_transform(train)
-        sm_kernel.transform(test)
         gk.fit_transform(train)
         gk.transform(test)
         assert True
@@ -348,7 +509,7 @@ def test_subgraph_matching():
 
 
 def test_neighborhood_subgraph_pairwise_distance():
-    """Random input test for the Neighborhood Subgraph Pairwise Distance kernel."""
+    """Random input test for the Neighborhood Subgraph Pairwise Distance kernel [+ decorator]."""
     train, test = generate_dataset(n_graphs=100,
                                    r_vertices=(5, 10),
                                    r_connectivity=(0.4, 0.8),
@@ -384,12 +545,28 @@ if cvxopt:
                                        features=None)
 
         lt_kernel = LovaszTheta(verbose=verbose, normalize=normalize)
-        gk = GraphKernel(kernel={"name": "lovasz_theta"},
-                         verbose=verbose, normalize=normalize)
 
         try:
             lt_kernel.fit_transform(train)
             lt_kernel.transform(test)
+            assert True
+        except Exception as exception:
+            assert False, exception
+
+    def test_lovasz_theta_pd():
+        """Random input test for the Lovasz-theta distance kernel [n_jobs=-1/decorator]."""
+        train, test = generate_dataset(n_graphs=50,
+                                       r_vertices=(5, 10),
+                                       r_connectivity=(0.4, 0.8),
+                                       r_weight_edges=(1, 1),
+                                       n_graphs_test=20,
+                                       random_seed=rs,
+                                       features=None)
+
+        gk = GraphKernel(kernel={"name": "lovasz_theta"},
+                         verbose=verbose, normalize=normalize, n_jobs=-1)
+
+        try:
             gk.fit_transform(train)
             gk.transform(test)
             assert True
@@ -408,12 +585,29 @@ def test_svm_theta():
                                    features=None)
 
     svm_kernel = SvmTheta(verbose=verbose, normalize=normalize)
-    gk = GraphKernel(kernel={"name": "svm_theta"},
-                     verbose=verbose, normalize=normalize)
 
     try:
         svm_kernel.fit_transform(train)
         svm_kernel.transform(test)
+        assert True
+    except Exception as exception:
+        assert False, exception
+
+
+def test_svm_theta_pd():
+    """Random input test for the SVM-theta distance kernel [n_jobs=-1/decorator]."""
+    train, test = generate_dataset(n_graphs=100,
+                                   r_vertices=(10, 20),
+                                   r_connectivity=(0.4, 0.8),
+                                   r_weight_edges=(1, 1),
+                                   n_graphs_test=40,
+                                   random_seed=rs,
+                                   features=None)
+
+    gk = GraphKernel(kernel={"name": "svm_theta"},
+                     verbose=verbose, normalize=normalize)
+
+    try:
         gk.fit_transform(train)
         gk.transform(test)
         assert True
@@ -422,7 +616,7 @@ def test_svm_theta():
 
 
 def test_odd_sth():
-    """Random input test for the ODD-STh kernel."""
+    """Random input test for the ODD-STh kernel [+ decorator]."""
     train, test = generate_dataset(n_graphs=100,
                                    r_vertices=(10, 20),
                                    r_connectivity=(0.4, 0.8),
@@ -456,12 +650,46 @@ def test_propagation():
                                    features=('nl', 4))
 
     propagation_kernel = Propagation(verbose=verbose, normalize=normalize)
-    gk = GraphKernel(kernel={"name": "propagation"},
-                     verbose=verbose, normalize=normalize)
 
     try:
         propagation_kernel.fit_transform(train)
         propagation_kernel.transform(test)
+        assert True
+    except Exception as exception:
+        assert False, exception
+
+    train, test = generate_dataset(n_graphs=100,
+                                   r_vertices=(10, 20),
+                                   r_connectivity=(0.4, 0.8),
+                                   r_weight_edges=(float("1e-5"), 10),
+                                   n_graphs_test=40,
+                                   random_seed=rs,
+                                   features=('na', 5))
+
+    propagation_kernel_attr = PropagationAttr(verbose=verbose, normalize=normalize)
+
+    try:
+        propagation_kernel_attr.fit_transform(train)
+        propagation_kernel_attr.transform(test)
+        assert True
+    except Exception as exception:
+        assert False, exception
+
+
+def test_propagation_pd():
+    """Random input test for the Propagation kernel [n_jobs=-1/decorator]."""
+    train, test = generate_dataset(n_graphs=100,
+                                   r_vertices=(10, 20),
+                                   r_connectivity=(0.4, 0.8),
+                                   r_weight_edges=(float("1e-5"), 10),
+                                   n_graphs_test=40,
+                                   random_seed=rs,
+                                   features=('nl', 4))
+
+    gk = GraphKernel(kernel={"name": "propagation"},
+                     verbose=verbose, normalize=normalize, n_jobs=-1)
+
+    try:
         gk.fit_transform(train)
         gk.transform(test)
         assert True
@@ -476,13 +704,10 @@ def test_propagation():
                                    random_seed=rs,
                                    features=('na', 5))
 
-    propagation_kernel_attr = PropagationAttr(verbose=verbose, normalize=normalize)
     gk = GraphKernel(kernel={"name": "propagation", "with_attributes": True},
-                     verbose=verbose, normalize=normalize)
+                     verbose=verbose, normalize=normalize, n_jobs=-1)
 
     try:
-        propagation_kernel_attr.fit_transform(train)
-        propagation_kernel_attr.transform(test)
         gk.fit_transform(train)
         gk.transform(test)
         assert True
@@ -502,13 +727,30 @@ def test_hadamard_code():
 
     hadamard_code_kernel = HadamardCode(verbose=verbose, normalize=normalize,
                                         base_kernel=VertexHistogram)
-    gk = GraphKernel(kernel=[{"name": "hadamard_code"},
-                             {"name": "subtree_wl"}],
-                     verbose=verbose, normalize=normalize)
 
     try:
         hadamard_code_kernel.fit_transform(train)
         hadamard_code_kernel.transform(test)
+        assert True
+    except Exception as exception:
+        assert False, exception
+
+
+def test_hadamard_code_pd():
+    """Random input test for the Hadamard Code kernel [n_jobs=-1/decorator]."""
+    train, test = generate_dataset(n_graphs=100,
+                                   r_vertices=(10, 20),
+                                   r_connectivity=(0.4, 0.8),
+                                   r_weight_edges=(1, 1),
+                                   n_graphs_test=40,
+                                   random_seed=rs,
+                                   features=('nl', 5))
+
+    gk = GraphKernel(kernel=[{"name": "hadamard_code"},
+                             {"name": "subtree_wl"}],
+                     verbose=verbose, normalize=normalize, n_jobs=-1)
+
+    try:
         gk.fit_transform(train)
         gk.transform(test)
         assert True
@@ -528,12 +770,30 @@ def test_multiscale_laplacian():
                                    features=('na', 5))
 
     ml_kernel = MultiscaleLaplacian(verbose=verbose, normalize=normalize)
-    gk = GraphKernel(kernel={"name": "multiscale_laplacian"},
-                     verbose=verbose, normalize=normalize)
 
     try:
         ml_kernel.fit_transform(train)
         ml_kernel.transform(test)
+        assert True
+    except Exception as exception:
+        assert False, exception
+
+
+def test_multiscale_laplacian_pd():
+    """Random input test for the Multiscale Laplacian kernel [n_jobs=-1/decorator]."""
+    # Intialise kernel
+    train, test = generate_dataset(n_graphs=30,
+                                   r_vertices=(5, 10),
+                                   r_connectivity=(0.4, 0.8),
+                                   r_weight_edges=(1, 1),
+                                   n_graphs_test=10,
+                                   random_seed=rs,
+                                   features=('na', 5))
+
+    gk = GraphKernel(kernel={"name": "multiscale_laplacian"},
+                     verbose=verbose, normalize=normalize, n_jobs=-1)
+
+    try:
         gk.fit_transform(train)
         gk.transform(test)
         assert True
@@ -553,12 +813,30 @@ def test_multiscale_laplacian_fast():
                                    features=('na', 5))
 
     mlf_kernel = MultiscaleLaplacianFast(verbose=verbose, normalize=normalize)
-    gk = GraphKernel(kernel={"name": "multiscale_laplacian", "which": "fast"},
-                     verbose=verbose, normalize=normalize)
 
     try:
         mlf_kernel.fit_transform(train)
         mlf_kernel.transform(test)
+        assert True
+    except Exception as exception:
+        assert False, exception
+
+
+def test_multiscale_laplacian_fast_pd():
+    """Random input test for the Fast Multiscale Laplacian kernel [n_jobs=-1/decorator]."""
+    # Initialise kernel
+    train, test = generate_dataset(n_graphs=100,
+                                   r_vertices=(10, 20),
+                                   r_connectivity=(0.4, 0.8),
+                                   r_weight_edges=(1, 1),
+                                   n_graphs_test=40,
+                                   random_seed=rs,
+                                   features=('na', 5))
+
+    gk = GraphKernel(kernel={"name": "multiscale_laplacian", "which": "fast"},
+                     verbose=verbose, normalize=normalize, n_jobs=-1)
+
+    try:
         gk.fit_transform(train)
         gk.transform(test)
         assert True
@@ -567,7 +845,7 @@ def test_multiscale_laplacian_fast():
 
 
 def test_vertex_histogram():
-    """Random input test for the Vertex Histogram Kernel."""
+    """Random input test for the Vertex Histogram Kernel [+ decorator]."""
     train, test = generate_dataset(n_graphs=100,
                                    r_vertices=(10, 20),
                                    r_connectivity=(0.4, 0.8),
@@ -591,7 +869,7 @@ def test_vertex_histogram():
 
 
 def test_edge_histogram():
-    """Random input test for the Edge Histogram kernel."""
+    """Random input test for the Edge Histogram kernel [+ decorator]."""
     train, test = generate_dataset(n_graphs=100,
                                    r_vertices=(10, 20),
                                    r_connectivity=(0.4, 0.8),
@@ -625,12 +903,29 @@ def test_graph_hopper():
                                    features=('na', 4))
 
     gh_kernel = GraphHopper(verbose=verbose, normalize=normalize)
-    gk = GraphKernel(kernel={"name": "graph_hopper"},
-                     verbose=verbose, normalize=normalize)
 
     try:
         gh_kernel.fit_transform(train)
         gh_kernel.transform(test)
+        assert True
+    except Exception as exception:
+        assert False, exception
+
+
+def test_graph_hopper_pd():
+    """Random input test for the Graph Hopper kernel [n_jobs=-1/decorator]."""
+    train, test = generate_dataset(n_graphs=100,
+                                   r_vertices=(10, 20),
+                                   r_connectivity=(0.4, 0.8),
+                                   r_weight_edges=(1, 1),
+                                   n_graphs_test=40,
+                                   random_seed=rs,
+                                   features=('na', 4))
+
+    gk = GraphKernel(kernel={"name": "graph_hopper"},
+                     verbose=verbose, normalize=normalize, n_jobs=-1)
+
+    try:
         gk.fit_transform(train)
         gk.transform(test)
         assert True
@@ -639,7 +934,7 @@ def test_graph_hopper():
 
 
 def test_core_framework():
-    """Random input test for the Core kernel Framework."""
+    """Random input test for the Core kernel Framework [+ decorator]."""
     train, test = generate_dataset(n_graphs=100,
                                    r_vertices=(10, 20),
                                    r_connectivity=(0.4, 0.8),
@@ -668,23 +963,37 @@ if __name__ == "__main__":
     verbose = True
 
     test_random_walk()
+    test_random_walk_pd()
     test_random_walk_labels()
+    test_random_walk_labels_pd()
     test_shortest_path()
+    test_shortest_path_pd()
     test_graphlet_sampling()
     test_weisfeiler_lehman()
+    test_weisfeiler_lehman_pd()
     test_pyramid_match()
     test_pyramid_match_no_labels()
     test_neighborhood_hash()
+    test_neighborhood_hash_pd()
     test_subgraph_matching()
+    test_subgraph_matching_pd()
     test_neighborhood_subgraph_pairwise_distance()
-    test_lovasz_theta()
+    if cvxopt:
+        test_lovasz_theta()
+        test_lovasz_theta_pd()
     test_svm_theta()
+    test_svm_theta_pd()
     test_odd_sth()
     test_propagation()
+    test_propagation_pd()
     test_hadamard_code()
+    test_hadamard_code_pd()
     test_multiscale_laplacian()
+    test_multiscale_laplacian_pd()
     test_multiscale_laplacian_fast()
+    test_multiscale_laplacian_fast_pd()
     test_vertex_histogram()
     test_edge_histogram()
     test_graph_hopper()
+    test_graph_hopper_pd()
     test_core_framework()

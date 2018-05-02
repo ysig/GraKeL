@@ -17,8 +17,6 @@ from numpy import einsum
 from six import iteritems
 from six import itervalues
 
-default_executor = lambda fn, *eargs, **ekargs: fn(*eargs, **ekargs)
-
 
 class VertexHistogram(Kernel):
     """Vertex Histogram kernel as found in :cite:`Sugiyama2015NIPS_VH`.
@@ -34,13 +32,20 @@ class VertexHistogram(Kernel):
     """
 
     def __init__(self,
-                 executor=default_executor,
+                 n_jobs=None,
                  normalize=False,
                  verbose=False):
         """Initialise a vertex histogram kernel."""
-        super(VertexHistogram, self).__init__(executor=executor,
+        super(VertexHistogram, self).__init__(n_jobs=n_jobs,
                                               normalize=normalize,
                                               verbose=verbose)
+
+    def initialized_(self):
+        """Initialize all transformer arguments, needing initialization."""
+        if not self.initialized_["n_jobs"]:
+            if self.n_jobs is not None:
+                warn('no implemented parallelization for VertexHistogram')
+            self.initialized_["n_jobs"] = True
 
     def parse_input(self, X):
         """Parse and check the given input for VH kernel.

@@ -17,8 +17,6 @@ from numpy import einsum
 from six import iteritems
 from six import itervalues
 
-default_executor = lambda fn, *eargs, **ekargs: fn(*eargs, **ekargs)
-
 
 class EdgeHistogram(Kernel):
     """Edge Histogram kernel as found in :cite:`Sugiyama2015NIPS_EH`.
@@ -33,12 +31,19 @@ class EdgeHistogram(Kernel):
 
     """
 
-    def __init__(self, executor=default_executor,
+    def __init__(self, n_jobs=None,
                  normalize=False, verbose=False):
         """Initialize an edge kernel."""
-        super(EdgeHistogram, self).__init__(executor=executor,
+        super(EdgeHistogram, self).__init__(n_jobs=n_jobs,
                                             normalize=normalize,
                                             verbose=verbose)
+
+    def initialized_(self):
+        """Initialize all transformer arguments, needing initialization."""
+        if not self.initialized_["n_jobs"]:
+            if self.n_jobs is not None:
+                warn('no implemented parallelization for EdgeHistogram')
+            self.initialized_["n_jobs"] = True
 
     def parse_input(self, X):
         """Parse and check the given input for EH kernel.

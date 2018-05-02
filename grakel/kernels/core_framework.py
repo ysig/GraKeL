@@ -13,8 +13,6 @@ from grakel.kernels import Kernel
 # Python 2/3 cross-compatibility import
 from six import iteritems
 
-default_executor = lambda fn, *eargs, **ekargs: fn(*eargs, **ekargs)
-
 
 class CoreFramework(Kernel):
     """The core kernel framework, as proposed in :cite:`CoreFramework`.
@@ -39,18 +37,23 @@ class CoreFramework(Kernel):
 
     _graph_format = "dictionary"
 
-    def __init__(self, executor=default_executor, verbose=False,
+    def __init__(self, n_jobs=None, verbose=False,
                  normalize=False, min_core=-1, base_kernel=None):
         """Initialise a `hadamard_code` kernel."""
         super(CoreFramework, self).__init__(
-            executor=executor, verbose=verbose, normalize=normalize)
+            n_jobs=n_jobs, verbose=verbose, normalize=normalize)
 
         self.min_core = -1
         self.base_kernel = base_kernel
-        self.initialized_ = {"min_core": False, "base_kernel": False}
+        self.initialized_.update({"min_core": False, "base_kernel": False})
 
     def initialize_(self):
         """Initialize all transformer arguments, needing initialization."""
+        if not self.initialized_["n_jobs"]:
+            if self.n_jobs is not None:
+                warnings.warn('no implemented parallelization for CoreFramework')
+            self.initialized_["n_jobs"] = True
+
         if not self.initialized_["base_kernel"]:
             base_kernel = self.base_kernel
             if base_kernel is not None:
@@ -77,7 +80,7 @@ class CoreFramework(Kernel):
 
                 params["normalize"] = False
                 params["verbose"] = self.verbose
-                params["executor"] = self.executor
+                params["n_jobs"] = None
                 self._base_kernel = lambda *args: base_kernel(**params)
             else:
                 raise ValueError('Upon initialization base_kernel cannot be None')

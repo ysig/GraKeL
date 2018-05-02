@@ -16,8 +16,6 @@ from six import itervalues
 from six import iteritems
 from six.moves import filterfalse
 
-default_executor = lambda fn, *eargs, **ekargs: fn(*eargs, **ekargs)
-
 
 class Propagation(Kernel):
     r"""The Propagation kernel for fully labeled graphs.
@@ -68,7 +66,7 @@ class Propagation(Kernel):
     attr_ = False
 
     def __init__(self,
-                 executor=default_executor,
+                 n_jobs=None,
                  verbose=False,
                  normalize=False,
                  random_seed=42,
@@ -78,7 +76,7 @@ class Propagation(Kernel):
                  t_max=5,
                  w=0.01):
         """Initialise a propagation kernel."""
-        super(Propagation, self).__init__(executor=executor,
+        super(Propagation, self).__init__(n_jobs=n_jobs,
                                           verbose=verbose,
                                           normalize=normalize)
 
@@ -87,11 +85,13 @@ class Propagation(Kernel):
         self.t_max = t_max
         self.w = w
         self.base_kernel = base_kernel
-        self.initialized_ = {"M": False, "t_max": False, "w": False,
-                             "random_seed": False, "base_kernel": False}
+        self.initialized_.update({"M": False, "t_max": False, "w": False,
+                                  "random_seed": False, "base_kernel": False})
 
     def initialize_(self):
         """Initialize all transformer arguments, needing initialization."""
+        super(Propagation, self).initialize_()
+
         if not self.initialized_["random_seed"]:
             np.random.seed(self.random_seed)
             self.initialized_["random_seed"] = True
@@ -308,6 +308,7 @@ class Propagation(Kernel):
                             P[start:end, :] = np.dot(transition_matrix[k], P[start:end, :])
 
                 return [phi[k] for k in range(n)]
+
             else:
                 cols = np.array(cols)
                 vertices = np.where(cols < dim_orig)[0]
@@ -318,6 +319,7 @@ class Propagation(Kernel):
                     # hash all graphs inside P and produce the feature vectors
                     hashes = self.calculate_LSH(P[vertices, :dim_orig],
                                                 self._u[t], self._b[t])
+
                     hd = dict(chain(
                             iteritems(self._hd[t]),
                             iter((j, i) for i, j in enumerate(
@@ -325,7 +327,7 @@ class Propagation(Kernel):
                                                 np.unique(hashes)),
                                     len(self._hd[t])))))
 
-                    features = np.vectorize(lambda i: hd[i])(hashes)
+                    features = np.vectorize(lambda i: hd[i], otypes=[int])(hashes)
 
                     # for each the new labels graph hash P and produce the feature vectors
                     u = np.random.randn(nnv)
@@ -339,7 +341,7 @@ class Propagation(Kernel):
                     hashes = self.calculate_LSH(P[vertices_p, :], u, self._b[t])
                     hd = dict(chain(iteritems(hd), iter((j, i) for i, j in enumerate(hashes, len(hd)))))
 
-                    features_p = np.vectorize(lambda i: hd[i])(hashes)
+                    features_p = np.vectorize(lambda i: hd[i], otypes=[int])(hashes)
 
                     # Accumulate the results
                     for k in range(n):
@@ -434,7 +436,7 @@ class PropagationAttr(Propagation):
     attr_ = True
 
     def __init__(self,
-                 executor=default_executor,
+                 n_jobs=None,
                  verbose=False,
                  normalize=False,
                  random_seed=42,
@@ -444,7 +446,7 @@ class PropagationAttr(Propagation):
                  t_max=5,
                  w=4):
         """Initialise a propagation kernel."""
-        super(PropagationAttr, self).__init__(executor=executor,
+        super(PropagationAttr, self).__init__(n_jobs=n_jobs,
                                               verbose=verbose,
                                               normalize=normalize,
                                               random_seed=random_seed,

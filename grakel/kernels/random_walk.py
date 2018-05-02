@@ -19,8 +19,6 @@ from grakel.graph import Graph
 from six.moves import filterfalse
 from builtins import range
 
-default_executor = lambda fn, *eargs, **ekargs: fn(*eargs, **ekargs)
-
 
 class RandomWalk(Kernel):
     """The random walk kernel class.
@@ -70,14 +68,14 @@ class RandomWalk(Kernel):
 
     _graph_format = "adjacency"
 
-    def __init__(self, executor=default_executor,
+    def __init__(self, n_jobs=None,
                  normalize=False, verbose=False,
                  lamda=0.1, method_type="fast",
                  kernel_type="geometric", p=None):
         """Initialise a random_walk kernel."""
         # setup valid parameters and initialise from parent
         super(RandomWalk, self).__init__(
-            executor=executor, normalize=normalize, verbose=verbose)
+            n_jobs=n_jobs, normalize=normalize, verbose=verbose)
 
         # Ignores ComplexWarning as it does not signify anything problematic
         warnings.filterwarnings('ignore', category=ComplexWarning)
@@ -87,20 +85,27 @@ class RandomWalk(Kernel):
         self.kernel_type = kernel_type
         self.p = p
         self.lamda = lamda
-        self.initialized_ = {"method_type": False, "kernel_type": False,
-                             "p": False, "lamda": False}
+        self.initialized_.update({"method_type": False, "kernel_type": False,
+                                  "p": False, "lamda": False})
 
     def initialize_(self):
         """Initialize all transformer arguments, needing initialization."""
+        super(RandomWalk, self).initialize_()
+
         if not self.initialized_["method_type"]:
             # Setup method type and define operation.
             if self.method_type == "fast":
-                invert = lambda n, w, v: (np.sum(v, axis=0)/n,
-                                          w,
-                                          np.sum(inv(v), axis=1)/n)
-                self._add_input = lambda x: invert(x.shape[0], *eig(x))
+                def invert(n, w, v):
+                    return (np.sum(v, axis=0)/n, w, np.sum(inv(v), axis=1)/n)
+
+                def add_input(x):
+                    return invert(x.shape[0], *eig(x))
+
+                self._add_input = add_input
             elif self.method_type == "baseline":
-                self._add_input = lambda x: x
+                def add_input(x):
+                    return x
+                self._add_input = add_input
             else:
                 raise ValueError('unsupported method_type')
             self.initialized_["method_type"] = True
@@ -315,14 +320,14 @@ class RandomWalkLabeled(RandomWalk):
 
     _graph_format = "adjacency"
 
-    def __init__(self, executor=default_executor,
+    def __init__(self, n_jobs=None,
                  normalize=False, verbose=False,
                  lamda=0.1, method_type="fast",
                  kernel_type="geometric", p=None):
         """Initialise a labeled random_walk kernel."""
         # Initialise from parent
         super(RandomWalkLabeled, self).__init__(
-            executor=executor, normalize=normalize, verbose=verbose,
+            n_jobs=n_jobs, normalize=normalize, verbose=verbose,
             lamda=lamda, method_type=method_type, kernel_type=kernel_type,
             p=p)
 

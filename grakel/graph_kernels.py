@@ -5,7 +5,6 @@ import warnings
 
 import numpy as np
 
-# from concurrent.futures import ThreadPoolExecutor
 from scipy.linalg import svd
 from sklearn.base import BaseEstimator
 from sklearn.base import TransformerMixin
@@ -206,9 +205,9 @@ class GraphKernel(BaseEstimator, TransformerMixin):
         Defines the number of nystroem components.
         To initialize the default (100 components), set -1 or 0.
 
-    n_jobs : int, optional
-        Defines the number of workers for kernel matrix calculation using
-        concurrency. To intialise the default (all possible), set -1 or 0.
+    n_jobs : int or None, optional
+        Defines the number of jobs of a joblib.Parallel objects needed for parallelization
+        or None for direct execution. The use or not of this function depends on each kernel.
 
     normalize : bool, optional
         Normalize the output of the graph kernel.
@@ -240,13 +239,6 @@ class GraphKernel(BaseEstimator, TransformerMixin):
     component_indices_ : array, shape=(n_components)
         Indices of ``components_`` in the training set.
 
-    pairwise_kernel_executor_ : function
-        The final executor destined for a single kernel calculation.
-
-    concurrent_executor_ : ThreadPoolExecutor
-        An executor for applying concurrency, for the fast pairwise
-        computations of the kernel matrix calculation.
-
     initialized_ : dict
         Monitors which parameter derived object should be initialized.
 
@@ -256,7 +248,7 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                  kernel=None,
                  normalize=False,
                  verbose=False,
-                 n_jobs=0,
+                 n_jobs=None,
                  random_seed=default_random_seed_value,
                  Nystroem=False):
         """`__init__` for `GraphKernel` object."""
@@ -414,45 +406,14 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                 self.nystroem_ = self.Nystroem
             self.initialized_["Nystroem"] = True
 
-        if not self.initialized_["n_jobs"]:
-            if self.n_jobs == 0:
-                pass
-                # self._pairwise_kernel_executor =
-                # lambda fn, *eargs, **ekargs:\
-                #    fn(*eargs, **ekargs)
-            else:
-                warnings.warn('feature is currently not implemented')
-                if type(self.n_jobs) is not int:
-                    raise ValueError('n_jobs parameter must be an int, '
-                                     'indicating the number of workers')
-                elif self.n_jobs == -1:
-                    pass
-                    # Initialize an executor
-                    # self._concurrent_executor = ThreadPoolExecutor()
-                elif self.n_jobs <= 0:
-                    raise ValueError('number of jobs (concurrent workers) '
-                                     'must be positive')
-                else:
-                    pass
-                    # self._concurrent_executor = ThreadPoolExecutor(
-                    #    max_workers=kargs["n_jobs"])
-                # self._pairwise_kernel_executor = lambda fn, *eargs, **ekargs:
-                # \
-                # self._concurrent_executor.submit(fn, *eargs, **ekargs).
-                # result()
-            self.initialized_["Nystroem"] = True
-
-            self.pairwise_kernel_executor_ = lambda fn, *eargs, **ekargs: \
-                fn(*eargs, **ekargs)
-
-        if not self.initialized_["kernel"]:
+        if not self.initialized_["kernel"] or not self.initialized_["n_jobs"]:
             if self.kernel is None:
                 raise ValueError('kernel must be defined at the __init__ '
                                  'function of the graph kernel decorator ')
             else:
                 hidden_args = {"verbose": self.verbose,
                                "normalize": self.normalize,
-                               "executor": self.pairwise_kernel_executor_}
+                               "n_jobs": self.n_jobs}
 
                 k = self.kernel
                 if type(k) is dict:

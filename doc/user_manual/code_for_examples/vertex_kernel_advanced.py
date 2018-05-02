@@ -3,8 +3,6 @@ from sklearn.utils.validation import check_is_fitted
 from grakel import Kernel, Graph
 from numpy import zeros, einsum
 
-default_executor = lambda fn, *eargs, **ekargs: fn(*eargs, **ekargs)
-
 
 class VertexHistogram(Kernel):
     """Vertex Histogram kernel as found in :cite:`Sugiyama2015NIPS`
@@ -23,7 +21,7 @@ class VertexHistogram(Kernel):
     # _graph_format = "auto" (default: "auto")
 
     def __init__(self,
-                 executor=default_executor,
+                 n_jobs=n_jobs,
                  verbose=False,
                  normalize=False,
                  # kernel_param_1=kernel_param_1_default,
@@ -35,27 +33,32 @@ class VertexHistogram(Kernel):
         # Add new parameters
         self._valid_parameters |= new_parameters
 
-        super(VertexHistogram, self).__init__(
-            executor=executor, verbose=verbose, normalize=normalize)
+        super(VertexHistogram, self).__init__(n_jobs=n_jobs, verbose=verbose, normalize=normalize)
 
         # Get parameters and check the new ones
         # @for i=1 to num_new_parameters
         #   self.kernel_param_i = kernel_param_i
 
-        # self.initialized_ = {
+        # self.initialized_.update({
         #    param_needing_initialization_1 : False
         #             ...
         #    param_needing_initialization_m : False
-        # }
+        # })
 
     def initialize_(self):
         """Initialize all transformer arguments, needing initialization."""
+        if not self.initialized_["n_jobs"]:
+            # n_jobs is not used in this kernel
+            # numpy utilises low-level parallelization for calculating matrix operations
+            if self.n_jobs is not None:
+                warnings.warn('no implemented parallelization for VertexHistogram')
+            self.initialized_["n_jobs"] = True
+
         # for i=1 .. m
         #     if not self.initialized_["param_needing_initialization_i"]:
         #         # Apply checks (raise ValueError or TypeError accordingly)
         #         # calculate derived fields stored on self._derived_field_ia .. z
         #         self.initialized_["param_needing_initialization_i"] = True
-        pass
 
 
     def parse_input(self, X):

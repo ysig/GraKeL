@@ -70,6 +70,7 @@ Kernels
    NeighborhoodHash
    ShortestPath
    ShortestPathAttr
+   GraphletSampling
    SubgraphMatching
    WeisfeilerLehman
    HadamardCode

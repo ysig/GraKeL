@@ -26,7 +26,6 @@ try:
 except ImportError:
     cvxopt_installed = False
 
-default_executor = lambda fn, *eargs, **ekargs: fn(*eargs, **ekargs)
 min_weight = float("1e-10")
 angle_precision = float("1e-6")
 tolerance = float("1e-1")
@@ -72,7 +71,7 @@ class LovaszTheta(Kernel):
     _graph_format = "adjacency"
 
     def __init__(self,
-                 executor=default_executor,
+                 n_jobs=None,
                  normalize=False,
                  verbose=False,
                  random_seed=42,
@@ -85,7 +84,7 @@ class LovaszTheta(Kernel):
             raise ImportError('cvxopt should be installed for the '
                               'computation of the Lovasz-Theta Kernel.')
 
-        super(LovaszTheta, self).__init__(executor=executor,
+        super(LovaszTheta, self).__init__(n_jobs=n_jobs,
                                           normalize=normalize,
                                           verbose=verbose)
 
@@ -93,11 +92,13 @@ class LovaszTheta(Kernel):
         self.subsets_size_range = subsets_size_range
         self.base_kernel = base_kernel
         self.random_seed = random_seed
-        self.initialized_ = {"n_samples": False, "subsets_size_range": False,
-                             "base_kernel": False, "random_seed": False}
+        self.initialized_.update({"n_samples": False, "subsets_size_range": False,
+                                  "base_kernel": False, "random_seed": False})
 
     def initialize_(self):
         """Initialize all transformer arguments, needing initialization."""
+        super(LovaszTheta, self).initialize_()
+
         if not self.initialized_["n_samples"]:
             if self.n_samples <= 0 or type(self.n_samples) is not int:
                 raise TypeError('n_samples must an integer be bigger than '

@@ -10,8 +10,6 @@ from sklearn.utils.validation import check_is_fitted
 from grakel.graph import Graph
 from grakel.kernels import Kernel
 
-default_executor = lambda fn, *eargs, **ekargs: fn(*eargs, **ekargs)
-
 
 class ShortestPathAttr(Kernel):
     r"""The shortest path kernel for attributes.
@@ -40,21 +38,22 @@ class ShortestPathAttr(Kernel):
 
     """
 
-    def __init__(self, executor=default_executor,
+    def __init__(self, n_jobs=None,
                  normalize=False,
                  verbose=False,
                  algorithm_type="auto",
                  attribute_kernel=lambda x, y: np.dot(x, y)):
         """Initialise a `shortest_path_attr` kernel."""
         super(ShortestPathAttr, self).__init__(
-            executor=executor, normalize=normalize, verbose=verbose)
+            n_jobs=n_jobs, normalize=normalize, verbose=verbose)
 
         self.algorithm_type = algorithm_type
         self.attribute_kernel = attribute_kernel
-        self.initialized_ = {"algorithm_type": False, "attribute_kernel": False}
+        self.initialized_.update({"algorithm_type": False, "attribute_kernel": False})
 
     def initialize_(self):
         """Initialize all transformer arguments, needing initialization."""
+        super(ShortestPathAttr, self).initialize_()
         if not self.initialized_["algorithm_type"]:
             if self.algorithm_type == "auto":
                 self._graph_format = "auto"
@@ -220,21 +219,26 @@ class ShortestPath(Kernel):
 
     _graph_bins = dict()
 
-    def __init__(self, executor=default_executor,
+    def __init__(self, n_jobs=None,
                  normalize=False,
                  verbose=False,
                  with_labels=True,
                  algorithm_type="auto"):
         """Initialize a `shortest_path` kernel."""
         super(ShortestPath, self).__init__(
-            executor=executor, normalize=normalize, verbose=verbose)
+            n_jobs=n_jobs, normalize=normalize, verbose=verbose)
 
         self.with_labels = with_labels
         self.algorithm_type = algorithm_type
-        self.initialized_ = {"with_labels": False, "algorithm_type": False}
+        self.initialized_.update({"with_labels": False, "algorithm_type": False})
 
     def initialize_(self):
         """Initialize all transformer arguments, needing initialization."""
+        if not self.initialized_["n_jobs"]:
+            if self.n_jobs is not None:
+                warnings.warn('no implemented parallelization for ShortestPath')
+            self.initialized_["n_jobs"] = True
+
         if not self.initialized_["algorithm_type"]:
             if self.algorithm_type == "auto":
                 self._graph_format = "auto"

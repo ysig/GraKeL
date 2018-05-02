@@ -16,8 +16,6 @@ from grakel.kernels import Kernel
 from six import itervalues
 from six import iteritems
 
-default_executor = lambda fn, *eargs, **ekargs: fn(*eargs, **ekargs)
-
 
 class PyramidMatch(Kernel):
     """Pyramid match kernel class.
@@ -57,24 +55,26 @@ class PyramidMatch(Kernel):
 
     _graph_format = "adjacency"
 
-    def __init__(self, executor=default_executor,
+    def __init__(self, n_jobs=None,
                  normalize=False,
                  verbose=False,
                  with_labels=True,
                  L=4,
                  d=6):
         """Initialise a `pyramid_match` kernel."""
-        super(PyramidMatch, self).__init__(executor=executor,
+        super(PyramidMatch, self).__init__(n_jobs=n_jobs,
                                            normalize=normalize,
                                            verbose=verbose)
 
         self.with_labels = with_labels
         self.L = L
         self.d = d
-        self.initialized_ = {"d": False, "L": False, "with_labels": False}
+        self.initialized_.update({"d": False, "L": False, "with_labels": False})
 
     def initialize_(self):
         """Initialize all transformer arguments, needing initialization."""
+        super(PyramidMatch, self).initialize_()
+
         if not self.initialized_["with_labels"]:
             if type(self.with_labels) != bool:
                 raise TypeError('with labels must be a boolean variable')

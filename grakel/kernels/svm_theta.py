@@ -14,8 +14,6 @@ from grakel.tools import distribute_samples
 positive_eigenvalue_limit = float("+1e-6")
 min_weight = float("1e-10")
 
-default_executor = lambda fn, *eargs, **ekargs: fn(*eargs, **ekargs)
-
 
 class SvmTheta(Kernel):
     """Calculate the SVM theta kernel.
@@ -53,13 +51,13 @@ class SvmTheta(Kernel):
 
     _graph_format = "adjacency"
 
-    def __init__(self, executor=default_executor, normalize=False,
+    def __init__(self, n_jobs=None, normalize=False,
                  verbose=False, random_seed=42, n_samples=50,
                  subsets_size_range=(2, 8),
                  base_kernel=lambda x, y: x.T.dot(y)):
         """Initialise a lovasz_theta kernel."""
         # setup valid parameters and initialise from parent
-        super(SvmTheta, self).__init__(executor=default_executor,
+        super(SvmTheta, self).__init__(n_jobs=n_jobs,
                                        normalize=normalize,
                                        verbose=verbose)
 
@@ -67,11 +65,12 @@ class SvmTheta(Kernel):
         self.subsets_size_range = subsets_size_range
         self.base_kernel = base_kernel
         self.random_seed = random_seed
-        self.initialized_ = {"n_samples": False, "subsets_size_range": False,
-                             "base_kernel": False, "random_seed": False}
+        self.initialized_.update({"n_samples": False, "subsets_size_range": False,
+                                  "base_kernel": False, "random_seed": False})
 
     def initialized_(self):
         """Initialize all transformer arguments, needing initialization."""
+        super(SvmTheta, self).initialize_()
         if not self.initialized_["n_samles"]:
             if self.n_samples <= 0 or type(self.n_samples) is not int:
                 raise TypeError('n_samples must an integer be bigger '

@@ -1261,9 +1261,11 @@ class Graph(object):
 
         # chain neighbors
         if sort_neighbors:
-            chain = lambda n: sorted(n)
+            def chain(n):
+                return sorted(n)
         else:
-            chain = lambda n: n
+            def chain(n):
+                return n
 
         # Initialize neighborhoods
         vertices = list(self.get_vertices(purpose))
@@ -1368,9 +1370,7 @@ class Graph(object):
                     raise ValueError('vertices are not valid '
                                      'for the original graph format')
 
-            recipe = [('get_correct', 'default'),
-                      ('add_edge_dict',)]
-            get_correct = lambda i: i
+            recipe = [('add_edge_dict',)]
         else:
             fv = False
             fa = False
@@ -1399,6 +1399,9 @@ class Graph(object):
                           ('get_correct', 'edsamic'),
                           ('add_adjacency',),
                           ('add_edge_dict',)]
+
+        def get_correct(i):
+            return i
 
         for ingredient in recipe:
             if ingredient[0] == 'idxs_to_nodes':
@@ -1453,9 +1456,8 @@ class Graph(object):
                         if (i in vertices and j in vertices)}
             elif ingredient[0] == 'get_correct':
                 if ingredient[1] == 'edsamic':
-                    get_correct = lambda i: self.edsamic[new_indexes[i]]
-                else:
-                    get_correct = lambda i: i
+                    def get_correct(i):
+                        return self.edsamic[new_indexes[i]]
 
         return subgraph
 

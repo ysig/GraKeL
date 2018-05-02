@@ -7,6 +7,8 @@ cimport numpy as np
 from libc.string cimport const_char
 from libc.stdlib cimport malloc, free
 
+from numpy import floor, sqrt
+
 def APHash(word):
     """C++ wrapped implementation of Arash Partov Hashing."""
     bs = word.encode('UTF-8')
@@ -124,3 +126,13 @@ def sm_kernel(x, y, kv, ke, k):
         for i in range(nv):
             free(ce[i])
         free(ce)
+
+def k_to_ij_triangular(k, dim):
+    i = int(dim - 1 - floor(sqrt(-8*k + 4*(dim+1)*dim-7)/2.0 - 0.5))
+    j = int(k + i - (dim+1)*(dim)//2 + (dim-i+1)*(dim-i)//2)
+    return (i, j)
+
+def k_to_ij_rectangular(k, dim):
+    i = k % dim
+    j = k // dim
+    return (i, j)

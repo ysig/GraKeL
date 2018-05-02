@@ -2,8 +2,6 @@ from warnings import warn
 from collections import Counter, Iterable
 from grakel import Kernel, Graph
 
-default_executor = lambda fn, *eargs, **ekargs: fn(*eargs, **ekargs)
-
 
 class VertexHistogram(Kernel):
     """Vertex Histogram kernel as found in :cite:`Sugiyama2015NIPS`
@@ -22,7 +20,7 @@ class VertexHistogram(Kernel):
     # _graph_format = "auto" (default: "auto")
 
     def __init__(self,
-                 executor=default_executor,
+                 n_jobs=n_jobs,
                  verbose=False,
                  normalize=False,
                  # kernel_param_1=kernel_param_1_default,
@@ -34,21 +32,25 @@ class VertexHistogram(Kernel):
         # Add new parameters
         self._valid_parameters |= new_parameters
 
-        super(VertexHistogram, self).__init__(
-            executor=executor, verbose=verbose, normalize=normalize)
+        super(VertexHistogram, self).__init__(n_jobs=n_jobs, verbose=verbose, normalize=normalize)
 
         # Get parameters and check the new ones
         # @for i=1 to num_new_parameters
         #   self.kernel_param_i = kernel_param_i
 
-        # self.initialized_ = {
+        # self.initialized_.update({
         #    param_needing_initialization_1 : False
         #             ...
         #    param_needing_initialization_m : False
-        # }
+        # })
 
     def initialize_(self):
         """Initialize all transformer arguments, needing initialization."""
+        # If you want to implement a parallelization by your self here is your chance
+        # If there is a pairwise operation on the Kernel object there is parallelization is implemented
+        # Just run the initialise from father to initialise a joblib Parallel (if n_jobs is not None).
+        super(VertexHistogram, self).initialize_()
+
         # for i=1 .. m
         #     if not self.initialized_["param_needing_initialization_i"]:
         #         # Apply checks (raise ValueError or TypeError accordingly)
