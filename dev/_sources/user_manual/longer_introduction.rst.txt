@@ -19,7 +19,7 @@ These features can be listed as follows:
             The decorator sometimes wraps two kernels in one (as in the :code:`MultiscaleLaplacian` and :code:`MultiscaleLaplacianFast`) and in order to learn
             the meaning of each parameter the user is suggested to read the documentation found on :ref:`kernels`.
 
-    - :code:`general_kernels` : 
+    - :code:`frameworks` : 
         This type of kernels takes as a :code:`base_kernel` another kernel object. This kernel is also a dictionary containing its name under the :code:`'name'` field and its 
         parameterization on separate fields that signify kernel parameters and their values. The kernel produced from all the rest kernels in the list is considered as a :code:`base_kernel` and its parametrization, can be applied on the list consecutive elements. The :code:`weisfeiler_lehman` we show on the introduction is such a kernel.
 
@@ -111,13 +111,17 @@ These features can be listed as follows:
 
 * :code:`n_jobs` : Some kernels have operations that can be executed concurrently, making computation faster 
     when user uses a significant amount of data, to overcome the parallelization overhead. :code:`n_jobs` follows
-    the same formulation as in sklearn where giving as input 0 or -1 :code:`n_jobs` signifies initializing all the
-    possible workers and if given a positive number, initializes that amount of workers if possible.
+    the same formulation as in scikit-learn where giving as input 0 or -1 :code:`n_jobs` signifies initializing all the
+    possible workers and if given a positive number, initializes that amount of workers if possible. There are kernels
+    where this feature is not implemented either from already using low level parallelization from other libraries (such as numpy)
+    or there was not a way that applying parallelization seemed to *worth it*. In such case the kernel pops a specified warning.
 
-    .. warning::
-        This feature is currently not implemented correctly and we would advise the user not to use.
+    .. note::
+        The efficiency of parallelization is generally revealed when doing kernel computation on large datasets where the
+        final operation that calculates the kernel value (generally between features extracted from graphs) is the one of the
+        computation bottlenecks of the whole operation.
 
-    For helping us solve such a problem see :ref:`contributing`.
+    To extend these feature to more kernels or to propose new computational strategies see how you canc **contribute** in :ref:`contributing`.
 
 * :code:`random_seed` : We would in generally want to satisfy the need of the user to provide
     a :code:`random_seed` either to kernels that are probabilistic, or to randomize accordingly

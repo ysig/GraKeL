@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>grakel.kernels.odd_sth &mdash; GraKeL 0.1a2 documentation</title>
+  <title>grakel.kernels.odd_sth &mdash; GraKeL 0.1a3 documentation</title>
   
 
   
@@ -62,7 +62,7 @@
             
             
               <div class="version">
-                0.1a2
+                0.1a3
               </div>
             
           
@@ -174,8 +174,6 @@
 <span class="c1"># Python 2/3 cross-compatibility import</span>
 <span class="kn">from</span> <span class="nn">six</span> <span class="k">import</span> <span class="n">iteritems</span>
 
-<span class="n">default_executor</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">fn</span><span class="p">,</span> <span class="o">*</span><span class="n">eargs</span><span class="p">,</span> <span class="o">**</span><span class="n">ekargs</span><span class="p">:</span> <span class="n">fn</span><span class="p">(</span><span class="o">*</span><span class="n">eargs</span><span class="p">,</span> <span class="o">**</span><span class="n">ekargs</span><span class="p">)</span>
-
 
 <div class="viewcode-block" id="OddSth"><a class="viewcode-back" href="../../../generated/grakel.OddSth.html#grakel.OddSth">[docs]</a><span class="k">class</span> <span class="nc">OddSth</span><span class="p">(</span><span class="n">Kernel</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;ODD-Sth kernel as proposed in :cite:`Martino2012ATK`.</span>
@@ -213,17 +211,22 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="OddSth.__init__"><a class="viewcode-back" href="../../../generated/grakel.OddSth.html#grakel.OddSth.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">executor</span><span class="o">=</span><span class="n">default_executor</span><span class="p">,</span>
+<div class="viewcode-block" id="OddSth.__init__"><a class="viewcode-back" href="../../../generated/grakel.OddSth.html#grakel.OddSth.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialise an `odd_sth` kernel.&quot;&quot;&quot;</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">OddSth</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">executor</span><span class="o">=</span><span class="n">executor</span><span class="p">,</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">OddSth</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="n">n_jobs</span><span class="p">,</span>
                                      <span class="n">normalize</span><span class="o">=</span><span class="n">normalize</span><span class="p">,</span>
                                      <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">h</span> <span class="o">=</span> <span class="n">h</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;h&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;h&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">})</span></div>
 
 <div class="viewcode-block" id="OddSth.initialize_"><a class="viewcode-back" href="../../../generated/grakel.OddSth.html#grakel.OddSth.initialize_">[docs]</a>    <span class="k">def</span> <span class="nf">initialize_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialize all transformer arguments, needing initialization.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span><span class="p">[</span><span class="s2">&quot;n_jobs&quot;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;no implemented parallelization for OddSth&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span><span class="p">[</span><span class="s2">&quot;n_jobs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span><span class="p">[</span><span class="s2">&quot;h&quot;</span><span class="p">]:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">h</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">h</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">int</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">h</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">):</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;h must be an integer bigger than zero&#39;</span><span class="p">)</span>
@@ -822,7 +825,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.1a2',
+            VERSION:'0.1a3',
             LANGUAGE:'en',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

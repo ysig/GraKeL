@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>A longer Introduction &mdash; GraKeL 0.1a2 documentation</title>
+  <title>A longer Introduction &mdash; GraKeL 0.1a3 documentation</title>
   
 
   
@@ -64,7 +64,7 @@
             
             
               <div class="version">
-                0.1a2
+                0.1a3
               </div>
             
           
@@ -195,7 +195,7 @@ the meaning of each parameter the user is suggested to read the documentation fo
 </dl>
 </li>
 <li><dl class="first docutils">
-<dt><code class="code docutils literal notranslate"><span class="pre">general_kernels</span></code> :</dt>
+<dt><code class="code docutils literal notranslate"><span class="pre">frameworks</span></code> :</dt>
 <dd><p class="first last">This type of kernels takes as a <code class="code docutils literal notranslate"><span class="pre">base_kernel</span></code> another kernel object. This kernel is also a dictionary containing its name under the <code class="code docutils literal notranslate"><span class="pre">'name'</span></code> field and its
 parameterization on separate fields that signify kernel parameters and their values. The kernel produced from all the rest kernels in the list is considered as a <code class="code docutils literal notranslate"><span class="pre">base_kernel</span></code> and its parametrization, can be applied on the list consecutive elements. The <code class="code docutils literal notranslate"><span class="pre">weisfeiler_lehman</span></code> we show on the introduction is such a kernel.</p>
 </dd>
@@ -289,13 +289,17 @@ in the sample space. An example indicating the power of nystroem can be indicate
 <li><dl class="first docutils">
 <dt><code class="code docutils literal notranslate"><span class="pre">n_jobs</span></code> <span class="classifier-delimiter">:</span> <span class="classifier">Some kernels have operations that can be executed concurrently, making computation faster</span></dt>
 <dd><p class="first">when user uses a significant amount of data, to overcome the parallelization overhead. <code class="code docutils literal notranslate"><span class="pre">n_jobs</span></code> follows
-the same formulation as in sklearn where giving as input 0 or -1 <code class="code docutils literal notranslate"><span class="pre">n_jobs</span></code> signifies initializing all the
-possible workers and if given a positive number, initializes that amount of workers if possible.</p>
-<div class="admonition warning">
-<p class="first admonition-title">Warning</p>
-<p class="last">This feature is currently not implemented correctly and we would advise the user not to use.</p>
+the same formulation as in scikit-learn where giving as input 0 or -1 <code class="code docutils literal notranslate"><span class="pre">n_jobs</span></code> signifies initializing all the
+possible workers and if given a positive number, initializes that amount of workers if possible. There are kernels
+where this feature is not implemented either from already using low level parallelization from other libraries (such as numpy)
+or there was not a way that applying parallelization seemed to <em>worth it</em>. In such case the kernel pops a specified warning.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The efficiency of parallelization is generally revealed when doing kernel computation on large datasets where the
+final operation that calculates the kernel value (generally between features extracted from graphs) is the one of the
+computation bottlenecks of the whole operation.</p>
 </div>
-<p class="last">For helping us solve such a problem see <a class="reference internal" href="contributing.html#contributing"><span class="std std-ref">Contributing</span></a>.</p>
+<p class="last">To extend these feature to more kernels or to propose new computational strategies see how you canc <strong>contribute</strong> in <a class="reference internal" href="contributing.html#contributing"><span class="std std-ref">Contributing</span></a>.</p>
 </dd>
 </dl>
 </li>
@@ -402,7 +406,7 @@ with the <code class="code docutils literal notranslate"><span class="pre">subtr
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">grakel</span> <span class="kn">import</span> <span class="n">VertexHistogram</span>
 </pre></div>
 </div>
-<p>If we see the documentation of <a class="reference internal" href="../kernels/weisfeiler_lehman.html#weisfeiler-lehman"><span class="std std-ref">Weisfeiler Lehman Kernel</span></a>, we can see that it accepts two arguments upon initialization: a <code class="code docutils literal notranslate"><span class="pre">niter</span></code> and a <code class="code docutils literal notranslate"><span class="pre">base_kernel</span></code>. The <code class="code docutils literal notranslate"><span class="pre">base_kernel</span></code> is a tuple consisting of a <code class="code docutils literal notranslate"><span class="pre">kernel</span></code> type object and a dictionary of arguments. To initialize a Weisfeiler-Lehman with 5 iterations and a subtree base-kernel.</p>
+<p>If we see the documentation of <a class="reference internal" href="../kernels/weisfeiler_lehman.html#weisfeiler-lehman"><span class="std std-ref">Weisfeiler Lehman Framework</span></a>, we can see that it accepts two arguments upon initialization: a <code class="code docutils literal notranslate"><span class="pre">niter</span></code> and a <code class="code docutils literal notranslate"><span class="pre">base_kernel</span></code>. The <code class="code docutils literal notranslate"><span class="pre">base_kernel</span></code> is a tuple consisting of a <code class="code docutils literal notranslate"><span class="pre">kernel</span></code> type object and a dictionary of arguments. To initialize a Weisfeiler-Lehman with 5 iterations and a subtree base-kernel.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">wl_kernel</span> <span class="o">=</span> <span class="n">WeisfeilerLehman</span><span class="p">(</span><span class="n">niter</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">base_kernel</span><span class="o">=</span><span class="p">(</span><span class="n">VertexHistogram</span><span class="p">,</span> <span class="p">{}))</span>
 </pre></div>
 </div>
@@ -593,7 +597,7 @@ First initialize those objects:</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.1a2',
+            VERSION:'0.1a3',
             LANGUAGE:'en',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

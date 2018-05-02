@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Weisfeiler Lehman Kernel &mdash; GraKeL 0.1a2 documentation</title>
+  <title>Weisfeiler Lehman Framework &mdash; GraKeL 0.1a3 documentation</title>
   
 
   
@@ -64,7 +64,7 @@
             
             
               <div class="version">
-                0.1a2
+                0.1a3
               </div>
             
           
@@ -112,7 +112,12 @@
 <li class="toctree-l3"><a class="reference internal" href="subgraph_matching.html">Subgraph Matching Kernel</a></li>
 <li class="toctree-l3"><a class="reference internal" href="svm_theta.html">SVM Theta Kernel</a></li>
 <li class="toctree-l3"><a class="reference internal" href="vertex_histogram.html">Vertex Histogram Kernel</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Weisfeiler Lehman Kernel</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Weisfeiler Lehman Framework</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#definition-weisfeiler-lehman-framework">Definition: Weisfeiler-Lehman Framework</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#weisfeiler-lehman-subtree-kernel">Weisfeiler-Lehman Subtree Kernel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#bibliography">Bibliography</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../graph_kernel.html">GraphKernel (class)</a></li>
@@ -171,7 +176,7 @@
         
           <li><a href="../kernels.html">Kernels (between graphs)</a> &raquo;</li>
         
-      <li>Weisfeiler Lehman Kernel</li>
+      <li>Weisfeiler Lehman Framework</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -190,21 +195,96 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="weisfeiler-lehman-kernel">
-<span id="weisfeiler-lehman"></span><h1>Weisfeiler Lehman Kernel<a class="headerlink" href="#weisfeiler-lehman-kernel" title="Permalink to this headline">¶</a></h1>
-<p>The Weisfeiler Lehman Kernel.</p>
-<p><strong>Theoretical definition missing</strong></p>
+  <div class="section" id="weisfeiler-lehman-framework">
+<span id="weisfeiler-lehman"></span><h1>Weisfeiler Lehman Framework<a class="headerlink" href="#weisfeiler-lehman-framework" title="Permalink to this headline">¶</a></h1>
+<p>This Weisfeiler Lehman framework operates on top of existing graph kernels and is inspired by the
+Weisfeiler-Lehman test of graph isomorphism <a class="reference internal" href="#weisfeiler1968reduction-gn" id="id1">[WL68]</a>.
+The key idea of the Weisfeiler-Lehman algorithm is to replace the label of each vertex with a multiset
+label consisting of the original label of the vertex and the sorted set of labels of its neighbors.
+The resultant multiset is then compressed into a new, short label.
+This relabeling procedure is then repeated for <span class="math notranslate nohighlight">\(h\)</span> iterations.
+Note that this procedure is performed simultaneously on all input graphs.
+Therefore, two vertices from different graphs will get identical new labels
+if and only if they have identical multiset labels.</p>
+<p>More formally, given a graph <span class="math notranslate nohighlight">\(G=(V,E)\)</span> endowed with a labeling function <span class="math notranslate nohighlight">\(\ell=\ell_0\)</span>,
+the Weisfeiler-Lehman graph of <span class="math notranslate nohighlight">\(G\)</span> at height <span class="math notranslate nohighlight">\(i\)</span> is a graph <span class="math notranslate nohighlight">\(G_i=(V,E)\)</span> endowed
+with a labeling function <span class="math notranslate nohighlight">\(\ell_i\)</span> which has emerged after <span class="math notranslate nohighlight">\(i\)</span> iterations of the
+relabeling procedure described above.</p>
+<p>The Weisfeiler-Lehman sequence up to height <span class="math notranslate nohighlight">\(h\)</span> of <span class="math notranslate nohighlight">\(G\)</span> consists of the Weisfeiler-Lehman
+graphs of <span class="math notranslate nohighlight">\(G\)</span> at heights from <span class="math notranslate nohighlight">\(0\)</span> to <span class="math notranslate nohighlight">\(h\)</span>, :math:<a href="#id2"><span class="problematic" id="id3">`</span></a>{ G_0,G_1,ldots,G_h}.</p>
+<div class="section" id="definition-weisfeiler-lehman-framework">
+<h2>Definition: Weisfeiler-Lehman Framework<a class="headerlink" href="#definition-weisfeiler-lehman-framework" title="Permalink to this headline">¶</a></h2>
+<p>Let <span class="math notranslate nohighlight">\(k\)</span> be any kernel for graphs, that we will call the base kernel.
+Then the Weisfeiler-Lehman kernel with <span class="math notranslate nohighlight">\(h\)</span> iterations with the base
+kernel <span class="math notranslate nohighlight">\(k\)</span> between two graphs <span class="math notranslate nohighlight">\(G\)</span> and <span class="math notranslate nohighlight">\(G'\)</span> is defined as</p>
+<div class="math notranslate nohighlight">
+    \begin{equation}
+            k_{WL}(G,G') = k(G_0,G_0') + k(G_1,G_1') + \ldots + k(G_h,G_h')
+    \end{equation}</div><p>where <span class="math notranslate nohighlight">\(h\)</span> is the number of Weisfeiler-Lehman iterations, and
+<span class="math notranslate nohighlight">\(\{ G_0,G_1,\ldots,G_h\}\)</span> and <span class="math notranslate nohighlight">\(\{ G_0',G_1',\ldots,G_h'\}\)</span>
+are the Weisfeiler-Lehman sequences of <span class="math notranslate nohighlight">\(G\)</span> and <span class="math notranslate nohighlight">\(G'\)</span> respectively.</p>
+<p>From the above definition, it is clear that any graph kernel that takes into
+account discrete node labels can take advantage of the Weisfeiler-Lehman framework
+and compare graphs based on the whole Weisfeiler-Lehman sequence.</p>
+<p>The general implementation of this framework can be founded here:</p>
 <table border="1" class="longtable docutils">
 <colgroup>
 <col width="10%" />
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="../generated/grakel.WeisfeilerLehman.html#grakel.WeisfeilerLehman" title="grakel.WeisfeilerLehman"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WeisfeilerLehman</span></code></a>([executor,&nbsp;verbose,&nbsp;…])</td>
+<tr class="row-odd"><td><a class="reference internal" href="../generated/grakel.WeisfeilerLehman.html#grakel.WeisfeilerLehman" title="grakel.WeisfeilerLehman"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WeisfeilerLehman</span></code></a>([n_jobs,&nbsp;verbose,&nbsp;…])</td>
 <td>Compute the Weisfeiler Lehman Kernel.</td>
 </tr>
 </tbody>
 </table>
+<p>It should support all <code class="code docutils literal notranslate"><span class="pre">Kernel</span></code> objects inside its parameter <code class="code docutils literal notranslate"><span class="pre">base_kernel</span></code> (formulated in the correct way).</p>
+</div>
+<div class="section" id="weisfeiler-lehman-subtree-kernel">
+<h2>Weisfeiler-Lehman Subtree Kernel<a class="headerlink" href="#weisfeiler-lehman-subtree-kernel" title="Permalink to this headline">¶</a></h2>
+<p>The Weisfeiler-Lehman subtree kernel is a very popular algorithm, and is considered the state-of-the-art in graph classification.
+Let <span class="math notranslate nohighlight">\(G\)</span>, <span class="math notranslate nohighlight">\(G'\)</span> be two graphs. Define <span class="math notranslate nohighlight">\(\Sigma_i \subseteq \Sigma\)</span> as the set of letters that occur as node labels
+at least once in <span class="math notranslate nohighlight">\(G\)</span> or <span class="math notranslate nohighlight">\(G'\)</span> at the end of the <span class="math notranslate nohighlight">\(i^{th}\)</span> iteration of the Weisfeiler-Lehman algorithm.
+Let <span class="math notranslate nohighlight">\(\Sigma_0\)</span> be the set of original node labels of <span class="math notranslate nohighlight">\(G\)</span> and <span class="math notranslate nohighlight">\(G'\)</span>.
+Assume all <span class="math notranslate nohighlight">\(\Sigma_i\)</span> are pairwise disjoint.
+Without loss of generality, assume that every <span class="math notranslate nohighlight">\(\Sigma_i = \{ \sigma_{i1},\ldots,\sigma_{i|\Sigma_i|} \}\)</span> is ordered.
+Define a map <span class="math notranslate nohighlight">\(c_i : \{ G,G' \} \times \Sigma_i \rightarrow \mathbb{N}\)</span> such that <span class="math notranslate nohighlight">\(c_i(G, \sigma_{ij})\)</span>
+is the number of occurrences of the letter <span class="math notranslate nohighlight">\(\sigma_{ij}\)</span> in the graph <span class="math notranslate nohighlight">\(G\)</span>.</p>
+<p>The Weisfeiler-Lehman subtree kernel on two graphs <span class="math notranslate nohighlight">\(G\)</span> and <span class="math notranslate nohighlight">\(G'\)</span> with <span class="math notranslate nohighlight">\(h\)</span> iterations is defined as</p>
+<div class="math notranslate nohighlight">
+\begin{equation}
+        k(G,G') = \langle \phi(G),\phi(G') \rangle
+\end{equation}</div><p>where</p>
+<div class="math notranslate nohighlight">
+\begin{equation}
+        \phi(G) = (c_0(G,\sigma_{01}),\ldots,c_0(G,\sigma_{0|\Sigma_0|}),\ldots,c_h(G,\sigma_{h1}),\ldots,c_h(G,\sigma_{h|\Sigma_h|}))
+\end{equation}</div><p>and</p>
+<div class="math notranslate nohighlight">
+\begin{equation}
+        \phi(G') = (c_0(G',\sigma_{01}),\ldots,c_0(G',\sigma_{0|\Sigma_0|}),\ldots,c_h(G',\sigma_{h1}),\ldots,c_h(G',\sigma_{h|\Sigma_h|}))
+\end{equation}</div><p>It can be shown that the above definition is equivalent to comparing the number of shared subtrees between the two input graphs <a class="reference internal" href="#shervashidze2011weisfeiler-gn" id="id4">[SSVL+11]</a>.
+It is interesting to note that the Weisfeiler-Lehman subtree kernel exhibits an attractive computational complexity since it can be computed in <span class="math notranslate nohighlight">\(\mathcal{O}(hm)\)</span> time.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">To create these kernel use as a <code class="code docutils literal notranslate"><span class="pre">base_kernel</span></code> the <a class="reference internal" href="vertex_histogram.html#vertex-histogram"><span class="std std-ref">Vertex Histogram Kernel</span></a>.</p>
+</div>
+</div>
+<div class="section" id="bibliography">
+<h2>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">¶</a></h2>
+<p id="bibtex-bibliography-kernels/weisfeiler_lehman-0"><table class="docutils citation" frame="void" id="shervashidze2011weisfeiler-gn" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id4">[SSVL+11]</a></td><td>N.&nbsp;Shervashidze, P.&nbsp;Schweitzer, E.&nbsp;J. Van&nbsp;Leeuwen, K.&nbsp;Mehlhorn, and K.&nbsp;M. Borgwardt. Weisfeiler-Lehman Graph Kernels. <em>The Journal of Machine Learning Research</em>, 12:2539–2561, 2011.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="weisfeiler1968reduction-gn" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[WL68]</a></td><td>Boris Weisfeiler and AA&nbsp;Lehman. A reduction of a graph to a canonical form and an algebra arising during this reduction. <em>Nauchno-Technicheskaya Informatsia</em>, 2(9):12–16, 1968.</td></tr>
+</tbody>
+</table>
+</p>
+</div>
 </div>
 
 
@@ -249,7 +329,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.1a2',
+            VERSION:'0.1a3',
             LANGUAGE:'en',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

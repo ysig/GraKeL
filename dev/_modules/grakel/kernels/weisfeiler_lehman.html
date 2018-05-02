@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>grakel.kernels.weisfeiler_lehman &mdash; GraKeL 0.1a2 documentation</title>
+  <title>grakel.kernels.weisfeiler_lehman &mdash; GraKeL 0.1a3 documentation</title>
   
 
   
@@ -62,7 +62,7 @@
             
             
               <div class="version">
-                0.1a2
+                0.1a3
               </div>
             
           
@@ -164,6 +164,7 @@
 
 <span class="kn">from</span> <span class="nn">sklearn.exceptions</span> <span class="k">import</span> <span class="n">NotFittedError</span>
 <span class="kn">from</span> <span class="nn">sklearn.utils.validation</span> <span class="k">import</span> <span class="n">check_is_fitted</span>
+<span class="kn">from</span> <span class="nn">sklearn.externals</span> <span class="k">import</span> <span class="n">joblib</span>
 
 <span class="kn">from</span> <span class="nn">grakel.graph</span> <span class="k">import</span> <span class="n">Graph</span>
 <span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">Kernel</span>
@@ -171,8 +172,6 @@
 <span class="c1"># Python 2/3 cross-compatibility import</span>
 <span class="kn">from</span> <span class="nn">six</span> <span class="k">import</span> <span class="n">iteritems</span>
 <span class="kn">from</span> <span class="nn">six</span> <span class="k">import</span> <span class="n">itervalues</span>
-
-<span class="n">default_executor</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">fn</span><span class="p">,</span> <span class="o">*</span><span class="n">eargs</span><span class="p">,</span> <span class="o">**</span><span class="n">ekargs</span><span class="p">:</span> <span class="n">fn</span><span class="p">(</span><span class="o">*</span><span class="n">eargs</span><span class="p">,</span> <span class="o">**</span><span class="n">ekargs</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="WeisfeilerLehman"><a class="viewcode-back" href="../../../generated/grakel.WeisfeilerLehman.html#grakel.WeisfeilerLehman">[docs]</a><span class="k">class</span> <span class="nc">WeisfeilerLehman</span><span class="p">(</span><span class="n">Kernel</span><span class="p">):</span>
@@ -212,19 +211,20 @@
 
     <span class="n">_graph_format</span> <span class="o">=</span> <span class="s2">&quot;dictionary&quot;</span>
 
-<div class="viewcode-block" id="WeisfeilerLehman.__init__"><a class="viewcode-back" href="../../../generated/grakel.WeisfeilerLehman.html#grakel.WeisfeilerLehman.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">executor</span><span class="o">=</span><span class="n">default_executor</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<div class="viewcode-block" id="WeisfeilerLehman.__init__"><a class="viewcode-back" href="../../../generated/grakel.WeisfeilerLehman.html#grakel.WeisfeilerLehman.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                  <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">niter</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">base_kernel</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialise a `weisfeiler_lehman` kernel.&quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">WeisfeilerLehman</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="n">executor</span><span class="o">=</span><span class="n">executor</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="n">normalize</span><span class="p">)</span>
+            <span class="n">n_jobs</span><span class="o">=</span><span class="n">n_jobs</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="n">normalize</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">niter</span> <span class="o">=</span> <span class="n">niter</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">base_kernel</span> <span class="o">=</span> <span class="n">base_kernel</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;niter&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;base_kernel&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;niter&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;base_kernel&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">})</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_base_kernel</span> <span class="o">=</span> <span class="kc">None</span></div>
 
 <div class="viewcode-block" id="WeisfeilerLehman.initialize_"><a class="viewcode-back" href="../../../generated/grakel.WeisfeilerLehman.html#grakel.WeisfeilerLehman.initialize_">[docs]</a>    <span class="k">def</span> <span class="nf">initialize_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialize all transformer arguments, needing initialization.&quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">WeisfeilerLehman</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">initialize_</span><span class="p">()</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span><span class="p">[</span><span class="s2">&quot;base_kernel&quot;</span><span class="p">]:</span>
             <span class="n">base_kernel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_kernel</span>
             <span class="k">if</span> <span class="n">base_kernel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -252,7 +252,7 @@
 
                 <span class="n">params</span><span class="p">[</span><span class="s2">&quot;normalize&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
                 <span class="n">params</span><span class="p">[</span><span class="s2">&quot;verbose&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span>
-                <span class="n">params</span><span class="p">[</span><span class="s2">&quot;executor&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">executor</span>
+                <span class="n">params</span><span class="p">[</span><span class="s2">&quot;n_jobs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_base_kernel</span> <span class="o">=</span> <span class="k">lambda</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">base_kernel</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Upon initialization base_kernel cannot be &#39;</span>
@@ -351,59 +351,64 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_inv_labels</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_inv_labels</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">WL_labels_inverse</span>
 
-        <span class="n">new_graphs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nx</span><span class="p">):</span>
-            <span class="n">new_labels</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">L</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-                <span class="n">new_labels</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">WL_labels_inverse</span><span class="p">[</span><span class="n">L</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">]]</span>
-            <span class="n">L</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_labels</span>
-            <span class="c1"># add new labels</span>
-            <span class="n">new_graphs</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">Gs_ed</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">new_labels</span><span class="p">)</span> <span class="o">+</span> <span class="n">extras</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
-
-        <span class="n">base_kernel</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-        <span class="n">base_kernel</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_kernel</span><span class="p">()</span>
-
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_method_calling</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="n">base_kernel</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">new_graphs</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_method_calling</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-            <span class="n">K</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">nx</span><span class="p">,</span> <span class="n">nx</span><span class="p">))</span>
-            <span class="n">K</span> <span class="o">+=</span> <span class="n">base_kernel</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">new_graphs</span><span class="p">)</span>
-
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_niter</span><span class="p">):</span>
-            <span class="n">label_set</span><span class="p">,</span> <span class="n">WL_labels_inverse</span><span class="p">,</span> <span class="n">L_temp</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(),</span> <span class="nb">dict</span><span class="p">(),</span> <span class="nb">dict</span><span class="p">()</span>
-            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nx</span><span class="p">):</span>
-                <span class="c1"># Find unique labels and sort</span>
-                <span class="c1"># them for both graphs</span>
-                <span class="c1"># Keep for each node the temporary</span>
-                <span class="n">L_temp</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-                <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">Gs_ed</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-                    <span class="n">credential</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">L</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">v</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;,&quot;</span> <span class="o">+</span> \
-                        <span class="nb">str</span><span class="p">(</span><span class="nb">sorted</span><span class="p">([</span><span class="n">L</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">n</span><span class="p">]</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">Gs_ed</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()]))</span>
-                    <span class="n">L_temp</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">credential</span>
-                    <span class="n">label_set</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">credential</span><span class="p">)</span>
-
-            <span class="n">label_list</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">label_set</span><span class="p">))</span>
-            <span class="k">for</span> <span class="n">dv</span> <span class="ow">in</span> <span class="n">label_list</span><span class="p">:</span>
-                <span class="n">WL_labels_inverse</span><span class="p">[</span><span class="n">dv</span><span class="p">]</span> <span class="o">=</span> <span class="n">label_count</span>
-                <span class="n">label_count</span> <span class="o">+=</span> <span class="mi">1</span>
-
-            <span class="c1"># Recalculate labels</span>
+        <span class="k">def</span> <span class="nf">generate_graphs</span><span class="p">(</span><span class="n">label_count</span><span class="p">,</span> <span class="n">WL_labels_inverse</span><span class="p">):</span>
             <span class="n">new_graphs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
             <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nx</span><span class="p">):</span>
                 <span class="n">new_labels</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-                <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">L_temp</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-                    <span class="n">new_labels</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">WL_labels_inverse</span><span class="p">[</span><span class="n">L_temp</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">]]</span>
+                <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">L</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                    <span class="n">new_labels</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">WL_labels_inverse</span><span class="p">[</span><span class="n">L</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">]]</span>
                 <span class="n">L</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_labels</span>
-                <span class="c1"># relabel</span>
+                <span class="c1"># add new labels</span>
                 <span class="n">new_graphs</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">Gs_ed</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">new_labels</span><span class="p">)</span> <span class="o">+</span> <span class="n">extras</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+            <span class="k">yield</span> <span class="n">new_graphs</span>
 
-            <span class="c1"># calculate kernel</span>
-            <span class="n">base_kernel</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_kernel</span><span class="p">()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_inv_labels</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">WL_labels_inverse</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_niter</span><span class="p">):</span>
+                <span class="n">label_set</span><span class="p">,</span> <span class="n">WL_labels_inverse</span><span class="p">,</span> <span class="n">L_temp</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(),</span> <span class="nb">dict</span><span class="p">(),</span> <span class="nb">dict</span><span class="p">()</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nx</span><span class="p">):</span>
+                    <span class="c1"># Find unique labels and sort</span>
+                    <span class="c1"># them for both graphs</span>
+                    <span class="c1"># Keep for each node the temporary</span>
+                    <span class="n">L_temp</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+                    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">Gs_ed</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                        <span class="n">credential</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">L</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">v</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;,&quot;</span> <span class="o">+</span> \
+                            <span class="nb">str</span><span class="p">(</span><span class="nb">sorted</span><span class="p">([</span><span class="n">L</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">n</span><span class="p">]</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">Gs_ed</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()]))</span>
+                        <span class="n">L_temp</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">credential</span>
+                        <span class="n">label_set</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">credential</span><span class="p">)</span>
+
+                <span class="n">label_list</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">label_set</span><span class="p">))</span>
+                <span class="k">for</span> <span class="n">dv</span> <span class="ow">in</span> <span class="n">label_list</span><span class="p">:</span>
+                    <span class="n">WL_labels_inverse</span><span class="p">[</span><span class="n">dv</span><span class="p">]</span> <span class="o">=</span> <span class="n">label_count</span>
+                    <span class="n">label_count</span> <span class="o">+=</span> <span class="mi">1</span>
+
+                <span class="c1"># Recalculate labels</span>
+                <span class="n">new_graphs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nx</span><span class="p">):</span>
+                    <span class="n">new_labels</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+                    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">L_temp</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                        <span class="n">new_labels</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">WL_labels_inverse</span><span class="p">[</span><span class="n">L_temp</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">]]</span>
+                    <span class="n">L</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_labels</span>
+                    <span class="c1"># relabel</span>
+                    <span class="n">new_graphs</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">Gs_ed</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">new_labels</span><span class="p">)</span> <span class="o">+</span> <span class="n">extras</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_inv_labels</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">WL_labels_inverse</span>
+                <span class="k">yield</span> <span class="n">new_graphs</span>
+
+        <span class="n">base_kernel</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_kernel</span><span class="p">()</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_niter</span><span class="p">)}</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parallel</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_method_calling</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="n">base_kernel</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">new_graphs</span><span class="p">)</span>
+                <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">g</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">generate_graphs</span><span class="p">(</span><span class="n">label_count</span><span class="p">,</span> <span class="n">WL_labels_inverse</span><span class="p">)):</span>
+                    <span class="n">base_kernel</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
             <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_method_calling</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-                <span class="n">K</span> <span class="o">+=</span> <span class="n">base_kernel</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">new_graphs</span><span class="p">)</span>
+                <span class="n">K</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">base_kernel</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">g</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">g</span><span class="p">)</span> <span class="ow">in</span>
+                           <span class="nb">enumerate</span><span class="p">(</span><span class="n">generate_graphs</span><span class="p">(</span><span class="n">label_count</span><span class="p">,</span> <span class="n">WL_labels_inverse</span><span class="p">))),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_method_calling</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_parallel</span><span class="p">(</span><span class="n">joblib</span><span class="o">.</span><span class="n">delayed</span><span class="p">(</span><span class="n">efit</span><span class="p">)(</span><span class="n">base_kernel</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">g</span><span class="p">)</span>
+                               <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">g</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">generate_graphs</span><span class="p">(</span><span class="n">label_count</span><span class="p">,</span> <span class="n">WL_labels_inverse</span><span class="p">)))</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_method_calling</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">K</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_parallel</span><span class="p">(</span><span class="n">joblib</span><span class="o">.</span><span class="n">delayed</span><span class="p">(</span><span class="n">efit_transform</span><span class="p">)(</span><span class="n">base_kernel</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">g</span><span class="p">)</span>
+                           <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">g</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">generate_graphs</span><span class="p">(</span><span class="n">label_count</span><span class="p">,</span> <span class="n">WL_labels_inverse</span><span class="p">))),</span>
+                           <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_method_calling</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">base_kernel</span>
@@ -515,57 +520,66 @@
         <span class="n">WL_labels_inverse</span> <span class="o">=</span> <span class="p">{</span><span class="n">dv</span><span class="p">:</span> <span class="n">idx</span> <span class="k">for</span> <span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">dv</span><span class="p">)</span> <span class="ow">in</span>
                              <span class="nb">enumerate</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">distinct_values</span><span class="p">)),</span> <span class="n">nl</span><span class="p">)}</span>
 
-        <span class="c1"># calculate the kernel matrix for the 0 iteration</span>
-        <span class="n">new_graphs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nx</span><span class="p">):</span>
-            <span class="n">new_labels</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-            <span class="k">for</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="ow">in</span> <span class="n">iteritems</span><span class="p">(</span><span class="n">L</span><span class="p">[</span><span class="n">j</span><span class="p">]):</span>
-                <span class="k">if</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inv_labels</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
-                    <span class="n">new_labels</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inv_labels</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">v</span><span class="p">]</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">new_labels</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">WL_labels_inverse</span><span class="p">[</span><span class="n">v</span><span class="p">]</span>
-            <span class="n">L</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_labels</span>
-            <span class="c1"># produce the new graphs</span>
-            <span class="n">new_graphs</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">Gs_ed</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">new_labels</span><span class="p">])</span>
-        <span class="n">K</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">new_graphs</span><span class="p">)</span>
-
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_niter</span><span class="p">):</span>
-            <span class="n">new_graphs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-            <span class="n">L_temp</span><span class="p">,</span> <span class="n">label_set</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(),</span> <span class="nb">set</span><span class="p">()</span>
-            <span class="n">nl</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_inv_labels</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nx</span><span class="p">):</span>
-                <span class="c1"># Find unique labels and sort them for both graphs</span>
-                <span class="c1"># Keep for each node the temporary</span>
-                <span class="n">L_temp</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-                <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">Gs_ed</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-                    <span class="n">credential</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">L</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">v</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;,&quot;</span> <span class="o">+</span> \
-                        <span class="nb">str</span><span class="p">(</span><span class="nb">sorted</span><span class="p">([</span><span class="n">L</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">n</span><span class="p">]</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">Gs_ed</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()]))</span>
-                    <span class="n">L_temp</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">credential</span>
-                    <span class="k">if</span> <span class="n">credential</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inv_labels</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
-                        <span class="n">label_set</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">credential</span><span class="p">)</span>
-
-            <span class="c1"># Calculate the new label_set</span>
-            <span class="n">WL_labels_inverse</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">label_set</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="k">for</span> <span class="n">dv</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">label_set</span><span class="p">)):</span>
-                    <span class="n">idx</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">WL_labels_inverse</span><span class="p">)</span> <span class="o">+</span> <span class="n">nl</span>
-                    <span class="n">WL_labels_inverse</span><span class="p">[</span><span class="n">dv</span><span class="p">]</span> <span class="o">=</span> <span class="n">idx</span>
-
-            <span class="c1"># Recalculate labels</span>
+        <span class="k">def</span> <span class="nf">generate_graphs</span><span class="p">(</span><span class="n">WL_labels_inverse</span><span class="p">):</span>
+            <span class="c1"># calculate the kernel matrix for the 0 iteration</span>
             <span class="n">new_graphs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
             <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nx</span><span class="p">):</span>
                 <span class="n">new_labels</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-                <span class="k">for</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="ow">in</span> <span class="n">iteritems</span><span class="p">(</span><span class="n">L_temp</span><span class="p">[</span><span class="n">j</span><span class="p">]):</span>
-                    <span class="k">if</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inv_labels</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
-                        <span class="n">new_labels</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inv_labels</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">v</span><span class="p">]</span>
+                <span class="k">for</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="ow">in</span> <span class="n">iteritems</span><span class="p">(</span><span class="n">L</span><span class="p">[</span><span class="n">j</span><span class="p">]):</span>
+                    <span class="k">if</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inv_labels</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+                        <span class="n">new_labels</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inv_labels</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">v</span><span class="p">]</span>
                     <span class="k">else</span><span class="p">:</span>
                         <span class="n">new_labels</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">WL_labels_inverse</span><span class="p">[</span><span class="n">v</span><span class="p">]</span>
                 <span class="n">L</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_labels</span>
-                <span class="c1"># Create the new graphs with the new labels.</span>
+                <span class="c1"># produce the new graphs</span>
                 <span class="n">new_graphs</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">Gs_ed</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">new_labels</span><span class="p">])</span>
+            <span class="k">yield</span> <span class="n">new_graphs</span>
 
-            <span class="c1"># Calculate the kernel marix</span>
-            <span class="n">K</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">new_graphs</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_niter</span><span class="p">):</span>
+                <span class="n">new_graphs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+                <span class="n">L_temp</span><span class="p">,</span> <span class="n">label_set</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(),</span> <span class="nb">set</span><span class="p">()</span>
+                <span class="n">nl</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_inv_labels</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nx</span><span class="p">):</span>
+                    <span class="c1"># Find unique labels and sort them for both graphs</span>
+                    <span class="c1"># Keep for each node the temporary</span>
+                    <span class="n">L_temp</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+                    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">Gs_ed</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                        <span class="n">credential</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">L</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">v</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;,&quot;</span> <span class="o">+</span> \
+                            <span class="nb">str</span><span class="p">(</span><span class="nb">sorted</span><span class="p">([</span><span class="n">L</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">n</span><span class="p">]</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">Gs_ed</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()]))</span>
+                        <span class="n">L_temp</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">credential</span>
+                        <span class="k">if</span> <span class="n">credential</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inv_labels</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
+                            <span class="n">label_set</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">credential</span><span class="p">)</span>
+
+                <span class="c1"># Calculate the new label_set</span>
+                <span class="n">WL_labels_inverse</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">label_set</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">dv</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">label_set</span><span class="p">)):</span>
+                        <span class="n">idx</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">WL_labels_inverse</span><span class="p">)</span> <span class="o">+</span> <span class="n">nl</span>
+                        <span class="n">WL_labels_inverse</span><span class="p">[</span><span class="n">dv</span><span class="p">]</span> <span class="o">=</span> <span class="n">idx</span>
+
+                <span class="c1"># Recalculate labels</span>
+                <span class="n">new_graphs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nx</span><span class="p">):</span>
+                    <span class="n">new_labels</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+                    <span class="k">for</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="ow">in</span> <span class="n">iteritems</span><span class="p">(</span><span class="n">L_temp</span><span class="p">[</span><span class="n">j</span><span class="p">]):</span>
+                        <span class="k">if</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inv_labels</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
+                            <span class="n">new_labels</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inv_labels</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">v</span><span class="p">]</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">new_labels</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">WL_labels_inverse</span><span class="p">[</span><span class="n">v</span><span class="p">]</span>
+                    <span class="n">L</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_labels</span>
+                    <span class="c1"># Create the new graphs with the new labels.</span>
+                    <span class="n">new_graphs</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">Gs_ed</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">new_labels</span><span class="p">])</span>
+                <span class="k">yield</span> <span class="n">new_graphs</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parallel</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># Calculate the kernel matrix without parallelization</span>
+            <span class="n">K</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">g</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">g</span><span class="p">)</span>
+                       <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">generate_graphs</span><span class="p">(</span><span class="n">WL_labels_inverse</span><span class="p">))),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Calculate the kernel marix with parallelization</span>
+            <span class="n">K</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_parallel</span><span class="p">(</span><span class="n">joblib</span><span class="o">.</span><span class="n">delayed</span><span class="p">(</span><span class="n">etransform</span><span class="p">)(</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">g</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">g</span><span class="p">)</span>
+                       <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">generate_graphs</span><span class="p">(</span><span class="n">WL_labels_inverse</span><span class="p">))),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_is_transformed</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalize</span><span class="p">:</span>
@@ -630,6 +644,21 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_X_diag</span><span class="p">,</span> <span class="n">Y_diag</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_X_diag</span></div></div>
+
+
+<span class="k">def</span> <span class="nf">efit</span><span class="p">(</span><span class="nb">object</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Fit an object on data.&quot;&quot;&quot;</span>
+    <span class="nb">object</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">efit_transform</span><span class="p">(</span><span class="nb">object</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Fit-Transform an object on data.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">object</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">etransform</span><span class="p">(</span><span class="nb">object</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Transform an object on data.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">object</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 </pre></div>
 
            </div>
@@ -664,7 +693,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.1a2',
+            VERSION:'0.1a3',
             LANGUAGE:'en',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

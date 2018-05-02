@@ -49,14 +49,14 @@ and let's define the *vertex-histogram-kernel*
 
 .. literalinclude:: code_for_examples/vertex_kernel.py
    :language: python
-   :lines: 5-57
+   :lines: 6-59
 
 As you see there a few things we should note. Firstly the :code:`verbose`, :code:`normalize`,
-:code:`executor` parameters should be always included in the kernel definition and passed as is,
+:code:`n_jobs` parameters should be always included in the kernel definition and passed as is,
 to the father method by calling his :code:`__init__` method. All :code:`__init__` parameters should be stored
 to class method parameters with attributes of the exactly same name, as this is important for the sci-kit learn
 transformer **Pipeline** and any needed initialization registered in :code:`initialized_` attribute must be registered
-inside :code:`initialize_` method. If the user decides to overwrite :code:`fit` or :code:`fit_transform` he
+inside :code:`initialize_` method as an update of the father object. If the user decides to overwrite :code:`fit` or :code:`fit_transform` he
 must call :code:`self.initialize_()` as the first command of any process inside the kernel. This allows a valid
 parameter *resetting* through :code:`set_params`, satisfying an important aspect for **Pipeline** consistency. 
 
@@ -80,7 +80,7 @@ So to continue or example we first define :code:`parse_input` inside the :code:`
 
 .. literalinclude:: code_for_examples/vertex_kernel.py
    :language: python
-   :lines: 59-107
+   :lines: 61-109
 
 The procedure of reading the input is really standard, but must be specified for each kernel
 according to its minimum acceptable input, that is the least elements with which it can be computed.
@@ -91,7 +91,7 @@ the kernel value is
 
 .. literalinclude:: code_for_examples/vertex_kernel.py
    :language: python
-   :lines: 109-123
+   :lines: 111-125
 
 where we count the :math:`\sum_{l \in L_{i} \cap L_{j}} f^{i}_{l}*f^{j}_{l}`, using the property of a :code:`Counter`
 object, returning a **0** value on empty occurrences.
@@ -139,7 +139,7 @@ and define the new :code:`parse_input`
 
 .. literalinclude:: code_for_examples/vertex_kernel_advanced.py
    :language: python
-   :lines: 6-136
+   :lines: 7-139
 
 Let's stop here at two points.
 
@@ -158,14 +158,14 @@ Now we would like to define the :code:`_calculate_kernel_matrix` method, calcula
 
 .. literalinclude:: code_for_examples/vertex_kernel_advanced.py
    :language: python
-   :lines: 138-162
+   :lines: 141-165
 
 as well as the diagonal method (using Einstein summation convention which is a really fast method for speeding up
 the diagonal calculation of the final matrix, as found `here`_)
 
 .. literalinclude:: code_for_examples/vertex_kernel_advanced.py
    :language: python
-   :lines: 164-190
+   :lines: 167-193
 
 Now let's solve a classification problem on the **"DD"** dataset, by following a standard procedure.
 First import and download the dataset
@@ -270,9 +270,18 @@ the :code:`_c_functions` :code:`Extension` found on :code:`setup.py`, by adding 
 
 .. _Cython: http://cython.org/
 
-Allow execution parallelization
--------------------------------
-.. warning:: This feature is currently not well implemented and the documentation concerning that issue will be added in the future.
+Parallelization
+---------------
+A basic infrastracture for utilizing parallelization possibilities of the kernel computation, was created inside the kernel class.
+The user define n_jobs for each kernel and the indexes of the kernel matrix are *linearized* and splitted to the effective number of jobs
+on which the pairwise operation is applied in parallel. We use the :code:`joblib` library, as found inside the :code:`sklearn.externals`.
+On certain frameworks (Weisfeiler Lehman, Hadamard Code) the strategy for applying parallel kernel calculation is different, where the
+task is the single kernel calculation of a kernel matrix from the base kernel. Parallelization is a feature we wanted to include in our
+library because it can give the opportunity to the user to increase the efficiency of kernel matrix computation on large dataset, **although
+the induced overhead in the most cases seems not to worth it**. The developer can either follow our road and call the initialization
+of the father method creating a :code:`joblib.Parallel` object with a :code:`threading` *backend api* (stored in :code:`_parallel`) and use it inside
+her/his code anyway he wants or follow a different strategy that seems to have a computational advantage. In case someone wants to contribute
+in redisigning and extending the parallelization proccess he/she can see how in :ref:`contributing`.
 
 
 Bibliography

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>grakel.graph &mdash; GraKeL 0.1a2 documentation</title>
+  <title>grakel.graph &mdash; GraKeL 0.1a3 documentation</title>
   
 
   
@@ -62,7 +62,7 @@
             
             
               <div class="version">
-                0.1a2
+                0.1a3
               </div>
             
           
@@ -1419,9 +1419,11 @@
 
         <span class="c1"># chain neighbors</span>
         <span class="k">if</span> <span class="n">sort_neighbors</span><span class="p">:</span>
-            <span class="n">chain</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+            <span class="k">def</span> <span class="nf">chain</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+                <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">chain</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="n">n</span>
+            <span class="k">def</span> <span class="nf">chain</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">n</span>
 
         <span class="c1"># Initialize neighborhoods</span>
         <span class="n">vertices</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_vertices</span><span class="p">(</span><span class="n">purpose</span><span class="p">))</span>
@@ -1526,9 +1528,7 @@
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;vertices are not valid &#39;</span>
                                      <span class="s1">&#39;for the original graph format&#39;</span><span class="p">)</span>
 
-            <span class="n">recipe</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;get_correct&#39;</span><span class="p">,</span> <span class="s1">&#39;default&#39;</span><span class="p">),</span>
-                      <span class="p">(</span><span class="s1">&#39;add_edge_dict&#39;</span><span class="p">,)]</span>
-            <span class="n">get_correct</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">i</span><span class="p">:</span> <span class="n">i</span>
+            <span class="n">recipe</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;add_edge_dict&#39;</span><span class="p">,)]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">fv</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="n">fa</span> <span class="o">=</span> <span class="kc">False</span>
@@ -1557,6 +1557,9 @@
                           <span class="p">(</span><span class="s1">&#39;get_correct&#39;</span><span class="p">,</span> <span class="s1">&#39;edsamic&#39;</span><span class="p">),</span>
                           <span class="p">(</span><span class="s1">&#39;add_adjacency&#39;</span><span class="p">,),</span>
                           <span class="p">(</span><span class="s1">&#39;add_edge_dict&#39;</span><span class="p">,)]</span>
+
+        <span class="k">def</span> <span class="nf">get_correct</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">i</span>
 
         <span class="k">for</span> <span class="n">ingredient</span> <span class="ow">in</span> <span class="n">recipe</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">ingredient</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;idxs_to_nodes&#39;</span><span class="p">:</span>
@@ -1611,9 +1614,8 @@
                         <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="ow">in</span> <span class="n">vertices</span> <span class="ow">and</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">vertices</span><span class="p">)}</span>
             <span class="k">elif</span> <span class="n">ingredient</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;get_correct&#39;</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">ingredient</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;edsamic&#39;</span><span class="p">:</span>
-                    <span class="n">get_correct</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">i</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">edsamic</span><span class="p">[</span><span class="n">new_indexes</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">get_correct</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">i</span><span class="p">:</span> <span class="n">i</span>
+                    <span class="k">def</span> <span class="nf">get_correct</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
+                        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">edsamic</span><span class="p">[</span><span class="n">new_indexes</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
 
         <span class="k">return</span> <span class="n">subgraph</span></div></div>
 
@@ -1913,7 +1915,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.1a2',
+            VERSION:'0.1a3',
             LANGUAGE:'en',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

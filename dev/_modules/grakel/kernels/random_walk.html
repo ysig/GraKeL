@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>grakel.kernels.random_walk &mdash; GraKeL 0.1a2 documentation</title>
+  <title>grakel.kernels.random_walk &mdash; GraKeL 0.1a3 documentation</title>
   
 
   
@@ -62,7 +62,7 @@
             
             
               <div class="version">
-                0.1a2
+                0.1a3
               </div>
             
           
@@ -177,8 +177,6 @@
 <span class="kn">from</span> <span class="nn">six.moves</span> <span class="k">import</span> <span class="n">filterfalse</span>
 <span class="kn">from</span> <span class="nn">builtins</span> <span class="k">import</span> <span class="nb">range</span>
 
-<span class="n">default_executor</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">fn</span><span class="p">,</span> <span class="o">*</span><span class="n">eargs</span><span class="p">,</span> <span class="o">**</span><span class="n">ekargs</span><span class="p">:</span> <span class="n">fn</span><span class="p">(</span><span class="o">*</span><span class="n">eargs</span><span class="p">,</span> <span class="o">**</span><span class="n">ekargs</span><span class="p">)</span>
-
 
 <div class="viewcode-block" id="RandomWalk"><a class="viewcode-back" href="../../../generated/grakel.RandomWalk.html#grakel.RandomWalk">[docs]</a><span class="k">class</span> <span class="nc">RandomWalk</span><span class="p">(</span><span class="n">Kernel</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;The random walk kernel class.</span>
@@ -228,14 +226,14 @@
 
     <span class="n">_graph_format</span> <span class="o">=</span> <span class="s2">&quot;adjacency&quot;</span>
 
-<div class="viewcode-block" id="RandomWalk.__init__"><a class="viewcode-back" href="../../../generated/grakel.RandomWalk.html#grakel.RandomWalk.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">executor</span><span class="o">=</span><span class="n">default_executor</span><span class="p">,</span>
+<div class="viewcode-block" id="RandomWalk.__init__"><a class="viewcode-back" href="../../../generated/grakel.RandomWalk.html#grakel.RandomWalk.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                  <span class="n">lamda</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">method_type</span><span class="o">=</span><span class="s2">&quot;fast&quot;</span><span class="p">,</span>
                  <span class="n">kernel_type</span><span class="o">=</span><span class="s2">&quot;geometric&quot;</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialise a random_walk kernel.&quot;&quot;&quot;</span>
         <span class="c1"># setup valid parameters and initialise from parent</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">RandomWalk</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="n">executor</span><span class="o">=</span><span class="n">executor</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="n">normalize</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
+            <span class="n">n_jobs</span><span class="o">=</span><span class="n">n_jobs</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="n">normalize</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
 
         <span class="c1"># Ignores ComplexWarning as it does not signify anything problematic</span>
         <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="n">ComplexWarning</span><span class="p">)</span>
@@ -245,20 +243,27 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">kernel_type</span> <span class="o">=</span> <span class="n">kernel_type</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">p</span> <span class="o">=</span> <span class="n">p</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">lamda</span> <span class="o">=</span> <span class="n">lamda</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;method_type&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;kernel_type&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
-                             <span class="s2">&quot;p&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;lamda&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;method_type&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;kernel_type&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                                  <span class="s2">&quot;p&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;lamda&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">})</span></div>
 
 <div class="viewcode-block" id="RandomWalk.initialize_"><a class="viewcode-back" href="../../../generated/grakel.RandomWalk.html#grakel.RandomWalk.initialize_">[docs]</a>    <span class="k">def</span> <span class="nf">initialize_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialize all transformer arguments, needing initialization.&quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">RandomWalk</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">initialize_</span><span class="p">()</span>
+
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span><span class="p">[</span><span class="s2">&quot;method_type&quot;</span><span class="p">]:</span>
             <span class="c1"># Setup method type and define operation.</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">method_type</span> <span class="o">==</span> <span class="s2">&quot;fast&quot;</span><span class="p">:</span>
-                <span class="n">invert</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">n</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">/</span><span class="n">n</span><span class="p">,</span>
-                                          <span class="n">w</span><span class="p">,</span>
-                                          <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">inv</span><span class="p">(</span><span class="n">v</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">n</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_add_input</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">invert</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">*</span><span class="n">eig</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+                <span class="k">def</span> <span class="nf">invert</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">/</span><span class="n">n</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">inv</span><span class="p">(</span><span class="n">v</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">n</span><span class="p">)</span>
+
+                <span class="k">def</span> <span class="nf">add_input</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="n">invert</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">*</span><span class="n">eig</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">_add_input</span> <span class="o">=</span> <span class="n">add_input</span>
             <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">method_type</span> <span class="o">==</span> <span class="s2">&quot;baseline&quot;</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_add_input</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span>
+                <span class="k">def</span> <span class="nf">add_input</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="n">x</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_add_input</span> <span class="o">=</span> <span class="n">add_input</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;unsupported method_type&#39;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span><span class="p">[</span><span class="s2">&quot;method_type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
@@ -473,14 +478,14 @@
 
     <span class="n">_graph_format</span> <span class="o">=</span> <span class="s2">&quot;adjacency&quot;</span>
 
-<div class="viewcode-block" id="RandomWalkLabeled.__init__"><a class="viewcode-back" href="../../../generated/grakel.RandomWalkLabeled.html#grakel.RandomWalkLabeled.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">executor</span><span class="o">=</span><span class="n">default_executor</span><span class="p">,</span>
+<div class="viewcode-block" id="RandomWalkLabeled.__init__"><a class="viewcode-back" href="../../../generated/grakel.RandomWalkLabeled.html#grakel.RandomWalkLabeled.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                  <span class="n">lamda</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">method_type</span><span class="o">=</span><span class="s2">&quot;fast&quot;</span><span class="p">,</span>
                  <span class="n">kernel_type</span><span class="o">=</span><span class="s2">&quot;geometric&quot;</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialise a labeled random_walk kernel.&quot;&quot;&quot;</span>
         <span class="c1"># Initialise from parent</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">RandomWalkLabeled</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="n">executor</span><span class="o">=</span><span class="n">executor</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="n">normalize</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span>
+            <span class="n">n_jobs</span><span class="o">=</span><span class="n">n_jobs</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="n">normalize</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span>
             <span class="n">lamda</span><span class="o">=</span><span class="n">lamda</span><span class="p">,</span> <span class="n">method_type</span><span class="o">=</span><span class="n">method_type</span><span class="p">,</span> <span class="n">kernel_type</span><span class="o">=</span><span class="n">kernel_type</span><span class="p">,</span>
             <span class="n">p</span><span class="o">=</span><span class="n">p</span><span class="p">)</span></div>
 
@@ -657,7 +662,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.1a2',
+            VERSION:'0.1a3',
             LANGUAGE:'en',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>grakel.ShortestPathAttr &mdash; GraKeL 0.1a3 documentation</title>
+  <title>grakel.GraphletSampling &mdash; GraKeL 0.1a3 documentation</title>
   
 
   
@@ -31,8 +31,8 @@
   <link rel="stylesheet" href="../_static/_static/css/supplementary.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="grakel.GraphletSampling" href="grakel.GraphletSampling.html" />
-    <link rel="prev" title="grakel.ShortestPath" href="grakel.ShortestPath.html" /> 
+    <link rel="next" title="grakel.SubgraphMatching" href="grakel.SubgraphMatching.html" />
+    <link rel="prev" title="grakel.ShortestPathAttr" href="grakel.ShortestPathAttr.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -104,8 +104,8 @@
 <li class="toctree-l4"><a class="reference internal" href="grakel.PyramidMatch.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.PyramidMatch</a></li>
 <li class="toctree-l4"><a class="reference internal" href="grakel.NeighborhoodHash.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.NeighborhoodHash</a></li>
 <li class="toctree-l4"><a class="reference internal" href="grakel.ShortestPath.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.ShortestPath</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.ShortestPathAttr</a></li>
-<li class="toctree-l4"><a class="reference internal" href="grakel.GraphletSampling.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.GraphletSampling</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.ShortestPathAttr.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.ShortestPathAttr</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.GraphletSampling</a></li>
 <li class="toctree-l4"><a class="reference internal" href="grakel.SubgraphMatching.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.SubgraphMatching</a></li>
 <li class="toctree-l4"><a class="reference internal" href="grakel.WeisfeilerLehman.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.WeisfeilerLehman</a></li>
 <li class="toctree-l4"><a class="reference internal" href="grakel.HadamardCode.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.HadamardCode</a></li>
@@ -177,13 +177,13 @@
         
           <li><a href="../classes.html">API Reference</a> &raquo;</li>
         
-      <li><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.ShortestPathAttr</li>
+      <li><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.GraphletSampling</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/generated/grakel.ShortestPathAttr.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/generated/grakel.GraphletSampling.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -196,37 +196,103 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="grakel-shortestpathattr">
-<h1><a class="reference internal" href="../api.html#module-grakel" title="grakel"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code></a>.ShortestPathAttr<a class="headerlink" href="#grakel-shortestpathattr" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="grakel-graphletsampling">
+<h1><a class="reference internal" href="../api.html#module-grakel" title="grakel"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code></a>.GraphletSampling<a class="headerlink" href="#grakel-graphletsampling" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
-<dt id="grakel.ShortestPathAttr">
-<em class="property">class </em><code class="descclassname">grakel.</code><code class="descname">ShortestPathAttr</code><span class="sig-paren">(</span><em>n_jobs=None</em>, <em>normalize=False</em>, <em>verbose=False</em>, <em>algorithm_type='auto'</em>, <em>attribute_kernel=&lt;function &lt;lambda&gt;&gt;</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/1dbdee7/grakel/kernels/shortest_path.py#L14"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/shortest_path.html#ShortestPathAttr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.ShortestPathAttr" title="Permalink to this definition">¶</a></dt>
-<dd><p>The shortest path kernel for attributes.</p>
-<p>The Graph labels are considered as attributes.
-The computational efficiency is decreased to <span class="math notranslate nohighlight">\(O(|V|^4)\)</span>
-See <a class="reference internal" href="#borgwardt2005shortestpathko-attr" id="id1">[BK05]</a>.</p>
+<dt id="grakel.GraphletSampling">
+<em class="property">class </em><code class="descclassname">grakel.</code><code class="descname">GraphletSampling</code><span class="sig-paren">(</span><em>n_jobs=None</em>, <em>normalize=False</em>, <em>verbose=False</em>, <em>random_seed=42</em>, <em>k=5</em>, <em>sampling=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/1dbdee7/grakel/kernels/graphlet_sampling.py#L23"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/graphlet_sampling.html#GraphletSampling"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphletSampling" title="Permalink to this definition">¶</a></dt>
+<dd><p>The graphlet sampling kernel.</p>
+<p>See <a class="reference internal" href="#shervashidze2009efficientgk" id="id1">[SVP+09]</a>.</p>
+<p>If either “delta”, “epsilon”, “a” or “n_samples” is given calculates
+the kernel value for the given (or derived) random picked n_samples, by
+randomly sampling from k from 3 to 5.
+Otherwise calculates the kernel value drawing all possible connected
+samples of size k.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>algorithm_type</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str, default={“dijkstra”, “floyd_warshall”, “auto”}</span></dt>
-<dd><p class="first last">Apply the dijkstra or floyd_warshall algorithm for calculating
-shortest path, or chose automatically (“auto”) based on the
-current graph format (“auto”).</p>
+<dt><strong>random_seed</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int, default=42</span></dt>
+<dd></dd>
+<dt><strong>k</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int, default=5</span></dt>
+<dd><p class="first last">The dimension of the given graphlets.</p>
 </dd>
-<dt><strong>attribute_kernel</strong> <span class="classifier-delimiter">:</span> <span class="classifier">function, default=:math:<cite>f(x,y)=sum_{i}x_{i}*y_{i}</cite>,</span></dt>
-<dd><p class="first last">The kernel applied between attributes of the graph labels.
-The user must provide a kernel based on the format of the provided
-labels (considered as attributes).</p>
+<dt><strong>sampling</strong> <span class="classifier-delimiter">:</span> <span class="classifier">None or dict</span></dt>
+<dd><p class="first">Defines if random sampling of graphlets will be utilised.
+If not None the dictionary can either contain:</p>
+<blockquote>
+<div><ul class="simple">
+<li><dl class="first docutils">
+<dt>n_samples <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd>Sets the value of randomly drawn random samples,
+from sizes between 3..k. Overides the parameters a, epsilon,
+delta.</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+<p>or</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>delta : float, default=0.05
+Confidence level (typically 0.05 or 0.1).
+For calculation of the number of samples achieving the certain
+bound. n_samples argument must not be provided and for
+initialising the default value either “epsilon” or
+“a” must be set.</li>
+<li><dl class="first docutils">
+<dt>epsilon <span class="classifier-delimiter">:</span> <span class="classifier">float, default=0.05</span></dt>
+<dd>Precision level (typically 0.05 or 0.1).
+For calculation of the number of samples achieving the certain
+bound. n_samples argument must not be provided and for
+initialising the default value either “delta” or
+“a” must be set.</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>a <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd>Number of isomorphism classes of graphlets.
+If -1 the number is the maximum possible, from a database
+1 until 9 or else predicted through interpolation.
+For calculation of the number of samples achieving the certain
+bound. n_samples argument must not be provided and for
+initializing the default value either “delta” or “epsilon” must
+be set.</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
 </dd>
 </dl>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>X</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
-<dd><p class="first last">A list of tuples, consisting of shortest path matrices
-and their feature vectors.</p>
+<dt><strong>X</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd><p class="first last">A dictionary of pairs between each input graph and a bins where the
+sampled graphlets have fallen.</p>
+</dd>
+<dt><strong>_sample_graphlets</strong> <span class="classifier-delimiter">:</span> <span class="classifier">function</span></dt>
+<dd><p class="first last">A function taking as input a binary adjacency matrix, parametrised
+to work for the certain samples, k and deterministic/propabilistic
+mode.</p>
+</dd>
+<dt><strong>_graph_bins</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd><p class="first last">A dictionary of graph bins holding pynauty objects</p>
+</dd>
+<dt><strong>_nx</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Holds the number of sampled X graphs.</p>
+</dd>
+<dt><strong>_ny</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Holds the number of sampled Y graphs.</p>
+</dd>
+<dt><strong>_X_diag</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.array, shape=(_nx, 1)</span></dt>
+<dd><p class="first last">Holds the diagonal of X kernel matrix in a numpy array, if calculated
+(<cite>fit_transform</cite>).</p>
+</dd>
+<dt><strong>_phi_X</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.array, shape=(_nx, len(_graph_bins))</span></dt>
+<dd><p class="first last">Holds the features of X in a numpy array, if calculated.
+(<cite>fit_transform</cite>).</p>
 </dd>
 </dl>
 </td>
@@ -240,36 +306,36 @@ and their feature vectors.</p>
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.ShortestPathAttr.diagonal" title="grakel.ShortestPathAttr.diagonal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">diagonal</span></code></a>()</td>
-<td>Calculate the kernel matrix diagonal of the fit/transformed data.</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.GraphletSampling.diagonal" title="grakel.GraphletSampling.diagonal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">diagonal</span></code></a>()</td>
+<td>Calculate the kernel matrix diagonal for fitted data.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.ShortestPathAttr.fit" title="grakel.ShortestPathAttr.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(X[,&nbsp;y])</td>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.GraphletSampling.fit" title="grakel.GraphletSampling.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(X[,&nbsp;y])</td>
 <td>Fit a dataset, for a transformer.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.ShortestPathAttr.fit_transform" title="grakel.ShortestPathAttr.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code></a>(X)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.GraphletSampling.fit_transform" title="grakel.GraphletSampling.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code></a>(X)</td>
 <td>Fit and transform, on the same dataset.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.ShortestPathAttr.get_params" title="grakel.ShortestPathAttr.get_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code></a>([deep])</td>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.GraphletSampling.get_params" title="grakel.GraphletSampling.get_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code></a>([deep])</td>
 <td>Get parameters for this estimator.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.ShortestPathAttr.initialize_" title="grakel.ShortestPathAttr.initialize_"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize_</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.GraphletSampling.initialize_" title="grakel.GraphletSampling.initialize_"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize_</span></code></a>()</td>
 <td>Initialize all transformer arguments, needing initialization.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.ShortestPathAttr.pairwise_operation" title="grakel.ShortestPathAttr.pairwise_operation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pairwise_operation</span></code></a>(x,&nbsp;y)</td>
-<td>Calculate shortests paths on attributes.</td>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.GraphletSampling.pairwise_operation" title="grakel.GraphletSampling.pairwise_operation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pairwise_operation</span></code></a>(x,&nbsp;y)</td>
+<td>Calculate a pairwise kernel between two elements.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.ShortestPathAttr.parse_input" title="grakel.ShortestPathAttr.parse_input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_input</span></code></a>(X)</td>
-<td>Parse and create features for the <cite>shortest_path</cite> kernel.</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.GraphletSampling.parse_input" title="grakel.GraphletSampling.parse_input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_input</span></code></a>(X)</td>
+<td>Parse and create features for graphlet_sampling kernel.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.ShortestPathAttr.set_params" title="grakel.ShortestPathAttr.set_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code></a>(**params)</td>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.GraphletSampling.set_params" title="grakel.GraphletSampling.set_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code></a>(**params)</td>
 <td>Call the parent method.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.ShortestPathAttr.transform" title="grakel.ShortestPathAttr.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(X)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.GraphletSampling.transform" title="grakel.GraphletSampling.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(X)</td>
 <td>Calculate the kernel matrix, between given and fitted dataset.</td>
 </tr>
 </tbody>
 </table>
-<p>Initialise a <cite>shortest_path_attr</cite> kernel.</p>
+<p>Initialise a subtree_wl kernel.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -289,45 +355,47 @@ and their feature vectors.</p>
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.ShortestPathAttr.diagonal" title="grakel.ShortestPathAttr.diagonal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">diagonal</span></code></a>()</td>
-<td>Calculate the kernel matrix diagonal of the fit/transformed data.</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.GraphletSampling.diagonal" title="grakel.GraphletSampling.diagonal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">diagonal</span></code></a>()</td>
+<td>Calculate the kernel matrix diagonal for fitted data.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.ShortestPathAttr.fit" title="grakel.ShortestPathAttr.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(X[,&nbsp;y])</td>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.GraphletSampling.fit" title="grakel.GraphletSampling.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(X[,&nbsp;y])</td>
 <td>Fit a dataset, for a transformer.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.ShortestPathAttr.fit_transform" title="grakel.ShortestPathAttr.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code></a>(X)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.GraphletSampling.fit_transform" title="grakel.GraphletSampling.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code></a>(X)</td>
 <td>Fit and transform, on the same dataset.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.ShortestPathAttr.get_params" title="grakel.ShortestPathAttr.get_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code></a>([deep])</td>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.GraphletSampling.get_params" title="grakel.GraphletSampling.get_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code></a>([deep])</td>
 <td>Get parameters for this estimator.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.ShortestPathAttr.initialize_" title="grakel.ShortestPathAttr.initialize_"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize_</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.GraphletSampling.initialize_" title="grakel.GraphletSampling.initialize_"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize_</span></code></a>()</td>
 <td>Initialize all transformer arguments, needing initialization.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.ShortestPathAttr.pairwise_operation" title="grakel.ShortestPathAttr.pairwise_operation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pairwise_operation</span></code></a>(x,&nbsp;y)</td>
-<td>Calculate shortests paths on attributes.</td>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.GraphletSampling.pairwise_operation" title="grakel.GraphletSampling.pairwise_operation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pairwise_operation</span></code></a>(x,&nbsp;y)</td>
+<td>Calculate a pairwise kernel between two elements.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.ShortestPathAttr.parse_input" title="grakel.ShortestPathAttr.parse_input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_input</span></code></a>(X)</td>
-<td>Parse and create features for the <cite>shortest_path</cite> kernel.</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.GraphletSampling.parse_input" title="grakel.GraphletSampling.parse_input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_input</span></code></a>(X)</td>
+<td>Parse and create features for graphlet_sampling kernel.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.ShortestPathAttr.set_params" title="grakel.ShortestPathAttr.set_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code></a>(**params)</td>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.GraphletSampling.set_params" title="grakel.GraphletSampling.set_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code></a>(**params)</td>
 <td>Call the parent method.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.ShortestPathAttr.transform" title="grakel.ShortestPathAttr.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(X)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.GraphletSampling.transform" title="grakel.GraphletSampling.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(X)</td>
 <td>Calculate the kernel matrix, between given and fitted dataset.</td>
 </tr>
 </tbody>
 </table>
 <dl class="method">
-<dt id="grakel.ShortestPathAttr.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>n_jobs=None</em>, <em>normalize=False</em>, <em>verbose=False</em>, <em>algorithm_type='auto'</em>, <em>attribute_kernel=&lt;function &lt;lambda&gt;&gt;</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/1dbdee7/grakel/kernels/shortest_path.py#L41"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/shortest_path.html#ShortestPathAttr.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.ShortestPathAttr.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialise a <cite>shortest_path_attr</cite> kernel.</p>
+<dt id="grakel.GraphletSampling.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>n_jobs=None</em>, <em>normalize=False</em>, <em>verbose=False</em>, <em>random_seed=42</em>, <em>k=5</em>, <em>sampling=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/1dbdee7/grakel/kernels/graphlet_sampling.py#L108"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/graphlet_sampling.html#GraphletSampling.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphletSampling.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialise a subtree_wl kernel.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="grakel.ShortestPathAttr.diagonal">
-<code class="descname">diagonal</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/1dbdee7/grakel/kernels/kernel.py#L265"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.ShortestPathAttr.diagonal" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate the kernel matrix diagonal of the fit/transformed data.</p>
+<dt id="grakel.GraphletSampling.diagonal">
+<code class="descname">diagonal</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/1dbdee7/grakel/kernels/graphlet_sampling.py#L315"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/graphlet_sampling.html#GraphletSampling.diagonal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphletSampling.diagonal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the kernel matrix diagonal for fitted data.</p>
+<p>A funtion called on transform on a seperate dataset to apply
+normalization on the exterior.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -340,12 +408,12 @@ and their feature vectors.</p>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
 <dt><strong>X_diag</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.array</span></dt>
-<dd><p class="first last">The diagonal of the kernel matrix between the fitted data.
-This consists of each element calculated with itself.</p>
+<dd><p class="first last">The diagonal of the kernel matrix, of the fitted data.
+This consists of kernel calculation for each element with itself.</p>
 </dd>
 <dt><strong>Y_diag</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.array</span></dt>
-<dd><p class="first last">The diagonal of the kernel matrix, of the transform.
-This consists of each element calculated with itself.</p>
+<dd><p class="first last">The diagonal of the kernel matrix, of the transformed data.
+This consists of kernel calculation for each element with itself.</p>
 </dd>
 </dl>
 </td>
@@ -355,8 +423,8 @@ This consists of each element calculated with itself.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="grakel.ShortestPathAttr.fit">
-<code class="descname">fit</code><span class="sig-paren">(</span><em>X</em>, <em>y=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/1dbdee7/grakel/kernels/kernel.py#L89"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.ShortestPathAttr.fit" title="Permalink to this definition">¶</a></dt>
+<dt id="grakel.GraphletSampling.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>X</em>, <em>y=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/1dbdee7/grakel/kernels/kernel.py#L89"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphletSampling.fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fit a dataset, for a transformer.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -390,8 +458,8 @@ requires this parameter.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="grakel.ShortestPathAttr.fit_transform">
-<code class="descname">fit_transform</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/1dbdee7/grakel/kernels/kernel.py#L167"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.ShortestPathAttr.fit_transform" title="Permalink to this definition">¶</a></dt>
+<dt id="grakel.GraphletSampling.fit_transform">
+<code class="descname">fit_transform</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/1dbdee7/grakel/kernels/graphlet_sampling.py#L273"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/graphlet_sampling.html#GraphletSampling.fit_transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphletSampling.fit_transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fit and transform, on the same dataset.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -414,7 +482,7 @@ requires this parameter.</p>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>K</strong> <span class="classifier-delimiter">:</span> <span class="classifier">numpy array, shape = [n_targets, n_input_graphs]</span></dt>
+<dt><strong>K</strong> <span class="classifier-delimiter">:</span> <span class="classifier">numpy array, shape = [n_input_graphs, n_input_graphs]</span></dt>
 <dd><p class="first last">corresponding to the kernel matrix, a calculation between
 all pairs of graphs between target an features</p>
 </dd>
@@ -426,8 +494,8 @@ all pairs of graphs between target an features</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="grakel.ShortestPathAttr.get_params">
-<code class="descname">get_params</code><span class="sig-paren">(</span><em>deep=True</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/1dbdee7/grakel/../venv/lib/python2.7/site-packages/sklearn/base.py#L213"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.ShortestPathAttr.get_params" title="Permalink to this definition">¶</a></dt>
+<dt id="grakel.GraphletSampling.get_params">
+<code class="descname">get_params</code><span class="sig-paren">(</span><em>deep=True</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/1dbdee7/grakel/../venv/lib/python2.7/site-packages/sklearn/base.py#L213"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphletSampling.get_params" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get parameters for this estimator.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -453,23 +521,22 @@ contained subobjects that are estimators.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="grakel.ShortestPathAttr.initialize_">
-<code class="descname">initialize_</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/1dbdee7/grakel/kernels/shortest_path.py#L54"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/shortest_path.html#ShortestPathAttr.initialize_"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.ShortestPathAttr.initialize_" title="Permalink to this definition">¶</a></dt>
+<dt id="grakel.GraphletSampling.initialize_">
+<code class="descname">initialize_</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/1dbdee7/grakel/kernels/graphlet_sampling.py#L124"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/graphlet_sampling.html#GraphletSampling.initialize_"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphletSampling.initialize_" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize all transformer arguments, needing initialization.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="grakel.ShortestPathAttr.pairwise_operation">
-<code class="descname">pairwise_operation</code><span class="sig-paren">(</span><em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/1dbdee7/grakel/kernels/shortest_path.py#L128"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/shortest_path.html#ShortestPathAttr.pairwise_operation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.ShortestPathAttr.pairwise_operation" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate shortests paths on attributes.</p>
+<dt id="grakel.GraphletSampling.pairwise_operation">
+<code class="descname">pairwise_operation</code><span class="sig-paren">(</span><em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/1dbdee7/grakel/kernels/kernel.py#L368"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphletSampling.pairwise_operation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate a pairwise kernel between two elements.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>x, y</strong> <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
-<dd><p class="first last">Tuples of shortest path matrices and their attribute
-dictionaries.</p>
+<dt><strong>x, y</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Object</span></dt>
+<dd><p class="first last">Objects as occur from parse_input.</p>
 </dd>
 </dl>
 </td>
@@ -486,9 +553,9 @@ dictionaries.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="grakel.ShortestPathAttr.parse_input">
-<code class="descname">parse_input</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/1dbdee7/grakel/kernels/shortest_path.py#L75"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/shortest_path.html#ShortestPathAttr.parse_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.ShortestPathAttr.parse_input" title="Permalink to this definition">¶</a></dt>
-<dd><p>Parse and create features for the <cite>shortest_path</cite> kernel.</p>
+<dt id="grakel.GraphletSampling.parse_input">
+<code class="descname">parse_input</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/1dbdee7/grakel/kernels/graphlet_sampling.py#L353"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/graphlet_sampling.html#GraphletSampling.parse_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphletSampling.parse_input" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse and create features for graphlet_sampling kernel.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -506,8 +573,9 @@ graph format). A valid input also consists of graph type objects.</p>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>sp_attr_tup</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
-<dd><p class="first last">A list of tuples of shortest path matrices and tehir attributes.</p>
+<dt><strong>local_values</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd><p class="first last">A dictionary of pairs between each input graph and a bins where the
+sampled graphlets have fallen.</p>
 </dd>
 </dl>
 </td>
@@ -517,14 +585,14 @@ graph format). A valid input also consists of graph type objects.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="grakel.ShortestPathAttr.set_params">
-<code class="descname">set_params</code><span class="sig-paren">(</span><em>**params</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/1dbdee7/grakel/kernels/kernel.py#L384"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.ShortestPathAttr.set_params" title="Permalink to this definition">¶</a></dt>
+<dt id="grakel.GraphletSampling.set_params">
+<code class="descname">set_params</code><span class="sig-paren">(</span><em>**params</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/1dbdee7/grakel/kernels/kernel.py#L384"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphletSampling.set_params" title="Permalink to this definition">¶</a></dt>
 <dd><p>Call the parent method.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="grakel.ShortestPathAttr.transform">
-<code class="descname">transform</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/1dbdee7/grakel/kernels/kernel.py#L126"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.ShortestPathAttr.transform" title="Permalink to this definition">¶</a></dt>
+<dt id="grakel.GraphletSampling.transform">
+<code class="descname">transform</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/1dbdee7/grakel/kernels/graphlet_sampling.py#L221"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/graphlet_sampling.html#GraphletSampling.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphletSampling.transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the kernel matrix, between given and fitted dataset.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -536,8 +604,7 @@ graph format). A valid input also consists of graph type objects.</p>
 least one. The first that is obligatory is a valid graph structure
 (adjacency matrix or edge_dictionary) while the second is
 node_labels and the third edge_labels (that fitting the given graph
-format). If None the kernel matrix is calculated upon fit data.
-The test samples.</p>
+format).</p>
 </dd>
 </dl>
 </td>
@@ -558,10 +625,10 @@ all pairs of graphs between target an features</p>
 
 <div class="section" id="bibliography">
 <h2>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">¶</a></h2>
-<p id="bibtex-bibliography-generated/grakel.ShortestPathAttr-0"><table class="docutils citation" frame="void" id="borgwardt2005shortestpathko-attr" rules="none">
+<p id="bibtex-bibliography-generated/grakel.GraphletSampling-0"><table class="docutils citation" frame="void" id="shervashidze2009efficientgk" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id1">[BK05]</a></td><td>Karsten&nbsp;M. Borgwardt and Hans-Peter Kriegel. Shortest-path kernels on graphs. <em>Fifth IEEE International Conference on Data Mining (ICDM‘05)</em>, pages 8 pp.–, 2005.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id1">[SVP+09]</a></td><td>Nino Shervashidze, S.&nbsp;V.&nbsp;N. Vishwanathan, Tobias Petri, Kurt Mehlhorn, and Karsten&nbsp;M. Borgwardt. Efficient graphlet kernels for large graph comparison. In <em>AISTATS</em>. 2009.</td></tr>
 </tbody>
 </table>
 </p>
@@ -576,10 +643,10 @@ all pairs of graphs between target an features</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="grakel.GraphletSampling.html" class="btn btn-neutral float-right" title="grakel.GraphletSampling" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="grakel.SubgraphMatching.html" class="btn btn-neutral float-right" title="grakel.SubgraphMatching" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="grakel.ShortestPath.html" class="btn btn-neutral" title="grakel.ShortestPath" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="grakel.ShortestPathAttr.html" class="btn btn-neutral" title="grakel.ShortestPathAttr" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

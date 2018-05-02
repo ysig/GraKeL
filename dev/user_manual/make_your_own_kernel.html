@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Write your own kernel &mdash; GraKeL 0.1a2 documentation</title>
+  <title>Write your own kernel &mdash; GraKeL 0.1a3 documentation</title>
   
 
   
@@ -64,7 +64,7 @@
             
             
               <div class="version">
-                0.1a2
+                0.1a3
               </div>
             
           
@@ -104,7 +104,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#getting-more-advanced">Getting more advanced</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#wrapping-c-functions-for-the-kernels-to-use">Wrapping C++ functions for the kernels to use</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#allow-execution-parallelization">Allow execution parallelization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parallelization">Parallelization</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#bibliography">Bibliography</a></li>
 </ul>
 </li>
@@ -219,10 +219,7 @@ occurrences</em>.</p>
 </pre></div>
 </div>
 <p>and let’s define the <em>vertex-histogram-kernel</em></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">default_executor</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">fn</span><span class="p">,</span> <span class="o">*</span><span class="n">eargs</span><span class="p">,</span> <span class="o">**</span><span class="n">ekargs</span><span class="p">:</span> <span class="n">fn</span><span class="p">(</span><span class="o">*</span><span class="n">eargs</span><span class="p">,</span> <span class="o">**</span><span class="n">ekargs</span><span class="p">)</span>
-
-
-<span class="k">class</span> <span class="nc">VertexHistogram</span><span class="p">(</span><span class="n">Kernel</span><span class="p">):</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">VertexHistogram</span><span class="p">(</span><span class="n">Kernel</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Vertex Histogram kernel as found in :cite:`Sugiyama2015NIPS`</span>
 
 <span class="sd">    Parameters</span>
@@ -239,7 +236,7 @@ occurrences</em>.</p>
     <span class="c1"># _graph_format = &quot;auto&quot; (default: &quot;auto&quot;)</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">executor</span><span class="o">=</span><span class="n">default_executor</span><span class="p">,</span>
+                 <span class="n">n_jobs</span><span class="o">=</span><span class="n">n_jobs</span><span class="p">,</span>
                  <span class="n">verbose</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
                  <span class="n">normalize</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
                  <span class="c1"># kernel_param_1=kernel_param_1_default,</span>
@@ -251,21 +248,25 @@ occurrences</em>.</p>
         <span class="c1"># Add new parameters</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_valid_parameters</span> <span class="o">|=</span> <span class="n">new_parameters</span>
 
-        <span class="nb">super</span><span class="p">(</span><span class="n">VertexHistogram</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="n">executor</span><span class="o">=</span><span class="n">executor</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="n">normalize</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">VertexHistogram</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="n">n_jobs</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="n">normalize</span><span class="p">)</span>
 
         <span class="c1"># Get parameters and check the new ones</span>
         <span class="c1"># @for i=1 to num_new_parameters</span>
         <span class="c1">#   self.kernel_param_i = kernel_param_i</span>
 
-        <span class="c1"># self.initialized_ = {</span>
+        <span class="c1"># self.initialized_.update({</span>
         <span class="c1">#    param_needing_initialization_1 : False</span>
         <span class="c1">#             ...</span>
         <span class="c1">#    param_needing_initialization_m : False</span>
-        <span class="c1"># }</span>
+        <span class="c1"># })</span>
 
     <span class="k">def</span> <span class="nf">initialize_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialize all transformer arguments, needing initialization.&quot;&quot;&quot;</span>
+        <span class="c1"># If you want to implement a parallelization by your self here is your chance</span>
+        <span class="c1"># If there is a pairwise operation on the Kernel object there is parallelization is implemented</span>
+        <span class="c1"># Just run the initialise from father to initialise a joblib Parallel (if n_jobs is not None).</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">VertexHistogram</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">initialize_</span><span class="p">()</span>
+
         <span class="c1"># for i=1 .. m</span>
         <span class="c1">#     if not self.initialized_[&quot;param_needing_initialization_i&quot;]:</span>
         <span class="c1">#         # Apply checks (raise ValueError or TypeError accordingly)</span>
@@ -275,11 +276,11 @@ occurrences</em>.</p>
 </pre></div>
 </div>
 <p>As you see there a few things we should note. Firstly the <code class="code docutils literal notranslate"><span class="pre">verbose</span></code>, <code class="code docutils literal notranslate"><span class="pre">normalize</span></code>,
-<code class="code docutils literal notranslate"><span class="pre">executor</span></code> parameters should be always included in the kernel definition and passed as is,
+<code class="code docutils literal notranslate"><span class="pre">n_jobs</span></code> parameters should be always included in the kernel definition and passed as is,
 to the father method by calling his <code class="code docutils literal notranslate"><span class="pre">__init__</span></code> method. All <code class="code docutils literal notranslate"><span class="pre">__init__</span></code> parameters should be stored
 to class method parameters with attributes of the exactly same name, as this is important for the sci-kit learn
 transformer <strong>Pipeline</strong> and any needed initialization registered in <code class="code docutils literal notranslate"><span class="pre">initialized_</span></code> attribute must be registered
-inside <code class="code docutils literal notranslate"><span class="pre">initialize_</span></code> method. If the user decides to overwrite <code class="code docutils literal notranslate"><span class="pre">fit</span></code> or <code class="code docutils literal notranslate"><span class="pre">fit_transform</span></code> he
+inside <code class="code docutils literal notranslate"><span class="pre">initialize_</span></code> method as an update of the father object. If the user decides to overwrite <code class="code docutils literal notranslate"><span class="pre">fit</span></code> or <code class="code docutils literal notranslate"><span class="pre">fit_transform</span></code> he
 must call <code class="code docutils literal notranslate"><span class="pre">self.initialize_()</span></code> as the first command of any process inside the kernel. This allows a valid
 parameter <em>resetting</em> through <code class="code docutils literal notranslate"><span class="pre">set_params</span></code>, satisfying an important aspect for <strong>Pipeline</strong> consistency.</p>
 <p>Irrelevant from the interface the <code class="code docutils literal notranslate"><span class="pre">Kernel</span></code> class offers two methods, overriding which, a user can write
@@ -412,10 +413,7 @@ We will redefine the <code class="code docutils literal notranslate"><span class
 </pre></div>
 </div>
 <p>and define the new <code class="code docutils literal notranslate"><span class="pre">parse_input</span></code></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">default_executor</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">fn</span><span class="p">,</span> <span class="o">*</span><span class="n">eargs</span><span class="p">,</span> <span class="o">**</span><span class="n">ekargs</span><span class="p">:</span> <span class="n">fn</span><span class="p">(</span><span class="o">*</span><span class="n">eargs</span><span class="p">,</span> <span class="o">**</span><span class="n">ekargs</span><span class="p">)</span>
-
-
-<span class="k">class</span> <span class="nc">VertexHistogram</span><span class="p">(</span><span class="n">Kernel</span><span class="p">):</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">VertexHistogram</span><span class="p">(</span><span class="n">Kernel</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Vertex Histogram kernel as found in :cite:`Sugiyama2015NIPS`</span>
 
 <span class="sd">    Parameters</span>
@@ -432,7 +430,7 @@ We will redefine the <code class="code docutils literal notranslate"><span class
     <span class="c1"># _graph_format = &quot;auto&quot; (default: &quot;auto&quot;)</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">executor</span><span class="o">=</span><span class="n">default_executor</span><span class="p">,</span>
+                 <span class="n">n_jobs</span><span class="o">=</span><span class="n">n_jobs</span><span class="p">,</span>
                  <span class="n">verbose</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
                  <span class="n">normalize</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
                  <span class="c1"># kernel_param_1=kernel_param_1_default,</span>
@@ -444,27 +442,32 @@ We will redefine the <code class="code docutils literal notranslate"><span class
         <span class="c1"># Add new parameters</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_valid_parameters</span> <span class="o">|=</span> <span class="n">new_parameters</span>
 
-        <span class="nb">super</span><span class="p">(</span><span class="n">VertexHistogram</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="n">executor</span><span class="o">=</span><span class="n">executor</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="n">normalize</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">VertexHistogram</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="n">n_jobs</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="n">normalize</span><span class="p">)</span>
 
         <span class="c1"># Get parameters and check the new ones</span>
         <span class="c1"># @for i=1 to num_new_parameters</span>
         <span class="c1">#   self.kernel_param_i = kernel_param_i</span>
 
-        <span class="c1"># self.initialized_ = {</span>
+        <span class="c1"># self.initialized_.update({</span>
         <span class="c1">#    param_needing_initialization_1 : False</span>
         <span class="c1">#             ...</span>
         <span class="c1">#    param_needing_initialization_m : False</span>
-        <span class="c1"># }</span>
+        <span class="c1"># })</span>
 
     <span class="k">def</span> <span class="nf">initialize_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialize all transformer arguments, needing initialization.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span><span class="p">[</span><span class="s2">&quot;n_jobs&quot;</span><span class="p">]:</span>
+            <span class="c1"># n_jobs is not used in this kernel</span>
+            <span class="c1"># numpy utilises low-level parallelization for calculating matrix operations</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;no implemented parallelization for VertexHistogram&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span><span class="p">[</span><span class="s2">&quot;n_jobs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
+
         <span class="c1"># for i=1 .. m</span>
         <span class="c1">#     if not self.initialized_[&quot;param_needing_initialization_i&quot;]:</span>
         <span class="c1">#         # Apply checks (raise ValueError or TypeError accordingly)</span>
         <span class="c1">#         # calculate derived fields stored on self._derived_field_ia .. z</span>
         <span class="c1">#         self.initialized_[&quot;param_needing_initialization_i&quot;] = True</span>
-        <span class="k">pass</span>
 
 
     <span class="k">def</span> <span class="nf">parse_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
@@ -702,12 +705,18 @@ file <code class="code docutils literal notranslate"><span class="pre">functions
 where the essential IO wraping of the C++ function is done inside Python. Finally you must add the address of new <em>C++</em> you wrote on
 the <code class="code docutils literal notranslate"><span class="pre">_c_functions</span></code> <code class="code docutils literal notranslate"><span class="pre">Extension</span></code> found on <code class="code docutils literal notranslate"><span class="pre">setup.py</span></code>, by adding it to the list given to the <code class="code docutils literal notranslate"><span class="pre">sources</span></code> argument.</p>
 </div>
-<div class="section" id="allow-execution-parallelization">
-<h3>Allow execution parallelization<a class="headerlink" href="#allow-execution-parallelization" title="Permalink to this headline">¶</a></h3>
-<div class="admonition warning">
-<p class="first admonition-title">Warning</p>
-<p class="last">This feature is currently not well implemented and the documentation concerning that issue will be added in the future.</p>
-</div>
+<div class="section" id="parallelization">
+<h3>Parallelization<a class="headerlink" href="#parallelization" title="Permalink to this headline">¶</a></h3>
+<p>A basic infrastracture for utilizing parallelization possibilities of the kernel computation, was created inside the kernel class.
+The user define n_jobs for each kernel and the indexes of the kernel matrix are <em>linearized</em> and splitted to the effective number of jobs
+on which the pairwise operation is applied in parallel. We use the <code class="code docutils literal notranslate"><span class="pre">joblib</span></code> library, as found inside the <code class="code docutils literal notranslate"><span class="pre">sklearn.externals</span></code>.
+On certain frameworks (Weisfeiler Lehman, Hadamard Code) the strategy for applying parallel kernel calculation is different, where the
+task is the single kernel calculation of a kernel matrix from the base kernel. Parallelization is a feature we wanted to include in our
+library because it can give the opportunity to the user to increase the efficiency of kernel matrix computation on large dataset, <strong>although
+the induced overhead in the most cases seems not to worth it</strong>. The developer can either follow our road and call the initialization
+of the father method creating a <code class="code docutils literal notranslate"><span class="pre">joblib.Parallel</span></code> object with a <code class="code docutils literal notranslate"><span class="pre">threading</span></code> <em>backend api</em> (stored in <code class="code docutils literal notranslate"><span class="pre">_parallel</span></code>) and use it inside
+her/his code anyway he wants or follow a different strategy that seems to have a computational advantage. In case someone wants to contribute
+in redisigning and extending the parallelization proccess he/she can see how in <a class="reference internal" href="contributing.html#contributing"><span class="std std-ref">Contributing</span></a>.</p>
 </div>
 <div class="section" id="bibliography">
 <h3>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">¶</a></h3>
@@ -770,7 +779,7 @@ the <code class="code docutils literal notranslate"><span class="pre">_c_functio
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.1a2',
+            VERSION:'0.1a3',
             LANGUAGE:'en',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

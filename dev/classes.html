@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>API Reference &mdash; GraKeL 0.1a2 documentation</title>
+  <title>API Reference &mdash; GraKeL 0.1a3 documentation</title>
   
 
   
@@ -64,7 +64,7 @@
             
             
               <div class="version">
-                0.1a2
+                0.1a3
               </div>
             
           
@@ -124,6 +124,7 @@
 <li class="toctree-l4"><a class="reference internal" href="generated/grakel.NeighborhoodHash.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.NeighborhoodHash</a></li>
 <li class="toctree-l4"><a class="reference internal" href="generated/grakel.ShortestPath.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.ShortestPath</a></li>
 <li class="toctree-l4"><a class="reference internal" href="generated/grakel.ShortestPathAttr.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.ShortestPathAttr</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/grakel.GraphletSampling.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.GraphletSampling</a></li>
 <li class="toctree-l4"><a class="reference internal" href="generated/grakel.SubgraphMatching.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.SubgraphMatching</a></li>
 <li class="toctree-l4"><a class="reference internal" href="generated/grakel.WeisfeilerLehman.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.WeisfeilerLehman</a></li>
 <li class="toctree-l4"><a class="reference internal" href="generated/grakel.HadamardCode.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.HadamardCode</a></li>
@@ -293,73 +294,76 @@ to read <a class="reference internal" href="user_manual.html#user-manual"><span 
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="generated/grakel.Kernel.html#grakel.Kernel" title="grakel.Kernel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Kernel</span></code></a>([executor,&nbsp;normalize,&nbsp;verbose])</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/grakel.Kernel.html#grakel.Kernel" title="grakel.Kernel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Kernel</span></code></a>([n_jobs,&nbsp;normalize,&nbsp;verbose])</td>
 <td>A general class for graph kernels.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/grakel.RandomWalk.html#grakel.RandomWalk" title="grakel.RandomWalk"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RandomWalk</span></code></a>([executor,&nbsp;normalize,&nbsp;verbose,&nbsp;…])</td>
+<tr class="row-even"><td><a class="reference internal" href="generated/grakel.RandomWalk.html#grakel.RandomWalk" title="grakel.RandomWalk"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RandomWalk</span></code></a>([n_jobs,&nbsp;normalize,&nbsp;verbose,&nbsp;…])</td>
 <td>The random walk kernel class.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="generated/grakel.RandomWalkLabeled.html#grakel.RandomWalkLabeled" title="grakel.RandomWalkLabeled"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RandomWalkLabeled</span></code></a>([executor,&nbsp;normalize,&nbsp;…])</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/grakel.RandomWalkLabeled.html#grakel.RandomWalkLabeled" title="grakel.RandomWalkLabeled"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RandomWalkLabeled</span></code></a>([n_jobs,&nbsp;normalize,&nbsp;…])</td>
 <td>The labeled random walk kernel class.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/grakel.PyramidMatch.html#grakel.PyramidMatch" title="grakel.PyramidMatch"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PyramidMatch</span></code></a>([executor,&nbsp;normalize,&nbsp;verbose,&nbsp;…])</td>
+<tr class="row-even"><td><a class="reference internal" href="generated/grakel.PyramidMatch.html#grakel.PyramidMatch" title="grakel.PyramidMatch"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PyramidMatch</span></code></a>([n_jobs,&nbsp;normalize,&nbsp;verbose,&nbsp;…])</td>
 <td>Pyramid match kernel class.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="generated/grakel.NeighborhoodHash.html#grakel.NeighborhoodHash" title="grakel.NeighborhoodHash"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NeighborhoodHash</span></code></a>([executor,&nbsp;normalize,&nbsp;…])</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/grakel.NeighborhoodHash.html#grakel.NeighborhoodHash" title="grakel.NeighborhoodHash"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NeighborhoodHash</span></code></a>([n_jobs,&nbsp;normalize,&nbsp;…])</td>
 <td>Neighborhood hashing kernel as proposed in <a class="reference internal" href="generated/grakel.NeighborhoodHash.html#hido2009alg" id="id1">[HK09]</a>.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/grakel.ShortestPath.html#grakel.ShortestPath" title="grakel.ShortestPath"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ShortestPath</span></code></a>([executor,&nbsp;normalize,&nbsp;verbose,&nbsp;…])</td>
+<tr class="row-even"><td><a class="reference internal" href="generated/grakel.ShortestPath.html#grakel.ShortestPath" title="grakel.ShortestPath"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ShortestPath</span></code></a>([n_jobs,&nbsp;normalize,&nbsp;verbose,&nbsp;…])</td>
 <td>The shortest path kernel class.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="generated/grakel.ShortestPathAttr.html#grakel.ShortestPathAttr" title="grakel.ShortestPathAttr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ShortestPathAttr</span></code></a>([executor,&nbsp;normalize,&nbsp;…])</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/grakel.ShortestPathAttr.html#grakel.ShortestPathAttr" title="grakel.ShortestPathAttr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ShortestPathAttr</span></code></a>([n_jobs,&nbsp;normalize,&nbsp;…])</td>
 <td>The shortest path kernel for attributes.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/grakel.SubgraphMatching.html#grakel.SubgraphMatching" title="grakel.SubgraphMatching"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SubgraphMatching</span></code></a>([executor,&nbsp;verbose,&nbsp;…])</td>
+<tr class="row-even"><td><a class="reference internal" href="generated/grakel.GraphletSampling.html#grakel.GraphletSampling" title="grakel.GraphletSampling"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GraphletSampling</span></code></a>([n_jobs,&nbsp;normalize,&nbsp;…])</td>
+<td>The graphlet sampling kernel.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="generated/grakel.SubgraphMatching.html#grakel.SubgraphMatching" title="grakel.SubgraphMatching"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SubgraphMatching</span></code></a>([n_jobs,&nbsp;verbose,&nbsp;…])</td>
 <td>Calculate the subgraph matching kernel.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="generated/grakel.WeisfeilerLehman.html#grakel.WeisfeilerLehman" title="grakel.WeisfeilerLehman"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WeisfeilerLehman</span></code></a>([executor,&nbsp;verbose,&nbsp;…])</td>
+<tr class="row-even"><td><a class="reference internal" href="generated/grakel.WeisfeilerLehman.html#grakel.WeisfeilerLehman" title="grakel.WeisfeilerLehman"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WeisfeilerLehman</span></code></a>([n_jobs,&nbsp;verbose,&nbsp;…])</td>
 <td>Compute the Weisfeiler Lehman Kernel.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/grakel.HadamardCode.html#grakel.HadamardCode" title="grakel.HadamardCode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HadamardCode</span></code></a>([executor,&nbsp;verbose,&nbsp;normalize,&nbsp;…])</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/grakel.HadamardCode.html#grakel.HadamardCode" title="grakel.HadamardCode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HadamardCode</span></code></a>([n_jobs,&nbsp;verbose,&nbsp;normalize,&nbsp;…])</td>
 <td>The simple Hadamard code kernel, as proposed in <a class="reference internal" href="generated/grakel.HadamardCode.html#icpram16" id="id2">[KI16]</a>.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="generated/grakel.NeighborhoodSubgraphPairwiseDistance.html#grakel.NeighborhoodSubgraphPairwiseDistance" title="grakel.NeighborhoodSubgraphPairwiseDistance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NeighborhoodSubgraphPairwiseDistance</span></code></a>([…])</td>
+<tr class="row-even"><td><a class="reference internal" href="generated/grakel.NeighborhoodSubgraphPairwiseDistance.html#grakel.NeighborhoodSubgraphPairwiseDistance" title="grakel.NeighborhoodSubgraphPairwiseDistance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NeighborhoodSubgraphPairwiseDistance</span></code></a>([…])</td>
 <td>The Neighborhood subgraph pairwise distance kernel.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/grakel.LovaszTheta.html#grakel.LovaszTheta" title="grakel.LovaszTheta"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LovaszTheta</span></code></a>([executor,&nbsp;normalize,&nbsp;verbose,&nbsp;…])</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/grakel.LovaszTheta.html#grakel.LovaszTheta" title="grakel.LovaszTheta"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LovaszTheta</span></code></a>([n_jobs,&nbsp;normalize,&nbsp;verbose,&nbsp;…])</td>
 <td>Lovasz theta kernel as proposed in <a class="reference internal" href="generated/grakel.LovaszTheta.html#johansson2015learningws-lovasz" id="id3">[JD15]</a>.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="generated/grakel.SvmTheta.html#grakel.SvmTheta" title="grakel.SvmTheta"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SvmTheta</span></code></a>([executor,&nbsp;normalize,&nbsp;verbose,&nbsp;…])</td>
+<tr class="row-even"><td><a class="reference internal" href="generated/grakel.SvmTheta.html#grakel.SvmTheta" title="grakel.SvmTheta"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SvmTheta</span></code></a>([n_jobs,&nbsp;normalize,&nbsp;verbose,&nbsp;…])</td>
 <td>Calculate the SVM theta kernel.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/grakel.Propagation.html#grakel.Propagation" title="grakel.Propagation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Propagation</span></code></a>([executor,&nbsp;verbose,&nbsp;normalize,&nbsp;…])</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/grakel.Propagation.html#grakel.Propagation" title="grakel.Propagation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Propagation</span></code></a>([n_jobs,&nbsp;verbose,&nbsp;normalize,&nbsp;…])</td>
 <td>The Propagation kernel for fully labeled graphs.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="generated/grakel.PropagationAttr.html#grakel.PropagationAttr" title="grakel.PropagationAttr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PropagationAttr</span></code></a>([executor,&nbsp;verbose,&nbsp;…])</td>
+<tr class="row-even"><td><a class="reference internal" href="generated/grakel.PropagationAttr.html#grakel.PropagationAttr" title="grakel.PropagationAttr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PropagationAttr</span></code></a>([n_jobs,&nbsp;verbose,&nbsp;…])</td>
 <td>The Propagation kernel for fully attributed graphs.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/grakel.OddSth.html#grakel.OddSth" title="grakel.OddSth"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OddSth</span></code></a>([executor,&nbsp;normalize,&nbsp;verbose,&nbsp;h])</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/grakel.OddSth.html#grakel.OddSth" title="grakel.OddSth"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OddSth</span></code></a>([n_jobs,&nbsp;normalize,&nbsp;verbose,&nbsp;h])</td>
 <td>ODD-Sth kernel as proposed in <a class="reference internal" href="generated/grakel.OddSth.html#martino2012atk" id="id4">[MNS12]</a>.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="generated/grakel.MultiscaleLaplacian.html#grakel.MultiscaleLaplacian" title="grakel.MultiscaleLaplacian"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MultiscaleLaplacian</span></code></a>([executor,&nbsp;normalize,&nbsp;…])</td>
+<tr class="row-even"><td><a class="reference internal" href="generated/grakel.MultiscaleLaplacian.html#grakel.MultiscaleLaplacian" title="grakel.MultiscaleLaplacian"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MultiscaleLaplacian</span></code></a>([n_jobs,&nbsp;normalize,&nbsp;…])</td>
 <td>Laplacian Graph Kernel as proposed in <a class="reference internal" href="generated/grakel.MultiscaleLaplacian.html#kondor2016theml" id="id5">[KP16]</a>.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/grakel.MultiscaleLaplacianFast.html#grakel.MultiscaleLaplacianFast" title="grakel.MultiscaleLaplacianFast"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MultiscaleLaplacianFast</span></code></a>([executor,&nbsp;…])</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/grakel.MultiscaleLaplacianFast.html#grakel.MultiscaleLaplacianFast" title="grakel.MultiscaleLaplacianFast"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MultiscaleLaplacianFast</span></code></a>([n_jobs,&nbsp;normalize,&nbsp;…])</td>
 <td>Laplacian Graph Kernel as proposed in <a class="reference internal" href="generated/grakel.MultiscaleLaplacianFast.html#kondor2016theml-fast" id="id6">[KP16]</a>.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="generated/grakel.HadamardCode.html#grakel.HadamardCode" title="grakel.HadamardCode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HadamardCode</span></code></a>([executor,&nbsp;verbose,&nbsp;normalize,&nbsp;…])</td>
+<tr class="row-even"><td><a class="reference internal" href="generated/grakel.HadamardCode.html#grakel.HadamardCode" title="grakel.HadamardCode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HadamardCode</span></code></a>([n_jobs,&nbsp;verbose,&nbsp;normalize,&nbsp;…])</td>
 <td>The simple Hadamard code kernel, as proposed in <a class="reference internal" href="generated/grakel.HadamardCode.html#icpram16" id="id7">[KI16]</a>.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/grakel.VertexHistogram.html#grakel.VertexHistogram" title="grakel.VertexHistogram"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VertexHistogram</span></code></a>([executor,&nbsp;normalize,&nbsp;verbose])</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/grakel.VertexHistogram.html#grakel.VertexHistogram" title="grakel.VertexHistogram"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VertexHistogram</span></code></a>([n_jobs,&nbsp;normalize,&nbsp;verbose])</td>
 <td>Vertex Histogram kernel as found in <a class="reference internal" href="generated/grakel.VertexHistogram.html#sugiyama2015nips-vh" id="id8">[SB15]</a>.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="generated/grakel.EdgeHistogram.html#grakel.EdgeHistogram" title="grakel.EdgeHistogram"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EdgeHistogram</span></code></a>([executor,&nbsp;normalize,&nbsp;verbose])</td>
+<tr class="row-even"><td><a class="reference internal" href="generated/grakel.EdgeHistogram.html#grakel.EdgeHistogram" title="grakel.EdgeHistogram"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EdgeHistogram</span></code></a>([n_jobs,&nbsp;normalize,&nbsp;verbose])</td>
 <td>Edge Histogram kernel as found in <a class="reference internal" href="generated/grakel.EdgeHistogram.html#sugiyama2015nips-eh" id="id9">[SB15]</a>.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/grakel.GraphHopper.html#grakel.GraphHopper" title="grakel.GraphHopper"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GraphHopper</span></code></a>([executor,&nbsp;normalize,&nbsp;verbose,&nbsp;…])</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/grakel.GraphHopper.html#grakel.GraphHopper" title="grakel.GraphHopper"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GraphHopper</span></code></a>([n_jobs,&nbsp;normalize,&nbsp;verbose,&nbsp;…])</td>
 <td>Graph Hopper Histogram kernel as found in <a class="reference internal" href="generated/grakel.GraphHopper.html#graphhopper" id="id10">[FKP+13]</a>.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="generated/grakel.CoreFramework.html#grakel.CoreFramework" title="grakel.CoreFramework"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CoreFramework</span></code></a>([executor,&nbsp;verbose,&nbsp;…])</td>
+<tr class="row-even"><td><a class="reference internal" href="generated/grakel.CoreFramework.html#grakel.CoreFramework" title="grakel.CoreFramework"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CoreFramework</span></code></a>([n_jobs,&nbsp;verbose,&nbsp;normalize,&nbsp;…])</td>
 <td>The core kernel framework, as proposed in <a class="reference internal" href="generated/grakel.CoreFramework.html#coreframework" id="id11">[GNV18]</a>.</td>
 </tr>
 </tbody>
@@ -432,7 +436,7 @@ to read <a class="reference internal" href="user_manual.html#user-manual"><span 
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.1a2',
+            VERSION:'0.1a3',
             LANGUAGE:'en',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
