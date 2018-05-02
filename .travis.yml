@@ -90,7 +90,7 @@ script:
     if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
         $PIP install numpy cython --upgrade;
         IFS= ; export CIBW_BEFORE_BUILD="$(cat ci_scripts/travis/install.sh)";
-        IFS= ; export CIBW_TEST_COMMAND="set -e; current_dir=\"$(pwd)\"; mkdir -p $TEST_DIR; cd $TEST_DIR; nosetests $MODULE; cd $current_dir;";
+        IFS= ; export CIBW_TEST_COMMAND="nosetests $MODULE";
     else
         IFS= ; export CIBW_BEFORE_BUILD="$(cat ci_scripts/travis/install.sh)";
         IFS= ; export CIBW_TEST_COMMAND="$(cat ci_scripts/travis/test.sh)";
