@@ -1,7 +1,12 @@
 # Configure the conda environment and put it in the path using the
 # provided versions
 if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-    brew reinstall {python} --with-brewed-openssl
+    brew update;
+    brew install openssl;
+    ln -s /usr/local/opt/openssl/lib/libcrypto.1.0.0.dylib /usr/local/lib/
+    ln -s /usr/local/opt/openssl/lib/libssl.1.0.0.dylib /usr/local/lib/
+    ln -s /usr/local/Cellar/openssl/1.0.2j/bin/openssl /usr/local/bin/openssl
+    {python} --with-brewed-openssl
 fi
 
 {pip} install --upgrade pip

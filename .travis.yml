@@ -88,9 +88,6 @@ script:
   - export CIBW_ENVIRONMENT="TEST_DIR=$TEST_DIR MODULE=$MODULE COVERAGE=$COVERAGE";
   - |
     if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-        brew update;
-        brew upgrade openssl;
-        brew link --force openssl;
         $PIP install numpy cython --upgrade;
         IFS= ; export CIBW_BEFORE_BUILD="$(cat ci_scripts/travis/install.sh)";
         IFS= ; export CIBW_TEST_COMMAND="{python} -c \"from grakel.datasets import fetch_dataset; Q = fetch_dataset('MUTAG', verbose=False)\" && nosetests $MODULE";
