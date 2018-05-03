@@ -1,8 +1,11 @@
 # Install dependencies related with the [SSL: TLSV1_ALERT_PROTOCOL_VERSION]
 # a urllib2.URLError
 if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-    echo "normal openssl"; openssl version -a;
+    echo "normal openssl";
+    openssl version -a;
     {python} -c "import ssl; print('py:openssl:', ssl.OPENSSL_VERSION)";
+    brew install {python} --with-brewed-openssl
+    {python} -c "import ssl; print('py:openssl:', ssl.OPENSSL_VERSION)";   
 #    brew unlink {python}
 #    brew reinstall {python} --with-brewed-openssl
 #    brew link --overwrite {python}
