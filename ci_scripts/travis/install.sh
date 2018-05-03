@@ -6,7 +6,7 @@ if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
     ln -s /usr/local/opt/openssl/lib/libcrypto.1.0.0.dylib /usr/local/lib/
     ln -s /usr/local/opt/openssl/lib/libssl.1.0.0.dylib /usr/local/lib/
     ln -s /usr/local/Cellar/openssl/1.0.2j/bin/openssl /usr/local/bin/openssl
-    {python} --with-brewed-openssl
+    brew reinstall {python} --with-brewed-openssl
 fi
 
 {pip} install --upgrade pip
