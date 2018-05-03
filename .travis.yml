@@ -93,7 +93,7 @@ script:
         brew link --force openssl;
         $PIP install numpy cython --upgrade;
         IFS= ; export CIBW_BEFORE_BUILD="$(cat ci_scripts/travis/install.sh)";
-        IFS= ; export CIBW_TEST_COMMAND="{python} -c \"from grakel.datasets import fetch_dataset; fetch_dataset(\"MUTAG\")\" && nosetests $MODULE";
+        IFS= ; export CIBW_TEST_COMMAND="{python} -c \"from grakel.datasets import fetch_dataset; Q = fetch_dataset('MUTAG', verbose=False)\" && nosetests $MODULE";
     else
         IFS= ; export CIBW_BEFORE_BUILD="$(cat ci_scripts/travis/install.sh)";
         IFS= ; export CIBW_TEST_COMMAND="$(cat ci_scripts/travis/test.sh)";
