@@ -3,7 +3,6 @@
 if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
     openssl version -a
     {python} -c "import ssl; print(ssl.OPENSSL_VERSION)"
-    export PATH="/usr/local/bin:$PATH"
     openssl version -a
     {python} -c "import ssl; print(ssl.OPENSSL_VERSION)"
 #    brew unlink {python}

@@ -92,12 +92,12 @@ script:
   - export CIBW_ENVIRONMENT="TEST_DIR=$TEST_DIR MODULE=$MODULE COVERAGE=$COVERAGE";
   - |
     if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-        brew update > /dev/null;
-        brew upgrade openssl;
-        ln -s /usr/local/Cellar/openssl/1.0.2o/bin/openssl /usr/bin/openssl;
+        sudo ln -s /usr/local/Cellar/openssl/1.0.2l/bin/openssl /usr/bin/openssl;
         mkdir -p /usr/local/lib;
-        ln -s /usr/local/opt/openssl/lib/libcrypto.1.0.0.dylib /usr/local/lib/;
-        ln -s /usr/local/opt/openssl/lib/libssl.1.0.0.dylib /usr/local/lib/;
+        sudo ln -s /usr/local/opt/openssl/lib/libcrypto.1.0.0.dylib /usr/local/lib/;
+        sudo ln -s /usr/local/opt/openssl/lib/libssl.1.0.0.dylib /usr/local/lib/;
+        openssl version -a;
+        export PATH="/usr/local/bin:$PATH"
         openssl version -a;
         $PIP install numpy cython --upgrade;
         IFS= ; export CIBW_BEFORE_BUILD="$(cat ci_scripts/travis/install.sh)";
