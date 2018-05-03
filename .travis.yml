@@ -88,6 +88,8 @@ script:
   - export CIBW_ENVIRONMENT="TEST_DIR=$TEST_DIR MODULE=$MODULE COVERAGE=$COVERAGE";
   - |
     if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+        brew update;
+        brew install openssl
         $PIP install numpy cython --upgrade;
         IFS= ; export CIBW_BEFORE_BUILD="$(cat ci_scripts/travis/install.sh)";
         IFS= ; export CIBW_TEST_COMMAND="nosetests $MODULE";
