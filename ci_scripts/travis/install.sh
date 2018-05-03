@@ -1,5 +1,5 @@
-# Configure the conda environment and put it in the path using the
-# provided versions
+# Install dependencies related with the [SSL: TLSV1_ALERT_PROTOCOL_VERSION]
+# a urllib2.URLError
 if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
     brew update;
     brew install openssl;
