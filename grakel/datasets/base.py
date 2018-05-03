@@ -367,7 +367,6 @@ def _download_zip(url, output_name):
 
     """
     ctx = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
-    ctx.options = ssl.PROTOCOL_TLSv1_2
     filename = output_name + ".zip"
     try:
         data_url = urlopen(url, context=ctx)

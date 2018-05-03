@@ -55,6 +55,7 @@ matrix:
         - DEPLOY_WHEEL="false"
         - CIBW_SKIP="cp33-* cp34-* cp36-* cp27-*"
     - os: osx
+      osx_image: xcode9.3
       language: generic
       env:
         - PIP=pip2
@@ -69,6 +70,7 @@ matrix:
         - DEPLOY_WHEEL="false"
         - CIBW_SKIP="cp33-* cp34-* cp35-* cp36-* cp27-manylinux1_x86_64"
     - os: osx
+      osx_image: xcode9.3
       language: generic
       env:
         - PIP=pip2
@@ -76,6 +78,7 @@ matrix:
         - DEPLOY_WHEEL="true"
         - CIBW_SKIP="cp33-* cp34-* cp36-* cp27-*"
     - os: osx
+      osx_image: xcode9.3
       language: generic
       env:
         - PIP=pip2
