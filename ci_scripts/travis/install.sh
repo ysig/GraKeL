@@ -1,5 +1,10 @@
 # Configure the conda environment and put it in the path using the
 # provided versions
+if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+    brew reinstall {python} --with-brewed-openssl
+fi
+
+{pip} install --upgrade pip
 {pip} install --upgrade setuptools
 {pip} install -r requirements.txt
 {pip} install "cvxopt==1.2.0"
