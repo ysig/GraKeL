@@ -11,7 +11,7 @@ from grakel.datasets import get_dataset_info
 from grakel.graph_kernels import GraphKernel
 
 
-cwd = os.path.dirname(os.path.abspath(__file__))
+cwd = os.path.dirname(__file__)
 
 global verbose, main, development
 

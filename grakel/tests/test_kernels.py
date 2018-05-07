@@ -38,7 +38,7 @@ from grakel.kernels import CoreFramework
 
 global verbose, main, development
 
-cwd = os.path.dirname(os.path.abspath(__file__))
+cwd = os.path.dirname(__file__)
 
 default_eigvalue_precision = float("-1e-5")
 
