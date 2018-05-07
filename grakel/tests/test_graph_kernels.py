@@ -11,7 +11,7 @@ from grakel.datasets import get_dataset_info
 from grakel.graph_kernels import GraphKernel
 
 
-cwd = os.path.dirname(__file__)
+fdir = os.path.dirname(__file__)
 
 global verbose, main, development
 
@@ -113,8 +113,10 @@ except Exception:
     if dataset_name != 'MUTAG':
         warn('Switching back to baseline dataset MUTAG')
     warn('Using an offline version..')
-    dataset = read_data(os.path.join(cwd, 'data/MUTAG'), with_classes=False).data
-
+    cwd = os.getcwd()
+    os.chdir(os.path.join(fdir, 'data'))
+    dataset = read_data('MUTAG', with_classes=False).data
+    os.chdir(cwd)
 
 dataset_tr, dataset_te = train_test_split(dataset,
                                           test_size=0.2,
@@ -134,9 +136,11 @@ except Exception:
     if dataset_attr_name != 'Cuneiform':
         warn('Switching back to baseline dataset Cuneiform')
     warn('Using an offline version..')
-    dataset_attr = read_data(os.path.join(cwd, 'data/Cuneiform'),
-                             with_classes=False, prefer_attr_nodes=True,
+    cwd = os.getcwd()
+    os.chdir(os.path.join(fdir, 'data'))
+    dataset_attr = read_data('Cuneiform', with_classes=False, prefer_attr_nodes=True,
                              prefer_attr_edges=True).data
+    os.chdir(cwd)
 
 dataset_attr_tr, dataset_attr_te = train_test_split(dataset_attr,
                                                     test_size=0.2,
