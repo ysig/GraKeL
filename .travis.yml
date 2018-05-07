@@ -80,7 +80,7 @@ matrix:
         - CIBW_SKIP="cp33-* cp34-* cp27-* cp35-*"
 script:
   - $PIP install flake8 --upgrade && flake8 $TRAVIS_BUILD_DIR/grakel
-  - $PIP install cibuildwheel==0.7.2
+  - $PIP install cibuildwheel==0.8.0
   - export CIBW_ENVIRONMENT="TEST_DIR=$TEST_DIR MODULE=$MODULE COVERAGE=$COVERAGE";
   - IFS= ; export CIBW_BEFORE_BUILD="$(cat ci_scripts/travis/install.sh)";
   - |
