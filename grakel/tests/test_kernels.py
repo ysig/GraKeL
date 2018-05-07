@@ -190,7 +190,7 @@ except Exception:
     dataset_attr = read_data('Cuneiform', with_classes=False, prefer_attr_nodes=True,
                              prefer_attr_edges=True).data
     os.chdir(cwd)
-    
+
 dataset_attr_tr, dataset_attr_te = train_test_split(dataset_attr,
                                                     test_size=0.2,
                                                     random_state=42)
