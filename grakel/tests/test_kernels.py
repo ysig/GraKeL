@@ -162,7 +162,7 @@ except Exception:
     if dataset_name != 'MUTAG':
         warn('Switching back to baseline dataset MUTAG')
     warn('Using an offline version..')
-    dataset = read_data(os.path.join(cwd, 'data/MUTAG'), with_classes=False, verbose=verbose).data
+    dataset = read_data(os.path.join(cwd, 'data/MUTAG'), with_classes=False).data
 
 
 dataset_tr, dataset_te = train_test_split(dataset,
