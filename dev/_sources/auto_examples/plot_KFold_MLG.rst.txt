@@ -24,7 +24,7 @@ An example plot of :class:`grakel.GraphKernel`, :class:`grakel.multiscale_laplac
     Deleting unzipped dataset files..
     Going back to the original directory..
     ('Mean values of ', 10, 'folds:')
-    ('MLG [Fast] > Accuracy:', '15.31', '% | Took:', '6.09 s')
+    ('MLG [Fast] > Accuracy:', '15.31', '% | Took:', '6.3 s')
 
 
 
@@ -161,7 +161,7 @@ An example plot of :class:`grakel.GraphKernel`, :class:`grakel.multiscale_laplac
           str(round(np.mean(stats["acc"])*100, 2)),
           "% | Took:", sec_to_time(np.mean(stats["time"])))
 
-**Total running time of the script:** ( 1 minutes  2.918 seconds)
+**Total running time of the script:** ( 1 minutes  5.112 seconds)
 
 
 
