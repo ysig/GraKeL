@@ -98,10 +98,11 @@ setup(name='grakel-dev',
                  ],
       python_requires='>=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, <4',
       packages=find_packages(),
+      package_data={'grakel.tests': ['data/Cuneiform/*.txt', 'data/MUTAG/*.txt']},
       install_requires=INSTALL_REQUIRES,
       extras_require={
         'lovasz': ["cvxopt>=1.2.0"]
       },
       ext_modules=[intpybliss, bliss, ext],
-      cmdclass={'build_ext': build_ext}
+      cmdclass={'build_ext': build_ext},
       )
