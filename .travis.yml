@@ -90,16 +90,12 @@ script:
   - $PIP install flake8 --upgrade && flake8 $TRAVIS_BUILD_DIR/grakel
   - $PIP install cibuildwheel==0.7.2
   - export CIBW_ENVIRONMENT="TEST_DIR=$TEST_DIR MODULE=$MODULE COVERAGE=$COVERAGE";
+  - IFS= ; export CIBW_BEFORE_BUILD="$(cat ci_scripts/travis/install.sh)";
   - |
     if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-        echo 'export PATH="/usr/local/opt/openssl/bin:/usr/local/opt/openssl/lib/:$PATH"' >> ~/.bash_profile
-        export PATH="/usr/local/opt/openssl/bin:/usr/local/opt/openssl/lib/:$PATH"
-        openssl version -a;
         $PIP install numpy cython --upgrade;
-        IFS= ; export CIBW_BEFORE_BUILD="$(cat ci_scripts/travis/install.sh)";
-        IFS= ; export CIBW_TEST_COMMAND="{python} -c \"from grakel.datasets import fetch_dataset; Q = fetch_dataset('MUTAG', verbose=False)\" && nosetests $MODULE";
+        IFS= ; export CIBW_TEST_COMMAND="nosetests $MODULE";
     else
-        IFS= ; export CIBW_BEFORE_BUILD="$(cat ci_scripts/travis/install.sh)";
         IFS= ; export CIBW_TEST_COMMAND="$(cat ci_scripts/travis/test.sh)";
     fi
   - cibuildwheel --output-dir $WHEEL_FOLDER

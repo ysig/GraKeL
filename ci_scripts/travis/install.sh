@@ -1,16 +1,4 @@
-# Install dependencies related with the [SSL: TLSV1_ALERT_PROTOCOL_VERSION]
-# a urllib2.URLError
-if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-    echo "normal openssl";
-    openssl version -a;
-    {python} -c "import ssl; print('py:openssl:', ssl.OPENSSL_VERSION)";
-    brew install {python} --with-brewed-openssl | grep 'brew link --overwrite python' | sh
-    {python} -c "import ssl; print('py:openssl:', ssl.OPENSSL_VERSION)";   
-#    brew unlink {python}
-#    brew reinstall {python} --with-brewed-openssl
-#    brew link --overwrite {python}
-fi
-
+# Install file used by cibuildwheel
 {pip} install --upgrade pip
 {pip} install --upgrade setuptools
 {pip} install -r requirements.txt

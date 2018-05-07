@@ -1,11 +1,17 @@
 """Tests for the GraphKernel class."""
+import os
 from time import time
+from warnings import warn
 
 from sklearn.model_selection import train_test_split
 
 from grakel.datasets import fetch_dataset
+from grakel.datasets.base import read_data
 from grakel.datasets import get_dataset_info
 from grakel.graph_kernels import GraphKernel
+
+
+cwd = os.path.dirname(os.path.abspath(__file__))
 
 global verbose, main, development
 
@@ -98,17 +104,40 @@ elif not dinfo_attr["nl"] and not dinfo_attr["el"]:
 
 # The baseline dataset for node, edge_labels
 global dataset, dataset_tr, dataset_te
-dataset = fetch_dataset(dataset_name, with_classes=False, verbose=verbose).data
+
+try:
+    dataset = fetch_dataset(dataset_name, with_classes=False, verbose=verbose).data
+except Exception:
+    # Offline testing
+    warn('There was a problem fetching dataset for attributes: [' + dataset_name + ']')
+    if dataset_name != 'MUTAG':
+        warn('Switching back to baseline dataset MUTAG')
+    warn('Using an offline version..')
+    dataset = read_data(os.path.join(cwd, 'data/MUTAG'), with_classes=False, verbose=verbose).data
+
+
 dataset_tr, dataset_te = train_test_split(dataset,
                                           test_size=0.2,
                                           random_state=42)
 
 # The baseline dataset for node/edge-attributes
 global dataset_attr, dataset_attr_tr, dataset_attr_te
-dataset_attr = fetch_dataset(dataset_attr_name, with_classes=False,
-                             prefer_attr_nodes=True,
-                             prefer_attr_edges=True,
-                             verbose=verbose).data
+
+try:
+    dataset_attr = fetch_dataset(dataset_attr_name, with_classes=False,
+                                 prefer_attr_nodes=True,
+                                 prefer_attr_edges=True,
+                                 verbose=verbose).data
+except Exception:
+    # Offline testing
+    warn('There was a problem fetching dataset for attributes: [' + dataset_attr_name + ']')
+    if dataset_attr_name != 'Cuneiform':
+        warn('Switching back to baseline dataset Cuneiform')
+    warn('Using an offline version..')
+    dataset_attr = read_data(os.path.join(cwd, 'data/Cuneiform'),
+                             with_classes=False, prefer_attr_nodes=True,
+                             prefer_attr_edges=True).data
+
 dataset_attr_tr, dataset_attr_te = train_test_split(dataset_attr,
                                                     test_size=0.2,
                                                     random_state=42)
