@@ -1,6 +1,6 @@
 """
 ==============================================================================
-Cross-Validation sk-learn Pipeline example on MUTAG using Shortest Path Kernel
+Cross-Validation scikit-learn Pipeline example on MUTAG using the Shortest Path Kernel.
 ==============================================================================
 
 An example plot of :class:`grakel.GraphKernel`, :class:`grakel.ShortestPath`

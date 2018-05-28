@@ -4,7 +4,7 @@
 
 
 ==============================================================================
-Cross-Validation sk-learn Pipeline example on MUTAG using Shortest Path Kernel
+Cross-Validation scikit-learn Pipeline example on MUTAG using the Shortest Path Kernel.
 ==============================================================================
 
 An example plot of :class:`grakel.GraphKernel`, :class:`grakel.ShortestPath`
@@ -57,7 +57,7 @@ An example plot of :class:`grakel.GraphKernel`, :class:`grakel.ShortestPath`
     acc = accuracy_score(y, cross_val_predict(estimator, G, y, cv=n_folds))
     print("Accuracy:", str(round(acc*100, 2)) + "%")
 
-**Total running time of the script:** ( 0 minutes  10.019 seconds)
+**Total running time of the script:** ( 0 minutes  9.970 seconds)
 
 
 
