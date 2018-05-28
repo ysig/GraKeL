@@ -1,9 +1,9 @@
 """
-=========================================================================================
-KFold classification of a dataset [Cuneiform] using the fast Multiscale Laplacian kernel.
-=========================================================================================
+================================================================================================
+KFold classification of a dataset [Cuneiform] using the approximate Multiscale Laplacian kernel.
+================================================================================================
 
-An example plot of :class:`grakel.GraphKernel`, :class:`grakel.multiscale_laplacian_fast`
+An example plot of :class:`grakel.GraphKernel`, :class:`grakel.MultiscaleLaplacianFast`
 """
 print(__doc__)
 
