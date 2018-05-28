@@ -1,6 +1,6 @@
 """
 =============================================================
-Classification on the MUTAG dataset using a WL-subtree kernel
+Classification of the MUTAG dataset using the WL-subtree kernel.
 =============================================================
 
 An example plot of :class:`grakel.GraphKernel`, :class:`grakel.WeisfeilerLehman`, :class:`grakel.VertexHistogram`
