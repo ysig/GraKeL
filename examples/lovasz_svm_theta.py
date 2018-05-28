@@ -3,7 +3,7 @@
 Classification on MUTAG using a lovasz, svm-theta kernels
 =========================================================
 
-An example plot of :class:`grakel.GraphKernel`, :c;ass:`grakel.LovaszTheta`, :class:`grakel.SvmTheta`
+An example plot of :class:`grakel.GraphKernel`, :class:`grakel.LovaszTheta`, :class:`grakel.SvmTheta`
 """
 print(__doc__)
 import numpy as np
