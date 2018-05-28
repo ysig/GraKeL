@@ -3,22 +3,17 @@
 .. _sphx_glr_auto_examples_classification_statistics.py:
 
 
-SyntaxError
-===========
+=========================================================
+Classification statistics on the MUTAG, ENZYMES datasets.
+=========================================================
 
-Example script with invalid Python syntax
+An example plot of :class:`grakel.GraphKernel`
 
 
 
 .. code-block:: python
 
-    """
-    =========================================================
-    Classification statistics on the MUTAG, ENZYMES datasets.
-    =========================================================
-
-    An example plot of :class:`grakel.GraphKernel`
-    """
+    from __future__ import print_function
     print(__doc__)
 
     import time

@@ -4,7 +4,7 @@
 
 
 ================================================================================================
-KFold classification of a dataset [Cuneiform] using the approximate Multiscale Laplacian kernel.
+KFold classification of a dataset [ENZYMES] using the approximate Multiscale Laplacian kernel.
 ================================================================================================
 
 An example plot of :class:`grakel.GraphKernel`, :class:`grakel.MultiscaleLaplacianFast`
@@ -17,14 +17,14 @@ An example plot of :class:`grakel.GraphKernel`, :class:`grakel.MultiscaleLaplaci
 
  Out::
 
-    Downloading dataset for Cuneiform..
-    Extracting dataset  Cuneiform..
-    Parsing dataset  Cuneiform..
+    Downloading dataset for ENZYMES..
+    Extracting dataset  ENZYMES..
+    Parsing dataset  ENZYMES..
     Parse was succesful..
     Deleting unzipped dataset files..
     Going back to the original directory..
     ('Mean values of ', 10, 'folds:')
-    ('MLG [Fast] > Accuracy:', '15.31', '% | Took:', '7.45 s')
+    ('MLG [Fast] > Accuracy:', '61.67', '% | Took:', '58.25 s')
 
 
 
@@ -50,7 +50,7 @@ An example plot of :class:`grakel.GraphKernel`, :class:`grakel.MultiscaleLaplaci
         '--dataset',
         help='chose the datset you want the tests to be executed',
         type=str,
-        default="Cuneiform",
+        default="ENZYMES",
     )
 
     # Get the dataset name
@@ -59,7 +59,7 @@ An example plot of :class:`grakel.GraphKernel`, :class:`grakel.MultiscaleLaplaci
     # Check the dataset provided by the user
     dinfo = datasets.get_dataset_info(dataset_name)
     if dinfo is None:
-        raise TypeError('Dataset not found!')
+        raise ValueError('Dataset not found!')
     elif not dinfo["nl"]:
         raise TypeError('Dataset must have contain node attributes.')
 
@@ -161,7 +161,7 @@ An example plot of :class:`grakel.GraphKernel`, :class:`grakel.MultiscaleLaplaci
           str(round(np.mean(stats["acc"])*100, 2)),
           "% | Took:", sec_to_time(np.mean(stats["time"])))
 
-**Total running time of the script:** ( 1 minutes  16.656 seconds)
+**Total running time of the script:** ( 9 minutes  45.443 seconds)
 
 
 
