@@ -19,7 +19,7 @@ with a labeling function :math:`\ell_i` which has emerged after :math:`i` iterat
 relabeling procedure described above.
 
 The Weisfeiler-Lehman sequence up to height :math:`h` of :math:`G` consists of the Weisfeiler-Lehman
-graphs of :math:`G` at heights from :math:`0` to :math:`h`, :math:`\{ G_0,G_1,\ldots,G_h\}.
+graphs of :math:`G` at heights from :math:`0` to :math:`h`, :math:`\{ G_0,G_1,\ldots,G_h\}`.
 
 
 Definition: Weisfeiler-Lehman Framework
