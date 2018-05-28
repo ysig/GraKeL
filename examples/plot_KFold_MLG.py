@@ -1,6 +1,6 @@
 """
 ================================================================================================
-KFold classification of a dataset [Cuneiform] using the approximate Multiscale Laplacian kernel.
+KFold classification of a dataset [ENZYMES] using the approximate Multiscale Laplacian kernel.
 ================================================================================================
 
 An example plot of :class:`grakel.GraphKernel`, :class:`grakel.MultiscaleLaplacianFast`
@@ -21,7 +21,7 @@ parser.add_argument(
     '--dataset',
     help='chose the datset you want the tests to be executed',
     type=str,
-    default="Cuneiform",
+    default="ENZYMES",
 )
 
 # Get the dataset name
@@ -30,7 +30,7 @@ dataset_name = parser.parse_args().dataset
 # Check the dataset provided by the user
 dinfo = datasets.get_dataset_info(dataset_name)
 if dinfo is None:
-    raise TypeError('Dataset not found!')
+    raise ValueError('Dataset not found!')
 elif not dinfo["nl"]:
     raise TypeError('Dataset must have contain node attributes.')
 

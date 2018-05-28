@@ -5,6 +5,7 @@ Classification statistics on the MUTAG, ENZYMES datasets.
 
 An example plot of :class:`grakel.GraphKernel`
 """
+from __future__ import print_function
 print(__doc__)
 
 import time
