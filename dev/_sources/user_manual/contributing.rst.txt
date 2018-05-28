@@ -56,7 +56,7 @@ The GraKeL project is currently developed by the editor [Ioannis Siglidis] insid
 organization of the *Paris-Saclay* University at the `DaSciM`_ laboratory of LiX.
 
 The project is currently carried out under the administrative supervision of the DaSciM Team Leader, `Michalis Vazirgiannis`_ as well as the scientific
-supervision of Giannis Nikolentzos a Post-Doc researcher with a PhD on the field of Graph Kernels.
+supervision of Giannis Nikolentzos a postdoctoral researcher.
 Other members of the lab aiding with the construction of this library are: Xristos Giatsidis, Stratis Limnios and Konstantinos Skianis.
 
 The project BSD license - a prerequisite of *sk-learn* compatibility - is accepted by the editor as it does not offend the virtues of the free-software community.

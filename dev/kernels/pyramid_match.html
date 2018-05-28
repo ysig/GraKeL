@@ -106,7 +106,10 @@
 <li class="toctree-l3"><a class="reference internal" href="neighborhood_subgraph_pairwise_distance.html">Neighborhood Subgraph Pairwise Distance Kernel</a></li>
 <li class="toctree-l3"><a class="reference internal" href="odd_sth.html">ODD-STh Kernel</a></li>
 <li class="toctree-l3"><a class="reference internal" href="propagation.html">The Propagation Kernel</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Pyramid Match Kernel</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Pyramid Match Kernel</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#bibliography">Bibliography</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="random_walk.html">Random Walk Kernel</a></li>
 <li class="toctree-l3"><a class="reference internal" href="shortest_path.html">Shortest Path Kernel</a></li>
 <li class="toctree-l3"><a class="reference internal" href="subgraph_matching.html">Subgraph Matching Kernel</a></li>
@@ -192,8 +195,40 @@
             
   <div class="section" id="pyramid-match-kernel">
 <span id="pyramid-match"></span><h1>Pyramid Match Kernel<a class="headerlink" href="#pyramid-match-kernel" title="Permalink to this headline">¶</a></h1>
-<p>The pyramid match kernel.</p>
-<p><strong>Theoretical definition missing</strong></p>
+<p>The pyramid match kernel is a very popular algorithm in Computer Vision, and has proven useful for many applications including object recognition and image retrieval <a class="reference internal" href="#grauman2007pyramid-gn" id="id1">[GD07]</a>, <a class="reference internal" href="#lazebnik2006beyond-gn" id="id2">[LSP06]</a>.
+The pyramid match graph kernel extends its applicability to graph-structured data <a class="reference internal" href="#nikolentzos2017matching-gn" id="id3">[NMV17]</a>.
+The kernel can handle both unlabeled graphs and graphs that contains discrete node labels.</p>
+<p>The pyramid match graph kernel first embedds the vertices of each graph into a low-dimensional vector space using the eigenvectors of the <span class="math notranslate nohighlight">\(d\)</span> largest in magnitude eigenvalues of the adjacency matrix of the graph.
+Since the signs of these eigenvectors are arbitrary, it replaces all their components by their absolute values.
+Each vertex is thus a point in the <span class="math notranslate nohighlight">\(d\)</span>-dimensional unit hypercube.
+To find an approximate correspondence between the sets of vertices of two graphs, the kernel maps these points to multi-resolution histograms, and compares the emerging histograms with a weighted histogram intersection function.</p>
+<p>Initially, the kernel partitions the feature space into regions of increasingly larger size and takes a weighted sum of the matches that occur at each level.
+Two points match with each other if they fall into the same region.
+Matches made within larger regions are weighted less than those found in smaller regions.
+The kernel repeatedly fits a grid with cells of increasing size to the <span class="math notranslate nohighlight">\(d\)</span>-dimensional unit hypercube.
+Each cell is related only to a specific dimension and its size along that dimension is doubled at each iteration, while its size along the other dimensions stays constant and equal to <span class="math notranslate nohighlight">\(1\)</span>.
+Given a sequence of levels from <span class="math notranslate nohighlight">\(0\)</span> to <span class="math notranslate nohighlight">\(L\)</span>, then at level <span class="math notranslate nohighlight">\(l\)</span>, the <span class="math notranslate nohighlight">\(d\)</span>-dimensional unit hypercube has <span class="math notranslate nohighlight">\(2^l\)</span> cells along each dimension and <span class="math notranslate nohighlight">\(D = 2^{l}d\)</span> cells in total.
+Given a pair of graphs <span class="math notranslate nohighlight">\(G,G'\)</span>, let <span class="math notranslate nohighlight">\(H_G^l\)</span> and <span class="math notranslate nohighlight">\(H_{G'}^l\)</span> denote the histograms of <span class="math notranslate nohighlight">\(G\)</span> and <span class="math notranslate nohighlight">\(G'\)</span> at level <span class="math notranslate nohighlight">\(l\)</span> and <span class="math notranslate nohighlight">\(H_G^l(i)\)</span>, <span class="math notranslate nohighlight">\(H_{G'}^l(i)\)</span>, the number of vertices of <span class="math notranslate nohighlight">\(G\)</span>, <span class="math notranslate nohighlight">\(G'\)</span> that lie in the <span class="math notranslate nohighlight">\(i^{th}\)</span> cell.
+The number of points in two sets which match at level $l$ is then computed using the histogram intersection function</p>
+<div class="math notranslate nohighlight">
+\[I(H_G^l,H_{G'}^l) = \sum_{i=1}^D \min\big(H_G^l(i),H_{G'}^l(i)\big)\]</div>
+<p>The matches that occur at level <span class="math notranslate nohighlight">\(l\)</span> also occur at levels <span class="math notranslate nohighlight">\(0, \ldots, l-1\)</span>.
+We are interested in the number of new matches found at each level which is given by <span class="math notranslate nohighlight">\(I(H_{G_1}^l,H_{G_2}^l) - I(H_{G_1}^{l+1},H_{G_2}^{l+1})\)</span> for <span class="math notranslate nohighlight">\(l=0,\ldots,L-1\)</span>.
+The number of new matches found at each level in the pyramid is weighted according to the size of that level’s cells.
+Matches found within smaller cells are weighted more than those made in larger cells.
+Specifically, the weight for level <span class="math notranslate nohighlight">\(l\)</span> is set equal to <span class="math notranslate nohighlight">\(\frac{1}{2^{L-l}}\)</span>.
+Hence, the weights are inversely proportional to the length of the side of the cells that varies in size as the levels increase.
+The pyramid match kernel is then defined as follows</p>
+<div class="math notranslate nohighlight">
+\[k(G,G') = I(H_G^L,H_{G'}^L) + \sum_{l=0}^{L-1} \frac{1}{2^{L-l}}\big(I(H_G^l,H_{G'}^l) - I(H_G^{l+1},H_{G'}^{l+1})\big)\]</div>
+<p>The complexity of the pyramid match kernel is <span class="math notranslate nohighlight">\(\mathcal{O}(dnL)\)</span> where $n$ is the number of nodes of the graphs under comparison.</p>
+<p>In the case of labeled graphs, the kernel restricts matchings to occur only between vertices that share same labels.
+It represents each graph as a set of sets of vectors, and matches pairs of sets of two graphs corresponding to the same label using the pyramid match kernel.
+The emerging kernel for labeled graphs corresponds to the sum of the separate kernels</p>
+<div class="math notranslate nohighlight">
+\[k(G, G') = \sum_{i=1}^c k^i(G,G')\]</div>
+<p>where <span class="math notranslate nohighlight">\(c\)</span> is the number of distinct labels and <span class="math notranslate nohighlight">\(k^i(G_1,G_2)\)</span> is the pyramid match kernel between the sets of vertices of the two graphs which are assigned the label <span class="math notranslate nohighlight">\(i\)</span>.</p>
+<p>The above kernel is implemented as found below, along with the needed parametrization that arrised from the preceeding description:</p>
 <table border="1" class="longtable docutils">
 <colgroup>
 <col width="10%" />
@@ -205,6 +240,28 @@
 </tr>
 </tbody>
 </table>
+<div class="section" id="bibliography">
+<h2>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">¶</a></h2>
+<p id="bibtex-bibliography-kernels/pyramid_match-0"><table class="docutils citation" frame="void" id="grauman2007pyramid-gn" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[GD07]</a></td><td>Kristen Grauman and Trevor Darrell. The Pyramid Match Kernel: Efficient Learning with Sets of Features. <em>The Journal of Machine Learning Research</em>, 8:725–760, 2007.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="lazebnik2006beyond-gn" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[LSP06]</a></td><td>Svetlana Lazebnik, Cordelia Schmid, and Jean Ponce. Beyond Bags of Features: Spatial Pyramid Matching for Recognizing Natural Scene Categories. In <em>Proceedings of the 2006 Conference on Computer Vision and Pattern Recognition</em>, volume&nbsp;2, 2169–2178. 2006.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="nikolentzos2017matching-gn" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[NMV17]</a></td><td>Giannis Nikolentzos, Polykarpos Meladianos, and Michalis Vazirgiannis. Matching node embeddings for graph similarity. In <em>Proceedings of the 31st AAAI Conference on Artificial Intelligence</em>, 2429–2435. 2017.</td></tr>
+</tbody>
+</table>
+</p>
+</div>
 </div>
 
 
