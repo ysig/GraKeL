@@ -3,11 +3,11 @@
 .. _sphx_glr_auto_examples_plot_KFold_MLG.py:
 
 
-=========================================================================================
-KFold classification of a dataset [Cuneiform] using the fast Multiscale Laplacian kernel.
-=========================================================================================
+================================================================================================
+KFold classification of a dataset [Cuneiform] using the approximate Multiscale Laplacian kernel.
+================================================================================================
 
-An example plot of :class:`grakel.GraphKernel`, :class:`grakel.multiscale_laplacian_fast`
+An example plot of :class:`grakel.GraphKernel`, :class:`grakel.MultiscaleLaplacianFast`
 
 
 
@@ -24,7 +24,7 @@ An example plot of :class:`grakel.GraphKernel`, :class:`grakel.multiscale_laplac
     Deleting unzipped dataset files..
     Going back to the original directory..
     ('Mean values of ', 10, 'folds:')
-    ('MLG [Fast] > Accuracy:', '15.31', '% | Took:', '6.61 s')
+    ('MLG [Fast] > Accuracy:', '15.31', '% | Took:', '6.62 s')
 
 
 
@@ -161,7 +161,7 @@ An example plot of :class:`grakel.GraphKernel`, :class:`grakel.multiscale_laplac
           str(round(np.mean(stats["acc"])*100, 2)),
           "% | Took:", sec_to_time(np.mean(stats["time"])))
 
-**Total running time of the script:** ( 1 minutes  8.153 seconds)
+**Total running time of the script:** ( 1 minutes  8.283 seconds)
 
 
 

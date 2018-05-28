@@ -7,7 +7,7 @@
 Classification on the MUTAG dataset using a WL-subtree kernel
 =============================================================
 
-An example plot of :class:`grakel.GraphKernel`, :class:`grakel.weisfeiler_lehman`, :class:`grakel.subtree_wl`
+An example plot of :class:`grakel.GraphKernel`, :class:`grakel.WeisfeilerLehman`, :class:`grakel.VertexHistogram`
 
 
 
@@ -17,7 +17,7 @@ An example plot of :class:`grakel.GraphKernel`, :class:`grakel.weisfeiler_lehman
 
  Out::
 
-    ('Accuracy:', '84.21', '% | Took:', '0.27', 's')
+    ('Accuracy:', '84.21', '% | Took:', '0.16', 's')
 
 
 
@@ -70,7 +70,7 @@ An example plot of :class:`grakel.GraphKernel`, :class:`grakel.weisfeiler_lehman
     print("Accuracy:", str(round(acc*100, 2)), "% | Took:",
           str(round(end - start, 2)), "s")
 
-**Total running time of the script:** ( 0 minutes  0.324 seconds)
+**Total running time of the script:** ( 0 minutes  2.280 seconds)
 
 
 
