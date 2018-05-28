@@ -31,8 +31,8 @@
   <link rel="stylesheet" href="../_static/_static/css/supplementary.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Classification on MUTAG using a lovasz, svm-theta kernels" href="_plot_lovasz_svm_theta.html" />
-    <link rel="prev" title="Classification Examples" href="index.html" /> 
+    <link rel="next" title="Classification on MUTAG using a lovasz, svm-theta kernels" href="lovasz_svm_theta.html" />
+    <link rel="prev" title="Cross-Validation sk-learn Pipeline example on MUTAG using Shortest Path Kernel" href="plot_pipeline_shortest_path.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -95,8 +95,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../api.html">GraKeL</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../classes.html">API Reference</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Classification Examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="plot_pipeline_shortest_path.html">Cross-Validation sk-learn Pipeline example on MUTAG using Shortest Path Kernel</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Classification on the MUTAG dataset using a WL-subtree kernel</a></li>
-<li class="toctree-l2"><a class="reference internal" href="_plot_lovasz_svm_theta.html">Classification on MUTAG using a lovasz, svm-theta kernels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lovasz_svm_theta.html">Classification on MUTAG using a lovasz, svm-theta kernels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="classification_statistics.html">SyntaxError</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_KFold_MLG.html">KFold classification of a dataset [Cuneiform] using the approximate Multiscale Laplacian kernel.</a></li>
 </ul>
 </li>
@@ -170,7 +172,7 @@
 <span id="sphx-glr-auto-examples-plot-wl-subtree-mutag-py"></span><h1>Classification on the MUTAG dataset using a WL-subtree kernel<a class="headerlink" href="#classification-on-the-mutag-dataset-using-a-wl-subtree-kernel" title="Permalink to this headline">¶</a></h1>
 <p>An example plot of <a class="reference internal" href="../generated/grakel.GraphKernel.html#grakel.GraphKernel" title="grakel.GraphKernel"><code class="xref py py-class docutils literal notranslate"><span class="pre">grakel.GraphKernel</span></code></a>, <a class="reference internal" href="../generated/grakel.WeisfeilerLehman.html#grakel.WeisfeilerLehman" title="grakel.WeisfeilerLehman"><code class="xref py py-class docutils literal notranslate"><span class="pre">grakel.WeisfeilerLehman</span></code></a>, <a class="reference internal" href="../generated/grakel.VertexHistogram.html#grakel.VertexHistogram" title="grakel.VertexHistogram"><code class="xref py py-class docutils literal notranslate"><span class="pre">grakel.VertexHistogram</span></code></a></p>
 <p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="s1">&#39;Accuracy:&#39;</span><span class="p">,</span> <span class="s1">&#39;84.21&#39;</span><span class="p">,</span> <span class="s1">&#39;% | Took:&#39;</span><span class="p">,</span> <span class="s1">&#39;0.16&#39;</span><span class="p">,</span> <span class="s1">&#39;s&#39;</span><span class="p">)</span>
+<div class="sphx-glr-script-out highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="s1">&#39;Accuracy:&#39;</span><span class="p">,</span> <span class="s1">&#39;84.21&#39;</span><span class="p">,</span> <span class="s1">&#39;% | Took:&#39;</span><span class="p">,</span> <span class="s1">&#39;0.25&#39;</span><span class="p">,</span> <span class="s1">&#39;s&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="line-block">
@@ -220,7 +222,7 @@
       <span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">,</span> <span class="mi">2</span><span class="p">)),</span> <span class="s2">&quot;s&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><strong>Total running time of the script:</strong> ( 0 minutes  2.280 seconds)</p>
+<p><strong>Total running time of the script:</strong> ( 0 minutes  0.330 seconds)</p>
 <div class="sphx-glr-footer docutils container">
 <div class="sphx-glr-download docutils container">
 <a class="reference download internal" href="../_downloads/plot_wl_subtree_MUTAG.py" download=""><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_wl_subtree_MUTAG.py</span></code></a></div>
@@ -238,10 +240,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="_plot_lovasz_svm_theta.html" class="btn btn-neutral float-right" title="Classification on MUTAG using a lovasz, svm-theta kernels" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="lovasz_svm_theta.html" class="btn btn-neutral float-right" title="Classification on MUTAG using a lovasz, svm-theta kernels" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="index.html" class="btn btn-neutral" title="Classification Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="plot_pipeline_shortest_path.html" class="btn btn-neutral" title="Cross-Validation sk-learn Pipeline example on MUTAG using Shortest Path Kernel" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

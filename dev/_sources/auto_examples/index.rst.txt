@@ -12,6 +12,26 @@ Examples that demonstrate through a standard classification problem by the use o
 
 .. raw:: html
 
+    <div class="sphx-glr-thumbcontainer" tooltip="An example plot of :class:`grakel.GraphKernel`, :class:`grakel.ShortestPath` ">
+
+.. only:: html
+
+    .. figure:: /auto_examples/images/thumb/sphx_glr_plot_pipeline_shortest_path_thumb.png
+
+        :ref:`sphx_glr_auto_examples_plot_pipeline_shortest_path.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/plot_pipeline_shortest_path
+
+.. raw:: html
+
     <div class="sphx-glr-thumbcontainer" tooltip="An example plot of :class:`grakel.GraphKernel`, :class:`grakel.WeisfeilerLehman`, :class:`grake...">
 
 .. only:: html
@@ -32,13 +52,13 @@ Examples that demonstrate through a standard classification problem by the use o
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="An example plot of :class:`grakel.GraphKernel`, :c;ass:`grakel.LovaszTheta`, :class:`grakel.Svm...">
+    <div class="sphx-glr-thumbcontainer" tooltip="An example plot of :class:`grakel.GraphKernel`, :class:`grakel.LovaszTheta`, :class:`grakel.Svm...">
 
 .. only:: html
 
-    .. figure:: /auto_examples/images/thumb/sphx_glr__plot_lovasz_svm_theta_thumb.png
+    .. figure:: /auto_examples/images/thumb/sphx_glr_lovasz_svm_theta_thumb.png
 
-        :ref:`sphx_glr_auto_examples__plot_lovasz_svm_theta.py`
+        :ref:`sphx_glr_auto_examples_lovasz_svm_theta.py`
 
 .. raw:: html
 
@@ -48,7 +68,27 @@ Examples that demonstrate through a standard classification problem by the use o
 .. toctree::
    :hidden:
 
-   /auto_examples/_plot_lovasz_svm_theta
+   /auto_examples/lovasz_svm_theta
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Example script with invalid Python syntax ">
+
+.. only:: html
+
+    .. figure:: /auto_examples/images/thumb/sphx_glr_classification_statistics_thumb.png
+
+        :ref:`sphx_glr_auto_examples_classification_statistics.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/classification_statistics
 
 .. raw:: html
 
