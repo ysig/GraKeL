@@ -41,7 +41,7 @@ The matrix :math:`\mathbf{K}_{LS}` is positive semidefinite by construction and 
     \omega(\mathbf{K}_{LS}) = \sum_{i=1}^n \alpha_i
 
 where :math:`\alpha_i` are the maximizers of Equation :eq:`oneclass_svm`. 
-Furthermore, it was shown that on certain families of graphs (\eg Erd{\"o}s R{\'e}nyi random graphs), :math:`\omega(\mathbf{K}_{LS})` is with high probability a constant factor approximation to :math:`\vartheta(G)`.
+Furthermore, it was shown that on certain families of graphs (e.g. Erdős–Rényi random graphs), :math:`\omega(\mathbf{K}_{LS})` is with high probability a constant factor approximation to :math:`\vartheta(G)`.
 
 Then, the SVM-:math:`\vartheta` kernel is defined as follows
 
