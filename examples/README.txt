@@ -3,5 +3,5 @@
 Classification Examples
 =======================
 
-Examples that demonstrate through a standard classification problem by the use of an SVM with a precomputed kernel, the accuracy of various Graph Kernels (WL-Subtree, Shortest-Path, Multiscale-Laplacian, Lovasz/SVM-Theta) while using various measure settings (simple, manual K-Fold with Grid-Search, Pipeline Grid-search, or randomized K-folds).
+Examples that make use of graph kernels and the SVM classifier to perform graph classification. The examples demonstrate the accuracy of various graph kernels (WL-subtree, Shortest-Path, Multiscale-Laplacian, Lovasz/SVM-Theta) on some popular datasets using different experimental settings (simple, manual K-Fold with Grid-Search, Pipeline Grid-search, or randomized K-folds).
 
