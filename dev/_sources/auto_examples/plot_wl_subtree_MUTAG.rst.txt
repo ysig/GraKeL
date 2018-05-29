@@ -70,7 +70,7 @@ An example plot of :class:`grakel.GraphKernel`, :class:`grakel.WeisfeilerLehman`
     print("Accuracy:", str(round(acc*100, 2)), "% | Took:",
           str(round(end - start, 2)), "s")
 
-**Total running time of the script:** ( 0 minutes  0.196 seconds)
+**Total running time of the script:** ( 0 minutes  0.230 seconds)
 
 
 

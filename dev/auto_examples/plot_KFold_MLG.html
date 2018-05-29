@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>KFold classification of a dataset [ENZYMES] using the approximate Multiscale Laplacian kernel. &mdash; GraKeL 0.1a3 documentation</title>
+  <title>K-Fold classification on the ENZYMES dataset using the approximate Multiscale Laplacian kernel. &mdash; GraKeL 0.1a3 documentation</title>
   
 
   
@@ -94,11 +94,11 @@
 <li class="toctree-l1"><a class="reference internal" href="../api.html">GraKeL</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../classes.html">API Reference</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Classification Examples</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="plot_pipeline_shortest_path.html">Cross-Validation scikit-learn Pipeline example on MUTAG using the Shortest Path Kernel.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_pipeline_shortest_path.html">Cross-Validation scikit-learn Pipeline example on the MUTAG dataset using the Shortest Path Kernel.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_wl_subtree_MUTAG.html">Classification on the MUTAG dataset using the WL-subtree kernel.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="lovasz_svm_theta.html">Classification on MUTAG using the Lovasz theta and SVM-theta kernels.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classification_statistics.html">Classification statistics on the MUTAG, ENZYMES datasets.</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">KFold classification of a dataset [ENZYMES] using the approximate Multiscale Laplacian kernel.</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">K-Fold classification on the ENZYMES dataset using the approximate Multiscale Laplacian kernel.</a></li>
 </ul>
 </li>
 </ul>
@@ -148,7 +148,7 @@
         
           <li><a href="index.html">Classification Examples</a> &raquo;</li>
         
-      <li>KFold classification of a dataset [ENZYMES] using the approximate Multiscale Laplacian kernel.</li>
+      <li>K-Fold classification on the ENZYMES dataset using the approximate Multiscale Laplacian kernel.</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -167,8 +167,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="kfold-classification-of-a-dataset-enzymes-using-the-approximate-multiscale-laplacian-kernel">
-<span id="sphx-glr-auto-examples-plot-kfold-mlg-py"></span><h1>KFold classification of a dataset [ENZYMES] using the approximate Multiscale Laplacian kernel.<a class="headerlink" href="#kfold-classification-of-a-dataset-enzymes-using-the-approximate-multiscale-laplacian-kernel" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="k-fold-classification-on-the-enzymes-dataset-using-the-approximate-multiscale-laplacian-kernel">
+<span id="sphx-glr-auto-examples-plot-kfold-mlg-py"></span><h1>K-Fold classification on the ENZYMES dataset using the approximate Multiscale Laplacian kernel.<a class="headerlink" href="#k-fold-classification-on-the-enzymes-dataset-using-the-approximate-multiscale-laplacian-kernel" title="Permalink to this headline">¶</a></h1>
 <p>An example plot of <a class="reference internal" href="../generated/grakel.GraphKernel.html#grakel.GraphKernel" title="grakel.GraphKernel"><code class="xref py py-class docutils literal notranslate"><span class="pre">grakel.GraphKernel</span></code></a>, <a class="reference internal" href="../generated/grakel.MultiscaleLaplacianFast.html#grakel.MultiscaleLaplacianFast" title="grakel.MultiscaleLaplacianFast"><code class="xref py py-class docutils literal notranslate"><span class="pre">grakel.MultiscaleLaplacianFast</span></code></a></p>
 <p class="sphx-glr-script-out">Out:</p>
 <div class="sphx-glr-script-out highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Downloading</span> <span class="n">dataset</span> <span class="k">for</span> <span class="n">ENZYMES</span><span class="o">..</span>
@@ -178,7 +178,7 @@
 <span class="n">Deleting</span> <span class="n">unzipped</span> <span class="n">dataset</span> <span class="n">files</span><span class="o">..</span>
 <span class="n">Going</span> <span class="n">back</span> <span class="n">to</span> <span class="n">the</span> <span class="n">original</span> <span class="n">directory</span><span class="o">..</span>
 <span class="p">(</span><span class="s1">&#39;Mean values of &#39;</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;folds:&#39;</span><span class="p">)</span>
-<span class="p">(</span><span class="s1">&#39;MLG [Fast] &gt; Accuracy:&#39;</span><span class="p">,</span> <span class="s1">&#39;61.67&#39;</span><span class="p">,</span> <span class="s1">&#39;% | Took:&#39;</span><span class="p">,</span> <span class="s1">&#39;1 m 12.66 s&#39;</span><span class="p">)</span>
+<span class="p">(</span><span class="s1">&#39;MLG [Fast] &gt; Accuracy:&#39;</span><span class="p">,</span> <span class="s1">&#39;61.67&#39;</span><span class="p">,</span> <span class="s1">&#39;% | Took:&#39;</span><span class="p">,</span> <span class="s1">&#39;1 m 25.67 s&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="line-block">
@@ -312,7 +312,7 @@
       <span class="s2">&quot;% | Took:&quot;</span><span class="p">,</span> <span class="n">sec_to_time</span><span class="p">(</span><a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.mean.html#numpy.mean" title="View documentation for numpy.mean"><span class="n">np</span><span class="o">.</span><span class="n">mean</span></a><span class="p">(</span><span class="n">stats</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">])))</span>
 </pre></div>
 </div>
-<p><strong>Total running time of the script:</strong> ( 12 minutes  9.498 seconds)</p>
+<p><strong>Total running time of the script:</strong> ( 14 minutes  19.779 seconds)</p>
 <div class="sphx-glr-footer docutils container">
 <div class="sphx-glr-download docutils container">
 <a class="reference download internal" href="../_downloads/plot_KFold_MLG.py" download=""><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_KFold_MLG.py</span></code></a></div>

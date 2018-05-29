@@ -1,6 +1,6 @@
 """
 ================================================================================================
-KFold classification of a dataset [ENZYMES] using the approximate Multiscale Laplacian kernel.
+K-Fold classification on the ENZYMES dataset using the approximate Multiscale Laplacian kernel.
 ================================================================================================
 
 An example plot of :class:`grakel.GraphKernel`, :class:`grakel.MultiscaleLaplacianFast`
