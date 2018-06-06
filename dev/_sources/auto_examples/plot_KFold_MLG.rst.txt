@@ -1,4 +1,8 @@
+.. note::
+    :class: sphx-glr-download-link-note
 
+    Click :ref:`here <sphx_glr_download_auto_examples_plot_KFold_MLG.py>` to download the full example code
+.. rst-class:: sphx-glr-example-title
 
 .. _sphx_glr_auto_examples_plot_KFold_MLG.py:
 
@@ -15,7 +19,9 @@ An example plot of :class:`grakel.GraphKernel`, :class:`grakel.MultiscaleLaplaci
 
 .. rst-class:: sphx-glr-script-out
 
- Out::
+ Out:
+
+ .. code-block:: none
 
     Downloading dataset for ENZYMES..
     Extracting dataset  ENZYMES..
@@ -24,7 +30,7 @@ An example plot of :class:`grakel.GraphKernel`, :class:`grakel.MultiscaleLaplaci
     Deleting unzipped dataset files..
     Going back to the original directory..
     ('Mean values of ', 10, 'folds:')
-    ('MLG [Fast] > Accuracy:', '61.67', '% | Took:', '44.11 s')
+    ('MLG [Fast] > Accuracy:', '61.67', '% | Took:', '55.19 s')
 
 
 
@@ -161,13 +167,17 @@ An example plot of :class:`grakel.GraphKernel`, :class:`grakel.MultiscaleLaplaci
           str(round(np.mean(stats["acc"])*100, 2)),
           "% | Took:", sec_to_time(np.mean(stats["time"])))
 
-**Total running time of the script:** ( 7 minutes  23.822 seconds)
+**Total running time of the script:** ( 9 minutes  14.812 seconds)
 
+
+.. _sphx_glr_download_auto_examples_plot_KFold_MLG.py:
 
 
 .. only :: html
 
  .. container:: sphx-glr-footer
+    :class: sphx-glr-footer-example
+
 
 
   .. container:: sphx-glr-download

@@ -1,4 +1,8 @@
+.. note::
+    :class: sphx-glr-download-link-note
 
+    Click :ref:`here <sphx_glr_download_auto_examples_classification_statistics.py>` to download the full example code
+.. rst-class:: sphx-glr-example-title
 
 .. _sphx_glr_auto_examples_classification_statistics.py:
 
@@ -119,10 +123,14 @@ An example plot of :class:`grakel.GraphKernel`
 **Total running time of the script:** ( 0 minutes  0.000 seconds)
 
 
+.. _sphx_glr_download_auto_examples_classification_statistics.py:
+
 
 .. only :: html
 
  .. container:: sphx-glr-footer
+    :class: sphx-glr-footer-example
+
 
 
   .. container:: sphx-glr-download

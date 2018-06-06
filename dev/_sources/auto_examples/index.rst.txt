@@ -118,6 +118,7 @@ Examples that make use of graph kernels and the SVM classifier to perform graph 
 .. only :: html
 
  .. container:: sphx-glr-footer
+    :class: sphx-glr-footer-gallery
 
 
   .. container:: sphx-glr-download
