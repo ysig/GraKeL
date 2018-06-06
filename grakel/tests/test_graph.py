@@ -1,4 +1,6 @@
 """Tests for the Graph class."""
+# Author: Ioannis Siglidis <y.siglidis@gmail.com>
+# License: BSD 3 clause
 import numpy as np
 import numpy.testing as npt
 

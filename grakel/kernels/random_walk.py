@@ -1,4 +1,6 @@
 """RW-ker. as in :cite:`Kashima2003MarginalizedKB`, :cite:`Grtner2003OnGK`."""
+# Author: Ioannis Siglidis <y.siglidis@gmail.com>
+# License: BSD 3 clause
 import collections
 import warnings
 

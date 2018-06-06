@@ -1,3 +1,8 @@
+/* Subgraph Matching Kernel (Supplementary Functions)
+ * Author: Ioannis Siglidis <y.siglidis@gmail.com>
+ * License: BSD 3 clause"
+ * Code taken from: http://www.partow.net/programming/hashfunctions/#APHashFunction
+ */
 #include "../include/functions.hpp"
 #include <list>
 #include <cmath>

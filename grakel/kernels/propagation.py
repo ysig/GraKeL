@@ -1,4 +1,6 @@
 """The propagation kernel as defined in :cite:`Neumann2015PropagationKE`."""
+# Author: Ioannis Siglidis <y.siglidis@gmail.com>
+# License: BSD 3 clause
 import collections
 import warnings
 

@@ -1,4 +1,6 @@
 """Tests for the GraphKernel class."""
+# Author: Ioannis Siglidis <y.siglidis@gmail.com>
+# License: BSD 3 clause
 import os
 from time import time
 from warnings import warn

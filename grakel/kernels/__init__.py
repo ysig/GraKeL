@@ -1,4 +1,6 @@
 """__init__ file for kernel sub-module of grakel."""
+# Author: Ioannis Siglidis <y.siglidis@gmail.com>
+# License: BSD 3 clause
 from grakel.kernels.kernel import Kernel
 
 from grakel.kernels.graphlet_sampling import GraphletSampling

@@ -1,4 +1,6 @@
 """The Graph Hopper kernel as defined in :cite:`GraphHopper`."""
+# Author: Ioannis Siglidis <y.siglidis@gmail.com>
+# License: BSD 3 clause
 import numpy as np
 
 from collections import defaultdict

@@ -1,4 +1,6 @@
 """Multiscale Laplacian Graph Kernel as defined in :cite:`Kondor2016TheML`."""
+# Author: Ioannis Siglidis <y.siglidis@gmail.com>
+# License: BSD 3 clause
 # Python 2/3 cross-compatibility import
 from __future__ import print_function
 

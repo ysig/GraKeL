@@ -1,3 +1,6 @@
+"""A file that wraps c++ functions used in kernels submodule of grakel"""
+# Author: Ioannis Siglidis <y.siglidis@gmail.com>
+# License: BSD 3 clause"
 import numpy as np
 import cython
 

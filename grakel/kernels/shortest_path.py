@@ -1,4 +1,6 @@
 """Shortest path kernel as defined in :cite:`Borgwardt2005ShortestpathKO`."""
+# Author: Ioannis Siglidis <y.siglidis@gmail.com>
+# License: BSD 3 clause
 import collections
 import warnings
 

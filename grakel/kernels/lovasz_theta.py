@@ -1,4 +1,6 @@
 """The lovasz theta kernel as in :cite:`Johansson2015LearningWS_lovasz`."""
+# Author: Ioannis Siglidis <y.siglidis@gmail.com>
+# License: BSD 3 clause
 import collections
 import warnings
 

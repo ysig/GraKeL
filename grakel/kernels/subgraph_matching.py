@@ -1,4 +1,6 @@
 """The sugraph mathing kernel as defined by :cite:`Kriege2012SubgraphMK`."""
+# Author: Ioannis Siglidis <y.siglidis@gmail.com>
+# License: BSD 3 clause
 import collections
 import warnings
 

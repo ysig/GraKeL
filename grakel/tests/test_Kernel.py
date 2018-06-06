@@ -1,4 +1,6 @@
 """A random input test for Kernel Oblects similar to test_estimator."""
+# Author: Ioannis Siglidis <y.siglidis@gmail.com>
+# License: BSD 3 clause
 import warnings
 import numpy as np
 

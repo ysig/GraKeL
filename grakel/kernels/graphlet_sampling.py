@@ -1,4 +1,6 @@
 """The graphlet sampling kernel :cite:`Shervashidze2009EfficientGK`."""
+# Author: Ioannis Siglidis <y.siglidis@gmail.com>
+# License: BSD 3 clause
 import collections
 import itertools
 import math

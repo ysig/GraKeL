@@ -1,4 +1,6 @@
 """The main function for the tests sub-module."""
+# Author: Ioannis Siglidis <y.siglidis@gmail.com>
+# License: BSD 3 clause
 
 if __name__ == '__main__':
     import os

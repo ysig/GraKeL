@@ -1,4 +1,6 @@
 """The hadamard code kernel as defined in :cite:`icpram16`."""
+# Author: Ioannis Siglidis <y.siglidis@gmail.com>
+# License: BSD 3 clause
 import collections
 import warnings
 

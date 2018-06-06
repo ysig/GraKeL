@@ -1,4 +1,6 @@
 """The Edge Histogram kernel as defined in :cite:`Sugiyama2015NIPS_EH`."""
+# Author: Ioannis Siglidis <y.siglidis@gmail.com>
+# License: BSD 3 clause
 from warnings import warn
 
 from collections import Counter

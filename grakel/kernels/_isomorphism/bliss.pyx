@@ -1,3 +1,9 @@
+"""Main .pyx file for the _isomorphism subpackage of grakel.kernels"""
+# Author: Ioannis Siglidis <y.siglidis@gmail.com>
+# This file is a modification and extension of the [GNU LPGL] licensed 
+# PyBliss which can be found at: http://www.tcs.hut.fi/Software/bliss/
+# PyBliss and Bliss are copyright of their respective owners.
+# License: BSD 3 clause"
 import cython
 import sys
 import types

@@ -1,4 +1,6 @@
 """Neighborhood subgraph pairwise distance kernel :cite:`Costa2010FastNS`."""
+# Author: Ioannis Siglidis <y.siglidis@gmail.com>
+# License: BSD 3 clause
 import collections
 import warnings
 

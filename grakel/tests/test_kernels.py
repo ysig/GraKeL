@@ -1,4 +1,6 @@
 """Tests for the kernel sub-module."""
+# Author: Ioannis Siglidis <y.siglidis@gmail.com>
+# License: BSD 3 clause
 import os
 import numpy as np
 

@@ -1,4 +1,6 @@
 """The pyramid match kernel as in :cite:`Nikolentzos2017MatchingNE`."""
+# Author: Ioannis Siglidis <y.siglidis@gmail.com>
+# License: BSD 3 clause
 import collections
 import warnings
 

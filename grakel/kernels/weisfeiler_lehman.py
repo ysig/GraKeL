@@ -1,4 +1,6 @@
 """The weisfeiler lehman kernel :cite:`Shervashidze2011WeisfeilerLehmanGK`."""
+# Author: Ioannis Siglidis <y.siglidis@gmail.com>
+# License: BSD 3 clause
 import collections
 import warnings
 

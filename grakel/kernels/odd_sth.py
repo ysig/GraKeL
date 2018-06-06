@@ -1,4 +1,6 @@
 """The ODD-Sth kernel as defined in :cite:`Martino2012ATK`."""
+# Author: Ioannis Siglidis <y.siglidis@gmail.com>
+# License: BSD 3 clause
 import copy
 import warnings
 

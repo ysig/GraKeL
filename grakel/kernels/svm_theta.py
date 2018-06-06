@@ -1,4 +1,6 @@
 """The svm theta kernel as defined in :cite:`Johansson2015LearningWS_svm`."""
+# Author: Ioannis Siglidis <y.siglidis@gmail.com>
+# License: BSD 3 clause
 import collections
 import warnings
 

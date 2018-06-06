@@ -1,4 +1,8 @@
 """The general `setup.py`  file."""
+# Author: Ioannis Siglidis <y.siglidis@gmail.com>
+# License: BSD 3 clause
+# Author: Ioannis Siglidis <y.siglidis@gmail.com>
+# License: BSD 3 clause
 from __future__ import print_function
 import sys
 from warnings import warn
