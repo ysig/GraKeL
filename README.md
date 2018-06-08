@@ -123,7 +123,7 @@ If you use GraKeL in a scientific publication, please cite our paper:
 ```
 @article{siglidis2018grakel,
   title={GraKeL: A Graph Kernel Library in Python},
-  author={Siglidis Giannis and Nikolentzos, Giannis and Limnios, Stratis and Giatsidis, Christos and Skianis, Konstantinos and Vazirgiannis, Michalis},
+  author={Siglidis, Giannis and Nikolentzos, Giannis and Limnios, Stratis and Giatsidis, Christos and Skianis, Konstantinos and Vazirgiannis, Michalis},
   journal={arXiv preprint arXiv:1806.02193},
   year={2018}
 }
