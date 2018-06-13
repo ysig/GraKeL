@@ -116,7 +116,6 @@ class GraphHopper(Kernel):
                               {},
                               self._graph_format)
                 elif is_iter and len(x) == 0 or len(x) >= 2:
-                    x = list(x)
                     if len(x) == 0:
                         warn('Ignoring empty element on index: '+str(i))
                         continue

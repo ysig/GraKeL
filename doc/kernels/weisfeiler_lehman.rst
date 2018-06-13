@@ -44,7 +44,7 @@ From the above definition, it is clear that any graph kernel that takes into
 account discrete node labels can take advantage of the Weisfeiler-Lehman framework
 and compare graphs based on the whole Weisfeiler-Lehman sequence.
 
-The general implementation of this framework can be founded here:
+The general implementation of this framework can be found here:
 
 .. currentmodule:: grakel
 

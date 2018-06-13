@@ -785,7 +785,7 @@ static const char *__pyx_f[] = {
 struct __pyx_obj_6grakel_7kernels_12_isomorphism_5bliss___pyx_scope_struct____str__;
 struct __pyx_obj_6grakel_7kernels_12_isomorphism_5bliss___pyx_scope_struct_1_genexpr;
 
-/* "grakel/kernels/_isomorphism/bliss.pyx":63
+/* "grakel/kernels/_isomorphism/bliss.pyx":69
  *         return hash(str(self))
  * 
  *     def __str__(self):             # <<<<<<<<<<<<<<
@@ -798,7 +798,7 @@ struct __pyx_obj_6grakel_7kernels_12_isomorphism_5bliss___pyx_scope_struct____st
 };
 
 
-/* "grakel/kernels/_isomorphism/bliss.pyx":68
+/* "grakel/kernels/_isomorphism/bliss.pyx":74
  *         for name in vnames:
  *             vertex = self._vertices[name]
  *             nnames = sorted(neighbour.name for neighbour in vertex.edges)             # <<<<<<<<<<<<<<
@@ -1486,6 +1486,7 @@ static const char __pyx_k_Graph_find_automorphisms[] = "Graph.find_automorphisms
 static const char __pyx_k_Operation_not_implemented[] = "Operation not implemented";
 static const char __pyx_k_grakel_kernels__isomorphism[] = "grakel.kernels._isomorphism";
 static const char __pyx_k_Graph___str___locals_genexpr[] = "Graph.__str__.<locals>.genexpr";
+static const char __pyx_k_Main_pyx_file_for_the__isomorphi[] = "Main .pyx file for the _isomorphism subpackage of grakel.kernels";
 static const char __pyx_k_grakel_kernels__isomorphism_blis[] = "grakel.kernels._isomorphism.bliss";
 static const char __pyx_k_the_reporter_function_argument_o[] = "the 'reporter_function' argument of canonical_labeling() should be None or a function";
 static const char __pyx_k_grakel_kernels__isomorphism_blis_2[] = "grakel/kernels/_isomorphism/bliss.pyx";
@@ -1760,7 +1761,7 @@ static PyObject *__pyx_codeobj__81;
 static PyObject *__pyx_codeobj__83;
 /* Late includes */
 
-/* "grakel/kernels/_isomorphism/bliss.pyx":10
+/* "grakel/kernels/_isomorphism/bliss.pyx":16
  * from six import iteritems
  * 
  * def _report(perm, args):             # <<<<<<<<<<<<<<
@@ -1800,11 +1801,11 @@ static PyObject *__pyx_pw_6grakel_7kernels_12_isomorphism_5bliss_1_report(PyObje
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_args)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("_report", 1, 2, 2, 1); __PYX_ERR(0, 10, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("_report", 1, 2, 2, 1); __PYX_ERR(0, 16, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_report") < 0)) __PYX_ERR(0, 10, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_report") < 0)) __PYX_ERR(0, 16, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -1817,7 +1818,7 @@ static PyObject *__pyx_pw_6grakel_7kernels_12_isomorphism_5bliss_1_report(PyObje
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("_report", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 10, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("_report", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 16, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("grakel.kernels._isomorphism.bliss._report", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -1850,7 +1851,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss__report(CYTHON_
   int __pyx_t_9;
   __Pyx_RefNannySetupContext("_report", 0);
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":11
+  /* "grakel/kernels/_isomorphism/bliss.pyx":17
  * 
  * def _report(perm, args):
  *     [reporter_func, reporter_args, bliss_map_inv] = args;             # <<<<<<<<<<<<<<
@@ -1863,7 +1864,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss__report(CYTHON_
     if (unlikely(size != 3)) {
       if (size > 3) __Pyx_RaiseTooManyValuesError(3);
       else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-      __PYX_ERR(0, 11, __pyx_L1_error)
+      __PYX_ERR(0, 17, __pyx_L1_error)
     }
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
     if (likely(PyTuple_CheckExact(sequence))) {
@@ -1879,16 +1880,16 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss__report(CYTHON_
     __Pyx_INCREF(__pyx_t_2);
     __Pyx_INCREF(__pyx_t_3);
     #else
-    __pyx_t_1 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 11, __pyx_L1_error)
+    __pyx_t_1 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 17, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_2 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 11, __pyx_L1_error)
+    __pyx_t_2 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 17, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = PySequence_ITEM(sequence, 2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 11, __pyx_L1_error)
+    __pyx_t_3 = PySequence_ITEM(sequence, 2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 17, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     #endif
   } else {
     Py_ssize_t index = -1;
-    __pyx_t_4 = PyObject_GetIter(__pyx_v_args); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 11, __pyx_L1_error)
+    __pyx_t_4 = PyObject_GetIter(__pyx_v_args); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 17, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_5 = Py_TYPE(__pyx_t_4)->tp_iternext;
     index = 0; __pyx_t_1 = __pyx_t_5(__pyx_t_4); if (unlikely(!__pyx_t_1)) goto __pyx_L3_unpacking_failed;
@@ -1897,7 +1898,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss__report(CYTHON_
     __Pyx_GOTREF(__pyx_t_2);
     index = 2; __pyx_t_3 = __pyx_t_5(__pyx_t_4); if (unlikely(!__pyx_t_3)) goto __pyx_L3_unpacking_failed;
     __Pyx_GOTREF(__pyx_t_3);
-    if (__Pyx_IternextUnpackEndCheck(__pyx_t_5(__pyx_t_4), 3) < 0) __PYX_ERR(0, 11, __pyx_L1_error)
+    if (__Pyx_IternextUnpackEndCheck(__pyx_t_5(__pyx_t_4), 3) < 0) __PYX_ERR(0, 17, __pyx_L1_error)
     __pyx_t_5 = NULL;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     goto __pyx_L4_unpacking_done;
@@ -1905,7 +1906,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss__report(CYTHON_
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_t_5 = NULL;
     if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-    __PYX_ERR(0, 11, __pyx_L1_error)
+    __PYX_ERR(0, 17, __pyx_L1_error)
     __pyx_L4_unpacking_done:;
   }
   __pyx_v_reporter_func = __pyx_t_1;
@@ -1915,29 +1916,29 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss__report(CYTHON_
   __pyx_v_bliss_map_inv = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":12
+  /* "grakel/kernels/_isomorphism/bliss.pyx":18
  * def _report(perm, args):
  *     [reporter_func, reporter_args, bliss_map_inv] = args;
  *     if reporter_func:             # <<<<<<<<<<<<<<
  *         p = {}
  *         for (index,image) in enumerate(perm):
  */
-  __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_v_reporter_func); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 12, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_v_reporter_func); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 18, __pyx_L1_error)
   if (__pyx_t_6) {
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":13
+    /* "grakel/kernels/_isomorphism/bliss.pyx":19
  *     [reporter_func, reporter_args, bliss_map_inv] = args;
  *     if reporter_func:
  *         p = {}             # <<<<<<<<<<<<<<
  *         for (index,image) in enumerate(perm):
  *             p[bliss_map_inv[index]] = bliss_map_inv[image]
  */
-    __pyx_t_3 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 13, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 19, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_v_p = ((PyObject*)__pyx_t_3);
     __pyx_t_3 = 0;
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":14
+    /* "grakel/kernels/_isomorphism/bliss.pyx":20
  *     if reporter_func:
  *         p = {}
  *         for (index,image) in enumerate(perm):             # <<<<<<<<<<<<<<
@@ -1950,26 +1951,26 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss__report(CYTHON_
       __pyx_t_2 = __pyx_v_perm; __Pyx_INCREF(__pyx_t_2); __pyx_t_7 = 0;
       __pyx_t_8 = NULL;
     } else {
-      __pyx_t_7 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_v_perm); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 14, __pyx_L1_error)
+      __pyx_t_7 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_v_perm); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 20, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_8 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 14, __pyx_L1_error)
+      __pyx_t_8 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 20, __pyx_L1_error)
     }
     for (;;) {
       if (likely(!__pyx_t_8)) {
         if (likely(PyList_CheckExact(__pyx_t_2))) {
           if (__pyx_t_7 >= PyList_GET_SIZE(__pyx_t_2)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_7); __Pyx_INCREF(__pyx_t_1); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 14, __pyx_L1_error)
+          __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_7); __Pyx_INCREF(__pyx_t_1); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 20, __pyx_L1_error)
           #else
-          __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 14, __pyx_L1_error)
+          __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 20, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_1);
           #endif
         } else {
           if (__pyx_t_7 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_7); __Pyx_INCREF(__pyx_t_1); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 14, __pyx_L1_error)
+          __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_7); __Pyx_INCREF(__pyx_t_1); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 20, __pyx_L1_error)
           #else
-          __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 14, __pyx_L1_error)
+          __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 20, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_1);
           #endif
         }
@@ -1979,7 +1980,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss__report(CYTHON_
           PyObject* exc_type = PyErr_Occurred();
           if (exc_type) {
             if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else __PYX_ERR(0, 14, __pyx_L1_error)
+            else __PYX_ERR(0, 20, __pyx_L1_error)
           }
           break;
         }
@@ -1989,28 +1990,28 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss__report(CYTHON_
       __pyx_t_1 = 0;
       __Pyx_INCREF(__pyx_t_3);
       __Pyx_XDECREF_SET(__pyx_v_index, __pyx_t_3);
-      __pyx_t_1 = __Pyx_PyInt_AddObjC(__pyx_t_3, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 14, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyInt_AddObjC(__pyx_t_3, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 20, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_3);
       __pyx_t_3 = __pyx_t_1;
       __pyx_t_1 = 0;
 
-      /* "grakel/kernels/_isomorphism/bliss.pyx":15
+      /* "grakel/kernels/_isomorphism/bliss.pyx":21
  *         p = {}
  *         for (index,image) in enumerate(perm):
  *             p[bliss_map_inv[index]] = bliss_map_inv[image]             # <<<<<<<<<<<<<<
  *         reporter_func(p, reporter_args)
  * 
  */
-      __pyx_t_1 = __Pyx_PyObject_GetItem(__pyx_v_bliss_map_inv, __pyx_v_image); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 15, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetItem(__pyx_v_bliss_map_inv, __pyx_v_image); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 21, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_4 = __Pyx_PyObject_GetItem(__pyx_v_bliss_map_inv, __pyx_v_index); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 15, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_GetItem(__pyx_v_bliss_map_inv, __pyx_v_index); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 21, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      if (unlikely(PyDict_SetItem(__pyx_v_p, __pyx_t_4, __pyx_t_1) < 0)) __PYX_ERR(0, 15, __pyx_L1_error)
+      if (unlikely(PyDict_SetItem(__pyx_v_p, __pyx_t_4, __pyx_t_1) < 0)) __PYX_ERR(0, 21, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-      /* "grakel/kernels/_isomorphism/bliss.pyx":14
+      /* "grakel/kernels/_isomorphism/bliss.pyx":20
  *     if reporter_func:
  *         p = {}
  *         for (index,image) in enumerate(perm):             # <<<<<<<<<<<<<<
@@ -2021,7 +2022,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss__report(CYTHON_
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":16
+    /* "grakel/kernels/_isomorphism/bliss.pyx":22
  *         for (index,image) in enumerate(perm):
  *             p[bliss_map_inv[index]] = bliss_map_inv[image]
  *         reporter_func(p, reporter_args)             # <<<<<<<<<<<<<<
@@ -2044,7 +2045,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss__report(CYTHON_
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_2)) {
       PyObject *__pyx_temp[3] = {__pyx_t_1, __pyx_v_p, __pyx_v_reporter_args};
-      __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 16, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 22, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
       __Pyx_GOTREF(__pyx_t_3);
     } else
@@ -2052,13 +2053,13 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss__report(CYTHON_
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
       PyObject *__pyx_temp[3] = {__pyx_t_1, __pyx_v_p, __pyx_v_reporter_args};
-      __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 16, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 22, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
       __Pyx_GOTREF(__pyx_t_3);
     } else
     #endif
     {
-      __pyx_t_4 = PyTuple_New(2+__pyx_t_9); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 16, __pyx_L1_error)
+      __pyx_t_4 = PyTuple_New(2+__pyx_t_9); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 22, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       if (__pyx_t_1) {
         __Pyx_GIVEREF(__pyx_t_1); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_1); __pyx_t_1 = NULL;
@@ -2069,14 +2070,14 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss__report(CYTHON_
       __Pyx_INCREF(__pyx_v_reporter_args);
       __Pyx_GIVEREF(__pyx_v_reporter_args);
       PyTuple_SET_ITEM(__pyx_t_4, 1+__pyx_t_9, __pyx_v_reporter_args);
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 16, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 22, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     }
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":12
+    /* "grakel/kernels/_isomorphism/bliss.pyx":18
  * def _report(perm, args):
  *     [reporter_func, reporter_args, bliss_map_inv] = args;
  *     if reporter_func:             # <<<<<<<<<<<<<<
@@ -2085,7 +2086,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss__report(CYTHON_
  */
   }
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":10
+  /* "grakel/kernels/_isomorphism/bliss.pyx":16
  * from six import iteritems
  * 
  * def _report(perm, args):             # <<<<<<<<<<<<<<
@@ -2115,7 +2116,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss__report(CYTHON_
   return __pyx_r;
 }
 
-/* "grakel/kernels/_isomorphism/bliss.pyx":22
+/* "grakel/kernels/_isomorphism/bliss.pyx":28
  *     @total_ordering
  *     class _Vertex:
  *         def __init__(self, name, color):             # <<<<<<<<<<<<<<
@@ -2158,17 +2159,17 @@ static PyObject *__pyx_pw_6grakel_7kernels_12_isomorphism_5bliss_7_Vertex_1__ini
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_name)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 3, 3, 1); __PYX_ERR(0, 22, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 3, 3, 1); __PYX_ERR(0, 28, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_color)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 3, 3, 2); __PYX_ERR(0, 22, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 3, 3, 2); __PYX_ERR(0, 28, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 22, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 28, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -2183,7 +2184,7 @@ static PyObject *__pyx_pw_6grakel_7kernels_12_isomorphism_5bliss_7_Vertex_1__ini
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 22, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 28, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("grakel.kernels._isomorphism.bliss._Vertex.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -2205,7 +2206,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_7_Vertex___init
   PyObject *__pyx_t_4 = NULL;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":23
+  /* "grakel/kernels/_isomorphism/bliss.pyx":29
  *     class _Vertex:
  *         def __init__(self, name, color):
  *             assert type(color) is int             # <<<<<<<<<<<<<<
@@ -2217,12 +2218,12 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_7_Vertex___init
     __pyx_t_1 = (((PyObject *)Py_TYPE(__pyx_v_color)) == ((PyObject *)(&PyInt_Type)));
     if (unlikely(!(__pyx_t_1 != 0))) {
       PyErr_SetNone(PyExc_AssertionError);
-      __PYX_ERR(0, 23, __pyx_L1_error)
+      __PYX_ERR(0, 29, __pyx_L1_error)
     }
   }
   #endif
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":24
+  /* "grakel/kernels/_isomorphism/bliss.pyx":30
  *         def __init__(self, name, color):
  *             assert type(color) is int
  *             assert 0 <= color and color < pow(2,31)             # <<<<<<<<<<<<<<
@@ -2231,30 +2232,30 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_7_Vertex___init
  */
   #ifndef CYTHON_WITHOUT_ASSERTIONS
   if (unlikely(!Py_OptimizeFlag)) {
-    __pyx_t_2 = PyObject_RichCompare(__pyx_int_0, __pyx_v_color, Py_LE); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 24, __pyx_L1_error)
-    __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 24, __pyx_L1_error)
+    __pyx_t_2 = PyObject_RichCompare(__pyx_int_0, __pyx_v_color, Py_LE); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 30, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 30, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     if (__pyx_t_3) {
     } else {
       __pyx_t_1 = __pyx_t_3;
       goto __pyx_L3_bool_binop_done;
     }
-    __pyx_t_2 = __Pyx_PyNumber_Power2(__pyx_int_2, __pyx_int_31); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 24, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyNumber_Power2(__pyx_int_2, __pyx_int_31); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 30, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_4 = PyObject_RichCompare(__pyx_v_color, __pyx_t_2, Py_LT); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 24, __pyx_L1_error)
+    __pyx_t_4 = PyObject_RichCompare(__pyx_v_color, __pyx_t_2, Py_LT); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 30, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 24, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 30, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_t_1 = __pyx_t_3;
     __pyx_L3_bool_binop_done:;
     if (unlikely(!__pyx_t_1)) {
       PyErr_SetNone(PyExc_AssertionError);
-      __PYX_ERR(0, 24, __pyx_L1_error)
+      __PYX_ERR(0, 30, __pyx_L1_error)
     }
   }
   #endif
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":25
+  /* "grakel/kernels/_isomorphism/bliss.pyx":31
  *             assert type(color) is int
  *             assert 0 <= color and color < pow(2,31)
  *             assert isinstance(name, collections.Hashable)             # <<<<<<<<<<<<<<
@@ -2263,21 +2264,21 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_7_Vertex___init
  */
   #ifndef CYTHON_WITHOUT_ASSERTIONS
   if (unlikely(!Py_OptimizeFlag)) {
-    __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_collections); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 25, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_collections); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 31, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_Hashable); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 25, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_Hashable); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 31, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_1 = PyObject_IsInstance(__pyx_v_name, __pyx_t_2); if (unlikely(__pyx_t_1 == ((int)-1))) __PYX_ERR(0, 25, __pyx_L1_error)
+    __pyx_t_1 = PyObject_IsInstance(__pyx_v_name, __pyx_t_2); if (unlikely(__pyx_t_1 == ((int)-1))) __PYX_ERR(0, 31, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     if (unlikely(!(__pyx_t_1 != 0))) {
       PyErr_SetNone(PyExc_AssertionError);
-      __PYX_ERR(0, 25, __pyx_L1_error)
+      __PYX_ERR(0, 31, __pyx_L1_error)
     }
   }
   #endif
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":26
+  /* "grakel/kernels/_isomorphism/bliss.pyx":32
  *             assert 0 <= color and color < pow(2,31)
  *             assert isinstance(name, collections.Hashable)
  *             assert type(name) is int             # <<<<<<<<<<<<<<
@@ -2289,42 +2290,42 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_7_Vertex___init
     __pyx_t_1 = (((PyObject *)Py_TYPE(__pyx_v_name)) == ((PyObject *)(&PyInt_Type)));
     if (unlikely(!(__pyx_t_1 != 0))) {
       PyErr_SetNone(PyExc_AssertionError);
-      __PYX_ERR(0, 26, __pyx_L1_error)
+      __PYX_ERR(0, 32, __pyx_L1_error)
     }
   }
   #endif
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":27
+  /* "grakel/kernels/_isomorphism/bliss.pyx":33
  *             assert isinstance(name, collections.Hashable)
  *             assert type(name) is int
  *             self.edges = set()             # <<<<<<<<<<<<<<
  *             self.name = name
  *             self.color = color
  */
-  __pyx_t_2 = PySet_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 27, __pyx_L1_error)
+  __pyx_t_2 = PySet_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 33, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_edges, __pyx_t_2) < 0) __PYX_ERR(0, 27, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_edges, __pyx_t_2) < 0) __PYX_ERR(0, 33, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":28
+  /* "grakel/kernels/_isomorphism/bliss.pyx":34
  *             assert type(name) is int
  *             self.edges = set()
  *             self.name = name             # <<<<<<<<<<<<<<
  *             self.color = color
  * 
  */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_name, __pyx_v_name) < 0) __PYX_ERR(0, 28, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_name, __pyx_v_name) < 0) __PYX_ERR(0, 34, __pyx_L1_error)
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":29
+  /* "grakel/kernels/_isomorphism/bliss.pyx":35
  *             self.edges = set()
  *             self.name = name
  *             self.color = color             # <<<<<<<<<<<<<<
  * 
  *         def __hash__(self):
  */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_color, __pyx_v_color) < 0) __PYX_ERR(0, 29, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_color, __pyx_v_color) < 0) __PYX_ERR(0, 35, __pyx_L1_error)
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":22
+  /* "grakel/kernels/_isomorphism/bliss.pyx":28
  *     @total_ordering
  *     class _Vertex:
  *         def __init__(self, name, color):             # <<<<<<<<<<<<<<
@@ -2346,7 +2347,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_7_Vertex___init
   return __pyx_r;
 }
 
-/* "grakel/kernels/_isomorphism/bliss.pyx":31
+/* "grakel/kernels/_isomorphism/bliss.pyx":37
  *             self.color = color
  * 
  *         def __hash__(self):             # <<<<<<<<<<<<<<
@@ -2376,7 +2377,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_7_Vertex_2__has
   PyObject *__pyx_t_3 = NULL;
   __Pyx_RefNannySetupContext("__hash__", 0);
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":32
+  /* "grakel/kernels/_isomorphism/bliss.pyx":38
  * 
  *         def __hash__(self):
  *             return self.name.__hash__()             # <<<<<<<<<<<<<<
@@ -2384,9 +2385,9 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_7_Vertex_2__has
  *         def __eq__(self, other):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_name); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 32, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_name); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 38, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_hash); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 32, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_hash); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 38, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -2400,10 +2401,10 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_7_Vertex_2__has
     }
   }
   if (__pyx_t_2) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 32, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 38, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   } else {
-    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 32, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 38, __pyx_L1_error)
   }
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -2411,7 +2412,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_7_Vertex_2__has
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":31
+  /* "grakel/kernels/_isomorphism/bliss.pyx":37
  *             self.color = color
  * 
  *         def __hash__(self):             # <<<<<<<<<<<<<<
@@ -2432,7 +2433,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_7_Vertex_2__has
   return __pyx_r;
 }
 
-/* "grakel/kernels/_isomorphism/bliss.pyx":34
+/* "grakel/kernels/_isomorphism/bliss.pyx":40
  *             return self.name.__hash__()
  * 
  *         def __eq__(self, other):             # <<<<<<<<<<<<<<
@@ -2472,11 +2473,11 @@ static PyObject *__pyx_pw_6grakel_7kernels_12_isomorphism_5bliss_7_Vertex_5__eq_
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_other)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__eq__", 1, 2, 2, 1); __PYX_ERR(0, 34, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__eq__", 1, 2, 2, 1); __PYX_ERR(0, 40, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__eq__") < 0)) __PYX_ERR(0, 34, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__eq__") < 0)) __PYX_ERR(0, 40, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -2489,7 +2490,7 @@ static PyObject *__pyx_pw_6grakel_7kernels_12_isomorphism_5bliss_7_Vertex_5__eq_
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__eq__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 34, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__eq__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 40, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("grakel.kernels._isomorphism.bliss._Vertex.__eq__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -2510,7 +2511,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_7_Vertex_4__eq_
   PyObject *__pyx_t_3 = NULL;
   __Pyx_RefNannySetupContext("__eq__", 0);
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":35
+  /* "grakel/kernels/_isomorphism/bliss.pyx":41
  * 
  *         def __eq__(self, other):
  *             return str(self.name) == str(other.name)             # <<<<<<<<<<<<<<
@@ -2518,24 +2519,24 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_7_Vertex_4__eq_
  *         def __lt__(self, other):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_name); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 35, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_name); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 41, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 35, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 41, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_other, __pyx_n_s_name); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 35, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_other, __pyx_n_s_name); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 41, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 35, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 41, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyObject_RichCompare(__pyx_t_2, __pyx_t_3, Py_EQ); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 35, __pyx_L1_error)
+  __pyx_t_1 = PyObject_RichCompare(__pyx_t_2, __pyx_t_3, Py_EQ); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 41, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":34
+  /* "grakel/kernels/_isomorphism/bliss.pyx":40
  *             return self.name.__hash__()
  * 
  *         def __eq__(self, other):             # <<<<<<<<<<<<<<
@@ -2556,7 +2557,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_7_Vertex_4__eq_
   return __pyx_r;
 }
 
-/* "grakel/kernels/_isomorphism/bliss.pyx":37
+/* "grakel/kernels/_isomorphism/bliss.pyx":43
  *             return str(self.name) == str(other.name)
  * 
  *         def __lt__(self, other):             # <<<<<<<<<<<<<<
@@ -2596,11 +2597,11 @@ static PyObject *__pyx_pw_6grakel_7kernels_12_isomorphism_5bliss_7_Vertex_7__lt_
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_other)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__lt__", 1, 2, 2, 1); __PYX_ERR(0, 37, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__lt__", 1, 2, 2, 1); __PYX_ERR(0, 43, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__lt__") < 0)) __PYX_ERR(0, 37, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__lt__") < 0)) __PYX_ERR(0, 43, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -2613,7 +2614,7 @@ static PyObject *__pyx_pw_6grakel_7kernels_12_isomorphism_5bliss_7_Vertex_7__lt_
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__lt__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 37, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__lt__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 43, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("grakel.kernels._isomorphism.bliss._Vertex.__lt__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -2634,7 +2635,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_7_Vertex_6__lt_
   PyObject *__pyx_t_3 = NULL;
   __Pyx_RefNannySetupContext("__lt__", 0);
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":38
+  /* "grakel/kernels/_isomorphism/bliss.pyx":44
  * 
  *         def __lt__(self, other):
  *             return str(self.name) == str(other.name)             # <<<<<<<<<<<<<<
@@ -2642,24 +2643,24 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_7_Vertex_6__lt_
  *     """
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_name); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 38, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_name); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 44, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 38, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 44, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_other, __pyx_n_s_name); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 38, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_other, __pyx_n_s_name); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 44, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 38, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 44, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyObject_RichCompare(__pyx_t_2, __pyx_t_3, Py_EQ); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 38, __pyx_L1_error)
+  __pyx_t_1 = PyObject_RichCompare(__pyx_t_2, __pyx_t_3, Py_EQ); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 44, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":37
+  /* "grakel/kernels/_isomorphism/bliss.pyx":43
  *             return str(self.name) == str(other.name)
  * 
  *         def __lt__(self, other):             # <<<<<<<<<<<<<<
@@ -2680,7 +2681,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_7_Vertex_6__lt_
   return __pyx_r;
 }
 
-/* "grakel/kernels/_isomorphism/bliss.pyx":43
+/* "grakel/kernels/_isomorphism/bliss.pyx":49
  *     The class for undirected graphs.
  *     """
  *     def __init__(self, *args):             # <<<<<<<<<<<<<<
@@ -2728,7 +2729,7 @@ static PyObject *__pyx_pw_6grakel_7kernels_12_isomorphism_5bliss_5Graph_1__init_
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t used_pos_args = (pos_args < 1) ? pos_args : 1;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, used_pos_args, "__init__") < 0)) __PYX_ERR(0, 43, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, used_pos_args, "__init__") < 0)) __PYX_ERR(0, 49, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) < 1) {
       goto __pyx_L5_argtuple_error;
@@ -2739,7 +2740,7 @@ static PyObject *__pyx_pw_6grakel_7kernels_12_isomorphism_5bliss_5Graph_1__init_
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 0, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 43, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 49, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_DECREF(__pyx_v_args); __pyx_v_args = 0;
   __Pyx_AddTraceback("grakel.kernels._isomorphism.bliss.Graph.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
@@ -2773,30 +2774,30 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph___init__
   int __pyx_t_10;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":47
+  /* "grakel/kernels/_isomorphism/bliss.pyx":53
  *         Create a new empty graph.
  *         """
  *         self._vertices = {}             # <<<<<<<<<<<<<<
  * 
  *         if len(args) > 0:
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 47, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 53, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_vertices, __pyx_t_1) < 0) __PYX_ERR(0, 47, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_vertices, __pyx_t_1) < 0) __PYX_ERR(0, 53, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":49
+  /* "grakel/kernels/_isomorphism/bliss.pyx":55
  *         self._vertices = {}
  * 
  *         if len(args) > 0:             # <<<<<<<<<<<<<<
  *             assert len(args) == 2
  *             n_nodes, edges = args
  */
-  __pyx_t_2 = PyTuple_GET_SIZE(__pyx_v_args); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 49, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_GET_SIZE(__pyx_v_args); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 55, __pyx_L1_error)
   __pyx_t_3 = ((__pyx_t_2 > 0) != 0);
   if (__pyx_t_3) {
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":50
+    /* "grakel/kernels/_isomorphism/bliss.pyx":56
  * 
  *         if len(args) > 0:
  *             assert len(args) == 2             # <<<<<<<<<<<<<<
@@ -2805,15 +2806,15 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph___init__
  */
     #ifndef CYTHON_WITHOUT_ASSERTIONS
     if (unlikely(!Py_OptimizeFlag)) {
-      __pyx_t_2 = PyTuple_GET_SIZE(__pyx_v_args); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 50, __pyx_L1_error)
+      __pyx_t_2 = PyTuple_GET_SIZE(__pyx_v_args); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 56, __pyx_L1_error)
       if (unlikely(!((__pyx_t_2 == 2) != 0))) {
         PyErr_SetNone(PyExc_AssertionError);
-        __PYX_ERR(0, 50, __pyx_L1_error)
+        __PYX_ERR(0, 56, __pyx_L1_error)
       }
     }
     #endif
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":51
+    /* "grakel/kernels/_isomorphism/bliss.pyx":57
  *         if len(args) > 0:
  *             assert len(args) == 2
  *             n_nodes, edges = args             # <<<<<<<<<<<<<<
@@ -2826,7 +2827,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph___init__
       if (unlikely(size != 2)) {
         if (size > 2) __Pyx_RaiseTooManyValuesError(2);
         else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-        __PYX_ERR(0, 51, __pyx_L1_error)
+        __PYX_ERR(0, 57, __pyx_L1_error)
       }
       #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
       __pyx_t_1 = PyTuple_GET_ITEM(sequence, 0); 
@@ -2834,9 +2835,9 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph___init__
       __Pyx_INCREF(__pyx_t_1);
       __Pyx_INCREF(__pyx_t_4);
       #else
-      __pyx_t_1 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 51, __pyx_L1_error)
+      __pyx_t_1 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 57, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_4 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 51, __pyx_L1_error)
+      __pyx_t_4 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 57, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       #endif
     }
@@ -2845,22 +2846,22 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph___init__
     __pyx_v_edges = __pyx_t_4;
     __pyx_t_4 = 0;
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":53
+    /* "grakel/kernels/_isomorphism/bliss.pyx":59
  *             n_nodes, edges = args
  *             # Initialise vertices
  *             for v in range(n_nodes):             # <<<<<<<<<<<<<<
  *                 self.add_vertex(v)
  * 
  */
-    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_builtin_range, __pyx_v_n_nodes); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 53, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_builtin_range, __pyx_v_n_nodes); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 59, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     if (likely(PyList_CheckExact(__pyx_t_4)) || PyTuple_CheckExact(__pyx_t_4)) {
       __pyx_t_1 = __pyx_t_4; __Pyx_INCREF(__pyx_t_1); __pyx_t_2 = 0;
       __pyx_t_5 = NULL;
     } else {
-      __pyx_t_2 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 53, __pyx_L1_error)
+      __pyx_t_2 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 59, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_5 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 53, __pyx_L1_error)
+      __pyx_t_5 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 59, __pyx_L1_error)
     }
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     for (;;) {
@@ -2868,17 +2869,17 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph___init__
         if (likely(PyList_CheckExact(__pyx_t_1))) {
           if (__pyx_t_2 >= PyList_GET_SIZE(__pyx_t_1)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 53, __pyx_L1_error)
+          __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 59, __pyx_L1_error)
           #else
-          __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 53, __pyx_L1_error)
+          __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 59, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_4);
           #endif
         } else {
           if (__pyx_t_2 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 53, __pyx_L1_error)
+          __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 59, __pyx_L1_error)
           #else
-          __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 53, __pyx_L1_error)
+          __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 59, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_4);
           #endif
         }
@@ -2888,7 +2889,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph___init__
           PyObject* exc_type = PyErr_Occurred();
           if (exc_type) {
             if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else __PYX_ERR(0, 53, __pyx_L1_error)
+            else __PYX_ERR(0, 59, __pyx_L1_error)
           }
           break;
         }
@@ -2897,14 +2898,14 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph___init__
       __Pyx_XDECREF_SET(__pyx_v_v, __pyx_t_4);
       __pyx_t_4 = 0;
 
-      /* "grakel/kernels/_isomorphism/bliss.pyx":54
+      /* "grakel/kernels/_isomorphism/bliss.pyx":60
  *             # Initialise vertices
  *             for v in range(n_nodes):
  *                 self.add_vertex(v)             # <<<<<<<<<<<<<<
  * 
  *             # Initialise edges
  */
-      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_add_vertex); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 54, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_add_vertex); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 60, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __pyx_t_7 = NULL;
       if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
@@ -2917,13 +2918,13 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph___init__
         }
       }
       if (!__pyx_t_7) {
-        __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_v_v); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 54, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_v_v); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 60, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
       } else {
         #if CYTHON_FAST_PYCALL
         if (PyFunction_Check(__pyx_t_6)) {
           PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_v_v};
-          __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 54, __pyx_L1_error)
+          __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 60, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
           __Pyx_GOTREF(__pyx_t_4);
         } else
@@ -2931,19 +2932,19 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph___init__
         #if CYTHON_FAST_PYCCALL
         if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
           PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_v_v};
-          __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 54, __pyx_L1_error)
+          __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 60, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
           __Pyx_GOTREF(__pyx_t_4);
         } else
         #endif
         {
-          __pyx_t_8 = PyTuple_New(1+1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 54, __pyx_L1_error)
+          __pyx_t_8 = PyTuple_New(1+1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 60, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_8);
           __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_7); __pyx_t_7 = NULL;
           __Pyx_INCREF(__pyx_v_v);
           __Pyx_GIVEREF(__pyx_v_v);
           PyTuple_SET_ITEM(__pyx_t_8, 0+1, __pyx_v_v);
-          __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_8, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 54, __pyx_L1_error)
+          __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_8, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 60, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_4);
           __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
         }
@@ -2951,7 +2952,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph___init__
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-      /* "grakel/kernels/_isomorphism/bliss.pyx":53
+      /* "grakel/kernels/_isomorphism/bliss.pyx":59
  *             n_nodes, edges = args
  *             # Initialise vertices
  *             for v in range(n_nodes):             # <<<<<<<<<<<<<<
@@ -2961,7 +2962,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph___init__
     }
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":57
+    /* "grakel/kernels/_isomorphism/bliss.pyx":63
  * 
  *             # Initialise edges
  *             for u, v in edges:             # <<<<<<<<<<<<<<
@@ -2972,26 +2973,26 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph___init__
       __pyx_t_1 = __pyx_v_edges; __Pyx_INCREF(__pyx_t_1); __pyx_t_2 = 0;
       __pyx_t_5 = NULL;
     } else {
-      __pyx_t_2 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_edges); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 57, __pyx_L1_error)
+      __pyx_t_2 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_edges); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 63, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_5 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 57, __pyx_L1_error)
+      __pyx_t_5 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 63, __pyx_L1_error)
     }
     for (;;) {
       if (likely(!__pyx_t_5)) {
         if (likely(PyList_CheckExact(__pyx_t_1))) {
           if (__pyx_t_2 >= PyList_GET_SIZE(__pyx_t_1)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 57, __pyx_L1_error)
+          __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 63, __pyx_L1_error)
           #else
-          __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 57, __pyx_L1_error)
+          __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 63, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_4);
           #endif
         } else {
           if (__pyx_t_2 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 57, __pyx_L1_error)
+          __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 63, __pyx_L1_error)
           #else
-          __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 57, __pyx_L1_error)
+          __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 63, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_4);
           #endif
         }
@@ -3001,7 +3002,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph___init__
           PyObject* exc_type = PyErr_Occurred();
           if (exc_type) {
             if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else __PYX_ERR(0, 57, __pyx_L1_error)
+            else __PYX_ERR(0, 63, __pyx_L1_error)
           }
           break;
         }
@@ -3013,7 +3014,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph___init__
         if (unlikely(size != 2)) {
           if (size > 2) __Pyx_RaiseTooManyValuesError(2);
           else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-          __PYX_ERR(0, 57, __pyx_L1_error)
+          __PYX_ERR(0, 63, __pyx_L1_error)
         }
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
         if (likely(PyTuple_CheckExact(sequence))) {
@@ -3026,15 +3027,15 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph___init__
         __Pyx_INCREF(__pyx_t_6);
         __Pyx_INCREF(__pyx_t_8);
         #else
-        __pyx_t_6 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 57, __pyx_L1_error)
+        __pyx_t_6 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 63, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_6);
-        __pyx_t_8 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 57, __pyx_L1_error)
+        __pyx_t_8 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 63, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_8);
         #endif
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       } else {
         Py_ssize_t index = -1;
-        __pyx_t_7 = PyObject_GetIter(__pyx_t_4); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 57, __pyx_L1_error)
+        __pyx_t_7 = PyObject_GetIter(__pyx_t_4); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 63, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
         __pyx_t_9 = Py_TYPE(__pyx_t_7)->tp_iternext;
@@ -3042,7 +3043,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph___init__
         __Pyx_GOTREF(__pyx_t_6);
         index = 1; __pyx_t_8 = __pyx_t_9(__pyx_t_7); if (unlikely(!__pyx_t_8)) goto __pyx_L8_unpacking_failed;
         __Pyx_GOTREF(__pyx_t_8);
-        if (__Pyx_IternextUnpackEndCheck(__pyx_t_9(__pyx_t_7), 2) < 0) __PYX_ERR(0, 57, __pyx_L1_error)
+        if (__Pyx_IternextUnpackEndCheck(__pyx_t_9(__pyx_t_7), 2) < 0) __PYX_ERR(0, 63, __pyx_L1_error)
         __pyx_t_9 = NULL;
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
         goto __pyx_L9_unpacking_done;
@@ -3050,7 +3051,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph___init__
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
         __pyx_t_9 = NULL;
         if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-        __PYX_ERR(0, 57, __pyx_L1_error)
+        __PYX_ERR(0, 63, __pyx_L1_error)
         __pyx_L9_unpacking_done:;
       }
       __Pyx_XDECREF_SET(__pyx_v_u, __pyx_t_6);
@@ -3058,14 +3059,14 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph___init__
       __Pyx_XDECREF_SET(__pyx_v_v, __pyx_t_8);
       __pyx_t_8 = 0;
 
-      /* "grakel/kernels/_isomorphism/bliss.pyx":58
+      /* "grakel/kernels/_isomorphism/bliss.pyx":64
  *             # Initialise edges
  *             for u, v in edges:
  *                 self.add_edge(u, v)             # <<<<<<<<<<<<<<
  * 
  *     def __hash__(self):
  */
-      __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_add_edge); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 58, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_add_edge); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 64, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
       __pyx_t_6 = NULL;
       __pyx_t_10 = 0;
@@ -3082,7 +3083,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph___init__
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_8)) {
         PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_v_u, __pyx_v_v};
-        __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_8, __pyx_temp+1-__pyx_t_10, 2+__pyx_t_10); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 58, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_8, __pyx_temp+1-__pyx_t_10, 2+__pyx_t_10); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 64, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
         __Pyx_GOTREF(__pyx_t_4);
       } else
@@ -3090,13 +3091,13 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph___init__
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_8)) {
         PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_v_u, __pyx_v_v};
-        __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_8, __pyx_temp+1-__pyx_t_10, 2+__pyx_t_10); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 58, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_8, __pyx_temp+1-__pyx_t_10, 2+__pyx_t_10); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 64, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
         __Pyx_GOTREF(__pyx_t_4);
       } else
       #endif
       {
-        __pyx_t_7 = PyTuple_New(2+__pyx_t_10); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 58, __pyx_L1_error)
+        __pyx_t_7 = PyTuple_New(2+__pyx_t_10); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 64, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
         if (__pyx_t_6) {
           __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_6); __pyx_t_6 = NULL;
@@ -3107,14 +3108,14 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph___init__
         __Pyx_INCREF(__pyx_v_v);
         __Pyx_GIVEREF(__pyx_v_v);
         PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_10, __pyx_v_v);
-        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_7, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 58, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_7, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 64, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       }
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-      /* "grakel/kernels/_isomorphism/bliss.pyx":57
+      /* "grakel/kernels/_isomorphism/bliss.pyx":63
  * 
  *             # Initialise edges
  *             for u, v in edges:             # <<<<<<<<<<<<<<
@@ -3124,7 +3125,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph___init__
     }
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":49
+    /* "grakel/kernels/_isomorphism/bliss.pyx":55
  *         self._vertices = {}
  * 
  *         if len(args) > 0:             # <<<<<<<<<<<<<<
@@ -3133,7 +3134,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph___init__
  */
   }
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":43
+  /* "grakel/kernels/_isomorphism/bliss.pyx":49
  *     The class for undirected graphs.
  *     """
  *     def __init__(self, *args):             # <<<<<<<<<<<<<<
@@ -3162,7 +3163,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph___init__
   return __pyx_r;
 }
 
-/* "grakel/kernels/_isomorphism/bliss.pyx":60
+/* "grakel/kernels/_isomorphism/bliss.pyx":66
  *                 self.add_edge(u, v)
  * 
  *     def __hash__(self):             # <<<<<<<<<<<<<<
@@ -3191,7 +3192,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_2__hash_
   Py_hash_t __pyx_t_2;
   __Pyx_RefNannySetupContext("__hash__", 0);
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":61
+  /* "grakel/kernels/_isomorphism/bliss.pyx":67
  * 
  *     def __hash__(self):
  *         return hash(str(self))             # <<<<<<<<<<<<<<
@@ -3199,17 +3200,17 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_2__hash_
  *     def __str__(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_v_self); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 61, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_v_self); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 67, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyObject_Hash(__pyx_t_1); if (unlikely(__pyx_t_2 == ((Py_hash_t)-1))) __PYX_ERR(0, 61, __pyx_L1_error)
+  __pyx_t_2 = PyObject_Hash(__pyx_t_1); if (unlikely(__pyx_t_2 == ((Py_hash_t)-1))) __PYX_ERR(0, 67, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyInt_FromHash_t(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 61, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_FromHash_t(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 67, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":60
+  /* "grakel/kernels/_isomorphism/bliss.pyx":66
  *                 self.add_edge(u, v)
  * 
  *     def __hash__(self):             # <<<<<<<<<<<<<<
@@ -3228,7 +3229,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_2__hash_
   return __pyx_r;
 }
 
-/* "grakel/kernels/_isomorphism/bliss.pyx":63
+/* "grakel/kernels/_isomorphism/bliss.pyx":69
  *         return hash(str(self))
  * 
  *     def __str__(self):             # <<<<<<<<<<<<<<
@@ -3251,7 +3252,7 @@ static PyObject *__pyx_pw_6grakel_7kernels_12_isomorphism_5bliss_5Graph_5__str__
 }
 static PyObject *__pyx_gb_6grakel_7kernels_12_isomorphism_5bliss_5Graph_7__str___2generator(__pyx_CoroutineObject *__pyx_generator, CYTHON_UNUSED PyThreadState *__pyx_tstate, PyObject *__pyx_sent_value); /* proto */
 
-/* "grakel/kernels/_isomorphism/bliss.pyx":68
+/* "grakel/kernels/_isomorphism/bliss.pyx":74
  *         for name in vnames:
  *             vertex = self._vertices[name]
  *             nnames = sorted(neighbour.name for neighbour in vertex.edges)             # <<<<<<<<<<<<<<
@@ -3268,7 +3269,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_7__str__
   if (unlikely(!__pyx_cur_scope)) {
     __pyx_cur_scope = ((struct __pyx_obj_6grakel_7kernels_12_isomorphism_5bliss___pyx_scope_struct_1_genexpr *)Py_None);
     __Pyx_INCREF(Py_None);
-    __PYX_ERR(0, 68, __pyx_L1_error)
+    __PYX_ERR(0, 74, __pyx_L1_error)
   } else {
     __Pyx_GOTREF(__pyx_cur_scope);
   }
@@ -3276,7 +3277,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_7__str__
   __Pyx_INCREF(((PyObject *)__pyx_cur_scope->__pyx_outer_scope));
   __Pyx_GIVEREF(__pyx_cur_scope->__pyx_outer_scope);
   {
-    __pyx_CoroutineObject *gen = __Pyx_Generator_New((__pyx_coroutine_body_t) __pyx_gb_6grakel_7kernels_12_isomorphism_5bliss_5Graph_7__str___2generator, NULL, (PyObject *) __pyx_cur_scope, __pyx_n_s_genexpr, __pyx_n_s_Graph___str___locals_genexpr, __pyx_n_s_grakel_kernels__isomorphism_blis); if (unlikely(!gen)) __PYX_ERR(0, 68, __pyx_L1_error)
+    __pyx_CoroutineObject *gen = __Pyx_Generator_New((__pyx_coroutine_body_t) __pyx_gb_6grakel_7kernels_12_isomorphism_5bliss_5Graph_7__str___2generator, NULL, (PyObject *) __pyx_cur_scope, __pyx_n_s_genexpr, __pyx_n_s_Graph___str___locals_genexpr, __pyx_n_s_grakel_kernels__isomorphism_blis); if (unlikely(!gen)) __PYX_ERR(0, 74, __pyx_L1_error)
     __Pyx_DECREF(__pyx_cur_scope);
     __Pyx_RefNannyFinishContext();
     return (PyObject *) gen;
@@ -3309,19 +3310,19 @@ static PyObject *__pyx_gb_6grakel_7kernels_12_isomorphism_5bliss_5Graph_7__str__
     return NULL;
   }
   __pyx_L3_first_run:;
-  if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 68, __pyx_L1_error)
-  __pyx_r = PyList_New(0); if (unlikely(!__pyx_r)) __PYX_ERR(0, 68, __pyx_L1_error)
+  if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 74, __pyx_L1_error)
+  __pyx_r = PyList_New(0); if (unlikely(!__pyx_r)) __PYX_ERR(0, 74, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_r);
-  if (unlikely(!__pyx_cur_scope->__pyx_outer_scope->__pyx_v_vertex)) { __Pyx_RaiseClosureNameError("vertex"); __PYX_ERR(0, 68, __pyx_L1_error) }
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_outer_scope->__pyx_v_vertex, __pyx_n_s_edges); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 68, __pyx_L1_error)
+  if (unlikely(!__pyx_cur_scope->__pyx_outer_scope->__pyx_v_vertex)) { __Pyx_RaiseClosureNameError("vertex"); __PYX_ERR(0, 74, __pyx_L1_error) }
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_outer_scope->__pyx_v_vertex, __pyx_n_s_edges); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 74, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (likely(PyList_CheckExact(__pyx_t_1)) || PyTuple_CheckExact(__pyx_t_1)) {
     __pyx_t_2 = __pyx_t_1; __Pyx_INCREF(__pyx_t_2); __pyx_t_3 = 0;
     __pyx_t_4 = NULL;
   } else {
-    __pyx_t_3 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 68, __pyx_L1_error)
+    __pyx_t_3 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 74, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_4 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 68, __pyx_L1_error)
+    __pyx_t_4 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 74, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   for (;;) {
@@ -3329,17 +3330,17 @@ static PyObject *__pyx_gb_6grakel_7kernels_12_isomorphism_5bliss_5Graph_7__str__
       if (likely(PyList_CheckExact(__pyx_t_2))) {
         if (__pyx_t_3 >= PyList_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 68, __pyx_L1_error)
+        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 74, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 68, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 74, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       } else {
         if (__pyx_t_3 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 68, __pyx_L1_error)
+        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 74, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 68, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 74, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       }
@@ -3349,7 +3350,7 @@ static PyObject *__pyx_gb_6grakel_7kernels_12_isomorphism_5bliss_5Graph_7__str__
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 68, __pyx_L1_error)
+          else __PYX_ERR(0, 74, __pyx_L1_error)
         }
         break;
       }
@@ -3359,9 +3360,9 @@ static PyObject *__pyx_gb_6grakel_7kernels_12_isomorphism_5bliss_5Graph_7__str__
     __Pyx_XDECREF_SET(__pyx_cur_scope->__pyx_v_neighbour, __pyx_t_1);
     __Pyx_GIVEREF(__pyx_t_1);
     __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_neighbour, __pyx_n_s_name); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 68, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_neighbour, __pyx_n_s_name); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 74, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    if (unlikely(__Pyx_ListComp_Append(__pyx_r, (PyObject*)__pyx_t_1))) __PYX_ERR(0, 68, __pyx_L1_error)
+    if (unlikely(__Pyx_ListComp_Append(__pyx_r, (PyObject*)__pyx_t_1))) __PYX_ERR(0, 74, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -3383,7 +3384,7 @@ static PyObject *__pyx_gb_6grakel_7kernels_12_isomorphism_5bliss_5Graph_7__str__
   return __pyx_r;
 }
 
-/* "grakel/kernels/_isomorphism/bliss.pyx":63
+/* "grakel/kernels/_isomorphism/bliss.pyx":69
  *         return hash(str(self))
  * 
  *     def __str__(self):             # <<<<<<<<<<<<<<
@@ -3410,21 +3411,21 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_4__str__
   if (unlikely(!__pyx_cur_scope)) {
     __pyx_cur_scope = ((struct __pyx_obj_6grakel_7kernels_12_isomorphism_5bliss___pyx_scope_struct____str__ *)Py_None);
     __Pyx_INCREF(Py_None);
-    __PYX_ERR(0, 63, __pyx_L1_error)
+    __PYX_ERR(0, 69, __pyx_L1_error)
   } else {
     __Pyx_GOTREF(__pyx_cur_scope);
   }
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":64
+  /* "grakel/kernels/_isomorphism/bliss.pyx":70
  * 
  *     def __str__(self):
  *         vnames = sorted(self._vertices.keys())             # <<<<<<<<<<<<<<
  *         s = "<"
  *         for name in vnames:
  */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 64, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 70, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_keys); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 64, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_keys); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 70, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = NULL;
@@ -3438,23 +3439,23 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_4__str__
     }
   }
   if (__pyx_t_3) {
-    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 64, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 70, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   } else {
-    __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 64, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 70, __pyx_L1_error)
   }
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = PySequence_List(__pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 64, __pyx_L1_error)
+  __pyx_t_4 = PySequence_List(__pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 70, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_1 = ((PyObject*)__pyx_t_4);
   __pyx_t_4 = 0;
-  __pyx_t_5 = PyList_Sort(__pyx_t_1); if (unlikely(__pyx_t_5 == ((int)-1))) __PYX_ERR(0, 64, __pyx_L1_error)
+  __pyx_t_5 = PyList_Sort(__pyx_t_1); if (unlikely(__pyx_t_5 == ((int)-1))) __PYX_ERR(0, 70, __pyx_L1_error)
   __pyx_v_vnames = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":65
+  /* "grakel/kernels/_isomorphism/bliss.pyx":71
  *     def __str__(self):
  *         vnames = sorted(self._vertices.keys())
  *         s = "<"             # <<<<<<<<<<<<<<
@@ -3464,7 +3465,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_4__str__
   __Pyx_INCREF(__pyx_kp_s_);
   __pyx_v_s = __pyx_kp_s_;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":66
+  /* "grakel/kernels/_isomorphism/bliss.pyx":72
  *         vnames = sorted(self._vertices.keys())
  *         s = "<"
  *         for name in vnames:             # <<<<<<<<<<<<<<
@@ -3473,30 +3474,30 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_4__str__
  */
   if (unlikely(__pyx_v_vnames == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    __PYX_ERR(0, 66, __pyx_L1_error)
+    __PYX_ERR(0, 72, __pyx_L1_error)
   }
   __pyx_t_1 = __pyx_v_vnames; __Pyx_INCREF(__pyx_t_1); __pyx_t_6 = 0;
   for (;;) {
     if (__pyx_t_6 >= PyList_GET_SIZE(__pyx_t_1)) break;
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_6); __Pyx_INCREF(__pyx_t_4); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 66, __pyx_L1_error)
+    __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_6); __Pyx_INCREF(__pyx_t_4); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 72, __pyx_L1_error)
     #else
-    __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 66, __pyx_L1_error)
+    __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 72, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     #endif
     __Pyx_XDECREF_SET(__pyx_v_name, __pyx_t_4);
     __pyx_t_4 = 0;
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":67
+    /* "grakel/kernels/_isomorphism/bliss.pyx":73
  *         s = "<"
  *         for name in vnames:
  *             vertex = self._vertices[name]             # <<<<<<<<<<<<<<
  *             nnames = sorted(neighbour.name for neighbour in vertex.edges)
  *             s += "("+str(name)+" "+str(vertex.color)+" "+str(nnames)+")"
  */
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 67, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 73, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_2 = __Pyx_PyObject_GetItem(__pyx_t_4, __pyx_v_name); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 67, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetItem(__pyx_t_4, __pyx_v_name); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 73, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_XGOTREF(__pyx_cur_scope->__pyx_v_vertex);
@@ -3504,67 +3505,67 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_4__str__
     __Pyx_GIVEREF(__pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":68
+    /* "grakel/kernels/_isomorphism/bliss.pyx":74
  *         for name in vnames:
  *             vertex = self._vertices[name]
  *             nnames = sorted(neighbour.name for neighbour in vertex.edges)             # <<<<<<<<<<<<<<
  *             s += "("+str(name)+" "+str(vertex.color)+" "+str(nnames)+")"
  *         s += ">"
  */
-    __pyx_t_4 = __pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_7__str___genexpr(((PyObject*)__pyx_cur_scope)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 68, __pyx_L1_error)
+    __pyx_t_4 = __pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_7__str___genexpr(((PyObject*)__pyx_cur_scope)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 74, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_3 = __Pyx_Generator_Next(__pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 68, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_Generator_Next(__pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 74, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_t_2 = ((PyObject*)__pyx_t_3);
     __pyx_t_3 = 0;
-    __pyx_t_5 = PyList_Sort(__pyx_t_2); if (unlikely(__pyx_t_5 == ((int)-1))) __PYX_ERR(0, 68, __pyx_L1_error)
+    __pyx_t_5 = PyList_Sort(__pyx_t_2); if (unlikely(__pyx_t_5 == ((int)-1))) __PYX_ERR(0, 74, __pyx_L1_error)
     __Pyx_XDECREF_SET(__pyx_v_nnames, ((PyObject*)__pyx_t_2));
     __pyx_t_2 = 0;
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":69
+    /* "grakel/kernels/_isomorphism/bliss.pyx":75
  *             vertex = self._vertices[name]
  *             nnames = sorted(neighbour.name for neighbour in vertex.edges)
  *             s += "("+str(name)+" "+str(vertex.color)+" "+str(nnames)+")"             # <<<<<<<<<<<<<<
  *         s += ">"
  *         return s
  */
-    __pyx_t_2 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_v_name); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 69, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_v_name); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 75, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = PyNumber_Add(__pyx_kp_s__2, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 69, __pyx_L1_error)
+    __pyx_t_3 = PyNumber_Add(__pyx_kp_s__2, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 75, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = PyNumber_Add(__pyx_t_3, __pyx_kp_s__3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 69, __pyx_L1_error)
+    __pyx_t_2 = PyNumber_Add(__pyx_t_3, __pyx_kp_s__3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 75, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_vertex, __pyx_n_s_color); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 69, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_vertex, __pyx_n_s_color); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 75, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_4 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 69, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 75, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_3 = PyNumber_Add(__pyx_t_2, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 69, __pyx_L1_error)
+    __pyx_t_3 = PyNumber_Add(__pyx_t_2, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 75, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_4 = PyNumber_Add(__pyx_t_3, __pyx_kp_s__3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 69, __pyx_L1_error)
+    __pyx_t_4 = PyNumber_Add(__pyx_t_3, __pyx_kp_s__3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 75, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_3 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_v_nnames); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 69, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_v_nnames); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 75, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_2 = PyNumber_Add(__pyx_t_4, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 69, __pyx_L1_error)
+    __pyx_t_2 = PyNumber_Add(__pyx_t_4, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 75, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_3 = PyNumber_Add(__pyx_t_2, __pyx_kp_s__4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 69, __pyx_L1_error)
+    __pyx_t_3 = PyNumber_Add(__pyx_t_2, __pyx_kp_s__4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 75, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = PyNumber_InPlaceAdd(__pyx_v_s, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 69, __pyx_L1_error)
+    __pyx_t_2 = PyNumber_InPlaceAdd(__pyx_v_s, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 75, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF_SET(__pyx_v_s, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":66
+    /* "grakel/kernels/_isomorphism/bliss.pyx":72
  *         vnames = sorted(self._vertices.keys())
  *         s = "<"
  *         for name in vnames:             # <<<<<<<<<<<<<<
@@ -3574,19 +3575,19 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_4__str__
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":70
+  /* "grakel/kernels/_isomorphism/bliss.pyx":76
  *             nnames = sorted(neighbour.name for neighbour in vertex.edges)
  *             s += "("+str(name)+" "+str(vertex.color)+" "+str(nnames)+")"
  *         s += ">"             # <<<<<<<<<<<<<<
  *         return s
  * 
  */
-  __pyx_t_1 = PyNumber_InPlaceAdd(__pyx_v_s, __pyx_kp_s__5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 70, __pyx_L1_error)
+  __pyx_t_1 = PyNumber_InPlaceAdd(__pyx_v_s, __pyx_kp_s__5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 76, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF_SET(__pyx_v_s, __pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":71
+  /* "grakel/kernels/_isomorphism/bliss.pyx":77
  *             s += "("+str(name)+" "+str(vertex.color)+" "+str(nnames)+")"
  *         s += ">"
  *         return s             # <<<<<<<<<<<<<<
@@ -3598,7 +3599,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_4__str__
   __pyx_r = __pyx_v_s;
   goto __pyx_L0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":63
+  /* "grakel/kernels/_isomorphism/bliss.pyx":69
  *         return hash(str(self))
  * 
  *     def __str__(self):             # <<<<<<<<<<<<<<
@@ -3625,7 +3626,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_4__str__
   return __pyx_r;
 }
 
-/* "grakel/kernels/_isomorphism/bliss.pyx":73
+/* "grakel/kernels/_isomorphism/bliss.pyx":79
  *         return s
  * 
  *     def __eq__(self, other):             # <<<<<<<<<<<<<<
@@ -3666,11 +3667,11 @@ static PyObject *__pyx_pw_6grakel_7kernels_12_isomorphism_5bliss_5Graph_7__eq__(
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_other)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__eq__", 1, 2, 2, 1); __PYX_ERR(0, 73, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__eq__", 1, 2, 2, 1); __PYX_ERR(0, 79, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__eq__") < 0)) __PYX_ERR(0, 73, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__eq__") < 0)) __PYX_ERR(0, 79, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -3683,7 +3684,7 @@ static PyObject *__pyx_pw_6grakel_7kernels_12_isomorphism_5bliss_5Graph_7__eq__(
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__eq__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 73, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__eq__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 79, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("grakel.kernels._isomorphism.bliss.Graph.__eq__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -3705,172 +3706,12 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_6__eq__(
   PyObject *__pyx_t_4 = NULL;
   __Pyx_RefNannySetupContext("__eq__", 0);
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":79
+  /* "grakel/kernels/_isomorphism/bliss.pyx":85
  *         the same colors and the same edges.
  *         """
  *         return self.is_equal(other)             # <<<<<<<<<<<<<<
  * 
  *     def __ne__(self, other):
- */
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_is_equal); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 79, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
-    __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_2);
-    if (likely(__pyx_t_3)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-      __Pyx_INCREF(__pyx_t_3);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_2, function);
-    }
-  }
-  if (!__pyx_t_3) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_other); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 79, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-  } else {
-    #if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(__pyx_t_2)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_3, __pyx_v_other};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 79, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __Pyx_GOTREF(__pyx_t_1);
-    } else
-    #endif
-    #if CYTHON_FAST_PYCCALL
-    if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_3, __pyx_v_other};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 79, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __Pyx_GOTREF(__pyx_t_1);
-    } else
-    #endif
-    {
-      __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 79, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_3); __pyx_t_3 = NULL;
-      __Pyx_INCREF(__pyx_v_other);
-      __Pyx_GIVEREF(__pyx_v_other);
-      PyTuple_SET_ITEM(__pyx_t_4, 0+1, __pyx_v_other);
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 79, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    }
-  }
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_r = __pyx_t_1;
-  __pyx_t_1 = 0;
-  goto __pyx_L0;
-
-  /* "grakel/kernels/_isomorphism/bliss.pyx":73
- *         return s
- * 
- *     def __eq__(self, other):             # <<<<<<<<<<<<<<
- *         """
- *         Check whether the graph is equal to the graph 'other'.
- */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_AddTraceback("grakel.kernels._isomorphism.bliss.Graph.__eq__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "grakel/kernels/_isomorphism/bliss.pyx":81
- *         return self.is_equal(other)
- * 
- *     def __ne__(self, other):             # <<<<<<<<<<<<<<
- *         """
- *         Check whether the graph is not equal to the graph 'other'.
- */
-
-/* Python wrapper */
-static PyObject *__pyx_pw_6grakel_7kernels_12_isomorphism_5bliss_5Graph_9__ne__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_6grakel_7kernels_12_isomorphism_5bliss_5Graph_8__ne__[] = "\n        Check whether the graph is not equal to the graph 'other'.\n        ";
-static PyMethodDef __pyx_mdef_6grakel_7kernels_12_isomorphism_5bliss_5Graph_9__ne__ = {"__ne__", (PyCFunction)__pyx_pw_6grakel_7kernels_12_isomorphism_5bliss_5Graph_9__ne__, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6grakel_7kernels_12_isomorphism_5bliss_5Graph_8__ne__};
-static PyObject *__pyx_pw_6grakel_7kernels_12_isomorphism_5bliss_5Graph_9__ne__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  PyObject *__pyx_v_self = 0;
-  PyObject *__pyx_v_other = 0;
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__ne__ (wrapper)", 0);
-  {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_self,&__pyx_n_s_other,0};
-    PyObject* values[2] = {0,0};
-    if (unlikely(__pyx_kwds)) {
-      Py_ssize_t kw_args;
-      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
-      switch (pos_args) {
-        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
-        CYTHON_FALLTHROUGH;
-        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
-        CYTHON_FALLTHROUGH;
-        case  0: break;
-        default: goto __pyx_L5_argtuple_error;
-      }
-      kw_args = PyDict_Size(__pyx_kwds);
-      switch (pos_args) {
-        case  0:
-        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_self)) != 0)) kw_args--;
-        else goto __pyx_L5_argtuple_error;
-        CYTHON_FALLTHROUGH;
-        case  1:
-        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_other)) != 0)) kw_args--;
-        else {
-          __Pyx_RaiseArgtupleInvalid("__ne__", 1, 2, 2, 1); __PYX_ERR(0, 81, __pyx_L3_error)
-        }
-      }
-      if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__ne__") < 0)) __PYX_ERR(0, 81, __pyx_L3_error)
-      }
-    } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
-      goto __pyx_L5_argtuple_error;
-    } else {
-      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
-      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
-    }
-    __pyx_v_self = values[0];
-    __pyx_v_other = values[1];
-  }
-  goto __pyx_L4_argument_unpacking_done;
-  __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__ne__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 81, __pyx_L3_error)
-  __pyx_L3_error:;
-  __Pyx_AddTraceback("grakel.kernels._isomorphism.bliss.Graph.__ne__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __Pyx_RefNannyFinishContext();
-  return NULL;
-  __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_8__ne__(__pyx_self, __pyx_v_self, __pyx_v_other);
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_8__ne__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_other) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  PyObject *__pyx_t_2 = NULL;
-  PyObject *__pyx_t_3 = NULL;
-  PyObject *__pyx_t_4 = NULL;
-  int __pyx_t_5;
-  __Pyx_RefNannySetupContext("__ne__", 0);
-
-  /* "grakel/kernels/_isomorphism/bliss.pyx":85
- *         Check whether the graph is not equal to the graph 'other'.
- *         """
- *         return not self.is_equal(other)             # <<<<<<<<<<<<<<
- * 
- *     def __le__(self, other):
  */
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_is_equal); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 85, __pyx_L1_error)
@@ -3918,15 +3759,175 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_8__ne__(
     }
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 85, __pyx_L1_error)
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* "grakel/kernels/_isomorphism/bliss.pyx":79
+ *         return s
+ * 
+ *     def __eq__(self, other):             # <<<<<<<<<<<<<<
+ *         """
+ *         Check whether the graph is equal to the graph 'other'.
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_AddTraceback("grakel.kernels._isomorphism.bliss.Graph.__eq__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "grakel/kernels/_isomorphism/bliss.pyx":87
+ *         return self.is_equal(other)
+ * 
+ *     def __ne__(self, other):             # <<<<<<<<<<<<<<
+ *         """
+ *         Check whether the graph is not equal to the graph 'other'.
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_6grakel_7kernels_12_isomorphism_5bliss_5Graph_9__ne__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_6grakel_7kernels_12_isomorphism_5bliss_5Graph_8__ne__[] = "\n        Check whether the graph is not equal to the graph 'other'.\n        ";
+static PyMethodDef __pyx_mdef_6grakel_7kernels_12_isomorphism_5bliss_5Graph_9__ne__ = {"__ne__", (PyCFunction)__pyx_pw_6grakel_7kernels_12_isomorphism_5bliss_5Graph_9__ne__, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6grakel_7kernels_12_isomorphism_5bliss_5Graph_8__ne__};
+static PyObject *__pyx_pw_6grakel_7kernels_12_isomorphism_5bliss_5Graph_9__ne__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  PyObject *__pyx_v_self = 0;
+  PyObject *__pyx_v_other = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__ne__ (wrapper)", 0);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_self,&__pyx_n_s_other,0};
+    PyObject* values[2] = {0,0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_self)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        CYTHON_FALLTHROUGH;
+        case  1:
+        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_other)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("__ne__", 1, 2, 2, 1); __PYX_ERR(0, 87, __pyx_L3_error)
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__ne__") < 0)) __PYX_ERR(0, 87, __pyx_L3_error)
+      }
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+    }
+    __pyx_v_self = values[0];
+    __pyx_v_other = values[1];
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("__ne__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 87, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("grakel.kernels._isomorphism.bliss.Graph.__ne__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_8__ne__(__pyx_self, __pyx_v_self, __pyx_v_other);
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_8__ne__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_other) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  int __pyx_t_5;
+  __Pyx_RefNannySetupContext("__ne__", 0);
+
+  /* "grakel/kernels/_isomorphism/bliss.pyx":91
+ *         Check whether the graph is not equal to the graph 'other'.
+ *         """
+ *         return not self.is_equal(other)             # <<<<<<<<<<<<<<
+ * 
+ *     def __le__(self, other):
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_is_equal); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 91, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
+    __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_2);
+    if (likely(__pyx_t_3)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
+      __Pyx_INCREF(__pyx_t_3);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_2, function);
+    }
+  }
+  if (!__pyx_t_3) {
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_other); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 91, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+  } else {
+    #if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(__pyx_t_2)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_3, __pyx_v_other};
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 91, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
+      __Pyx_GOTREF(__pyx_t_1);
+    } else
+    #endif
+    #if CYTHON_FAST_PYCCALL
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_3, __pyx_v_other};
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 91, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
+      __Pyx_GOTREF(__pyx_t_1);
+    } else
+    #endif
+    {
+      __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 91, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_3); __pyx_t_3 = NULL;
+      __Pyx_INCREF(__pyx_v_other);
+      __Pyx_GIVEREF(__pyx_v_other);
+      PyTuple_SET_ITEM(__pyx_t_4, 0+1, __pyx_v_other);
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 91, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    }
+  }
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 91, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyBool_FromLong((!__pyx_t_5)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 85, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyBool_FromLong((!__pyx_t_5)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 91, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":81
+  /* "grakel/kernels/_isomorphism/bliss.pyx":87
  *         return self.is_equal(other)
  * 
  *     def __ne__(self, other):             # <<<<<<<<<<<<<<
@@ -3948,7 +3949,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_8__ne__(
   return __pyx_r;
 }
 
-/* "grakel/kernels/_isomorphism/bliss.pyx":87
+/* "grakel/kernels/_isomorphism/bliss.pyx":93
  *         return not self.is_equal(other)
  * 
  *     def __le__(self, other):             # <<<<<<<<<<<<<<
@@ -3989,11 +3990,11 @@ static PyObject *__pyx_pw_6grakel_7kernels_12_isomorphism_5bliss_5Graph_11__le__
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_other)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__le__", 1, 2, 2, 1); __PYX_ERR(0, 87, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__le__", 1, 2, 2, 1); __PYX_ERR(0, 93, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__le__") < 0)) __PYX_ERR(0, 87, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__le__") < 0)) __PYX_ERR(0, 93, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -4006,7 +4007,7 @@ static PyObject *__pyx_pw_6grakel_7kernels_12_isomorphism_5bliss_5Graph_11__le__
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__le__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 87, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__le__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 93, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("grakel.kernels._isomorphism.bliss.Graph.__le__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -4025,20 +4026,20 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_10__le__
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__le__", 0);
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":91
+  /* "grakel/kernels/_isomorphism/bliss.pyx":97
  *         Ordering of graphs is not defined, will raise an Error.
  *         """
  *         raise RuntimeError("Operation not implemented")             # <<<<<<<<<<<<<<
  * 
  *     def __lt__(self, other):
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 91, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 97, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __PYX_ERR(0, 91, __pyx_L1_error)
+  __PYX_ERR(0, 97, __pyx_L1_error)
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":87
+  /* "grakel/kernels/_isomorphism/bliss.pyx":93
  *         return not self.is_equal(other)
  * 
  *     def __le__(self, other):             # <<<<<<<<<<<<<<
@@ -4056,7 +4057,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_10__le__
   return __pyx_r;
 }
 
-/* "grakel/kernels/_isomorphism/bliss.pyx":93
+/* "grakel/kernels/_isomorphism/bliss.pyx":99
  *         raise RuntimeError("Operation not implemented")
  * 
  *     def __lt__(self, other):             # <<<<<<<<<<<<<<
@@ -4097,11 +4098,11 @@ static PyObject *__pyx_pw_6grakel_7kernels_12_isomorphism_5bliss_5Graph_13__lt__
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_other)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__lt__", 1, 2, 2, 1); __PYX_ERR(0, 93, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__lt__", 1, 2, 2, 1); __PYX_ERR(0, 99, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__lt__") < 0)) __PYX_ERR(0, 93, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__lt__") < 0)) __PYX_ERR(0, 99, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -4114,7 +4115,7 @@ static PyObject *__pyx_pw_6grakel_7kernels_12_isomorphism_5bliss_5Graph_13__lt__
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__lt__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 93, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__lt__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 99, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("grakel.kernels._isomorphism.bliss.Graph.__lt__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -4133,20 +4134,20 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_12__lt__
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__lt__", 0);
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":97
+  /* "grakel/kernels/_isomorphism/bliss.pyx":103
  *         Ordering of graphs is not defined, will raise an Error.
  *         """
  *         raise RuntimeError("Operation not implemented")             # <<<<<<<<<<<<<<
  * 
  *     def __ge__(self, other):
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 97, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 103, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __PYX_ERR(0, 97, __pyx_L1_error)
+  __PYX_ERR(0, 103, __pyx_L1_error)
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":93
+  /* "grakel/kernels/_isomorphism/bliss.pyx":99
  *         raise RuntimeError("Operation not implemented")
  * 
  *     def __lt__(self, other):             # <<<<<<<<<<<<<<
@@ -4164,7 +4165,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_12__lt__
   return __pyx_r;
 }
 
-/* "grakel/kernels/_isomorphism/bliss.pyx":99
+/* "grakel/kernels/_isomorphism/bliss.pyx":105
  *         raise RuntimeError("Operation not implemented")
  * 
  *     def __ge__(self, other):             # <<<<<<<<<<<<<<
@@ -4205,11 +4206,11 @@ static PyObject *__pyx_pw_6grakel_7kernels_12_isomorphism_5bliss_5Graph_15__ge__
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_other)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__ge__", 1, 2, 2, 1); __PYX_ERR(0, 99, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__ge__", 1, 2, 2, 1); __PYX_ERR(0, 105, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__ge__") < 0)) __PYX_ERR(0, 99, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__ge__") < 0)) __PYX_ERR(0, 105, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -4222,7 +4223,7 @@ static PyObject *__pyx_pw_6grakel_7kernels_12_isomorphism_5bliss_5Graph_15__ge__
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__ge__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 99, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__ge__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 105, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("grakel.kernels._isomorphism.bliss.Graph.__ge__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -4241,20 +4242,20 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_14__ge__
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__ge__", 0);
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":103
+  /* "grakel/kernels/_isomorphism/bliss.pyx":109
  *         Ordering of graphs is not defined, will raise an Error.
  *         """
  *         raise RuntimeError("Operation not implemented")             # <<<<<<<<<<<<<<
  * 
  *     def __gt__(self, other):
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__8, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 103, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__8, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 109, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __PYX_ERR(0, 103, __pyx_L1_error)
+  __PYX_ERR(0, 109, __pyx_L1_error)
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":99
+  /* "grakel/kernels/_isomorphism/bliss.pyx":105
  *         raise RuntimeError("Operation not implemented")
  * 
  *     def __ge__(self, other):             # <<<<<<<<<<<<<<
@@ -4272,7 +4273,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_14__ge__
   return __pyx_r;
 }
 
-/* "grakel/kernels/_isomorphism/bliss.pyx":105
+/* "grakel/kernels/_isomorphism/bliss.pyx":111
  *         raise RuntimeError("Operation not implemented")
  * 
  *     def __gt__(self, other):             # <<<<<<<<<<<<<<
@@ -4313,11 +4314,11 @@ static PyObject *__pyx_pw_6grakel_7kernels_12_isomorphism_5bliss_5Graph_17__gt__
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_other)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__gt__", 1, 2, 2, 1); __PYX_ERR(0, 105, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__gt__", 1, 2, 2, 1); __PYX_ERR(0, 111, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__gt__") < 0)) __PYX_ERR(0, 105, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__gt__") < 0)) __PYX_ERR(0, 111, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -4330,7 +4331,7 @@ static PyObject *__pyx_pw_6grakel_7kernels_12_isomorphism_5bliss_5Graph_17__gt__
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__gt__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 105, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__gt__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 111, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("grakel.kernels._isomorphism.bliss.Graph.__gt__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -4349,20 +4350,20 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_16__gt__
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__gt__", 0);
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":109
+  /* "grakel/kernels/_isomorphism/bliss.pyx":115
  *         Ordering of graphs is not defined, will raise an Error.
  *         """
  *         raise RuntimeError("Operation not implemented")             # <<<<<<<<<<<<<<
  * 
  *     def __cmp__(self, other):
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__9, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 109, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__9, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 115, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __PYX_ERR(0, 109, __pyx_L1_error)
+  __PYX_ERR(0, 115, __pyx_L1_error)
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":105
+  /* "grakel/kernels/_isomorphism/bliss.pyx":111
  *         raise RuntimeError("Operation not implemented")
  * 
  *     def __gt__(self, other):             # <<<<<<<<<<<<<<
@@ -4380,7 +4381,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_16__gt__
   return __pyx_r;
 }
 
-/* "grakel/kernels/_isomorphism/bliss.pyx":111
+/* "grakel/kernels/_isomorphism/bliss.pyx":117
  *         raise RuntimeError("Operation not implemented")
  * 
  *     def __cmp__(self, other):             # <<<<<<<<<<<<<<
@@ -4421,11 +4422,11 @@ static PyObject *__pyx_pw_6grakel_7kernels_12_isomorphism_5bliss_5Graph_19__cmp_
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_other)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__cmp__", 1, 2, 2, 1); __PYX_ERR(0, 111, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__cmp__", 1, 2, 2, 1); __PYX_ERR(0, 117, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cmp__") < 0)) __PYX_ERR(0, 111, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cmp__") < 0)) __PYX_ERR(0, 117, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -4438,7 +4439,7 @@ static PyObject *__pyx_pw_6grakel_7kernels_12_isomorphism_5bliss_5Graph_19__cmp_
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__cmp__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 111, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__cmp__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 117, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("grakel.kernels._isomorphism.bliss.Graph.__cmp__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -4457,20 +4458,20 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_18__cmp_
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__cmp__", 0);
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":115
+  /* "grakel/kernels/_isomorphism/bliss.pyx":121
  *         Ordering of graphs is not defined, will raise an Error.
  *         """
  *         raise RuntimeError("Operation not implemented")             # <<<<<<<<<<<<<<
  * 
  *     def nof_vertices(self):
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__10, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 115, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__10, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 121, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __PYX_ERR(0, 115, __pyx_L1_error)
+  __PYX_ERR(0, 121, __pyx_L1_error)
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":111
+  /* "grakel/kernels/_isomorphism/bliss.pyx":117
  *         raise RuntimeError("Operation not implemented")
  * 
  *     def __cmp__(self, other):             # <<<<<<<<<<<<<<
@@ -4488,7 +4489,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_18__cmp_
   return __pyx_r;
 }
 
-/* "grakel/kernels/_isomorphism/bliss.pyx":117
+/* "grakel/kernels/_isomorphism/bliss.pyx":123
  *         raise RuntimeError("Operation not implemented")
  * 
  *     def nof_vertices(self):             # <<<<<<<<<<<<<<
@@ -4518,7 +4519,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_20nof_ve
   Py_ssize_t __pyx_t_2;
   __Pyx_RefNannySetupContext("nof_vertices", 0);
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":121
+  /* "grakel/kernels/_isomorphism/bliss.pyx":127
  *         Get the number of vertices in the graph.
  *         """
  *         return len(self._vertices)             # <<<<<<<<<<<<<<
@@ -4526,17 +4527,17 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_20nof_ve
  *     def get_vertices(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 121, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 127, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 121, __pyx_L1_error)
+  __pyx_t_2 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 127, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyInt_FromSsize_t(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 121, __pyx_L1_error)
+  __pyx_t_1 = PyInt_FromSsize_t(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 127, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":117
+  /* "grakel/kernels/_isomorphism/bliss.pyx":123
  *         raise RuntimeError("Operation not implemented")
  * 
  *     def nof_vertices(self):             # <<<<<<<<<<<<<<
@@ -4555,7 +4556,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_20nof_ve
   return __pyx_r;
 }
 
-/* "grakel/kernels/_isomorphism/bliss.pyx":123
+/* "grakel/kernels/_isomorphism/bliss.pyx":129
  *         return len(self._vertices)
  * 
  *     def get_vertices(self):             # <<<<<<<<<<<<<<
@@ -4586,7 +4587,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_22get_ve
   PyObject *__pyx_t_3 = NULL;
   __Pyx_RefNannySetupContext("get_vertices", 0);
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":127
+  /* "grakel/kernels/_isomorphism/bliss.pyx":133
  *         Return the (list of) vertices in the graph.
  *         """
  *         return self._vertices.keys()             # <<<<<<<<<<<<<<
@@ -4594,9 +4595,9 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_22get_ve
  *     def add_vertex(self, v, color = 0):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 127, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 133, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_keys); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 127, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_keys); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 133, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -4610,10 +4611,10 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_22get_ve
     }
   }
   if (__pyx_t_2) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 127, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 133, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   } else {
-    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 127, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 133, __pyx_L1_error)
   }
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -4621,7 +4622,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_22get_ve
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":123
+  /* "grakel/kernels/_isomorphism/bliss.pyx":129
  *         return len(self._vertices)
  * 
  *     def get_vertices(self):             # <<<<<<<<<<<<<<
@@ -4642,7 +4643,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_22get_ve
   return __pyx_r;
 }
 
-/* "grakel/kernels/_isomorphism/bliss.pyx":129
+/* "grakel/kernels/_isomorphism/bliss.pyx":135
  *         return self._vertices.keys()
  * 
  *     def add_vertex(self, v, color = 0):             # <<<<<<<<<<<<<<
@@ -4687,7 +4688,7 @@ static PyObject *__pyx_pw_6grakel_7kernels_12_isomorphism_5bliss_5Graph_25add_ve
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_v)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("add_vertex", 0, 2, 3, 1); __PYX_ERR(0, 129, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("add_vertex", 0, 2, 3, 1); __PYX_ERR(0, 135, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
@@ -4697,7 +4698,7 @@ static PyObject *__pyx_pw_6grakel_7kernels_12_isomorphism_5bliss_5Graph_25add_ve
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "add_vertex") < 0)) __PYX_ERR(0, 129, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "add_vertex") < 0)) __PYX_ERR(0, 135, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -4715,7 +4716,7 @@ static PyObject *__pyx_pw_6grakel_7kernels_12_isomorphism_5bliss_5Graph_25add_ve
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("add_vertex", 0, 2, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 129, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("add_vertex", 0, 2, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 135, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("grakel.kernels._isomorphism.bliss.Graph.add_vertex", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -4740,7 +4741,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_24add_ve
   PyObject *__pyx_t_7 = NULL;
   __Pyx_RefNannySetupContext("add_vertex", 0);
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":138
+  /* "grakel/kernels/_isomorphism/bliss.pyx":144
  *         Returns False if the vertex already existed, True otherwise.
  *         """
  *         assert type(color) is int             # <<<<<<<<<<<<<<
@@ -4752,12 +4753,12 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_24add_ve
     __pyx_t_1 = (((PyObject *)Py_TYPE(__pyx_v_color)) == ((PyObject *)(&PyInt_Type)));
     if (unlikely(!(__pyx_t_1 != 0))) {
       PyErr_SetNone(PyExc_AssertionError);
-      __PYX_ERR(0, 138, __pyx_L1_error)
+      __PYX_ERR(0, 144, __pyx_L1_error)
     }
   }
   #endif
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":139
+  /* "grakel/kernels/_isomorphism/bliss.pyx":145
  *         """
  *         assert type(color) is int
  *         assert 0 <= color and color < pow(2,31)             # <<<<<<<<<<<<<<
@@ -4766,44 +4767,44 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_24add_ve
  */
   #ifndef CYTHON_WITHOUT_ASSERTIONS
   if (unlikely(!Py_OptimizeFlag)) {
-    __pyx_t_2 = PyObject_RichCompare(__pyx_int_0, __pyx_v_color, Py_LE); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 139, __pyx_L1_error)
-    __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 139, __pyx_L1_error)
+    __pyx_t_2 = PyObject_RichCompare(__pyx_int_0, __pyx_v_color, Py_LE); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 145, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 145, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     if (__pyx_t_3) {
     } else {
       __pyx_t_1 = __pyx_t_3;
       goto __pyx_L3_bool_binop_done;
     }
-    __pyx_t_2 = __Pyx_PyNumber_Power2(__pyx_int_2, __pyx_int_31); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 139, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyNumber_Power2(__pyx_int_2, __pyx_int_31); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 145, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_4 = PyObject_RichCompare(__pyx_v_color, __pyx_t_2, Py_LT); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 139, __pyx_L1_error)
+    __pyx_t_4 = PyObject_RichCompare(__pyx_v_color, __pyx_t_2, Py_LT); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 145, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 139, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 145, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_t_1 = __pyx_t_3;
     __pyx_L3_bool_binop_done:;
     if (unlikely(!__pyx_t_1)) {
       PyErr_SetNone(PyExc_AssertionError);
-      __PYX_ERR(0, 139, __pyx_L1_error)
+      __PYX_ERR(0, 145, __pyx_L1_error)
     }
   }
   #endif
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":140
+  /* "grakel/kernels/_isomorphism/bliss.pyx":146
  *         assert type(color) is int
  *         assert 0 <= color and color < pow(2,31)
  *         if v in self._vertices:             # <<<<<<<<<<<<<<
  *             return False
  *         self._vertices[v] = self._Vertex(v, color)
  */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 140, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 146, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_1 = (__Pyx_PySequence_ContainsTF(__pyx_v_v, __pyx_t_4, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 140, __pyx_L1_error)
+  __pyx_t_1 = (__Pyx_PySequence_ContainsTF(__pyx_v_v, __pyx_t_4, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 146, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_3 = (__pyx_t_1 != 0);
   if (__pyx_t_3) {
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":141
+    /* "grakel/kernels/_isomorphism/bliss.pyx":147
  *         assert 0 <= color and color < pow(2,31)
  *         if v in self._vertices:
  *             return False             # <<<<<<<<<<<<<<
@@ -4815,7 +4816,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_24add_ve
     __pyx_r = Py_False;
     goto __pyx_L0;
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":140
+    /* "grakel/kernels/_isomorphism/bliss.pyx":146
  *         assert type(color) is int
  *         assert 0 <= color and color < pow(2,31)
  *         if v in self._vertices:             # <<<<<<<<<<<<<<
@@ -4824,14 +4825,14 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_24add_ve
  */
   }
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":142
+  /* "grakel/kernels/_isomorphism/bliss.pyx":148
  *         if v in self._vertices:
  *             return False
  *         self._vertices[v] = self._Vertex(v, color)             # <<<<<<<<<<<<<<
  *         return True
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_Vertex); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 142, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_Vertex); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 148, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_5 = NULL;
   __pyx_t_6 = 0;
@@ -4848,7 +4849,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_24add_ve
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_2)) {
     PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_v_v, __pyx_v_color};
-    __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 142, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 148, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_GOTREF(__pyx_t_4);
   } else
@@ -4856,13 +4857,13 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_24add_ve
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
     PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_v_v, __pyx_v_color};
-    __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 142, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 148, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_GOTREF(__pyx_t_4);
   } else
   #endif
   {
-    __pyx_t_7 = PyTuple_New(2+__pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 142, __pyx_L1_error)
+    __pyx_t_7 = PyTuple_New(2+__pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 148, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     if (__pyx_t_5) {
       __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_5); __pyx_t_5 = NULL;
@@ -4873,18 +4874,18 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_24add_ve
     __Pyx_INCREF(__pyx_v_color);
     __Pyx_GIVEREF(__pyx_v_color);
     PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_6, __pyx_v_color);
-    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_7, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 142, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_7, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 148, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 142, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 148, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (unlikely(PyObject_SetItem(__pyx_t_2, __pyx_v_v, __pyx_t_4) < 0)) __PYX_ERR(0, 142, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(__pyx_t_2, __pyx_v_v, __pyx_t_4) < 0)) __PYX_ERR(0, 148, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":143
+  /* "grakel/kernels/_isomorphism/bliss.pyx":149
  *             return False
  *         self._vertices[v] = self._Vertex(v, color)
  *         return True             # <<<<<<<<<<<<<<
@@ -4896,7 +4897,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_24add_ve
   __pyx_r = Py_True;
   goto __pyx_L0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":129
+  /* "grakel/kernels/_isomorphism/bliss.pyx":135
  *         return self._vertices.keys()
  * 
  *     def add_vertex(self, v, color = 0):             # <<<<<<<<<<<<<<
@@ -4918,7 +4919,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_24add_ve
   return __pyx_r;
 }
 
-/* "grakel/kernels/_isomorphism/bliss.pyx":145
+/* "grakel/kernels/_isomorphism/bliss.pyx":151
  *         return True
  * 
  *     def del_vertex(self, v):             # <<<<<<<<<<<<<<
@@ -4959,11 +4960,11 @@ static PyObject *__pyx_pw_6grakel_7kernels_12_isomorphism_5bliss_5Graph_27del_ve
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_v)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("del_vertex", 1, 2, 2, 1); __PYX_ERR(0, 145, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("del_vertex", 1, 2, 2, 1); __PYX_ERR(0, 151, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "del_vertex") < 0)) __PYX_ERR(0, 145, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "del_vertex") < 0)) __PYX_ERR(0, 151, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -4976,7 +4977,7 @@ static PyObject *__pyx_pw_6grakel_7kernels_12_isomorphism_5bliss_5Graph_27del_ve
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("del_vertex", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 145, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("del_vertex", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 151, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("grakel.kernels._isomorphism.bliss.Graph.del_vertex", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -5005,51 +5006,51 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_26del_ve
   PyObject *__pyx_t_9 = NULL;
   __Pyx_RefNannySetupContext("del_vertex", 0);
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":152
+  /* "grakel/kernels/_isomorphism/bliss.pyx":158
  *         preferably an integer or a string not containing spaces.
  *         """
  *         if v in self._vertices:             # <<<<<<<<<<<<<<
  *             vertex = self._vertices[v]
  *             for neighbour in vertex.edges:
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 152, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 158, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = (__Pyx_PySequence_ContainsTF(__pyx_v_v, __pyx_t_1, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 152, __pyx_L1_error)
+  __pyx_t_2 = (__Pyx_PySequence_ContainsTF(__pyx_v_v, __pyx_t_1, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 158, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_3 = (__pyx_t_2 != 0);
   if (__pyx_t_3) {
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":153
+    /* "grakel/kernels/_isomorphism/bliss.pyx":159
  *         """
  *         if v in self._vertices:
  *             vertex = self._vertices[v]             # <<<<<<<<<<<<<<
  *             for neighbour in vertex.edges:
  *                 if not(neighbour is vertex):
  */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 153, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 159, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_4 = __Pyx_PyObject_GetItem(__pyx_t_1, __pyx_v_v); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 153, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetItem(__pyx_t_1, __pyx_v_v); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 159, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_v_vertex = __pyx_t_4;
     __pyx_t_4 = 0;
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":154
+    /* "grakel/kernels/_isomorphism/bliss.pyx":160
  *         if v in self._vertices:
  *             vertex = self._vertices[v]
  *             for neighbour in vertex.edges:             # <<<<<<<<<<<<<<
  *                 if not(neighbour is vertex):
  *                     neighbour.edges.remove(vertex)
  */
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_vertex, __pyx_n_s_edges); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 154, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_vertex, __pyx_n_s_edges); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 160, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     if (likely(PyList_CheckExact(__pyx_t_4)) || PyTuple_CheckExact(__pyx_t_4)) {
       __pyx_t_1 = __pyx_t_4; __Pyx_INCREF(__pyx_t_1); __pyx_t_5 = 0;
       __pyx_t_6 = NULL;
     } else {
-      __pyx_t_5 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 154, __pyx_L1_error)
+      __pyx_t_5 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 160, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_6 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 154, __pyx_L1_error)
+      __pyx_t_6 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 160, __pyx_L1_error)
     }
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     for (;;) {
@@ -5057,17 +5058,17 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_26del_ve
         if (likely(PyList_CheckExact(__pyx_t_1))) {
           if (__pyx_t_5 >= PyList_GET_SIZE(__pyx_t_1)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_5); __Pyx_INCREF(__pyx_t_4); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 154, __pyx_L1_error)
+          __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_5); __Pyx_INCREF(__pyx_t_4); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 160, __pyx_L1_error)
           #else
-          __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 154, __pyx_L1_error)
+          __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 160, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_4);
           #endif
         } else {
           if (__pyx_t_5 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_5); __Pyx_INCREF(__pyx_t_4); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 154, __pyx_L1_error)
+          __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_5); __Pyx_INCREF(__pyx_t_4); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 160, __pyx_L1_error)
           #else
-          __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 154, __pyx_L1_error)
+          __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 160, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_4);
           #endif
         }
@@ -5077,7 +5078,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_26del_ve
           PyObject* exc_type = PyErr_Occurred();
           if (exc_type) {
             if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else __PYX_ERR(0, 154, __pyx_L1_error)
+            else __PYX_ERR(0, 160, __pyx_L1_error)
           }
           break;
         }
@@ -5086,7 +5087,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_26del_ve
       __Pyx_XDECREF_SET(__pyx_v_neighbour, __pyx_t_4);
       __pyx_t_4 = 0;
 
-      /* "grakel/kernels/_isomorphism/bliss.pyx":155
+      /* "grakel/kernels/_isomorphism/bliss.pyx":161
  *             vertex = self._vertices[v]
  *             for neighbour in vertex.edges:
  *                 if not(neighbour is vertex):             # <<<<<<<<<<<<<<
@@ -5097,16 +5098,16 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_26del_ve
       __pyx_t_2 = (__pyx_t_3 != 0);
       if (__pyx_t_2) {
 
-        /* "grakel/kernels/_isomorphism/bliss.pyx":156
+        /* "grakel/kernels/_isomorphism/bliss.pyx":162
  *             for neighbour in vertex.edges:
  *                 if not(neighbour is vertex):
  *                     neighbour.edges.remove(vertex)             # <<<<<<<<<<<<<<
  *             del self._vertices[v]
  * 
  */
-        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_neighbour, __pyx_n_s_edges); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 156, __pyx_L1_error)
+        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_neighbour, __pyx_n_s_edges); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 162, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_remove); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 156, __pyx_L1_error)
+        __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_remove); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 162, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_8);
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
         __pyx_t_7 = NULL;
@@ -5120,13 +5121,13 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_26del_ve
           }
         }
         if (!__pyx_t_7) {
-          __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_v_vertex); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 156, __pyx_L1_error)
+          __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_v_vertex); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 162, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_4);
         } else {
           #if CYTHON_FAST_PYCALL
           if (PyFunction_Check(__pyx_t_8)) {
             PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_v_vertex};
-            __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_8, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 156, __pyx_L1_error)
+            __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_8, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 162, __pyx_L1_error)
             __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
             __Pyx_GOTREF(__pyx_t_4);
           } else
@@ -5134,19 +5135,19 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_26del_ve
           #if CYTHON_FAST_PYCCALL
           if (__Pyx_PyFastCFunction_Check(__pyx_t_8)) {
             PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_v_vertex};
-            __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_8, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 156, __pyx_L1_error)
+            __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_8, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 162, __pyx_L1_error)
             __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
             __Pyx_GOTREF(__pyx_t_4);
           } else
           #endif
           {
-            __pyx_t_9 = PyTuple_New(1+1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 156, __pyx_L1_error)
+            __pyx_t_9 = PyTuple_New(1+1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 162, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_9);
             __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_t_7); __pyx_t_7 = NULL;
             __Pyx_INCREF(__pyx_v_vertex);
             __Pyx_GIVEREF(__pyx_v_vertex);
             PyTuple_SET_ITEM(__pyx_t_9, 0+1, __pyx_v_vertex);
-            __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_9, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 156, __pyx_L1_error)
+            __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_9, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 162, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_4);
             __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
           }
@@ -5154,7 +5155,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_26del_ve
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-        /* "grakel/kernels/_isomorphism/bliss.pyx":155
+        /* "grakel/kernels/_isomorphism/bliss.pyx":161
  *             vertex = self._vertices[v]
  *             for neighbour in vertex.edges:
  *                 if not(neighbour is vertex):             # <<<<<<<<<<<<<<
@@ -5163,7 +5164,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_26del_ve
  */
       }
 
-      /* "grakel/kernels/_isomorphism/bliss.pyx":154
+      /* "grakel/kernels/_isomorphism/bliss.pyx":160
  *         if v in self._vertices:
  *             vertex = self._vertices[v]
  *             for neighbour in vertex.edges:             # <<<<<<<<<<<<<<
@@ -5173,19 +5174,19 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_26del_ve
     }
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":157
+    /* "grakel/kernels/_isomorphism/bliss.pyx":163
  *                 if not(neighbour is vertex):
  *                     neighbour.edges.remove(vertex)
  *             del self._vertices[v]             # <<<<<<<<<<<<<<
  * 
  *     def add_edge(self, v1, v2):
  */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 157, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 163, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    if (unlikely(PyObject_DelItem(__pyx_t_1, __pyx_v_v) < 0)) __PYX_ERR(0, 157, __pyx_L1_error)
+    if (unlikely(PyObject_DelItem(__pyx_t_1, __pyx_v_v) < 0)) __PYX_ERR(0, 163, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":152
+    /* "grakel/kernels/_isomorphism/bliss.pyx":158
  *         preferably an integer or a string not containing spaces.
  *         """
  *         if v in self._vertices:             # <<<<<<<<<<<<<<
@@ -5194,7 +5195,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_26del_ve
  */
   }
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":145
+  /* "grakel/kernels/_isomorphism/bliss.pyx":151
  *         return True
  * 
  *     def del_vertex(self, v):             # <<<<<<<<<<<<<<
@@ -5221,7 +5222,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_26del_ve
   return __pyx_r;
 }
 
-/* "grakel/kernels/_isomorphism/bliss.pyx":159
+/* "grakel/kernels/_isomorphism/bliss.pyx":165
  *             del self._vertices[v]
  * 
  *     def add_edge(self, v1, v2):             # <<<<<<<<<<<<<<
@@ -5265,17 +5266,17 @@ static PyObject *__pyx_pw_6grakel_7kernels_12_isomorphism_5bliss_5Graph_29add_ed
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_v1)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("add_edge", 1, 3, 3, 1); __PYX_ERR(0, 159, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("add_edge", 1, 3, 3, 1); __PYX_ERR(0, 165, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_v2)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("add_edge", 1, 3, 3, 2); __PYX_ERR(0, 159, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("add_edge", 1, 3, 3, 2); __PYX_ERR(0, 165, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "add_edge") < 0)) __PYX_ERR(0, 159, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "add_edge") < 0)) __PYX_ERR(0, 165, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -5290,7 +5291,7 @@ static PyObject *__pyx_pw_6grakel_7kernels_12_isomorphism_5bliss_5Graph_29add_ed
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("add_edge", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 159, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("add_edge", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 165, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("grakel.kernels._isomorphism.bliss.Graph.add_edge", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -5315,28 +5316,28 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_28add_ed
   PyObject *__pyx_t_7 = NULL;
   __Pyx_RefNannySetupContext("add_edge", 0);
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":166
+  /* "grakel/kernels/_isomorphism/bliss.pyx":172
  *         preferably integers or strings not containing spaces.
  *         """
  *         if v1 not in self._vertices:             # <<<<<<<<<<<<<<
  *             self.add_vertex(v1)
  *         if v2 not in self._vertices:
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 166, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 172, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = (__Pyx_PySequence_ContainsTF(__pyx_v_v1, __pyx_t_1, Py_NE)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 166, __pyx_L1_error)
+  __pyx_t_2 = (__Pyx_PySequence_ContainsTF(__pyx_v_v1, __pyx_t_1, Py_NE)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 172, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_3 = (__pyx_t_2 != 0);
   if (__pyx_t_3) {
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":167
+    /* "grakel/kernels/_isomorphism/bliss.pyx":173
  *         """
  *         if v1 not in self._vertices:
  *             self.add_vertex(v1)             # <<<<<<<<<<<<<<
  *         if v2 not in self._vertices:
  *             self.add_vertex(v2)
  */
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_add_vertex); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 167, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_add_vertex); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 173, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_5 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
@@ -5349,13 +5350,13 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_28add_ed
       }
     }
     if (!__pyx_t_5) {
-      __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_v1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 167, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_v1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 173, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
     } else {
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_4)) {
         PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_v_v1};
-        __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 167, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 173, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
         __Pyx_GOTREF(__pyx_t_1);
       } else
@@ -5363,19 +5364,19 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_28add_ed
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
         PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_v_v1};
-        __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 167, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 173, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
         __Pyx_GOTREF(__pyx_t_1);
       } else
       #endif
       {
-        __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 167, __pyx_L1_error)
+        __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 173, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_6);
         __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_5); __pyx_t_5 = NULL;
         __Pyx_INCREF(__pyx_v_v1);
         __Pyx_GIVEREF(__pyx_v_v1);
         PyTuple_SET_ITEM(__pyx_t_6, 0+1, __pyx_v_v1);
-        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 167, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 173, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       }
@@ -5383,7 +5384,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_28add_ed
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":166
+    /* "grakel/kernels/_isomorphism/bliss.pyx":172
  *         preferably integers or strings not containing spaces.
  *         """
  *         if v1 not in self._vertices:             # <<<<<<<<<<<<<<
@@ -5392,28 +5393,28 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_28add_ed
  */
   }
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":168
+  /* "grakel/kernels/_isomorphism/bliss.pyx":174
  *         if v1 not in self._vertices:
  *             self.add_vertex(v1)
  *         if v2 not in self._vertices:             # <<<<<<<<<<<<<<
  *             self.add_vertex(v2)
  *         self._vertices[v1].edges.add(self._vertices[v2])
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 168, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 174, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = (__Pyx_PySequence_ContainsTF(__pyx_v_v2, __pyx_t_1, Py_NE)); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 168, __pyx_L1_error)
+  __pyx_t_3 = (__Pyx_PySequence_ContainsTF(__pyx_v_v2, __pyx_t_1, Py_NE)); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 174, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_2 = (__pyx_t_3 != 0);
   if (__pyx_t_2) {
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":169
+    /* "grakel/kernels/_isomorphism/bliss.pyx":175
  *             self.add_vertex(v1)
  *         if v2 not in self._vertices:
  *             self.add_vertex(v2)             # <<<<<<<<<<<<<<
  *         self._vertices[v1].edges.add(self._vertices[v2])
  *         self._vertices[v2].edges.add(self._vertices[v1])
  */
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_add_vertex); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 169, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_add_vertex); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 175, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_6 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
@@ -5426,13 +5427,13 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_28add_ed
       }
     }
     if (!__pyx_t_6) {
-      __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_v2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 169, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_v2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 175, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
     } else {
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_4)) {
         PyObject *__pyx_temp[2] = {__pyx_t_6, __pyx_v_v2};
-        __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 169, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 175, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
         __Pyx_GOTREF(__pyx_t_1);
       } else
@@ -5440,19 +5441,19 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_28add_ed
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
         PyObject *__pyx_temp[2] = {__pyx_t_6, __pyx_v_v2};
-        __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 169, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 175, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
         __Pyx_GOTREF(__pyx_t_1);
       } else
       #endif
       {
-        __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 169, __pyx_L1_error)
+        __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 175, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_6); __pyx_t_6 = NULL;
         __Pyx_INCREF(__pyx_v_v2);
         __Pyx_GIVEREF(__pyx_v_v2);
         PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_v_v2);
-        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 169, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 175, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       }
@@ -5460,7 +5461,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_28add_ed
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":168
+    /* "grakel/kernels/_isomorphism/bliss.pyx":174
  *         if v1 not in self._vertices:
  *             self.add_vertex(v1)
  *         if v2 not in self._vertices:             # <<<<<<<<<<<<<<
@@ -5469,27 +5470,27 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_28add_ed
  */
   }
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":170
+  /* "grakel/kernels/_isomorphism/bliss.pyx":176
  *         if v2 not in self._vertices:
  *             self.add_vertex(v2)
  *         self._vertices[v1].edges.add(self._vertices[v2])             # <<<<<<<<<<<<<<
  *         self._vertices[v2].edges.add(self._vertices[v1])
  * 
  */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 170, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 176, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_GetItem(__pyx_t_4, __pyx_v_v1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 170, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetItem(__pyx_t_4, __pyx_v_v1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 176, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_edges); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 170, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_edges); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 176, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_add); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 170, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_add); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 176, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 170, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 176, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_6 = __Pyx_PyObject_GetItem(__pyx_t_4, __pyx_v_v2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 170, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetItem(__pyx_t_4, __pyx_v_v2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 176, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_4 = NULL;
@@ -5503,14 +5504,14 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_28add_ed
     }
   }
   if (!__pyx_t_4) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 170, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 176, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_5)) {
       PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_t_6};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 170, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 176, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -5519,20 +5520,20 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_28add_ed
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
       PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_t_6};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 170, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 176, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     } else
     #endif
     {
-      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 170, __pyx_L1_error)
+      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 176, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_4); __pyx_t_4 = NULL;
       __Pyx_GIVEREF(__pyx_t_6);
       PyTuple_SET_ITEM(__pyx_t_7, 0+1, __pyx_t_6);
       __pyx_t_6 = 0;
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 170, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 176, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     }
@@ -5540,27 +5541,27 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_28add_ed
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":171
+  /* "grakel/kernels/_isomorphism/bliss.pyx":177
  *             self.add_vertex(v2)
  *         self._vertices[v1].edges.add(self._vertices[v2])
  *         self._vertices[v2].edges.add(self._vertices[v1])             # <<<<<<<<<<<<<<
  * 
  *     def del_edge(self, v1, v2):
  */
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 171, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 177, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_7 = __Pyx_PyObject_GetItem(__pyx_t_5, __pyx_v_v2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 171, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_GetItem(__pyx_t_5, __pyx_v_v2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 177, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_edges); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 171, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_edges); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 177, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_add); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 171, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_add); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 177, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 171, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 177, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_6 = __Pyx_PyObject_GetItem(__pyx_t_5, __pyx_v_v1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 171, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetItem(__pyx_t_5, __pyx_v_v1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 177, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_t_5 = NULL;
@@ -5574,14 +5575,14 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_28add_ed
     }
   }
   if (!__pyx_t_5) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 171, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 177, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_7)) {
       PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_t_6};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_7, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 171, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_7, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 177, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -5590,20 +5591,20 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_28add_ed
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_7)) {
       PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_t_6};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_7, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 171, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_7, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 177, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     } else
     #endif
     {
-      __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 171, __pyx_L1_error)
+      __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 177, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_5); __pyx_t_5 = NULL;
       __Pyx_GIVEREF(__pyx_t_6);
       PyTuple_SET_ITEM(__pyx_t_4, 0+1, __pyx_t_6);
       __pyx_t_6 = 0;
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 171, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 177, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     }
@@ -5611,7 +5612,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_28add_ed
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":159
+  /* "grakel/kernels/_isomorphism/bliss.pyx":165
  *             del self._vertices[v]
  * 
  *     def add_edge(self, v1, v2):             # <<<<<<<<<<<<<<
@@ -5636,7 +5637,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_28add_ed
   return __pyx_r;
 }
 
-/* "grakel/kernels/_isomorphism/bliss.pyx":173
+/* "grakel/kernels/_isomorphism/bliss.pyx":179
  *         self._vertices[v2].edges.add(self._vertices[v1])
  * 
  *     def del_edge(self, v1, v2):             # <<<<<<<<<<<<<<
@@ -5680,17 +5681,17 @@ static PyObject *__pyx_pw_6grakel_7kernels_12_isomorphism_5bliss_5Graph_31del_ed
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_v1)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("del_edge", 1, 3, 3, 1); __PYX_ERR(0, 173, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("del_edge", 1, 3, 3, 1); __PYX_ERR(0, 179, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_v2)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("del_edge", 1, 3, 3, 2); __PYX_ERR(0, 173, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("del_edge", 1, 3, 3, 2); __PYX_ERR(0, 179, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "del_edge") < 0)) __PYX_ERR(0, 173, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "del_edge") < 0)) __PYX_ERR(0, 179, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -5705,7 +5706,7 @@ static PyObject *__pyx_pw_6grakel_7kernels_12_isomorphism_5bliss_5Graph_31del_ed
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("del_edge", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 173, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("del_edge", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 179, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("grakel.kernels._isomorphism.bliss.Graph.del_edge", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -5730,21 +5731,21 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_30del_ed
   PyObject *__pyx_t_7 = NULL;
   __Pyx_RefNannySetupContext("del_edge", 0);
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":179
+  /* "grakel/kernels/_isomorphism/bliss.pyx":185
  *         preferably integers or strings not containing spaces.
  *         """
  *         if v1 not in self._vertices:             # <<<<<<<<<<<<<<
  *             return
  *         if v2 not in self._vertices:
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 179, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 185, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = (__Pyx_PySequence_ContainsTF(__pyx_v_v1, __pyx_t_1, Py_NE)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 179, __pyx_L1_error)
+  __pyx_t_2 = (__Pyx_PySequence_ContainsTF(__pyx_v_v1, __pyx_t_1, Py_NE)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 185, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_3 = (__pyx_t_2 != 0);
   if (__pyx_t_3) {
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":180
+    /* "grakel/kernels/_isomorphism/bliss.pyx":186
  *         """
  *         if v1 not in self._vertices:
  *             return             # <<<<<<<<<<<<<<
@@ -5755,7 +5756,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_30del_ed
     __pyx_r = Py_None; __Pyx_INCREF(Py_None);
     goto __pyx_L0;
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":179
+    /* "grakel/kernels/_isomorphism/bliss.pyx":185
  *         preferably integers or strings not containing spaces.
  *         """
  *         if v1 not in self._vertices:             # <<<<<<<<<<<<<<
@@ -5764,21 +5765,21 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_30del_ed
  */
   }
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":181
+  /* "grakel/kernels/_isomorphism/bliss.pyx":187
  *         if v1 not in self._vertices:
  *             return
  *         if v2 not in self._vertices:             # <<<<<<<<<<<<<<
  *             return
  *         self._vertices[v1].edges.discard(self._vertices[v2])
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 181, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 187, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = (__Pyx_PySequence_ContainsTF(__pyx_v_v2, __pyx_t_1, Py_NE)); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 181, __pyx_L1_error)
+  __pyx_t_3 = (__Pyx_PySequence_ContainsTF(__pyx_v_v2, __pyx_t_1, Py_NE)); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 187, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_2 = (__pyx_t_3 != 0);
   if (__pyx_t_2) {
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":182
+    /* "grakel/kernels/_isomorphism/bliss.pyx":188
  *             return
  *         if v2 not in self._vertices:
  *             return             # <<<<<<<<<<<<<<
@@ -5789,7 +5790,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_30del_ed
     __pyx_r = Py_None; __Pyx_INCREF(Py_None);
     goto __pyx_L0;
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":181
+    /* "grakel/kernels/_isomorphism/bliss.pyx":187
  *         if v1 not in self._vertices:
  *             return
  *         if v2 not in self._vertices:             # <<<<<<<<<<<<<<
@@ -5798,27 +5799,27 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_30del_ed
  */
   }
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":183
+  /* "grakel/kernels/_isomorphism/bliss.pyx":189
  *         if v2 not in self._vertices:
  *             return
  *         self._vertices[v1].edges.discard(self._vertices[v2])             # <<<<<<<<<<<<<<
  *         self._vertices[v2].edges.discard(self._vertices[v1])
  * 
  */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 183, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 189, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_GetItem(__pyx_t_4, __pyx_v_v1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 183, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetItem(__pyx_t_4, __pyx_v_v1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 189, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_edges); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 183, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_edges); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 189, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_discard); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 183, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_discard); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 189, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 183, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 189, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_6 = __Pyx_PyObject_GetItem(__pyx_t_4, __pyx_v_v2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 183, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetItem(__pyx_t_4, __pyx_v_v2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 189, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_4 = NULL;
@@ -5832,14 +5833,14 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_30del_ed
     }
   }
   if (!__pyx_t_4) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 183, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 189, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_5)) {
       PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_t_6};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 183, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 189, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -5848,20 +5849,20 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_30del_ed
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
       PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_t_6};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 183, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 189, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     } else
     #endif
     {
-      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 183, __pyx_L1_error)
+      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 189, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_4); __pyx_t_4 = NULL;
       __Pyx_GIVEREF(__pyx_t_6);
       PyTuple_SET_ITEM(__pyx_t_7, 0+1, __pyx_t_6);
       __pyx_t_6 = 0;
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 183, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 189, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     }
@@ -5869,27 +5870,27 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_30del_ed
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":184
+  /* "grakel/kernels/_isomorphism/bliss.pyx":190
  *             return
  *         self._vertices[v1].edges.discard(self._vertices[v2])
  *         self._vertices[v2].edges.discard(self._vertices[v1])             # <<<<<<<<<<<<<<
  * 
  *     def write_dot(self, file):
  */
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 184, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 190, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_7 = __Pyx_PyObject_GetItem(__pyx_t_5, __pyx_v_v2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 184, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_GetItem(__pyx_t_5, __pyx_v_v2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 190, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_edges); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 184, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_edges); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 190, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_discard); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 184, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_discard); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 190, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 184, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 190, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_6 = __Pyx_PyObject_GetItem(__pyx_t_5, __pyx_v_v1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 184, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetItem(__pyx_t_5, __pyx_v_v1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 190, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_t_5 = NULL;
@@ -5903,14 +5904,14 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_30del_ed
     }
   }
   if (!__pyx_t_5) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 184, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 190, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_7)) {
       PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_t_6};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_7, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 184, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_7, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 190, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -5919,20 +5920,20 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_30del_ed
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_7)) {
       PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_t_6};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_7, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 184, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_7, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 190, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     } else
     #endif
     {
-      __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 184, __pyx_L1_error)
+      __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 190, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_5); __pyx_t_5 = NULL;
       __Pyx_GIVEREF(__pyx_t_6);
       PyTuple_SET_ITEM(__pyx_t_4, 0+1, __pyx_t_6);
       __pyx_t_6 = 0;
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 184, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 190, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     }
@@ -5940,7 +5941,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_30del_ed
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":173
+  /* "grakel/kernels/_isomorphism/bliss.pyx":179
  *         self._vertices[v2].edges.add(self._vertices[v1])
  * 
  *     def del_edge(self, v1, v2):             # <<<<<<<<<<<<<<
@@ -5965,7 +5966,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_30del_ed
   return __pyx_r;
 }
 
-/* "grakel/kernels/_isomorphism/bliss.pyx":186
+/* "grakel/kernels/_isomorphism/bliss.pyx":192
  *         self._vertices[v2].edges.discard(self._vertices[v1])
  * 
  *     def write_dot(self, file):             # <<<<<<<<<<<<<<
@@ -6006,11 +6007,11 @@ static PyObject *__pyx_pw_6grakel_7kernels_12_isomorphism_5bliss_5Graph_33write_
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_file)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("write_dot", 1, 2, 2, 1); __PYX_ERR(0, 186, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("write_dot", 1, 2, 2, 1); __PYX_ERR(0, 192, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "write_dot") < 0)) __PYX_ERR(0, 186, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "write_dot") < 0)) __PYX_ERR(0, 192, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -6023,7 +6024,7 @@ static PyObject *__pyx_pw_6grakel_7kernels_12_isomorphism_5bliss_5Graph_33write_
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("write_dot", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 186, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("write_dot", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 192, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("grakel.kernels._isomorphism.bliss.Graph.write_dot", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -6057,30 +6058,30 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_32write_
   PyObject *__pyx_t_13 = NULL;
   __Pyx_RefNannySetupContext("write_dot", 0);
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":190
+  /* "grakel/kernels/_isomorphism/bliss.pyx":196
  *         Write the graph into a file in the graphviz dot format.
  *         """
  *         file.write("graph g {\n")             # <<<<<<<<<<<<<<
  *         for v,vertex in iteritems(self._vertices):
  *             file.write("\""+str(v)+"\" [label="+str(vertex.color)+"];\n")
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_file, __pyx_n_s_write); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 190, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_file, __pyx_n_s_write); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 196, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__11, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 190, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__11, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 196, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":191
+  /* "grakel/kernels/_isomorphism/bliss.pyx":197
  *         """
  *         file.write("graph g {\n")
  *         for v,vertex in iteritems(self._vertices):             # <<<<<<<<<<<<<<
  *             file.write("\""+str(v)+"\" [label="+str(vertex.color)+"];\n")
  *         for v,vertex in iteritems(self._vertices):
  */
-  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_iteritems); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 191, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_iteritems); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 197, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 191, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 197, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_1))) {
@@ -6093,14 +6094,14 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_32write_
     }
   }
   if (!__pyx_t_4) {
-    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 191, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 197, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_GOTREF(__pyx_t_2);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_1)) {
       PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_t_3};
-      __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_1, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 191, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_1, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 197, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -6109,20 +6110,20 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_32write_
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_1)) {
       PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_t_3};
-      __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_1, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 191, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_1, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 197, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     } else
     #endif
     {
-      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 191, __pyx_L1_error)
+      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 197, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4); __pyx_t_4 = NULL;
       __Pyx_GIVEREF(__pyx_t_3);
       PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_t_3);
       __pyx_t_3 = 0;
-      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_5, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 191, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_5, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 197, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     }
@@ -6132,9 +6133,9 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_32write_
     __pyx_t_1 = __pyx_t_2; __Pyx_INCREF(__pyx_t_1); __pyx_t_6 = 0;
     __pyx_t_7 = NULL;
   } else {
-    __pyx_t_6 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 191, __pyx_L1_error)
+    __pyx_t_6 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 197, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_7 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 191, __pyx_L1_error)
+    __pyx_t_7 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 197, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   for (;;) {
@@ -6142,17 +6143,17 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_32write_
       if (likely(PyList_CheckExact(__pyx_t_1))) {
         if (__pyx_t_6 >= PyList_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_2 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_6); __Pyx_INCREF(__pyx_t_2); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 191, __pyx_L1_error)
+        __pyx_t_2 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_6); __Pyx_INCREF(__pyx_t_2); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 197, __pyx_L1_error)
         #else
-        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 191, __pyx_L1_error)
+        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 197, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         #endif
       } else {
         if (__pyx_t_6 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_6); __Pyx_INCREF(__pyx_t_2); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 191, __pyx_L1_error)
+        __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_6); __Pyx_INCREF(__pyx_t_2); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 197, __pyx_L1_error)
         #else
-        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 191, __pyx_L1_error)
+        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 197, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         #endif
       }
@@ -6162,7 +6163,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_32write_
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 191, __pyx_L1_error)
+          else __PYX_ERR(0, 197, __pyx_L1_error)
         }
         break;
       }
@@ -6174,7 +6175,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_32write_
       if (unlikely(size != 2)) {
         if (size > 2) __Pyx_RaiseTooManyValuesError(2);
         else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-        __PYX_ERR(0, 191, __pyx_L1_error)
+        __PYX_ERR(0, 197, __pyx_L1_error)
       }
       #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
       if (likely(PyTuple_CheckExact(sequence))) {
@@ -6187,15 +6188,15 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_32write_
       __Pyx_INCREF(__pyx_t_5);
       __Pyx_INCREF(__pyx_t_3);
       #else
-      __pyx_t_5 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 191, __pyx_L1_error)
+      __pyx_t_5 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 197, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_3 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 191, __pyx_L1_error)
+      __pyx_t_3 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 197, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       #endif
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     } else {
       Py_ssize_t index = -1;
-      __pyx_t_4 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 191, __pyx_L1_error)
+      __pyx_t_4 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 197, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __pyx_t_8 = Py_TYPE(__pyx_t_4)->tp_iternext;
@@ -6203,7 +6204,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_32write_
       __Pyx_GOTREF(__pyx_t_5);
       index = 1; __pyx_t_3 = __pyx_t_8(__pyx_t_4); if (unlikely(!__pyx_t_3)) goto __pyx_L5_unpacking_failed;
       __Pyx_GOTREF(__pyx_t_3);
-      if (__Pyx_IternextUnpackEndCheck(__pyx_t_8(__pyx_t_4), 2) < 0) __PYX_ERR(0, 191, __pyx_L1_error)
+      if (__Pyx_IternextUnpackEndCheck(__pyx_t_8(__pyx_t_4), 2) < 0) __PYX_ERR(0, 197, __pyx_L1_error)
       __pyx_t_8 = NULL;
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       goto __pyx_L6_unpacking_done;
@@ -6211,7 +6212,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_32write_
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       __pyx_t_8 = NULL;
       if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-      __PYX_ERR(0, 191, __pyx_L1_error)
+      __PYX_ERR(0, 197, __pyx_L1_error)
       __pyx_L6_unpacking_done:;
     }
     __Pyx_XDECREF_SET(__pyx_v_v, __pyx_t_5);
@@ -6219,33 +6220,33 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_32write_
     __Pyx_XDECREF_SET(__pyx_v_vertex, __pyx_t_3);
     __pyx_t_3 = 0;
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":192
+    /* "grakel/kernels/_isomorphism/bliss.pyx":198
  *         file.write("graph g {\n")
  *         for v,vertex in iteritems(self._vertices):
  *             file.write("\""+str(v)+"\" [label="+str(vertex.color)+"];\n")             # <<<<<<<<<<<<<<
  *         for v,vertex in iteritems(self._vertices):
  *             for neighbour in vertex.edges:
  */
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_file, __pyx_n_s_write); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 192, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_file, __pyx_n_s_write); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 198, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_5 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_v_v); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 192, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_v_v); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 198, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_4 = PyNumber_Add(__pyx_kp_s__12, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 192, __pyx_L1_error)
+    __pyx_t_4 = PyNumber_Add(__pyx_kp_s__12, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 198, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = PyNumber_Add(__pyx_t_4, __pyx_kp_s_label); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 192, __pyx_L1_error)
+    __pyx_t_5 = PyNumber_Add(__pyx_t_4, __pyx_kp_s_label); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 198, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_vertex, __pyx_n_s_color); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 192, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_vertex, __pyx_n_s_color); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 198, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_9 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_4); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 192, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_4); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 198, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_4 = PyNumber_Add(__pyx_t_5, __pyx_t_9); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 192, __pyx_L1_error)
+    __pyx_t_4 = PyNumber_Add(__pyx_t_5, __pyx_t_9); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 198, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-    __pyx_t_9 = PyNumber_Add(__pyx_t_4, __pyx_kp_s__13); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 192, __pyx_L1_error)
+    __pyx_t_9 = PyNumber_Add(__pyx_t_4, __pyx_kp_s__13); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 198, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_t_4 = NULL;
@@ -6259,14 +6260,14 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_32write_
       }
     }
     if (!__pyx_t_4) {
-      __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_9); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 192, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_9); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 198, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
       __Pyx_GOTREF(__pyx_t_2);
     } else {
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_3)) {
         PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_t_9};
-        __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 192, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 198, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
@@ -6275,20 +6276,20 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_32write_
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
         PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_t_9};
-        __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 192, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 198, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
       } else
       #endif
       {
-        __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 192, __pyx_L1_error)
+        __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 198, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4); __pyx_t_4 = NULL;
         __Pyx_GIVEREF(__pyx_t_9);
         PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_t_9);
         __pyx_t_9 = 0;
-        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_5, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 192, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_5, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 198, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       }
@@ -6296,7 +6297,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_32write_
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":191
+    /* "grakel/kernels/_isomorphism/bliss.pyx":197
  *         """
  *         file.write("graph g {\n")
  *         for v,vertex in iteritems(self._vertices):             # <<<<<<<<<<<<<<
@@ -6306,16 +6307,16 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_32write_
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":193
+  /* "grakel/kernels/_isomorphism/bliss.pyx":199
  *         for v,vertex in iteritems(self._vertices):
  *             file.write("\""+str(v)+"\" [label="+str(vertex.color)+"];\n")
  *         for v,vertex in iteritems(self._vertices):             # <<<<<<<<<<<<<<
  *             for neighbour in vertex.edges:
  *                 if neighbour.name >= vertex.name:
  */
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_iteritems); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 193, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_iteritems); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 199, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 193, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 199, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_5 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
@@ -6328,14 +6329,14 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_32write_
     }
   }
   if (!__pyx_t_5) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 193, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 199, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_2)) {
       PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_t_3};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 193, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 199, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -6344,20 +6345,20 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_32write_
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
       PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_t_3};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 193, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 199, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     } else
     #endif
     {
-      __pyx_t_9 = PyTuple_New(1+1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 193, __pyx_L1_error)
+      __pyx_t_9 = PyTuple_New(1+1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 199, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_9);
       __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_t_5); __pyx_t_5 = NULL;
       __Pyx_GIVEREF(__pyx_t_3);
       PyTuple_SET_ITEM(__pyx_t_9, 0+1, __pyx_t_3);
       __pyx_t_3 = 0;
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_9, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 193, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_9, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 199, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
     }
@@ -6367,9 +6368,9 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_32write_
     __pyx_t_2 = __pyx_t_1; __Pyx_INCREF(__pyx_t_2); __pyx_t_6 = 0;
     __pyx_t_7 = NULL;
   } else {
-    __pyx_t_6 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 193, __pyx_L1_error)
+    __pyx_t_6 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 199, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_7 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 193, __pyx_L1_error)
+    __pyx_t_7 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 199, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   for (;;) {
@@ -6377,17 +6378,17 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_32write_
       if (likely(PyList_CheckExact(__pyx_t_2))) {
         if (__pyx_t_6 >= PyList_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_6); __Pyx_INCREF(__pyx_t_1); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 193, __pyx_L1_error)
+        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_6); __Pyx_INCREF(__pyx_t_1); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 199, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 193, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 199, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       } else {
         if (__pyx_t_6 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_6); __Pyx_INCREF(__pyx_t_1); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 193, __pyx_L1_error)
+        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_6); __Pyx_INCREF(__pyx_t_1); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 199, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 193, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 199, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       }
@@ -6397,7 +6398,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_32write_
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 193, __pyx_L1_error)
+          else __PYX_ERR(0, 199, __pyx_L1_error)
         }
         break;
       }
@@ -6409,7 +6410,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_32write_
       if (unlikely(size != 2)) {
         if (size > 2) __Pyx_RaiseTooManyValuesError(2);
         else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-        __PYX_ERR(0, 193, __pyx_L1_error)
+        __PYX_ERR(0, 199, __pyx_L1_error)
       }
       #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
       if (likely(PyTuple_CheckExact(sequence))) {
@@ -6422,15 +6423,15 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_32write_
       __Pyx_INCREF(__pyx_t_9);
       __Pyx_INCREF(__pyx_t_3);
       #else
-      __pyx_t_9 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 193, __pyx_L1_error)
+      __pyx_t_9 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 199, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_9);
-      __pyx_t_3 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 193, __pyx_L1_error)
+      __pyx_t_3 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 199, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       #endif
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     } else {
       Py_ssize_t index = -1;
-      __pyx_t_5 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 193, __pyx_L1_error)
+      __pyx_t_5 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 199, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __pyx_t_8 = Py_TYPE(__pyx_t_5)->tp_iternext;
@@ -6438,7 +6439,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_32write_
       __Pyx_GOTREF(__pyx_t_9);
       index = 1; __pyx_t_3 = __pyx_t_8(__pyx_t_5); if (unlikely(!__pyx_t_3)) goto __pyx_L9_unpacking_failed;
       __Pyx_GOTREF(__pyx_t_3);
-      if (__Pyx_IternextUnpackEndCheck(__pyx_t_8(__pyx_t_5), 2) < 0) __PYX_ERR(0, 193, __pyx_L1_error)
+      if (__Pyx_IternextUnpackEndCheck(__pyx_t_8(__pyx_t_5), 2) < 0) __PYX_ERR(0, 199, __pyx_L1_error)
       __pyx_t_8 = NULL;
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       goto __pyx_L10_unpacking_done;
@@ -6446,7 +6447,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_32write_
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __pyx_t_8 = NULL;
       if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-      __PYX_ERR(0, 193, __pyx_L1_error)
+      __PYX_ERR(0, 199, __pyx_L1_error)
       __pyx_L10_unpacking_done:;
     }
     __Pyx_XDECREF_SET(__pyx_v_v, __pyx_t_9);
@@ -6454,22 +6455,22 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_32write_
     __Pyx_XDECREF_SET(__pyx_v_vertex, __pyx_t_3);
     __pyx_t_3 = 0;
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":194
+    /* "grakel/kernels/_isomorphism/bliss.pyx":200
  *             file.write("\""+str(v)+"\" [label="+str(vertex.color)+"];\n")
  *         for v,vertex in iteritems(self._vertices):
  *             for neighbour in vertex.edges:             # <<<<<<<<<<<<<<
  *                 if neighbour.name >= vertex.name:
  *                     file.write("\""+str(v)+"\" -- \""+str(neighbour.name)+"\";\n")
  */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_vertex, __pyx_n_s_edges); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 194, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_vertex, __pyx_n_s_edges); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 200, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     if (likely(PyList_CheckExact(__pyx_t_1)) || PyTuple_CheckExact(__pyx_t_1)) {
       __pyx_t_3 = __pyx_t_1; __Pyx_INCREF(__pyx_t_3); __pyx_t_10 = 0;
       __pyx_t_11 = NULL;
     } else {
-      __pyx_t_10 = -1; __pyx_t_3 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 194, __pyx_L1_error)
+      __pyx_t_10 = -1; __pyx_t_3 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 200, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_11 = Py_TYPE(__pyx_t_3)->tp_iternext; if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 194, __pyx_L1_error)
+      __pyx_t_11 = Py_TYPE(__pyx_t_3)->tp_iternext; if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 200, __pyx_L1_error)
     }
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     for (;;) {
@@ -6477,17 +6478,17 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_32write_
         if (likely(PyList_CheckExact(__pyx_t_3))) {
           if (__pyx_t_10 >= PyList_GET_SIZE(__pyx_t_3)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_1 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_10); __Pyx_INCREF(__pyx_t_1); __pyx_t_10++; if (unlikely(0 < 0)) __PYX_ERR(0, 194, __pyx_L1_error)
+          __pyx_t_1 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_10); __Pyx_INCREF(__pyx_t_1); __pyx_t_10++; if (unlikely(0 < 0)) __PYX_ERR(0, 200, __pyx_L1_error)
           #else
-          __pyx_t_1 = PySequence_ITEM(__pyx_t_3, __pyx_t_10); __pyx_t_10++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 194, __pyx_L1_error)
+          __pyx_t_1 = PySequence_ITEM(__pyx_t_3, __pyx_t_10); __pyx_t_10++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 200, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_1);
           #endif
         } else {
           if (__pyx_t_10 >= PyTuple_GET_SIZE(__pyx_t_3)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_10); __Pyx_INCREF(__pyx_t_1); __pyx_t_10++; if (unlikely(0 < 0)) __PYX_ERR(0, 194, __pyx_L1_error)
+          __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_10); __Pyx_INCREF(__pyx_t_1); __pyx_t_10++; if (unlikely(0 < 0)) __PYX_ERR(0, 200, __pyx_L1_error)
           #else
-          __pyx_t_1 = PySequence_ITEM(__pyx_t_3, __pyx_t_10); __pyx_t_10++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 194, __pyx_L1_error)
+          __pyx_t_1 = PySequence_ITEM(__pyx_t_3, __pyx_t_10); __pyx_t_10++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 200, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_1);
           #endif
         }
@@ -6497,7 +6498,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_32write_
           PyObject* exc_type = PyErr_Occurred();
           if (exc_type) {
             if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else __PYX_ERR(0, 194, __pyx_L1_error)
+            else __PYX_ERR(0, 200, __pyx_L1_error)
           }
           break;
         }
@@ -6506,51 +6507,51 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_32write_
       __Pyx_XDECREF_SET(__pyx_v_neighbour, __pyx_t_1);
       __pyx_t_1 = 0;
 
-      /* "grakel/kernels/_isomorphism/bliss.pyx":195
+      /* "grakel/kernels/_isomorphism/bliss.pyx":201
  *         for v,vertex in iteritems(self._vertices):
  *             for neighbour in vertex.edges:
  *                 if neighbour.name >= vertex.name:             # <<<<<<<<<<<<<<
  *                     file.write("\""+str(v)+"\" -- \""+str(neighbour.name)+"\";\n")
  *         file.write("}\n")
  */
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_neighbour, __pyx_n_s_name); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 195, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_neighbour, __pyx_n_s_name); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 201, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_v_vertex, __pyx_n_s_name); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 195, __pyx_L1_error)
+      __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_v_vertex, __pyx_n_s_name); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 201, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_9);
-      __pyx_t_5 = PyObject_RichCompare(__pyx_t_1, __pyx_t_9, Py_GE); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 195, __pyx_L1_error)
+      __pyx_t_5 = PyObject_RichCompare(__pyx_t_1, __pyx_t_9, Py_GE); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 201, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-      __pyx_t_12 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_12 < 0)) __PYX_ERR(0, 195, __pyx_L1_error)
+      __pyx_t_12 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_12 < 0)) __PYX_ERR(0, 201, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       if (__pyx_t_12) {
 
-        /* "grakel/kernels/_isomorphism/bliss.pyx":196
+        /* "grakel/kernels/_isomorphism/bliss.pyx":202
  *             for neighbour in vertex.edges:
  *                 if neighbour.name >= vertex.name:
  *                     file.write("\""+str(v)+"\" -- \""+str(neighbour.name)+"\";\n")             # <<<<<<<<<<<<<<
  *         file.write("}\n")
  * 
  */
-        __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_v_file, __pyx_n_s_write); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 196, __pyx_L1_error)
+        __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_v_file, __pyx_n_s_write); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 202, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_9);
-        __pyx_t_1 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_v_v); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 196, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_v_v); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 202, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
-        __pyx_t_4 = PyNumber_Add(__pyx_kp_s__12, __pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 196, __pyx_L1_error)
+        __pyx_t_4 = PyNumber_Add(__pyx_kp_s__12, __pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 202, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-        __pyx_t_1 = PyNumber_Add(__pyx_t_4, __pyx_kp_s__14); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 196, __pyx_L1_error)
+        __pyx_t_1 = PyNumber_Add(__pyx_t_4, __pyx_kp_s__14); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 202, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_neighbour, __pyx_n_s_name); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 196, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_neighbour, __pyx_n_s_name); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 202, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
-        __pyx_t_13 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_4); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 196, __pyx_L1_error)
+        __pyx_t_13 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_4); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 202, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_13);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __pyx_t_4 = PyNumber_Add(__pyx_t_1, __pyx_t_13); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 196, __pyx_L1_error)
+        __pyx_t_4 = PyNumber_Add(__pyx_t_1, __pyx_t_13); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 202, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
         __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-        __pyx_t_13 = PyNumber_Add(__pyx_t_4, __pyx_kp_s__15); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 196, __pyx_L1_error)
+        __pyx_t_13 = PyNumber_Add(__pyx_t_4, __pyx_kp_s__15); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 202, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_13);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
         __pyx_t_4 = NULL;
@@ -6564,14 +6565,14 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_32write_
           }
         }
         if (!__pyx_t_4) {
-          __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_9, __pyx_t_13); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 196, __pyx_L1_error)
+          __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_9, __pyx_t_13); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 202, __pyx_L1_error)
           __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
           __Pyx_GOTREF(__pyx_t_5);
         } else {
           #if CYTHON_FAST_PYCALL
           if (PyFunction_Check(__pyx_t_9)) {
             PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_t_13};
-            __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_9, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 196, __pyx_L1_error)
+            __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_9, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 202, __pyx_L1_error)
             __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
             __Pyx_GOTREF(__pyx_t_5);
             __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
@@ -6580,20 +6581,20 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_32write_
           #if CYTHON_FAST_PYCCALL
           if (__Pyx_PyFastCFunction_Check(__pyx_t_9)) {
             PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_t_13};
-            __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_9, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 196, __pyx_L1_error)
+            __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_9, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 202, __pyx_L1_error)
             __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
             __Pyx_GOTREF(__pyx_t_5);
             __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
           } else
           #endif
           {
-            __pyx_t_1 = PyTuple_New(1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 196, __pyx_L1_error)
+            __pyx_t_1 = PyTuple_New(1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 202, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_1);
             __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_4); __pyx_t_4 = NULL;
             __Pyx_GIVEREF(__pyx_t_13);
             PyTuple_SET_ITEM(__pyx_t_1, 0+1, __pyx_t_13);
             __pyx_t_13 = 0;
-            __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_9, __pyx_t_1, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 196, __pyx_L1_error)
+            __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_9, __pyx_t_1, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 202, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_5);
             __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
           }
@@ -6601,7 +6602,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_32write_
         __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-        /* "grakel/kernels/_isomorphism/bliss.pyx":195
+        /* "grakel/kernels/_isomorphism/bliss.pyx":201
  *         for v,vertex in iteritems(self._vertices):
  *             for neighbour in vertex.edges:
  *                 if neighbour.name >= vertex.name:             # <<<<<<<<<<<<<<
@@ -6610,7 +6611,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_32write_
  */
       }
 
-      /* "grakel/kernels/_isomorphism/bliss.pyx":194
+      /* "grakel/kernels/_isomorphism/bliss.pyx":200
  *             file.write("\""+str(v)+"\" [label="+str(vertex.color)+"];\n")
  *         for v,vertex in iteritems(self._vertices):
  *             for neighbour in vertex.edges:             # <<<<<<<<<<<<<<
@@ -6620,7 +6621,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_32write_
     }
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":193
+    /* "grakel/kernels/_isomorphism/bliss.pyx":199
  *         for v,vertex in iteritems(self._vertices):
  *             file.write("\""+str(v)+"\" [label="+str(vertex.color)+"];\n")
  *         for v,vertex in iteritems(self._vertices):             # <<<<<<<<<<<<<<
@@ -6630,21 +6631,21 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_32write_
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":197
+  /* "grakel/kernels/_isomorphism/bliss.pyx":203
  *                 if neighbour.name >= vertex.name:
  *                     file.write("\""+str(v)+"\" -- \""+str(neighbour.name)+"\";\n")
  *         file.write("}\n")             # <<<<<<<<<<<<<<
  * 
  *     def _make_bliss_graph(self):
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_file, __pyx_n_s_write); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 197, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_file, __pyx_n_s_write); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 203, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_tuple__17, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 197, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_tuple__17, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 203, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":186
+  /* "grakel/kernels/_isomorphism/bliss.pyx":192
  *         self._vertices[v2].edges.discard(self._vertices[v1])
  * 
  *     def write_dot(self, file):             # <<<<<<<<<<<<<<
@@ -6674,7 +6675,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_32write_
   return __pyx_r;
 }
 
-/* "grakel/kernels/_isomorphism/bliss.pyx":199
+/* "grakel/kernels/_isomorphism/bliss.pyx":205
  *         file.write("}\n")
  * 
  *     def _make_bliss_graph(self):             # <<<<<<<<<<<<<<
@@ -6723,16 +6724,16 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_34_make_
   PyObject *__pyx_t_15 = NULL;
   __Pyx_RefNannySetupContext("_make_bliss_graph", 0);
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":200
+  /* "grakel/kernels/_isomorphism/bliss.pyx":206
  * 
  *     def _make_bliss_graph(self):
  *         g = intpybliss.create()             # <<<<<<<<<<<<<<
  *         bliss_map = {}
  *         bliss_map_inv = {}
  */
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_intpybliss); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 200, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_intpybliss); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 206, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_create); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 200, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_create); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 206, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -6746,50 +6747,50 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_34_make_
     }
   }
   if (__pyx_t_2) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 200, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 206, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   } else {
-    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 200, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 206, __pyx_L1_error)
   }
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_g = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":201
+  /* "grakel/kernels/_isomorphism/bliss.pyx":207
  *     def _make_bliss_graph(self):
  *         g = intpybliss.create()
  *         bliss_map = {}             # <<<<<<<<<<<<<<
  *         bliss_map_inv = {}
  *         for v,vertex in iteritems(self._vertices):
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 201, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 207, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_bliss_map = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":202
+  /* "grakel/kernels/_isomorphism/bliss.pyx":208
  *         g = intpybliss.create()
  *         bliss_map = {}
  *         bliss_map_inv = {}             # <<<<<<<<<<<<<<
  *         for v,vertex in iteritems(self._vertices):
  *             bliss_map[v] = intpybliss.add_vertex(g, vertex.color)
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 202, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 208, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_bliss_map_inv = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":203
+  /* "grakel/kernels/_isomorphism/bliss.pyx":209
  *         bliss_map = {}
  *         bliss_map_inv = {}
  *         for v,vertex in iteritems(self._vertices):             # <<<<<<<<<<<<<<
  *             bliss_map[v] = intpybliss.add_vertex(g, vertex.color)
  *             bliss_map_inv[bliss_map[v]] = v
  */
-  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_iteritems); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 203, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_iteritems); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 209, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 203, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 209, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_4 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
@@ -6802,14 +6803,14 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_34_make_
     }
   }
   if (!__pyx_t_4) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 203, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 209, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_3)) {
       PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_t_2};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 203, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 209, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -6818,20 +6819,20 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_34_make_
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
       PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_t_2};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 203, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 209, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     } else
     #endif
     {
-      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 203, __pyx_L1_error)
+      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 209, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4); __pyx_t_4 = NULL;
       __Pyx_GIVEREF(__pyx_t_2);
       PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_t_2);
       __pyx_t_2 = 0;
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 203, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 209, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     }
@@ -6841,9 +6842,9 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_34_make_
     __pyx_t_3 = __pyx_t_1; __Pyx_INCREF(__pyx_t_3); __pyx_t_6 = 0;
     __pyx_t_7 = NULL;
   } else {
-    __pyx_t_6 = -1; __pyx_t_3 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 203, __pyx_L1_error)
+    __pyx_t_6 = -1; __pyx_t_3 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 209, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_7 = Py_TYPE(__pyx_t_3)->tp_iternext; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 203, __pyx_L1_error)
+    __pyx_t_7 = Py_TYPE(__pyx_t_3)->tp_iternext; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 209, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   for (;;) {
@@ -6851,17 +6852,17 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_34_make_
       if (likely(PyList_CheckExact(__pyx_t_3))) {
         if (__pyx_t_6 >= PyList_GET_SIZE(__pyx_t_3)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_6); __Pyx_INCREF(__pyx_t_1); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 203, __pyx_L1_error)
+        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_6); __Pyx_INCREF(__pyx_t_1); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 209, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_3, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 203, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_3, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 209, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       } else {
         if (__pyx_t_6 >= PyTuple_GET_SIZE(__pyx_t_3)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_6); __Pyx_INCREF(__pyx_t_1); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 203, __pyx_L1_error)
+        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_6); __Pyx_INCREF(__pyx_t_1); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 209, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_3, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 203, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_3, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 209, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       }
@@ -6871,7 +6872,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_34_make_
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 203, __pyx_L1_error)
+          else __PYX_ERR(0, 209, __pyx_L1_error)
         }
         break;
       }
@@ -6883,7 +6884,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_34_make_
       if (unlikely(size != 2)) {
         if (size > 2) __Pyx_RaiseTooManyValuesError(2);
         else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-        __PYX_ERR(0, 203, __pyx_L1_error)
+        __PYX_ERR(0, 209, __pyx_L1_error)
       }
       #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
       if (likely(PyTuple_CheckExact(sequence))) {
@@ -6896,15 +6897,15 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_34_make_
       __Pyx_INCREF(__pyx_t_5);
       __Pyx_INCREF(__pyx_t_2);
       #else
-      __pyx_t_5 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 203, __pyx_L1_error)
+      __pyx_t_5 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 209, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_2 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 203, __pyx_L1_error)
+      __pyx_t_2 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 209, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       #endif
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     } else {
       Py_ssize_t index = -1;
-      __pyx_t_4 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 203, __pyx_L1_error)
+      __pyx_t_4 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 209, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __pyx_t_8 = Py_TYPE(__pyx_t_4)->tp_iternext;
@@ -6912,7 +6913,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_34_make_
       __Pyx_GOTREF(__pyx_t_5);
       index = 1; __pyx_t_2 = __pyx_t_8(__pyx_t_4); if (unlikely(!__pyx_t_2)) goto __pyx_L5_unpacking_failed;
       __Pyx_GOTREF(__pyx_t_2);
-      if (__Pyx_IternextUnpackEndCheck(__pyx_t_8(__pyx_t_4), 2) < 0) __PYX_ERR(0, 203, __pyx_L1_error)
+      if (__Pyx_IternextUnpackEndCheck(__pyx_t_8(__pyx_t_4), 2) < 0) __PYX_ERR(0, 209, __pyx_L1_error)
       __pyx_t_8 = NULL;
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       goto __pyx_L6_unpacking_done;
@@ -6920,7 +6921,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_34_make_
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       __pyx_t_8 = NULL;
       if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-      __PYX_ERR(0, 203, __pyx_L1_error)
+      __PYX_ERR(0, 209, __pyx_L1_error)
       __pyx_L6_unpacking_done:;
     }
     __Pyx_XDECREF_SET(__pyx_v_v, __pyx_t_5);
@@ -6928,19 +6929,19 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_34_make_
     __Pyx_XDECREF_SET(__pyx_v_vertex, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":204
+    /* "grakel/kernels/_isomorphism/bliss.pyx":210
  *         bliss_map_inv = {}
  *         for v,vertex in iteritems(self._vertices):
  *             bliss_map[v] = intpybliss.add_vertex(g, vertex.color)             # <<<<<<<<<<<<<<
  *             bliss_map_inv[bliss_map[v]] = v
  *         for name,vertex in iteritems(self._vertices):
  */
-    __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_intpybliss); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 204, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_intpybliss); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 210, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_add_vertex); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 204, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_add_vertex); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 210, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_vertex, __pyx_n_s_color); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 204, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_vertex, __pyx_n_s_color); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 210, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __pyx_t_4 = NULL;
     __pyx_t_9 = 0;
@@ -6957,7 +6958,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_34_make_
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_5)) {
       PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_v_g, __pyx_t_2};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 204, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 210, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -6966,14 +6967,14 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_34_make_
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
       PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_v_g, __pyx_t_2};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 204, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 210, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     } else
     #endif
     {
-      __pyx_t_10 = PyTuple_New(2+__pyx_t_9); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 204, __pyx_L1_error)
+      __pyx_t_10 = PyTuple_New(2+__pyx_t_9); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 210, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_10);
       if (__pyx_t_4) {
         __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_10, 0, __pyx_t_4); __pyx_t_4 = NULL;
@@ -6984,27 +6985,27 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_34_make_
       __Pyx_GIVEREF(__pyx_t_2);
       PyTuple_SET_ITEM(__pyx_t_10, 1+__pyx_t_9, __pyx_t_2);
       __pyx_t_2 = 0;
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_10, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 204, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_10, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 210, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     }
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(PyDict_SetItem(__pyx_v_bliss_map, __pyx_v_v, __pyx_t_1) < 0)) __PYX_ERR(0, 204, __pyx_L1_error)
+    if (unlikely(PyDict_SetItem(__pyx_v_bliss_map, __pyx_v_v, __pyx_t_1) < 0)) __PYX_ERR(0, 210, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":205
+    /* "grakel/kernels/_isomorphism/bliss.pyx":211
  *         for v,vertex in iteritems(self._vertices):
  *             bliss_map[v] = intpybliss.add_vertex(g, vertex.color)
  *             bliss_map_inv[bliss_map[v]] = v             # <<<<<<<<<<<<<<
  *         for name,vertex in iteritems(self._vertices):
  *             for neighbour in vertex.edges:
  */
-    __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_bliss_map, __pyx_v_v); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 205, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_bliss_map, __pyx_v_v); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 211, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    if (unlikely(PyDict_SetItem(__pyx_v_bliss_map_inv, __pyx_t_1, __pyx_v_v) < 0)) __PYX_ERR(0, 205, __pyx_L1_error)
+    if (unlikely(PyDict_SetItem(__pyx_v_bliss_map_inv, __pyx_t_1, __pyx_v_v) < 0)) __PYX_ERR(0, 211, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":203
+    /* "grakel/kernels/_isomorphism/bliss.pyx":209
  *         bliss_map = {}
  *         bliss_map_inv = {}
  *         for v,vertex in iteritems(self._vertices):             # <<<<<<<<<<<<<<
@@ -7014,16 +7015,16 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_34_make_
   }
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":206
+  /* "grakel/kernels/_isomorphism/bliss.pyx":212
  *             bliss_map[v] = intpybliss.add_vertex(g, vertex.color)
  *             bliss_map_inv[bliss_map[v]] = v
  *         for name,vertex in iteritems(self._vertices):             # <<<<<<<<<<<<<<
  *             for neighbour in vertex.edges:
  *                 if neighbour < vertex:
  */
-  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_iteritems); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 206, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_iteritems); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 212, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 206, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 212, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_10 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_1))) {
@@ -7036,14 +7037,14 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_34_make_
     }
   }
   if (!__pyx_t_10) {
-    __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 206, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 212, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_GOTREF(__pyx_t_3);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_1)) {
       PyObject *__pyx_temp[2] = {__pyx_t_10, __pyx_t_5};
-      __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_1, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 206, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_1, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 212, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -7052,20 +7053,20 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_34_make_
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_1)) {
       PyObject *__pyx_temp[2] = {__pyx_t_10, __pyx_t_5};
-      __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_1, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 206, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_1, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 212, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     } else
     #endif
     {
-      __pyx_t_2 = PyTuple_New(1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 206, __pyx_L1_error)
+      __pyx_t_2 = PyTuple_New(1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 212, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_GIVEREF(__pyx_t_10); PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_10); __pyx_t_10 = NULL;
       __Pyx_GIVEREF(__pyx_t_5);
       PyTuple_SET_ITEM(__pyx_t_2, 0+1, __pyx_t_5);
       __pyx_t_5 = 0;
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_2, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 206, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_2, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 212, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     }
@@ -7075,9 +7076,9 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_34_make_
     __pyx_t_1 = __pyx_t_3; __Pyx_INCREF(__pyx_t_1); __pyx_t_6 = 0;
     __pyx_t_7 = NULL;
   } else {
-    __pyx_t_6 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 206, __pyx_L1_error)
+    __pyx_t_6 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 212, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_7 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 206, __pyx_L1_error)
+    __pyx_t_7 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 212, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   for (;;) {
@@ -7085,17 +7086,17 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_34_make_
       if (likely(PyList_CheckExact(__pyx_t_1))) {
         if (__pyx_t_6 >= PyList_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_6); __Pyx_INCREF(__pyx_t_3); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 206, __pyx_L1_error)
+        __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_6); __Pyx_INCREF(__pyx_t_3); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 212, __pyx_L1_error)
         #else
-        __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 206, __pyx_L1_error)
+        __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 212, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         #endif
       } else {
         if (__pyx_t_6 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_6); __Pyx_INCREF(__pyx_t_3); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 206, __pyx_L1_error)
+        __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_6); __Pyx_INCREF(__pyx_t_3); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 212, __pyx_L1_error)
         #else
-        __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 206, __pyx_L1_error)
+        __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 212, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         #endif
       }
@@ -7105,7 +7106,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_34_make_
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 206, __pyx_L1_error)
+          else __PYX_ERR(0, 212, __pyx_L1_error)
         }
         break;
       }
@@ -7117,7 +7118,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_34_make_
       if (unlikely(size != 2)) {
         if (size > 2) __Pyx_RaiseTooManyValuesError(2);
         else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-        __PYX_ERR(0, 206, __pyx_L1_error)
+        __PYX_ERR(0, 212, __pyx_L1_error)
       }
       #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
       if (likely(PyTuple_CheckExact(sequence))) {
@@ -7130,15 +7131,15 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_34_make_
       __Pyx_INCREF(__pyx_t_2);
       __Pyx_INCREF(__pyx_t_5);
       #else
-      __pyx_t_2 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 206, __pyx_L1_error)
+      __pyx_t_2 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 212, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_5 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 206, __pyx_L1_error)
+      __pyx_t_5 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 212, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       #endif
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     } else {
       Py_ssize_t index = -1;
-      __pyx_t_10 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 206, __pyx_L1_error)
+      __pyx_t_10 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 212, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_10);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __pyx_t_8 = Py_TYPE(__pyx_t_10)->tp_iternext;
@@ -7146,7 +7147,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_34_make_
       __Pyx_GOTREF(__pyx_t_2);
       index = 1; __pyx_t_5 = __pyx_t_8(__pyx_t_10); if (unlikely(!__pyx_t_5)) goto __pyx_L9_unpacking_failed;
       __Pyx_GOTREF(__pyx_t_5);
-      if (__Pyx_IternextUnpackEndCheck(__pyx_t_8(__pyx_t_10), 2) < 0) __PYX_ERR(0, 206, __pyx_L1_error)
+      if (__Pyx_IternextUnpackEndCheck(__pyx_t_8(__pyx_t_10), 2) < 0) __PYX_ERR(0, 212, __pyx_L1_error)
       __pyx_t_8 = NULL;
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
       goto __pyx_L10_unpacking_done;
@@ -7154,7 +7155,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_34_make_
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
       __pyx_t_8 = NULL;
       if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-      __PYX_ERR(0, 206, __pyx_L1_error)
+      __PYX_ERR(0, 212, __pyx_L1_error)
       __pyx_L10_unpacking_done:;
     }
     __Pyx_XDECREF_SET(__pyx_v_name, __pyx_t_2);
@@ -7162,22 +7163,22 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_34_make_
     __Pyx_XDECREF_SET(__pyx_v_vertex, __pyx_t_5);
     __pyx_t_5 = 0;
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":207
+    /* "grakel/kernels/_isomorphism/bliss.pyx":213
  *             bliss_map_inv[bliss_map[v]] = v
  *         for name,vertex in iteritems(self._vertices):
  *             for neighbour in vertex.edges:             # <<<<<<<<<<<<<<
  *                 if neighbour < vertex:
  *                     continue
  */
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_vertex, __pyx_n_s_edges); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 207, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_vertex, __pyx_n_s_edges); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 213, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     if (likely(PyList_CheckExact(__pyx_t_3)) || PyTuple_CheckExact(__pyx_t_3)) {
       __pyx_t_5 = __pyx_t_3; __Pyx_INCREF(__pyx_t_5); __pyx_t_11 = 0;
       __pyx_t_12 = NULL;
     } else {
-      __pyx_t_11 = -1; __pyx_t_5 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 207, __pyx_L1_error)
+      __pyx_t_11 = -1; __pyx_t_5 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 213, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_12 = Py_TYPE(__pyx_t_5)->tp_iternext; if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 207, __pyx_L1_error)
+      __pyx_t_12 = Py_TYPE(__pyx_t_5)->tp_iternext; if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 213, __pyx_L1_error)
     }
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     for (;;) {
@@ -7185,17 +7186,17 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_34_make_
         if (likely(PyList_CheckExact(__pyx_t_5))) {
           if (__pyx_t_11 >= PyList_GET_SIZE(__pyx_t_5)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_3 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_11); __Pyx_INCREF(__pyx_t_3); __pyx_t_11++; if (unlikely(0 < 0)) __PYX_ERR(0, 207, __pyx_L1_error)
+          __pyx_t_3 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_11); __Pyx_INCREF(__pyx_t_3); __pyx_t_11++; if (unlikely(0 < 0)) __PYX_ERR(0, 213, __pyx_L1_error)
           #else
-          __pyx_t_3 = PySequence_ITEM(__pyx_t_5, __pyx_t_11); __pyx_t_11++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 207, __pyx_L1_error)
+          __pyx_t_3 = PySequence_ITEM(__pyx_t_5, __pyx_t_11); __pyx_t_11++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 213, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_3);
           #endif
         } else {
           if (__pyx_t_11 >= PyTuple_GET_SIZE(__pyx_t_5)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_5, __pyx_t_11); __Pyx_INCREF(__pyx_t_3); __pyx_t_11++; if (unlikely(0 < 0)) __PYX_ERR(0, 207, __pyx_L1_error)
+          __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_5, __pyx_t_11); __Pyx_INCREF(__pyx_t_3); __pyx_t_11++; if (unlikely(0 < 0)) __PYX_ERR(0, 213, __pyx_L1_error)
           #else
-          __pyx_t_3 = PySequence_ITEM(__pyx_t_5, __pyx_t_11); __pyx_t_11++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 207, __pyx_L1_error)
+          __pyx_t_3 = PySequence_ITEM(__pyx_t_5, __pyx_t_11); __pyx_t_11++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 213, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_3);
           #endif
         }
@@ -7205,7 +7206,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_34_make_
           PyObject* exc_type = PyErr_Occurred();
           if (exc_type) {
             if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else __PYX_ERR(0, 207, __pyx_L1_error)
+            else __PYX_ERR(0, 213, __pyx_L1_error)
           }
           break;
         }
@@ -7214,19 +7215,19 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_34_make_
       __Pyx_XDECREF_SET(__pyx_v_neighbour, __pyx_t_3);
       __pyx_t_3 = 0;
 
-      /* "grakel/kernels/_isomorphism/bliss.pyx":208
+      /* "grakel/kernels/_isomorphism/bliss.pyx":214
  *         for name,vertex in iteritems(self._vertices):
  *             for neighbour in vertex.edges:
  *                 if neighbour < vertex:             # <<<<<<<<<<<<<<
  *                     continue
  *                 intpybliss.add_edge(g,
  */
-      __pyx_t_3 = PyObject_RichCompare(__pyx_v_neighbour, __pyx_v_vertex, Py_LT); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 208, __pyx_L1_error)
-      __pyx_t_13 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_13 < 0)) __PYX_ERR(0, 208, __pyx_L1_error)
+      __pyx_t_3 = PyObject_RichCompare(__pyx_v_neighbour, __pyx_v_vertex, Py_LT); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 214, __pyx_L1_error)
+      __pyx_t_13 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_13 < 0)) __PYX_ERR(0, 214, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       if (__pyx_t_13) {
 
-        /* "grakel/kernels/_isomorphism/bliss.pyx":209
+        /* "grakel/kernels/_isomorphism/bliss.pyx":215
  *             for neighbour in vertex.edges:
  *                 if neighbour < vertex:
  *                     continue             # <<<<<<<<<<<<<<
@@ -7235,7 +7236,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_34_make_
  */
         goto __pyx_L11_continue;
 
-        /* "grakel/kernels/_isomorphism/bliss.pyx":208
+        /* "grakel/kernels/_isomorphism/bliss.pyx":214
  *         for name,vertex in iteritems(self._vertices):
  *             for neighbour in vertex.edges:
  *                 if neighbour < vertex:             # <<<<<<<<<<<<<<
@@ -7244,39 +7245,39 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_34_make_
  */
       }
 
-      /* "grakel/kernels/_isomorphism/bliss.pyx":210
+      /* "grakel/kernels/_isomorphism/bliss.pyx":216
  *                 if neighbour < vertex:
  *                     continue
  *                 intpybliss.add_edge(g,             # <<<<<<<<<<<<<<
  *                                     bliss_map[name],
  *                                     bliss_map[neighbour.name])
  */
-      __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_intpybliss); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 210, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_intpybliss); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 216, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_add_edge); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 210, __pyx_L1_error)
+      __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_add_edge); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 216, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_10);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-      /* "grakel/kernels/_isomorphism/bliss.pyx":211
+      /* "grakel/kernels/_isomorphism/bliss.pyx":217
  *                     continue
  *                 intpybliss.add_edge(g,
  *                                     bliss_map[name],             # <<<<<<<<<<<<<<
  *                                     bliss_map[neighbour.name])
  *         return (g,bliss_map,bliss_map_inv)
  */
-      __pyx_t_2 = __Pyx_PyDict_GetItem(__pyx_v_bliss_map, __pyx_v_name); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 211, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyDict_GetItem(__pyx_v_bliss_map, __pyx_v_name); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 217, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
 
-      /* "grakel/kernels/_isomorphism/bliss.pyx":212
+      /* "grakel/kernels/_isomorphism/bliss.pyx":218
  *                 intpybliss.add_edge(g,
  *                                     bliss_map[name],
  *                                     bliss_map[neighbour.name])             # <<<<<<<<<<<<<<
  *         return (g,bliss_map,bliss_map_inv)
  * 
  */
-      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_neighbour, __pyx_n_s_name); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 212, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_neighbour, __pyx_n_s_name); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 218, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_14 = __Pyx_PyDict_GetItem(__pyx_v_bliss_map, __pyx_t_4); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 212, __pyx_L1_error)
+      __pyx_t_14 = __Pyx_PyDict_GetItem(__pyx_v_bliss_map, __pyx_t_4); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 218, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_14);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       __pyx_t_4 = NULL;
@@ -7294,7 +7295,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_34_make_
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_10)) {
         PyObject *__pyx_temp[4] = {__pyx_t_4, __pyx_v_g, __pyx_t_2, __pyx_t_14};
-        __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_10, __pyx_temp+1-__pyx_t_9, 3+__pyx_t_9); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 210, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_10, __pyx_temp+1-__pyx_t_9, 3+__pyx_t_9); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 216, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -7304,7 +7305,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_34_make_
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_10)) {
         PyObject *__pyx_temp[4] = {__pyx_t_4, __pyx_v_g, __pyx_t_2, __pyx_t_14};
-        __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_10, __pyx_temp+1-__pyx_t_9, 3+__pyx_t_9); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 210, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_10, __pyx_temp+1-__pyx_t_9, 3+__pyx_t_9); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 216, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -7312,7 +7313,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_34_make_
       } else
       #endif
       {
-        __pyx_t_15 = PyTuple_New(3+__pyx_t_9); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 210, __pyx_L1_error)
+        __pyx_t_15 = PyTuple_New(3+__pyx_t_9); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 216, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_15);
         if (__pyx_t_4) {
           __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_15, 0, __pyx_t_4); __pyx_t_4 = NULL;
@@ -7326,14 +7327,14 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_34_make_
         PyTuple_SET_ITEM(__pyx_t_15, 2+__pyx_t_9, __pyx_t_14);
         __pyx_t_2 = 0;
         __pyx_t_14 = 0;
-        __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_t_15, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 210, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_t_15, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 216, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
       }
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-      /* "grakel/kernels/_isomorphism/bliss.pyx":207
+      /* "grakel/kernels/_isomorphism/bliss.pyx":213
  *             bliss_map_inv[bliss_map[v]] = v
  *         for name,vertex in iteritems(self._vertices):
  *             for neighbour in vertex.edges:             # <<<<<<<<<<<<<<
@@ -7344,7 +7345,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_34_make_
     }
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":206
+    /* "grakel/kernels/_isomorphism/bliss.pyx":212
  *             bliss_map[v] = intpybliss.add_vertex(g, vertex.color)
  *             bliss_map_inv[bliss_map[v]] = v
  *         for name,vertex in iteritems(self._vertices):             # <<<<<<<<<<<<<<
@@ -7354,7 +7355,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_34_make_
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":213
+  /* "grakel/kernels/_isomorphism/bliss.pyx":219
  *                                     bliss_map[name],
  *                                     bliss_map[neighbour.name])
  *         return (g,bliss_map,bliss_map_inv)             # <<<<<<<<<<<<<<
@@ -7362,7 +7363,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_34_make_
  *     def find_automorphisms(self,
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyTuple_New(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 213, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 219, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_v_g);
   __Pyx_GIVEREF(__pyx_v_g);
@@ -7377,7 +7378,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_34_make_
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":199
+  /* "grakel/kernels/_isomorphism/bliss.pyx":205
  *         file.write("}\n")
  * 
  *     def _make_bliss_graph(self):             # <<<<<<<<<<<<<<
@@ -7410,7 +7411,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_34_make_
   return __pyx_r;
 }
 
-/* "grakel/kernels/_isomorphism/bliss.pyx":215
+/* "grakel/kernels/_isomorphism/bliss.pyx":221
  *         return (g,bliss_map,bliss_map_inv)
  * 
  *     def find_automorphisms(self,             # <<<<<<<<<<<<<<
@@ -7433,7 +7434,7 @@ static PyObject *__pyx_pw_6grakel_7kernels_12_isomorphism_5bliss_5Graph_37find_a
     static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_self,&__pyx_n_s_reporter_function,&__pyx_n_s_reporter_function_arg,0};
     PyObject* values[3] = {0,0,0};
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":217
+    /* "grakel/kernels/_isomorphism/bliss.pyx":223
  *     def find_automorphisms(self,
  *                            reporter_function,
  *                            reporter_function_arg = None):             # <<<<<<<<<<<<<<
@@ -7463,7 +7464,7 @@ static PyObject *__pyx_pw_6grakel_7kernels_12_isomorphism_5bliss_5Graph_37find_a
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_reporter_function)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("find_automorphisms", 0, 2, 3, 1); __PYX_ERR(0, 215, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("find_automorphisms", 0, 2, 3, 1); __PYX_ERR(0, 221, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
@@ -7473,7 +7474,7 @@ static PyObject *__pyx_pw_6grakel_7kernels_12_isomorphism_5bliss_5Graph_37find_a
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "find_automorphisms") < 0)) __PYX_ERR(0, 215, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "find_automorphisms") < 0)) __PYX_ERR(0, 221, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -7491,7 +7492,7 @@ static PyObject *__pyx_pw_6grakel_7kernels_12_isomorphism_5bliss_5Graph_37find_a
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("find_automorphisms", 0, 2, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 215, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("find_automorphisms", 0, 2, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 221, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("grakel.kernels._isomorphism.bliss.Graph.find_automorphisms", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -7499,7 +7500,7 @@ static PyObject *__pyx_pw_6grakel_7kernels_12_isomorphism_5bliss_5Graph_37find_a
   __pyx_L4_argument_unpacking_done:;
   __pyx_r = __pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_36find_automorphisms(__pyx_self, __pyx_v_self, __pyx_v_reporter_function, __pyx_v_reporter_function_arg);
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":215
+  /* "grakel/kernels/_isomorphism/bliss.pyx":221
  *         return (g,bliss_map,bliss_map_inv)
  * 
  *     def find_automorphisms(self,             # <<<<<<<<<<<<<<
@@ -7531,7 +7532,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_36find_a
   int __pyx_t_10;
   __Pyx_RefNannySetupContext("find_automorphisms", 0);
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":224
+  /* "grakel/kernels/_isomorphism/bliss.pyx":230
  *         the user-defined argument 'reporter_function_arg'.
  *         """
  *         if not((reporter_function is None) or             # <<<<<<<<<<<<<<
@@ -7546,25 +7547,25 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_36find_a
     goto __pyx_L4_bool_binop_done;
   }
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":225
+  /* "grakel/kernels/_isomorphism/bliss.pyx":231
  *         """
  *         if not((reporter_function is None) or
  *                isinstance(reporter_function, types.FunctionType)):             # <<<<<<<<<<<<<<
  *             raise TypeError("the 'reporter_function' argument of "
  *                             "canonical_labeling() should be None or "
  */
-  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_types); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 225, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_types); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 231, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_FunctionType); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 225, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_FunctionType); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 231, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_3 = PyObject_IsInstance(__pyx_v_reporter_function, __pyx_t_5); if (unlikely(__pyx_t_3 == ((int)-1))) __PYX_ERR(0, 225, __pyx_L1_error)
+  __pyx_t_3 = PyObject_IsInstance(__pyx_v_reporter_function, __pyx_t_5); if (unlikely(__pyx_t_3 == ((int)-1))) __PYX_ERR(0, 231, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_t_2 = (__pyx_t_3 != 0);
   __pyx_t_1 = __pyx_t_2;
   __pyx_L4_bool_binop_done:;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":224
+  /* "grakel/kernels/_isomorphism/bliss.pyx":230
  *         the user-defined argument 'reporter_function_arg'.
  *         """
  *         if not((reporter_function is None) or             # <<<<<<<<<<<<<<
@@ -7574,20 +7575,20 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_36find_a
   __pyx_t_2 = ((!__pyx_t_1) != 0);
   if (unlikely(__pyx_t_2)) {
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":226
+    /* "grakel/kernels/_isomorphism/bliss.pyx":232
  *         if not((reporter_function is None) or
  *                isinstance(reporter_function, types.FunctionType)):
  *             raise TypeError("the 'reporter_function' argument of "             # <<<<<<<<<<<<<<
  *                             "canonical_labeling() should be None or "
  *                             "a function")
  */
-    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__18, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 226, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__18, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 232, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_Raise(__pyx_t_5, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __PYX_ERR(0, 226, __pyx_L1_error)
+    __PYX_ERR(0, 232, __pyx_L1_error)
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":224
+    /* "grakel/kernels/_isomorphism/bliss.pyx":230
  *         the user-defined argument 'reporter_function_arg'.
  *         """
  *         if not((reporter_function is None) or             # <<<<<<<<<<<<<<
@@ -7596,14 +7597,14 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_36find_a
  */
   }
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":229
+  /* "grakel/kernels/_isomorphism/bliss.pyx":235
  *                             "canonical_labeling() should be None or "
  *                             "a function")
  *         (g,bliss_map,bliss_map_inv) = self._make_bliss_graph()             # <<<<<<<<<<<<<<
  *         report_args = [reporter_function,reporter_function_arg, bliss_map_inv]
  *         intpybliss.find_automorphisms(g, _report, report_args)
  */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_make_bliss_graph); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 229, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_make_bliss_graph); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 235, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_6 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
@@ -7616,10 +7617,10 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_36find_a
     }
   }
   if (__pyx_t_6) {
-    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 229, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 235, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   } else {
-    __pyx_t_5 = __Pyx_PyObject_CallNoArg(__pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 229, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_CallNoArg(__pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 235, __pyx_L1_error)
   }
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -7629,7 +7630,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_36find_a
     if (unlikely(size != 3)) {
       if (size > 3) __Pyx_RaiseTooManyValuesError(3);
       else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-      __PYX_ERR(0, 229, __pyx_L1_error)
+      __PYX_ERR(0, 235, __pyx_L1_error)
     }
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
     if (likely(PyTuple_CheckExact(sequence))) {
@@ -7645,17 +7646,17 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_36find_a
     __Pyx_INCREF(__pyx_t_6);
     __Pyx_INCREF(__pyx_t_7);
     #else
-    __pyx_t_4 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 229, __pyx_L1_error)
+    __pyx_t_4 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 235, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_6 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 229, __pyx_L1_error)
+    __pyx_t_6 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 235, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_7 = PySequence_ITEM(sequence, 2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 229, __pyx_L1_error)
+    __pyx_t_7 = PySequence_ITEM(sequence, 2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 235, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     #endif
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   } else {
     Py_ssize_t index = -1;
-    __pyx_t_8 = PyObject_GetIter(__pyx_t_5); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 229, __pyx_L1_error)
+    __pyx_t_8 = PyObject_GetIter(__pyx_t_5); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 235, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __pyx_t_9 = Py_TYPE(__pyx_t_8)->tp_iternext;
@@ -7665,7 +7666,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_36find_a
     __Pyx_GOTREF(__pyx_t_6);
     index = 2; __pyx_t_7 = __pyx_t_9(__pyx_t_8); if (unlikely(!__pyx_t_7)) goto __pyx_L6_unpacking_failed;
     __Pyx_GOTREF(__pyx_t_7);
-    if (__Pyx_IternextUnpackEndCheck(__pyx_t_9(__pyx_t_8), 3) < 0) __PYX_ERR(0, 229, __pyx_L1_error)
+    if (__Pyx_IternextUnpackEndCheck(__pyx_t_9(__pyx_t_8), 3) < 0) __PYX_ERR(0, 235, __pyx_L1_error)
     __pyx_t_9 = NULL;
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     goto __pyx_L7_unpacking_done;
@@ -7673,7 +7674,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_36find_a
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     __pyx_t_9 = NULL;
     if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-    __PYX_ERR(0, 229, __pyx_L1_error)
+    __PYX_ERR(0, 235, __pyx_L1_error)
     __pyx_L7_unpacking_done:;
   }
   __pyx_v_g = __pyx_t_4;
@@ -7683,14 +7684,14 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_36find_a
   __pyx_v_bliss_map_inv = __pyx_t_7;
   __pyx_t_7 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":230
+  /* "grakel/kernels/_isomorphism/bliss.pyx":236
  *                             "a function")
  *         (g,bliss_map,bliss_map_inv) = self._make_bliss_graph()
  *         report_args = [reporter_function,reporter_function_arg, bliss_map_inv]             # <<<<<<<<<<<<<<
  *         intpybliss.find_automorphisms(g, _report, report_args)
  * 
  */
-  __pyx_t_5 = PyList_New(3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 230, __pyx_L1_error)
+  __pyx_t_5 = PyList_New(3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 236, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_INCREF(__pyx_v_reporter_function);
   __Pyx_GIVEREF(__pyx_v_reporter_function);
@@ -7704,19 +7705,19 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_36find_a
   __pyx_v_report_args = ((PyObject*)__pyx_t_5);
   __pyx_t_5 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":231
+  /* "grakel/kernels/_isomorphism/bliss.pyx":237
  *         (g,bliss_map,bliss_map_inv) = self._make_bliss_graph()
  *         report_args = [reporter_function,reporter_function_arg, bliss_map_inv]
  *         intpybliss.find_automorphisms(g, _report, report_args)             # <<<<<<<<<<<<<<
  * 
  *     def canonical_labeling(self,
  */
-  __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_intpybliss); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 231, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_intpybliss); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 237, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_find_automorphisms); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 231, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_find_automorphisms); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 237, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_report); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 231, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_report); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 237, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __pyx_t_4 = NULL;
   __pyx_t_10 = 0;
@@ -7733,7 +7734,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_36find_a
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_6)) {
     PyObject *__pyx_temp[4] = {__pyx_t_4, __pyx_v_g, __pyx_t_7, __pyx_v_report_args};
-    __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_10, 3+__pyx_t_10); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 231, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_10, 3+__pyx_t_10); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 237, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -7742,14 +7743,14 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_36find_a
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
     PyObject *__pyx_temp[4] = {__pyx_t_4, __pyx_v_g, __pyx_t_7, __pyx_v_report_args};
-    __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_10, 3+__pyx_t_10); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 231, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_10, 3+__pyx_t_10); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 237, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   } else
   #endif
   {
-    __pyx_t_8 = PyTuple_New(3+__pyx_t_10); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 231, __pyx_L1_error)
+    __pyx_t_8 = PyTuple_New(3+__pyx_t_10); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 237, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     if (__pyx_t_4) {
       __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_4); __pyx_t_4 = NULL;
@@ -7763,14 +7764,14 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_36find_a
     __Pyx_GIVEREF(__pyx_v_report_args);
     PyTuple_SET_ITEM(__pyx_t_8, 2+__pyx_t_10, __pyx_v_report_args);
     __pyx_t_7 = 0;
-    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_8, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 231, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_8, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 237, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   }
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":215
+  /* "grakel/kernels/_isomorphism/bliss.pyx":221
  *         return (g,bliss_map,bliss_map_inv)
  * 
  *     def find_automorphisms(self,             # <<<<<<<<<<<<<<
@@ -7799,7 +7800,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_36find_a
   return __pyx_r;
 }
 
-/* "grakel/kernels/_isomorphism/bliss.pyx":233
+/* "grakel/kernels/_isomorphism/bliss.pyx":239
  *         intpybliss.find_automorphisms(g, _report, report_args)
  * 
  *     def canonical_labeling(self,             # <<<<<<<<<<<<<<
@@ -7822,7 +7823,7 @@ static PyObject *__pyx_pw_6grakel_7kernels_12_isomorphism_5bliss_5Graph_39canoni
     static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_self,&__pyx_n_s_reporter_function,&__pyx_n_s_reporter_function_arg,0};
     PyObject* values[3] = {0,0,0};
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":234
+    /* "grakel/kernels/_isomorphism/bliss.pyx":240
  * 
  *     def canonical_labeling(self,
  *                            reporter_function = None,             # <<<<<<<<<<<<<<
@@ -7831,7 +7832,7 @@ static PyObject *__pyx_pw_6grakel_7kernels_12_isomorphism_5bliss_5Graph_39canoni
  */
     values[1] = ((PyObject *)((PyObject *)Py_None));
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":235
+    /* "grakel/kernels/_isomorphism/bliss.pyx":241
  *     def canonical_labeling(self,
  *                            reporter_function = None,
  *                            reporter_function_arg = None):             # <<<<<<<<<<<<<<
@@ -7871,7 +7872,7 @@ static PyObject *__pyx_pw_6grakel_7kernels_12_isomorphism_5bliss_5Graph_39canoni
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "canonical_labeling") < 0)) __PYX_ERR(0, 233, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "canonical_labeling") < 0)) __PYX_ERR(0, 239, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -7890,7 +7891,7 @@ static PyObject *__pyx_pw_6grakel_7kernels_12_isomorphism_5bliss_5Graph_39canoni
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("canonical_labeling", 0, 1, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 233, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("canonical_labeling", 0, 1, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 239, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("grakel.kernels._isomorphism.bliss.Graph.canonical_labeling", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -7898,7 +7899,7 @@ static PyObject *__pyx_pw_6grakel_7kernels_12_isomorphism_5bliss_5Graph_39canoni
   __pyx_L4_argument_unpacking_done:;
   __pyx_r = __pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_38canonical_labeling(__pyx_self, __pyx_v_self, __pyx_v_reporter_function, __pyx_v_reporter_function_arg);
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":233
+  /* "grakel/kernels/_isomorphism/bliss.pyx":239
  *         intpybliss.find_automorphisms(g, _report, report_args)
  * 
  *     def canonical_labeling(self,             # <<<<<<<<<<<<<<
@@ -7936,7 +7937,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_38canoni
   PyObject *(*__pyx_t_12)(PyObject *);
   __Pyx_RefNannySetupContext("canonical_labeling", 0);
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":243
+  /* "grakel/kernels/_isomorphism/bliss.pyx":249
  *         the 'relabel' method with the returned labeling.
  *         """
  *         if not((reporter_function is None) or             # <<<<<<<<<<<<<<
@@ -7951,25 +7952,25 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_38canoni
     goto __pyx_L4_bool_binop_done;
   }
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":244
+  /* "grakel/kernels/_isomorphism/bliss.pyx":250
  *         """
  *         if not((reporter_function is None) or
  *                isinstance(reporter_function, types.FunctionType)):             # <<<<<<<<<<<<<<
  *             raise TypeError("the 'reporter_function' argument of "
  *                             "canonical_labeling() should be None or "
  */
-  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_types); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 244, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_types); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 250, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_FunctionType); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 244, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_FunctionType); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 250, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_3 = PyObject_IsInstance(__pyx_v_reporter_function, __pyx_t_5); if (unlikely(__pyx_t_3 == ((int)-1))) __PYX_ERR(0, 244, __pyx_L1_error)
+  __pyx_t_3 = PyObject_IsInstance(__pyx_v_reporter_function, __pyx_t_5); if (unlikely(__pyx_t_3 == ((int)-1))) __PYX_ERR(0, 250, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_t_2 = (__pyx_t_3 != 0);
   __pyx_t_1 = __pyx_t_2;
   __pyx_L4_bool_binop_done:;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":243
+  /* "grakel/kernels/_isomorphism/bliss.pyx":249
  *         the 'relabel' method with the returned labeling.
  *         """
  *         if not((reporter_function is None) or             # <<<<<<<<<<<<<<
@@ -7979,20 +7980,20 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_38canoni
   __pyx_t_2 = ((!__pyx_t_1) != 0);
   if (unlikely(__pyx_t_2)) {
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":245
+    /* "grakel/kernels/_isomorphism/bliss.pyx":251
  *         if not((reporter_function is None) or
  *                isinstance(reporter_function, types.FunctionType)):
  *             raise TypeError("the 'reporter_function' argument of "             # <<<<<<<<<<<<<<
  *                             "canonical_labeling() should be None or "
  *                             "a function")
  */
-    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__19, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 245, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__19, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 251, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_Raise(__pyx_t_5, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __PYX_ERR(0, 245, __pyx_L1_error)
+    __PYX_ERR(0, 251, __pyx_L1_error)
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":243
+    /* "grakel/kernels/_isomorphism/bliss.pyx":249
  *         the 'relabel' method with the returned labeling.
  *         """
  *         if not((reporter_function is None) or             # <<<<<<<<<<<<<<
@@ -8001,14 +8002,14 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_38canoni
  */
   }
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":248
+  /* "grakel/kernels/_isomorphism/bliss.pyx":254
  *                             "canonical_labeling() should be None or "
  *                             "a function")
  *         (g,bliss_map,bliss_map_inv) = self._make_bliss_graph()             # <<<<<<<<<<<<<<
  *         report_args = [reporter_function,reporter_function_arg, bliss_map_inv]
  *         cl = intpybliss.canonical_form(g, _report, report_args)
  */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_make_bliss_graph); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 248, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_make_bliss_graph); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 254, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_6 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
@@ -8021,10 +8022,10 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_38canoni
     }
   }
   if (__pyx_t_6) {
-    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 248, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 254, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   } else {
-    __pyx_t_5 = __Pyx_PyObject_CallNoArg(__pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 248, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_CallNoArg(__pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 254, __pyx_L1_error)
   }
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -8034,7 +8035,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_38canoni
     if (unlikely(size != 3)) {
       if (size > 3) __Pyx_RaiseTooManyValuesError(3);
       else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-      __PYX_ERR(0, 248, __pyx_L1_error)
+      __PYX_ERR(0, 254, __pyx_L1_error)
     }
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
     if (likely(PyTuple_CheckExact(sequence))) {
@@ -8050,17 +8051,17 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_38canoni
     __Pyx_INCREF(__pyx_t_6);
     __Pyx_INCREF(__pyx_t_7);
     #else
-    __pyx_t_4 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 248, __pyx_L1_error)
+    __pyx_t_4 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 254, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_6 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 248, __pyx_L1_error)
+    __pyx_t_6 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 254, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_7 = PySequence_ITEM(sequence, 2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 248, __pyx_L1_error)
+    __pyx_t_7 = PySequence_ITEM(sequence, 2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 254, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     #endif
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   } else {
     Py_ssize_t index = -1;
-    __pyx_t_8 = PyObject_GetIter(__pyx_t_5); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 248, __pyx_L1_error)
+    __pyx_t_8 = PyObject_GetIter(__pyx_t_5); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 254, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __pyx_t_9 = Py_TYPE(__pyx_t_8)->tp_iternext;
@@ -8070,7 +8071,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_38canoni
     __Pyx_GOTREF(__pyx_t_6);
     index = 2; __pyx_t_7 = __pyx_t_9(__pyx_t_8); if (unlikely(!__pyx_t_7)) goto __pyx_L6_unpacking_failed;
     __Pyx_GOTREF(__pyx_t_7);
-    if (__Pyx_IternextUnpackEndCheck(__pyx_t_9(__pyx_t_8), 3) < 0) __PYX_ERR(0, 248, __pyx_L1_error)
+    if (__Pyx_IternextUnpackEndCheck(__pyx_t_9(__pyx_t_8), 3) < 0) __PYX_ERR(0, 254, __pyx_L1_error)
     __pyx_t_9 = NULL;
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     goto __pyx_L7_unpacking_done;
@@ -8078,7 +8079,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_38canoni
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     __pyx_t_9 = NULL;
     if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-    __PYX_ERR(0, 248, __pyx_L1_error)
+    __PYX_ERR(0, 254, __pyx_L1_error)
     __pyx_L7_unpacking_done:;
   }
   __pyx_v_g = __pyx_t_4;
@@ -8088,14 +8089,14 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_38canoni
   __pyx_v_bliss_map_inv = __pyx_t_7;
   __pyx_t_7 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":249
+  /* "grakel/kernels/_isomorphism/bliss.pyx":255
  *                             "a function")
  *         (g,bliss_map,bliss_map_inv) = self._make_bliss_graph()
  *         report_args = [reporter_function,reporter_function_arg, bliss_map_inv]             # <<<<<<<<<<<<<<
  *         cl = intpybliss.canonical_form(g, _report, report_args)
  *         assert type(cl) is list
  */
-  __pyx_t_5 = PyList_New(3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 249, __pyx_L1_error)
+  __pyx_t_5 = PyList_New(3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 255, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_INCREF(__pyx_v_reporter_function);
   __Pyx_GIVEREF(__pyx_v_reporter_function);
@@ -8109,19 +8110,19 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_38canoni
   __pyx_v_report_args = ((PyObject*)__pyx_t_5);
   __pyx_t_5 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":250
+  /* "grakel/kernels/_isomorphism/bliss.pyx":256
  *         (g,bliss_map,bliss_map_inv) = self._make_bliss_graph()
  *         report_args = [reporter_function,reporter_function_arg, bliss_map_inv]
  *         cl = intpybliss.canonical_form(g, _report, report_args)             # <<<<<<<<<<<<<<
  *         assert type(cl) is list
  *         canlab = {}
  */
-  __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_intpybliss); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 250, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_intpybliss); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 256, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_canonical_form); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 250, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_canonical_form); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 256, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_report); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 250, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_report); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 256, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __pyx_t_4 = NULL;
   __pyx_t_10 = 0;
@@ -8138,7 +8139,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_38canoni
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_6)) {
     PyObject *__pyx_temp[4] = {__pyx_t_4, __pyx_v_g, __pyx_t_7, __pyx_v_report_args};
-    __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_10, 3+__pyx_t_10); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 250, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_10, 3+__pyx_t_10); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 256, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -8147,14 +8148,14 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_38canoni
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
     PyObject *__pyx_temp[4] = {__pyx_t_4, __pyx_v_g, __pyx_t_7, __pyx_v_report_args};
-    __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_10, 3+__pyx_t_10); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 250, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_10, 3+__pyx_t_10); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 256, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   } else
   #endif
   {
-    __pyx_t_8 = PyTuple_New(3+__pyx_t_10); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 250, __pyx_L1_error)
+    __pyx_t_8 = PyTuple_New(3+__pyx_t_10); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 256, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     if (__pyx_t_4) {
       __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_4); __pyx_t_4 = NULL;
@@ -8168,7 +8169,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_38canoni
     __Pyx_GIVEREF(__pyx_v_report_args);
     PyTuple_SET_ITEM(__pyx_t_8, 2+__pyx_t_10, __pyx_v_report_args);
     __pyx_t_7 = 0;
-    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_8, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 250, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_8, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 256, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   }
@@ -8176,7 +8177,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_38canoni
   __pyx_v_cl = __pyx_t_5;
   __pyx_t_5 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":251
+  /* "grakel/kernels/_isomorphism/bliss.pyx":257
  *         report_args = [reporter_function,reporter_function_arg, bliss_map_inv]
  *         cl = intpybliss.canonical_form(g, _report, report_args)
  *         assert type(cl) is list             # <<<<<<<<<<<<<<
@@ -8188,24 +8189,24 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_38canoni
     __pyx_t_2 = (((PyObject *)Py_TYPE(__pyx_v_cl)) == ((PyObject *)(&PyList_Type)));
     if (unlikely(!(__pyx_t_2 != 0))) {
       PyErr_SetNone(PyExc_AssertionError);
-      __PYX_ERR(0, 251, __pyx_L1_error)
+      __PYX_ERR(0, 257, __pyx_L1_error)
     }
   }
   #endif
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":252
+  /* "grakel/kernels/_isomorphism/bliss.pyx":258
  *         cl = intpybliss.canonical_form(g, _report, report_args)
  *         assert type(cl) is list
  *         canlab = {}             # <<<<<<<<<<<<<<
  *         for (index,image) in enumerate(cl):
  *             canlab[bliss_map_inv[index]] = image
  */
-  __pyx_t_5 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 252, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 258, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_v_canlab = ((PyObject*)__pyx_t_5);
   __pyx_t_5 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":253
+  /* "grakel/kernels/_isomorphism/bliss.pyx":259
  *         assert type(cl) is list
  *         canlab = {}
  *         for (index,image) in enumerate(cl):             # <<<<<<<<<<<<<<
@@ -8218,26 +8219,26 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_38canoni
     __pyx_t_6 = __pyx_v_cl; __Pyx_INCREF(__pyx_t_6); __pyx_t_11 = 0;
     __pyx_t_12 = NULL;
   } else {
-    __pyx_t_11 = -1; __pyx_t_6 = PyObject_GetIter(__pyx_v_cl); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 253, __pyx_L1_error)
+    __pyx_t_11 = -1; __pyx_t_6 = PyObject_GetIter(__pyx_v_cl); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 259, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_12 = Py_TYPE(__pyx_t_6)->tp_iternext; if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 253, __pyx_L1_error)
+    __pyx_t_12 = Py_TYPE(__pyx_t_6)->tp_iternext; if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 259, __pyx_L1_error)
   }
   for (;;) {
     if (likely(!__pyx_t_12)) {
       if (likely(PyList_CheckExact(__pyx_t_6))) {
         if (__pyx_t_11 >= PyList_GET_SIZE(__pyx_t_6)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_8 = PyList_GET_ITEM(__pyx_t_6, __pyx_t_11); __Pyx_INCREF(__pyx_t_8); __pyx_t_11++; if (unlikely(0 < 0)) __PYX_ERR(0, 253, __pyx_L1_error)
+        __pyx_t_8 = PyList_GET_ITEM(__pyx_t_6, __pyx_t_11); __Pyx_INCREF(__pyx_t_8); __pyx_t_11++; if (unlikely(0 < 0)) __PYX_ERR(0, 259, __pyx_L1_error)
         #else
-        __pyx_t_8 = PySequence_ITEM(__pyx_t_6, __pyx_t_11); __pyx_t_11++; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 253, __pyx_L1_error)
+        __pyx_t_8 = PySequence_ITEM(__pyx_t_6, __pyx_t_11); __pyx_t_11++; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 259, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_8);
         #endif
       } else {
         if (__pyx_t_11 >= PyTuple_GET_SIZE(__pyx_t_6)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_8 = PyTuple_GET_ITEM(__pyx_t_6, __pyx_t_11); __Pyx_INCREF(__pyx_t_8); __pyx_t_11++; if (unlikely(0 < 0)) __PYX_ERR(0, 253, __pyx_L1_error)
+        __pyx_t_8 = PyTuple_GET_ITEM(__pyx_t_6, __pyx_t_11); __Pyx_INCREF(__pyx_t_8); __pyx_t_11++; if (unlikely(0 < 0)) __PYX_ERR(0, 259, __pyx_L1_error)
         #else
-        __pyx_t_8 = PySequence_ITEM(__pyx_t_6, __pyx_t_11); __pyx_t_11++; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 253, __pyx_L1_error)
+        __pyx_t_8 = PySequence_ITEM(__pyx_t_6, __pyx_t_11); __pyx_t_11++; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 259, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_8);
         #endif
       }
@@ -8247,7 +8248,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_38canoni
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 253, __pyx_L1_error)
+          else __PYX_ERR(0, 259, __pyx_L1_error)
         }
         break;
       }
@@ -8257,25 +8258,25 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_38canoni
     __pyx_t_8 = 0;
     __Pyx_INCREF(__pyx_t_5);
     __Pyx_XDECREF_SET(__pyx_v_index, __pyx_t_5);
-    __pyx_t_8 = __Pyx_PyInt_AddObjC(__pyx_t_5, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 253, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyInt_AddObjC(__pyx_t_5, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 259, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_5);
     __pyx_t_5 = __pyx_t_8;
     __pyx_t_8 = 0;
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":254
+    /* "grakel/kernels/_isomorphism/bliss.pyx":260
  *         canlab = {}
  *         for (index,image) in enumerate(cl):
  *             canlab[bliss_map_inv[index]] = image             # <<<<<<<<<<<<<<
  *         return canlab
  * 
  */
-    __pyx_t_8 = __Pyx_PyObject_GetItem(__pyx_v_bliss_map_inv, __pyx_v_index); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 254, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_GetItem(__pyx_v_bliss_map_inv, __pyx_v_index); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 260, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
-    if (unlikely(PyDict_SetItem(__pyx_v_canlab, __pyx_t_8, __pyx_v_image) < 0)) __PYX_ERR(0, 254, __pyx_L1_error)
+    if (unlikely(PyDict_SetItem(__pyx_v_canlab, __pyx_t_8, __pyx_v_image) < 0)) __PYX_ERR(0, 260, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":253
+    /* "grakel/kernels/_isomorphism/bliss.pyx":259
  *         assert type(cl) is list
  *         canlab = {}
  *         for (index,image) in enumerate(cl):             # <<<<<<<<<<<<<<
@@ -8286,7 +8287,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_38canoni
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":255
+  /* "grakel/kernels/_isomorphism/bliss.pyx":261
  *         for (index,image) in enumerate(cl):
  *             canlab[bliss_map_inv[index]] = image
  *         return canlab             # <<<<<<<<<<<<<<
@@ -8298,7 +8299,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_38canoni
   __pyx_r = __pyx_v_canlab;
   goto __pyx_L0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":233
+  /* "grakel/kernels/_isomorphism/bliss.pyx":239
  *         intpybliss.find_automorphisms(g, _report, report_args)
  * 
  *     def canonical_labeling(self,             # <<<<<<<<<<<<<<
@@ -8329,7 +8330,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_38canoni
   return __pyx_r;
 }
 
-/* "grakel/kernels/_isomorphism/bliss.pyx":257
+/* "grakel/kernels/_isomorphism/bliss.pyx":263
  *         return canlab
  * 
  *     def relabel(self, lab):             # <<<<<<<<<<<<<<
@@ -8370,11 +8371,11 @@ static PyObject *__pyx_pw_6grakel_7kernels_12_isomorphism_5bliss_5Graph_41relabe
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_lab)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("relabel", 1, 2, 2, 1); __PYX_ERR(0, 257, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("relabel", 1, 2, 2, 1); __PYX_ERR(0, 263, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "relabel") < 0)) __PYX_ERR(0, 257, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "relabel") < 0)) __PYX_ERR(0, 263, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -8387,7 +8388,7 @@ static PyObject *__pyx_pw_6grakel_7kernels_12_isomorphism_5bliss_5Graph_41relabe
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("relabel", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 257, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("relabel", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 263, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("grakel.kernels._isomorphism.bliss.Graph.relabel", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -8426,7 +8427,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_40relabe
   PyObject *__pyx_t_16 = NULL;
   __Pyx_RefNannySetupContext("relabel", 0);
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":264
+  /* "grakel/kernels/_isomorphism/bliss.pyx":270
  *         in the graph into some distinct immutable name.
  *         """
  *         assert type(lab) is dict             # <<<<<<<<<<<<<<
@@ -8438,12 +8439,12 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_40relabe
     __pyx_t_1 = (((PyObject *)Py_TYPE(__pyx_v_lab)) == ((PyObject *)(&PyDict_Type)));
     if (unlikely(!(__pyx_t_1 != 0))) {
       PyErr_SetNone(PyExc_AssertionError);
-      __PYX_ERR(0, 264, __pyx_L1_error)
+      __PYX_ERR(0, 270, __pyx_L1_error)
     }
   }
   #endif
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":265
+  /* "grakel/kernels/_isomorphism/bliss.pyx":271
  *         """
  *         assert type(lab) is dict
  *         assert len(lab) == self.nof_vertices()             # <<<<<<<<<<<<<<
@@ -8452,10 +8453,10 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_40relabe
  */
   #ifndef CYTHON_WITHOUT_ASSERTIONS
   if (unlikely(!Py_OptimizeFlag)) {
-    __pyx_t_2 = PyObject_Length(__pyx_v_lab); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 265, __pyx_L1_error)
-    __pyx_t_3 = PyInt_FromSsize_t(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 265, __pyx_L1_error)
+    __pyx_t_2 = PyObject_Length(__pyx_v_lab); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 271, __pyx_L1_error)
+    __pyx_t_3 = PyInt_FromSsize_t(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 271, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_nof_vertices); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 265, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_nof_vertices); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 271, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __pyx_t_6 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
@@ -8468,33 +8469,33 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_40relabe
       }
     }
     if (__pyx_t_6) {
-      __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 265, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 271, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     } else {
-      __pyx_t_4 = __Pyx_PyObject_CallNoArg(__pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 265, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_CallNoArg(__pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 271, __pyx_L1_error)
     }
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = PyObject_RichCompare(__pyx_t_3, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 265, __pyx_L1_error)
+    __pyx_t_5 = PyObject_RichCompare(__pyx_t_3, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 271, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 265, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 271, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     if (unlikely(!__pyx_t_1)) {
       PyErr_SetNone(PyExc_AssertionError);
-      __PYX_ERR(0, 265, __pyx_L1_error)
+      __PYX_ERR(0, 271, __pyx_L1_error)
     }
   }
   #endif
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":266
+  /* "grakel/kernels/_isomorphism/bliss.pyx":272
  *         assert type(lab) is dict
  *         assert len(lab) == self.nof_vertices()
  *         g2 = Graph()             # <<<<<<<<<<<<<<
  *         for name,vertex in iteritems(self._vertices):
  *             inserted = g2.add_vertex(lab[name],vertex.color)
  */
-  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_Graph); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 266, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_Graph); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 272, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_4))) {
@@ -8507,26 +8508,26 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_40relabe
     }
   }
   if (__pyx_t_3) {
-    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 266, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 272, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   } else {
-    __pyx_t_5 = __Pyx_PyObject_CallNoArg(__pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 266, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_CallNoArg(__pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 272, __pyx_L1_error)
   }
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_v_g2 = __pyx_t_5;
   __pyx_t_5 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":267
+  /* "grakel/kernels/_isomorphism/bliss.pyx":273
  *         assert len(lab) == self.nof_vertices()
  *         g2 = Graph()
  *         for name,vertex in iteritems(self._vertices):             # <<<<<<<<<<<<<<
  *             inserted = g2.add_vertex(lab[name],vertex.color)
  *             if not inserted:
  */
-  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_iteritems); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 267, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_iteritems); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 273, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 267, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 273, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_6 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_4))) {
@@ -8539,14 +8540,14 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_40relabe
     }
   }
   if (!__pyx_t_6) {
-    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 267, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 273, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_GOTREF(__pyx_t_5);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_4)) {
       PyObject *__pyx_temp[2] = {__pyx_t_6, __pyx_t_3};
-      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 267, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 273, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -8555,20 +8556,20 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_40relabe
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
       PyObject *__pyx_temp[2] = {__pyx_t_6, __pyx_t_3};
-      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 267, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 273, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     } else
     #endif
     {
-      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 267, __pyx_L1_error)
+      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 273, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_6); __pyx_t_6 = NULL;
       __Pyx_GIVEREF(__pyx_t_3);
       PyTuple_SET_ITEM(__pyx_t_7, 0+1, __pyx_t_3);
       __pyx_t_3 = 0;
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 267, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 273, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     }
@@ -8578,9 +8579,9 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_40relabe
     __pyx_t_4 = __pyx_t_5; __Pyx_INCREF(__pyx_t_4); __pyx_t_2 = 0;
     __pyx_t_8 = NULL;
   } else {
-    __pyx_t_2 = -1; __pyx_t_4 = PyObject_GetIter(__pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 267, __pyx_L1_error)
+    __pyx_t_2 = -1; __pyx_t_4 = PyObject_GetIter(__pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 273, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_8 = Py_TYPE(__pyx_t_4)->tp_iternext; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 267, __pyx_L1_error)
+    __pyx_t_8 = Py_TYPE(__pyx_t_4)->tp_iternext; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 273, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   for (;;) {
@@ -8588,17 +8589,17 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_40relabe
       if (likely(PyList_CheckExact(__pyx_t_4))) {
         if (__pyx_t_2 >= PyList_GET_SIZE(__pyx_t_4)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_5 = PyList_GET_ITEM(__pyx_t_4, __pyx_t_2); __Pyx_INCREF(__pyx_t_5); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 267, __pyx_L1_error)
+        __pyx_t_5 = PyList_GET_ITEM(__pyx_t_4, __pyx_t_2); __Pyx_INCREF(__pyx_t_5); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 273, __pyx_L1_error)
         #else
-        __pyx_t_5 = PySequence_ITEM(__pyx_t_4, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 267, __pyx_L1_error)
+        __pyx_t_5 = PySequence_ITEM(__pyx_t_4, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 273, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         #endif
       } else {
         if (__pyx_t_2 >= PyTuple_GET_SIZE(__pyx_t_4)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_5 = PyTuple_GET_ITEM(__pyx_t_4, __pyx_t_2); __Pyx_INCREF(__pyx_t_5); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 267, __pyx_L1_error)
+        __pyx_t_5 = PyTuple_GET_ITEM(__pyx_t_4, __pyx_t_2); __Pyx_INCREF(__pyx_t_5); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 273, __pyx_L1_error)
         #else
-        __pyx_t_5 = PySequence_ITEM(__pyx_t_4, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 267, __pyx_L1_error)
+        __pyx_t_5 = PySequence_ITEM(__pyx_t_4, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 273, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         #endif
       }
@@ -8608,7 +8609,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_40relabe
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 267, __pyx_L1_error)
+          else __PYX_ERR(0, 273, __pyx_L1_error)
         }
         break;
       }
@@ -8620,7 +8621,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_40relabe
       if (unlikely(size != 2)) {
         if (size > 2) __Pyx_RaiseTooManyValuesError(2);
         else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-        __PYX_ERR(0, 267, __pyx_L1_error)
+        __PYX_ERR(0, 273, __pyx_L1_error)
       }
       #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
       if (likely(PyTuple_CheckExact(sequence))) {
@@ -8633,15 +8634,15 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_40relabe
       __Pyx_INCREF(__pyx_t_7);
       __Pyx_INCREF(__pyx_t_3);
       #else
-      __pyx_t_7 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 267, __pyx_L1_error)
+      __pyx_t_7 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 273, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_3 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 267, __pyx_L1_error)
+      __pyx_t_3 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 273, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       #endif
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     } else {
       Py_ssize_t index = -1;
-      __pyx_t_6 = PyObject_GetIter(__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 267, __pyx_L1_error)
+      __pyx_t_6 = PyObject_GetIter(__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 273, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __pyx_t_9 = Py_TYPE(__pyx_t_6)->tp_iternext;
@@ -8649,7 +8650,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_40relabe
       __Pyx_GOTREF(__pyx_t_7);
       index = 1; __pyx_t_3 = __pyx_t_9(__pyx_t_6); if (unlikely(!__pyx_t_3)) goto __pyx_L5_unpacking_failed;
       __Pyx_GOTREF(__pyx_t_3);
-      if (__Pyx_IternextUnpackEndCheck(__pyx_t_9(__pyx_t_6), 2) < 0) __PYX_ERR(0, 267, __pyx_L1_error)
+      if (__Pyx_IternextUnpackEndCheck(__pyx_t_9(__pyx_t_6), 2) < 0) __PYX_ERR(0, 273, __pyx_L1_error)
       __pyx_t_9 = NULL;
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       goto __pyx_L6_unpacking_done;
@@ -8657,7 +8658,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_40relabe
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __pyx_t_9 = NULL;
       if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-      __PYX_ERR(0, 267, __pyx_L1_error)
+      __PYX_ERR(0, 273, __pyx_L1_error)
       __pyx_L6_unpacking_done:;
     }
     __Pyx_XDECREF_SET(__pyx_v_name, __pyx_t_7);
@@ -8665,18 +8666,18 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_40relabe
     __Pyx_XDECREF_SET(__pyx_v_vertex, __pyx_t_3);
     __pyx_t_3 = 0;
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":268
+    /* "grakel/kernels/_isomorphism/bliss.pyx":274
  *         g2 = Graph()
  *         for name,vertex in iteritems(self._vertices):
  *             inserted = g2.add_vertex(lab[name],vertex.color)             # <<<<<<<<<<<<<<
  *             if not inserted:
  *                 raise RuntimeError("'lab' is not a bijection")
  */
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_g2, __pyx_n_s_add_vertex); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 268, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_g2, __pyx_n_s_add_vertex); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 274, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_7 = __Pyx_PyObject_GetItem(__pyx_v_lab, __pyx_v_name); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 268, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_GetItem(__pyx_v_lab, __pyx_v_name); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 274, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_vertex, __pyx_n_s_color); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 268, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_vertex, __pyx_n_s_color); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 274, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __pyx_t_10 = NULL;
     __pyx_t_11 = 0;
@@ -8693,7 +8694,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_40relabe
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_3)) {
       PyObject *__pyx_temp[3] = {__pyx_t_10, __pyx_t_7, __pyx_t_6};
-      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 268, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 274, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -8703,7 +8704,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_40relabe
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
       PyObject *__pyx_temp[3] = {__pyx_t_10, __pyx_t_7, __pyx_t_6};
-      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 268, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 274, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -8711,7 +8712,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_40relabe
     } else
     #endif
     {
-      __pyx_t_12 = PyTuple_New(2+__pyx_t_11); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 268, __pyx_L1_error)
+      __pyx_t_12 = PyTuple_New(2+__pyx_t_11); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 274, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_12);
       if (__pyx_t_10) {
         __Pyx_GIVEREF(__pyx_t_10); PyTuple_SET_ITEM(__pyx_t_12, 0, __pyx_t_10); __pyx_t_10 = NULL;
@@ -8722,7 +8723,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_40relabe
       PyTuple_SET_ITEM(__pyx_t_12, 1+__pyx_t_11, __pyx_t_6);
       __pyx_t_7 = 0;
       __pyx_t_6 = 0;
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_12, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 268, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_12, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 274, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
     }
@@ -8730,31 +8731,31 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_40relabe
     __Pyx_XDECREF_SET(__pyx_v_inserted, __pyx_t_5);
     __pyx_t_5 = 0;
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":269
+    /* "grakel/kernels/_isomorphism/bliss.pyx":275
  *         for name,vertex in iteritems(self._vertices):
  *             inserted = g2.add_vertex(lab[name],vertex.color)
  *             if not inserted:             # <<<<<<<<<<<<<<
  *                 raise RuntimeError("'lab' is not a bijection")
  *         for name,vertex in iteritems(self._vertices):
  */
-    __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_v_inserted); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 269, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_v_inserted); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 275, __pyx_L1_error)
     __pyx_t_13 = ((!__pyx_t_1) != 0);
     if (unlikely(__pyx_t_13)) {
 
-      /* "grakel/kernels/_isomorphism/bliss.pyx":270
+      /* "grakel/kernels/_isomorphism/bliss.pyx":276
  *             inserted = g2.add_vertex(lab[name],vertex.color)
  *             if not inserted:
  *                 raise RuntimeError("'lab' is not a bijection")             # <<<<<<<<<<<<<<
  *         for name,vertex in iteritems(self._vertices):
  *             for neighbour in vertex.edges:
  */
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__20, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 270, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__20, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 276, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_Raise(__pyx_t_5, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __PYX_ERR(0, 270, __pyx_L1_error)
+      __PYX_ERR(0, 276, __pyx_L1_error)
 
-      /* "grakel/kernels/_isomorphism/bliss.pyx":269
+      /* "grakel/kernels/_isomorphism/bliss.pyx":275
  *         for name,vertex in iteritems(self._vertices):
  *             inserted = g2.add_vertex(lab[name],vertex.color)
  *             if not inserted:             # <<<<<<<<<<<<<<
@@ -8763,7 +8764,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_40relabe
  */
     }
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":267
+    /* "grakel/kernels/_isomorphism/bliss.pyx":273
  *         assert len(lab) == self.nof_vertices()
  *         g2 = Graph()
  *         for name,vertex in iteritems(self._vertices):             # <<<<<<<<<<<<<<
@@ -8773,16 +8774,16 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_40relabe
   }
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":271
+  /* "grakel/kernels/_isomorphism/bliss.pyx":277
  *             if not inserted:
  *                 raise RuntimeError("'lab' is not a bijection")
  *         for name,vertex in iteritems(self._vertices):             # <<<<<<<<<<<<<<
  *             for neighbour in vertex.edges:
  *                 if neighbour < vertex:
  */
-  __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_iteritems); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 271, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_iteritems); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 277, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 271, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 277, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_12 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_5))) {
@@ -8795,14 +8796,14 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_40relabe
     }
   }
   if (!__pyx_t_12) {
-    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 271, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 277, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_GOTREF(__pyx_t_4);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_5)) {
       PyObject *__pyx_temp[2] = {__pyx_t_12, __pyx_t_3};
-      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 271, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 277, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_12); __pyx_t_12 = 0;
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -8811,20 +8812,20 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_40relabe
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
       PyObject *__pyx_temp[2] = {__pyx_t_12, __pyx_t_3};
-      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 271, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 277, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_12); __pyx_t_12 = 0;
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     } else
     #endif
     {
-      __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 271, __pyx_L1_error)
+      __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 277, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_GIVEREF(__pyx_t_12); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_12); __pyx_t_12 = NULL;
       __Pyx_GIVEREF(__pyx_t_3);
       PyTuple_SET_ITEM(__pyx_t_6, 0+1, __pyx_t_3);
       __pyx_t_3 = 0;
-      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_6, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 271, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_6, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 277, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     }
@@ -8834,9 +8835,9 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_40relabe
     __pyx_t_5 = __pyx_t_4; __Pyx_INCREF(__pyx_t_5); __pyx_t_2 = 0;
     __pyx_t_8 = NULL;
   } else {
-    __pyx_t_2 = -1; __pyx_t_5 = PyObject_GetIter(__pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 271, __pyx_L1_error)
+    __pyx_t_2 = -1; __pyx_t_5 = PyObject_GetIter(__pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 277, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_8 = Py_TYPE(__pyx_t_5)->tp_iternext; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 271, __pyx_L1_error)
+    __pyx_t_8 = Py_TYPE(__pyx_t_5)->tp_iternext; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 277, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   for (;;) {
@@ -8844,17 +8845,17 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_40relabe
       if (likely(PyList_CheckExact(__pyx_t_5))) {
         if (__pyx_t_2 >= PyList_GET_SIZE(__pyx_t_5)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_4 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 271, __pyx_L1_error)
+        __pyx_t_4 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 277, __pyx_L1_error)
         #else
-        __pyx_t_4 = PySequence_ITEM(__pyx_t_5, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 271, __pyx_L1_error)
+        __pyx_t_4 = PySequence_ITEM(__pyx_t_5, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 277, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         #endif
       } else {
         if (__pyx_t_2 >= PyTuple_GET_SIZE(__pyx_t_5)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_5, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 271, __pyx_L1_error)
+        __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_5, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 277, __pyx_L1_error)
         #else
-        __pyx_t_4 = PySequence_ITEM(__pyx_t_5, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 271, __pyx_L1_error)
+        __pyx_t_4 = PySequence_ITEM(__pyx_t_5, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 277, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         #endif
       }
@@ -8864,7 +8865,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_40relabe
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 271, __pyx_L1_error)
+          else __PYX_ERR(0, 277, __pyx_L1_error)
         }
         break;
       }
@@ -8876,7 +8877,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_40relabe
       if (unlikely(size != 2)) {
         if (size > 2) __Pyx_RaiseTooManyValuesError(2);
         else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-        __PYX_ERR(0, 271, __pyx_L1_error)
+        __PYX_ERR(0, 277, __pyx_L1_error)
       }
       #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
       if (likely(PyTuple_CheckExact(sequence))) {
@@ -8889,15 +8890,15 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_40relabe
       __Pyx_INCREF(__pyx_t_6);
       __Pyx_INCREF(__pyx_t_3);
       #else
-      __pyx_t_6 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 271, __pyx_L1_error)
+      __pyx_t_6 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 277, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_3 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 271, __pyx_L1_error)
+      __pyx_t_3 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 277, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       #endif
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     } else {
       Py_ssize_t index = -1;
-      __pyx_t_12 = PyObject_GetIter(__pyx_t_4); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 271, __pyx_L1_error)
+      __pyx_t_12 = PyObject_GetIter(__pyx_t_4); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 277, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_12);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       __pyx_t_9 = Py_TYPE(__pyx_t_12)->tp_iternext;
@@ -8905,7 +8906,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_40relabe
       __Pyx_GOTREF(__pyx_t_6);
       index = 1; __pyx_t_3 = __pyx_t_9(__pyx_t_12); if (unlikely(!__pyx_t_3)) goto __pyx_L10_unpacking_failed;
       __Pyx_GOTREF(__pyx_t_3);
-      if (__Pyx_IternextUnpackEndCheck(__pyx_t_9(__pyx_t_12), 2) < 0) __PYX_ERR(0, 271, __pyx_L1_error)
+      if (__Pyx_IternextUnpackEndCheck(__pyx_t_9(__pyx_t_12), 2) < 0) __PYX_ERR(0, 277, __pyx_L1_error)
       __pyx_t_9 = NULL;
       __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
       goto __pyx_L11_unpacking_done;
@@ -8913,7 +8914,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_40relabe
       __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
       __pyx_t_9 = NULL;
       if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-      __PYX_ERR(0, 271, __pyx_L1_error)
+      __PYX_ERR(0, 277, __pyx_L1_error)
       __pyx_L11_unpacking_done:;
     }
     __Pyx_XDECREF_SET(__pyx_v_name, __pyx_t_6);
@@ -8921,22 +8922,22 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_40relabe
     __Pyx_XDECREF_SET(__pyx_v_vertex, __pyx_t_3);
     __pyx_t_3 = 0;
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":272
+    /* "grakel/kernels/_isomorphism/bliss.pyx":278
  *                 raise RuntimeError("'lab' is not a bijection")
  *         for name,vertex in iteritems(self._vertices):
  *             for neighbour in vertex.edges:             # <<<<<<<<<<<<<<
  *                 if neighbour < vertex:
  *                     continue
  */
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_vertex, __pyx_n_s_edges); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 272, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_vertex, __pyx_n_s_edges); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 278, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     if (likely(PyList_CheckExact(__pyx_t_4)) || PyTuple_CheckExact(__pyx_t_4)) {
       __pyx_t_3 = __pyx_t_4; __Pyx_INCREF(__pyx_t_3); __pyx_t_14 = 0;
       __pyx_t_15 = NULL;
     } else {
-      __pyx_t_14 = -1; __pyx_t_3 = PyObject_GetIter(__pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 272, __pyx_L1_error)
+      __pyx_t_14 = -1; __pyx_t_3 = PyObject_GetIter(__pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 278, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_15 = Py_TYPE(__pyx_t_3)->tp_iternext; if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 272, __pyx_L1_error)
+      __pyx_t_15 = Py_TYPE(__pyx_t_3)->tp_iternext; if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 278, __pyx_L1_error)
     }
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     for (;;) {
@@ -8944,17 +8945,17 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_40relabe
         if (likely(PyList_CheckExact(__pyx_t_3))) {
           if (__pyx_t_14 >= PyList_GET_SIZE(__pyx_t_3)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_4 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_14); __Pyx_INCREF(__pyx_t_4); __pyx_t_14++; if (unlikely(0 < 0)) __PYX_ERR(0, 272, __pyx_L1_error)
+          __pyx_t_4 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_14); __Pyx_INCREF(__pyx_t_4); __pyx_t_14++; if (unlikely(0 < 0)) __PYX_ERR(0, 278, __pyx_L1_error)
           #else
-          __pyx_t_4 = PySequence_ITEM(__pyx_t_3, __pyx_t_14); __pyx_t_14++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 272, __pyx_L1_error)
+          __pyx_t_4 = PySequence_ITEM(__pyx_t_3, __pyx_t_14); __pyx_t_14++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 278, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_4);
           #endif
         } else {
           if (__pyx_t_14 >= PyTuple_GET_SIZE(__pyx_t_3)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_14); __Pyx_INCREF(__pyx_t_4); __pyx_t_14++; if (unlikely(0 < 0)) __PYX_ERR(0, 272, __pyx_L1_error)
+          __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_14); __Pyx_INCREF(__pyx_t_4); __pyx_t_14++; if (unlikely(0 < 0)) __PYX_ERR(0, 278, __pyx_L1_error)
           #else
-          __pyx_t_4 = PySequence_ITEM(__pyx_t_3, __pyx_t_14); __pyx_t_14++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 272, __pyx_L1_error)
+          __pyx_t_4 = PySequence_ITEM(__pyx_t_3, __pyx_t_14); __pyx_t_14++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 278, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_4);
           #endif
         }
@@ -8964,7 +8965,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_40relabe
           PyObject* exc_type = PyErr_Occurred();
           if (exc_type) {
             if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else __PYX_ERR(0, 272, __pyx_L1_error)
+            else __PYX_ERR(0, 278, __pyx_L1_error)
           }
           break;
         }
@@ -8973,19 +8974,19 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_40relabe
       __Pyx_XDECREF_SET(__pyx_v_neighbour, __pyx_t_4);
       __pyx_t_4 = 0;
 
-      /* "grakel/kernels/_isomorphism/bliss.pyx":273
+      /* "grakel/kernels/_isomorphism/bliss.pyx":279
  *         for name,vertex in iteritems(self._vertices):
  *             for neighbour in vertex.edges:
  *                 if neighbour < vertex:             # <<<<<<<<<<<<<<
  *                     continue
  *                 g2.add_edge(lab[name], lab[neighbour.name])
  */
-      __pyx_t_4 = PyObject_RichCompare(__pyx_v_neighbour, __pyx_v_vertex, Py_LT); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 273, __pyx_L1_error)
-      __pyx_t_13 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_13 < 0)) __PYX_ERR(0, 273, __pyx_L1_error)
+      __pyx_t_4 = PyObject_RichCompare(__pyx_v_neighbour, __pyx_v_vertex, Py_LT); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 279, __pyx_L1_error)
+      __pyx_t_13 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_13 < 0)) __PYX_ERR(0, 279, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       if (__pyx_t_13) {
 
-        /* "grakel/kernels/_isomorphism/bliss.pyx":274
+        /* "grakel/kernels/_isomorphism/bliss.pyx":280
  *             for neighbour in vertex.edges:
  *                 if neighbour < vertex:
  *                     continue             # <<<<<<<<<<<<<<
@@ -8994,7 +8995,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_40relabe
  */
         goto __pyx_L12_continue;
 
-        /* "grakel/kernels/_isomorphism/bliss.pyx":273
+        /* "grakel/kernels/_isomorphism/bliss.pyx":279
  *         for name,vertex in iteritems(self._vertices):
  *             for neighbour in vertex.edges:
  *                 if neighbour < vertex:             # <<<<<<<<<<<<<<
@@ -9003,20 +9004,20 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_40relabe
  */
       }
 
-      /* "grakel/kernels/_isomorphism/bliss.pyx":275
+      /* "grakel/kernels/_isomorphism/bliss.pyx":281
  *                 if neighbour < vertex:
  *                     continue
  *                 g2.add_edge(lab[name], lab[neighbour.name])             # <<<<<<<<<<<<<<
  *         return g2
  * 
  */
-      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_g2, __pyx_n_s_add_edge); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 275, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_g2, __pyx_n_s_add_edge); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 281, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_12 = __Pyx_PyObject_GetItem(__pyx_v_lab, __pyx_v_name); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 275, __pyx_L1_error)
+      __pyx_t_12 = __Pyx_PyObject_GetItem(__pyx_v_lab, __pyx_v_name); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 281, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_12);
-      __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_neighbour, __pyx_n_s_name); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 275, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_neighbour, __pyx_n_s_name); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 281, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_10 = __Pyx_PyObject_GetItem(__pyx_v_lab, __pyx_t_7); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 275, __pyx_L1_error)
+      __pyx_t_10 = __Pyx_PyObject_GetItem(__pyx_v_lab, __pyx_t_7); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 281, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_10);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __pyx_t_7 = NULL;
@@ -9034,7 +9035,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_40relabe
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_6)) {
         PyObject *__pyx_temp[3] = {__pyx_t_7, __pyx_t_12, __pyx_t_10};
-        __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 275, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 281, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
@@ -9044,7 +9045,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_40relabe
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
         PyObject *__pyx_temp[3] = {__pyx_t_7, __pyx_t_12, __pyx_t_10};
-        __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 275, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 281, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
@@ -9052,7 +9053,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_40relabe
       } else
       #endif
       {
-        __pyx_t_16 = PyTuple_New(2+__pyx_t_11); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 275, __pyx_L1_error)
+        __pyx_t_16 = PyTuple_New(2+__pyx_t_11); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 281, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_16);
         if (__pyx_t_7) {
           __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_16, 0, __pyx_t_7); __pyx_t_7 = NULL;
@@ -9063,14 +9064,14 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_40relabe
         PyTuple_SET_ITEM(__pyx_t_16, 1+__pyx_t_11, __pyx_t_10);
         __pyx_t_12 = 0;
         __pyx_t_10 = 0;
-        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_16, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 275, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_16, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 281, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
       }
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-      /* "grakel/kernels/_isomorphism/bliss.pyx":272
+      /* "grakel/kernels/_isomorphism/bliss.pyx":278
  *                 raise RuntimeError("'lab' is not a bijection")
  *         for name,vertex in iteritems(self._vertices):
  *             for neighbour in vertex.edges:             # <<<<<<<<<<<<<<
@@ -9081,7 +9082,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_40relabe
     }
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":271
+    /* "grakel/kernels/_isomorphism/bliss.pyx":277
  *             if not inserted:
  *                 raise RuntimeError("'lab' is not a bijection")
  *         for name,vertex in iteritems(self._vertices):             # <<<<<<<<<<<<<<
@@ -9091,7 +9092,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_40relabe
   }
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":276
+  /* "grakel/kernels/_isomorphism/bliss.pyx":282
  *                     continue
  *                 g2.add_edge(lab[name], lab[neighbour.name])
  *         return g2             # <<<<<<<<<<<<<<
@@ -9103,7 +9104,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_40relabe
   __pyx_r = __pyx_v_g2;
   goto __pyx_L0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":257
+  /* "grakel/kernels/_isomorphism/bliss.pyx":263
  *         return canlab
  * 
  *     def relabel(self, lab):             # <<<<<<<<<<<<<<
@@ -9134,7 +9135,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_40relabe
   return __pyx_r;
 }
 
-/* "grakel/kernels/_isomorphism/bliss.pyx":278
+/* "grakel/kernels/_isomorphism/bliss.pyx":284
  *         return g2
  * 
  *     def copy(self):             # <<<<<<<<<<<<<<
@@ -9180,14 +9181,14 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_42copy(C
   PyObject *__pyx_t_14 = NULL;
   __Pyx_RefNannySetupContext("copy", 0);
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":282
+  /* "grakel/kernels/_isomorphism/bliss.pyx":288
  *         Return a copy of this graph.
  *         """
  *         g2 = Graph()             # <<<<<<<<<<<<<<
  *         for name,vertex in iteritems(self._vertices):
  *             g2.add_vertex(name, vertex.color)
  */
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_Graph); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 282, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_Graph); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 288, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
@@ -9200,26 +9201,26 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_42copy(C
     }
   }
   if (__pyx_t_3) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 282, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 288, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   } else {
-    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 282, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 288, __pyx_L1_error)
   }
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_g2 = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":283
+  /* "grakel/kernels/_isomorphism/bliss.pyx":289
  *         """
  *         g2 = Graph()
  *         for name,vertex in iteritems(self._vertices):             # <<<<<<<<<<<<<<
  *             g2.add_vertex(name, vertex.color)
  *         for name,vertex in iteritems(self._vertices):
  */
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_iteritems); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 283, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_iteritems); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 289, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 283, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 289, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
@@ -9232,14 +9233,14 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_42copy(C
     }
   }
   if (!__pyx_t_4) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 283, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 289, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_2)) {
       PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_t_3};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 283, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 289, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -9248,20 +9249,20 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_42copy(C
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
       PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_t_3};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 283, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 289, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     } else
     #endif
     {
-      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 283, __pyx_L1_error)
+      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 289, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4); __pyx_t_4 = NULL;
       __Pyx_GIVEREF(__pyx_t_3);
       PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_t_3);
       __pyx_t_3 = 0;
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 283, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 289, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     }
@@ -9271,9 +9272,9 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_42copy(C
     __pyx_t_2 = __pyx_t_1; __Pyx_INCREF(__pyx_t_2); __pyx_t_6 = 0;
     __pyx_t_7 = NULL;
   } else {
-    __pyx_t_6 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 283, __pyx_L1_error)
+    __pyx_t_6 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 289, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_7 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 283, __pyx_L1_error)
+    __pyx_t_7 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 289, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   for (;;) {
@@ -9281,17 +9282,17 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_42copy(C
       if (likely(PyList_CheckExact(__pyx_t_2))) {
         if (__pyx_t_6 >= PyList_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_6); __Pyx_INCREF(__pyx_t_1); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 283, __pyx_L1_error)
+        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_6); __Pyx_INCREF(__pyx_t_1); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 289, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 283, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 289, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       } else {
         if (__pyx_t_6 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_6); __Pyx_INCREF(__pyx_t_1); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 283, __pyx_L1_error)
+        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_6); __Pyx_INCREF(__pyx_t_1); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 289, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 283, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 289, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       }
@@ -9301,7 +9302,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_42copy(C
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 283, __pyx_L1_error)
+          else __PYX_ERR(0, 289, __pyx_L1_error)
         }
         break;
       }
@@ -9313,7 +9314,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_42copy(C
       if (unlikely(size != 2)) {
         if (size > 2) __Pyx_RaiseTooManyValuesError(2);
         else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-        __PYX_ERR(0, 283, __pyx_L1_error)
+        __PYX_ERR(0, 289, __pyx_L1_error)
       }
       #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
       if (likely(PyTuple_CheckExact(sequence))) {
@@ -9326,15 +9327,15 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_42copy(C
       __Pyx_INCREF(__pyx_t_5);
       __Pyx_INCREF(__pyx_t_3);
       #else
-      __pyx_t_5 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 283, __pyx_L1_error)
+      __pyx_t_5 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 289, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_3 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 283, __pyx_L1_error)
+      __pyx_t_3 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 289, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       #endif
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     } else {
       Py_ssize_t index = -1;
-      __pyx_t_4 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 283, __pyx_L1_error)
+      __pyx_t_4 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 289, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __pyx_t_8 = Py_TYPE(__pyx_t_4)->tp_iternext;
@@ -9342,7 +9343,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_42copy(C
       __Pyx_GOTREF(__pyx_t_5);
       index = 1; __pyx_t_3 = __pyx_t_8(__pyx_t_4); if (unlikely(!__pyx_t_3)) goto __pyx_L5_unpacking_failed;
       __Pyx_GOTREF(__pyx_t_3);
-      if (__Pyx_IternextUnpackEndCheck(__pyx_t_8(__pyx_t_4), 2) < 0) __PYX_ERR(0, 283, __pyx_L1_error)
+      if (__Pyx_IternextUnpackEndCheck(__pyx_t_8(__pyx_t_4), 2) < 0) __PYX_ERR(0, 289, __pyx_L1_error)
       __pyx_t_8 = NULL;
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       goto __pyx_L6_unpacking_done;
@@ -9350,7 +9351,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_42copy(C
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       __pyx_t_8 = NULL;
       if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-      __PYX_ERR(0, 283, __pyx_L1_error)
+      __PYX_ERR(0, 289, __pyx_L1_error)
       __pyx_L6_unpacking_done:;
     }
     __Pyx_XDECREF_SET(__pyx_v_name, __pyx_t_5);
@@ -9358,16 +9359,16 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_42copy(C
     __Pyx_XDECREF_SET(__pyx_v_vertex, __pyx_t_3);
     __pyx_t_3 = 0;
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":284
+    /* "grakel/kernels/_isomorphism/bliss.pyx":290
  *         g2 = Graph()
  *         for name,vertex in iteritems(self._vertices):
  *             g2.add_vertex(name, vertex.color)             # <<<<<<<<<<<<<<
  *         for name,vertex in iteritems(self._vertices):
  *             for neighbour in vertex.edges:
  */
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_g2, __pyx_n_s_add_vertex); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 284, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_g2, __pyx_n_s_add_vertex); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 290, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_vertex, __pyx_n_s_color); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 284, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_vertex, __pyx_n_s_color); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 290, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __pyx_t_4 = NULL;
     __pyx_t_9 = 0;
@@ -9384,7 +9385,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_42copy(C
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_3)) {
       PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_v_name, __pyx_t_5};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 284, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 290, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -9393,14 +9394,14 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_42copy(C
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
       PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_v_name, __pyx_t_5};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 284, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 290, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     } else
     #endif
     {
-      __pyx_t_10 = PyTuple_New(2+__pyx_t_9); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 284, __pyx_L1_error)
+      __pyx_t_10 = PyTuple_New(2+__pyx_t_9); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 290, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_10);
       if (__pyx_t_4) {
         __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_10, 0, __pyx_t_4); __pyx_t_4 = NULL;
@@ -9411,14 +9412,14 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_42copy(C
       __Pyx_GIVEREF(__pyx_t_5);
       PyTuple_SET_ITEM(__pyx_t_10, 1+__pyx_t_9, __pyx_t_5);
       __pyx_t_5 = 0;
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_10, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 284, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_10, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 290, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     }
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":283
+    /* "grakel/kernels/_isomorphism/bliss.pyx":289
  *         """
  *         g2 = Graph()
  *         for name,vertex in iteritems(self._vertices):             # <<<<<<<<<<<<<<
@@ -9428,16 +9429,16 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_42copy(C
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":285
+  /* "grakel/kernels/_isomorphism/bliss.pyx":291
  *         for name,vertex in iteritems(self._vertices):
  *             g2.add_vertex(name, vertex.color)
  *         for name,vertex in iteritems(self._vertices):             # <<<<<<<<<<<<<<
  *             for neighbour in vertex.edges:
  *                 if neighbour < vertex:
  */
-  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_iteritems); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 285, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_iteritems); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 291, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 285, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 291, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_10 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_1))) {
@@ -9450,14 +9451,14 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_42copy(C
     }
   }
   if (!__pyx_t_10) {
-    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 285, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 291, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_GOTREF(__pyx_t_2);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_1)) {
       PyObject *__pyx_temp[2] = {__pyx_t_10, __pyx_t_3};
-      __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_1, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 285, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_1, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 291, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -9466,20 +9467,20 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_42copy(C
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_1)) {
       PyObject *__pyx_temp[2] = {__pyx_t_10, __pyx_t_3};
-      __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_1, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 285, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_1, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 291, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     } else
     #endif
     {
-      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 285, __pyx_L1_error)
+      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 291, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_GIVEREF(__pyx_t_10); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_10); __pyx_t_10 = NULL;
       __Pyx_GIVEREF(__pyx_t_3);
       PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_t_3);
       __pyx_t_3 = 0;
-      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_5, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 285, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_5, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 291, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     }
@@ -9489,9 +9490,9 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_42copy(C
     __pyx_t_1 = __pyx_t_2; __Pyx_INCREF(__pyx_t_1); __pyx_t_6 = 0;
     __pyx_t_7 = NULL;
   } else {
-    __pyx_t_6 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 285, __pyx_L1_error)
+    __pyx_t_6 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 291, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_7 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 285, __pyx_L1_error)
+    __pyx_t_7 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 291, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   for (;;) {
@@ -9499,17 +9500,17 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_42copy(C
       if (likely(PyList_CheckExact(__pyx_t_1))) {
         if (__pyx_t_6 >= PyList_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_2 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_6); __Pyx_INCREF(__pyx_t_2); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 285, __pyx_L1_error)
+        __pyx_t_2 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_6); __Pyx_INCREF(__pyx_t_2); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 291, __pyx_L1_error)
         #else
-        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 285, __pyx_L1_error)
+        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 291, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         #endif
       } else {
         if (__pyx_t_6 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_6); __Pyx_INCREF(__pyx_t_2); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 285, __pyx_L1_error)
+        __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_6); __Pyx_INCREF(__pyx_t_2); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 291, __pyx_L1_error)
         #else
-        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 285, __pyx_L1_error)
+        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 291, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         #endif
       }
@@ -9519,7 +9520,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_42copy(C
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 285, __pyx_L1_error)
+          else __PYX_ERR(0, 291, __pyx_L1_error)
         }
         break;
       }
@@ -9531,7 +9532,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_42copy(C
       if (unlikely(size != 2)) {
         if (size > 2) __Pyx_RaiseTooManyValuesError(2);
         else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-        __PYX_ERR(0, 285, __pyx_L1_error)
+        __PYX_ERR(0, 291, __pyx_L1_error)
       }
       #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
       if (likely(PyTuple_CheckExact(sequence))) {
@@ -9544,15 +9545,15 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_42copy(C
       __Pyx_INCREF(__pyx_t_5);
       __Pyx_INCREF(__pyx_t_3);
       #else
-      __pyx_t_5 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 285, __pyx_L1_error)
+      __pyx_t_5 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 291, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_3 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 285, __pyx_L1_error)
+      __pyx_t_3 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 291, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       #endif
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     } else {
       Py_ssize_t index = -1;
-      __pyx_t_10 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 285, __pyx_L1_error)
+      __pyx_t_10 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 291, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_10);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __pyx_t_8 = Py_TYPE(__pyx_t_10)->tp_iternext;
@@ -9560,7 +9561,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_42copy(C
       __Pyx_GOTREF(__pyx_t_5);
       index = 1; __pyx_t_3 = __pyx_t_8(__pyx_t_10); if (unlikely(!__pyx_t_3)) goto __pyx_L9_unpacking_failed;
       __Pyx_GOTREF(__pyx_t_3);
-      if (__Pyx_IternextUnpackEndCheck(__pyx_t_8(__pyx_t_10), 2) < 0) __PYX_ERR(0, 285, __pyx_L1_error)
+      if (__Pyx_IternextUnpackEndCheck(__pyx_t_8(__pyx_t_10), 2) < 0) __PYX_ERR(0, 291, __pyx_L1_error)
       __pyx_t_8 = NULL;
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
       goto __pyx_L10_unpacking_done;
@@ -9568,7 +9569,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_42copy(C
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
       __pyx_t_8 = NULL;
       if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-      __PYX_ERR(0, 285, __pyx_L1_error)
+      __PYX_ERR(0, 291, __pyx_L1_error)
       __pyx_L10_unpacking_done:;
     }
     __Pyx_XDECREF_SET(__pyx_v_name, __pyx_t_5);
@@ -9576,22 +9577,22 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_42copy(C
     __Pyx_XDECREF_SET(__pyx_v_vertex, __pyx_t_3);
     __pyx_t_3 = 0;
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":286
+    /* "grakel/kernels/_isomorphism/bliss.pyx":292
  *             g2.add_vertex(name, vertex.color)
  *         for name,vertex in iteritems(self._vertices):
  *             for neighbour in vertex.edges:             # <<<<<<<<<<<<<<
  *                 if neighbour < vertex:
  *                     continue
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_vertex, __pyx_n_s_edges); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 286, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_vertex, __pyx_n_s_edges); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 292, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     if (likely(PyList_CheckExact(__pyx_t_2)) || PyTuple_CheckExact(__pyx_t_2)) {
       __pyx_t_3 = __pyx_t_2; __Pyx_INCREF(__pyx_t_3); __pyx_t_11 = 0;
       __pyx_t_12 = NULL;
     } else {
-      __pyx_t_11 = -1; __pyx_t_3 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 286, __pyx_L1_error)
+      __pyx_t_11 = -1; __pyx_t_3 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 292, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_12 = Py_TYPE(__pyx_t_3)->tp_iternext; if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 286, __pyx_L1_error)
+      __pyx_t_12 = Py_TYPE(__pyx_t_3)->tp_iternext; if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 292, __pyx_L1_error)
     }
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     for (;;) {
@@ -9599,17 +9600,17 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_42copy(C
         if (likely(PyList_CheckExact(__pyx_t_3))) {
           if (__pyx_t_11 >= PyList_GET_SIZE(__pyx_t_3)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_2 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_11); __Pyx_INCREF(__pyx_t_2); __pyx_t_11++; if (unlikely(0 < 0)) __PYX_ERR(0, 286, __pyx_L1_error)
+          __pyx_t_2 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_11); __Pyx_INCREF(__pyx_t_2); __pyx_t_11++; if (unlikely(0 < 0)) __PYX_ERR(0, 292, __pyx_L1_error)
           #else
-          __pyx_t_2 = PySequence_ITEM(__pyx_t_3, __pyx_t_11); __pyx_t_11++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 286, __pyx_L1_error)
+          __pyx_t_2 = PySequence_ITEM(__pyx_t_3, __pyx_t_11); __pyx_t_11++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 292, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
           #endif
         } else {
           if (__pyx_t_11 >= PyTuple_GET_SIZE(__pyx_t_3)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_11); __Pyx_INCREF(__pyx_t_2); __pyx_t_11++; if (unlikely(0 < 0)) __PYX_ERR(0, 286, __pyx_L1_error)
+          __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_11); __Pyx_INCREF(__pyx_t_2); __pyx_t_11++; if (unlikely(0 < 0)) __PYX_ERR(0, 292, __pyx_L1_error)
           #else
-          __pyx_t_2 = PySequence_ITEM(__pyx_t_3, __pyx_t_11); __pyx_t_11++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 286, __pyx_L1_error)
+          __pyx_t_2 = PySequence_ITEM(__pyx_t_3, __pyx_t_11); __pyx_t_11++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 292, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
           #endif
         }
@@ -9619,7 +9620,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_42copy(C
           PyObject* exc_type = PyErr_Occurred();
           if (exc_type) {
             if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else __PYX_ERR(0, 286, __pyx_L1_error)
+            else __PYX_ERR(0, 292, __pyx_L1_error)
           }
           break;
         }
@@ -9628,19 +9629,19 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_42copy(C
       __Pyx_XDECREF_SET(__pyx_v_neighbour, __pyx_t_2);
       __pyx_t_2 = 0;
 
-      /* "grakel/kernels/_isomorphism/bliss.pyx":287
+      /* "grakel/kernels/_isomorphism/bliss.pyx":293
  *         for name,vertex in iteritems(self._vertices):
  *             for neighbour in vertex.edges:
  *                 if neighbour < vertex:             # <<<<<<<<<<<<<<
  *                     continue
  *                 g2.add_edge(name, neighbour.name)
  */
-      __pyx_t_2 = PyObject_RichCompare(__pyx_v_neighbour, __pyx_v_vertex, Py_LT); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 287, __pyx_L1_error)
-      __pyx_t_13 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_13 < 0)) __PYX_ERR(0, 287, __pyx_L1_error)
+      __pyx_t_2 = PyObject_RichCompare(__pyx_v_neighbour, __pyx_v_vertex, Py_LT); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 293, __pyx_L1_error)
+      __pyx_t_13 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_13 < 0)) __PYX_ERR(0, 293, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       if (__pyx_t_13) {
 
-        /* "grakel/kernels/_isomorphism/bliss.pyx":288
+        /* "grakel/kernels/_isomorphism/bliss.pyx":294
  *             for neighbour in vertex.edges:
  *                 if neighbour < vertex:
  *                     continue             # <<<<<<<<<<<<<<
@@ -9649,7 +9650,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_42copy(C
  */
         goto __pyx_L11_continue;
 
-        /* "grakel/kernels/_isomorphism/bliss.pyx":287
+        /* "grakel/kernels/_isomorphism/bliss.pyx":293
  *         for name,vertex in iteritems(self._vertices):
  *             for neighbour in vertex.edges:
  *                 if neighbour < vertex:             # <<<<<<<<<<<<<<
@@ -9658,16 +9659,16 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_42copy(C
  */
       }
 
-      /* "grakel/kernels/_isomorphism/bliss.pyx":289
+      /* "grakel/kernels/_isomorphism/bliss.pyx":295
  *                 if neighbour < vertex:
  *                     continue
  *                 g2.add_edge(name, neighbour.name)             # <<<<<<<<<<<<<<
  *         return g2
  * 
  */
-      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_g2, __pyx_n_s_add_edge); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 289, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_g2, __pyx_n_s_add_edge); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 295, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_v_neighbour, __pyx_n_s_name); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 289, __pyx_L1_error)
+      __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_v_neighbour, __pyx_n_s_name); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 295, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_10);
       __pyx_t_4 = NULL;
       __pyx_t_9 = 0;
@@ -9684,7 +9685,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_42copy(C
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_5)) {
         PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_v_name, __pyx_t_10};
-        __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 289, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 295, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
@@ -9693,14 +9694,14 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_42copy(C
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
         PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_v_name, __pyx_t_10};
-        __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 289, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 295, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
       } else
       #endif
       {
-        __pyx_t_14 = PyTuple_New(2+__pyx_t_9); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 289, __pyx_L1_error)
+        __pyx_t_14 = PyTuple_New(2+__pyx_t_9); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 295, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_14);
         if (__pyx_t_4) {
           __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_14, 0, __pyx_t_4); __pyx_t_4 = NULL;
@@ -9711,14 +9712,14 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_42copy(C
         __Pyx_GIVEREF(__pyx_t_10);
         PyTuple_SET_ITEM(__pyx_t_14, 1+__pyx_t_9, __pyx_t_10);
         __pyx_t_10 = 0;
-        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_14, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 289, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_14, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 295, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
       }
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-      /* "grakel/kernels/_isomorphism/bliss.pyx":286
+      /* "grakel/kernels/_isomorphism/bliss.pyx":292
  *             g2.add_vertex(name, vertex.color)
  *         for name,vertex in iteritems(self._vertices):
  *             for neighbour in vertex.edges:             # <<<<<<<<<<<<<<
@@ -9729,7 +9730,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_42copy(C
     }
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":285
+    /* "grakel/kernels/_isomorphism/bliss.pyx":291
  *         for name,vertex in iteritems(self._vertices):
  *             g2.add_vertex(name, vertex.color)
  *         for name,vertex in iteritems(self._vertices):             # <<<<<<<<<<<<<<
@@ -9739,7 +9740,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_42copy(C
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":290
+  /* "grakel/kernels/_isomorphism/bliss.pyx":296
  *                     continue
  *                 g2.add_edge(name, neighbour.name)
  *         return g2             # <<<<<<<<<<<<<<
@@ -9751,7 +9752,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_42copy(C
   __pyx_r = __pyx_v_g2;
   goto __pyx_L0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":278
+  /* "grakel/kernels/_isomorphism/bliss.pyx":284
  *         return g2
  * 
  *     def copy(self):             # <<<<<<<<<<<<<<
@@ -9780,7 +9781,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_42copy(C
   return __pyx_r;
 }
 
-/* "grakel/kernels/_isomorphism/bliss.pyx":292
+/* "grakel/kernels/_isomorphism/bliss.pyx":298
  *         return g2
  * 
  *     def is_equal(self, g):             # <<<<<<<<<<<<<<
@@ -9821,11 +9822,11 @@ static PyObject *__pyx_pw_6grakel_7kernels_12_isomorphism_5bliss_5Graph_45is_equ
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_g)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("is_equal", 1, 2, 2, 1); __PYX_ERR(0, 292, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("is_equal", 1, 2, 2, 1); __PYX_ERR(0, 298, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "is_equal") < 0)) __PYX_ERR(0, 292, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "is_equal") < 0)) __PYX_ERR(0, 298, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -9838,7 +9839,7 @@ static PyObject *__pyx_pw_6grakel_7kernels_12_isomorphism_5bliss_5Graph_45is_equ
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("is_equal", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 292, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("is_equal", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 298, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("grakel.kernels._isomorphism.bliss.Graph.is_equal", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -9873,25 +9874,25 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_44is_equ
   PyObject *(*__pyx_t_12)(PyObject *);
   __Pyx_RefNannySetupContext("is_equal", 0);
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":297
+  /* "grakel/kernels/_isomorphism/bliss.pyx":303
  *         Returns True if this is the case and False otherwise.
  *         """
  *         if len(self._vertices) != len(g._vertices):             # <<<<<<<<<<<<<<
  *             return False
  *         for name,vertex in iteritems(self._vertices):
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 297, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 303, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 297, __pyx_L1_error)
+  __pyx_t_2 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 303, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_g, __pyx_n_s_vertices); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 297, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_g, __pyx_n_s_vertices); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 303, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(0, 297, __pyx_L1_error)
+  __pyx_t_3 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(0, 303, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_4 = ((__pyx_t_2 != __pyx_t_3) != 0);
   if (__pyx_t_4) {
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":298
+    /* "grakel/kernels/_isomorphism/bliss.pyx":304
  *         """
  *         if len(self._vertices) != len(g._vertices):
  *             return False             # <<<<<<<<<<<<<<
@@ -9903,7 +9904,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_44is_equ
     __pyx_r = Py_False;
     goto __pyx_L0;
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":297
+    /* "grakel/kernels/_isomorphism/bliss.pyx":303
  *         Returns True if this is the case and False otherwise.
  *         """
  *         if len(self._vertices) != len(g._vertices):             # <<<<<<<<<<<<<<
@@ -9912,16 +9913,16 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_44is_equ
  */
   }
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":299
+  /* "grakel/kernels/_isomorphism/bliss.pyx":305
  *         if len(self._vertices) != len(g._vertices):
  *             return False
  *         for name,vertex in iteritems(self._vertices):             # <<<<<<<<<<<<<<
  *             if name not in g._vertices:
  *                 return False
  */
-  __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_iteritems); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 299, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_iteritems); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 305, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 299, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 305, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __pyx_t_7 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_5))) {
@@ -9934,14 +9935,14 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_44is_equ
     }
   }
   if (!__pyx_t_7) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 299, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 305, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_5)) {
       PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_6};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 299, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 305, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -9950,20 +9951,20 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_44is_equ
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
       PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_6};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 299, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 305, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     } else
     #endif
     {
-      __pyx_t_8 = PyTuple_New(1+1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 299, __pyx_L1_error)
+      __pyx_t_8 = PyTuple_New(1+1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 305, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_7); __pyx_t_7 = NULL;
       __Pyx_GIVEREF(__pyx_t_6);
       PyTuple_SET_ITEM(__pyx_t_8, 0+1, __pyx_t_6);
       __pyx_t_6 = 0;
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_8, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 299, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_8, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 305, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     }
@@ -9973,9 +9974,9 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_44is_equ
     __pyx_t_5 = __pyx_t_1; __Pyx_INCREF(__pyx_t_5); __pyx_t_3 = 0;
     __pyx_t_9 = NULL;
   } else {
-    __pyx_t_3 = -1; __pyx_t_5 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 299, __pyx_L1_error)
+    __pyx_t_3 = -1; __pyx_t_5 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 305, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_9 = Py_TYPE(__pyx_t_5)->tp_iternext; if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 299, __pyx_L1_error)
+    __pyx_t_9 = Py_TYPE(__pyx_t_5)->tp_iternext; if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 305, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   for (;;) {
@@ -9983,17 +9984,17 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_44is_equ
       if (likely(PyList_CheckExact(__pyx_t_5))) {
         if (__pyx_t_3 >= PyList_GET_SIZE(__pyx_t_5)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 299, __pyx_L1_error)
+        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 305, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_5, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 299, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_5, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 305, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       } else {
         if (__pyx_t_3 >= PyTuple_GET_SIZE(__pyx_t_5)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_5, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 299, __pyx_L1_error)
+        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_5, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 305, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_5, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 299, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_5, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 305, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       }
@@ -10003,7 +10004,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_44is_equ
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 299, __pyx_L1_error)
+          else __PYX_ERR(0, 305, __pyx_L1_error)
         }
         break;
       }
@@ -10015,7 +10016,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_44is_equ
       if (unlikely(size != 2)) {
         if (size > 2) __Pyx_RaiseTooManyValuesError(2);
         else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-        __PYX_ERR(0, 299, __pyx_L1_error)
+        __PYX_ERR(0, 305, __pyx_L1_error)
       }
       #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
       if (likely(PyTuple_CheckExact(sequence))) {
@@ -10028,15 +10029,15 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_44is_equ
       __Pyx_INCREF(__pyx_t_8);
       __Pyx_INCREF(__pyx_t_6);
       #else
-      __pyx_t_8 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 299, __pyx_L1_error)
+      __pyx_t_8 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 305, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
-      __pyx_t_6 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 299, __pyx_L1_error)
+      __pyx_t_6 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 305, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       #endif
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     } else {
       Py_ssize_t index = -1;
-      __pyx_t_7 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 299, __pyx_L1_error)
+      __pyx_t_7 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 305, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __pyx_t_10 = Py_TYPE(__pyx_t_7)->tp_iternext;
@@ -10044,7 +10045,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_44is_equ
       __Pyx_GOTREF(__pyx_t_8);
       index = 1; __pyx_t_6 = __pyx_t_10(__pyx_t_7); if (unlikely(!__pyx_t_6)) goto __pyx_L6_unpacking_failed;
       __Pyx_GOTREF(__pyx_t_6);
-      if (__Pyx_IternextUnpackEndCheck(__pyx_t_10(__pyx_t_7), 2) < 0) __PYX_ERR(0, 299, __pyx_L1_error)
+      if (__Pyx_IternextUnpackEndCheck(__pyx_t_10(__pyx_t_7), 2) < 0) __PYX_ERR(0, 305, __pyx_L1_error)
       __pyx_t_10 = NULL;
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       goto __pyx_L7_unpacking_done;
@@ -10052,7 +10053,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_44is_equ
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __pyx_t_10 = NULL;
       if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-      __PYX_ERR(0, 299, __pyx_L1_error)
+      __PYX_ERR(0, 305, __pyx_L1_error)
       __pyx_L7_unpacking_done:;
     }
     __Pyx_XDECREF_SET(__pyx_v_name, __pyx_t_8);
@@ -10060,21 +10061,21 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_44is_equ
     __Pyx_XDECREF_SET(__pyx_v_vertex, __pyx_t_6);
     __pyx_t_6 = 0;
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":300
+    /* "grakel/kernels/_isomorphism/bliss.pyx":306
  *             return False
  *         for name,vertex in iteritems(self._vertices):
  *             if name not in g._vertices:             # <<<<<<<<<<<<<<
  *                 return False
  *             if vertex.color != g._vertices[name].color:
  */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_g, __pyx_n_s_vertices); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 300, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_g, __pyx_n_s_vertices); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 306, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_4 = (__Pyx_PySequence_ContainsTF(__pyx_v_name, __pyx_t_1, Py_NE)); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 300, __pyx_L1_error)
+    __pyx_t_4 = (__Pyx_PySequence_ContainsTF(__pyx_v_name, __pyx_t_1, Py_NE)); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 306, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_t_11 = (__pyx_t_4 != 0);
     if (__pyx_t_11) {
 
-      /* "grakel/kernels/_isomorphism/bliss.pyx":301
+      /* "grakel/kernels/_isomorphism/bliss.pyx":307
  *         for name,vertex in iteritems(self._vertices):
  *             if name not in g._vertices:
  *                 return False             # <<<<<<<<<<<<<<
@@ -10087,7 +10088,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_44is_equ
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       goto __pyx_L0;
 
-      /* "grakel/kernels/_isomorphism/bliss.pyx":300
+      /* "grakel/kernels/_isomorphism/bliss.pyx":306
  *             return False
  *         for name,vertex in iteritems(self._vertices):
  *             if name not in g._vertices:             # <<<<<<<<<<<<<<
@@ -10096,31 +10097,31 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_44is_equ
  */
     }
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":302
+    /* "grakel/kernels/_isomorphism/bliss.pyx":308
  *             if name not in g._vertices:
  *                 return False
  *             if vertex.color != g._vertices[name].color:             # <<<<<<<<<<<<<<
  *                 return False
  *             my_edges = set([v.name for v in vertex.edges])
  */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_vertex, __pyx_n_s_color); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 302, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_vertex, __pyx_n_s_color); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 308, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_g, __pyx_n_s_vertices); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 302, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_g, __pyx_n_s_vertices); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 308, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_8 = __Pyx_PyObject_GetItem(__pyx_t_6, __pyx_v_name); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 302, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_GetItem(__pyx_t_6, __pyx_v_name); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 308, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_color); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 302, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_color); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 308, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    __pyx_t_8 = PyObject_RichCompare(__pyx_t_1, __pyx_t_6, Py_NE); __Pyx_XGOTREF(__pyx_t_8); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 302, __pyx_L1_error)
+    __pyx_t_8 = PyObject_RichCompare(__pyx_t_1, __pyx_t_6, Py_NE); __Pyx_XGOTREF(__pyx_t_8); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 308, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_11 = __Pyx_PyObject_IsTrue(__pyx_t_8); if (unlikely(__pyx_t_11 < 0)) __PYX_ERR(0, 302, __pyx_L1_error)
+    __pyx_t_11 = __Pyx_PyObject_IsTrue(__pyx_t_8); if (unlikely(__pyx_t_11 < 0)) __PYX_ERR(0, 308, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     if (__pyx_t_11) {
 
-      /* "grakel/kernels/_isomorphism/bliss.pyx":303
+      /* "grakel/kernels/_isomorphism/bliss.pyx":309
  *                 return False
  *             if vertex.color != g._vertices[name].color:
  *                 return False             # <<<<<<<<<<<<<<
@@ -10133,7 +10134,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_44is_equ
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       goto __pyx_L0;
 
-      /* "grakel/kernels/_isomorphism/bliss.pyx":302
+      /* "grakel/kernels/_isomorphism/bliss.pyx":308
  *             if name not in g._vertices:
  *                 return False
  *             if vertex.color != g._vertices[name].color:             # <<<<<<<<<<<<<<
@@ -10142,24 +10143,24 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_44is_equ
  */
     }
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":304
+    /* "grakel/kernels/_isomorphism/bliss.pyx":310
  *             if vertex.color != g._vertices[name].color:
  *                 return False
  *             my_edges = set([v.name for v in vertex.edges])             # <<<<<<<<<<<<<<
  *             g_edges = set([v.name for v in g._vertices[name].edges])
  *             if my_edges != g_edges:
  */
-    __pyx_t_8 = PyList_New(0); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 304, __pyx_L1_error)
+    __pyx_t_8 = PyList_New(0); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 310, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_vertex, __pyx_n_s_edges); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 304, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_vertex, __pyx_n_s_edges); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 310, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     if (likely(PyList_CheckExact(__pyx_t_6)) || PyTuple_CheckExact(__pyx_t_6)) {
       __pyx_t_1 = __pyx_t_6; __Pyx_INCREF(__pyx_t_1); __pyx_t_2 = 0;
       __pyx_t_12 = NULL;
     } else {
-      __pyx_t_2 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 304, __pyx_L1_error)
+      __pyx_t_2 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 310, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_12 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 304, __pyx_L1_error)
+      __pyx_t_12 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 310, __pyx_L1_error)
     }
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     for (;;) {
@@ -10167,17 +10168,17 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_44is_equ
         if (likely(PyList_CheckExact(__pyx_t_1))) {
           if (__pyx_t_2 >= PyList_GET_SIZE(__pyx_t_1)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_6 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_6); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 304, __pyx_L1_error)
+          __pyx_t_6 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_6); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 310, __pyx_L1_error)
           #else
-          __pyx_t_6 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 304, __pyx_L1_error)
+          __pyx_t_6 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 310, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_6);
           #endif
         } else {
           if (__pyx_t_2 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_6 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_6); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 304, __pyx_L1_error)
+          __pyx_t_6 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_6); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 310, __pyx_L1_error)
           #else
-          __pyx_t_6 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 304, __pyx_L1_error)
+          __pyx_t_6 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 310, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_6);
           #endif
         }
@@ -10187,7 +10188,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_44is_equ
           PyObject* exc_type = PyErr_Occurred();
           if (exc_type) {
             if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else __PYX_ERR(0, 304, __pyx_L1_error)
+            else __PYX_ERR(0, 310, __pyx_L1_error)
           }
           break;
         }
@@ -10195,42 +10196,42 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_44is_equ
       }
       __Pyx_XDECREF_SET(__pyx_v_v, __pyx_t_6);
       __pyx_t_6 = 0;
-      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_v, __pyx_n_s_name); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 304, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_v, __pyx_n_s_name); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 310, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      if (unlikely(__Pyx_ListComp_Append(__pyx_t_8, (PyObject*)__pyx_t_6))) __PYX_ERR(0, 304, __pyx_L1_error)
+      if (unlikely(__Pyx_ListComp_Append(__pyx_t_8, (PyObject*)__pyx_t_6))) __PYX_ERR(0, 310, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     }
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = PySet_New(__pyx_t_8); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 304, __pyx_L1_error)
+    __pyx_t_1 = PySet_New(__pyx_t_8); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 310, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     __Pyx_XDECREF_SET(__pyx_v_my_edges, ((PyObject*)__pyx_t_1));
     __pyx_t_1 = 0;
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":305
+    /* "grakel/kernels/_isomorphism/bliss.pyx":311
  *                 return False
  *             my_edges = set([v.name for v in vertex.edges])
  *             g_edges = set([v.name for v in g._vertices[name].edges])             # <<<<<<<<<<<<<<
  *             if my_edges != g_edges:
  *                 return False
  */
-    __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 305, __pyx_L1_error)
+    __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 311, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_g, __pyx_n_s_vertices); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 305, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_g, __pyx_n_s_vertices); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 311, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
-    __pyx_t_6 = __Pyx_PyObject_GetItem(__pyx_t_8, __pyx_v_name); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 305, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetItem(__pyx_t_8, __pyx_v_name); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 311, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_edges); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 305, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_edges); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 311, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     if (likely(PyList_CheckExact(__pyx_t_8)) || PyTuple_CheckExact(__pyx_t_8)) {
       __pyx_t_6 = __pyx_t_8; __Pyx_INCREF(__pyx_t_6); __pyx_t_2 = 0;
       __pyx_t_12 = NULL;
     } else {
-      __pyx_t_2 = -1; __pyx_t_6 = PyObject_GetIter(__pyx_t_8); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 305, __pyx_L1_error)
+      __pyx_t_2 = -1; __pyx_t_6 = PyObject_GetIter(__pyx_t_8); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 311, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_12 = Py_TYPE(__pyx_t_6)->tp_iternext; if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 305, __pyx_L1_error)
+      __pyx_t_12 = Py_TYPE(__pyx_t_6)->tp_iternext; if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 311, __pyx_L1_error)
     }
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     for (;;) {
@@ -10238,17 +10239,17 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_44is_equ
         if (likely(PyList_CheckExact(__pyx_t_6))) {
           if (__pyx_t_2 >= PyList_GET_SIZE(__pyx_t_6)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_8 = PyList_GET_ITEM(__pyx_t_6, __pyx_t_2); __Pyx_INCREF(__pyx_t_8); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 305, __pyx_L1_error)
+          __pyx_t_8 = PyList_GET_ITEM(__pyx_t_6, __pyx_t_2); __Pyx_INCREF(__pyx_t_8); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 311, __pyx_L1_error)
           #else
-          __pyx_t_8 = PySequence_ITEM(__pyx_t_6, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 305, __pyx_L1_error)
+          __pyx_t_8 = PySequence_ITEM(__pyx_t_6, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 311, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_8);
           #endif
         } else {
           if (__pyx_t_2 >= PyTuple_GET_SIZE(__pyx_t_6)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_8 = PyTuple_GET_ITEM(__pyx_t_6, __pyx_t_2); __Pyx_INCREF(__pyx_t_8); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 305, __pyx_L1_error)
+          __pyx_t_8 = PyTuple_GET_ITEM(__pyx_t_6, __pyx_t_2); __Pyx_INCREF(__pyx_t_8); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 311, __pyx_L1_error)
           #else
-          __pyx_t_8 = PySequence_ITEM(__pyx_t_6, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 305, __pyx_L1_error)
+          __pyx_t_8 = PySequence_ITEM(__pyx_t_6, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 311, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_8);
           #endif
         }
@@ -10258,7 +10259,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_44is_equ
           PyObject* exc_type = PyErr_Occurred();
           if (exc_type) {
             if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else __PYX_ERR(0, 305, __pyx_L1_error)
+            else __PYX_ERR(0, 311, __pyx_L1_error)
           }
           break;
         }
@@ -10266,31 +10267,31 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_44is_equ
       }
       __Pyx_XDECREF_SET(__pyx_v_v, __pyx_t_8);
       __pyx_t_8 = 0;
-      __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_v, __pyx_n_s_name); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 305, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_v, __pyx_n_s_name); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 311, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
-      if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_t_8))) __PYX_ERR(0, 305, __pyx_L1_error)
+      if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_t_8))) __PYX_ERR(0, 311, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     }
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_6 = PySet_New(__pyx_t_1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 305, __pyx_L1_error)
+    __pyx_t_6 = PySet_New(__pyx_t_1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 311, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_XDECREF_SET(__pyx_v_g_edges, ((PyObject*)__pyx_t_6));
     __pyx_t_6 = 0;
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":306
+    /* "grakel/kernels/_isomorphism/bliss.pyx":312
  *             my_edges = set([v.name for v in vertex.edges])
  *             g_edges = set([v.name for v in g._vertices[name].edges])
  *             if my_edges != g_edges:             # <<<<<<<<<<<<<<
  *                 return False
  *         return True
  */
-    __pyx_t_6 = PyObject_RichCompare(__pyx_v_my_edges, __pyx_v_g_edges, Py_NE); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 306, __pyx_L1_error)
-    __pyx_t_11 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_11 < 0)) __PYX_ERR(0, 306, __pyx_L1_error)
+    __pyx_t_6 = PyObject_RichCompare(__pyx_v_my_edges, __pyx_v_g_edges, Py_NE); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 312, __pyx_L1_error)
+    __pyx_t_11 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_11 < 0)) __PYX_ERR(0, 312, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     if (__pyx_t_11) {
 
-      /* "grakel/kernels/_isomorphism/bliss.pyx":307
+      /* "grakel/kernels/_isomorphism/bliss.pyx":313
  *             g_edges = set([v.name for v in g._vertices[name].edges])
  *             if my_edges != g_edges:
  *                 return False             # <<<<<<<<<<<<<<
@@ -10303,7 +10304,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_44is_equ
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       goto __pyx_L0;
 
-      /* "grakel/kernels/_isomorphism/bliss.pyx":306
+      /* "grakel/kernels/_isomorphism/bliss.pyx":312
  *             my_edges = set([v.name for v in vertex.edges])
  *             g_edges = set([v.name for v in g._vertices[name].edges])
  *             if my_edges != g_edges:             # <<<<<<<<<<<<<<
@@ -10312,7 +10313,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_44is_equ
  */
     }
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":299
+    /* "grakel/kernels/_isomorphism/bliss.pyx":305
  *         if len(self._vertices) != len(g._vertices):
  *             return False
  *         for name,vertex in iteritems(self._vertices):             # <<<<<<<<<<<<<<
@@ -10322,7 +10323,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_44is_equ
   }
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":308
+  /* "grakel/kernels/_isomorphism/bliss.pyx":314
  *             if my_edges != g_edges:
  *                 return False
  *         return True             # <<<<<<<<<<<<<<
@@ -10334,7 +10335,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_44is_equ
   __pyx_r = Py_True;
   goto __pyx_L0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":292
+  /* "grakel/kernels/_isomorphism/bliss.pyx":298
  *         return g2
  * 
  *     def is_equal(self, g):             # <<<<<<<<<<<<<<
@@ -10362,7 +10363,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_44is_equ
   return __pyx_r;
 }
 
-/* "grakel/kernels/_isomorphism/bliss.pyx":310
+/* "grakel/kernels/_isomorphism/bliss.pyx":316
  *         return True
  * 
  *     def get_isomorphism(self, g):             # <<<<<<<<<<<<<<
@@ -10403,11 +10404,11 @@ static PyObject *__pyx_pw_6grakel_7kernels_12_isomorphism_5bliss_5Graph_47get_is
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_g)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("get_isomorphism", 1, 2, 2, 1); __PYX_ERR(0, 310, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("get_isomorphism", 1, 2, 2, 1); __PYX_ERR(0, 316, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "get_isomorphism") < 0)) __PYX_ERR(0, 310, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "get_isomorphism") < 0)) __PYX_ERR(0, 316, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -10420,7 +10421,7 @@ static PyObject *__pyx_pw_6grakel_7kernels_12_isomorphism_5bliss_5Graph_47get_is
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("get_isomorphism", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 310, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("get_isomorphism", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 316, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("grakel.kernels._isomorphism.bliss.Graph.get_isomorphism", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -10463,25 +10464,25 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
   int __pyx_t_11;
   __Pyx_RefNannySetupContext("get_isomorphism", 0);
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":320
+  /* "grakel/kernels/_isomorphism/bliss.pyx":326
  *         self.relabel(lab).is_equal(g) == True.
  *         """
  *         if len(self._vertices) != len(g._vertices):             # <<<<<<<<<<<<<<
  *             return None
  *         # Simple color and degree check
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 320, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 326, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 320, __pyx_L1_error)
+  __pyx_t_2 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 326, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_g, __pyx_n_s_vertices); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 320, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_g, __pyx_n_s_vertices); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 326, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(0, 320, __pyx_L1_error)
+  __pyx_t_3 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(0, 326, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_4 = ((__pyx_t_2 != __pyx_t_3) != 0);
   if (__pyx_t_4) {
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":321
+    /* "grakel/kernels/_isomorphism/bliss.pyx":327
  *         """
  *         if len(self._vertices) != len(g._vertices):
  *             return None             # <<<<<<<<<<<<<<
@@ -10492,7 +10493,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
     __pyx_r = Py_None; __Pyx_INCREF(Py_None);
     goto __pyx_L0;
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":320
+    /* "grakel/kernels/_isomorphism/bliss.pyx":326
  *         self.relabel(lab).is_equal(g) == True.
  *         """
  *         if len(self._vertices) != len(g._vertices):             # <<<<<<<<<<<<<<
@@ -10501,64 +10502,64 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
  */
   }
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":323
+  /* "grakel/kernels/_isomorphism/bliss.pyx":329
  *             return None
  *         # Simple color and degree check
  *         my_colors = {}             # <<<<<<<<<<<<<<
  *         g_colors = {}
  *         my_degrees = {}
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 323, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 329, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_my_colors = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":324
+  /* "grakel/kernels/_isomorphism/bliss.pyx":330
  *         # Simple color and degree check
  *         my_colors = {}
  *         g_colors = {}             # <<<<<<<<<<<<<<
  *         my_degrees = {}
  *         g_degrees = {}
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 324, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 330, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_g_colors = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":325
+  /* "grakel/kernels/_isomorphism/bliss.pyx":331
  *         my_colors = {}
  *         g_colors = {}
  *         my_degrees = {}             # <<<<<<<<<<<<<<
  *         g_degrees = {}
  *         for name,vertex in iteritems(self._vertices):
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 325, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 331, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_my_degrees = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":326
+  /* "grakel/kernels/_isomorphism/bliss.pyx":332
  *         g_colors = {}
  *         my_degrees = {}
  *         g_degrees = {}             # <<<<<<<<<<<<<<
  *         for name,vertex in iteritems(self._vertices):
  *             if vertex.color in my_colors: my_colors[vertex.color] += 1
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 326, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 332, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_g_degrees = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":327
+  /* "grakel/kernels/_isomorphism/bliss.pyx":333
  *         my_degrees = {}
  *         g_degrees = {}
  *         for name,vertex in iteritems(self._vertices):             # <<<<<<<<<<<<<<
  *             if vertex.color in my_colors: my_colors[vertex.color] += 1
  *             else: my_colors[vertex.color] = 1;
  */
-  __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_iteritems); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 327, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_iteritems); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 333, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 327, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vertices); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 333, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __pyx_t_7 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_5))) {
@@ -10571,14 +10572,14 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
     }
   }
   if (!__pyx_t_7) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 327, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 333, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_5)) {
       PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_6};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 327, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 333, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -10587,20 +10588,20 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
       PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_6};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 327, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 333, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     } else
     #endif
     {
-      __pyx_t_8 = PyTuple_New(1+1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 327, __pyx_L1_error)
+      __pyx_t_8 = PyTuple_New(1+1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 333, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_7); __pyx_t_7 = NULL;
       __Pyx_GIVEREF(__pyx_t_6);
       PyTuple_SET_ITEM(__pyx_t_8, 0+1, __pyx_t_6);
       __pyx_t_6 = 0;
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_8, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 327, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_8, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 333, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     }
@@ -10610,9 +10611,9 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
     __pyx_t_5 = __pyx_t_1; __Pyx_INCREF(__pyx_t_5); __pyx_t_3 = 0;
     __pyx_t_9 = NULL;
   } else {
-    __pyx_t_3 = -1; __pyx_t_5 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 327, __pyx_L1_error)
+    __pyx_t_3 = -1; __pyx_t_5 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 333, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_9 = Py_TYPE(__pyx_t_5)->tp_iternext; if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 327, __pyx_L1_error)
+    __pyx_t_9 = Py_TYPE(__pyx_t_5)->tp_iternext; if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 333, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   for (;;) {
@@ -10620,17 +10621,17 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
       if (likely(PyList_CheckExact(__pyx_t_5))) {
         if (__pyx_t_3 >= PyList_GET_SIZE(__pyx_t_5)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 327, __pyx_L1_error)
+        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 333, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_5, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 327, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_5, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 333, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       } else {
         if (__pyx_t_3 >= PyTuple_GET_SIZE(__pyx_t_5)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_5, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 327, __pyx_L1_error)
+        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_5, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 333, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_5, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 327, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_5, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 333, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       }
@@ -10640,7 +10641,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 327, __pyx_L1_error)
+          else __PYX_ERR(0, 333, __pyx_L1_error)
         }
         break;
       }
@@ -10652,7 +10653,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
       if (unlikely(size != 2)) {
         if (size > 2) __Pyx_RaiseTooManyValuesError(2);
         else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-        __PYX_ERR(0, 327, __pyx_L1_error)
+        __PYX_ERR(0, 333, __pyx_L1_error)
       }
       #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
       if (likely(PyTuple_CheckExact(sequence))) {
@@ -10665,15 +10666,15 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
       __Pyx_INCREF(__pyx_t_8);
       __Pyx_INCREF(__pyx_t_6);
       #else
-      __pyx_t_8 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 327, __pyx_L1_error)
+      __pyx_t_8 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 333, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
-      __pyx_t_6 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 327, __pyx_L1_error)
+      __pyx_t_6 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 333, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       #endif
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     } else {
       Py_ssize_t index = -1;
-      __pyx_t_7 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 327, __pyx_L1_error)
+      __pyx_t_7 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 333, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __pyx_t_10 = Py_TYPE(__pyx_t_7)->tp_iternext;
@@ -10681,7 +10682,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
       __Pyx_GOTREF(__pyx_t_8);
       index = 1; __pyx_t_6 = __pyx_t_10(__pyx_t_7); if (unlikely(!__pyx_t_6)) goto __pyx_L6_unpacking_failed;
       __Pyx_GOTREF(__pyx_t_6);
-      if (__Pyx_IternextUnpackEndCheck(__pyx_t_10(__pyx_t_7), 2) < 0) __PYX_ERR(0, 327, __pyx_L1_error)
+      if (__Pyx_IternextUnpackEndCheck(__pyx_t_10(__pyx_t_7), 2) < 0) __PYX_ERR(0, 333, __pyx_L1_error)
       __pyx_t_10 = NULL;
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       goto __pyx_L7_unpacking_done;
@@ -10689,7 +10690,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __pyx_t_10 = NULL;
       if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-      __PYX_ERR(0, 327, __pyx_L1_error)
+      __PYX_ERR(0, 333, __pyx_L1_error)
       __pyx_L7_unpacking_done:;
     }
     __Pyx_XDECREF_SET(__pyx_v_name, __pyx_t_8);
@@ -10697,33 +10698,33 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
     __Pyx_XDECREF_SET(__pyx_v_vertex, __pyx_t_6);
     __pyx_t_6 = 0;
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":328
+    /* "grakel/kernels/_isomorphism/bliss.pyx":334
  *         g_degrees = {}
  *         for name,vertex in iteritems(self._vertices):
  *             if vertex.color in my_colors: my_colors[vertex.color] += 1             # <<<<<<<<<<<<<<
  *             else: my_colors[vertex.color] = 1;
  *             degree = len(vertex.edges)
  */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_vertex, __pyx_n_s_color); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 328, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_vertex, __pyx_n_s_color); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 334, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_4 = (__Pyx_PyDict_ContainsTF(__pyx_t_1, __pyx_v_my_colors, Py_EQ)); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 328, __pyx_L1_error)
+    __pyx_t_4 = (__Pyx_PyDict_ContainsTF(__pyx_t_1, __pyx_v_my_colors, Py_EQ)); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 334, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_t_11 = (__pyx_t_4 != 0);
     if (__pyx_t_11) {
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_vertex, __pyx_n_s_color); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 328, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_vertex, __pyx_n_s_color); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 334, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_6 = __Pyx_PyDict_GetItem(__pyx_v_my_colors, __pyx_t_1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 328, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyDict_GetItem(__pyx_v_my_colors, __pyx_t_1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 334, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_8 = __Pyx_PyInt_AddObjC(__pyx_t_6, __pyx_int_1, 1, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 328, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyInt_AddObjC(__pyx_t_6, __pyx_int_1, 1, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 334, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      if (unlikely(PyDict_SetItem(__pyx_v_my_colors, __pyx_t_1, __pyx_t_8) < 0)) __PYX_ERR(0, 328, __pyx_L1_error)
+      if (unlikely(PyDict_SetItem(__pyx_v_my_colors, __pyx_t_1, __pyx_t_8) < 0)) __PYX_ERR(0, 334, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       goto __pyx_L8;
     }
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":329
+    /* "grakel/kernels/_isomorphism/bliss.pyx":335
  *         for name,vertex in iteritems(self._vertices):
  *             if vertex.color in my_colors: my_colors[vertex.color] += 1
  *             else: my_colors[vertex.color] = 1;             # <<<<<<<<<<<<<<
@@ -10731,53 +10732,53 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
  *             if degree in my_degrees: my_degrees[degree] += 1
  */
     /*else*/ {
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_vertex, __pyx_n_s_color); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 329, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_vertex, __pyx_n_s_color); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 335, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      if (unlikely(PyDict_SetItem(__pyx_v_my_colors, __pyx_t_1, __pyx_int_1) < 0)) __PYX_ERR(0, 329, __pyx_L1_error)
+      if (unlikely(PyDict_SetItem(__pyx_v_my_colors, __pyx_t_1, __pyx_int_1) < 0)) __PYX_ERR(0, 335, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     }
     __pyx_L8:;
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":330
+    /* "grakel/kernels/_isomorphism/bliss.pyx":336
  *             if vertex.color in my_colors: my_colors[vertex.color] += 1
  *             else: my_colors[vertex.color] = 1;
  *             degree = len(vertex.edges)             # <<<<<<<<<<<<<<
  *             if degree in my_degrees: my_degrees[degree] += 1
  *             else: my_degrees[degree] = 1;
  */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_vertex, __pyx_n_s_edges); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 330, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_vertex, __pyx_n_s_edges); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 336, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_2 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 330, __pyx_L1_error)
+    __pyx_t_2 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 336, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_v_degree = __pyx_t_2;
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":331
+    /* "grakel/kernels/_isomorphism/bliss.pyx":337
  *             else: my_colors[vertex.color] = 1;
  *             degree = len(vertex.edges)
  *             if degree in my_degrees: my_degrees[degree] += 1             # <<<<<<<<<<<<<<
  *             else: my_degrees[degree] = 1;
  *         for name,vertex in iteritems(g._vertices):
  */
-    __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_degree); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 331, __pyx_L1_error)
+    __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_degree); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 337, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_11 = (__Pyx_PyDict_ContainsTF(__pyx_t_1, __pyx_v_my_degrees, Py_EQ)); if (unlikely(__pyx_t_11 < 0)) __PYX_ERR(0, 331, __pyx_L1_error)
+    __pyx_t_11 = (__Pyx_PyDict_ContainsTF(__pyx_t_1, __pyx_v_my_degrees, Py_EQ)); if (unlikely(__pyx_t_11 < 0)) __PYX_ERR(0, 337, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_t_4 = (__pyx_t_11 != 0);
     if (__pyx_t_4) {
-      __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_degree); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 331, __pyx_L1_error)
+      __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_degree); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 337, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_8 = __Pyx_PyDict_GetItem(__pyx_v_my_degrees, __pyx_t_1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 331, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyDict_GetItem(__pyx_v_my_degrees, __pyx_t_1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 337, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
-      __pyx_t_6 = __Pyx_PyInt_AddObjC(__pyx_t_8, __pyx_int_1, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 331, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyInt_AddObjC(__pyx_t_8, __pyx_int_1, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 337, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-      if (unlikely(PyDict_SetItem(__pyx_v_my_degrees, __pyx_t_1, __pyx_t_6) < 0)) __PYX_ERR(0, 331, __pyx_L1_error)
+      if (unlikely(PyDict_SetItem(__pyx_v_my_degrees, __pyx_t_1, __pyx_t_6) < 0)) __PYX_ERR(0, 337, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       goto __pyx_L9;
     }
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":332
+    /* "grakel/kernels/_isomorphism/bliss.pyx":338
  *             degree = len(vertex.edges)
  *             if degree in my_degrees: my_degrees[degree] += 1
  *             else: my_degrees[degree] = 1;             # <<<<<<<<<<<<<<
@@ -10785,14 +10786,14 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
  *             if vertex.color in g_colors: g_colors[vertex.color] += 1
  */
     /*else*/ {
-      __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_degree); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 332, __pyx_L1_error)
+      __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_degree); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 338, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      if (unlikely(PyDict_SetItem(__pyx_v_my_degrees, __pyx_t_1, __pyx_int_1) < 0)) __PYX_ERR(0, 332, __pyx_L1_error)
+      if (unlikely(PyDict_SetItem(__pyx_v_my_degrees, __pyx_t_1, __pyx_int_1) < 0)) __PYX_ERR(0, 338, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     }
     __pyx_L9:;
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":327
+    /* "grakel/kernels/_isomorphism/bliss.pyx":333
  *         my_degrees = {}
  *         g_degrees = {}
  *         for name,vertex in iteritems(self._vertices):             # <<<<<<<<<<<<<<
@@ -10802,16 +10803,16 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
   }
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":333
+  /* "grakel/kernels/_isomorphism/bliss.pyx":339
  *             if degree in my_degrees: my_degrees[degree] += 1
  *             else: my_degrees[degree] = 1;
  *         for name,vertex in iteritems(g._vertices):             # <<<<<<<<<<<<<<
  *             if vertex.color in g_colors: g_colors[vertex.color] += 1
  *             else: g_colors[vertex.color] = 1;
  */
-  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_iteritems); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 333, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_iteritems); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 339, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_g, __pyx_n_s_vertices); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 333, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_g, __pyx_n_s_vertices); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 339, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __pyx_t_8 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_1))) {
@@ -10824,14 +10825,14 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
     }
   }
   if (!__pyx_t_8) {
-    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 333, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 339, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_GOTREF(__pyx_t_5);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_1)) {
       PyObject *__pyx_temp[2] = {__pyx_t_8, __pyx_t_6};
-      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_1, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 333, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_1, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 339, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -10840,20 +10841,20 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_1)) {
       PyObject *__pyx_temp[2] = {__pyx_t_8, __pyx_t_6};
-      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_1, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 333, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_1, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 339, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     } else
     #endif
     {
-      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 333, __pyx_L1_error)
+      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 339, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_GIVEREF(__pyx_t_8); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_8); __pyx_t_8 = NULL;
       __Pyx_GIVEREF(__pyx_t_6);
       PyTuple_SET_ITEM(__pyx_t_7, 0+1, __pyx_t_6);
       __pyx_t_6 = 0;
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_7, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 333, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_7, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 339, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     }
@@ -10863,9 +10864,9 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
     __pyx_t_1 = __pyx_t_5; __Pyx_INCREF(__pyx_t_1); __pyx_t_3 = 0;
     __pyx_t_9 = NULL;
   } else {
-    __pyx_t_3 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 333, __pyx_L1_error)
+    __pyx_t_3 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 339, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_9 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 333, __pyx_L1_error)
+    __pyx_t_9 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 339, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   for (;;) {
@@ -10873,17 +10874,17 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
       if (likely(PyList_CheckExact(__pyx_t_1))) {
         if (__pyx_t_3 >= PyList_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_5 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_3); __Pyx_INCREF(__pyx_t_5); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 333, __pyx_L1_error)
+        __pyx_t_5 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_3); __Pyx_INCREF(__pyx_t_5); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 339, __pyx_L1_error)
         #else
-        __pyx_t_5 = PySequence_ITEM(__pyx_t_1, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 333, __pyx_L1_error)
+        __pyx_t_5 = PySequence_ITEM(__pyx_t_1, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 339, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         #endif
       } else {
         if (__pyx_t_3 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_5 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_3); __Pyx_INCREF(__pyx_t_5); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 333, __pyx_L1_error)
+        __pyx_t_5 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_3); __Pyx_INCREF(__pyx_t_5); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 339, __pyx_L1_error)
         #else
-        __pyx_t_5 = PySequence_ITEM(__pyx_t_1, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 333, __pyx_L1_error)
+        __pyx_t_5 = PySequence_ITEM(__pyx_t_1, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 339, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         #endif
       }
@@ -10893,7 +10894,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 333, __pyx_L1_error)
+          else __PYX_ERR(0, 339, __pyx_L1_error)
         }
         break;
       }
@@ -10905,7 +10906,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
       if (unlikely(size != 2)) {
         if (size > 2) __Pyx_RaiseTooManyValuesError(2);
         else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-        __PYX_ERR(0, 333, __pyx_L1_error)
+        __PYX_ERR(0, 339, __pyx_L1_error)
       }
       #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
       if (likely(PyTuple_CheckExact(sequence))) {
@@ -10918,15 +10919,15 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
       __Pyx_INCREF(__pyx_t_7);
       __Pyx_INCREF(__pyx_t_6);
       #else
-      __pyx_t_7 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 333, __pyx_L1_error)
+      __pyx_t_7 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 339, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_6 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 333, __pyx_L1_error)
+      __pyx_t_6 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 339, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       #endif
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     } else {
       Py_ssize_t index = -1;
-      __pyx_t_8 = PyObject_GetIter(__pyx_t_5); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 333, __pyx_L1_error)
+      __pyx_t_8 = PyObject_GetIter(__pyx_t_5); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 339, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __pyx_t_10 = Py_TYPE(__pyx_t_8)->tp_iternext;
@@ -10934,7 +10935,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
       __Pyx_GOTREF(__pyx_t_7);
       index = 1; __pyx_t_6 = __pyx_t_10(__pyx_t_8); if (unlikely(!__pyx_t_6)) goto __pyx_L12_unpacking_failed;
       __Pyx_GOTREF(__pyx_t_6);
-      if (__Pyx_IternextUnpackEndCheck(__pyx_t_10(__pyx_t_8), 2) < 0) __PYX_ERR(0, 333, __pyx_L1_error)
+      if (__Pyx_IternextUnpackEndCheck(__pyx_t_10(__pyx_t_8), 2) < 0) __PYX_ERR(0, 339, __pyx_L1_error)
       __pyx_t_10 = NULL;
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       goto __pyx_L13_unpacking_done;
@@ -10942,7 +10943,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       __pyx_t_10 = NULL;
       if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-      __PYX_ERR(0, 333, __pyx_L1_error)
+      __PYX_ERR(0, 339, __pyx_L1_error)
       __pyx_L13_unpacking_done:;
     }
     __Pyx_XDECREF_SET(__pyx_v_name, __pyx_t_7);
@@ -10950,33 +10951,33 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
     __Pyx_XDECREF_SET(__pyx_v_vertex, __pyx_t_6);
     __pyx_t_6 = 0;
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":334
+    /* "grakel/kernels/_isomorphism/bliss.pyx":340
  *             else: my_degrees[degree] = 1;
  *         for name,vertex in iteritems(g._vertices):
  *             if vertex.color in g_colors: g_colors[vertex.color] += 1             # <<<<<<<<<<<<<<
  *             else: g_colors[vertex.color] = 1;
  *             degree = len(vertex.edges)
  */
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_vertex, __pyx_n_s_color); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 334, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_vertex, __pyx_n_s_color); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 340, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_4 = (__Pyx_PyDict_ContainsTF(__pyx_t_5, __pyx_v_g_colors, Py_EQ)); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 334, __pyx_L1_error)
+    __pyx_t_4 = (__Pyx_PyDict_ContainsTF(__pyx_t_5, __pyx_v_g_colors, Py_EQ)); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 340, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __pyx_t_11 = (__pyx_t_4 != 0);
     if (__pyx_t_11) {
-      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_vertex, __pyx_n_s_color); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 334, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_vertex, __pyx_n_s_color); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 340, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_6 = __Pyx_PyDict_GetItem(__pyx_v_g_colors, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 334, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyDict_GetItem(__pyx_v_g_colors, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 340, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_7 = __Pyx_PyInt_AddObjC(__pyx_t_6, __pyx_int_1, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 334, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyInt_AddObjC(__pyx_t_6, __pyx_int_1, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 340, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      if (unlikely(PyDict_SetItem(__pyx_v_g_colors, __pyx_t_5, __pyx_t_7) < 0)) __PYX_ERR(0, 334, __pyx_L1_error)
+      if (unlikely(PyDict_SetItem(__pyx_v_g_colors, __pyx_t_5, __pyx_t_7) < 0)) __PYX_ERR(0, 340, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       goto __pyx_L14;
     }
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":335
+    /* "grakel/kernels/_isomorphism/bliss.pyx":341
  *         for name,vertex in iteritems(g._vertices):
  *             if vertex.color in g_colors: g_colors[vertex.color] += 1
  *             else: g_colors[vertex.color] = 1;             # <<<<<<<<<<<<<<
@@ -10984,53 +10985,53 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
  *             if degree in g_degrees: g_degrees[degree] += 1
  */
     /*else*/ {
-      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_vertex, __pyx_n_s_color); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 335, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_vertex, __pyx_n_s_color); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 341, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      if (unlikely(PyDict_SetItem(__pyx_v_g_colors, __pyx_t_5, __pyx_int_1) < 0)) __PYX_ERR(0, 335, __pyx_L1_error)
+      if (unlikely(PyDict_SetItem(__pyx_v_g_colors, __pyx_t_5, __pyx_int_1) < 0)) __PYX_ERR(0, 341, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     }
     __pyx_L14:;
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":336
+    /* "grakel/kernels/_isomorphism/bliss.pyx":342
  *             if vertex.color in g_colors: g_colors[vertex.color] += 1
  *             else: g_colors[vertex.color] = 1;
  *             degree = len(vertex.edges)             # <<<<<<<<<<<<<<
  *             if degree in g_degrees: g_degrees[degree] += 1
  *             else: g_degrees[degree] = 1;
  */
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_vertex, __pyx_n_s_edges); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 336, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_vertex, __pyx_n_s_edges); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 342, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_2 = PyObject_Length(__pyx_t_5); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 336, __pyx_L1_error)
+    __pyx_t_2 = PyObject_Length(__pyx_t_5); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 342, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __pyx_v_degree = __pyx_t_2;
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":337
+    /* "grakel/kernels/_isomorphism/bliss.pyx":343
  *             else: g_colors[vertex.color] = 1;
  *             degree = len(vertex.edges)
  *             if degree in g_degrees: g_degrees[degree] += 1             # <<<<<<<<<<<<<<
  *             else: g_degrees[degree] = 1;
  *         if my_colors != g_colors:
  */
-    __pyx_t_5 = PyInt_FromSsize_t(__pyx_v_degree); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 337, __pyx_L1_error)
+    __pyx_t_5 = PyInt_FromSsize_t(__pyx_v_degree); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 343, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_11 = (__Pyx_PyDict_ContainsTF(__pyx_t_5, __pyx_v_g_degrees, Py_EQ)); if (unlikely(__pyx_t_11 < 0)) __PYX_ERR(0, 337, __pyx_L1_error)
+    __pyx_t_11 = (__Pyx_PyDict_ContainsTF(__pyx_t_5, __pyx_v_g_degrees, Py_EQ)); if (unlikely(__pyx_t_11 < 0)) __PYX_ERR(0, 343, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __pyx_t_4 = (__pyx_t_11 != 0);
     if (__pyx_t_4) {
-      __pyx_t_5 = PyInt_FromSsize_t(__pyx_v_degree); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 337, __pyx_L1_error)
+      __pyx_t_5 = PyInt_FromSsize_t(__pyx_v_degree); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 343, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_7 = __Pyx_PyDict_GetItem(__pyx_v_g_degrees, __pyx_t_5); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 337, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyDict_GetItem(__pyx_v_g_degrees, __pyx_t_5); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 343, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_6 = __Pyx_PyInt_AddObjC(__pyx_t_7, __pyx_int_1, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 337, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyInt_AddObjC(__pyx_t_7, __pyx_int_1, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 343, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      if (unlikely(PyDict_SetItem(__pyx_v_g_degrees, __pyx_t_5, __pyx_t_6) < 0)) __PYX_ERR(0, 337, __pyx_L1_error)
+      if (unlikely(PyDict_SetItem(__pyx_v_g_degrees, __pyx_t_5, __pyx_t_6) < 0)) __PYX_ERR(0, 343, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       goto __pyx_L15;
     }
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":338
+    /* "grakel/kernels/_isomorphism/bliss.pyx":344
  *             degree = len(vertex.edges)
  *             if degree in g_degrees: g_degrees[degree] += 1
  *             else: g_degrees[degree] = 1;             # <<<<<<<<<<<<<<
@@ -11038,14 +11039,14 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
  *             return None
  */
     /*else*/ {
-      __pyx_t_5 = PyInt_FromSsize_t(__pyx_v_degree); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 338, __pyx_L1_error)
+      __pyx_t_5 = PyInt_FromSsize_t(__pyx_v_degree); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 344, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      if (unlikely(PyDict_SetItem(__pyx_v_g_degrees, __pyx_t_5, __pyx_int_1) < 0)) __PYX_ERR(0, 338, __pyx_L1_error)
+      if (unlikely(PyDict_SetItem(__pyx_v_g_degrees, __pyx_t_5, __pyx_int_1) < 0)) __PYX_ERR(0, 344, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     }
     __pyx_L15:;
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":333
+    /* "grakel/kernels/_isomorphism/bliss.pyx":339
  *             if degree in my_degrees: my_degrees[degree] += 1
  *             else: my_degrees[degree] = 1;
  *         for name,vertex in iteritems(g._vertices):             # <<<<<<<<<<<<<<
@@ -11055,19 +11056,19 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":339
+  /* "grakel/kernels/_isomorphism/bliss.pyx":345
  *             if degree in g_degrees: g_degrees[degree] += 1
  *             else: g_degrees[degree] = 1;
  *         if my_colors != g_colors:             # <<<<<<<<<<<<<<
  *             return None
  *         if my_degrees != g_degrees:
  */
-  __pyx_t_1 = PyObject_RichCompare(__pyx_v_my_colors, __pyx_v_g_colors, Py_NE); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 339, __pyx_L1_error)
-  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 339, __pyx_L1_error)
+  __pyx_t_1 = PyObject_RichCompare(__pyx_v_my_colors, __pyx_v_g_colors, Py_NE); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 345, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 345, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (__pyx_t_4) {
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":340
+    /* "grakel/kernels/_isomorphism/bliss.pyx":346
  *             else: g_degrees[degree] = 1;
  *         if my_colors != g_colors:
  *             return None             # <<<<<<<<<<<<<<
@@ -11078,7 +11079,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
     __pyx_r = Py_None; __Pyx_INCREF(Py_None);
     goto __pyx_L0;
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":339
+    /* "grakel/kernels/_isomorphism/bliss.pyx":345
  *             if degree in g_degrees: g_degrees[degree] += 1
  *             else: g_degrees[degree] = 1;
  *         if my_colors != g_colors:             # <<<<<<<<<<<<<<
@@ -11087,19 +11088,19 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
  */
   }
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":341
+  /* "grakel/kernels/_isomorphism/bliss.pyx":347
  *         if my_colors != g_colors:
  *             return None
  *         if my_degrees != g_degrees:             # <<<<<<<<<<<<<<
  *             return None
  *         my_canlab = self.canonical_labeling()
  */
-  __pyx_t_1 = PyObject_RichCompare(__pyx_v_my_degrees, __pyx_v_g_degrees, Py_NE); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 341, __pyx_L1_error)
-  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 341, __pyx_L1_error)
+  __pyx_t_1 = PyObject_RichCompare(__pyx_v_my_degrees, __pyx_v_g_degrees, Py_NE); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 347, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 347, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (__pyx_t_4) {
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":342
+    /* "grakel/kernels/_isomorphism/bliss.pyx":348
  *             return None
  *         if my_degrees != g_degrees:
  *             return None             # <<<<<<<<<<<<<<
@@ -11110,7 +11111,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
     __pyx_r = Py_None; __Pyx_INCREF(Py_None);
     goto __pyx_L0;
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":341
+    /* "grakel/kernels/_isomorphism/bliss.pyx":347
  *         if my_colors != g_colors:
  *             return None
  *         if my_degrees != g_degrees:             # <<<<<<<<<<<<<<
@@ -11119,14 +11120,14 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
  */
   }
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":343
+  /* "grakel/kernels/_isomorphism/bliss.pyx":349
  *         if my_degrees != g_degrees:
  *             return None
  *         my_canlab = self.canonical_labeling()             # <<<<<<<<<<<<<<
  *         my_canform = self.relabel(my_canlab)
  *         g_canlab = g.canonical_labeling()
  */
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_canonical_labeling); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 343, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_canonical_labeling); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 349, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_6 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
@@ -11139,24 +11140,24 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
     }
   }
   if (__pyx_t_6) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 343, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 349, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   } else {
-    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 343, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 349, __pyx_L1_error)
   }
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_v_my_canlab = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":344
+  /* "grakel/kernels/_isomorphism/bliss.pyx":350
  *             return None
  *         my_canlab = self.canonical_labeling()
  *         my_canform = self.relabel(my_canlab)             # <<<<<<<<<<<<<<
  *         g_canlab = g.canonical_labeling()
  *         g_canform = g.relabel(g_canlab)
  */
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_relabel); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 344, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_relabel); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 350, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_6 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
@@ -11169,13 +11170,13 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
     }
   }
   if (!__pyx_t_6) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_v_my_canlab); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 344, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_v_my_canlab); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 350, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_5)) {
       PyObject *__pyx_temp[2] = {__pyx_t_6, __pyx_v_my_canlab};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 344, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 350, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_GOTREF(__pyx_t_1);
     } else
@@ -11183,19 +11184,19 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
       PyObject *__pyx_temp[2] = {__pyx_t_6, __pyx_v_my_canlab};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 344, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 350, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_GOTREF(__pyx_t_1);
     } else
     #endif
     {
-      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 344, __pyx_L1_error)
+      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 350, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_6); __pyx_t_6 = NULL;
       __Pyx_INCREF(__pyx_v_my_canlab);
       __Pyx_GIVEREF(__pyx_v_my_canlab);
       PyTuple_SET_ITEM(__pyx_t_7, 0+1, __pyx_v_my_canlab);
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 344, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 350, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     }
@@ -11204,14 +11205,14 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
   __pyx_v_my_canform = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":345
+  /* "grakel/kernels/_isomorphism/bliss.pyx":351
  *         my_canlab = self.canonical_labeling()
  *         my_canform = self.relabel(my_canlab)
  *         g_canlab = g.canonical_labeling()             # <<<<<<<<<<<<<<
  *         g_canform = g.relabel(g_canlab)
  *         if not my_canform.is_equal(g_canform):
  */
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_g, __pyx_n_s_canonical_labeling); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 345, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_g, __pyx_n_s_canonical_labeling); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 351, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_7 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
@@ -11224,24 +11225,24 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
     }
   }
   if (__pyx_t_7) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 345, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 351, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   } else {
-    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 345, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 351, __pyx_L1_error)
   }
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_v_g_canlab = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":346
+  /* "grakel/kernels/_isomorphism/bliss.pyx":352
  *         my_canform = self.relabel(my_canlab)
  *         g_canlab = g.canonical_labeling()
  *         g_canform = g.relabel(g_canlab)             # <<<<<<<<<<<<<<
  *         if not my_canform.is_equal(g_canform):
  *             return None
  */
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_g, __pyx_n_s_relabel); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 346, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_g, __pyx_n_s_relabel); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 352, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_7 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
@@ -11254,13 +11255,13 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
     }
   }
   if (!__pyx_t_7) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_v_g_canlab); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 346, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_v_g_canlab); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 352, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_5)) {
       PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_v_g_canlab};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 346, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 352, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_GOTREF(__pyx_t_1);
     } else
@@ -11268,19 +11269,19 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
       PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_v_g_canlab};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 346, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 352, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_GOTREF(__pyx_t_1);
     } else
     #endif
     {
-      __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 346, __pyx_L1_error)
+      __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 352, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_7); __pyx_t_7 = NULL;
       __Pyx_INCREF(__pyx_v_g_canlab);
       __Pyx_GIVEREF(__pyx_v_g_canlab);
       PyTuple_SET_ITEM(__pyx_t_6, 0+1, __pyx_v_g_canlab);
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 346, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 352, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     }
@@ -11289,14 +11290,14 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
   __pyx_v_g_canform = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":347
+  /* "grakel/kernels/_isomorphism/bliss.pyx":353
  *         g_canlab = g.canonical_labeling()
  *         g_canform = g.relabel(g_canlab)
  *         if not my_canform.is_equal(g_canform):             # <<<<<<<<<<<<<<
  *             return None
  *         g_canlab_inv = {}
  */
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_my_canform, __pyx_n_s_is_equal); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 347, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_my_canform, __pyx_n_s_is_equal); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 353, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_6 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
@@ -11309,13 +11310,13 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
     }
   }
   if (!__pyx_t_6) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_v_g_canform); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 347, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_v_g_canform); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 353, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_5)) {
       PyObject *__pyx_temp[2] = {__pyx_t_6, __pyx_v_g_canform};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 347, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 353, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_GOTREF(__pyx_t_1);
     } else
@@ -11323,30 +11324,30 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
       PyObject *__pyx_temp[2] = {__pyx_t_6, __pyx_v_g_canform};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 347, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 353, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_GOTREF(__pyx_t_1);
     } else
     #endif
     {
-      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 347, __pyx_L1_error)
+      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 353, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_6); __pyx_t_6 = NULL;
       __Pyx_INCREF(__pyx_v_g_canform);
       __Pyx_GIVEREF(__pyx_v_g_canform);
       PyTuple_SET_ITEM(__pyx_t_7, 0+1, __pyx_v_g_canform);
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 347, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 353, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     }
   }
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 347, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 353, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_11 = ((!__pyx_t_4) != 0);
   if (__pyx_t_11) {
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":348
+    /* "grakel/kernels/_isomorphism/bliss.pyx":354
  *         g_canform = g.relabel(g_canlab)
  *         if not my_canform.is_equal(g_canform):
  *             return None             # <<<<<<<<<<<<<<
@@ -11357,7 +11358,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
     __pyx_r = Py_None; __Pyx_INCREF(Py_None);
     goto __pyx_L0;
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":347
+    /* "grakel/kernels/_isomorphism/bliss.pyx":353
  *         g_canlab = g.canonical_labeling()
  *         g_canform = g.relabel(g_canlab)
  *         if not my_canform.is_equal(g_canform):             # <<<<<<<<<<<<<<
@@ -11366,26 +11367,26 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
  */
   }
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":349
+  /* "grakel/kernels/_isomorphism/bliss.pyx":355
  *         if not my_canform.is_equal(g_canform):
  *             return None
  *         g_canlab_inv = {}             # <<<<<<<<<<<<<<
  *         for name,image in iteritems(g_canlab):
  *             g_canlab_inv[image] = name
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 349, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 355, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_g_canlab_inv = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":350
+  /* "grakel/kernels/_isomorphism/bliss.pyx":356
  *             return None
  *         g_canlab_inv = {}
  *         for name,image in iteritems(g_canlab):             # <<<<<<<<<<<<<<
  *             g_canlab_inv[image] = name
  *         isomorphism = {}
  */
-  __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_iteritems); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 350, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_iteritems); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 356, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_7 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_5))) {
@@ -11398,13 +11399,13 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
     }
   }
   if (!__pyx_t_7) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_v_g_canlab); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 350, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_v_g_canlab); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 356, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_5)) {
       PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_v_g_canlab};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 350, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 356, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_GOTREF(__pyx_t_1);
     } else
@@ -11412,19 +11413,19 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
       PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_v_g_canlab};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 350, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 356, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_GOTREF(__pyx_t_1);
     } else
     #endif
     {
-      __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 350, __pyx_L1_error)
+      __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 356, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_7); __pyx_t_7 = NULL;
       __Pyx_INCREF(__pyx_v_g_canlab);
       __Pyx_GIVEREF(__pyx_v_g_canlab);
       PyTuple_SET_ITEM(__pyx_t_6, 0+1, __pyx_v_g_canlab);
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 350, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 356, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     }
@@ -11434,9 +11435,9 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
     __pyx_t_5 = __pyx_t_1; __Pyx_INCREF(__pyx_t_5); __pyx_t_3 = 0;
     __pyx_t_9 = NULL;
   } else {
-    __pyx_t_3 = -1; __pyx_t_5 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 350, __pyx_L1_error)
+    __pyx_t_3 = -1; __pyx_t_5 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 356, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_9 = Py_TYPE(__pyx_t_5)->tp_iternext; if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 350, __pyx_L1_error)
+    __pyx_t_9 = Py_TYPE(__pyx_t_5)->tp_iternext; if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 356, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   for (;;) {
@@ -11444,17 +11445,17 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
       if (likely(PyList_CheckExact(__pyx_t_5))) {
         if (__pyx_t_3 >= PyList_GET_SIZE(__pyx_t_5)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 350, __pyx_L1_error)
+        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 356, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_5, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 350, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_5, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 356, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       } else {
         if (__pyx_t_3 >= PyTuple_GET_SIZE(__pyx_t_5)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_5, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 350, __pyx_L1_error)
+        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_5, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 356, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_5, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 350, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_5, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 356, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       }
@@ -11464,7 +11465,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 350, __pyx_L1_error)
+          else __PYX_ERR(0, 356, __pyx_L1_error)
         }
         break;
       }
@@ -11476,7 +11477,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
       if (unlikely(size != 2)) {
         if (size > 2) __Pyx_RaiseTooManyValuesError(2);
         else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-        __PYX_ERR(0, 350, __pyx_L1_error)
+        __PYX_ERR(0, 356, __pyx_L1_error)
       }
       #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
       if (likely(PyTuple_CheckExact(sequence))) {
@@ -11489,15 +11490,15 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
       __Pyx_INCREF(__pyx_t_6);
       __Pyx_INCREF(__pyx_t_7);
       #else
-      __pyx_t_6 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 350, __pyx_L1_error)
+      __pyx_t_6 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 356, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_7 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 350, __pyx_L1_error)
+      __pyx_t_7 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 356, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       #endif
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     } else {
       Py_ssize_t index = -1;
-      __pyx_t_8 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 350, __pyx_L1_error)
+      __pyx_t_8 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 356, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __pyx_t_10 = Py_TYPE(__pyx_t_8)->tp_iternext;
@@ -11505,7 +11506,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
       __Pyx_GOTREF(__pyx_t_6);
       index = 1; __pyx_t_7 = __pyx_t_10(__pyx_t_8); if (unlikely(!__pyx_t_7)) goto __pyx_L21_unpacking_failed;
       __Pyx_GOTREF(__pyx_t_7);
-      if (__Pyx_IternextUnpackEndCheck(__pyx_t_10(__pyx_t_8), 2) < 0) __PYX_ERR(0, 350, __pyx_L1_error)
+      if (__Pyx_IternextUnpackEndCheck(__pyx_t_10(__pyx_t_8), 2) < 0) __PYX_ERR(0, 356, __pyx_L1_error)
       __pyx_t_10 = NULL;
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       goto __pyx_L22_unpacking_done;
@@ -11513,7 +11514,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       __pyx_t_10 = NULL;
       if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-      __PYX_ERR(0, 350, __pyx_L1_error)
+      __PYX_ERR(0, 356, __pyx_L1_error)
       __pyx_L22_unpacking_done:;
     }
     __Pyx_XDECREF_SET(__pyx_v_name, __pyx_t_6);
@@ -11521,16 +11522,16 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
     __Pyx_XDECREF_SET(__pyx_v_image, __pyx_t_7);
     __pyx_t_7 = 0;
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":351
+    /* "grakel/kernels/_isomorphism/bliss.pyx":357
  *         g_canlab_inv = {}
  *         for name,image in iteritems(g_canlab):
  *             g_canlab_inv[image] = name             # <<<<<<<<<<<<<<
  *         isomorphism = {}
  *         for name,image in iteritems(my_canlab):
  */
-    if (unlikely(PyDict_SetItem(__pyx_v_g_canlab_inv, __pyx_v_image, __pyx_v_name) < 0)) __PYX_ERR(0, 351, __pyx_L1_error)
+    if (unlikely(PyDict_SetItem(__pyx_v_g_canlab_inv, __pyx_v_image, __pyx_v_name) < 0)) __PYX_ERR(0, 357, __pyx_L1_error)
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":350
+    /* "grakel/kernels/_isomorphism/bliss.pyx":356
  *             return None
  *         g_canlab_inv = {}
  *         for name,image in iteritems(g_canlab):             # <<<<<<<<<<<<<<
@@ -11540,26 +11541,26 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
   }
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":352
+  /* "grakel/kernels/_isomorphism/bliss.pyx":358
  *         for name,image in iteritems(g_canlab):
  *             g_canlab_inv[image] = name
  *         isomorphism = {}             # <<<<<<<<<<<<<<
  *         for name,image in iteritems(my_canlab):
  *             isomorphism[name] = g_canlab_inv[image]
  */
-  __pyx_t_5 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 352, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 358, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_v_isomorphism = ((PyObject*)__pyx_t_5);
   __pyx_t_5 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":353
+  /* "grakel/kernels/_isomorphism/bliss.pyx":359
  *             g_canlab_inv[image] = name
  *         isomorphism = {}
  *         for name,image in iteritems(my_canlab):             # <<<<<<<<<<<<<<
  *             isomorphism[name] = g_canlab_inv[image]
  *         assert self.relabel(isomorphism).is_equal(g) == True
  */
-  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_iteritems); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 353, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_iteritems); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 359, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_7 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_1))) {
@@ -11572,13 +11573,13 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
     }
   }
   if (!__pyx_t_7) {
-    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_v_my_canlab); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 353, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_v_my_canlab); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 359, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_1)) {
       PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_v_my_canlab};
-      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_1, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 353, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_1, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 359, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_GOTREF(__pyx_t_5);
     } else
@@ -11586,19 +11587,19 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_1)) {
       PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_v_my_canlab};
-      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_1, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 353, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_1, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 359, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_GOTREF(__pyx_t_5);
     } else
     #endif
     {
-      __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 353, __pyx_L1_error)
+      __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 359, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_7); __pyx_t_7 = NULL;
       __Pyx_INCREF(__pyx_v_my_canlab);
       __Pyx_GIVEREF(__pyx_v_my_canlab);
       PyTuple_SET_ITEM(__pyx_t_6, 0+1, __pyx_v_my_canlab);
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_6, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 353, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_6, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 359, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     }
@@ -11608,9 +11609,9 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
     __pyx_t_1 = __pyx_t_5; __Pyx_INCREF(__pyx_t_1); __pyx_t_3 = 0;
     __pyx_t_9 = NULL;
   } else {
-    __pyx_t_3 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 353, __pyx_L1_error)
+    __pyx_t_3 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 359, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_9 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 353, __pyx_L1_error)
+    __pyx_t_9 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 359, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   for (;;) {
@@ -11618,17 +11619,17 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
       if (likely(PyList_CheckExact(__pyx_t_1))) {
         if (__pyx_t_3 >= PyList_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_5 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_3); __Pyx_INCREF(__pyx_t_5); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 353, __pyx_L1_error)
+        __pyx_t_5 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_3); __Pyx_INCREF(__pyx_t_5); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 359, __pyx_L1_error)
         #else
-        __pyx_t_5 = PySequence_ITEM(__pyx_t_1, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 353, __pyx_L1_error)
+        __pyx_t_5 = PySequence_ITEM(__pyx_t_1, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 359, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         #endif
       } else {
         if (__pyx_t_3 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_5 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_3); __Pyx_INCREF(__pyx_t_5); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 353, __pyx_L1_error)
+        __pyx_t_5 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_3); __Pyx_INCREF(__pyx_t_5); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 359, __pyx_L1_error)
         #else
-        __pyx_t_5 = PySequence_ITEM(__pyx_t_1, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 353, __pyx_L1_error)
+        __pyx_t_5 = PySequence_ITEM(__pyx_t_1, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 359, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         #endif
       }
@@ -11638,7 +11639,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 353, __pyx_L1_error)
+          else __PYX_ERR(0, 359, __pyx_L1_error)
         }
         break;
       }
@@ -11650,7 +11651,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
       if (unlikely(size != 2)) {
         if (size > 2) __Pyx_RaiseTooManyValuesError(2);
         else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-        __PYX_ERR(0, 353, __pyx_L1_error)
+        __PYX_ERR(0, 359, __pyx_L1_error)
       }
       #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
       if (likely(PyTuple_CheckExact(sequence))) {
@@ -11663,15 +11664,15 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
       __Pyx_INCREF(__pyx_t_6);
       __Pyx_INCREF(__pyx_t_7);
       #else
-      __pyx_t_6 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 353, __pyx_L1_error)
+      __pyx_t_6 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 359, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_7 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 353, __pyx_L1_error)
+      __pyx_t_7 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 359, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       #endif
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     } else {
       Py_ssize_t index = -1;
-      __pyx_t_8 = PyObject_GetIter(__pyx_t_5); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 353, __pyx_L1_error)
+      __pyx_t_8 = PyObject_GetIter(__pyx_t_5); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 359, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __pyx_t_10 = Py_TYPE(__pyx_t_8)->tp_iternext;
@@ -11679,7 +11680,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
       __Pyx_GOTREF(__pyx_t_6);
       index = 1; __pyx_t_7 = __pyx_t_10(__pyx_t_8); if (unlikely(!__pyx_t_7)) goto __pyx_L25_unpacking_failed;
       __Pyx_GOTREF(__pyx_t_7);
-      if (__Pyx_IternextUnpackEndCheck(__pyx_t_10(__pyx_t_8), 2) < 0) __PYX_ERR(0, 353, __pyx_L1_error)
+      if (__Pyx_IternextUnpackEndCheck(__pyx_t_10(__pyx_t_8), 2) < 0) __PYX_ERR(0, 359, __pyx_L1_error)
       __pyx_t_10 = NULL;
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       goto __pyx_L26_unpacking_done;
@@ -11687,7 +11688,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       __pyx_t_10 = NULL;
       if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-      __PYX_ERR(0, 353, __pyx_L1_error)
+      __PYX_ERR(0, 359, __pyx_L1_error)
       __pyx_L26_unpacking_done:;
     }
     __Pyx_XDECREF_SET(__pyx_v_name, __pyx_t_6);
@@ -11695,19 +11696,19 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
     __Pyx_XDECREF_SET(__pyx_v_image, __pyx_t_7);
     __pyx_t_7 = 0;
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":354
+    /* "grakel/kernels/_isomorphism/bliss.pyx":360
  *         isomorphism = {}
  *         for name,image in iteritems(my_canlab):
  *             isomorphism[name] = g_canlab_inv[image]             # <<<<<<<<<<<<<<
  *         assert self.relabel(isomorphism).is_equal(g) == True
  *         return isomorphism
  */
-    __pyx_t_5 = __Pyx_PyDict_GetItem(__pyx_v_g_canlab_inv, __pyx_v_image); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 354, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyDict_GetItem(__pyx_v_g_canlab_inv, __pyx_v_image); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 360, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    if (unlikely(PyDict_SetItem(__pyx_v_isomorphism, __pyx_v_name, __pyx_t_5) < 0)) __PYX_ERR(0, 354, __pyx_L1_error)
+    if (unlikely(PyDict_SetItem(__pyx_v_isomorphism, __pyx_v_name, __pyx_t_5) < 0)) __PYX_ERR(0, 360, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "grakel/kernels/_isomorphism/bliss.pyx":353
+    /* "grakel/kernels/_isomorphism/bliss.pyx":359
  *             g_canlab_inv[image] = name
  *         isomorphism = {}
  *         for name,image in iteritems(my_canlab):             # <<<<<<<<<<<<<<
@@ -11717,7 +11718,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":355
+  /* "grakel/kernels/_isomorphism/bliss.pyx":361
  *         for name,image in iteritems(my_canlab):
  *             isomorphism[name] = g_canlab_inv[image]
  *         assert self.relabel(isomorphism).is_equal(g) == True             # <<<<<<<<<<<<<<
@@ -11726,7 +11727,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
  */
   #ifndef CYTHON_WITHOUT_ASSERTIONS
   if (unlikely(!Py_OptimizeFlag)) {
-    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_relabel); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 355, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_relabel); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 361, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __pyx_t_6 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_7))) {
@@ -11739,13 +11740,13 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
       }
     }
     if (!__pyx_t_6) {
-      __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_v_isomorphism); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 355, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_v_isomorphism); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 361, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
     } else {
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_7)) {
         PyObject *__pyx_temp[2] = {__pyx_t_6, __pyx_v_isomorphism};
-        __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_7, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 355, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_7, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 361, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
         __Pyx_GOTREF(__pyx_t_5);
       } else
@@ -11753,25 +11754,25 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_7)) {
         PyObject *__pyx_temp[2] = {__pyx_t_6, __pyx_v_isomorphism};
-        __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_7, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 355, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_7, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 361, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
         __Pyx_GOTREF(__pyx_t_5);
       } else
       #endif
       {
-        __pyx_t_8 = PyTuple_New(1+1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 355, __pyx_L1_error)
+        __pyx_t_8 = PyTuple_New(1+1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 361, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_8);
         __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_6); __pyx_t_6 = NULL;
         __Pyx_INCREF(__pyx_v_isomorphism);
         __Pyx_GIVEREF(__pyx_v_isomorphism);
         PyTuple_SET_ITEM(__pyx_t_8, 0+1, __pyx_v_isomorphism);
-        __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_8, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 355, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_8, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 361, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       }
     }
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_is_equal); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 355, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_is_equal); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 361, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __pyx_t_5 = NULL;
@@ -11785,13 +11786,13 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
       }
     }
     if (!__pyx_t_5) {
-      __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_v_g); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 355, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_v_g); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 361, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
     } else {
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_7)) {
         PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_v_g};
-        __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_7, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 355, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_7, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 361, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
         __Pyx_GOTREF(__pyx_t_1);
       } else
@@ -11799,36 +11800,36 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_7)) {
         PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_v_g};
-        __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_7, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 355, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_7, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 361, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
         __Pyx_GOTREF(__pyx_t_1);
       } else
       #endif
       {
-        __pyx_t_8 = PyTuple_New(1+1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 355, __pyx_L1_error)
+        __pyx_t_8 = PyTuple_New(1+1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 361, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_8);
         __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_5); __pyx_t_5 = NULL;
         __Pyx_INCREF(__pyx_v_g);
         __Pyx_GIVEREF(__pyx_v_g);
         PyTuple_SET_ITEM(__pyx_t_8, 0+1, __pyx_v_g);
-        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_8, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 355, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_8, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 361, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       }
     }
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __pyx_t_7 = PyObject_RichCompare(__pyx_t_1, Py_True, Py_EQ); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 355, __pyx_L1_error)
+    __pyx_t_7 = PyObject_RichCompare(__pyx_t_1, Py_True, Py_EQ); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 361, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_11 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_11 < 0)) __PYX_ERR(0, 355, __pyx_L1_error)
+    __pyx_t_11 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_11 < 0)) __PYX_ERR(0, 361, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     if (unlikely(!__pyx_t_11)) {
       PyErr_SetNone(PyExc_AssertionError);
-      __PYX_ERR(0, 355, __pyx_L1_error)
+      __PYX_ERR(0, 361, __pyx_L1_error)
     }
   }
   #endif
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":356
+  /* "grakel/kernels/_isomorphism/bliss.pyx":362
  *             isomorphism[name] = g_canlab_inv[image]
  *         assert self.relabel(isomorphism).is_equal(g) == True
  *         return isomorphism             # <<<<<<<<<<<<<<
@@ -11840,7 +11841,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
   __pyx_r = __pyx_v_isomorphism;
   goto __pyx_L0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":310
+  /* "grakel/kernels/_isomorphism/bliss.pyx":316
  *         return True
  * 
  *     def get_isomorphism(self, g):             # <<<<<<<<<<<<<<
@@ -11876,7 +11877,7 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_46get_is
   return __pyx_r;
 }
 
-/* "grakel/kernels/_isomorphism/bliss.pyx":358
+/* "grakel/kernels/_isomorphism/bliss.pyx":364
  *         return isomorphism
  * 
  *     def isomorphic(self, g):             # <<<<<<<<<<<<<<
@@ -11916,11 +11917,11 @@ static PyObject *__pyx_pw_6grakel_7kernels_12_isomorphism_5bliss_5Graph_49isomor
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_g)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("isomorphic", 1, 2, 2, 1); __PYX_ERR(0, 358, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("isomorphic", 1, 2, 2, 1); __PYX_ERR(0, 364, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "isomorphic") < 0)) __PYX_ERR(0, 358, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "isomorphic") < 0)) __PYX_ERR(0, 364, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -11933,7 +11934,7 @@ static PyObject *__pyx_pw_6grakel_7kernels_12_isomorphism_5bliss_5Graph_49isomor
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("isomorphic", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 358, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("isomorphic", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 364, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("grakel.kernels._isomorphism.bliss.Graph.isomorphic", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -11956,14 +11957,14 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_48isomor
   int __pyx_t_5;
   __Pyx_RefNannySetupContext("isomorphic", 0);
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":359
+  /* "grakel/kernels/_isomorphism/bliss.pyx":365
  * 
  *     def isomorphic(self, g):
  *         return self.get_isomorphism(g) is not None             # <<<<<<<<<<<<<<
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_get_isomorphism); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 359, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_get_isomorphism); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 365, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -11976,13 +11977,13 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_48isomor
     }
   }
   if (!__pyx_t_3) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_g); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 359, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_g); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 365, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_2)) {
       PyObject *__pyx_temp[2] = {__pyx_t_3, __pyx_v_g};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 359, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 365, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_GOTREF(__pyx_t_1);
     } else
@@ -11990,19 +11991,19 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_48isomor
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
       PyObject *__pyx_temp[2] = {__pyx_t_3, __pyx_v_g};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 359, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 365, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_GOTREF(__pyx_t_1);
     } else
     #endif
     {
-      __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 359, __pyx_L1_error)
+      __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 365, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_3); __pyx_t_3 = NULL;
       __Pyx_INCREF(__pyx_v_g);
       __Pyx_GIVEREF(__pyx_v_g);
       PyTuple_SET_ITEM(__pyx_t_4, 0+1, __pyx_v_g);
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 359, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 365, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     }
@@ -12010,13 +12011,13 @@ static PyObject *__pyx_pf_6grakel_7kernels_12_isomorphism_5bliss_5Graph_48isomor
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_5 = (__pyx_t_1 != Py_None);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyBool_FromLong(__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 359, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyBool_FromLong(__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 365, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":358
+  /* "grakel/kernels/_isomorphism/bliss.pyx":364
  *         return isomorphism
  * 
  *     def isomorphic(self, g):             # <<<<<<<<<<<<<<
@@ -12259,7 +12260,7 @@ static PyModuleDef_Slot __pyx_moduledef_slots[] = {
 static struct PyModuleDef __pyx_moduledef = {
     PyModuleDef_HEAD_INIT,
     "bliss",
-    0, /* m_doc */
+    __pyx_k_Main_pyx_file_for_the__isomorphi, /* m_doc */
   #if CYTHON_PEP489_MULTI_PHASE_INIT
     0, /* m_size */
   #else
@@ -12440,10 +12441,10 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, 0, 0, 0, 0, 0, 0}
 };
 static int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_enumerate = __Pyx_GetBuiltinName(__pyx_n_s_enumerate); if (!__pyx_builtin_enumerate) __PYX_ERR(0, 14, __pyx_L1_error)
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 53, __pyx_L1_error)
-  __pyx_builtin_RuntimeError = __Pyx_GetBuiltinName(__pyx_n_s_RuntimeError); if (!__pyx_builtin_RuntimeError) __PYX_ERR(0, 91, __pyx_L1_error)
-  __pyx_builtin_TypeError = __Pyx_GetBuiltinName(__pyx_n_s_TypeError); if (!__pyx_builtin_TypeError) __PYX_ERR(0, 226, __pyx_L1_error)
+  __pyx_builtin_enumerate = __Pyx_GetBuiltinName(__pyx_n_s_enumerate); if (!__pyx_builtin_enumerate) __PYX_ERR(0, 20, __pyx_L1_error)
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 59, __pyx_L1_error)
+  __pyx_builtin_RuntimeError = __Pyx_GetBuiltinName(__pyx_n_s_RuntimeError); if (!__pyx_builtin_RuntimeError) __PYX_ERR(0, 97, __pyx_L1_error)
+  __pyx_builtin_TypeError = __Pyx_GetBuiltinName(__pyx_n_s_TypeError); if (!__pyx_builtin_TypeError) __PYX_ERR(0, 232, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
   return -1;
@@ -12453,484 +12454,484 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":91
+  /* "grakel/kernels/_isomorphism/bliss.pyx":97
  *         Ordering of graphs is not defined, will raise an Error.
  *         """
  *         raise RuntimeError("Operation not implemented")             # <<<<<<<<<<<<<<
  * 
  *     def __lt__(self, other):
  */
-  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_s_Operation_not_implemented); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(0, 91, __pyx_L1_error)
+  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_s_Operation_not_implemented); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(0, 97, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__6);
   __Pyx_GIVEREF(__pyx_tuple__6);
-
-  /* "grakel/kernels/_isomorphism/bliss.pyx":97
- *         Ordering of graphs is not defined, will raise an Error.
- *         """
- *         raise RuntimeError("Operation not implemented")             # <<<<<<<<<<<<<<
- * 
- *     def __ge__(self, other):
- */
-  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_s_Operation_not_implemented); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 97, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__7);
-  __Pyx_GIVEREF(__pyx_tuple__7);
 
   /* "grakel/kernels/_isomorphism/bliss.pyx":103
  *         Ordering of graphs is not defined, will raise an Error.
  *         """
  *         raise RuntimeError("Operation not implemented")             # <<<<<<<<<<<<<<
  * 
- *     def __gt__(self, other):
+ *     def __ge__(self, other):
  */
-  __pyx_tuple__8 = PyTuple_Pack(1, __pyx_kp_s_Operation_not_implemented); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(0, 103, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__8);
-  __Pyx_GIVEREF(__pyx_tuple__8);
+  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_s_Operation_not_implemented); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 103, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__7);
+  __Pyx_GIVEREF(__pyx_tuple__7);
 
   /* "grakel/kernels/_isomorphism/bliss.pyx":109
  *         Ordering of graphs is not defined, will raise an Error.
  *         """
  *         raise RuntimeError("Operation not implemented")             # <<<<<<<<<<<<<<
  * 
- *     def __cmp__(self, other):
+ *     def __gt__(self, other):
  */
-  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_kp_s_Operation_not_implemented); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(0, 109, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__9);
-  __Pyx_GIVEREF(__pyx_tuple__9);
+  __pyx_tuple__8 = PyTuple_Pack(1, __pyx_kp_s_Operation_not_implemented); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(0, 109, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__8);
+  __Pyx_GIVEREF(__pyx_tuple__8);
 
   /* "grakel/kernels/_isomorphism/bliss.pyx":115
  *         Ordering of graphs is not defined, will raise an Error.
  *         """
  *         raise RuntimeError("Operation not implemented")             # <<<<<<<<<<<<<<
  * 
+ *     def __cmp__(self, other):
+ */
+  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_kp_s_Operation_not_implemented); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(0, 115, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__9);
+  __Pyx_GIVEREF(__pyx_tuple__9);
+
+  /* "grakel/kernels/_isomorphism/bliss.pyx":121
+ *         Ordering of graphs is not defined, will raise an Error.
+ *         """
+ *         raise RuntimeError("Operation not implemented")             # <<<<<<<<<<<<<<
+ * 
  *     def nof_vertices(self):
  */
-  __pyx_tuple__10 = PyTuple_Pack(1, __pyx_kp_s_Operation_not_implemented); if (unlikely(!__pyx_tuple__10)) __PYX_ERR(0, 115, __pyx_L1_error)
+  __pyx_tuple__10 = PyTuple_Pack(1, __pyx_kp_s_Operation_not_implemented); if (unlikely(!__pyx_tuple__10)) __PYX_ERR(0, 121, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__10);
   __Pyx_GIVEREF(__pyx_tuple__10);
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":190
+  /* "grakel/kernels/_isomorphism/bliss.pyx":196
  *         Write the graph into a file in the graphviz dot format.
  *         """
  *         file.write("graph g {\n")             # <<<<<<<<<<<<<<
  *         for v,vertex in iteritems(self._vertices):
  *             file.write("\""+str(v)+"\" [label="+str(vertex.color)+"];\n")
  */
-  __pyx_tuple__11 = PyTuple_Pack(1, __pyx_kp_s_graph_g); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 190, __pyx_L1_error)
+  __pyx_tuple__11 = PyTuple_Pack(1, __pyx_kp_s_graph_g); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 196, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__11);
   __Pyx_GIVEREF(__pyx_tuple__11);
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":197
+  /* "grakel/kernels/_isomorphism/bliss.pyx":203
  *                 if neighbour.name >= vertex.name:
  *                     file.write("\""+str(v)+"\" -- \""+str(neighbour.name)+"\";\n")
  *         file.write("}\n")             # <<<<<<<<<<<<<<
  * 
  *     def _make_bliss_graph(self):
  */
-  __pyx_tuple__17 = PyTuple_Pack(1, __pyx_kp_s__16); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(0, 197, __pyx_L1_error)
+  __pyx_tuple__17 = PyTuple_Pack(1, __pyx_kp_s__16); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(0, 203, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__17);
   __Pyx_GIVEREF(__pyx_tuple__17);
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":226
+  /* "grakel/kernels/_isomorphism/bliss.pyx":232
  *         if not((reporter_function is None) or
  *                isinstance(reporter_function, types.FunctionType)):
  *             raise TypeError("the 'reporter_function' argument of "             # <<<<<<<<<<<<<<
  *                             "canonical_labeling() should be None or "
  *                             "a function")
  */
-  __pyx_tuple__18 = PyTuple_Pack(1, __pyx_kp_s_the_reporter_function_argument_o); if (unlikely(!__pyx_tuple__18)) __PYX_ERR(0, 226, __pyx_L1_error)
+  __pyx_tuple__18 = PyTuple_Pack(1, __pyx_kp_s_the_reporter_function_argument_o); if (unlikely(!__pyx_tuple__18)) __PYX_ERR(0, 232, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__18);
   __Pyx_GIVEREF(__pyx_tuple__18);
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":245
+  /* "grakel/kernels/_isomorphism/bliss.pyx":251
  *         if not((reporter_function is None) or
  *                isinstance(reporter_function, types.FunctionType)):
  *             raise TypeError("the 'reporter_function' argument of "             # <<<<<<<<<<<<<<
  *                             "canonical_labeling() should be None or "
  *                             "a function")
  */
-  __pyx_tuple__19 = PyTuple_Pack(1, __pyx_kp_s_the_reporter_function_argument_o); if (unlikely(!__pyx_tuple__19)) __PYX_ERR(0, 245, __pyx_L1_error)
+  __pyx_tuple__19 = PyTuple_Pack(1, __pyx_kp_s_the_reporter_function_argument_o); if (unlikely(!__pyx_tuple__19)) __PYX_ERR(0, 251, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__19);
   __Pyx_GIVEREF(__pyx_tuple__19);
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":270
+  /* "grakel/kernels/_isomorphism/bliss.pyx":276
  *             inserted = g2.add_vertex(lab[name],vertex.color)
  *             if not inserted:
  *                 raise RuntimeError("'lab' is not a bijection")             # <<<<<<<<<<<<<<
  *         for name,vertex in iteritems(self._vertices):
  *             for neighbour in vertex.edges:
  */
-  __pyx_tuple__20 = PyTuple_Pack(1, __pyx_kp_s_lab_is_not_a_bijection); if (unlikely(!__pyx_tuple__20)) __PYX_ERR(0, 270, __pyx_L1_error)
+  __pyx_tuple__20 = PyTuple_Pack(1, __pyx_kp_s_lab_is_not_a_bijection); if (unlikely(!__pyx_tuple__20)) __PYX_ERR(0, 276, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__20);
   __Pyx_GIVEREF(__pyx_tuple__20);
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":10
+  /* "grakel/kernels/_isomorphism/bliss.pyx":16
  * from six import iteritems
  * 
  * def _report(perm, args):             # <<<<<<<<<<<<<<
  *     [reporter_func, reporter_args, bliss_map_inv] = args;
  *     if reporter_func:
  */
-  __pyx_tuple__21 = PyTuple_Pack(8, __pyx_n_s_perm, __pyx_n_s_args, __pyx_n_s_reporter_func, __pyx_n_s_reporter_args, __pyx_n_s_bliss_map_inv, __pyx_n_s_p, __pyx_n_s_index, __pyx_n_s_image); if (unlikely(!__pyx_tuple__21)) __PYX_ERR(0, 10, __pyx_L1_error)
+  __pyx_tuple__21 = PyTuple_Pack(8, __pyx_n_s_perm, __pyx_n_s_args, __pyx_n_s_reporter_func, __pyx_n_s_reporter_args, __pyx_n_s_bliss_map_inv, __pyx_n_s_p, __pyx_n_s_index, __pyx_n_s_image); if (unlikely(!__pyx_tuple__21)) __PYX_ERR(0, 16, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__21);
   __Pyx_GIVEREF(__pyx_tuple__21);
-  __pyx_codeobj__22 = (PyObject*)__Pyx_PyCode_New(2, 0, 8, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__21, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_grakel_kernels__isomorphism_blis_2, __pyx_n_s_report, 10, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__22)) __PYX_ERR(0, 10, __pyx_L1_error)
+  __pyx_codeobj__22 = (PyObject*)__Pyx_PyCode_New(2, 0, 8, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__21, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_grakel_kernels__isomorphism_blis_2, __pyx_n_s_report, 16, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__22)) __PYX_ERR(0, 16, __pyx_L1_error)
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":22
+  /* "grakel/kernels/_isomorphism/bliss.pyx":28
  *     @total_ordering
  *     class _Vertex:
  *         def __init__(self, name, color):             # <<<<<<<<<<<<<<
  *             assert type(color) is int
  *             assert 0 <= color and color < pow(2,31)
  */
-  __pyx_tuple__23 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_name, __pyx_n_s_color); if (unlikely(!__pyx_tuple__23)) __PYX_ERR(0, 22, __pyx_L1_error)
+  __pyx_tuple__23 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_name, __pyx_n_s_color); if (unlikely(!__pyx_tuple__23)) __PYX_ERR(0, 28, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__23);
   __Pyx_GIVEREF(__pyx_tuple__23);
-  __pyx_codeobj__24 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__23, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_grakel_kernels__isomorphism_blis_2, __pyx_n_s_init, 22, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__24)) __PYX_ERR(0, 22, __pyx_L1_error)
+  __pyx_codeobj__24 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__23, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_grakel_kernels__isomorphism_blis_2, __pyx_n_s_init, 28, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__24)) __PYX_ERR(0, 28, __pyx_L1_error)
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":31
+  /* "grakel/kernels/_isomorphism/bliss.pyx":37
  *             self.color = color
  * 
  *         def __hash__(self):             # <<<<<<<<<<<<<<
  *             return self.name.__hash__()
  * 
  */
-  __pyx_tuple__25 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__25)) __PYX_ERR(0, 31, __pyx_L1_error)
+  __pyx_tuple__25 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__25)) __PYX_ERR(0, 37, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__25);
   __Pyx_GIVEREF(__pyx_tuple__25);
-  __pyx_codeobj__26 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__25, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_grakel_kernels__isomorphism_blis_2, __pyx_n_s_hash, 31, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__26)) __PYX_ERR(0, 31, __pyx_L1_error)
+  __pyx_codeobj__26 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__25, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_grakel_kernels__isomorphism_blis_2, __pyx_n_s_hash, 37, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__26)) __PYX_ERR(0, 37, __pyx_L1_error)
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":34
+  /* "grakel/kernels/_isomorphism/bliss.pyx":40
  *             return self.name.__hash__()
  * 
  *         def __eq__(self, other):             # <<<<<<<<<<<<<<
  *             return str(self.name) == str(other.name)
  * 
  */
-  __pyx_tuple__27 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_other); if (unlikely(!__pyx_tuple__27)) __PYX_ERR(0, 34, __pyx_L1_error)
+  __pyx_tuple__27 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_other); if (unlikely(!__pyx_tuple__27)) __PYX_ERR(0, 40, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__27);
   __Pyx_GIVEREF(__pyx_tuple__27);
-  __pyx_codeobj__28 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__27, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_grakel_kernels__isomorphism_blis_2, __pyx_n_s_eq, 34, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__28)) __PYX_ERR(0, 34, __pyx_L1_error)
+  __pyx_codeobj__28 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__27, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_grakel_kernels__isomorphism_blis_2, __pyx_n_s_eq, 40, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__28)) __PYX_ERR(0, 40, __pyx_L1_error)
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":37
+  /* "grakel/kernels/_isomorphism/bliss.pyx":43
  *             return str(self.name) == str(other.name)
  * 
  *         def __lt__(self, other):             # <<<<<<<<<<<<<<
  *             return str(self.name) == str(other.name)
  * 
  */
-  __pyx_tuple__29 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_other); if (unlikely(!__pyx_tuple__29)) __PYX_ERR(0, 37, __pyx_L1_error)
+  __pyx_tuple__29 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_other); if (unlikely(!__pyx_tuple__29)) __PYX_ERR(0, 43, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__29);
   __Pyx_GIVEREF(__pyx_tuple__29);
-  __pyx_codeobj__30 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__29, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_grakel_kernels__isomorphism_blis_2, __pyx_n_s_lt, 37, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__30)) __PYX_ERR(0, 37, __pyx_L1_error)
+  __pyx_codeobj__30 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__29, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_grakel_kernels__isomorphism_blis_2, __pyx_n_s_lt, 43, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__30)) __PYX_ERR(0, 43, __pyx_L1_error)
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":43
+  /* "grakel/kernels/_isomorphism/bliss.pyx":49
  *     The class for undirected graphs.
  *     """
  *     def __init__(self, *args):             # <<<<<<<<<<<<<<
  *         """
  *         Create a new empty graph.
  */
-  __pyx_tuple__31 = PyTuple_Pack(6, __pyx_n_s_self, __pyx_n_s_args, __pyx_n_s_n_nodes, __pyx_n_s_edges, __pyx_n_s_v, __pyx_n_s_u); if (unlikely(!__pyx_tuple__31)) __PYX_ERR(0, 43, __pyx_L1_error)
+  __pyx_tuple__31 = PyTuple_Pack(6, __pyx_n_s_self, __pyx_n_s_args, __pyx_n_s_n_nodes, __pyx_n_s_edges, __pyx_n_s_v, __pyx_n_s_u); if (unlikely(!__pyx_tuple__31)) __PYX_ERR(0, 49, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__31);
   __Pyx_GIVEREF(__pyx_tuple__31);
-  __pyx_codeobj__32 = (PyObject*)__Pyx_PyCode_New(1, 0, 6, 0, CO_OPTIMIZED|CO_NEWLOCALS|CO_VARARGS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__31, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_grakel_kernels__isomorphism_blis_2, __pyx_n_s_init, 43, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__32)) __PYX_ERR(0, 43, __pyx_L1_error)
+  __pyx_codeobj__32 = (PyObject*)__Pyx_PyCode_New(1, 0, 6, 0, CO_OPTIMIZED|CO_NEWLOCALS|CO_VARARGS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__31, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_grakel_kernels__isomorphism_blis_2, __pyx_n_s_init, 49, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__32)) __PYX_ERR(0, 49, __pyx_L1_error)
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":60
+  /* "grakel/kernels/_isomorphism/bliss.pyx":66
  *                 self.add_edge(u, v)
  * 
  *     def __hash__(self):             # <<<<<<<<<<<<<<
  *         return hash(str(self))
  * 
  */
-  __pyx_tuple__33 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__33)) __PYX_ERR(0, 60, __pyx_L1_error)
+  __pyx_tuple__33 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__33)) __PYX_ERR(0, 66, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__33);
   __Pyx_GIVEREF(__pyx_tuple__33);
-  __pyx_codeobj__34 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__33, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_grakel_kernels__isomorphism_blis_2, __pyx_n_s_hash, 60, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__34)) __PYX_ERR(0, 60, __pyx_L1_error)
+  __pyx_codeobj__34 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__33, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_grakel_kernels__isomorphism_blis_2, __pyx_n_s_hash, 66, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__34)) __PYX_ERR(0, 66, __pyx_L1_error)
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":63
+  /* "grakel/kernels/_isomorphism/bliss.pyx":69
  *         return hash(str(self))
  * 
  *     def __str__(self):             # <<<<<<<<<<<<<<
  *         vnames = sorted(self._vertices.keys())
  *         s = "<"
  */
-  __pyx_tuple__35 = PyTuple_Pack(8, __pyx_n_s_self, __pyx_n_s_vnames, __pyx_n_s_s, __pyx_n_s_name, __pyx_n_s_vertex, __pyx_n_s_nnames, __pyx_n_s_genexpr, __pyx_n_s_genexpr); if (unlikely(!__pyx_tuple__35)) __PYX_ERR(0, 63, __pyx_L1_error)
+  __pyx_tuple__35 = PyTuple_Pack(8, __pyx_n_s_self, __pyx_n_s_vnames, __pyx_n_s_s, __pyx_n_s_name, __pyx_n_s_vertex, __pyx_n_s_nnames, __pyx_n_s_genexpr, __pyx_n_s_genexpr); if (unlikely(!__pyx_tuple__35)) __PYX_ERR(0, 69, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__35);
   __Pyx_GIVEREF(__pyx_tuple__35);
-  __pyx_codeobj__36 = (PyObject*)__Pyx_PyCode_New(1, 0, 8, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__35, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_grakel_kernels__isomorphism_blis_2, __pyx_n_s_str, 63, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__36)) __PYX_ERR(0, 63, __pyx_L1_error)
+  __pyx_codeobj__36 = (PyObject*)__Pyx_PyCode_New(1, 0, 8, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__35, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_grakel_kernels__isomorphism_blis_2, __pyx_n_s_str, 69, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__36)) __PYX_ERR(0, 69, __pyx_L1_error)
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":73
+  /* "grakel/kernels/_isomorphism/bliss.pyx":79
  *         return s
  * 
  *     def __eq__(self, other):             # <<<<<<<<<<<<<<
  *         """
  *         Check whether the graph is equal to the graph 'other'.
  */
-  __pyx_tuple__37 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_other); if (unlikely(!__pyx_tuple__37)) __PYX_ERR(0, 73, __pyx_L1_error)
+  __pyx_tuple__37 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_other); if (unlikely(!__pyx_tuple__37)) __PYX_ERR(0, 79, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__37);
   __Pyx_GIVEREF(__pyx_tuple__37);
-  __pyx_codeobj__38 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__37, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_grakel_kernels__isomorphism_blis_2, __pyx_n_s_eq, 73, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__38)) __PYX_ERR(0, 73, __pyx_L1_error)
+  __pyx_codeobj__38 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__37, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_grakel_kernels__isomorphism_blis_2, __pyx_n_s_eq, 79, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__38)) __PYX_ERR(0, 79, __pyx_L1_error)
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":81
+  /* "grakel/kernels/_isomorphism/bliss.pyx":87
  *         return self.is_equal(other)
  * 
  *     def __ne__(self, other):             # <<<<<<<<<<<<<<
  *         """
  *         Check whether the graph is not equal to the graph 'other'.
  */
-  __pyx_tuple__39 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_other); if (unlikely(!__pyx_tuple__39)) __PYX_ERR(0, 81, __pyx_L1_error)
+  __pyx_tuple__39 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_other); if (unlikely(!__pyx_tuple__39)) __PYX_ERR(0, 87, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__39);
   __Pyx_GIVEREF(__pyx_tuple__39);
-  __pyx_codeobj__40 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__39, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_grakel_kernels__isomorphism_blis_2, __pyx_n_s_ne, 81, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__40)) __PYX_ERR(0, 81, __pyx_L1_error)
+  __pyx_codeobj__40 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__39, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_grakel_kernels__isomorphism_blis_2, __pyx_n_s_ne, 87, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__40)) __PYX_ERR(0, 87, __pyx_L1_error)
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":87
+  /* "grakel/kernels/_isomorphism/bliss.pyx":93
  *         return not self.is_equal(other)
  * 
  *     def __le__(self, other):             # <<<<<<<<<<<<<<
  *         """
  *         Ordering of graphs is not defined, will raise an Error.
  */
-  __pyx_tuple__41 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_other); if (unlikely(!__pyx_tuple__41)) __PYX_ERR(0, 87, __pyx_L1_error)
+  __pyx_tuple__41 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_other); if (unlikely(!__pyx_tuple__41)) __PYX_ERR(0, 93, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__41);
   __Pyx_GIVEREF(__pyx_tuple__41);
-  __pyx_codeobj__42 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__41, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_grakel_kernels__isomorphism_blis_2, __pyx_n_s_le, 87, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__42)) __PYX_ERR(0, 87, __pyx_L1_error)
+  __pyx_codeobj__42 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__41, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_grakel_kernels__isomorphism_blis_2, __pyx_n_s_le, 93, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__42)) __PYX_ERR(0, 93, __pyx_L1_error)
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":93
+  /* "grakel/kernels/_isomorphism/bliss.pyx":99
  *         raise RuntimeError("Operation not implemented")
  * 
  *     def __lt__(self, other):             # <<<<<<<<<<<<<<
  *         """
  *         Ordering of graphs is not defined, will raise an Error.
  */
-  __pyx_tuple__43 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_other); if (unlikely(!__pyx_tuple__43)) __PYX_ERR(0, 93, __pyx_L1_error)
+  __pyx_tuple__43 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_other); if (unlikely(!__pyx_tuple__43)) __PYX_ERR(0, 99, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__43);
   __Pyx_GIVEREF(__pyx_tuple__43);
-  __pyx_codeobj__44 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__43, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_grakel_kernels__isomorphism_blis_2, __pyx_n_s_lt, 93, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__44)) __PYX_ERR(0, 93, __pyx_L1_error)
+  __pyx_codeobj__44 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__43, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_grakel_kernels__isomorphism_blis_2, __pyx_n_s_lt, 99, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__44)) __PYX_ERR(0, 99, __pyx_L1_error)
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":99
+  /* "grakel/kernels/_isomorphism/bliss.pyx":105
  *         raise RuntimeError("Operation not implemented")
  * 
  *     def __ge__(self, other):             # <<<<<<<<<<<<<<
  *         """
  *         Ordering of graphs is not defined, will raise an Error.
  */
-  __pyx_tuple__45 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_other); if (unlikely(!__pyx_tuple__45)) __PYX_ERR(0, 99, __pyx_L1_error)
+  __pyx_tuple__45 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_other); if (unlikely(!__pyx_tuple__45)) __PYX_ERR(0, 105, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__45);
   __Pyx_GIVEREF(__pyx_tuple__45);
-  __pyx_codeobj__46 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__45, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_grakel_kernels__isomorphism_blis_2, __pyx_n_s_ge, 99, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__46)) __PYX_ERR(0, 99, __pyx_L1_error)
+  __pyx_codeobj__46 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__45, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_grakel_kernels__isomorphism_blis_2, __pyx_n_s_ge, 105, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__46)) __PYX_ERR(0, 105, __pyx_L1_error)
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":105
+  /* "grakel/kernels/_isomorphism/bliss.pyx":111
  *         raise RuntimeError("Operation not implemented")
  * 
  *     def __gt__(self, other):             # <<<<<<<<<<<<<<
  *         """
  *         Ordering of graphs is not defined, will raise an Error.
  */
-  __pyx_tuple__47 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_other); if (unlikely(!__pyx_tuple__47)) __PYX_ERR(0, 105, __pyx_L1_error)
+  __pyx_tuple__47 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_other); if (unlikely(!__pyx_tuple__47)) __PYX_ERR(0, 111, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__47);
   __Pyx_GIVEREF(__pyx_tuple__47);
-  __pyx_codeobj__48 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__47, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_grakel_kernels__isomorphism_blis_2, __pyx_n_s_gt, 105, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__48)) __PYX_ERR(0, 105, __pyx_L1_error)
+  __pyx_codeobj__48 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__47, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_grakel_kernels__isomorphism_blis_2, __pyx_n_s_gt, 111, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__48)) __PYX_ERR(0, 111, __pyx_L1_error)
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":111
+  /* "grakel/kernels/_isomorphism/bliss.pyx":117
  *         raise RuntimeError("Operation not implemented")
  * 
  *     def __cmp__(self, other):             # <<<<<<<<<<<<<<
  *         """
  *         Ordering of graphs is not defined, will raise an Error.
  */
-  __pyx_tuple__49 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_other); if (unlikely(!__pyx_tuple__49)) __PYX_ERR(0, 111, __pyx_L1_error)
+  __pyx_tuple__49 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_other); if (unlikely(!__pyx_tuple__49)) __PYX_ERR(0, 117, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__49);
   __Pyx_GIVEREF(__pyx_tuple__49);
-  __pyx_codeobj__50 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__49, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_grakel_kernels__isomorphism_blis_2, __pyx_n_s_cmp, 111, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__50)) __PYX_ERR(0, 111, __pyx_L1_error)
+  __pyx_codeobj__50 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__49, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_grakel_kernels__isomorphism_blis_2, __pyx_n_s_cmp, 117, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__50)) __PYX_ERR(0, 117, __pyx_L1_error)
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":117
+  /* "grakel/kernels/_isomorphism/bliss.pyx":123
  *         raise RuntimeError("Operation not implemented")
  * 
  *     def nof_vertices(self):             # <<<<<<<<<<<<<<
  *         """
  *         Get the number of vertices in the graph.
  */
-  __pyx_tuple__51 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__51)) __PYX_ERR(0, 117, __pyx_L1_error)
+  __pyx_tuple__51 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__51)) __PYX_ERR(0, 123, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__51);
   __Pyx_GIVEREF(__pyx_tuple__51);
-  __pyx_codeobj__52 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__51, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_grakel_kernels__isomorphism_blis_2, __pyx_n_s_nof_vertices, 117, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__52)) __PYX_ERR(0, 117, __pyx_L1_error)
+  __pyx_codeobj__52 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__51, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_grakel_kernels__isomorphism_blis_2, __pyx_n_s_nof_vertices, 123, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__52)) __PYX_ERR(0, 123, __pyx_L1_error)
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":123
+  /* "grakel/kernels/_isomorphism/bliss.pyx":129
  *         return len(self._vertices)
  * 
  *     def get_vertices(self):             # <<<<<<<<<<<<<<
  *         """
  *         Return the (list of) vertices in the graph.
  */
-  __pyx_tuple__53 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__53)) __PYX_ERR(0, 123, __pyx_L1_error)
+  __pyx_tuple__53 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__53)) __PYX_ERR(0, 129, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__53);
   __Pyx_GIVEREF(__pyx_tuple__53);
-  __pyx_codeobj__54 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__53, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_grakel_kernels__isomorphism_blis_2, __pyx_n_s_get_vertices, 123, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__54)) __PYX_ERR(0, 123, __pyx_L1_error)
+  __pyx_codeobj__54 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__53, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_grakel_kernels__isomorphism_blis_2, __pyx_n_s_get_vertices, 129, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__54)) __PYX_ERR(0, 129, __pyx_L1_error)
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":129
+  /* "grakel/kernels/_isomorphism/bliss.pyx":135
  *         return self._vertices.keys()
  * 
  *     def add_vertex(self, v, color = 0):             # <<<<<<<<<<<<<<
  *         """
  *         Add a new vertex named 'v' with color 'c' in the graph.
  */
-  __pyx_tuple__55 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_v, __pyx_n_s_color); if (unlikely(!__pyx_tuple__55)) __PYX_ERR(0, 129, __pyx_L1_error)
+  __pyx_tuple__55 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_v, __pyx_n_s_color); if (unlikely(!__pyx_tuple__55)) __PYX_ERR(0, 135, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__55);
   __Pyx_GIVEREF(__pyx_tuple__55);
-  __pyx_codeobj__56 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__55, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_grakel_kernels__isomorphism_blis_2, __pyx_n_s_add_vertex, 129, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__56)) __PYX_ERR(0, 129, __pyx_L1_error)
-  __pyx_tuple__57 = PyTuple_Pack(1, ((PyObject *)__pyx_int_0)); if (unlikely(!__pyx_tuple__57)) __PYX_ERR(0, 129, __pyx_L1_error)
+  __pyx_codeobj__56 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__55, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_grakel_kernels__isomorphism_blis_2, __pyx_n_s_add_vertex, 135, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__56)) __PYX_ERR(0, 135, __pyx_L1_error)
+  __pyx_tuple__57 = PyTuple_Pack(1, ((PyObject *)__pyx_int_0)); if (unlikely(!__pyx_tuple__57)) __PYX_ERR(0, 135, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__57);
   __Pyx_GIVEREF(__pyx_tuple__57);
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":145
+  /* "grakel/kernels/_isomorphism/bliss.pyx":151
  *         return True
  * 
  *     def del_vertex(self, v):             # <<<<<<<<<<<<<<
  *         """
  *         Delete the vertex named 'v' from the graph.
  */
-  __pyx_tuple__58 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_v, __pyx_n_s_vertex, __pyx_n_s_neighbour); if (unlikely(!__pyx_tuple__58)) __PYX_ERR(0, 145, __pyx_L1_error)
+  __pyx_tuple__58 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_v, __pyx_n_s_vertex, __pyx_n_s_neighbour); if (unlikely(!__pyx_tuple__58)) __PYX_ERR(0, 151, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__58);
   __Pyx_GIVEREF(__pyx_tuple__58);
-  __pyx_codeobj__59 = (PyObject*)__Pyx_PyCode_New(2, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__58, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_grakel_kernels__isomorphism_blis_2, __pyx_n_s_del_vertex, 145, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__59)) __PYX_ERR(0, 145, __pyx_L1_error)
+  __pyx_codeobj__59 = (PyObject*)__Pyx_PyCode_New(2, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__58, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_grakel_kernels__isomorphism_blis_2, __pyx_n_s_del_vertex, 151, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__59)) __PYX_ERR(0, 151, __pyx_L1_error)
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":159
+  /* "grakel/kernels/_isomorphism/bliss.pyx":165
  *             del self._vertices[v]
  * 
  *     def add_edge(self, v1, v2):             # <<<<<<<<<<<<<<
  *         """
  *         Add an edge between vertices v1 and v2.
  */
-  __pyx_tuple__60 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_v1, __pyx_n_s_v2); if (unlikely(!__pyx_tuple__60)) __PYX_ERR(0, 159, __pyx_L1_error)
+  __pyx_tuple__60 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_v1, __pyx_n_s_v2); if (unlikely(!__pyx_tuple__60)) __PYX_ERR(0, 165, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__60);
   __Pyx_GIVEREF(__pyx_tuple__60);
-  __pyx_codeobj__61 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__60, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_grakel_kernels__isomorphism_blis_2, __pyx_n_s_add_edge, 159, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__61)) __PYX_ERR(0, 159, __pyx_L1_error)
+  __pyx_codeobj__61 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__60, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_grakel_kernels__isomorphism_blis_2, __pyx_n_s_add_edge, 165, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__61)) __PYX_ERR(0, 165, __pyx_L1_error)
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":173
+  /* "grakel/kernels/_isomorphism/bliss.pyx":179
  *         self._vertices[v2].edges.add(self._vertices[v1])
  * 
  *     def del_edge(self, v1, v2):             # <<<<<<<<<<<<<<
  *         """
  *         Delete the edge between vertices v1 and v2.
  */
-  __pyx_tuple__62 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_v1, __pyx_n_s_v2); if (unlikely(!__pyx_tuple__62)) __PYX_ERR(0, 173, __pyx_L1_error)
+  __pyx_tuple__62 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_v1, __pyx_n_s_v2); if (unlikely(!__pyx_tuple__62)) __PYX_ERR(0, 179, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__62);
   __Pyx_GIVEREF(__pyx_tuple__62);
-  __pyx_codeobj__63 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__62, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_grakel_kernels__isomorphism_blis_2, __pyx_n_s_del_edge, 173, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__63)) __PYX_ERR(0, 173, __pyx_L1_error)
+  __pyx_codeobj__63 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__62, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_grakel_kernels__isomorphism_blis_2, __pyx_n_s_del_edge, 179, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__63)) __PYX_ERR(0, 179, __pyx_L1_error)
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":186
+  /* "grakel/kernels/_isomorphism/bliss.pyx":192
  *         self._vertices[v2].edges.discard(self._vertices[v1])
  * 
  *     def write_dot(self, file):             # <<<<<<<<<<<<<<
  *         """
  *         Write the graph into a file in the graphviz dot format.
  */
-  __pyx_tuple__64 = PyTuple_Pack(5, __pyx_n_s_self, __pyx_n_s_file, __pyx_n_s_v, __pyx_n_s_vertex, __pyx_n_s_neighbour); if (unlikely(!__pyx_tuple__64)) __PYX_ERR(0, 186, __pyx_L1_error)
+  __pyx_tuple__64 = PyTuple_Pack(5, __pyx_n_s_self, __pyx_n_s_file, __pyx_n_s_v, __pyx_n_s_vertex, __pyx_n_s_neighbour); if (unlikely(!__pyx_tuple__64)) __PYX_ERR(0, 192, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__64);
   __Pyx_GIVEREF(__pyx_tuple__64);
-  __pyx_codeobj__65 = (PyObject*)__Pyx_PyCode_New(2, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__64, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_grakel_kernels__isomorphism_blis_2, __pyx_n_s_write_dot, 186, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__65)) __PYX_ERR(0, 186, __pyx_L1_error)
+  __pyx_codeobj__65 = (PyObject*)__Pyx_PyCode_New(2, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__64, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_grakel_kernels__isomorphism_blis_2, __pyx_n_s_write_dot, 192, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__65)) __PYX_ERR(0, 192, __pyx_L1_error)
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":199
+  /* "grakel/kernels/_isomorphism/bliss.pyx":205
  *         file.write("}\n")
  * 
  *     def _make_bliss_graph(self):             # <<<<<<<<<<<<<<
  *         g = intpybliss.create()
  *         bliss_map = {}
  */
-  __pyx_tuple__66 = PyTuple_Pack(8, __pyx_n_s_self, __pyx_n_s_g, __pyx_n_s_bliss_map, __pyx_n_s_bliss_map_inv, __pyx_n_s_v, __pyx_n_s_vertex, __pyx_n_s_name, __pyx_n_s_neighbour); if (unlikely(!__pyx_tuple__66)) __PYX_ERR(0, 199, __pyx_L1_error)
+  __pyx_tuple__66 = PyTuple_Pack(8, __pyx_n_s_self, __pyx_n_s_g, __pyx_n_s_bliss_map, __pyx_n_s_bliss_map_inv, __pyx_n_s_v, __pyx_n_s_vertex, __pyx_n_s_name, __pyx_n_s_neighbour); if (unlikely(!__pyx_tuple__66)) __PYX_ERR(0, 205, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__66);
   __Pyx_GIVEREF(__pyx_tuple__66);
-  __pyx_codeobj__67 = (PyObject*)__Pyx_PyCode_New(1, 0, 8, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__66, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_grakel_kernels__isomorphism_blis_2, __pyx_n_s_make_bliss_graph, 199, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__67)) __PYX_ERR(0, 199, __pyx_L1_error)
+  __pyx_codeobj__67 = (PyObject*)__Pyx_PyCode_New(1, 0, 8, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__66, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_grakel_kernels__isomorphism_blis_2, __pyx_n_s_make_bliss_graph, 205, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__67)) __PYX_ERR(0, 205, __pyx_L1_error)
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":215
+  /* "grakel/kernels/_isomorphism/bliss.pyx":221
  *         return (g,bliss_map,bliss_map_inv)
  * 
  *     def find_automorphisms(self,             # <<<<<<<<<<<<<<
  *                            reporter_function,
  *                            reporter_function_arg = None):
  */
-  __pyx_tuple__68 = PyTuple_Pack(7, __pyx_n_s_self, __pyx_n_s_reporter_function, __pyx_n_s_reporter_function_arg, __pyx_n_s_g, __pyx_n_s_bliss_map, __pyx_n_s_bliss_map_inv, __pyx_n_s_report_args); if (unlikely(!__pyx_tuple__68)) __PYX_ERR(0, 215, __pyx_L1_error)
+  __pyx_tuple__68 = PyTuple_Pack(7, __pyx_n_s_self, __pyx_n_s_reporter_function, __pyx_n_s_reporter_function_arg, __pyx_n_s_g, __pyx_n_s_bliss_map, __pyx_n_s_bliss_map_inv, __pyx_n_s_report_args); if (unlikely(!__pyx_tuple__68)) __PYX_ERR(0, 221, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__68);
   __Pyx_GIVEREF(__pyx_tuple__68);
-  __pyx_codeobj__69 = (PyObject*)__Pyx_PyCode_New(3, 0, 7, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__68, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_grakel_kernels__isomorphism_blis_2, __pyx_n_s_find_automorphisms, 215, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__69)) __PYX_ERR(0, 215, __pyx_L1_error)
-  __pyx_tuple__70 = PyTuple_Pack(1, ((PyObject *)Py_None)); if (unlikely(!__pyx_tuple__70)) __PYX_ERR(0, 215, __pyx_L1_error)
+  __pyx_codeobj__69 = (PyObject*)__Pyx_PyCode_New(3, 0, 7, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__68, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_grakel_kernels__isomorphism_blis_2, __pyx_n_s_find_automorphisms, 221, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__69)) __PYX_ERR(0, 221, __pyx_L1_error)
+  __pyx_tuple__70 = PyTuple_Pack(1, ((PyObject *)Py_None)); if (unlikely(!__pyx_tuple__70)) __PYX_ERR(0, 221, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__70);
   __Pyx_GIVEREF(__pyx_tuple__70);
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":233
+  /* "grakel/kernels/_isomorphism/bliss.pyx":239
  *         intpybliss.find_automorphisms(g, _report, report_args)
  * 
  *     def canonical_labeling(self,             # <<<<<<<<<<<<<<
  *                            reporter_function = None,
  *                            reporter_function_arg = None):
  */
-  __pyx_tuple__71 = PyTuple_Pack(11, __pyx_n_s_self, __pyx_n_s_reporter_function, __pyx_n_s_reporter_function_arg, __pyx_n_s_g, __pyx_n_s_bliss_map, __pyx_n_s_bliss_map_inv, __pyx_n_s_report_args, __pyx_n_s_cl, __pyx_n_s_canlab, __pyx_n_s_index, __pyx_n_s_image); if (unlikely(!__pyx_tuple__71)) __PYX_ERR(0, 233, __pyx_L1_error)
+  __pyx_tuple__71 = PyTuple_Pack(11, __pyx_n_s_self, __pyx_n_s_reporter_function, __pyx_n_s_reporter_function_arg, __pyx_n_s_g, __pyx_n_s_bliss_map, __pyx_n_s_bliss_map_inv, __pyx_n_s_report_args, __pyx_n_s_cl, __pyx_n_s_canlab, __pyx_n_s_index, __pyx_n_s_image); if (unlikely(!__pyx_tuple__71)) __PYX_ERR(0, 239, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__71);
   __Pyx_GIVEREF(__pyx_tuple__71);
-  __pyx_codeobj__72 = (PyObject*)__Pyx_PyCode_New(3, 0, 11, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__71, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_grakel_kernels__isomorphism_blis_2, __pyx_n_s_canonical_labeling, 233, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__72)) __PYX_ERR(0, 233, __pyx_L1_error)
-  __pyx_tuple__73 = PyTuple_Pack(2, ((PyObject *)Py_None), ((PyObject *)Py_None)); if (unlikely(!__pyx_tuple__73)) __PYX_ERR(0, 233, __pyx_L1_error)
+  __pyx_codeobj__72 = (PyObject*)__Pyx_PyCode_New(3, 0, 11, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__71, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_grakel_kernels__isomorphism_blis_2, __pyx_n_s_canonical_labeling, 239, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__72)) __PYX_ERR(0, 239, __pyx_L1_error)
+  __pyx_tuple__73 = PyTuple_Pack(2, ((PyObject *)Py_None), ((PyObject *)Py_None)); if (unlikely(!__pyx_tuple__73)) __PYX_ERR(0, 239, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__73);
   __Pyx_GIVEREF(__pyx_tuple__73);
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":257
+  /* "grakel/kernels/_isomorphism/bliss.pyx":263
  *         return canlab
  * 
  *     def relabel(self, lab):             # <<<<<<<<<<<<<<
  *         """
  *         Apply the argument labeling 'lab' to the graph, returning a copy of
  */
-  __pyx_tuple__74 = PyTuple_Pack(7, __pyx_n_s_self, __pyx_n_s_lab, __pyx_n_s_g2, __pyx_n_s_name, __pyx_n_s_vertex, __pyx_n_s_inserted, __pyx_n_s_neighbour); if (unlikely(!__pyx_tuple__74)) __PYX_ERR(0, 257, __pyx_L1_error)
+  __pyx_tuple__74 = PyTuple_Pack(7, __pyx_n_s_self, __pyx_n_s_lab, __pyx_n_s_g2, __pyx_n_s_name, __pyx_n_s_vertex, __pyx_n_s_inserted, __pyx_n_s_neighbour); if (unlikely(!__pyx_tuple__74)) __PYX_ERR(0, 263, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__74);
   __Pyx_GIVEREF(__pyx_tuple__74);
-  __pyx_codeobj__75 = (PyObject*)__Pyx_PyCode_New(2, 0, 7, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__74, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_grakel_kernels__isomorphism_blis_2, __pyx_n_s_relabel, 257, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__75)) __PYX_ERR(0, 257, __pyx_L1_error)
+  __pyx_codeobj__75 = (PyObject*)__Pyx_PyCode_New(2, 0, 7, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__74, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_grakel_kernels__isomorphism_blis_2, __pyx_n_s_relabel, 263, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__75)) __PYX_ERR(0, 263, __pyx_L1_error)
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":278
+  /* "grakel/kernels/_isomorphism/bliss.pyx":284
  *         return g2
  * 
  *     def copy(self):             # <<<<<<<<<<<<<<
  *         """
  *         Return a copy of this graph.
  */
-  __pyx_tuple__76 = PyTuple_Pack(5, __pyx_n_s_self, __pyx_n_s_g2, __pyx_n_s_name, __pyx_n_s_vertex, __pyx_n_s_neighbour); if (unlikely(!__pyx_tuple__76)) __PYX_ERR(0, 278, __pyx_L1_error)
+  __pyx_tuple__76 = PyTuple_Pack(5, __pyx_n_s_self, __pyx_n_s_g2, __pyx_n_s_name, __pyx_n_s_vertex, __pyx_n_s_neighbour); if (unlikely(!__pyx_tuple__76)) __PYX_ERR(0, 284, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__76);
   __Pyx_GIVEREF(__pyx_tuple__76);
-  __pyx_codeobj__77 = (PyObject*)__Pyx_PyCode_New(1, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__76, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_grakel_kernels__isomorphism_blis_2, __pyx_n_s_copy, 278, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__77)) __PYX_ERR(0, 278, __pyx_L1_error)
+  __pyx_codeobj__77 = (PyObject*)__Pyx_PyCode_New(1, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__76, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_grakel_kernels__isomorphism_blis_2, __pyx_n_s_copy, 284, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__77)) __PYX_ERR(0, 284, __pyx_L1_error)
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":292
+  /* "grakel/kernels/_isomorphism/bliss.pyx":298
  *         return g2
  * 
  *     def is_equal(self, g):             # <<<<<<<<<<<<<<
  *         """
  *         Check whether the graph is equal to the graph 'g'.
  */
-  __pyx_tuple__78 = PyTuple_Pack(7, __pyx_n_s_self, __pyx_n_s_g, __pyx_n_s_name, __pyx_n_s_vertex, __pyx_n_s_my_edges, __pyx_n_s_g_edges, __pyx_n_s_v); if (unlikely(!__pyx_tuple__78)) __PYX_ERR(0, 292, __pyx_L1_error)
+  __pyx_tuple__78 = PyTuple_Pack(7, __pyx_n_s_self, __pyx_n_s_g, __pyx_n_s_name, __pyx_n_s_vertex, __pyx_n_s_my_edges, __pyx_n_s_g_edges, __pyx_n_s_v); if (unlikely(!__pyx_tuple__78)) __PYX_ERR(0, 298, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__78);
   __Pyx_GIVEREF(__pyx_tuple__78);
-  __pyx_codeobj__79 = (PyObject*)__Pyx_PyCode_New(2, 0, 7, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__78, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_grakel_kernels__isomorphism_blis_2, __pyx_n_s_is_equal, 292, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__79)) __PYX_ERR(0, 292, __pyx_L1_error)
+  __pyx_codeobj__79 = (PyObject*)__Pyx_PyCode_New(2, 0, 7, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__78, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_grakel_kernels__isomorphism_blis_2, __pyx_n_s_is_equal, 298, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__79)) __PYX_ERR(0, 298, __pyx_L1_error)
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":310
+  /* "grakel/kernels/_isomorphism/bliss.pyx":316
  *         return True
  * 
  *     def get_isomorphism(self, g):             # <<<<<<<<<<<<<<
  *         """
  *         Return an isomorphism from this graph to the graph 'g' or
  */
-  __pyx_tuple__80 = PyTuple_Pack(16, __pyx_n_s_self, __pyx_n_s_g, __pyx_n_s_my_colors, __pyx_n_s_g_colors, __pyx_n_s_my_degrees, __pyx_n_s_g_degrees, __pyx_n_s_name, __pyx_n_s_vertex, __pyx_n_s_degree, __pyx_n_s_my_canlab, __pyx_n_s_my_canform, __pyx_n_s_g_canlab, __pyx_n_s_g_canform, __pyx_n_s_g_canlab_inv, __pyx_n_s_image, __pyx_n_s_isomorphism); if (unlikely(!__pyx_tuple__80)) __PYX_ERR(0, 310, __pyx_L1_error)
+  __pyx_tuple__80 = PyTuple_Pack(16, __pyx_n_s_self, __pyx_n_s_g, __pyx_n_s_my_colors, __pyx_n_s_g_colors, __pyx_n_s_my_degrees, __pyx_n_s_g_degrees, __pyx_n_s_name, __pyx_n_s_vertex, __pyx_n_s_degree, __pyx_n_s_my_canlab, __pyx_n_s_my_canform, __pyx_n_s_g_canlab, __pyx_n_s_g_canform, __pyx_n_s_g_canlab_inv, __pyx_n_s_image, __pyx_n_s_isomorphism); if (unlikely(!__pyx_tuple__80)) __PYX_ERR(0, 316, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__80);
   __Pyx_GIVEREF(__pyx_tuple__80);
-  __pyx_codeobj__81 = (PyObject*)__Pyx_PyCode_New(2, 0, 16, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__80, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_grakel_kernels__isomorphism_blis_2, __pyx_n_s_get_isomorphism, 310, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__81)) __PYX_ERR(0, 310, __pyx_L1_error)
+  __pyx_codeobj__81 = (PyObject*)__Pyx_PyCode_New(2, 0, 16, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__80, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_grakel_kernels__isomorphism_blis_2, __pyx_n_s_get_isomorphism, 316, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__81)) __PYX_ERR(0, 316, __pyx_L1_error)
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":358
+  /* "grakel/kernels/_isomorphism/bliss.pyx":364
  *         return isomorphism
  * 
  *     def isomorphic(self, g):             # <<<<<<<<<<<<<<
  *         return self.get_isomorphism(g) is not None
  * 
  */
-  __pyx_tuple__82 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_g); if (unlikely(!__pyx_tuple__82)) __PYX_ERR(0, 358, __pyx_L1_error)
+  __pyx_tuple__82 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_g); if (unlikely(!__pyx_tuple__82)) __PYX_ERR(0, 364, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__82);
   __Pyx_GIVEREF(__pyx_tuple__82);
-  __pyx_codeobj__83 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__82, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_grakel_kernels__isomorphism_blis_2, __pyx_n_s_isomorphic, 358, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__83)) __PYX_ERR(0, 358, __pyx_L1_error)
+  __pyx_codeobj__83 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__82, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_grakel_kernels__isomorphism_blis_2, __pyx_n_s_isomorphic, 364, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__83)) __PYX_ERR(0, 364, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -12985,13 +12986,13 @@ static int __Pyx_modinit_type_init_code(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_modinit_type_init_code", 0);
   /*--- Type init code ---*/
-  if (PyType_Ready(&__pyx_type_6grakel_7kernels_12_isomorphism_5bliss___pyx_scope_struct____str__) < 0) __PYX_ERR(0, 63, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6grakel_7kernels_12_isomorphism_5bliss___pyx_scope_struct____str__) < 0) __PYX_ERR(0, 69, __pyx_L1_error)
   __pyx_type_6grakel_7kernels_12_isomorphism_5bliss___pyx_scope_struct____str__.tp_print = 0;
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6grakel_7kernels_12_isomorphism_5bliss___pyx_scope_struct____str__.tp_dictoffset && __pyx_type_6grakel_7kernels_12_isomorphism_5bliss___pyx_scope_struct____str__.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6grakel_7kernels_12_isomorphism_5bliss___pyx_scope_struct____str__.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
   __pyx_ptype_6grakel_7kernels_12_isomorphism_5bliss___pyx_scope_struct____str__ = &__pyx_type_6grakel_7kernels_12_isomorphism_5bliss___pyx_scope_struct____str__;
-  if (PyType_Ready(&__pyx_type_6grakel_7kernels_12_isomorphism_5bliss___pyx_scope_struct_1_genexpr) < 0) __PYX_ERR(0, 68, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6grakel_7kernels_12_isomorphism_5bliss___pyx_scope_struct_1_genexpr) < 0) __PYX_ERR(0, 74, __pyx_L1_error)
   __pyx_type_6grakel_7kernels_12_isomorphism_5bliss___pyx_scope_struct_1_genexpr.tp_print = 0;
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6grakel_7kernels_12_isomorphism_5bliss___pyx_scope_struct_1_genexpr.tp_dictoffset && __pyx_type_6grakel_7kernels_12_isomorphism_5bliss___pyx_scope_struct_1_genexpr.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6grakel_7kernels_12_isomorphism_5bliss___pyx_scope_struct_1_genexpr.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
@@ -13160,7 +13161,7 @@ if (!__Pyx_RefNanny) {
   Py_INCREF(__pyx_m);
   #else
   #if PY_MAJOR_VERSION < 3
-  __pyx_m = Py_InitModule4("bliss", __pyx_methods, 0, 0, PYTHON_API_VERSION); Py_XINCREF(__pyx_m);
+  __pyx_m = Py_InitModule4("bliss", __pyx_methods, __pyx_k_Main_pyx_file_for_the__isomorphi, 0, PYTHON_API_VERSION); Py_XINCREF(__pyx_m);
   #else
   __pyx_m = PyModule_Create(&__pyx_moduledef);
   #endif
@@ -13207,202 +13208,203 @@ if (!__Pyx_RefNanny) {
   if (__Pyx_patch_abc() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":2
+  /* "grakel/kernels/_isomorphism/bliss.pyx":8
+ * # License: BSD 3 clause"
  * import cython
  * import sys             # <<<<<<<<<<<<<<
  * import types
  * import collections
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_sys, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_sys, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 8, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_sys, __pyx_t_1) < 0) __PYX_ERR(0, 2, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_sys, __pyx_t_1) < 0) __PYX_ERR(0, 8, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":3
+  /* "grakel/kernels/_isomorphism/bliss.pyx":9
  * import cython
  * import sys
  * import types             # <<<<<<<<<<<<<<
  * import collections
  * 
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_types, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_types, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 9, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_types, __pyx_t_1) < 0) __PYX_ERR(0, 3, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_types, __pyx_t_1) < 0) __PYX_ERR(0, 9, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":4
+  /* "grakel/kernels/_isomorphism/bliss.pyx":10
  * import sys
  * import types
  * import collections             # <<<<<<<<<<<<<<
  * 
  * from grakel.kernels._isomorphism import intpybliss
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_collections, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_collections, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 10, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_collections, __pyx_t_1) < 0) __PYX_ERR(0, 4, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_collections, __pyx_t_1) < 0) __PYX_ERR(0, 10, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":6
+  /* "grakel/kernels/_isomorphism/bliss.pyx":12
  * import collections
  * 
  * from grakel.kernels._isomorphism import intpybliss             # <<<<<<<<<<<<<<
  * from functools import total_ordering
  * from six import iteritems
  */
-  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 6, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_n_s_intpybliss);
   __Pyx_GIVEREF(__pyx_n_s_intpybliss);
   PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_intpybliss);
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_grakel_kernels__isomorphism, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 6, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_grakel_kernels__isomorphism, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_intpybliss); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 6, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_intpybliss); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_intpybliss, __pyx_t_1) < 0) __PYX_ERR(0, 6, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_intpybliss, __pyx_t_1) < 0) __PYX_ERR(0, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":7
+  /* "grakel/kernels/_isomorphism/bliss.pyx":13
  * 
  * from grakel.kernels._isomorphism import intpybliss
  * from functools import total_ordering             # <<<<<<<<<<<<<<
  * from six import iteritems
  * 
  */
-  __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 7, __pyx_L1_error)
+  __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 13, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(__pyx_n_s_total_ordering);
   __Pyx_GIVEREF(__pyx_n_s_total_ordering);
   PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_total_ordering);
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_functools, __pyx_t_2, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 7, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_functools, __pyx_t_2, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 13, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_total_ordering); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 7, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_total_ordering); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 13, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_total_ordering, __pyx_t_2) < 0) __PYX_ERR(0, 7, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_total_ordering, __pyx_t_2) < 0) __PYX_ERR(0, 13, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":8
+  /* "grakel/kernels/_isomorphism/bliss.pyx":14
  * from grakel.kernels._isomorphism import intpybliss
  * from functools import total_ordering
  * from six import iteritems             # <<<<<<<<<<<<<<
  * 
  * def _report(perm, args):
  */
-  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 8, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 14, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_n_s_iteritems);
   __Pyx_GIVEREF(__pyx_n_s_iteritems);
   PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_iteritems);
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_six, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 8, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_six, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 14, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_iteritems); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 8, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_iteritems); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 14, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_iteritems, __pyx_t_1) < 0) __PYX_ERR(0, 8, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_iteritems, __pyx_t_1) < 0) __PYX_ERR(0, 14, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":10
+  /* "grakel/kernels/_isomorphism/bliss.pyx":16
  * from six import iteritems
  * 
  * def _report(perm, args):             # <<<<<<<<<<<<<<
  *     [reporter_func, reporter_args, bliss_map_inv] = args;
  *     if reporter_func:
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6grakel_7kernels_12_isomorphism_5bliss_1_report, NULL, __pyx_n_s_grakel_kernels__isomorphism_blis); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 10, __pyx_L1_error)
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6grakel_7kernels_12_isomorphism_5bliss_1_report, NULL, __pyx_n_s_grakel_kernels__isomorphism_blis); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 16, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_report, __pyx_t_2) < 0) __PYX_ERR(0, 10, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_report, __pyx_t_2) < 0) __PYX_ERR(0, 16, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":19
+  /* "grakel/kernels/_isomorphism/bliss.pyx":25
  * 
  * 
  * class Graph:             # <<<<<<<<<<<<<<
  *     @total_ordering
  *     class _Vertex:
  */
-  __pyx_t_2 = __Pyx_Py3MetaclassPrepare((PyObject *) NULL, __pyx_empty_tuple, __pyx_n_s_Graph, __pyx_n_s_Graph, (PyObject *) NULL, __pyx_n_s_grakel_kernels__isomorphism_blis, (PyObject *) NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 19, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Py3MetaclassPrepare((PyObject *) NULL, __pyx_empty_tuple, __pyx_n_s_Graph, __pyx_n_s_Graph, (PyObject *) NULL, __pyx_n_s_grakel_kernels__isomorphism_blis, (PyObject *) NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":21
+  /* "grakel/kernels/_isomorphism/bliss.pyx":27
  * class Graph:
  *     @total_ordering
  *     class _Vertex:             # <<<<<<<<<<<<<<
  *         def __init__(self, name, color):
  *             assert type(color) is int
  */
-  __pyx_t_1 = __Pyx_Py3MetaclassPrepare((PyObject *) NULL, __pyx_empty_tuple, __pyx_n_s_Vertex, __pyx_n_s_Graph__Vertex, (PyObject *) NULL, __pyx_n_s_grakel_kernels__isomorphism_blis, (PyObject *) NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 21, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Py3MetaclassPrepare((PyObject *) NULL, __pyx_empty_tuple, __pyx_n_s_Vertex, __pyx_n_s_Graph__Vertex, (PyObject *) NULL, __pyx_n_s_grakel_kernels__isomorphism_blis, (PyObject *) NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 27, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":22
+  /* "grakel/kernels/_isomorphism/bliss.pyx":28
  *     @total_ordering
  *     class _Vertex:
  *         def __init__(self, name, color):             # <<<<<<<<<<<<<<
  *             assert type(color) is int
  *             assert 0 <= color and color < pow(2,31)
  */
-  __pyx_t_3 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6grakel_7kernels_12_isomorphism_5bliss_7_Vertex_1__init__, 0, __pyx_n_s_Graph__Vertex___init, NULL, __pyx_n_s_grakel_kernels__isomorphism_blis, __pyx_d, ((PyObject *)__pyx_codeobj__24)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 22, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6grakel_7kernels_12_isomorphism_5bliss_7_Vertex_1__init__, 0, __pyx_n_s_Graph__Vertex___init, NULL, __pyx_n_s_grakel_kernels__isomorphism_blis, __pyx_d, ((PyObject *)__pyx_codeobj__24)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 28, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_init, __pyx_t_3) < 0) __PYX_ERR(0, 22, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_init, __pyx_t_3) < 0) __PYX_ERR(0, 28, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":31
+  /* "grakel/kernels/_isomorphism/bliss.pyx":37
  *             self.color = color
  * 
  *         def __hash__(self):             # <<<<<<<<<<<<<<
  *             return self.name.__hash__()
  * 
  */
-  __pyx_t_3 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6grakel_7kernels_12_isomorphism_5bliss_7_Vertex_3__hash__, 0, __pyx_n_s_Graph__Vertex___hash, NULL, __pyx_n_s_grakel_kernels__isomorphism_blis, __pyx_d, ((PyObject *)__pyx_codeobj__26)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 31, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6grakel_7kernels_12_isomorphism_5bliss_7_Vertex_3__hash__, 0, __pyx_n_s_Graph__Vertex___hash, NULL, __pyx_n_s_grakel_kernels__isomorphism_blis, __pyx_d, ((PyObject *)__pyx_codeobj__26)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 37, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_hash, __pyx_t_3) < 0) __PYX_ERR(0, 31, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_hash, __pyx_t_3) < 0) __PYX_ERR(0, 37, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":34
+  /* "grakel/kernels/_isomorphism/bliss.pyx":40
  *             return self.name.__hash__()
  * 
  *         def __eq__(self, other):             # <<<<<<<<<<<<<<
  *             return str(self.name) == str(other.name)
  * 
  */
-  __pyx_t_3 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6grakel_7kernels_12_isomorphism_5bliss_7_Vertex_5__eq__, 0, __pyx_n_s_Graph__Vertex___eq, NULL, __pyx_n_s_grakel_kernels__isomorphism_blis, __pyx_d, ((PyObject *)__pyx_codeobj__28)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 34, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6grakel_7kernels_12_isomorphism_5bliss_7_Vertex_5__eq__, 0, __pyx_n_s_Graph__Vertex___eq, NULL, __pyx_n_s_grakel_kernels__isomorphism_blis, __pyx_d, ((PyObject *)__pyx_codeobj__28)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 40, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_eq, __pyx_t_3) < 0) __PYX_ERR(0, 34, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_eq, __pyx_t_3) < 0) __PYX_ERR(0, 40, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":37
+  /* "grakel/kernels/_isomorphism/bliss.pyx":43
  *             return str(self.name) == str(other.name)
  * 
  *         def __lt__(self, other):             # <<<<<<<<<<<<<<
  *             return str(self.name) == str(other.name)
  * 
  */
-  __pyx_t_3 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6grakel_7kernels_12_isomorphism_5bliss_7_Vertex_7__lt__, 0, __pyx_n_s_Graph__Vertex___lt, NULL, __pyx_n_s_grakel_kernels__isomorphism_blis, __pyx_d, ((PyObject *)__pyx_codeobj__30)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 37, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6grakel_7kernels_12_isomorphism_5bliss_7_Vertex_7__lt__, 0, __pyx_n_s_Graph__Vertex___lt, NULL, __pyx_n_s_grakel_kernels__isomorphism_blis, __pyx_d, ((PyObject *)__pyx_codeobj__30)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 43, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_lt, __pyx_t_3) < 0) __PYX_ERR(0, 37, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_lt, __pyx_t_3) < 0) __PYX_ERR(0, 43, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":20
+  /* "grakel/kernels/_isomorphism/bliss.pyx":26
  * 
  * class Graph:
  *     @total_ordering             # <<<<<<<<<<<<<<
  *     class _Vertex:
  *         def __init__(self, name, color):
  */
-  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_total_ordering); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 20, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_total_ordering); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 26, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":21
+  /* "grakel/kernels/_isomorphism/bliss.pyx":27
  * class Graph:
  *     @total_ordering
  *     class _Vertex:             # <<<<<<<<<<<<<<
  *         def __init__(self, name, color):
  *             assert type(color) is int
  */
-  __pyx_t_5 = __Pyx_Py3ClassCreate(((PyObject*)&__Pyx_DefaultClassType), __pyx_n_s_Vertex, __pyx_empty_tuple, __pyx_t_1, NULL, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 21, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_Py3ClassCreate(((PyObject*)&__Pyx_DefaultClassType), __pyx_n_s_Vertex, __pyx_empty_tuple, __pyx_t_1, NULL, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 27, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_6 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_4))) {
@@ -13415,14 +13417,14 @@ if (!__Pyx_RefNanny) {
     }
   }
   if (!__pyx_t_6) {
-    __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 20, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 26, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_GOTREF(__pyx_t_3);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_4)) {
       PyObject *__pyx_temp[2] = {__pyx_t_6, __pyx_t_5};
-      __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 20, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 26, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -13431,349 +13433,349 @@ if (!__Pyx_RefNanny) {
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
       PyObject *__pyx_temp[2] = {__pyx_t_6, __pyx_t_5};
-      __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 20, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 26, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     } else
     #endif
     {
-      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 20, __pyx_L1_error)
+      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 26, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_6); __pyx_t_6 = NULL;
       __Pyx_GIVEREF(__pyx_t_5);
       PyTuple_SET_ITEM(__pyx_t_7, 0+1, __pyx_t_5);
       __pyx_t_5 = 0;
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 20, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 26, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     }
   }
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_Vertex, __pyx_t_3) < 0) __PYX_ERR(0, 21, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_Vertex, __pyx_t_3) < 0) __PYX_ERR(0, 27, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":43
+  /* "grakel/kernels/_isomorphism/bliss.pyx":49
  *     The class for undirected graphs.
  *     """
  *     def __init__(self, *args):             # <<<<<<<<<<<<<<
  *         """
  *         Create a new empty graph.
  */
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6grakel_7kernels_12_isomorphism_5bliss_5Graph_1__init__, 0, __pyx_n_s_Graph___init, NULL, __pyx_n_s_grakel_kernels__isomorphism_blis, __pyx_d, ((PyObject *)__pyx_codeobj__32)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 43, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6grakel_7kernels_12_isomorphism_5bliss_5Graph_1__init__, 0, __pyx_n_s_Graph___init, NULL, __pyx_n_s_grakel_kernels__isomorphism_blis, __pyx_d, ((PyObject *)__pyx_codeobj__32)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 49, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_init, __pyx_t_1) < 0) __PYX_ERR(0, 43, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_init, __pyx_t_1) < 0) __PYX_ERR(0, 49, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":60
+  /* "grakel/kernels/_isomorphism/bliss.pyx":66
  *                 self.add_edge(u, v)
  * 
  *     def __hash__(self):             # <<<<<<<<<<<<<<
  *         return hash(str(self))
  * 
  */
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6grakel_7kernels_12_isomorphism_5bliss_5Graph_3__hash__, 0, __pyx_n_s_Graph___hash, NULL, __pyx_n_s_grakel_kernels__isomorphism_blis, __pyx_d, ((PyObject *)__pyx_codeobj__34)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 60, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6grakel_7kernels_12_isomorphism_5bliss_5Graph_3__hash__, 0, __pyx_n_s_Graph___hash, NULL, __pyx_n_s_grakel_kernels__isomorphism_blis, __pyx_d, ((PyObject *)__pyx_codeobj__34)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 66, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_hash, __pyx_t_1) < 0) __PYX_ERR(0, 60, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_hash, __pyx_t_1) < 0) __PYX_ERR(0, 66, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":63
+  /* "grakel/kernels/_isomorphism/bliss.pyx":69
  *         return hash(str(self))
  * 
  *     def __str__(self):             # <<<<<<<<<<<<<<
  *         vnames = sorted(self._vertices.keys())
  *         s = "<"
  */
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6grakel_7kernels_12_isomorphism_5bliss_5Graph_5__str__, 0, __pyx_n_s_Graph___str, NULL, __pyx_n_s_grakel_kernels__isomorphism_blis, __pyx_d, ((PyObject *)__pyx_codeobj__36)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 63, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6grakel_7kernels_12_isomorphism_5bliss_5Graph_5__str__, 0, __pyx_n_s_Graph___str, NULL, __pyx_n_s_grakel_kernels__isomorphism_blis, __pyx_d, ((PyObject *)__pyx_codeobj__36)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 69, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_str, __pyx_t_1) < 0) __PYX_ERR(0, 63, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_str, __pyx_t_1) < 0) __PYX_ERR(0, 69, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":73
+  /* "grakel/kernels/_isomorphism/bliss.pyx":79
  *         return s
  * 
  *     def __eq__(self, other):             # <<<<<<<<<<<<<<
  *         """
  *         Check whether the graph is equal to the graph 'other'.
  */
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6grakel_7kernels_12_isomorphism_5bliss_5Graph_7__eq__, 0, __pyx_n_s_Graph___eq, NULL, __pyx_n_s_grakel_kernels__isomorphism_blis, __pyx_d, ((PyObject *)__pyx_codeobj__38)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 73, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6grakel_7kernels_12_isomorphism_5bliss_5Graph_7__eq__, 0, __pyx_n_s_Graph___eq, NULL, __pyx_n_s_grakel_kernels__isomorphism_blis, __pyx_d, ((PyObject *)__pyx_codeobj__38)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 79, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_eq, __pyx_t_1) < 0) __PYX_ERR(0, 73, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_eq, __pyx_t_1) < 0) __PYX_ERR(0, 79, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":81
+  /* "grakel/kernels/_isomorphism/bliss.pyx":87
  *         return self.is_equal(other)
  * 
  *     def __ne__(self, other):             # <<<<<<<<<<<<<<
  *         """
  *         Check whether the graph is not equal to the graph 'other'.
  */
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6grakel_7kernels_12_isomorphism_5bliss_5Graph_9__ne__, 0, __pyx_n_s_Graph___ne, NULL, __pyx_n_s_grakel_kernels__isomorphism_blis, __pyx_d, ((PyObject *)__pyx_codeobj__40)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 81, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6grakel_7kernels_12_isomorphism_5bliss_5Graph_9__ne__, 0, __pyx_n_s_Graph___ne, NULL, __pyx_n_s_grakel_kernels__isomorphism_blis, __pyx_d, ((PyObject *)__pyx_codeobj__40)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 87, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_ne, __pyx_t_1) < 0) __PYX_ERR(0, 81, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_ne, __pyx_t_1) < 0) __PYX_ERR(0, 87, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":87
+  /* "grakel/kernels/_isomorphism/bliss.pyx":93
  *         return not self.is_equal(other)
  * 
  *     def __le__(self, other):             # <<<<<<<<<<<<<<
  *         """
  *         Ordering of graphs is not defined, will raise an Error.
  */
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6grakel_7kernels_12_isomorphism_5bliss_5Graph_11__le__, 0, __pyx_n_s_Graph___le, NULL, __pyx_n_s_grakel_kernels__isomorphism_blis, __pyx_d, ((PyObject *)__pyx_codeobj__42)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 87, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6grakel_7kernels_12_isomorphism_5bliss_5Graph_11__le__, 0, __pyx_n_s_Graph___le, NULL, __pyx_n_s_grakel_kernels__isomorphism_blis, __pyx_d, ((PyObject *)__pyx_codeobj__42)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 93, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_le, __pyx_t_1) < 0) __PYX_ERR(0, 87, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_le, __pyx_t_1) < 0) __PYX_ERR(0, 93, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":93
+  /* "grakel/kernels/_isomorphism/bliss.pyx":99
  *         raise RuntimeError("Operation not implemented")
  * 
  *     def __lt__(self, other):             # <<<<<<<<<<<<<<
  *         """
  *         Ordering of graphs is not defined, will raise an Error.
  */
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6grakel_7kernels_12_isomorphism_5bliss_5Graph_13__lt__, 0, __pyx_n_s_Graph___lt, NULL, __pyx_n_s_grakel_kernels__isomorphism_blis, __pyx_d, ((PyObject *)__pyx_codeobj__44)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 93, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6grakel_7kernels_12_isomorphism_5bliss_5Graph_13__lt__, 0, __pyx_n_s_Graph___lt, NULL, __pyx_n_s_grakel_kernels__isomorphism_blis, __pyx_d, ((PyObject *)__pyx_codeobj__44)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 99, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_lt, __pyx_t_1) < 0) __PYX_ERR(0, 93, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_lt, __pyx_t_1) < 0) __PYX_ERR(0, 99, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":99
+  /* "grakel/kernels/_isomorphism/bliss.pyx":105
  *         raise RuntimeError("Operation not implemented")
  * 
  *     def __ge__(self, other):             # <<<<<<<<<<<<<<
  *         """
  *         Ordering of graphs is not defined, will raise an Error.
  */
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6grakel_7kernels_12_isomorphism_5bliss_5Graph_15__ge__, 0, __pyx_n_s_Graph___ge, NULL, __pyx_n_s_grakel_kernels__isomorphism_blis, __pyx_d, ((PyObject *)__pyx_codeobj__46)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 99, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6grakel_7kernels_12_isomorphism_5bliss_5Graph_15__ge__, 0, __pyx_n_s_Graph___ge, NULL, __pyx_n_s_grakel_kernels__isomorphism_blis, __pyx_d, ((PyObject *)__pyx_codeobj__46)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 105, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_ge, __pyx_t_1) < 0) __PYX_ERR(0, 99, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_ge, __pyx_t_1) < 0) __PYX_ERR(0, 105, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":105
+  /* "grakel/kernels/_isomorphism/bliss.pyx":111
  *         raise RuntimeError("Operation not implemented")
  * 
  *     def __gt__(self, other):             # <<<<<<<<<<<<<<
  *         """
  *         Ordering of graphs is not defined, will raise an Error.
  */
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6grakel_7kernels_12_isomorphism_5bliss_5Graph_17__gt__, 0, __pyx_n_s_Graph___gt, NULL, __pyx_n_s_grakel_kernels__isomorphism_blis, __pyx_d, ((PyObject *)__pyx_codeobj__48)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 105, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6grakel_7kernels_12_isomorphism_5bliss_5Graph_17__gt__, 0, __pyx_n_s_Graph___gt, NULL, __pyx_n_s_grakel_kernels__isomorphism_blis, __pyx_d, ((PyObject *)__pyx_codeobj__48)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 111, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_gt, __pyx_t_1) < 0) __PYX_ERR(0, 105, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_gt, __pyx_t_1) < 0) __PYX_ERR(0, 111, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":111
+  /* "grakel/kernels/_isomorphism/bliss.pyx":117
  *         raise RuntimeError("Operation not implemented")
  * 
  *     def __cmp__(self, other):             # <<<<<<<<<<<<<<
  *         """
  *         Ordering of graphs is not defined, will raise an Error.
  */
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6grakel_7kernels_12_isomorphism_5bliss_5Graph_19__cmp__, 0, __pyx_n_s_Graph___cmp, NULL, __pyx_n_s_grakel_kernels__isomorphism_blis, __pyx_d, ((PyObject *)__pyx_codeobj__50)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 111, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6grakel_7kernels_12_isomorphism_5bliss_5Graph_19__cmp__, 0, __pyx_n_s_Graph___cmp, NULL, __pyx_n_s_grakel_kernels__isomorphism_blis, __pyx_d, ((PyObject *)__pyx_codeobj__50)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 117, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_cmp, __pyx_t_1) < 0) __PYX_ERR(0, 111, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_cmp, __pyx_t_1) < 0) __PYX_ERR(0, 117, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":117
+  /* "grakel/kernels/_isomorphism/bliss.pyx":123
  *         raise RuntimeError("Operation not implemented")
  * 
  *     def nof_vertices(self):             # <<<<<<<<<<<<<<
  *         """
  *         Get the number of vertices in the graph.
  */
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6grakel_7kernels_12_isomorphism_5bliss_5Graph_21nof_vertices, 0, __pyx_n_s_Graph_nof_vertices, NULL, __pyx_n_s_grakel_kernels__isomorphism_blis, __pyx_d, ((PyObject *)__pyx_codeobj__52)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 117, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6grakel_7kernels_12_isomorphism_5bliss_5Graph_21nof_vertices, 0, __pyx_n_s_Graph_nof_vertices, NULL, __pyx_n_s_grakel_kernels__isomorphism_blis, __pyx_d, ((PyObject *)__pyx_codeobj__52)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 123, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_nof_vertices, __pyx_t_1) < 0) __PYX_ERR(0, 117, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_nof_vertices, __pyx_t_1) < 0) __PYX_ERR(0, 123, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":123
+  /* "grakel/kernels/_isomorphism/bliss.pyx":129
  *         return len(self._vertices)
  * 
  *     def get_vertices(self):             # <<<<<<<<<<<<<<
  *         """
  *         Return the (list of) vertices in the graph.
  */
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6grakel_7kernels_12_isomorphism_5bliss_5Graph_23get_vertices, 0, __pyx_n_s_Graph_get_vertices, NULL, __pyx_n_s_grakel_kernels__isomorphism_blis, __pyx_d, ((PyObject *)__pyx_codeobj__54)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 123, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6grakel_7kernels_12_isomorphism_5bliss_5Graph_23get_vertices, 0, __pyx_n_s_Graph_get_vertices, NULL, __pyx_n_s_grakel_kernels__isomorphism_blis, __pyx_d, ((PyObject *)__pyx_codeobj__54)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 129, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_get_vertices, __pyx_t_1) < 0) __PYX_ERR(0, 123, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_get_vertices, __pyx_t_1) < 0) __PYX_ERR(0, 129, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":129
+  /* "grakel/kernels/_isomorphism/bliss.pyx":135
  *         return self._vertices.keys()
  * 
  *     def add_vertex(self, v, color = 0):             # <<<<<<<<<<<<<<
  *         """
  *         Add a new vertex named 'v' with color 'c' in the graph.
  */
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6grakel_7kernels_12_isomorphism_5bliss_5Graph_25add_vertex, 0, __pyx_n_s_Graph_add_vertex, NULL, __pyx_n_s_grakel_kernels__isomorphism_blis, __pyx_d, ((PyObject *)__pyx_codeobj__56)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 129, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6grakel_7kernels_12_isomorphism_5bliss_5Graph_25add_vertex, 0, __pyx_n_s_Graph_add_vertex, NULL, __pyx_n_s_grakel_kernels__isomorphism_blis, __pyx_d, ((PyObject *)__pyx_codeobj__56)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 135, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_1, __pyx_tuple__57);
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_add_vertex, __pyx_t_1) < 0) __PYX_ERR(0, 129, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_add_vertex, __pyx_t_1) < 0) __PYX_ERR(0, 135, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":145
+  /* "grakel/kernels/_isomorphism/bliss.pyx":151
  *         return True
  * 
  *     def del_vertex(self, v):             # <<<<<<<<<<<<<<
  *         """
  *         Delete the vertex named 'v' from the graph.
  */
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6grakel_7kernels_12_isomorphism_5bliss_5Graph_27del_vertex, 0, __pyx_n_s_Graph_del_vertex, NULL, __pyx_n_s_grakel_kernels__isomorphism_blis, __pyx_d, ((PyObject *)__pyx_codeobj__59)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 145, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6grakel_7kernels_12_isomorphism_5bliss_5Graph_27del_vertex, 0, __pyx_n_s_Graph_del_vertex, NULL, __pyx_n_s_grakel_kernels__isomorphism_blis, __pyx_d, ((PyObject *)__pyx_codeobj__59)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 151, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_del_vertex, __pyx_t_1) < 0) __PYX_ERR(0, 145, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_del_vertex, __pyx_t_1) < 0) __PYX_ERR(0, 151, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":159
+  /* "grakel/kernels/_isomorphism/bliss.pyx":165
  *             del self._vertices[v]
  * 
  *     def add_edge(self, v1, v2):             # <<<<<<<<<<<<<<
  *         """
  *         Add an edge between vertices v1 and v2.
  */
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6grakel_7kernels_12_isomorphism_5bliss_5Graph_29add_edge, 0, __pyx_n_s_Graph_add_edge, NULL, __pyx_n_s_grakel_kernels__isomorphism_blis, __pyx_d, ((PyObject *)__pyx_codeobj__61)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 159, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6grakel_7kernels_12_isomorphism_5bliss_5Graph_29add_edge, 0, __pyx_n_s_Graph_add_edge, NULL, __pyx_n_s_grakel_kernels__isomorphism_blis, __pyx_d, ((PyObject *)__pyx_codeobj__61)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 165, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_add_edge, __pyx_t_1) < 0) __PYX_ERR(0, 159, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_add_edge, __pyx_t_1) < 0) __PYX_ERR(0, 165, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":173
+  /* "grakel/kernels/_isomorphism/bliss.pyx":179
  *         self._vertices[v2].edges.add(self._vertices[v1])
  * 
  *     def del_edge(self, v1, v2):             # <<<<<<<<<<<<<<
  *         """
  *         Delete the edge between vertices v1 and v2.
  */
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6grakel_7kernels_12_isomorphism_5bliss_5Graph_31del_edge, 0, __pyx_n_s_Graph_del_edge, NULL, __pyx_n_s_grakel_kernels__isomorphism_blis, __pyx_d, ((PyObject *)__pyx_codeobj__63)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 173, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6grakel_7kernels_12_isomorphism_5bliss_5Graph_31del_edge, 0, __pyx_n_s_Graph_del_edge, NULL, __pyx_n_s_grakel_kernels__isomorphism_blis, __pyx_d, ((PyObject *)__pyx_codeobj__63)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 179, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_del_edge, __pyx_t_1) < 0) __PYX_ERR(0, 173, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_del_edge, __pyx_t_1) < 0) __PYX_ERR(0, 179, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":186
+  /* "grakel/kernels/_isomorphism/bliss.pyx":192
  *         self._vertices[v2].edges.discard(self._vertices[v1])
  * 
  *     def write_dot(self, file):             # <<<<<<<<<<<<<<
  *         """
  *         Write the graph into a file in the graphviz dot format.
  */
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6grakel_7kernels_12_isomorphism_5bliss_5Graph_33write_dot, 0, __pyx_n_s_Graph_write_dot, NULL, __pyx_n_s_grakel_kernels__isomorphism_blis, __pyx_d, ((PyObject *)__pyx_codeobj__65)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 186, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6grakel_7kernels_12_isomorphism_5bliss_5Graph_33write_dot, 0, __pyx_n_s_Graph_write_dot, NULL, __pyx_n_s_grakel_kernels__isomorphism_blis, __pyx_d, ((PyObject *)__pyx_codeobj__65)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 192, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_write_dot, __pyx_t_1) < 0) __PYX_ERR(0, 186, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_write_dot, __pyx_t_1) < 0) __PYX_ERR(0, 192, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":199
+  /* "grakel/kernels/_isomorphism/bliss.pyx":205
  *         file.write("}\n")
  * 
  *     def _make_bliss_graph(self):             # <<<<<<<<<<<<<<
  *         g = intpybliss.create()
  *         bliss_map = {}
  */
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6grakel_7kernels_12_isomorphism_5bliss_5Graph_35_make_bliss_graph, 0, __pyx_n_s_Graph__make_bliss_graph, NULL, __pyx_n_s_grakel_kernels__isomorphism_blis, __pyx_d, ((PyObject *)__pyx_codeobj__67)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 199, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6grakel_7kernels_12_isomorphism_5bliss_5Graph_35_make_bliss_graph, 0, __pyx_n_s_Graph__make_bliss_graph, NULL, __pyx_n_s_grakel_kernels__isomorphism_blis, __pyx_d, ((PyObject *)__pyx_codeobj__67)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 205, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_make_bliss_graph, __pyx_t_1) < 0) __PYX_ERR(0, 199, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_make_bliss_graph, __pyx_t_1) < 0) __PYX_ERR(0, 205, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":215
+  /* "grakel/kernels/_isomorphism/bliss.pyx":221
  *         return (g,bliss_map,bliss_map_inv)
  * 
  *     def find_automorphisms(self,             # <<<<<<<<<<<<<<
  *                            reporter_function,
  *                            reporter_function_arg = None):
  */
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6grakel_7kernels_12_isomorphism_5bliss_5Graph_37find_automorphisms, 0, __pyx_n_s_Graph_find_automorphisms, NULL, __pyx_n_s_grakel_kernels__isomorphism_blis, __pyx_d, ((PyObject *)__pyx_codeobj__69)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 215, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6grakel_7kernels_12_isomorphism_5bliss_5Graph_37find_automorphisms, 0, __pyx_n_s_Graph_find_automorphisms, NULL, __pyx_n_s_grakel_kernels__isomorphism_blis, __pyx_d, ((PyObject *)__pyx_codeobj__69)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 221, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_1, __pyx_tuple__70);
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_find_automorphisms, __pyx_t_1) < 0) __PYX_ERR(0, 215, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_find_automorphisms, __pyx_t_1) < 0) __PYX_ERR(0, 221, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":233
+  /* "grakel/kernels/_isomorphism/bliss.pyx":239
  *         intpybliss.find_automorphisms(g, _report, report_args)
  * 
  *     def canonical_labeling(self,             # <<<<<<<<<<<<<<
  *                            reporter_function = None,
  *                            reporter_function_arg = None):
  */
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6grakel_7kernels_12_isomorphism_5bliss_5Graph_39canonical_labeling, 0, __pyx_n_s_Graph_canonical_labeling, NULL, __pyx_n_s_grakel_kernels__isomorphism_blis, __pyx_d, ((PyObject *)__pyx_codeobj__72)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 233, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6grakel_7kernels_12_isomorphism_5bliss_5Graph_39canonical_labeling, 0, __pyx_n_s_Graph_canonical_labeling, NULL, __pyx_n_s_grakel_kernels__isomorphism_blis, __pyx_d, ((PyObject *)__pyx_codeobj__72)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 239, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_1, __pyx_tuple__73);
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_canonical_labeling, __pyx_t_1) < 0) __PYX_ERR(0, 233, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_canonical_labeling, __pyx_t_1) < 0) __PYX_ERR(0, 239, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":257
+  /* "grakel/kernels/_isomorphism/bliss.pyx":263
  *         return canlab
  * 
  *     def relabel(self, lab):             # <<<<<<<<<<<<<<
  *         """
  *         Apply the argument labeling 'lab' to the graph, returning a copy of
  */
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6grakel_7kernels_12_isomorphism_5bliss_5Graph_41relabel, 0, __pyx_n_s_Graph_relabel, NULL, __pyx_n_s_grakel_kernels__isomorphism_blis, __pyx_d, ((PyObject *)__pyx_codeobj__75)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 257, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6grakel_7kernels_12_isomorphism_5bliss_5Graph_41relabel, 0, __pyx_n_s_Graph_relabel, NULL, __pyx_n_s_grakel_kernels__isomorphism_blis, __pyx_d, ((PyObject *)__pyx_codeobj__75)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 263, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_relabel, __pyx_t_1) < 0) __PYX_ERR(0, 257, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_relabel, __pyx_t_1) < 0) __PYX_ERR(0, 263, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":278
+  /* "grakel/kernels/_isomorphism/bliss.pyx":284
  *         return g2
  * 
  *     def copy(self):             # <<<<<<<<<<<<<<
  *         """
  *         Return a copy of this graph.
  */
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6grakel_7kernels_12_isomorphism_5bliss_5Graph_43copy, 0, __pyx_n_s_Graph_copy, NULL, __pyx_n_s_grakel_kernels__isomorphism_blis, __pyx_d, ((PyObject *)__pyx_codeobj__77)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 278, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6grakel_7kernels_12_isomorphism_5bliss_5Graph_43copy, 0, __pyx_n_s_Graph_copy, NULL, __pyx_n_s_grakel_kernels__isomorphism_blis, __pyx_d, ((PyObject *)__pyx_codeobj__77)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 284, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_copy, __pyx_t_1) < 0) __PYX_ERR(0, 278, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_copy, __pyx_t_1) < 0) __PYX_ERR(0, 284, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":292
+  /* "grakel/kernels/_isomorphism/bliss.pyx":298
  *         return g2
  * 
  *     def is_equal(self, g):             # <<<<<<<<<<<<<<
  *         """
  *         Check whether the graph is equal to the graph 'g'.
  */
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6grakel_7kernels_12_isomorphism_5bliss_5Graph_45is_equal, 0, __pyx_n_s_Graph_is_equal, NULL, __pyx_n_s_grakel_kernels__isomorphism_blis, __pyx_d, ((PyObject *)__pyx_codeobj__79)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 292, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6grakel_7kernels_12_isomorphism_5bliss_5Graph_45is_equal, 0, __pyx_n_s_Graph_is_equal, NULL, __pyx_n_s_grakel_kernels__isomorphism_blis, __pyx_d, ((PyObject *)__pyx_codeobj__79)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 298, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_is_equal, __pyx_t_1) < 0) __PYX_ERR(0, 292, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_is_equal, __pyx_t_1) < 0) __PYX_ERR(0, 298, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":310
+  /* "grakel/kernels/_isomorphism/bliss.pyx":316
  *         return True
  * 
  *     def get_isomorphism(self, g):             # <<<<<<<<<<<<<<
  *         """
  *         Return an isomorphism from this graph to the graph 'g' or
  */
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6grakel_7kernels_12_isomorphism_5bliss_5Graph_47get_isomorphism, 0, __pyx_n_s_Graph_get_isomorphism, NULL, __pyx_n_s_grakel_kernels__isomorphism_blis, __pyx_d, ((PyObject *)__pyx_codeobj__81)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 310, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6grakel_7kernels_12_isomorphism_5bliss_5Graph_47get_isomorphism, 0, __pyx_n_s_Graph_get_isomorphism, NULL, __pyx_n_s_grakel_kernels__isomorphism_blis, __pyx_d, ((PyObject *)__pyx_codeobj__81)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 316, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_get_isomorphism, __pyx_t_1) < 0) __PYX_ERR(0, 310, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_get_isomorphism, __pyx_t_1) < 0) __PYX_ERR(0, 316, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":358
+  /* "grakel/kernels/_isomorphism/bliss.pyx":364
  *         return isomorphism
  * 
  *     def isomorphic(self, g):             # <<<<<<<<<<<<<<
  *         return self.get_isomorphism(g) is not None
  * 
  */
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6grakel_7kernels_12_isomorphism_5bliss_5Graph_49isomorphic, 0, __pyx_n_s_Graph_isomorphic, NULL, __pyx_n_s_grakel_kernels__isomorphism_blis, __pyx_d, ((PyObject *)__pyx_codeobj__83)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 358, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6grakel_7kernels_12_isomorphism_5bliss_5Graph_49isomorphic, 0, __pyx_n_s_Graph_isomorphic, NULL, __pyx_n_s_grakel_kernels__isomorphism_blis, __pyx_d, ((PyObject *)__pyx_codeobj__83)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 364, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_isomorphic, __pyx_t_1) < 0) __PYX_ERR(0, 358, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_isomorphic, __pyx_t_1) < 0) __PYX_ERR(0, 364, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "grakel/kernels/_isomorphism/bliss.pyx":19
+  /* "grakel/kernels/_isomorphism/bliss.pyx":25
  * 
  * 
  * class Graph:             # <<<<<<<<<<<<<<
  *     @total_ordering
  *     class _Vertex:
  */
-  __pyx_t_1 = __Pyx_Py3ClassCreate(((PyObject*)&__Pyx_DefaultClassType), __pyx_n_s_Graph, __pyx_empty_tuple, __pyx_t_2, NULL, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 19, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Py3ClassCreate(((PyObject*)&__Pyx_DefaultClassType), __pyx_n_s_Graph, __pyx_empty_tuple, __pyx_t_2, NULL, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_Graph, __pyx_t_1) < 0) __PYX_ERR(0, 19, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_Graph, __pyx_t_1) < 0) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "grakel/kernels/_isomorphism/bliss.pyx":1
- * import cython             # <<<<<<<<<<<<<<
- * import sys
- * import types
+ * """Main .pyx file for the _isomorphism subpackage of grakel.kernels"""             # <<<<<<<<<<<<<<
+ * # Author: Ioannis Siglidis <y.siglidis@gmail.com>
+ * # This file is a modification and extension of the [GNU LPGL] licensed
  */
   __pyx_t_2 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
