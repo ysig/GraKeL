@@ -98,7 +98,10 @@
 <li class="toctree-l3"><a class="reference internal" href="graph_hopper.html">Graph Hopper Kernel</a></li>
 <li class="toctree-l3"><a class="reference internal" href="graphlet_sampling.html">Graphlet Sampling Kernel</a></li>
 <li class="toctree-l3"><a class="reference internal" href="hadamard_code.html">Hadamard Code Kernel</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Kernel (general class)</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Kernel (general class)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#parametrization">Parametrization</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="lovasz_theta.html">Lovasz Theta Kernel</a></li>
 <li class="toctree-l3"><a class="reference internal" href="multiscale_laplacian.html">Multiscale Laplacian Kernel</a></li>
 <li class="toctree-l3"><a class="reference internal" href="neighborhood_hash.html">Neighborhood Hash Kernel</a></li>
@@ -191,8 +194,45 @@
             
   <div class="section" id="kernel-general-class">
 <span id="kernel"></span><h1>Kernel (general class)<a class="headerlink" href="#kernel-general-class" title="Permalink to this headline">¶</a></h1>
-<p>Documentation for the general kernel class.</p>
-<p><strong>Theoretical definition missing</strong></p>
+<p>In the literature, a graph kernel appears as a function: <span class="math notranslate nohighlight">\(k \; : \; \mathcal{G} \times \mathcal{G} \rightarrow \mathbb{R}\)</span> for which there exists a map:</p>
+<div class="math notranslate nohighlight">
+\[\phi \; :\; \mathcal{G} \rightarrow \mathbb{H}, \text{for a Hilbert space } \mathbb{H}\]</div>
+<p>where each kernel value can be computed as <span class="math notranslate nohighlight">\(k(G_{i}, G_{j}) = \langle G_{i}, G_{j} \rangle\)</span> where <span class="math notranslate nohighlight">\(\langle \;.\; ,\; .\;\rangle\)</span> signifies an inner product inside this space. The matrix <span class="math notranslate nohighlight">\([k]_{ij} = k(G_{i}, G_{j})\)</span> produced is now as the kernel matrix. For a kernel matrix to be valid it is required to be textit{positive semi definite} (i.e. <span class="math notranslate nohighlight">\(\lambda_{min} \ge 0\)</span>).</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The kernels implemented inside this package have all a <strong>Polynomial</strong> time complexity.</p>
+</div>
+<p>What we found out was that if instead of designing the kernel to be calculated pairwise, we designed it for a collection of graphs <span class="math notranslate nohighlight">\([G]_{i=1}^{N}\)</span> we have a significant computational advantage. Given two collections of graphs: <span class="math notranslate nohighlight">\(G^{n}, G^{m}\)</span>, the full kernel matrix <span class="math notranslate nohighlight">\(\mathcal{K}\)</span>, should look like:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\mathcal{K} =
+\left[
+\begin{array}{c||c}
+\mathcal{K}^{n\times n} &amp; \mathcal{K}^{n\times m} \\
+\hline
+\hline
+\mathcal{K}^{m\times n} &amp; \mathcal{K}^{m\times m}
+\end{array}
+\right]\end{split}\]</div>
+<p>Any <code class="code docutils literal notranslate"><span class="pre">Kernel</span></code> object inherited class should match the following behavior:</p>
+<ul class="simple">
+<li><span class="math notranslate nohighlight">\(\mathcal{K}^{n\times n}=\texttt{&lt;KernelName&gt;.fit\_transform}(\mathcal{G}^{n})\)</span></li>
+<li><span class="math notranslate nohighlight">\(\mathcal{K}^{m\times n}=\texttt{&lt;KernelName&gt;.fit}(\mathcal{G}^{\text{n}}).\texttt{transform}(\mathcal{G}^{\text{m}})\)</span></li>
+<li><span class="math notranslate nohighlight">\(\mathcal{K}=\texttt{&lt;KernelName&gt;.fit\_transform}([\mathcal{G}^{n}\; \mathcal{G}^{m}])\)</span></li>
+</ul>
+<p>In a graph classification task, a very common area for using graph kernels what we need to calculate in general are the matrices <span class="math notranslate nohighlight">\(\mathcal{K}^{n\times n}\)</span> and <span class="math notranslate nohighlight">\(\mathcal{K}^{m\times n}\)</span>.</p>
+<div class="section" id="parametrization">
+<h2>Parametrization<a class="headerlink" href="#parametrization" title="Permalink to this headline">¶</a></h2>
+<p>Any <code class="code docutils literal notranslate"><span class="pre">Kernel</span></code> inherited object comes with three parameters:</p>
+<ul class="simple">
+<li><code class="code docutils literal notranslate"><span class="pre">verbose</span></code> is a <code class="code docutils literal notranslate"><span class="pre">bool</span></code> parameter in order for the kernel to print messages that are related with the progress of the execution.</li>
+<li><code class="code docutils literal notranslate"><span class="pre">normalize</span></code> parameter is a <code class="code docutils literal notranslate"><span class="pre">bool</span></code> parameter which ensures that the kernel output will be normalized, that is <span class="math notranslate nohighlight">\([\mathcal{\hat{K}}]_{ij} = \frac{[\mathcal{K}]_{ij}}{\sqrt[]{[\mathcal{K}]_{ii}*[\mathcal{K}]_{jj}}}\)</span>.</li>
+<li><code class="code docutils literal notranslate"><span class="pre">n_jobs</span></code> is an <code class="code docutils literal notranslate"><span class="pre">int</span></code> parameter that defines the amount of parallel jobs on which parts of the kernel calculation will be executed (if a parallelization has been implemented).</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">In order for normalization to happen even in a framework scheme, its <code class="code docutils literal notranslate"><span class="pre">Kernel</span></code> should have an implemented <code class="code docutils literal notranslate"><span class="pre">diagonal</span></code> method.</p>
+</div>
+<p>The <code class="code docutils literal notranslate"><span class="pre">Kernel</span></code> class as discussed above can be found below:</p>
 <table border="1" class="longtable docutils">
 <colgroup>
 <col width="10%" />
@@ -204,6 +244,7 @@
 </tr>
 </tbody>
 </table>
+</div>
 </div>
 
 
