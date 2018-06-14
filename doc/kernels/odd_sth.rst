@@ -29,9 +29,9 @@ where :math:`T()` corresponds to the tree-visits on DAGs (which preserve an esse
 .. figure:: ../_static/odd_sth_2.png
     :scale: 50 %
 
-    Disjoint tree visits on a DAG decomposed from a graph
+    Ordered tree visits on a DAG decomposed from a graph
 
-:math:`C()` is a kernel between trees, where in our case it will be the **S**ub-**T**ree Kernel (as found in :cite:`STKernel_gn`).
+:math:`C()` is a kernel between trees, where in our case it will be the **S**\ ub-\ **T**\ ree Kernel (as found in :cite:`STKernel_gn`).
 
 .. note::
     Tree isomorphism can `be decided in linear time on the sum of the number of nodes and the number of edges <https://www.geeksforgeeks.org/tree-isomorphism-problem/>`_

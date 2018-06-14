@@ -3,7 +3,7 @@
 Core Kernel Framework
 =====================
 
-The core framework is a tool for increasing the expressive power of graph kernels :cite:`nikolentzos2018_gn`.
+The core framework is a tool for increasing the expressive power of graph kernels :cite:`CoreFramework`.
 The framework is not restricted to graph kernels, but can be applied to any graph comparison algorithm.
 It capitalizes on the :math:`k`-core decomposition which is capable of uncovering topological and hierarchical properties of graphs.
 Specifically, the :math:`k`-core decomposition is a powerful tool for network analysis and it is commonly used as a measure of importance and well connectedness for vertices in a broad spectrum of applications.

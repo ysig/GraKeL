@@ -9,7 +9,7 @@ In the literature, a graph kernel appears as a function: :math:`k \; : \; \mathc
 
     \phi \; :\; \mathcal{G} \rightarrow \mathbb{H}, \text{for a Hilbert space } \mathbb{H}
 
-where each kernel value can be computed as :math:`k(G_{i}, G_{j}) = \langle G_{i}, G_{j} \rangle` where :math:`\langle \;.\; ,\; .\;\rangle` signifies an inner product inside this space. The matrix :math:`[k]_{ij} = k(G_{i}, G_{j})` produced is now as the kernel matrix. For a kernel matrix to be valid it is required to be \textit{positive semi definite} (i.e. :math:`\lambda_{min} \ge 0`).
+where each kernel value can be computed as :math:`k(G_{i}, G_{j}) = \langle \phi(G_{i}), \phi(G_{j}) \rangle` where :math:`\langle \;.\; ,\; .\;\rangle` signifies an inner product inside this space. The matrix :math:`\mathbf{K}_{ij} = k(G_{i}, G_{j})` produced is known as the kernel matrix. For a kernel matrix to be valid it is required to be *positive semi definite* (i.e. :math:`\lambda_{min} \ge 0`).
 
 .. note::
 
