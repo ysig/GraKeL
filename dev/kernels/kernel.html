@@ -197,7 +197,7 @@
 <p>In the literature, a graph kernel appears as a function: <span class="math notranslate nohighlight">\(k \; : \; \mathcal{G} \times \mathcal{G} \rightarrow \mathbb{R}\)</span> for which there exists a map:</p>
 <div class="math notranslate nohighlight">
 \[\phi \; :\; \mathcal{G} \rightarrow \mathbb{H}, \text{for a Hilbert space } \mathbb{H}\]</div>
-<p>where each kernel value can be computed as <span class="math notranslate nohighlight">\(k(G_{i}, G_{j}) = \langle G_{i}, G_{j} \rangle\)</span> where <span class="math notranslate nohighlight">\(\langle \;.\; ,\; .\;\rangle\)</span> signifies an inner product inside this space. The matrix <span class="math notranslate nohighlight">\([k]_{ij} = k(G_{i}, G_{j})\)</span> produced is now as the kernel matrix. For a kernel matrix to be valid it is required to be textit{positive semi definite} (i.e. <span class="math notranslate nohighlight">\(\lambda_{min} \ge 0\)</span>).</p>
+<p>where each kernel value can be computed as <span class="math notranslate nohighlight">\(k(G_{i}, G_{j}) = \langle \phi(G_{i}), \phi(G_{j}) \rangle\)</span> where <span class="math notranslate nohighlight">\(\langle \;.\; ,\; .\;\rangle\)</span> signifies an inner product inside this space. The matrix <span class="math notranslate nohighlight">\(\mathbf{K}_{ij} = k(G_{i}, G_{j})\)</span> produced is known as the kernel matrix. For a kernel matrix to be valid it is required to be <em>positive semi definite</em> (i.e. <span class="math notranslate nohighlight">\(\lambda_{min} \ge 0\)</span>).</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">The kernels implemented inside this package have all a <strong>Polynomial</strong> time complexity.</p>
