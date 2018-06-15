@@ -52,8 +52,7 @@ a dirac kernel or, more rarely, via a brownian bridge kernel :cite:`borgwardt200
 In terms of runtime complexity, the shortest-path kernel is very expensive since its computation takes :math:`\mathcal{O}(n^4)` time.
 
 
-Two versions of this kernel can be found implemented below. The first considers node labels as **scalars**
-or **strings** and thus applies a speeding technique, dropping two orders down the kernel calculation.
+Two versions of this kernel can be found implemented below. The first takes as input graphs with discrete node labels and applies a speed-up technique for faster kernel calculation.
 
 .. currentmodule:: grakel
 
