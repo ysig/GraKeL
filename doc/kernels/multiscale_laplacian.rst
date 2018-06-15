@@ -100,7 +100,7 @@ The multiscale Laplacian subgraph kernels are defined as :math:`\mathfrak{K}_1, 
         \mathfrak{K}_l(v,u) = k_{FLG}^{\mathfrak{K}_{l-1}}(G_l(v), G_l(u))
     
 
-Then, the Multiscale Laplacian Graph Kernel between two graphs :math:`G_1, G_2` is defined as follows
+Then, the multiscale Laplacian graph Kernel between two graphs :math:`G_1, G_2` is defined as follows
 
 .. math::
 
@@ -134,7 +134,7 @@ For any pair of graphs :math:`G_i, G_j` of the collection, the generalized featu
 
 where :math:`\bar{\mathbf{S}}_i = \mathbf{Q}_i \mathbf{L}_i^{-1} \mathbf{Q}_i^\top + \gamma \mathbf{I}`, :math:`\bar{\mathbf{S}}_j = \mathbf{Q}_j \mathbf{L}_j^{-1} \mathbf{Q}_j^\top + \gamma \mathbf{I}` and :math:`\mathbf{I}` is the :math:`p \times p` identity matrix.
 
-The implementation of the Multiscale Laplacian kernel as described above, receiving a relevant parametrization can be found below:
+The implementation of the multiscale Laplacian kernel can be found below
 
 .. currentmodule:: grakel
 
@@ -164,7 +164,7 @@ The resulting approximate generalized feature space Laplacian graph kernel is
 where :math:`\tilde{\mathbf{S}}_1 = \tilde{\mathbf{Q}}_1 \mathbf{L}_1^{-1} \tilde{\mathbf{Q}}_1^\top + \gamma \mathbf{I}`, :math:`\tilde{\mathbf{S}}_2 = \tilde{\mathbf{Q}}_2 \mathbf{L}_2^{-1} \tilde{\mathbf{Q}}_2^\top + \gamma \mathbf{I}` are the projections of :math:`\bar{\mathbf{S}}_1` and :math:`\bar{\mathbf{S}}_2` to :math:`\tilde{W}` and :math:`\mathbf{I}` is the :math:`\tilde{p} \times \tilde{p}` identity matrix. Finally, the kernel introduces a further layer of approximation by restricting :math:`\tilde{W}` to be the space spanned by the first :math:`\hat{p} < \tilde{p}` basis vectors (ordered by descending eigenvalue), effectively doing kernel PCA on :math:`\{ \phi(\tilde{v}) \}_{\tilde{v} \in \tilde{V}}`.
 The combination of these two factors makes computing the entire stack of kernels feasible, reducing the complexity of computing the kernel matrix for a dataset of :math:`N` graphs to :math:`\mathcal{O}(NL \tilde{c}^2 \hat{p}^3 + NL \tilde{c}^3 + N^2 \hat{p}^3)`.
 
-The fast low-rank approximation of the Multiscale Laplacian kernel as described above, along with its relevant parametrization can be found below:
+The approximate multiscale Laplacian graph kernel can be found below
 
 .. currentmodule:: grakel
 
