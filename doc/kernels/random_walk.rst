@@ -75,7 +75,7 @@ They also employed a second order Markov random walk to deal with the problem of
 Sugiyama and Borgwardt focused in :cite:`sugiyama2015halting_gn` on a different problem of random walk
 kernels, a phenomenon referred to as "halting".
 
-Two implementations of this kernel (one considering label information and one without), follows:
+Next follow two implementations of this kernel (one for unlabeled graphs and one for graphs with discrete node labels)
 
 .. currentmodule:: grakel
 
