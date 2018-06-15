@@ -49,7 +49,7 @@ The emerging kernel for labeled graphs corresponds to the sum of the separate ke
 
 where :math:`c` is the number of distinct labels and :math:`k^i(G_1,G_2)` is the pyramid match kernel between the sets of vertices of the two graphs which are assigned the label :math:`i`.
 
-The above kernel is implemented as found below, along with the needed parametrization that arised from the preceeding description:
+The above kernel is implemented below
 
 .. currentmodule:: grakel
 
