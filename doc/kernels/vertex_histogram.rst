@@ -18,7 +18,7 @@ The vertex histogram kernel is then defined as the linear kernel between :math:`
 
 The complexity of the vertex histogram kernel is linear in the number of vertices of the graphs.
 
-An implementation of that kernel can be found below:
+An implementation of that kernel can be found below
 
 .. currentmodule:: grakel
 
