@@ -53,7 +53,7 @@ Hence, instead of testing pairs of subgraphs for isomorphism, the kernel just ch
 The computational complexity of the neighborhood subgraph pairwise distance kernel is :math:`\mathcal{O}(|V| |S| |E(S)| \log |E(S)|)` and is dominated by the repeated computation of the graph invariant for each vertex of the graph.
 Since this is a constant time procedure, for small values of :math:`d^*` and :math:`r^*`, the complexity of the kernel is in practice linear in the size of the graph.
 
-The implementation of the neighborhood subgraph pairwise distance kernel can be found below:
+The implementation of the neighborhood subgraph pairwise distance kernel can be found below
 
 .. currentmodule:: grakel
 
