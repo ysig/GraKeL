@@ -57,7 +57,7 @@ The first term represents the cost of solving the semi-definite program that com
 The second term corresponds to the worst-case complexity of computing the sum of the Lovász values.
 And finally, the third term is the cost of computing the Lovász values of the sampled subsets of vertices.
 
-The implementation of the above kernel can be found below accepting the required parametrization:
+The implementation of the Lovász :math:`\vartheta` kernel can be found below
 
 .. currentmodule:: grakel
 

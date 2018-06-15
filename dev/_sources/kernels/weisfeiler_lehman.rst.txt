@@ -98,7 +98,7 @@ It is interesting to note that the Weisfeiler-Lehman subtree kernel exhibits an 
 
 .. note::
     
-    To create these kernel use as a :code:`base_kernel` the :ref:`vertex_histogram`.
+    To create an instance of the above kernel use the :ref:`vertex_histogram` kernel as the :code:`base_kernel`.
 
 Bibliography
 ------------

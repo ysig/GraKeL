@@ -18,7 +18,7 @@ The edge histogram kernel is then defined as the linear kernel between :math:`\m
 
 The complexity of the edge histogram kernel is linear in the number of edges of the graphs.
 
-An implementation of that kernel can be found below:
+An implementation of that kernel can be found below
 
 .. currentmodule:: grakel
 

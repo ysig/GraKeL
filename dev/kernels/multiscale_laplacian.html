@@ -259,7 +259,7 @@ The multiscale Laplacian subgraph kernels are defined as <span class="math notra
 </ol>
 <div class="math notranslate nohighlight">
 \[\mathfrak{K}_l(v,u) = k_{FLG}^{\mathfrak{K}_{l-1}}(G_l(v), G_l(u))\]</div>
-<p>Then, the Multiscale Laplacian Graph Kernel between two graphs <span class="math notranslate nohighlight">\(G_1, G_2\)</span> is defined as follows</p>
+<p>Then, the multiscale Laplacian graph Kernel between two graphs <span class="math notranslate nohighlight">\(G_1, G_2\)</span> is defined as follows</p>
 <div class="math notranslate nohighlight">
 \[k_{MLG}(G_1, G_2) = k_{FLG}^{\mathfrak{K}_L}(G_1, G_2)\]</div>
 <p>The multiscale Laplacian graph kernel computes <span class="math notranslate nohighlight">\(\mathfrak{K}_1\)</span> for all pairs of vertices, then computes <span class="math notranslate nohighlight">\(\mathfrak{K}_2\)</span> for all pairs of vertices, and so on.
@@ -282,7 +282,7 @@ For any pair of graphs <span class="math notranslate nohighlight">\(G_i, G_j\)</
 <div class="math notranslate nohighlight">
 \[k_{FLG}^\kappa(G_i, G_j) = \frac{| (\frac{1}{2} \bar{\mathbf{S}}_i^{-1} + \frac{1}{2} \bar{\mathbf{S}}_j^{-1} )^{-1} |^{1/2}}{|\bar{\mathbf{S}}_i|^{1/4} |\bar{\mathbf{S}}_j|^{1/4}}\]</div>
 <p>where <span class="math notranslate nohighlight">\(\bar{\mathbf{S}}_i = \mathbf{Q}_i \mathbf{L}_i^{-1} \mathbf{Q}_i^\top + \gamma \mathbf{I}\)</span>, <span class="math notranslate nohighlight">\(\bar{\mathbf{S}}_j = \mathbf{Q}_j \mathbf{L}_j^{-1} \mathbf{Q}_j^\top + \gamma \mathbf{I}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{I}\)</span> is the <span class="math notranslate nohighlight">\(p \times p\)</span> identity matrix.</p>
-<p>The implementation of the Multiscale Laplacian kernel as described above, receiving a relevant parametrization can be found below:</p>
+<p>The implementation of the multiscale Laplacian kernel can be found below</p>
 <table border="1" class="longtable docutils">
 <colgroup>
 <col width="10%" />
@@ -310,7 +310,7 @@ The resulting approximate generalized feature space Laplacian graph kernel is</p
 \[k_{FLG}^\kappa(G_1, G_2) = \frac{| (\frac{1}{2} \tilde{\mathbf{S}}_1^{-1} + \frac{1}{2} \tilde{\mathbf{S}}_2^{-1} )^{-1} |^{1/2}}{|\tilde{\mathbf{S}}_1|^{1/4} |\tilde{\mathbf{S}}_2|^{1/4}}\]</div>
 <p>where <span class="math notranslate nohighlight">\(\tilde{\mathbf{S}}_1 = \tilde{\mathbf{Q}}_1 \mathbf{L}_1^{-1} \tilde{\mathbf{Q}}_1^\top + \gamma \mathbf{I}\)</span>, <span class="math notranslate nohighlight">\(\tilde{\mathbf{S}}_2 = \tilde{\mathbf{Q}}_2 \mathbf{L}_2^{-1} \tilde{\mathbf{Q}}_2^\top + \gamma \mathbf{I}\)</span> are the projections of <span class="math notranslate nohighlight">\(\bar{\mathbf{S}}_1\)</span> and <span class="math notranslate nohighlight">\(\bar{\mathbf{S}}_2\)</span> to <span class="math notranslate nohighlight">\(\tilde{W}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{I}\)</span> is the <span class="math notranslate nohighlight">\(\tilde{p} \times \tilde{p}\)</span> identity matrix. Finally, the kernel introduces a further layer of approximation by restricting <span class="math notranslate nohighlight">\(\tilde{W}\)</span> to be the space spanned by the first <span class="math notranslate nohighlight">\(\hat{p} &lt; \tilde{p}\)</span> basis vectors (ordered by descending eigenvalue), effectively doing kernel PCA on <span class="math notranslate nohighlight">\(\{ \phi(\tilde{v}) \}_{\tilde{v} \in \tilde{V}}\)</span>.
 The combination of these two factors makes computing the entire stack of kernels feasible, reducing the complexity of computing the kernel matrix for a dataset of <span class="math notranslate nohighlight">\(N\)</span> graphs to <span class="math notranslate nohighlight">\(\mathcal{O}(NL \tilde{c}^2 \hat{p}^3 + NL \tilde{c}^3 + N^2 \hat{p}^3)\)</span>.</p>
-<p>The fast low-rank approximation of the Multiscale Laplacian kernel as described above, along with its relevant parametrization can be found below:</p>
+<p>The approximate multiscale Laplacian graph kernel can be found below</p>
 <table border="1" class="longtable docutils">
 <colgroup>
 <col width="10%" />
