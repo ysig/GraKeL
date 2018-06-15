@@ -60,7 +60,7 @@ Then, the complexity of computing the core variant of algorithm :math:`A` is :ma
 It is well-known that the degeneracy of a graph is upper bounded by the maximum of the degrees of its vertices and by the largest eigenvalue of its adjacency matrix :math:`\lambda_1`.
 Since in most real-world graphs it holds that :math:`\lambda_1 \ll n`, it also holds that :math:`\delta^*_{max} \ll n`, and hence, the time complexity added by the core framework is not very high.
 
-The core-framework can be found implemented below:
+The implementation of the core framework can be found below
 
 .. currentmodule:: grakel
 
