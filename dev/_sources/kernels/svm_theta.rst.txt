@@ -70,6 +70,7 @@ The second term corresponds to the worst-case complexity of comparing the sums o
 And finally, the third term is the cost of computing the sum of the :math:`\alpha_i` values for the sampled subsets of vertices.
 
 The implementation of the SVM-:math:`\vartheta` kernel can be found below
+
 .. currentmodule:: grakel
 
 .. autosummary::
