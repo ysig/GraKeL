@@ -92,7 +92,7 @@ The Ordered Dag Decomposition - Sub-Tree :math:`h` (ODD-STh) kernel can be found
 
 .. note::
 
-    Because the :math:`Big^{2}DAG` graph should be preserved through consequent transformations, the cost of copying it may make :code:`fit_transform` calculation between all the graphs of *train* and *test* faster than fitting on *train* graphs and transforming on *test* graphs.
+    Because the :math:`Big^{2}DAG` graph should be preserved through consequent transformations, the cost of copying that object may make :code:`fit_transform` calculation between all the graphs of *train* and *test* faster than fitting on *train* graphs and transforming on *test* graphs.
 
 Bibliography
 ------------
