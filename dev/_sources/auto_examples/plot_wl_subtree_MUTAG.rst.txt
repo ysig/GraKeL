@@ -23,7 +23,7 @@ An example plot of :class:`grakel.GraphKernel`, :class:`grakel.WeisfeilerLehman`
 
  .. code-block:: none
 
-    ('Accuracy:', '84.21', '% | Took:', '0.13', 's')
+    ('Accuracy:', '84.21', '% | Took:', '0.29', 's')
 
 
 
@@ -76,7 +76,7 @@ An example plot of :class:`grakel.GraphKernel`, :class:`grakel.WeisfeilerLehman`
     print("Accuracy:", str(round(acc*100, 2)), "% | Took:",
           str(round(end - start, 2)), "s")
 
-**Total running time of the script:** ( 0 minutes  0.185 seconds)
+**Total running time of the script:** ( 0 minutes  0.341 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plot_wl_subtree_MUTAG.py:
