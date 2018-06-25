@@ -24,6 +24,7 @@ The instance of the subgraph matching kernel that is obtained if we set the :mat
 
 .. math::
 
+    \begin{split}
         \kappa_V(v,v') &= \begin{cases}
         1, & \text{if } \ell(v) \equiv \ell(v'),\\
         0, & \text{otherwise and} 
@@ -32,6 +33,7 @@ The instance of the subgraph matching kernel that is obtained if we set the :mat
         1, & \text{if } e \in E \wedge e' \in E' \wedge \ell(e) \equiv \ell(e') \text{ or } e \not \in E \wedge e' \not \in E',\\
         0, & \text{otherwise.}
         \end{cases}
+    \end{split}
 
 is known as the common subgraph isomorphism kernel.
 This kernel counts the number of isomorphic subgraphs contained in two graphs.
@@ -45,11 +47,13 @@ Given two graphs :math:`G=(V,E)`, :math:`G'=(V',E')`, and vertex and edge kernel
 
 .. math::
 
+    \begin{split}
         V_P &= \{ (v,v') \in V \times V' : \kappa_V(v,v') > 0 \} \\
         E_P &= \{ ((v,v'),(u,u')) \in V_P \times V_P : v \neq u \wedge v' \neq u' \wedge \kappa_E((v,v'),(u,u')) > 0 \} \\
         c(u) &= \kappa_V(v,v') \quad \forall u=(v,v') \in V_P \\
         c(e) &= \kappa_E((v,u),(v',u')) \quad \forall e \in E_P, \\
         \text{where } &e=((v,v'),(u,u')) 
+    \end{split}
 
 After creating the weighted product graph, the kernel enumerates its cliques.
 The kernel starts from an empty clique and extends it stepwise by all vertices preserving the clique property.
