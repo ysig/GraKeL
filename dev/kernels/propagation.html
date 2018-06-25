@@ -191,8 +191,41 @@
             
   <div class="section" id="the-propagation-kernel">
 <span id="propagation"></span><h1>The Propagation Kernel<a class="headerlink" href="#the-propagation-kernel" title="Permalink to this headline">¶</a></h1>
-<p>The Propagation Kernel.</p>
-<p><strong>Theoretical definition missing</strong></p>
+<p>Propagation kernels where introduced as a general framework in <a class="reference internal" href="../generated/grakel.Propagation.html#neumann2015propagationke" id="id1">[NGBK15]</a>. They are based in the idea of propagating label information between nodes of the graph, based on the graph structure.
+A graph is considered to have <strong>attributes</strong> on nodes, where in the case of labels they correspond to One-Hot-Vectors of the full dictionary of labels.
+The totality of nodes for each graph, can be seen as a probability distribution <span class="math notranslate nohighlight">\(P\)</span> of size <span class="math notranslate nohighlight">\(n \times d\)</span> where <span class="math notranslate nohighlight">\(n\)</span> corresponds to the number of nodes and <span class="math notranslate nohighlight">\(d\)</span> to the size of attributes.
+After the idea of diffusion is applied in order to construct the algorithmic framework of propagation kernels.
+Given a transition matrix <span class="math notranslate nohighlight">\(T\)</span> that is row normalized, iteration will be build on the basis of the following simple substitution rule:</p>
+<div class="math notranslate nohighlight">
+\[P_{t+1} \leftarrow T P_{t}\]</div>
+<p>Other than a user given transition matrix, <span class="math notranslate nohighlight">\(T = D^{−1}A\)</span>, was considered as default for each graph, where <span class="math notranslate nohighlight">\(D = diag(\sum_{j} A_{ij})\)</span> and <span class="math notranslate nohighlight">\(A\)</span> corresponds to the adjacency matrix of this graph.
+The general algorithm for propagation kernels is as follows:</p>
+<div class="figure" id="id2">
+<img alt="../_images/marion1.png" src="../_images/marion1.png" />
+<p class="caption"><span class="caption-text">The general algorithmic scheme for propagation kernels.</span></p>
+</div>
+<p>As one can notice on the above algorithm, inside each iteration is:</p>
+<div class="math notranslate nohighlight">
+\[K(G^{(i)}_{t}, G^{(j)}_{t}) = \sum_{u \in G^{(i)}_{t}} \sum_{v \in G^{(j)}_{t}} k(u, v)\]</div>
+<p>where the node kernel <span class="math notranslate nohighlight">\(k(u, v)\)</span> is resolved through binning.
+In order to bin nodes a method should be found that was both efficient and expressive.
+A simple hashing function was considered a bad idea as it would separate values that where much more common than others. A sense of <em>locality</em> was needed when binning in order to group similar diffusion patterns in the same bin, similar to what is shown in the following:</p>
+<div class="figure" id="id3">
+<img alt="../_images/marion2.png" src="../_images/marion2.png" />
+<p class="caption"><span class="caption-text">A binning scheme between a two step label propagation.</span></p>
+</div>
+<p>For that the technique of locally sensitive hashing [<strong>LSH</strong>] was utilized, which was applied to all the input graphs as shown in the following:</p>
+<div class="figure" id="id4">
+<img alt="../_images/marion3.png" src="../_images/marion3.png" />
+<p class="caption"><span class="caption-text">The locally sensitive function implemented inside the kernel.</span></p>
+</div>
+<p>Finally the following algorithm was implemented, in our case where we consider all graphs to be <em>fully-labeled</em>:</p>
+<div class="figure" id="id5">
+<img alt="../_images/marion4.png" src="../_images/marion4.png" />
+<p class="caption"><span class="caption-text">The propagation kernel algorithm, which was implemented inside the package.</span></p>
+</div>
+<p>In case we have an attributed graph the <span class="math notranslate nohighlight">\(P_{0} \leftarrow \delta_{l(V)}\)</span> is replaced by <span class="math notranslate nohighlight">\(P_{0} \leftarrow attr(V)\)</span> considering all the node attributes have the same dimension.</p>
+<p>Both for attributed and for labeled graphs, implementations of the propagation can be found below:</p>
 <table border="1" class="longtable docutils">
 <colgroup>
 <col width="10%" />

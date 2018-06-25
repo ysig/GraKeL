@@ -66,13 +66,13 @@ In the final :math:`Big^{2}DAG` graph, the computation of the kernel matrix is a
 
 .. math::
 
-    K_{Big^{2}DAG}(G_{i}, G_{j}) = \sum_{u_{1}, u_{2} \in V(Big^{2}DAG)} F_{u_{1}}[i] \star F_{u_{2}}[j] C(u_{1}, u_{2})
+    K_{Big^{2}DAG}(G_{i}, G_{j}) = \sum_{u_{1}, u_{2} \in V(Big^{2}DAG)} F_{u_{1}}[i] * F_{u_{2}}[j] C(u_{1}, u_{2})
 
 which is equivalent to:
 
 .. math::
 
-    K_{Big^{2}DAG}(G_{i}, G_{j}) = \sum_{u \in V(Big^{2}DAG)} F_{u}[i] \star F_{u}[j] C(u, u)
+    K_{Big^{2}DAG}(G_{i}, G_{j}) = \sum_{u \in V(Big^{2}DAG)} F_{u}[i] * F_{u}[j] C(u, u)
 
 because the subtree kernel will have a match only between identical subtrees, that is:
 

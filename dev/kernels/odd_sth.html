@@ -234,10 +234,10 @@ The idea behind the ODD-STh kernel proposed in <a class="reference internal" hre
 </div>
 <p>In the final <span class="math notranslate nohighlight">\(Big^{2}DAG\)</span> graph, the computation of the kernel matrix is all about calculating the following formula:</p>
 <div class="math notranslate nohighlight">
-\[K_{Big^{2}DAG}(G_{i}, G_{j}) = \sum_{u_{1}, u_{2} \in V(Big^{2}DAG)} F_{u_{1}}[i] \star F_{u_{2}}[j] C(u_{1}, u_{2})\]</div>
+\[K_{Big^{2}DAG}(G_{i}, G_{j}) = \sum_{u_{1}, u_{2} \in V(Big^{2}DAG)} F_{u_{1}}[i] * F_{u_{2}}[j] C(u_{1}, u_{2})\]</div>
 <p>which is equivalent to:</p>
 <div class="math notranslate nohighlight">
-\[K_{Big^{2}DAG}(G_{i}, G_{j}) = \sum_{u \in V(Big^{2}DAG)} F_{u}[i] \star F_{u}[j] C(u, u)\]</div>
+\[K_{Big^{2}DAG}(G_{i}, G_{j}) = \sum_{u \in V(Big^{2}DAG)} F_{u}[i] * F_{u}[j] C(u, u)\]</div>
 <p>because the subtree kernel will have a match only between identical subtrees, that is:</p>
 <div class="math notranslate nohighlight">
 \[C(u_{1}, u_{2}) \not= 0 \leftrightarrow T(u_{1}) = T(u_{2})\]</div>
