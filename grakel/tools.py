@@ -3,7 +3,6 @@
 from __future__ import generators
 import collections
 import operator
-import warnings
 
 import numpy as np
 
@@ -252,55 +251,14 @@ def distribute_samples(n, subsets_size_range, n_samples):
     # Check input
     min_ss, max_ss = subsets_size_range[0], subsets_size_range[1]
 
-    if min_ss <= 1:
-        raise ValueError('minimum subset size must be bigger than one')
-    if min_ss > max_ss:
-        raise ValueError('minimum subset size must be \
-        smaller than maximum')
-    if min_ss > n:
-        raise ValueError('minimum subset size must not exceed graph size')
-    if max_ss > n:
-        warnings.warn('maximum subset size to big - adjusting to set size')
-        max_ss = n
-
     # Distribute samples to subset groups
-    availabilities_on_subsets = sorted([(k, int(binomial(n, k)))
-                                        for k in range(min_ss, max_ss+1)],
-                                       key=lambda x: x[1])
+    maxd = min(max_ss, n)
+    w = np.array([int(binomial(n, k)) for k in range(min_ss, maxd+1)])
+    w = w / np.sum(w)
+    smpls = np.floor(w * n_samples).astype(int)
+    ss = smpls.shape[0]
 
-    n_availabilities = sum(item[1] for item in availabilities_on_subsets)
+    for r in range(int(n_samples - np.sum(smpls))):
+        smpls[(ss-r-1) % ss] += 1
 
-    # Semantic Exception
-    if n_availabilities < n_samples:
-        warnings.warn(
-            'number of samples exceedes the number of availabilities, ' +
-            'n_samples is now replaced by the availabilities_on_subsets')
-        return dict(availabilities_on_subsets)
-
-    samples_on_subsets = dict()
-    available_samples = n_samples
-    # a variable that helps distributing equally
-    cache = 0
-    for (i, n) in availabilities_on_subsets:
-        a = int(round((n/(n_availabilities*1.0))*n_samples))
-        value = -1
-        if a < n:
-            if a > 0:
-                q = a + cache - n
-                if q >= 0:
-                    cache = q
-                    value = n
-                else:
-                    value = a + cache
-        elif a >= n:
-            cache += a-n
-            value = n
-
-        # If maximum number of samples is reached break
-        if value >= available_samples:
-            samples_on_subsets[min_ss+i] = available_samples
-            break
-        elif value != -1:
-            samples_on_subsets[min_ss+i] = value
-
-    return samples_on_subsets
+    return {i + min_ss: smpls[i] for i in range(ss) if smpls[i] > .0}

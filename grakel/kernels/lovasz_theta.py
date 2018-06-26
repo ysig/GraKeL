@@ -111,11 +111,11 @@ class LovaszTheta(Kernel):
             if (type(self.subsets_size_range) is not tuple
                     or len(self.subsets_size_range) != 2
                     or any(type(i) is not int for i in self.subsets_size_range)
-                    or self.subsets_size_range[0] >
-                    self.subsets_size_range[1]):
+                    or self.subsets_size_range[0] > self.subsets_size_range[1]
+                    or self.subsets_size_range[0] <= 0):
                     raise TypeError('subsets_size_range subset size range'
                                     'must be a tuple of two integers in '
-                                    'increasing order')
+                                    'increasing order, bigger than 1')
             self.initialized_["subsets_size_range"] = True
 
         if not self.initialized_["base_kernel"]:
@@ -225,8 +225,7 @@ class LovaszTheta(Kernel):
         """
         # Calculate subsets
         n = U.shape[1]
-        samples_on_subsets = distribute_samples(n, self.subsets_size_range,
-                                                self.n_samples)
+        samples_on_subsets = distribute_samples(n, self.subsets_size_range, self.n_samples)
 
         # Calculate level dictionary with lovasz values
         phi = np.zeros(shape=(self.subsets_size_range[1] - self.subsets_size_range[0]+1, 1))
