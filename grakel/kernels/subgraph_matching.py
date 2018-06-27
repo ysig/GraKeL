@@ -1,4 +1,4 @@
-"""The sugraph mathing kernel as defined by :cite:`Kriege2012SubgraphMK`."""
+"""The sugraph mathing kernel as defined by :cite:`kriege2012subgraph`."""
 # Author: Ioannis Siglidis <y.siglidis@gmail.com>
 # License: BSD 3 clause
 import collections
@@ -22,7 +22,7 @@ def k_default(a, b):
 class SubgraphMatching(Kernel):
     r"""Calculate the subgraph matching kernel.
 
-    See :cite:`Kriege2012SubgraphMK`.
+    See :cite:`kriege2012subgraph`.
 
     Parameters
     ----------
@@ -131,7 +131,7 @@ class SubgraphMatching(Kernel):
     def pairwise_operation(self, x, y):
         """Calculate the `subgraph_matching` kernel.
 
-        See :cite:`Kriege2012SubgraphMK`.
+        See :cite:`kriege2012subgraph`.
 
         Parameters
         ----------
