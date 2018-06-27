@@ -3,7 +3,7 @@
 Graph Hopper Kernel
 ===================
 
-Given two graphs, the GraphHopper kernel compares shortest paths between pairs of vertices from the two graphs :cite:`GraphHopper`.
+Given two graphs, the GraphHopper kernel compares shortest paths between pairs of vertices from the two graphs :cite:`feragen2013scalable`.
 The kernel takes into account both path lengths and the vertices encountered while ``hopping'' along shortest paths.
 The kernel is equivalent to a weighted sum of node kernels.
 

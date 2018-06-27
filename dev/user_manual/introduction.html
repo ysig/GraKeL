@@ -205,7 +205,7 @@ value can be computed as }\\ k(G_{i}, G_{j}) = \langle G_{i}, G_{j} \rangle
 <div class="section" id="initializing-a-graph-kernel">
 <h2>Initializing a graph kernel<a class="headerlink" href="#initializing-a-graph-kernel" title="Permalink to this headline">¶</a></h2>
 <p>A very well known graph kernel found in literature is the Shortest Path Kernel first introduced by Karsten M. Borgwardt
-and Hans-Peter Kriegel on a 2005 article [see <a class="reference internal" href="../generated/grakel.ShortestPath.html#borgwardt2005shortestpathko" id="id1">[BK05]</a>] titled <strong>“Shortest-Path Kernels on Graphs”</strong>,
+and Hans-Peter Kriegel on a 2005 article [see [Borgwardt2005ShortestpathKO]] titled <strong>“Shortest-Path Kernels on Graphs”</strong>,
 really essential as an origin of the Graph Kernel field.</p>
 <p>After following the instructions found on <a class="reference internal" href="installation.html#installation"><span class="std std-ref">Installing grakel</span></a>, in order to initialize a <em>Shortest Path</em> kernel
 using the <strong>grakel</strong> library, you just need to do the following:</p>
@@ -218,7 +218,7 @@ of Graphs needed only a minor parametrization. A second type of kernels appear i
 we will call <em>meta-kernels</em>, which apply transformation operations upon graph objects in order to apply
 kernel calculations on certain steps using a <em>base kernel</em>, aggregating their result in a certain way.
 A kernel like <em>Weisfeiler-Lehman</em> introduced by Nino Shervashidze at 2011, published on a journal with the title
-“Weisfeiler Lehman Kernels” [see <a class="reference internal" href="../generated/grakel.WeisfeilerLehman.html#shervashidze2011weisfeilerlehmangk" id="id2">[SSvL+11]</a>], used a method for approximating a
+“Weisfeiler Lehman Kernels” [see [Shervashidze2011WeisfeilerLehmanGK]], used a method for approximating a
 solution to the graph isomorphism problem, in order to generate a graph refinement scheme that would imply
 bigger expressiveness to the base_kernel calculations (an interesting <a class="reference external" href="http://blog.smola.org/post/33412570425/the-weisfeiler-lehman-algorithm-and-estimation-on">post</a> explaining the intuition of this kernel).</p>
 <p>To initialize such a kernel, using the default subtree kernel, found originally on the paper’s

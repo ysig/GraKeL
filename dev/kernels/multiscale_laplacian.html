@@ -195,11 +195,11 @@
             
   <div class="section" id="multiscale-laplacian-kernel">
 <span id="multiscale-laplacian"></span><h1>Multiscale Laplacian Kernel<a class="headerlink" href="#multiscale-laplacian-kernel" title="Permalink to this headline">¶</a></h1>
-<p>The multiscale Laplacian graph kernel can handle unlabeled graphs, graphs with discrete node labels and graphs with continuous node attributes <a class="reference internal" href="#kondor2016multiscale-gn" id="id1">[KP16b]</a>.
+<p>The multiscale Laplacian graph kernel can handle unlabeled graphs, graphs with discrete node labels and graphs with continuous node attributes [kondor2016multiscale_gn].
 It takes into account structure in graphs at a range of different scales by building a hierarchy of nested subgraphs.
 These subgraphs are compared to each other using another graph kernel, called the feature space laplacian graph kernel.
 This kernel is capable of lifting a base kernel defined on the vertices of two graphs to a kernel between the graphs themselves.
-Since exact computation of the multiscale laplacian graph kernel is a very expensive operation, the kernel uses a randomized projection procedure  similar to the popular Nystr{“o}m approximation for kernel matrices <a class="reference internal" href="#williams2001using-gn" id="id2">[WS01]</a>.</p>
+Since exact computation of the multiscale laplacian graph kernel is a very expensive operation, the kernel uses a randomized projection procedure  similar to the popular Nystr{“o}m approximation for kernel matrices [williams2001using_gn].</p>
 <p>Let <span class="math notranslate nohighlight">\(G=(V,E)\)</span> be an undirected graph such that <span class="math notranslate nohighlight">\(n = |V|\)</span>.
 The Laplacian of <span class="math notranslate nohighlight">\(G\)</span> is a <span class="math notranslate nohighlight">\(n \times n\)</span> matrix defined as</p>
 <div class="math notranslate nohighlight">
@@ -290,7 +290,7 @@ For any pair of graphs <span class="math notranslate nohighlight">\(G_i, G_j\)</
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><a class="reference internal" href="../generated/grakel.MultiscaleLaplacian.html#grakel.MultiscaleLaplacian" title="grakel.MultiscaleLaplacian"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MultiscaleLaplacian</span></code></a>([n_jobs,&nbsp;normalize,&nbsp;…])</td>
-<td>Laplacian Graph Kernel as proposed in <a class="reference internal" href="../generated/grakel.MultiscaleLaplacian.html#kondor2016theml" id="id3">[KP16]</a>.</td>
+<td>Laplacian Graph Kernel as proposed in [Kondor2016TheML].</td>
 </tr>
 </tbody>
 </table>
@@ -318,32 +318,14 @@ The combination of these two factors makes computing the entire stack of kernels
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><a class="reference internal" href="../generated/grakel.MultiscaleLaplacianFast.html#grakel.MultiscaleLaplacianFast" title="grakel.MultiscaleLaplacianFast"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MultiscaleLaplacianFast</span></code></a>([n_jobs,&nbsp;normalize,&nbsp;…])</td>
-<td>Laplacian Graph Kernel as proposed in <a class="reference internal" href="#kondor2016theml-fast" id="id4">[KP16]</a>.</td>
+<td>Laplacian Graph Kernel as proposed in [Kondor2016TheML_fast].</td>
 </tr>
 </tbody>
 </table>
 </div>
 <div class="section" id="bibliography">
 <h2>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">¶</a></h2>
-<p id="bibtex-bibliography-kernels/multiscale_laplacian-0"><table class="docutils citation" frame="void" id="kondor2016theml-fast" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id4">[KP16]</a></td><td>Risi Kondor and Horace Pan. The multiscale laplacian graph kernel. In <em>NIPS</em>. 2016.</td></tr>
-</tbody>
-</table>
-<table class="docutils citation" frame="void" id="kondor2016multiscale-gn" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id1">[KP16b]</a></td><td>Risi Kondor and Horace Pan. The Multiscale Laplacian Graph Kernel. In <em>Advances in Neural Information Processing Systems</em>, 2990–2998. 2016.</td></tr>
-</tbody>
-</table>
-<table class="docutils citation" frame="void" id="williams2001using-gn" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id2">[WS01]</a></td><td>Christopher&nbsp;KI Williams and Matthias Seeger. Using the Nyström Method to Speed Up Kernel Machines. In <em>Advances in Neural Information Processing Systems</em>, 682–688. 2001.</td></tr>
-</tbody>
-</table>
-</p>
+<p id="bibtex-bibliography-kernels/multiscale_laplacian-0"></p>
 </div>
 </div>
 

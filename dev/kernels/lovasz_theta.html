@@ -195,7 +195,7 @@
   <div class="section" id="lovasz-theta-kernel">
 <span id="lovasz-theta"></span><h1>Lovasz Theta Kernel<a class="headerlink" href="#lovasz-theta-kernel" title="Permalink to this headline">¶</a></h1>
 <p>The Lovász number <span class="math notranslate nohighlight">\(\vartheta(G)\)</span> of a graph <span class="math notranslate nohighlight">\(G=(V,E)\)</span> is a real number that is an upper bound on the Shannon capacity of the graph.
-It was introduced by László Lovász in <span class="math notranslate nohighlight">\(1979\)</span> <a class="reference internal" href="#lovasz1979shannon-gn" id="id1">[Lovasz79]</a>.
+It was introduced by László Lovász in <span class="math notranslate nohighlight">\(1979\)</span> [lovasz1979shannon_gn].
 The Lovász number is intimately connected with the notion of orthonormal representations of graphs.
 An orthonormal representation of a graph <span class="math notranslate nohighlight">\(G\)</span> consists of a set of unit vectors <span class="math notranslate nohighlight">\(U_G = \{ \mathbf{u}_i \in \mathbb{R}^d : || \mathbf{u}_i || = 1 \}_{i \in V}\)</span> where each vertex <span class="math notranslate nohighlight">\(i\)</span> is assigned a unit vector <span class="math notranslate nohighlight">\(\mathbf{u}_i\)</span> such that <span class="math notranslate nohighlight">\((i,j) \not \in E \implies \mathbf{u}_i^\top \mathbf{u}_j = 0\)</span>.
 Specifically, the Lovász number of a graph <span class="math notranslate nohighlight">\(G\)</span> is defined as</p>
@@ -204,7 +204,7 @@ Specifically, the Lovász number of a graph <span class="math notranslate nohigh
 <p>where <span class="math notranslate nohighlight">\(\mathbf{c} \in \mathbb{R}^d\)</span> is a unit vector and <span class="math notranslate nohighlight">\(U_G\)</span> is an orthonormal representation of <span class="math notranslate nohighlight">\(G\)</span>.
 Geometrically, <span class="math notranslate nohighlight">\(\vartheta(G)\)</span> is defined by the smallest cone enclosing a valid orthonormal representation <span class="math notranslate nohighlight">\(U_G\)</span>.
 The Lovász number <span class="math notranslate nohighlight">\(\vartheta(G)\)</span> of a graph <span class="math notranslate nohighlight">\(G\)</span> can be computed to arbitrary precision in polynomial time by solving a semidefinite program.</p>
-<p>The Lovász <span class="math notranslate nohighlight">\(\vartheta\)</span> kernel utilizes the orthonormal representations associated with the Lovász number to compare graphs <a class="reference internal" href="svm_theta.html#johansson2014global-gn" id="id2">[JJDB14]</a>.
+<p>The Lovász <span class="math notranslate nohighlight">\(\vartheta\)</span> kernel utilizes the orthonormal representations associated with the Lovász number to compare graphs [johansson2014global_gn].
 The kernel is applicable only to unlabeled graphs.
 Given a collection of graphs, it first generates orthonormal representations for the vertices of each graph by computing the Lovász <span class="math notranslate nohighlight">\(\vartheta\)</span> number.
 Hence, <span class="math notranslate nohighlight">\(U_G\)</span> is a set that contains the orthonormal representations of <span class="math notranslate nohighlight">\(G\)</span>.
@@ -238,25 +238,13 @@ And finally, the third term is the cost of computing the Lovász values of the s
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><a class="reference internal" href="../generated/grakel.LovaszTheta.html#grakel.LovaszTheta" title="grakel.LovaszTheta"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LovaszTheta</span></code></a>([n_jobs,&nbsp;normalize,&nbsp;verbose,&nbsp;…])</td>
-<td>Lovasz theta kernel as proposed in <a class="reference internal" href="../generated/grakel.LovaszTheta.html#johansson2015learningws-lovasz" id="id3">[JJDB14]</a>.</td>
+<td>Lovasz theta kernel as proposed in [Johansson2015LearningWS_lovasz].</td>
 </tr>
 </tbody>
 </table>
 <div class="section" id="bibliography">
 <h2>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">¶</a></h2>
-<p id="bibtex-bibliography-kernels/lovasz_theta-0"><table class="docutils citation" frame="void" id="johansson2014global-gn" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id2">[JJDB14]</a></td><td>Fredrik Johansson, Vinay Jethava, Devdatt Dubhashi, and Chiranjib Bhattacharyya. Global graph kernels using geometric embeddings. In <em>Proceedings of the 31st International Conference on Machine Learning</em>, 694–702. 2014.</td></tr>
-</tbody>
-</table>
-<table class="docutils citation" frame="void" id="lovasz1979shannon-gn" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id1">[Lovasz79]</a></td><td>László Lovász. On the shannon capacity of a graph. <em>IEEE Transactions on Information Theory</em>, 25(1):1–7, 1979.</td></tr>
-</tbody>
-</table>
-</p>
+<p id="bibtex-bibliography-kernels/lovasz_theta-0"></p>
 </div>
 </div>
 

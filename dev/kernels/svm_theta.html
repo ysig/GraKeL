@@ -194,7 +194,7 @@
             
   <div class="section" id="svm-theta-kernel">
 <span id="svm-theta"></span><h1>SVM Theta Kernel<a class="headerlink" href="#svm-theta-kernel" title="Permalink to this headline">¶</a></h1>
-<p>The SVM-<span class="math notranslate nohighlight">\(\vartheta\)</span> kernel is very related to the Lovász <span class="math notranslate nohighlight">\(\vartheta\)</span> kernel <a class="reference internal" href="#johansson2014global-gn" id="id1">[JJDB14]</a>.
+<p>The SVM-<span class="math notranslate nohighlight">\(\vartheta\)</span> kernel is very related to the Lovász <span class="math notranslate nohighlight">\(\vartheta\)</span> kernel [johansson2014global_gn].
 The Lovász <span class="math notranslate nohighlight">\(\vartheta\)</span> kernel suffers from high computational complexity, and the SVM-<span class="math notranslate nohighlight">\(\vartheta\)</span> kernel was developed as a more efficient alternative.
 Similar to the Lovász <span class="math notranslate nohighlight">\(\vartheta\)</span> kernel, this kernel also assumes unlabeled graphs.</p>
 <p>Given a graph <span class="math notranslate nohighlight">\(G=(V,E)\)</span> such that <span class="math notranslate nohighlight">\(|V| = n\)</span>, the Lovász number of <span class="math notranslate nohighlight">\(G\)</span> can be defined as</p>
@@ -211,7 +211,7 @@ Similar to the Lovász <span class="math notranslate nohighlight">\(\vartheta\)<
 <div class="math notranslate nohighlight">
 \[\mathbf{K}_{LS} = \frac{\mathbf{A}}{\rho} + \mathbf{I}\]</div>
 <p>where <span class="math notranslate nohighlight">\(\mathbf{A}\)</span> is the adjacency matrix of <span class="math notranslate nohighlight">\(G\)</span>, <span class="math notranslate nohighlight">\(\mathbf{I}\)</span> is the <span class="math notranslate nohighlight">\(n \times n\)</span> identity matrix, and <span class="math notranslate nohighlight">\(\rho \geq -\lambda_n\)</span> with <span class="math notranslate nohighlight">\(\lambda_n\)</span> the minimum eigenvalue of <span class="math notranslate nohighlight">\(\mathbf{A}\)</span>.
-The matrix <span class="math notranslate nohighlight">\(\mathbf{K}_{LS}\)</span> is positive semidefinite by construction and it has been shown in <a class="reference internal" href="#jethava2013lovasz-gn" id="id2">[JMBD13]</a> that</p>
+The matrix <span class="math notranslate nohighlight">\(\mathbf{K}_{LS}\)</span> is positive semidefinite by construction and it has been shown in [jethava2013lovasz_gn] that</p>
 <div class="math notranslate nohighlight">
 \[\omega(\mathbf{K}_{LS}) = \sum_{i=1}^n \alpha_i\]</div>
 <p>where <span class="math notranslate nohighlight">\(\alpha_i\)</span> are the maximizers of Equation <a class="reference internal" href="#equation-oneclass-svm">(1)</a>.
@@ -246,19 +246,7 @@ And finally, the third term is the cost of computing the sum of the <span class=
 </table>
 <div class="section" id="bibliography">
 <h2>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">¶</a></h2>
-<p id="bibtex-bibliography-kernels/svm_theta-0"><table class="docutils citation" frame="void" id="jethava2013lovasz-gn" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id2">[JMBD13]</a></td><td>Vinay Jethava, Anders Martinsson, Chiranjib Bhattacharyya, and Devdatt Dubhashi. Lovász ϑ function, SVMs and Finding Dense Subgraphs. <em>The Journal of Machine Learning Research</em>, 14(1):3495–3536, 2013.</td></tr>
-</tbody>
-</table>
-<table class="docutils citation" frame="void" id="johansson2014global-gn" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id1">[JJDB14]</a></td><td>Fredrik Johansson, Vinay Jethava, Devdatt Dubhashi, and Chiranjib Bhattacharyya. Global graph kernels using geometric embeddings. In <em>Proceedings of the 31st International Conference on Machine Learning</em>, 694–702. 2014.</td></tr>
-</tbody>
-</table>
-</p>
+<p id="bibtex-bibliography-kernels/svm_theta-0"></p>
 </div>
 </div>
 

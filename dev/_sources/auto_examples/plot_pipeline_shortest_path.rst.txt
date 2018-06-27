@@ -63,7 +63,7 @@ An example plot of :class:`grakel.GraphKernel`, :class:`grakel.ShortestPath`
     acc = accuracy_score(y, cross_val_predict(estimator, G, y, cv=n_folds))
     print("Accuracy:", str(round(acc*100, 2)) + "%")
 
-**Total running time of the script:** ( 0 minutes  10.405 seconds)
+**Total running time of the script:** ( 0 minutes  11.267 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plot_pipeline_shortest_path.py:

@@ -225,7 +225,7 @@ Then, <span class="math notranslate nohighlight">\(k_{walk}^{(1)}(e_i, e_j)\)</s
 \end{split}
 \end{equation}</div><p>where <span class="math notranslate nohighlight">\(k_v\)</span> is a kernel comparing vertex labels, and <span class="math notranslate nohighlight">\(k_e\)</span> a kernel comparing shortest path lengths.
 Vertex labels are usually compared via a dirac kernel, while shortest path lengths may also be compared via
-a dirac kernel or, more rarely, via a brownian bridge kernel <a class="reference internal" href="#borgwardt2005shortest-gn" id="id1">[BK05]</a>.</p>
+a dirac kernel or, more rarely, via a brownian bridge kernel [borgwardt2005shortest_gn].</p>
 <p>In terms of runtime complexity, the shortest-path kernel is very expensive since its computation takes <span class="math notranslate nohighlight">\(\mathcal{O}(n^4)\)</span> time.</p>
 <p>Two versions of this kernel can be found implemented below. The first takes as input graphs with discrete node labels and applies a speed-up technique for faster kernel calculation.</p>
 <table border="1" class="longtable docutils">
@@ -245,13 +245,7 @@ a dirac kernel or, more rarely, via a brownian bridge kernel <a class="reference
 </div>
 <div class="section" id="bibliography">
 <h2>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">¶</a></h2>
-<p id="bibtex-bibliography-kernels/shortest_path-0"><table class="docutils citation" frame="void" id="borgwardt2005shortest-gn" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id1">[BK05]</a></td><td>Karsten&nbsp;M. Borgwardt and Hans-Peter Kriegel. Shortest-path kernels on graphs. In <em>Proceedings of the 5th International Conference on Data Mining</em>, 74–81. 2005.</td></tr>
-</tbody>
-</table>
-</p>
+<p id="bibtex-bibliography-kernels/shortest_path-0"></p>
 </div>
 </div>
 
