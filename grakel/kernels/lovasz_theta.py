@@ -1,4 +1,4 @@
-"""The lovasz theta kernel as in :cite:`Johansson2015LearningWS_lovasz`."""
+"""The lovasz theta kernel as in :cite:`johansson2014global`."""
 # Author: Ioannis Siglidis <y.siglidis@gmail.com>
 # License: BSD 3 clause
 import collections
@@ -34,7 +34,7 @@ tolerance = float("1e-1")
 
 
 class LovaszTheta(Kernel):
-    """Lovasz theta kernel as proposed in :cite:`Johansson2015LearningWS_lovasz`.
+    """Lovasz theta kernel as proposed in :cite:`johansson2014global`.
 
     Parameters
     ----------
