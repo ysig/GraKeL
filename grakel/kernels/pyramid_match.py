@@ -281,7 +281,7 @@ class PyramidMatch(Kernel):
         intersec = np.zeros(self.L)
         for (p, xp, yp) in zip(range(self.L), x, y):
             # Calculate histogram intersection
-            # (eq. 6 in :cite:`Nikolentzos2017MatchingNE`)
+            # (eq. 6 in :cite:`nikolentzos2017matching`)
             if xp.shape[0] < yp.shape[0]:
                 xpp, ypp = xp, yp[:xp.shape[0], :]
             elif yp.shape[0] < xp.shape[0]:
