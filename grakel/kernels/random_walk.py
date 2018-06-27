@@ -1,4 +1,4 @@
-"""RW-ker. as in :cite:`Kashima2003MarginalizedKB`, :cite:`gartner2003graph`."""
+"""RW-ker. as in :cite:`kashima2003marginalized`, :cite:`gartner2003graph`."""
 # Author: Ioannis Siglidis <y.siglidis@gmail.com>
 # License: BSD 3 clause
 import collections
