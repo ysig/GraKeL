@@ -8,8 +8,8 @@ Random Walk Kernel
 ==================
 The most well-studied family of graph kernels is probably the *random walk kernels* which quantify the 
 similarity between a pair of graphs based on the number of common walks in the two graphs 
-:cite:`kashima2003marginalized_gn`, :cite:`gartner2003graph_gn`, :cite:`mahe2004extensions_gn`,
-:cite:`borgwardt2005protein_gn`, :cite:`vishwanathan2010graph_gn`, :cite:`sugiyama2015halting_gn`.
+:cite:`kashima2003marginalized`, :cite:`gartner2003graph`, :cite:`mahe2004extensions`,
+:cite:`borgwardt2005protein`, :cite:`vishwanathan2010graph`, :cite:`sugiyama2015halting`.
 
 Kernels belonging to this family have concentrated mainly on counting matching walks in the two input graphs.
 There are several variations of random walk kernels.
