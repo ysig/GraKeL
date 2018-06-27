@@ -65,14 +65,14 @@ is a positive, real-valued weight. The geometric random walk kernel converges on
 
 Direct computation of the geometric random walk kernel requires :math:`\mathcal{O}(n^6)` time.
 The computational complexity of the method severely limits its applicability to real-world applications.
-To account for this, Vishwanathan et al. proposed in :cite:`vishwanathan2010graph_gn` four efficient 
+To account for this, Vishwanathan et al. proposed in :cite:`vishwanathan2010graph` four efficient 
 methods to compute random walk graph kernels which generally reduce the computational complexity from 
 :math:`\mathcal{O}(n^6)` to :math:`\mathcal{O}(n^3)`.
-Mahé et al. proposed in :cite:`mahe2004extensions_gn` some other extensions of random walk kernels.
+Mahé et al. proposed in :cite:`mahe2004extensions` some other extensions of random walk kernels.
 Specifically, they proposed a label enrichment approach which increases specificity and in most
 cases also reduces computational complexity.
 They also employed a second order Markov random walk to deal with the problem of "tottering".
-Sugiyama and Borgwardt focused in :cite:`sugiyama2015halting_gn` on a different problem of random walk
+Sugiyama and Borgwardt focused in :cite:`sugiyama2015halting` on a different problem of random walk
 kernels, a phenomenon referred to as "halting".
 
 Next follow two implementations of this kernel (one for unlabeled graphs and one for graphs with discrete node labels)
