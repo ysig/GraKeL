@@ -3,12 +3,12 @@
 Core Kernel Framework
 =====================
 
-The core framework is a tool for increasing the expressive power of graph kernels :cite:`CoreFramework`.
+The core framework is a tool for increasing the expressive power of graph kernels :cite:`nikolentzos2018degeneracy`.
 The framework is not restricted to graph kernels, but can be applied to any graph comparison algorithm.
 It capitalizes on the :math:`k`-core decomposition which is capable of uncovering topological and hierarchical properties of graphs.
 Specifically, the :math:`k`-core decomposition is a powerful tool for network analysis and it is commonly used as a measure of importance and well connectedness for vertices in a broad spectrum of applications.
-The notion of :math:`k`-core was first introduced by Seidman to study the cohesion of social networks :cite:`seidman1983network_gn`.
-In recent years, the :math:`k`-core decomposition has been established as a standard tool in many application domains such as in network visualization :cite:`alvarez2006large_gn`, in protein function prediction :cite:`wuchty2005peeling_gn` and in graph clustering :cite:`giatsidis2014corecluster_gn`.
+The notion of :math:`k`-core was first introduced by Seidman to study the cohesion of social networks :cite:`seidman1983network`.
+In recent years, the :math:`k`-core decomposition has been established as a standard tool in many application domains such as in network visualization :cite:`alvarez2006large`, in protein function prediction :cite:`wuchty2005peeling_gn` and in graph clustering :cite:`giatsidis2014corecluster`.
 
 Core Decomposition
 ------------------
