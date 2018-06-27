@@ -196,7 +196,7 @@
   <div class="section" id="graphlet-sampling-kernel">
 <span id="graphlet-sampling"></span><h1>Graphlet Sampling Kernel<a class="headerlink" href="#graphlet-sampling-kernel" title="Permalink to this headline">¶</a></h1>
 <p>The graphlet sampling kernel decomposes graphs into graphlets (i.e. small subgraphs with <span class="math notranslate nohighlight">\(k\)</span> nodes
-where <span class="math notranslate nohighlight">\(k \in \{ 3,4,5, \ldots \}\)</span>) [prvzulj2007biological_gn] and counts matching graphlets
+where <span class="math notranslate nohighlight">\(k \in \{ 3,4,5, \ldots \}\)</span>) <a class="reference internal" href="#prvzulj2007biological" id="id1">[Prvzulj07]</a> and counts matching graphlets
 in the input graphs. Let <span class="math notranslate nohighlight">\(\mathcal{G} = \{ graphlet_1,graphlet_2, \ldots, graphlet_r\}\)</span> be the set
 of size-<span class="math notranslate nohighlight">\(k\)</span> graphlets.
 Let also <span class="math notranslate nohighlight">\(f_G \in \mathbb{N}^r\)</span> be a vector such that its <span class="math notranslate nohighlight">\(i\)</span>-th entry is equal to the
@@ -216,8 +216,8 @@ And then, the kernel value is computed as the dot product of the two feature vec
 The main problem of graphlet kernel is that an exaustive enumeration of graphlets is very expensive.
 Since there are <span class="math notranslate nohighlight">\(\binom{n}{k}\)</span> size-<span class="math notranslate nohighlight">\(k\)</span> subgraphs in a graph, computing the feature vector
 for a graph of size <span class="math notranslate nohighlight">\(n\)</span> requires <span class="math notranslate nohighlight">\(\mathcal{O}(n^k)\)</span> time.
-To account for that, Shervashidze et al. resorted to sampling [shervashidze2009efficient_gn].
-Following Weissman et al. [weissman2003inequalities_gn], they showed that by sampling a fixed number
+To account for that, Shervashidze et al. resorted to sampling <a class="reference internal" href="#shervashidze2009efficient" id="id2">[SPM+09]</a>.
+Following Weissman et al. <a class="reference internal" href="#weissman2003inequalities" id="id3">[WOS+03]</a>, they showed that by sampling a fixed number
 of graphlets the empirical distribution of graphlets will be sufficiently close to their actual distribution
 in the graph.</p>
 <p>Below follows the implemented graphlet sampling kernel. By using the parameter <em>sampling</em> the user
@@ -237,7 +237,25 @@ either on the number of samples or the satisfaction of a certain probabilistic o
 </div>
 <div class="section" id="bibliography">
 <h2>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">¶</a></h2>
-<p id="bibtex-bibliography-kernels/graphlet_sampling-0"></p>
+<p id="bibtex-bibliography-kernels/graphlet_sampling-0"><table class="docutils citation" frame="void" id="prvzulj2007biological" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[Prvzulj07]</a></td><td>Nataša Pržulj. Biological network comparison using graphlet degree distribution. <em>Bioinformatics</em>, 23(2):e177–e183, 2007.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="shervashidze2009efficient" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[SPM+09]</a></td><td>N.&nbsp;Shervashidze, T.&nbsp;Petri, K.&nbsp;Mehlhorn, K.&nbsp;M. Borgwardt, and S.&nbsp;Vishwanathan. Efficient Graphlet Kernels for Large Graph Comparison. In <em>Proceedings of the International Conference on Artificial Intelligence and Statistics</em>, 488–495. 2009.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="weissman2003inequalities" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[WOS+03]</a></td><td>Tsachy Weissman, Erik Ordentlich, Gadiel Seroussi, Sergio Verdu, and Marcelo&nbsp;J Weinberger. Inequalities for the $l_1$ deviation of the empirical distribution. <em>Hewlett-Packard Labs, Tech. Rep</em>, 2003.</td></tr>
+</tbody>
+</table>
+</p>
 </div>
 </div>
 

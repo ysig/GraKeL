@@ -8,8 +8,8 @@ Random Walk Kernel
 ==================
 The most well-studied family of graph kernels is probably the *random walk kernels* which quantify the 
 similarity between a pair of graphs based on the number of common walks in the two graphs 
-:cite:`kashima2003marginalized_gn`, :cite:`gartner2003graph_gn`, :cite:`mahe2004extensions_gn`,
-:cite:`borgwardt2005protein_gn`, :cite:`vishwanathan2010graph_gn`, :cite:`sugiyama2015halting_gn`.
+:cite:`kashima2003marginalized`, :cite:`gartner2003graph`, :cite:`mahe2004extensions`,
+:cite:`borgwardt2005protein`, :cite:`vishwanathan2010graph`, :cite:`sugiyama2015halting`.
 
 Kernels belonging to this family have concentrated mainly on counting matching walks in the two input graphs.
 There are several variations of random walk kernels.
@@ -65,14 +65,14 @@ is a positive, real-valued weight. The geometric random walk kernel converges on
 
 Direct computation of the geometric random walk kernel requires :math:`\mathcal{O}(n^6)` time.
 The computational complexity of the method severely limits its applicability to real-world applications.
-To account for this, Vishwanathan et al. proposed in :cite:`vishwanathan2010graph_gn` four efficient 
+To account for this, Vishwanathan et al. proposed in :cite:`vishwanathan2010graph` four efficient 
 methods to compute random walk graph kernels which generally reduce the computational complexity from 
 :math:`\mathcal{O}(n^6)` to :math:`\mathcal{O}(n^3)`.
-Mahé et al. proposed in :cite:`mahe2004extensions_gn` some other extensions of random walk kernels.
+Mahé et al. proposed in :cite:`mahe2004extensions` some other extensions of random walk kernels.
 Specifically, they proposed a label enrichment approach which increases specificity and in most
 cases also reduces computational complexity.
 They also employed a second order Markov random walk to deal with the problem of "tottering".
-Sugiyama and Borgwardt focused in :cite:`sugiyama2015halting_gn` on a different problem of random walk
+Sugiyama and Borgwardt focused in :cite:`sugiyama2015halting` on a different problem of random walk
 kernels, a phenomenon referred to as "halting".
 
 Next follow two implementations of this kernel (one for unlabeled graphs and one for graphs with discrete node labels)

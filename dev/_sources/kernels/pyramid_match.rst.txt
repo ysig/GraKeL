@@ -3,8 +3,8 @@
 Pyramid Match Kernel
 ====================
 
-The pyramid match kernel is a very popular algorithm in Computer Vision, and has proven useful for many applications including object recognition and image retrieval :cite:`grauman2007pyramid_gn`, :cite:`lazebnik2006beyond_gn`.
-The pyramid match graph kernel extends its applicability to graph-structured data :cite:`nikolentzos2017matching_gn`.
+The pyramid match kernel is a very popular algorithm in Computer Vision, and has proven useful for many applications including object recognition and image retrieval :cite:`grauman2007pyramid`, :cite:`lazebnik2006beyond`.
+The pyramid match graph kernel extends its applicability to graph-structured data :cite:`nikolentzos2017matching`.
 The kernel can handle both unlabeled graphs and graphs that contains discrete node labels.
 
 The pyramid match graph kernel first embedds the vertices of each graph into a low-dimensional vector space using the eigenvectors of the :math:`d` largest in magnitude eigenvalues of the adjacency matrix of the graph.

@@ -4,7 +4,7 @@ Weisfeiler Lehman Framework
 ===========================
 
 This Weisfeiler Lehman framework operates on top of existing graph kernels and is inspired by the
-Weisfeiler-Lehman test of graph isomorphism :cite:`weisfeiler1968reduction_gn`.
+Weisfeiler-Lehman test of graph isomorphism :cite:`weisfeiler1968reduction`.
 The key idea of the Weisfeiler-Lehman algorithm is to replace the label of each vertex with a multiset
 label consisting of the original label of the vertex and the sorted set of labels of its neighbors.
 The resultant multiset is then compressed into a new, short label.
@@ -93,7 +93,7 @@ and
 	    \phi(G') = (c_0(G',\sigma_{01}),\ldots,c_0(G',\sigma_{0|\Sigma_0|}),\ldots,c_h(G',\sigma_{h1}),\ldots,c_h(G',\sigma_{h|\Sigma_h|}))
     \end{equation}
 
-It can be shown that the above definition is equivalent to comparing the number of shared subtrees between the two input graphs :cite:`shervashidze2011weisfeiler_gn`.
+It can be shown that the above definition is equivalent to comparing the number of shared subtrees between the two input graphs :cite:`shervashidze2011weisfeiler`.
 It is interesting to note that the Weisfeiler-Lehman subtree kernel exhibits an attractive computational complexity since it can be computed in :math:`\mathcal{O}(hm)` time.
 
 .. note::

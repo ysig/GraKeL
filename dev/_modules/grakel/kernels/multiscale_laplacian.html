@@ -155,7 +155,7 @@
            <div itemprop="articleBody">
             
   <h1>Source code for grakel.kernels.multiscale_laplacian</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Multiscale Laplacian Graph Kernel as defined in :cite:`Kondor2016TheML`.&quot;&quot;&quot;</span>
+<span></span><span class="sd">&quot;&quot;&quot;Multiscale Laplacian Graph Kernel as defined in :cite:`kondor2016multiscale`.&quot;&quot;&quot;</span>
 <span class="c1"># Author: Ioannis Siglidis &lt;y.siglidis@gmail.com&gt;</span>
 <span class="c1"># License: BSD 3 clause</span>
 <span class="c1"># Python 2/3 cross-compatibility import</span>
@@ -186,7 +186,7 @@
 
 
 <div class="viewcode-block" id="MultiscaleLaplacianFast"><a class="viewcode-back" href="../../../generated/grakel.MultiscaleLaplacianFast.html#grakel.MultiscaleLaplacianFast">[docs]</a><span class="k">class</span> <span class="nc">MultiscaleLaplacianFast</span><span class="p">(</span><span class="n">Kernel</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Laplacian Graph Kernel as proposed in :cite:`Kondor2016TheML_fast`.</span>
+    <span class="sd">&quot;&quot;&quot;Laplacian Graph Kernel as proposed in :cite:`kondor2016multiscale`.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -286,7 +286,7 @@
 <div class="viewcode-block" id="MultiscaleLaplacianFast.parse_input"><a class="viewcode-back" href="../../../generated/grakel.MultiscaleLaplacianFast.html#grakel.MultiscaleLaplacianFast.parse_input">[docs]</a>    <span class="k">def</span> <span class="nf">parse_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Fast ML Graph Kernel.</span>
 
-<span class="sd">        See supplementary material :cite:`Kondor2016TheML`, algorithm 1.</span>
+<span class="sd">        See supplementary material :cite:`kondor2016multiscale`, algorithm 1.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -433,7 +433,7 @@
 <span class="sd">            An np.array of inverse (divided by 2) and fourth root of the</span>
 <span class="sd">            determinant of S matrices (for the calculation of S matrices</span>
 <span class="sd">            see the algorithm 1 of the supplement material in</span>
-<span class="sd">            cite:`Kondor2016TheML`).</span>
+<span class="sd">            cite:`kondor2016multiscale`).</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -454,7 +454,7 @@
 
 
 <div class="viewcode-block" id="MultiscaleLaplacian"><a class="viewcode-back" href="../../../generated/grakel.MultiscaleLaplacian.html#grakel.MultiscaleLaplacian">[docs]</a><span class="k">class</span> <span class="nc">MultiscaleLaplacian</span><span class="p">(</span><span class="n">Kernel</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Laplacian Graph Kernel as proposed in :cite:`Kondor2016TheML`.</span>
+    <span class="sd">&quot;&quot;&quot;Laplacian Graph Kernel as proposed in :cite:`kondor2016multiscale`.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -612,7 +612,7 @@
             <span class="k">return</span> <span class="n">out</span></div>
 
 <div class="viewcode-block" id="MultiscaleLaplacian.pairwise_operation"><a class="viewcode-back" href="../../../generated/grakel.MultiscaleLaplacian.html#grakel.MultiscaleLaplacian.pairwise_operation">[docs]</a>    <span class="k">def</span> <span class="nf">pairwise_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;ML kernel as proposed in :cite:`Kondor2016TheML`..</span>
+        <span class="sd">&quot;&quot;&quot;ML kernel as proposed in :cite:`kondor2016multiscale`..</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>

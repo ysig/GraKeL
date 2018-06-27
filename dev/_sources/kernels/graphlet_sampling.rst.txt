@@ -4,7 +4,7 @@ Graphlet Sampling Kernel
 ========================
 
 The graphlet sampling kernel decomposes graphs into graphlets (i.e. small subgraphs with :math:`k` nodes
-where :math:`k \in \{ 3,4,5, \ldots \}`) :cite:`prvzulj2007biological_gn` and counts matching graphlets
+where :math:`k \in \{ 3,4,5, \ldots \}`) :cite:`prvzulj2007biological` and counts matching graphlets
 in the input graphs. Let :math:`\mathcal{G} = \{ graphlet_1,graphlet_2, \ldots, graphlet_r\}` be the set
 of size-:math:`k` graphlets.
 Let also :math:`f_G \in \mathbb{N}^r` be a vector such that its :math:`i`-th entry is equal to the
@@ -30,8 +30,8 @@ And then, the kernel value is computed as the dot product of the two feature vec
 The main problem of graphlet kernel is that an exaustive enumeration of graphlets is very expensive.
 Since there are :math:`\binom{n}{k}` size-:math:`k` subgraphs in a graph, computing the feature vector
 for a graph of size :math:`n` requires :math:`\mathcal{O}(n^k)` time.
-To account for that, Shervashidze et al. resorted to sampling :cite:`shervashidze2009efficient_gn`.
-Following Weissman et al. :cite:`weissman2003inequalities_gn`, they showed that by sampling a fixed number
+To account for that, Shervashidze et al. resorted to sampling :cite:`shervashidze2009efficient`.
+Following Weissman et al. :cite:`weissman2003inequalities`, they showed that by sampling a fixed number
 of graphlets the empirical distribution of graphlets will be sufficiently close to their actual distribution
 in the graph.
 

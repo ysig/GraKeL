@@ -197,7 +197,7 @@
   <div class="section" id="weisfeiler-lehman-framework">
 <span id="weisfeiler-lehman"></span><h1>Weisfeiler Lehman Framework<a class="headerlink" href="#weisfeiler-lehman-framework" title="Permalink to this headline">¶</a></h1>
 <p>This Weisfeiler Lehman framework operates on top of existing graph kernels and is inspired by the
-Weisfeiler-Lehman test of graph isomorphism [weisfeiler1968reduction_gn].
+Weisfeiler-Lehman test of graph isomorphism <a class="reference internal" href="#weisfeiler1968reduction" id="id1">[WL68]</a>.
 The key idea of the Weisfeiler-Lehman algorithm is to replace the label of each vertex with a multiset
 label consisting of the original label of the vertex and the sorted set of labels of its neighbors.
 The resultant multiset is then compressed into a new, short label.
@@ -261,7 +261,7 @@ is the number of occurrences of the letter <span class="math notranslate nohighl
 <div class="math notranslate nohighlight">
 \begin{equation}
         \phi(G') = (c_0(G',\sigma_{01}),\ldots,c_0(G',\sigma_{0|\Sigma_0|}),\ldots,c_h(G',\sigma_{h1}),\ldots,c_h(G',\sigma_{h|\Sigma_h|}))
-\end{equation}</div><p>It can be shown that the above definition is equivalent to comparing the number of shared subtrees between the two input graphs [shervashidze2011weisfeiler_gn].
+\end{equation}</div><p>It can be shown that the above definition is equivalent to comparing the number of shared subtrees between the two input graphs <a class="reference internal" href="#shervashidze2011weisfeiler" id="id2">[SSVL+11]</a>.
 It is interesting to note that the Weisfeiler-Lehman subtree kernel exhibits an attractive computational complexity since it can be computed in <span class="math notranslate nohighlight">\(\mathcal{O}(hm)\)</span> time.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -270,7 +270,19 @@ It is interesting to note that the Weisfeiler-Lehman subtree kernel exhibits an 
 </div>
 <div class="section" id="bibliography">
 <h2>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">¶</a></h2>
-<p id="bibtex-bibliography-kernels/weisfeiler_lehman-0"></p>
+<p id="bibtex-bibliography-kernels/weisfeiler_lehman-0"><table class="docutils citation" frame="void" id="shervashidze2011weisfeiler" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[SSVL+11]</a></td><td>Nino Shervashidze, Pascal Schweitzer, Erik Jan&nbsp;van Van&nbsp;Leeuwen, Kurt Mehlhorn, and Karsten&nbsp;M. Borgwardt. Weisfeiler-Lehman Graph Kernels. <em>Journal of Machine Learning Research</em>, 12:2539–2561, 2011.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="weisfeiler1968reduction" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[WL68]</a></td><td>Boris Weisfeiler and AA&nbsp;Lehman. A reduction of a graph to a canonical form and an algebra arising during this reduction. <em>Nauchno-Technicheskaya Informatsia</em>, 2(9):12–16, 1968.</td></tr>
+</tbody>
+</table>
+</p>
 </div>
 </div>
 

@@ -197,8 +197,8 @@
 <h1>Random Walk Kernel<a class="headerlink" href="#random-walk-kernel" title="Permalink to this headline">¶</a></h1>
 <p>The most well-studied family of graph kernels is probably the <em>random walk kernels</em> which quantify the
 similarity between a pair of graphs based on the number of common walks in the two graphs
-[kashima2003marginalized_gn], [gartner2003graph_gn], [mahe2004extensions_gn],
-[borgwardt2005protein_gn], [vishwanathan2010graph_gn], [sugiyama2015halting_gn].</p>
+<a class="reference internal" href="#kashima2003marginalized" id="id1">[KTI03]</a>, <a class="reference internal" href="#gartner2003graph" id="id2">[GartnerFW03]</a>, <a class="reference internal" href="#mahe2004extensions" id="id3">[MaheUA+04]</a>,
+<a class="reference internal" href="#borgwardt2005protein" id="id4">[BOSchonauer+05]</a>, <a class="reference internal" href="#vishwanathan2010graph" id="id5">[VSKB10]</a>, <a class="reference internal" href="#sugiyama2015halting" id="id6">[SB15]</a>.</p>
 <p>Kernels belonging to this family have concentrated mainly on counting matching walks in the two input graphs.
 There are several variations of random walk kernels.
 The <span class="math notranslate nohighlight">\(k\)</span>-step random walk kernel compares random walks up to length <span class="math notranslate nohighlight">\(k\)</span> in the two graphs.
@@ -234,14 +234,14 @@ is a positive, real-valued weight. The geometric random walk kernel converges on
 <span class="math notranslate nohighlight">\(A_{\times}\)</span>.</p>
 <p>Direct computation of the geometric random walk kernel requires <span class="math notranslate nohighlight">\(\mathcal{O}(n^6)\)</span> time.
 The computational complexity of the method severely limits its applicability to real-world applications.
-To account for this, Vishwanathan et al. proposed in [vishwanathan2010graph_gn] four efficient
+To account for this, Vishwanathan et al. proposed in <a class="reference internal" href="#vishwanathan2010graph" id="id8">[VSKB10]</a> four efficient
 methods to compute random walk graph kernels which generally reduce the computational complexity from
 <span class="math notranslate nohighlight">\(\mathcal{O}(n^6)\)</span> to <span class="math notranslate nohighlight">\(\mathcal{O}(n^3)\)</span>.
-Mahé et al. proposed in [mahe2004extensions_gn] some other extensions of random walk kernels.
+Mahé et al. proposed in <a class="reference internal" href="#mahe2004extensions" id="id9">[MaheUA+04]</a> some other extensions of random walk kernels.
 Specifically, they proposed a label enrichment approach which increases specificity and in most
 cases also reduces computational complexity.
 They also employed a second order Markov random walk to deal with the problem of “tottering”.
-Sugiyama and Borgwardt focused in [sugiyama2015halting_gn] on a different problem of random walk
+Sugiyama and Borgwardt focused in <a class="reference internal" href="#sugiyama2015halting" id="id10">[SB15]</a> on a different problem of random walk
 kernels, a phenomenon referred to as “halting”.</p>
 <p>Next follow two implementations of this kernel (one for unlabeled graphs and one for graphs with discrete node labels)</p>
 <table border="1" class="longtable docutils">
@@ -261,7 +261,43 @@ kernels, a phenomenon referred to as “halting”.</p>
 </div>
 <div class="section" id="bibliography">
 <h2>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">¶</a></h2>
-<p id="bibtex-bibliography-kernels/random_walk-0"></p>
+<p id="bibtex-bibliography-kernels/random_walk-0"><table class="docutils citation" frame="void" id="borgwardt2005protein" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id4">[BOSchonauer+05]</a></td><td>Karsten&nbsp;M. Borgwardt, Cheng&nbsp;Soon Ong, Stefan Schönauer, S.V.N. Vishwanathan, Alex&nbsp;J. Smola, and Hans-Peter Kriegel. Protein function prediction via graph kernels. <em>Bioinformatics</em>, 21(suppl 1):i47–i56, 2005.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="gartner2003graph" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[GartnerFW03]</a></td><td>Thomas Gärtner, Peter Flach, and Stefan Wrobel. On Graph Kernels: Hardness Results and Efficient Alternatives. In <em>Learning Theory and Kernel Machines</em>, 129–143. 2003.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="kashima2003marginalized" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[KTI03]</a></td><td>Hisashi Kashima, Koji Tsuda, and Akihiro Inokuchi. Marginalized Kernels Between Labeled Graphs. In <em>Proceedings of the 20th Conference in Machine Learning</em>, 321–328. 2003.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="mahe2004extensions" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[MaheUA+04]</td><td><em>(<a class="fn-backref" href="#id3">1</a>, <a class="fn-backref" href="#id9">2</a>)</em> Pierre Mahé, Nobuhisa Ueda, Tatsuya Akutsu, Jean-Luc Perret, and Jean-Philippe Vert. Extensions of marginalized graph kernels. In <em>Proceedings of the 21st International Conference on Machine Learning</em>, 70. 2004.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="sugiyama2015halting" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[SB15]</td><td><em>(<a class="fn-backref" href="#id6">1</a>, <a class="fn-backref" href="#id10">2</a>)</em> Mahito Sugiyama and Karsten&nbsp;M. Borgwardt. Halting in Random Walk Kernels. In <em>Advances in Neural Information Processing Systems</em>, 1639–1647. 2015.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="vishwanathan2010graph" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[VSKB10]</td><td><em>(<a class="fn-backref" href="#id5">1</a>, <a class="fn-backref" href="#id8">2</a>)</em> S.V.N. Vishwanathan, Nicol&nbsp;N. Schraudolph, Risi Kondor, and Karsten&nbsp;M. Borgwardt. Graph Kernels. <em>The Journal of Machine Learning Research</em>, 11:1201–1242, 2010.</td></tr>
+</tbody>
+</table>
+</p>
 </div>
 </div>
 

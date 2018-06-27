@@ -194,8 +194,8 @@
             
   <div class="section" id="pyramid-match-kernel">
 <span id="pyramid-match"></span><h1>Pyramid Match Kernel<a class="headerlink" href="#pyramid-match-kernel" title="Permalink to this headline">¶</a></h1>
-<p>The pyramid match kernel is a very popular algorithm in Computer Vision, and has proven useful for many applications including object recognition and image retrieval [grauman2007pyramid_gn], [lazebnik2006beyond_gn].
-The pyramid match graph kernel extends its applicability to graph-structured data [nikolentzos2017matching_gn].
+<p>The pyramid match kernel is a very popular algorithm in Computer Vision, and has proven useful for many applications including object recognition and image retrieval <a class="reference internal" href="#grauman2007pyramid" id="id1">[GD07]</a>, <a class="reference internal" href="#lazebnik2006beyond" id="id2">[LSP06]</a>.
+The pyramid match graph kernel extends its applicability to graph-structured data <a class="reference internal" href="#nikolentzos2017matching" id="id3">[NMV17]</a>.
 The kernel can handle both unlabeled graphs and graphs that contains discrete node labels.</p>
 <p>The pyramid match graph kernel first embedds the vertices of each graph into a low-dimensional vector space using the eigenvectors of the <span class="math notranslate nohighlight">\(d\)</span> largest in magnitude eigenvalues of the adjacency matrix of the graph.
 Since the signs of these eigenvectors are arbitrary, it replaces all their components by their absolute values.
@@ -241,7 +241,25 @@ The emerging kernel for labeled graphs corresponds to the sum of the separate ke
 </table>
 <div class="section" id="bibliography">
 <h2>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">¶</a></h2>
-<p id="bibtex-bibliography-kernels/pyramid_match-0"></p>
+<p id="bibtex-bibliography-kernels/pyramid_match-0"><table class="docutils citation" frame="void" id="grauman2007pyramid" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[GD07]</a></td><td>Kristen Grauman and Trevor Darrell. The Pyramid Match Kernel: Efficient Learning with Sets of Features. <em>The Journal of Machine Learning Research</em>, 8:725–760, 2007.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="lazebnik2006beyond" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[LSP06]</a></td><td>Svetlana Lazebnik, Cordelia Schmid, and Jean Ponce. Beyond Bags of Features: Spatial Pyramid Matching for Recognizing Natural Scene Categories. In <em>Proceedings of the 2006 Conference on Computer Vision and Pattern Recognition</em>, volume&nbsp;2, 2169–2178. 2006.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="nikolentzos2017matching" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[NMV17]</a></td><td>Giannis Nikolentzos, Polykarpos Meladianos, and Michalis Vazirgiannis. Matching Node Embeddings for Graph Similarity. In <em>Proceedings of the 31st AAAI Conference on Artificial Intelligence</em>, 2429–2435. 2017.</td></tr>
+</tbody>
+</table>
+</p>
 </div>
 </div>
 
