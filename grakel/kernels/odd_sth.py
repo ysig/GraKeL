@@ -522,7 +522,7 @@ def hash_trees(tree):
 def big_dag_append(dag, big_dag=None, merge_features=True):
     """Calculate the *minimal DAG* or *BigDAG*.
 
-    See :cite:`Aiolli2006FastOK` and notated in :cite:`Martino2012ATK`.
+    See :cite:`Martino2006` and notated in :cite:`Martino2012ATK`.
 
     Parameters
     ----------
