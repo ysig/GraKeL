@@ -1,4 +1,4 @@
-"""The core kernel framework as defined in :cite:`CoreFramework`."""
+"""The core kernel framework as defined in :cite:`nikolentzos2018degeneracy`."""
 # Author: Ioannis Siglidis <y.siglidis@gmail.com>
 # License: BSD 3 clause
 import collections
