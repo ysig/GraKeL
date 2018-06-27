@@ -3,7 +3,7 @@
 ODD-STh Kernel
 ==============
 The ODD-STh kernel is a kernel between labeled graphs. Its approach derives from the idea of utilizing tree-based kernels, i.e. kernels that take as input graphs that are trees. Such kernels are in general more computationally efficient as trees are constrained to interesting properties.  
-The idea behind the ODD-STh kernel proposed in :cite:`Martino2012ATK_gn`, has to do with decomposition of two graph to ordered DAGs and adding the kernel values between all pairs of DAGs of the original graphs as:
+The idea behind the ODD-STh kernel proposed in :cite:`Martino2012ATK`, has to do with decomposition of two graph to ordered DAGs and adding the kernel values between all pairs of DAGs of the original graphs as:
 
 .. math::
 
@@ -24,19 +24,19 @@ Now in order to move from DAGs to trees each :math:`K_{DAG}` kernel was calculat
 
     K_{DAG} = \sum_{\substack{v_{1} \in V(D_{1}) \\ v_{2} \in V(D_{2})}} C(root(T(v_{1})), root(T(v_{2})))
 
-where :math:`T()` corresponds to the tree-visits on DAGs (which preserve an essence of \textit{ordering} as found in (:cite:`Martino2012ATK_gn`, section 5.2). An example of such tree visits follows:
+where :math:`T()` corresponds to the tree-visits on DAGs (which preserve an essence of \textit{ordering} as found in (:cite:`Martino2012ATK`, section 5.2). An example of such tree visits follows:
 
 .. figure:: ../_static/odd_sth_2.png
     :scale: 50 %
 
     Ordered tree visits on a DAG decomposed from a graph
 
-:math:`C()` is a kernel between trees, where in our case it will be the **S**\ ub-\ **T**\ ree Kernel (as found in :cite:`STKernel_gn`).
+:math:`C()` is a kernel between trees, where in our case it will be the **S**\ ub-\ **T**\ ree Kernel (as found in :cite:`STKernel`).
 
 .. note::
     Tree isomorphism can `be decided in linear time on the sum of the number of nodes and the number of edges <https://www.geeksforgeeks.org/tree-isomorphism-problem/>`_
 
-For increasing the efficiency of this algorithm for the new set of DAG decomposition, known as ODD (*Ordered Dag Decomposition*), an aggregation of all the decomposition in a single DAG was proposed notated as :math:`BigDAG`. This method introduced in (:cite:`Martino2006_gn`, MinimalDAG: Figure 2, p. 3), aggregates nodes having same labels with frequencies if they correspond to the same path on each DAG, while conserves the existence of nodes that cannot be aggregated.
+For increasing the efficiency of this algorithm for the new set of DAG decomposition, known as ODD (*Ordered Dag Decomposition*), an aggregation of all the decomposition in a single DAG was proposed notated as :math:`BigDAG`. This method introduced in (:cite:`Martino2006`, MinimalDAG: Figure 2, p. 3), aggregates nodes having same labels with frequencies if they correspond to the same path on each DAG, while conserves the existence of nodes that cannot be aggregated.
 
 .. figure:: ../_static/odd_sth_3.png
     :scale: 50 %
