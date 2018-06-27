@@ -34,7 +34,7 @@ The SVM-:math:`\vartheta` kernel first computes the matrix :math:`\mathbf{K}_{LS
     \mathbf{K}_{LS} = \frac{\mathbf{A}}{\rho} + \mathbf{I}
 
 where :math:`\mathbf{A}` is the adjacency matrix of :math:`G`, :math:`\mathbf{I}` is the :math:`n \times n` identity matrix, and :math:`\rho \geq -\lambda_n` with :math:`\lambda_n` the minimum eigenvalue of :math:`\mathbf{A}`.
-The matrix :math:`\mathbf{K}_{LS}` is positive semidefinite by construction and it has been shown in :cite:`jethava2013lovasz_gn` that
+The matrix :math:`\mathbf{K}_{LS}` is positive semidefinite by construction and it has been shown in :cite:`jethava2013lovasz` that
 
 .. math::
 
