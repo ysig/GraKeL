@@ -17,7 +17,7 @@ from six import iteritems
 
 
 class CoreFramework(Kernel):
-    """The core kernel framework, as proposed in :cite:`CoreFramework`.
+    """The core kernel framework, as proposed in :cite:`nikolentzos2018degeneracy`.
 
     Parameters
     ----------
