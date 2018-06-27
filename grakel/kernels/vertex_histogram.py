@@ -1,4 +1,4 @@
-"""The vertex kernel as defined in :cite:`Sugiyama2015NIPS_VH`."""
+"""The vertex kernel as defined in :cite:`sugiyama2015halting`."""
 # Author: Ioannis Siglidis <y.siglidis@gmail.com>
 # License: BSD 3 clause
 from warnings import warn
@@ -21,7 +21,7 @@ from six import itervalues
 
 
 class VertexHistogram(Kernel):
-    """Vertex Histogram kernel as found in :cite:`Sugiyama2015NIPS_VH`.
+    """Vertex Histogram kernel as found in :cite:`sugiyama2015halting`.
 
     Parameters
     ----------
