@@ -3,7 +3,7 @@
 SVM Theta Kernel
 ================
 
-The SVM-:math:`\vartheta` kernel is very related to the Lovász :math:`\vartheta` kernel :cite:`johansson2014global_gn`.
+The SVM-:math:`\vartheta` kernel is very related to the Lovász :math:`\vartheta` kernel :cite:`johansson2014global`.
 The Lovász :math:`\vartheta` kernel suffers from high computational complexity, and the SVM-:math:`\vartheta` kernel was developed as a more efficient alternative. 
 Similar to the Lovász :math:`\vartheta` kernel, this kernel also assumes unlabeled graphs.
 
