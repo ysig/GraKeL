@@ -4,7 +4,7 @@ Lovasz Theta Kernel
 ===================
 
 The Lovász number :math:`\vartheta(G)` of a graph :math:`G=(V,E)` is a real number that is an upper bound on the Shannon capacity of the graph.
-It was introduced by László Lovász in :math:`1979` :cite:`lovasz1979shannon_gn`.
+It was introduced by László Lovász in :math:`1979` :cite:`lovasz1979shannon`.
 The Lovász number is intimately connected with the notion of orthonormal representations of graphs.
 An orthonormal representation of a graph :math:`G` consists of a set of unit vectors :math:`U_G = \{ \mathbf{u}_i \in \mathbb{R}^d : || \mathbf{u}_i || = 1 \}_{i \in V}` where each vertex :math:`i` is assigned a unit vector :math:`\mathbf{u}_i` such that :math:`(i,j) \not \in E \implies \mathbf{u}_i^\top \mathbf{u}_j = 0`.
 Specifically, the Lovász number of a graph :math:`G` is defined as
@@ -17,7 +17,7 @@ where :math:`\mathbf{c} \in \mathbb{R}^d` is a unit vector and :math:`U_G` is an
 Geometrically, :math:`\vartheta(G)` is defined by the smallest cone enclosing a valid orthonormal representation :math:`U_G`.
 The Lovász number :math:`\vartheta(G)` of a graph :math:`G` can be computed to arbitrary precision in polynomial time by solving a semidefinite program.
 
-The Lovász :math:`\vartheta` kernel utilizes the orthonormal representations associated with the Lovász number to compare graphs :cite:`johansson2014global_gn`.
+The Lovász :math:`\vartheta` kernel utilizes the orthonormal representations associated with the Lovász number to compare graphs :cite:`johansson2014global`.
 The kernel is applicable only to unlabeled graphs.
 Given a collection of graphs, it first generates orthonormal representations for the vertices of each graph by computing the Lovász :math:`\vartheta` number.
 Hence, :math:`U_G` is a set that contains the orthonormal representations of :math:`G`.
