@@ -189,7 +189,7 @@ class LovaszTheta(Kernel):
             return out
 
     def pairwise_operation(self, x, y):
-        """Lovasz theta kernel as proposed in :cite:`Johansson2015LearningWS_lovasz`.
+        """Lovasz theta kernel as proposed in :cite:`johansson2014global`.
 
         Parameters
         ----------
