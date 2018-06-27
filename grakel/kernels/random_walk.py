@@ -36,9 +36,9 @@ class RandomWalk(Kernel):
     method_type : str, valid_values={"baseline", "fast"}
         The method to use for calculating random walk kernel:
             + "baseline" *Complexity*: :math:`O(|V|^6)`
-              (see :cite:`Kashima2003MarginalizedKB`, :cite:`Grtner2003OnGK`)
+              (see :cite:`kashima2003marginalized`, :cite:`gartner2003graph`)
             + "fast" *Complexity*: :math:`O((|E|+|V|)|V||M|)`
-              (see :cite:`Vishwanathan2006FastCO`)
+              (see :cite:`vishwanathan2006fast`)
 
     kernel_type : str, valid_values={"geometric", "exponential"}
         Defines how inner summation will be applied.
@@ -59,9 +59,9 @@ class RandomWalk(Kernel):
     default="fast"
         The method to use for calculating random walk kernel:
             + "baseline" *Complexity*: :math:`O(|V|^6)`
-              (see :cite:`Kashima2003MarginalizedKB`, :cite:`Grtner2003OnGK`)
+              (see :cite:`kashima2003marginalized`, :cite:`gartner2003graph`)
             + "fast" *Complexity*: :math:`O((|E|+|V|)|V||M|)`
-              (see :cite:`Vishwanathan2006FastCO`)
+              (see :cite:`vishwanathan2006fast`)
 
     p : int or None
         If initialised defines the number of steps.
