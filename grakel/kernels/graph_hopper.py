@@ -1,4 +1,4 @@
-"""The Graph Hopper kernel as defined in :cite:`GraphHopper`."""
+"""The Graph Hopper kernel as defined in :cite:`feragen2013scalable`."""
 # Author: Ioannis Siglidis <y.siglidis@gmail.com>
 # License: BSD 3 clause
 import numpy as np
@@ -17,7 +17,7 @@ from six.moves import filterfalse
 
 
 class GraphHopper(Kernel):
-    """Graph Hopper Histogram kernel as found in :cite:`GraphHopper`.
+    """Graph Hopper Histogram kernel as found in :cite:`feragen2013scalable`.
 
     Parameters
     ----------
