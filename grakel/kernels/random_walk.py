@@ -1,4 +1,4 @@
-"""RW-ker. as in :cite:`Kashima2003MarginalizedKB`, :cite:`Grtner2003OnGK`."""
+"""RW-ker. as in :cite:`Kashima2003MarginalizedKB`, :cite:`gartner2003graph`."""
 # Author: Ioannis Siglidis <y.siglidis@gmail.com>
 # License: BSD 3 clause
 import collections
@@ -25,8 +25,8 @@ from builtins import range
 class RandomWalk(Kernel):
     """The random walk kernel class.
 
-    See :cite:`Kashima2003MarginalizedKB`, :cite:`Grtner2003OnGK`
-    and :cite:`Vishwanathan2006FastCO`.
+    See :cite:`kashima2003marginalized`, :cite:`gartner2003graph`
+    and :cite:`vishwanathan2006fast`.
 
     Parameters
     ----------
@@ -201,12 +201,12 @@ class RandomWalk(Kernel):
 
         Fast:
         Spectral demoposition algorithm as presented in
-        :cite:`Vishwanathan2006FastCO` p.13, s.4.4, with
+        :cite:`vishwanathan2006fast` p.13, s.4.4, with
         complexity of :math:`O((|E|+|V|)|E||V|^2)` for graphs witout labels.
 
         Baseline:
-        Algorithm presented in :cite:`Kashima2003MarginalizedKB`,
-        :cite:`Grtner2003OnGK` with complexity of :math:`O(|V|^6)`
+        Algorithm presented in :cite:`kashima2003marginalized`,
+        :cite:`gartner2003graph` with complexity of :math:`O(|V|^6)`
 
         Parameters
         ----------
@@ -275,8 +275,8 @@ class RandomWalk(Kernel):
 class RandomWalkLabeled(RandomWalk):
     """The labeled random walk kernel class.
 
-    See :cite:`Kashima2003MarginalizedKB_lbld`, :cite:`Grtner2003OnGK_lbld`
-    and :cite:`Vishwanathan2006FastCO_lbld`.
+    See :cite:`kashima2003marginalized`, :cite:`gartner2003graph`
+    and :cite:`vishwanathan2006fast`.
 
     Parameters
     ----------
@@ -286,10 +286,10 @@ class RandomWalkLabeled(RandomWalk):
     method_type : str, valid_values={"baseline", "fast"}
         The method to use for calculating random walk kernel:
             + "baseline" *Complexity*: :math:`O(|V|^6)`
-              (see :cite:`Kashima2003MarginalizedKB_lbld`,
-              :cite:`Grtner2003OnGK_lbld`)
+              (see :cite:`kashima2003marginalized`,
+              :cite:`gartner2003graph`)
             + "fast" *Complexity*: :math:`O((|E|+|V|)|V||M|)`
-              (see :cite:`Vishwanathan2006FastCO_lbld`)
+              (see :cite:`vishwanathan2006fast`)
 
     kernel_type : str, valid_values={"geometric", "exponential"}
         Defines how inner summation will be applied.
@@ -310,10 +310,10 @@ class RandomWalkLabeled(RandomWalk):
     default="fast"
         The method to use for calculating random walk kernel:
             + "baseline" *Complexity*: :math:`O(|V|^6)`
-              (see :cite:`Kashima2003MarginalizedKB_lbld`,
-              :cite:`Grtner2003OnGK_lbld`)
+              (see :cite:`kashima2003marginalized`,
+              :cite:`gartner2003graph`)
             + "fast" *Complexity*: :math:`O((|E|+|V|)|V||M|)`
-              (see :cite:`Vishwanathan2006FastCO_lbld`)
+              (see :cite:`vishwanathan2006fast`)
 
     _p : int, default=1
         If not -1, the number of steps of the random walk kernel.
@@ -387,12 +387,12 @@ class RandomWalkLabeled(RandomWalk):
 
         Fast:
         Spectral demoposition algorithm as presented in
-        :cite:`Vishwanathan2006FastCO_lbld` p.13, s.4.4, with
+        :cite:`vishwanathan2006fast` p.13, s.4.4, with
         complexity of :math:`O((|E|+|V|)|E||V|^2)` for graphs witout labels.
 
         Baseline:
-        Algorithm presented in :cite:`Kashima2003MarginalizedKB_lbld`,
-        :cite:`Grtner2003OnGK_lbld` with complexity of :math:`O(|V|^6)`
+        Algorithm presented in :cite:`kashima2003marginalized`,
+        :cite:`gartner2003graph` with complexity of :math:`O(|V|^6)`
 
         Parameters
         ----------
