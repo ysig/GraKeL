@@ -97,7 +97,10 @@
 <li class="toctree-l3"><a class="reference internal" href="edge_histogram.html">Edge Histogram Kernel</a></li>
 <li class="toctree-l3"><a class="reference internal" href="graph_hopper.html">Graph Hopper Kernel</a></li>
 <li class="toctree-l3"><a class="reference internal" href="graphlet_sampling.html">Graphlet Sampling Kernel</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Hadamard Code Kernel</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Hadamard Code Kernel</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#bibliography">Bibliography</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="kernel.html">Kernel (general class)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="lovasz_theta.html">Lovasz Theta Kernel</a></li>
 <li class="toctree-l3"><a class="reference internal" href="multiscale_laplacian.html">Multiscale Laplacian Kernel</a></li>
@@ -191,7 +194,7 @@
             
   <div class="section" id="hadamard-code-kernel">
 <span id="hadamard-code"></span><h1>Hadamard Code Kernel<a class="headerlink" href="#hadamard-code-kernel" title="Permalink to this headline">¶</a></h1>
-<p>A similar framework to the neighborhood-hashing kernel and the Weisfeiler-Lehman kernel was introduced by Tetsuya Kataoka and Akihito Inokuchi in <a class="reference internal" href="../generated/grakel.HadamardCode.html#icpram16" id="id1">[KI16]</a>, known as Hadamard-code kernel.
+<p>A similar framework to the neighborhood-hashing kernel and the Weisfeiler-Lehman kernel was introduced by Tetsuya Kataoka and Akihito Inokuchi in <a class="reference internal" href="#icpram16" id="id1">[KI16]</a>, known as Hadamard-code kernel.
 Given a collection of <strong>labeled</strong> graphs <span class="math notranslate nohighlight">\(\mathbf{G}=[G]^{N}_{i=1}\)</span> collect the set <span class="math notranslate nohighlight">\(\Sigma\)</span> of all distinct labels inside <span class="math notranslate nohighlight">\(\mathbf{G}\)</span>. A <span class="math notranslate nohighlight">\(2^{k}\)</span>-th Hadamard code matrix <span class="math notranslate nohighlight">\(H_{2^{k}}\)</span> is defined as follows:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}H_{2^{k+1}}= \begin{cases}
@@ -225,13 +228,20 @@ Following the above scheme, relabeling is applied iteratively for a fixed number
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><a class="reference internal" href="../generated/grakel.HadamardCode.html#grakel.HadamardCode" title="grakel.HadamardCode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HadamardCode</span></code></a>([n_jobs,&nbsp;verbose,&nbsp;normalize,&nbsp;…])</td>
-<td>The simple Hadamard code kernel, as proposed in <a class="reference internal" href="../generated/grakel.HadamardCode.html#icpram16" id="id2">[KI16]</a>.</td>
-</tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">Bibliography</span></code></td>
-<td></td>
+<td>The simple Hadamard code kernel, as proposed in <a class="reference internal" href="#icpram16" id="id2">[KI16]</a>.</td>
 </tr>
 </tbody>
 </table>
+<div class="section" id="bibliography">
+<h2>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">¶</a></h2>
+<p id="bibtex-bibliography-kernels/hadamard_code-0"><table class="docutils citation" frame="void" id="icpram16" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[KI16]</td><td><em>(<a class="fn-backref" href="#id1">1</a>, <a class="fn-backref" href="#id2">2</a>)</em> Tetsuya Kataoka and Akihiro Inokuchi. Hadamard code graph kernels for classifying graphs. In <em>Proceedings of the 5th International Conference on Pattern Recognition Applications and Methods</em>, 24–32. 2016.</td></tr>
+</tbody>
+</table>
+</p>
+</div>
 </div>
 
 
