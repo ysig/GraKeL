@@ -49,7 +49,7 @@ The implementation of the hadamard code kernel framework can be found below. Not
 
    HadamardCode
    
-   Bibliography
+Bibliography
 ------------
 .. bibliography:: ./graph_kernels.bib
    :filter: docname in docnames
