@@ -2,7 +2,7 @@
 
 The Propagation Kernel
 ======================
-Propagation kernels where introduced as a general framework in :cite:`Neumann2015PropagationKE`. They are based in the idea of propagating label information between nodes of the graph, based on the graph structure.
+Propagation kernels where introduced as a general framework in :cite:`neumann2015propagation`. They are based in the idea of propagating label information between nodes of the graph, based on the graph structure.
 A graph is considered to have **attributes** on nodes, where in the case of labels they correspond to One-Hot-Vectors of the full dictionary of labels.
 The totality of nodes for each graph, can be seen as a probability distribution :math:`P` of size :math:`n \times d` where :math:`n` corresponds to the number of nodes and :math:`d` to the size of attributes.
 After the idea of diffusion is applied in order to construct the algorithmic framework of propagation kernels.
