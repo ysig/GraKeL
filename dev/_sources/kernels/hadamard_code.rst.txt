@@ -48,3 +48,8 @@ The implementation of the hadamard code kernel framework can be found below. Not
 .. autosummary::
 
    HadamardCode
+   
+   Bibliography
+------------
+.. bibliography:: ./graph_kernels.bib
+   :filter: docname in docnames
