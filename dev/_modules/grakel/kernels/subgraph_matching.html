@@ -191,13 +191,15 @@
 <span class="sd">    | callable, num_of_arguments=1, argument_type=int</span>
 <span class="sd">        The lambda weights applied to the clique sizes.</span>
 
-<span class="sd">    kv : function (`vertex_label, `vertex_label`, -&gt; number),</span>
+<span class="sd">    kv : function (`vertex_label, `vertex_label`, -&gt; number), or None</span>
 <span class="sd">    default=:math:`k_{v}^{default}(l(a), l(b))= \delta(l(a), l(b))`</span>
 <span class="sd">        The kernel function between two vertex_labels.</span>
+<span class="sd">        If no function is provided, this is equivalent with not taking into account node labels.</span>
 
 <span class="sd">    ke : function (`edge_label`, `edge_label` -&gt; number),</span>
 <span class="sd">    default=:math:`k_{e}^{default}(l(e), l(e&#39;))= \delta(l(e), l(e&#39;))`</span>
 <span class="sd">        The kernel function between two edge_labels.</span>
+<span class="sd">        If no function is provided, this is equivalent with not taking into account edge labels.</span>
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
@@ -239,13 +241,13 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span><span class="p">[</span><span class="s2">&quot;k&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span><span class="p">[</span><span class="s2">&quot;kv&quot;</span><span class="p">]:</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">callable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kv</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;kv must be callable&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">callable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kv</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">kv</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;kv must be callable or None&#39;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span><span class="p">[</span><span class="s2">&quot;kv&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span><span class="p">[</span><span class="s2">&quot;ke&quot;</span><span class="p">]:</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">callable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ke</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;ke must be callable&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">callable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ke</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">ke</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;ke must be callable or None&#39;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span><span class="p">[</span><span class="s2">&quot;ke&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span><span class="p">[</span><span class="s2">&quot;lw&quot;</span><span class="p">]:</span>
@@ -357,9 +359,9 @@
                                     <span class="s1">&#39;edge labels dict </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
                 <span class="n">n</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">nv</span><span class="p">()</span>
                 <span class="n">E</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">get_edge_dictionary</span><span class="p">()</span>
-                <span class="n">L</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">get_labels</span><span class="p">(</span><span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;dictionary&quot;</span><span class="p">)</span>
-                <span class="n">Le</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">get_labels</span><span class="p">(</span><span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;dictionary&quot;</span><span class="p">,</span>
-                                  <span class="n">label_type</span><span class="o">=</span><span class="s2">&quot;edge&quot;</span><span class="p">)</span>
+                <span class="n">L</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">get_labels</span><span class="p">(</span><span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;dictionary&quot;</span><span class="p">,</span> <span class="n">return_none</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kv</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">))</span>
+                <span class="n">Le</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">get_labels</span><span class="p">(</span><span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;dictionary&quot;</span><span class="p">,</span> <span class="n">label_type</span><span class="o">=</span><span class="s2">&quot;edge&quot;</span><span class="p">,</span>
+                                  <span class="n">return_none</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ke</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">))</span>
                 <span class="n">Er</span> <span class="o">=</span> <span class="nb">set</span><span class="p">((</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">E</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
                          <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">E</span><span class="p">[</span><span class="n">a</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">if</span> <span class="n">a</span> <span class="o">!=</span> <span class="n">b</span><span class="p">)</span>
 
