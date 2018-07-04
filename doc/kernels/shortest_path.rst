@@ -47,7 +47,7 @@ Then, :math:`k_{walk}^{(1)}(e_i, e_j)` is usually defined as:
 
 where :math:`k_v` is a kernel comparing vertex labels, and :math:`k_e` a kernel comparing shortest path lengths.
 Vertex labels are usually compared via a dirac kernel, while shortest path lengths may also be compared via
-a dirac kernel or, more rarely, via a brownian bridge kernel :cite:`borgwardt2005shortest_gn`.
+a dirac kernel or, more rarely, via a brownian bridge kernel :cite:`borgwardt2005shortest`.
 
 In terms of runtime complexity, the shortest-path kernel is very expensive since its computation takes :math:`\mathcal{O}(n^4)` time.
 

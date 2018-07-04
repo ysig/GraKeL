@@ -1,4 +1,4 @@
-"""The propagation kernel as defined in :cite:`Neumann2015PropagationKE`."""
+"""The propagation kernel as defined in :cite:`neumann2015propagation`."""
 # Author: Ioannis Siglidis <y.siglidis@gmail.com>
 # License: BSD 3 clause
 import collections
@@ -22,7 +22,7 @@ from six.moves import filterfalse
 class Propagation(Kernel):
     r"""The Propagation kernel for fully labeled graphs.
 
-    See :cite:`Neumann2015PropagationKE`: Algorithms 1, 3, p. 216, 221.
+    See :cite:`neumann2015propagation`: Algorithms 1, 3, p. 216, 221.
 
     Parameters
     ----------
@@ -368,7 +368,7 @@ class Propagation(Kernel):
     def calculate_LSH(self, X, u, b):
         """Calculate Local Sensitive Hashing needed for propagation kernels.
 
-        See :cite:`Neumann2015PropagationKE`, p.12.
+        See :cite:`neumann2015propagation`, p.12.
 
         Parameters
         ----------
@@ -397,7 +397,7 @@ class Propagation(Kernel):
 class PropagationAttr(Propagation):
     r"""The Propagation kernel for fully attributed graphs.
 
-    See :cite:`Neumann2015PropagationKE_attr`: Algorithms 1, 3, p. 216, 221.
+    See :cite:`neumann2015propagation`: Algorithms 1, 3, p. 216, 221.
 
     Parameters
     ----------
@@ -618,7 +618,7 @@ class PropagationAttr(Propagation):
     def calculate_LSH(self, X, u, b):
         """Calculate Local Sensitive Hashing needed for propagation kernels.
 
-        See :cite:`Neumann2015PropagationKE_attr`, p.12.
+        See :cite:`neumann2015propagation`, p.12.
 
         Parameters
         ----------

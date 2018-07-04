@@ -2,7 +2,7 @@
 
 Neighborhood Subgraph Pairwise Distance Kernel
 ==============================================
-The neighborhood subgraph pairwise distance kernel extracts pairs of rooted subgraphs from each graph whose roots are located at a certain distance from each other, and which contain vertices up to a certain distance from the root :cite:`costa2010fast_gn`.
+The neighborhood subgraph pairwise distance kernel extracts pairs of rooted subgraphs from each graph whose roots are located at a certain distance from each other, and which contain vertices up to a certain distance from the root :cite:`costa2010fast`.
 It then compares graphs based on these pairs of rooted subgraphs.
 To avoid isomorphism checking, graph invariants are employed to encode each rooted subgraph.
 

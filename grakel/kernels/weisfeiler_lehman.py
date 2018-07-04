@@ -1,4 +1,4 @@
-"""The weisfeiler lehman kernel :cite:`Shervashidze2011WeisfeilerLehmanGK`."""
+"""The weisfeiler lehman kernel :cite:`shervashidze2011weisfeiler`."""
 # Author: Ioannis Siglidis <y.siglidis@gmail.com>
 # License: BSD 3 clause
 import collections
@@ -21,7 +21,7 @@ from six import itervalues
 class WeisfeilerLehman(Kernel):
     """Compute the Weisfeiler Lehman Kernel.
 
-     See :cite:`Shervashidze2011WeisfeilerLehmanGK`.
+     See :cite:`shervashidze2011weisfeiler`.
 
     Parameters
     ----------

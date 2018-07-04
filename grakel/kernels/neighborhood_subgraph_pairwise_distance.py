@@ -1,4 +1,4 @@
-"""Neighborhood subgraph pairwise distance kernel :cite:`Costa2010FastNS`."""
+"""Neighborhood subgraph pairwise distance kernel :cite:`costa2010fast`."""
 # Author: Ioannis Siglidis <y.siglidis@gmail.com>
 # License: BSD 3 clause
 import collections
@@ -25,7 +25,7 @@ from builtins import range
 class NeighborhoodSubgraphPairwiseDistance(Kernel):
     """The Neighborhood subgraph pairwise distance kernel.
 
-    See :cite:`Costa2010FastNS`.
+    See :cite:`costa2010fast`.
 
     Parameters
     ----------

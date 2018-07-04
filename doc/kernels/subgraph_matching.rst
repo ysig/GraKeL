@@ -3,7 +3,7 @@
 Subgraph Matching Kernel
 ========================
 
-The subgraph matching kernel counts the number of matchings between subgraphs of bounded size in two graphs :cite:`Kriege2012SubgraphMK`.
+The subgraph matching kernel counts the number of matchings between subgraphs of bounded size in two graphs :cite:`kriege2012subgraph`.
 The kernel is very general since it can be applied to graphs that contain node labels, edge labels, node attributes or edge attributes.
 
 Let :math:`\mathcal{G}` be a set of graphs.

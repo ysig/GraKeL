@@ -1,4 +1,4 @@
-"""The Edge Histogram kernel as defined in :cite:`Sugiyama2015NIPS_EH`."""
+"""The Edge Histogram kernel as defined in :cite:`sugiyama2015halting`."""
 # Author: Ioannis Siglidis <y.siglidis@gmail.com>
 # License: BSD 3 clause
 from warnings import warn
@@ -21,7 +21,7 @@ from six import itervalues
 
 
 class EdgeHistogram(Kernel):
-    """Edge Histogram kernel as found in :cite:`Sugiyama2015NIPS_EH`.
+    """Edge Histogram kernel as found in :cite:`sugiyama2015halting`.
 
     Parameters
     ----------

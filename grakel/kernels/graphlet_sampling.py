@@ -1,4 +1,4 @@
-"""The graphlet sampling kernel :cite:`Shervashidze2009EfficientGK`."""
+"""The graphlet sampling kernel :cite:`shervashidze2009efficient`."""
 # Author: Ioannis Siglidis <y.siglidis@gmail.com>
 # License: BSD 3 clause
 import collections
@@ -25,7 +25,7 @@ from builtins import range
 class GraphletSampling(Kernel):
     r"""The graphlet sampling kernel.
 
-    See :cite:`Shervashidze2009EfficientGK`.
+    See :cite:`shervashidze2009efficient`.
 
     If either "delta", "epsilon", "a" or "n_samples" is given calculates
     the kernel value for the given (or derived) random picked n_samples, by

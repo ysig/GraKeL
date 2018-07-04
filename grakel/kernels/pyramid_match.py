@@ -1,4 +1,4 @@
-"""The pyramid match kernel as in :cite:`Nikolentzos2017MatchingNE`."""
+"""The pyramid match kernel as in :cite:`nikolentzos2017matching`."""
 # Author: Ioannis Siglidis <y.siglidis@gmail.com>
 # License: BSD 3 clause
 import collections
@@ -22,7 +22,7 @@ from six import iteritems
 class PyramidMatch(Kernel):
     """Pyramid match kernel class.
 
-    Kernel defined in :cite:`Nikolentzos2017MatchingNE`
+    Kernel defined in :cite:`nikolentzos2017matching`
 
     Parameters
     ----------
@@ -281,7 +281,7 @@ class PyramidMatch(Kernel):
         intersec = np.zeros(self.L)
         for (p, xp, yp) in zip(range(self.L), x, y):
             # Calculate histogram intersection
-            # (eq. 6 in :cite:`Nikolentzos2017MatchingNE`)
+            # (eq. 6 in :cite:`nikolentzos2017matching`)
             if xp.shape[0] < yp.shape[0]:
                 xpp, ypp = xp, yp[:xp.shape[0], :]
             elif yp.shape[0] < xp.shape[0]:

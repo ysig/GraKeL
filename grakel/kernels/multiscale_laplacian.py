@@ -1,4 +1,4 @@
-"""Multiscale Laplacian Graph Kernel as defined in :cite:`Kondor2016TheML`."""
+"""Multiscale Laplacian Graph Kernel as defined in :cite:`kondor2016multiscale`."""
 # Author: Ioannis Siglidis <y.siglidis@gmail.com>
 # License: BSD 3 clause
 # Python 2/3 cross-compatibility import
@@ -29,7 +29,7 @@ positive_eigenvalue_limit = float("+1e-6")
 
 
 class MultiscaleLaplacianFast(Kernel):
-    """Laplacian Graph Kernel as proposed in :cite:`Kondor2016TheML_fast`.
+    """Laplacian Graph Kernel as proposed in :cite:`kondor2016multiscale`.
 
     Parameters
     ----------
@@ -129,7 +129,7 @@ class MultiscaleLaplacianFast(Kernel):
     def parse_input(self, X):
         """Fast ML Graph Kernel.
 
-        See supplementary material :cite:`Kondor2016TheML`, algorithm 1.
+        See supplementary material :cite:`kondor2016multiscale`, algorithm 1.
 
         Parameters
         ----------
@@ -276,7 +276,7 @@ class MultiscaleLaplacianFast(Kernel):
             An np.array of inverse (divided by 2) and fourth root of the
             determinant of S matrices (for the calculation of S matrices
             see the algorithm 1 of the supplement material in
-            cite:`Kondor2016TheML`).
+            cite:`kondor2016multiscale`).
 
         Returns
         -------
@@ -297,7 +297,7 @@ class MultiscaleLaplacianFast(Kernel):
 
 
 class MultiscaleLaplacian(Kernel):
-    """Laplacian Graph Kernel as proposed in :cite:`Kondor2016TheML`.
+    """Laplacian Graph Kernel as proposed in :cite:`kondor2016multiscale`.
 
     Parameters
     ----------
@@ -455,7 +455,7 @@ class MultiscaleLaplacian(Kernel):
             return out
 
     def pairwise_operation(self, x, y):
-        """ML kernel as proposed in :cite:`Kondor2016TheML`..
+        """ML kernel as proposed in :cite:`kondor2016multiscale`..
 
         Parameters
         ----------

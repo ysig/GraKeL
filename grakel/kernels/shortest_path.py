@@ -1,4 +1,4 @@
-"""Shortest path kernel as defined in :cite:`Borgwardt2005ShortestpathKO`."""
+"""Shortest path kernel as defined in :cite:`borgwardt2005shortest`."""
 # Author: Ioannis Siglidis <y.siglidis@gmail.com>
 # License: BSD 3 clause
 import collections
@@ -18,7 +18,7 @@ class ShortestPathAttr(Kernel):
 
     The Graph labels are considered as attributes.
     The computational efficiency is decreased to :math:`O(|V|^4)`
-    See :cite:`Borgwardt2005ShortestpathKO_attr`.
+    See :cite:`borgwardt2005shortest`.
 
     Parameters
     ----------
@@ -167,7 +167,7 @@ class ShortestPathAttr(Kernel):
 class ShortestPath(Kernel):
     r"""The shortest path kernel class.
 
-    See :cite:`Borgwardt2005ShortestpathKO`.
+    See :cite:`borgwardt2005shortest`.
 
     Parameters
     ----------

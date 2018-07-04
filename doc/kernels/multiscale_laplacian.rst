@@ -3,11 +3,11 @@
 Multiscale Laplacian Kernel
 ===========================
 
-The multiscale Laplacian graph kernel can handle unlabeled graphs, graphs with discrete node labels and graphs with continuous node attributes :cite:`kondor2016multiscale_gn`.
+The multiscale Laplacian graph kernel can handle unlabeled graphs, graphs with discrete node labels and graphs with continuous node attributes :cite:`kondor2016multiscale`.
 It takes into account structure in graphs at a range of different scales by building a hierarchy of nested subgraphs.
 These subgraphs are compared to each other using another graph kernel, called the feature space laplacian graph kernel.
 This kernel is capable of lifting a base kernel defined on the vertices of two graphs to a kernel between the graphs themselves.
-Since exact computation of the multiscale laplacian graph kernel is a very expensive operation, the kernel uses a randomized projection procedure  similar to the popular Nystr{\"o}m approximation for kernel matrices :cite:`williams2001using_gn`.
+Since exact computation of the multiscale laplacian graph kernel is a very expensive operation, the kernel uses a randomized projection procedure  similar to the popular Nystr{\"o}m approximation for kernel matrices :cite:`williams2001using`.
 
 Let :math:`G=(V,E)` be an undirected graph such that :math:`n = |V|`.
 The Laplacian of :math:`G` is a :math:`n \times n` matrix defined as

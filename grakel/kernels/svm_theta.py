@@ -1,4 +1,4 @@
-"""The svm theta kernel as defined in :cite:`Johansson2015LearningWS_svm`."""
+"""The svm theta kernel as defined in :cite:`johansson2014global`."""
 # Author: Ioannis Siglidis <y.siglidis@gmail.com>
 # License: BSD 3 clause
 import collections
@@ -20,7 +20,7 @@ min_weight = float("1e-10")
 class SvmTheta(Kernel):
     """Calculate the SVM theta kernel.
 
-    See :cite:`Johansson2015LearningWS_svm`.
+    See :cite:`johansson2014global`.
 
     Parameters
     ----------
@@ -150,7 +150,7 @@ class SvmTheta(Kernel):
             return out
 
     def pairwise_operation(self, x, y):
-        """Lovasz theta kernel as proposed in :cite:`Johansson2015LearningWS_svm`.
+        """Lovasz theta kernel as proposed in :cite:`johansson2014global`.
 
         Parameters
         ----------
