@@ -34,13 +34,15 @@ class SubgraphMatching(Kernel):
     | callable, num_of_arguments=1, argument_type=int
         The lambda weights applied to the clique sizes.
 
-    kv : function (`vertex_label, `vertex_label`, -> number),
+    kv : function (`vertex_label, `vertex_label`, -> number), or None
     default=:math:`k_{v}^{default}(l(a), l(b))= \delta(l(a), l(b))`
         The kernel function between two vertex_labels.
+        If no function is provided, this is equivalent with not taking into account node labels.
 
     ke : function (`edge_label`, `edge_label` -> number),
     default=:math:`k_{e}^{default}(l(e), l(e'))= \delta(l(e), l(e'))`
         The kernel function between two edge_labels.
+        If no function is provided, this is equivalent with not taking into account edge labels.
 
     Attributes
     ----------
@@ -82,13 +84,13 @@ class SubgraphMatching(Kernel):
             self.initialized_["k"] = True
 
         if not self.initialized_["kv"]:
-            if not callable(self.kv):
-                raise TypeError('kv must be callable')
+            if not callable(self.kv) and self.kv is not None:
+                raise TypeError('kv must be callable or None')
             self.initialized_["kv"] = True
 
         if not self.initialized_["ke"]:
-            if not callable(self.ke):
-                raise TypeError('ke must be callable')
+            if not callable(self.ke) and self.ke is not None:
+                raise TypeError('ke must be callable or None')
             self.initialized_["ke"] = True
 
         if not self.initialized_["lw"]:
@@ -200,9 +202,9 @@ class SubgraphMatching(Kernel):
                                     'edge labels dict \n')
                 n = g.nv()
                 E = g.get_edge_dictionary()
-                L = g.get_labels(purpose="dictionary")
-                Le = g.get_labels(purpose="dictionary",
-                                  label_type="edge")
+                L = g.get_labels(purpose="dictionary", return_none=(self.kv is None))
+                Le = g.get_labels(purpose="dictionary", label_type="edge",
+                                  return_none=(self.ke is None))
                 Er = set((a, b) for a in E.keys()
                          for b in E[a].keys() if a != b)
 

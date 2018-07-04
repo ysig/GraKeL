@@ -470,7 +470,7 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                 if kernel.pop("as_attributes", False):
                     return ShortestPathAttr, kernel
                 else:
-                    return (ShortestPath, kernel)
+                    return ShortestPath, kernel
             elif kernel_name == "graphlet_sampling":
                 if ("random_seed" not in kernel and
                     self.random_seed is not

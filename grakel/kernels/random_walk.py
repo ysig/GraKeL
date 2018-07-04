@@ -98,7 +98,7 @@ class RandomWalk(Kernel):
             # Setup method type and define operation.
             if self.method_type == "fast":
                 def invert(n, w, v):
-                    return (np.sum(v, axis=0)/n, w, np.sum(inv(v), axis=1)/n)
+                    return (np.real(np.sum(v, axis=0))/n, np.real(w), np.real(np.sum(inv(v), axis=1))/n)
 
                 def add_input(x):
                     return invert(x.shape[0], *eig(x))
@@ -257,7 +257,7 @@ class RandomWalk(Kernel):
             # calculate D based on the method
             Dij = np.kron(wi, wj)
             if self.p is not None:
-                Q = np.diagonal(Dij)
+                Q = np.diagflat(Dij)
                 D = np.eye(Q.shape[0])
                 S = self._mu[0] * Q
                 for k in self._mu[1:]:
@@ -459,7 +459,7 @@ class RandomWalkLabeled(RandomWalk):
             # calculate D based on the method
             Dij = array([wi[i]*wj[j] for i, j in label_idx])
             if self.p is not None:
-                Q = np.diagonal(Dij)
+                Q = np.diagflat(Dij)
                 D = np.eye(Q.shape[0])
                 S = self._mu[0] * Q
                 for k in self._mu[1:]:

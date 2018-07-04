@@ -124,12 +124,12 @@ class PyramidMatch(Kernel):
                 is_iter = isinstance(x, collections.Iterable)
                 if is_iter:
                     x = list(x)
-                if is_iter and (len(x) == 0 or (len(x) == 1 and not self.with_labels) or
+                if is_iter and (len(x) == 0 or (len(x) >= 1 and not self.with_labels) or
                                 (len(x) >= 2 and self.with_labels)):
                     if len(x) == 0:
                         warnings.warn('Ignoring empty element on index: ' + str(idx))
                         continue
-                    elif len(x) == 1:
+                    elif not self.with_labels:
                         x = Graph(x[0], {}, {}, self._graph_format)
                     else:
                         x = Graph(x[0], x[1], {}, self._graph_format)

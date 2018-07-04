@@ -55,20 +55,25 @@ def sm_kernel(x, y, kv, ke, k):
     # Costs for vertices
     cv_l = list()
 
-    # Calculate valid vertices
-    Vp = list()
+    if kv is not None:
+        # Calculate valid vertices
+        Vp = list()
 
-    # calculate product graph vertex set
-    nv = 0
-    for i in range(nx):
-        for j in range(ny):
-            value = kv(Lx[i], Ly[j])
-            if(value != .0):
-                # add to vertex set
-                Vp.append((i, j))
-                # initialise an empty set for neighbors
-                cv_l.append(value)
-                nv += 1
+        # calculate product graph vertex set
+        nv = 0
+        for i in range(nx):
+            for j in range(ny):
+                value = kv(Lx[i], Ly[j])
+                if(value != .0):
+                    # add to vertex set
+                    Vp.append((i, j))
+                    # initialise an empty set for neighbors
+                    cv_l.append(value)
+                    nv += 1
+    else:
+        Vp = [(i, j) for i in range(nx) for j in range(ny)]
+        nv = nx*ny
+        cv_l = iter(1. for _ in range(nv))
 
     # Initialise c arrays.
     cdef int *enum
@@ -77,6 +82,7 @@ def sm_kernel(x, y, kv, ke, k):
     enum = <int *>malloc(nv*cython.sizeof(int))
     ce = <double **>malloc(nv*cython.sizeof(cython.p_double))
     cv = <double *>malloc(nv*cython.sizeof(cython.double))
+
     for (i, v) in enumerate(cv_l):
         enum[i] = i
         cv[i] = v
@@ -84,34 +90,54 @@ def sm_kernel(x, y, kv, ke, k):
 
     with cython.boundscheck(False):
         # calculate product graph valid edges
-        for (i, v) in enumerate(Vp):
-            for (j, w) in enumerate(Vp):
-                if i == j:
-                    ce[j][i] = .0
-                    break
-                if v[0] == w[0] or v[1] == w[1]:
-                    value = .0
-                else:
-                    ea, eb = (v[0], w[0]), (v[1], w[1])
-                    conda, condb = ea not in Ex, eb not in Ey
-                    if conda and condb:
-                        # d-edge
-                        value = -1.
-                    elif conda or condb:
+        if ke is not None:
+            for (i, v) in enumerate(Vp):
+                for (j, w) in enumerate(Vp):
+                    if i == j:
+                        ce[j][i] = .0
+                        break
+                    if v[0] == w[0] or v[1] == w[1]:
                         value = .0
                     else:
-                        # possible c-edge
-                        try:
-                          lea = Lex[ea]
-                          leb = Ley[eb]
-                        except KeyError as key_error:
-                          raise KeyError(key_error +
-                                         '\nEdge labels must exist for '
-                                         'all edges.')
-                        value = ke(lea, leb)
+                        ea, eb = (v[0], w[0]), (v[1], w[1])
+                        conda, condb = ea not in Ex, eb not in Ey
+                        if conda and condb:
+                            # d-edge
+                            value = -1.
+                        elif conda or condb:
+                            value = .0
+                        else:
+                            # possible c-edge
+                            try:
+                              lea = Lex[ea]
+                              leb = Ley[eb]
+                            except KeyError as key_error:
+                              raise KeyError(key_error +
+                                             '\nEdge labels must exist for '
+                                             'all edges.')
+                            value = ke(lea, leb)
 
-                ce[j][i] = ce[i][j] = value
-
+                    ce[j][i] = ce[i][j] = value
+        else:
+            for (i, v) in enumerate(Vp):
+                for (j, w) in enumerate(Vp):
+                    if i == j:
+                        ce[j][i] = .0
+                        break
+                    if v[0] == w[0] or v[1] == w[1]:
+                        value = .0
+                    else:
+                        ea, eb = (v[0], w[0]), (v[1], w[1])
+                        conda, condb = ea not in Ex, eb not in Ey
+                        if conda and condb:
+                            # d-edge
+                            value = -1.
+                        elif conda or condb:
+                            value = .0
+                        else:
+                            value = 1.
+                    ce[j][i] = ce[i][j] = value
+            
 
     # Initialize values
     cdef np.ndarray[double, ndim=1] tv_np = np.zeros(shape=(k + 1))
