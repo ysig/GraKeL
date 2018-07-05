@@ -5,6 +5,7 @@ Classification on the MUTAG dataset using the WL-subtree kernel.
 
 An example plot of :class:`grakel.GraphKernel`, :class:`grakel.WeisfeilerLehman`, :class:`grakel.VertexHistogram`
 """
+from __future__ import print_function
 print(__doc__)
 
 from time import time
