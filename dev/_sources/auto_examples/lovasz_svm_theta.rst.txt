@@ -17,7 +17,9 @@ An example plot of :class:`grakel.GraphKernel`, :class:`grakel.LovaszTheta`, :cl
 
 .. code-block:: python
 
+    from __future__ import print_function
     print(__doc__)
+
     import numpy as np
 
     from time import time

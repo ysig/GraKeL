@@ -5,6 +5,7 @@ K-Fold classification on the ENZYMES dataset using the approximate Multiscale La
 
 An example plot of :class:`grakel.GraphKernel`, :class:`grakel.MultiscaleLaplacianFast`
 """
+from __future__ import print_function
 print(__doc__)
 
 import argparse

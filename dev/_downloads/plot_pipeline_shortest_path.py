@@ -5,7 +5,9 @@ Cross-Validation scikit-learn Pipeline example on the MUTAG dataset using the Sh
 
 An example plot of :class:`grakel.GraphKernel`, :class:`grakel.ShortestPath`
 """
+from __future__ import print_function
 print(__doc__)
+
 import numpy as np
 
 from time import time
