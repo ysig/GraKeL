@@ -111,7 +111,7 @@ $ python setup.py build_ext -i
 
 Contributing
 ============
-For learning how to read to integrate your own kernel, please read section *Write your own kernel* inside
+For learning how to integrate your own kernel, please read section *Write your own kernel* inside
 the package [documentation][doc]. 
 For contributing to the GraKeL project, please read section *contributing* inside the package [documentation][doc].
 
