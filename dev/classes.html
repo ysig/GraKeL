@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>API Reference &mdash; GraKeL 0.1a3 documentation</title>
+  <title>API Reference &mdash; GraKeL 0.1a4 documentation</title>
   
 
   
@@ -63,7 +63,7 @@
             
             
               <div class="version">
-                0.1a3
+                0.1a4
               </div>
             
           
@@ -148,6 +148,15 @@
 <li class="toctree-l3"><a class="reference internal" href="#fetch">Fetch</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="generated/grakel.datasets.fetch_dataset.html">grakel.datasets.fetch_dataset</a></li>
 <li class="toctree-l4"><a class="reference internal" href="generated/grakel.datasets.get_dataset_info.html">grakel.datasets.get_dataset_info</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#grakel-general"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>: General</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#utils">Utils</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="generated/grakel.graph_from_networkx.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.graph_from_networkx</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/grakel.graph_from_pandas.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.graph_from_pandas</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/grakel.graph_from_csv.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.graph_from_csv</a></li>
 </ul>
 </li>
 </ul>
@@ -391,6 +400,30 @@ to read <a class="reference internal" href="user_manual.html#user-manual"><span 
 <p><strong>User guide:</strong> See the <a class="reference internal" href="datasets.html#datasets"><span class="std std-ref">Dataset loading utilities</span></a> section for further details.</p>
 </div>
 </div>
+<div class="section" id="grakel-general">
+<h2><a class="reference internal" href="api.html#module-grakel" title="grakel"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code></a>: General<a class="headerlink" href="#grakel-general" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="utils">
+<h3>Utils<a class="headerlink" href="#utils" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="generated/grakel.graph_from_networkx.html#grakel.graph_from_networkx" title="grakel.graph_from_networkx"><code class="xref py py-obj docutils literal notranslate"><span class="pre">graph_from_networkx</span></code></a>(X[,&nbsp;node_labels_tag,&nbsp;…])</td>
+<td>Transform an iterable of networkx objects to an iterable of Graphs.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="generated/grakel.graph_from_pandas.html#grakel.graph_from_pandas" title="grakel.graph_from_pandas"><code class="xref py py-obj docutils literal notranslate"><span class="pre">graph_from_pandas</span></code></a>(edge_df[,&nbsp;node_df,&nbsp;…])</td>
+<td>Produces a collection of Graph Objects from pandas dataframes.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="generated/grakel.graph_from_csv.html#grakel.graph_from_csv" title="grakel.graph_from_csv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">graph_from_csv</span></code></a>(edge_files[,&nbsp;node_files,&nbsp;…])</td>
+<td>Produces a collection of Graph Objects from a collection of csv files.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>User guide:</strong> Usefull functions for applying to existing datasets, of other formats.</p>
+</div>
+</div>
 </div>
 
 
@@ -435,7 +468,7 @@ to read <a class="reference internal" href="user_manual.html#user-manual"><span 
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.1a3',
+            VERSION:'0.1a4',
             LANGUAGE:'en',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

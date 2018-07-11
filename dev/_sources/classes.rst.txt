@@ -105,6 +105,27 @@ Fetch
    fetch_dataset
    get_dataset_info
 
+
 **User guide:** See the :ref:`datasets` section for further details.
+
+
+:mod:`grakel`: General
+=================================
+
+Utils
+-----
+
+.. currentmodule:: grakel
+
+.. autosummary::
+   :toctree: generated/
+   :template: function.rst
+
+   graph_from_networkx
+   graph_from_pandas
+   graph_from_csv
+
+**User guide:** Usefull functions for applying to existing datasets, of other formats.
+
 
 .. _gd:	https://ls11-www.cs.tu-dortmund.de/staff/morris/graphkerneldatasets
