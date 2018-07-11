@@ -31,6 +31,9 @@ from grakel.kernels import EdgeHistogram
 from grakel.kernels import GraphHopper
 from grakel.kernels import CoreFramework
 
+from grakel.utils import graph_from_networkx
+from grakel.utils import graph_from_pandas
+from grakel.utils import graph_from_csv
 
 __all__ = [
     "datasets",
@@ -58,7 +61,10 @@ __all__ = [
     "VertexHistogram",
     "EdgeHistogram",
     "GraphHopper",
-    "CoreFramework"
+    "CoreFramework",
+    "graph_from_networkx",
+    "graph_from_pandas",
+    "graph_from_csv"
 ]
 
 # Generic release markers:
@@ -74,4 +80,4 @@ __all__ = [
 # Dev branch marker is: 'X.Y.dev' or 'X.Y.devN' where N is an integer.
 # 'X.Y.dev0' is the canonical version of 'X.Y.dev'
 #
-__version__ = '0.1a3'
+__version__ = '0.1a4'

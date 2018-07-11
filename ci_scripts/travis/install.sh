@@ -6,6 +6,8 @@
 
 # Install coverage if needed
 if [[ "$COVERAGE" == "true" ]]; then
+    {pip} install networkx
+    {pip} install pandas
     {pip} install coverage
 fi
 
