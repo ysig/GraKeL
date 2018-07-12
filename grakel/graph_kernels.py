@@ -314,7 +314,7 @@ class GraphKernel(BaseEstimator, TransformerMixin):
             self.components_ = basis
             self.component_indices_ = inds
         else:
-            self.kernel.fit(X)
+            self.kernel_.fit(X)
 
         # Return the transformer
         return self
@@ -478,7 +478,7 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                         kernel["random_seed"] = self.random_seed
                 return GraphletSampling, kernel
             elif kernel_name == "multiscale_laplacian":
-                if kernel.pop("which", None) == "simple":
+                if kernel.pop("which", "fast") == "slow":
                     kernel.pop("N", None)
                     return (MultiscaleLaplacian, kernel)
                 else:
