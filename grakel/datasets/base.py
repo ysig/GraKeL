@@ -394,9 +394,9 @@ def fetch_dataset(
         prefer_attr_nodes=False,
         prefer_attr_edges=False,
         as_graphs=False):
-    """Load a dataset from `gd`_.
+    """Load a dataset from a huge collection of benchmark datasets :cite:`KKMMN2016`.
 
-    .. _gd: https://ls11-www.cs.tu-dortmund.de/staff/morris/graphkerneldatasets
+    For more info visit: https://ls11-www.cs.tu-dortmund.de/staff/morris/graphkerneldatasets
 
     Parameters
     ----------
