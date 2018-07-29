@@ -41,7 +41,7 @@ class Graph:
             return str(self.name) == str(other.name)
     
         def __lt__(self, other):
-            return str(self.name) == str(other.name)
+            return str(self.name) < str(other.name)
 
     """
     The class for undirected graphs.
@@ -174,7 +174,6 @@ class Graph:
         if v2 not in self._vertices:
             self.add_vertex(v2)
         self._vertices[v1].edges.add(self._vertices[v2])
-        self._vertices[v2].edges.add(self._vertices[v1])
 
     def del_edge(self, v1, v2):
         """
@@ -187,7 +186,6 @@ class Graph:
         if v2 not in self._vertices:
             return
         self._vertices[v1].edges.discard(self._vertices[v2])
-        self._vertices[v2].edges.discard(self._vertices[v1])
 
     def write_dot(self, file):
         """
@@ -198,8 +196,7 @@ class Graph:
             file.write("\""+str(v)+"\" [label="+str(vertex.color)+"];\n")
         for v,vertex in iteritems(self._vertices):
             for neighbour in vertex.edges:
-                if neighbour.name >= vertex.name:
-                    file.write("\""+str(v)+"\" -- \""+str(neighbour.name)+"\";\n")
+                file.write("\""+str(v)+"\" -- \""+str(neighbour.name)+"\";\n")
         file.write("}\n")
 
     def _make_bliss_graph(self):
@@ -211,8 +208,6 @@ class Graph:
             bliss_map_inv[bliss_map[v]] = v
         for name,vertex in iteritems(self._vertices):
             for neighbour in vertex.edges:
-                if neighbour < vertex:
-                    continue
                 intpybliss.add_edge(g,
                                     bliss_map[name],
                                     bliss_map[neighbour.name])
@@ -276,8 +271,6 @@ class Graph:
                 raise RuntimeError("'lab' is not a bijection")
         for name,vertex in iteritems(self._vertices):
             for neighbour in vertex.edges:
-                if neighbour < vertex:
-                    continue
                 g2.add_edge(lab[name], lab[neighbour.name])
         return g2
 
@@ -290,8 +283,6 @@ class Graph:
             g2.add_vertex(name, vertex.color)
         for name,vertex in iteritems(self._vertices):
             for neighbour in vertex.edges:
-                if neighbour < vertex:
-                    continue
                 g2.add_edge(name, neighbour.name)
         return g2
 
@@ -359,6 +350,7 @@ class Graph:
         for name,image in iteritems(my_canlab):
             isomorphism[name] = g_canlab_inv[image]
         assert self.relabel(isomorphism).is_equal(g) == True
+
         return isomorphism
 
     def isomorphic(self, g):

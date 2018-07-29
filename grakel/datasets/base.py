@@ -136,10 +136,10 @@ dataset_metadata = {
     "REDDIT-BINARY": {"nl": False, "el": False, "na": False, "ea": False,
                       "link": "https://ls11-www.cs.uni-dortmund.de/people" +
                       "/morris/graphkerneldatasets/REDDIT-BINARY.zip"},
-    "REDDIT-MULTI-5k": {"nl": False, "el": False, "na": False, "ea": False,
+    "REDDIT-MULTI-5K": {"nl": False, "el": False, "na": False, "ea": False,
                         "link": "https://ls11-www.cs.uni-dortmund.de/people/" +
                         "morris/graphkerneldatasets/REDDIT-MULTI-5K.zip"},
-    "REDDIT-MULTI-12k": {"nl": False, "el": False, "na": False, "ea": False,
+    "REDDIT-MULTI-12K": {"nl": False, "el": False, "na": False, "ea": False,
                          "link": "https://ls11-www.cs.uni-dortmund.de/peop" +
                          "le/morris/graphkerneldatasets/REDDIT-MULTI-12K.zip"},
     "SYNTHETIC": {"nl": False, "el": False, "na": True, "ea": False,
@@ -374,7 +374,8 @@ def _download_zip(url, output_name):
         if e.code == 404:
             e.msg = "Dataset '%s' not found on mldata.org." % output_name
         raise
-    # store Matlab file
+
+    # Store Zip File
     try:
         with open(filename, 'w+b') as zip_file:
             copyfileobj(data_url, zip_file)

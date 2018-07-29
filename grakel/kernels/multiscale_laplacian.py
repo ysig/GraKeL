@@ -14,7 +14,7 @@ from math import sqrt
 
 from numpy.linalg import det
 from numpy.linalg import eig
-from scipy.linalg import inv
+from numpy.linalg import inv
 from numpy.linalg import multi_dot
 
 from grakel.graph import Graph
