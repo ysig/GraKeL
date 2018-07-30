@@ -215,8 +215,8 @@ class PyramidMatch(Kernel):
         Hs = list()
         if len(args) == 0:
             for (i, (n, u)) in enumerate(Us):
+                du = list()
                 if n > 0:
-                    du = list()
                     for j in range(self.L):
                         # Number of cells along each dimension at level j
                         k = 2**j
@@ -233,8 +233,8 @@ class PyramidMatch(Kernel):
                                 # Identify the cell into which the i-th
                                 # vertex lies and increase its value by 1
                                 D[q, int(T[p, q])] += 1
-                            du.append(D)
-                    Hs.append(du)
+                        du.append(D)
+                Hs.append(du)
 
         elif len(args) > 0:
             Ls = args[0]
@@ -259,8 +259,8 @@ class PyramidMatch(Kernel):
                                 # Identify the cell into which the i-th
                                 # vertex lies and increase its value by 1
                                 D[Labels[L[p]]*self.d + q, int(T[p, q])] += 1
-                            du.append(D)
-                    Hs.append(du)
+                        du.append(D)
+                Hs.append(du)
         return Hs
 
     def pairwise_operation(self, x, y):
@@ -278,21 +278,22 @@ class PyramidMatch(Kernel):
 
         """
         k = 0
-        intersec = np.zeros(self.L)
-        for (p, xp, yp) in zip(range(self.L), x, y):
-            # Calculate histogram intersection
-            # (eq. 6 in :cite:`nikolentzos2017matching`)
-            if xp.shape[0] < yp.shape[0]:
-                xpp, ypp = xp, yp[:xp.shape[0], :]
-            elif yp.shape[0] < xp.shape[0]:
-                xpp, ypp = xp[:yp.shape[0], :], yp
-            else:
-                xpp, ypp = xp, yp
-            intersec[p] = np.sum(np.minimum(xpp, ypp))
-            k += intersec[self.L-1]
-            for p in range(self.L-1):
-                # Computes the new matches that occur at level p.
-                # These matches weight less than those that occur at
-                # higher levels (e.g. p+1 level)
-                k += (1.0/(2**(self.L-p-1)))*(intersec[p]-intersec[p+1])
+        if len(x) != 0 and len(y) != 0:
+            intersec = np.zeros(self.L)
+            for (p, xp, yp) in zip(range(self.L), x, y):
+                # Calculate histogram intersection
+                # (eq. 6 in :cite:`nikolentzos2017matching`)
+                if xp.shape[0] < yp.shape[0]:
+                    xpp, ypp = xp, yp[:xp.shape[0], :]
+                elif yp.shape[0] < xp.shape[0]:
+                    xpp, ypp = xp[:yp.shape[0], :], yp
+                else:
+                    xpp, ypp = xp, yp
+                intersec[p] = np.sum(np.minimum(xpp, ypp))
+                k += intersec[self.L-1]
+                for p in range(self.L-1):
+                    # Computes the new matches that occur at level p.
+                    # These matches weight less than those that occur at
+                    # higher levels (e.g. p+1 level)
+                    k += (1.0/(2**(self.L-p-1)))*(intersec[p]-intersec[p+1])
         return k
