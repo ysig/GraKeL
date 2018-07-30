@@ -98,7 +98,8 @@ class RandomWalk(Kernel):
             # Setup method type and define operation.
             if self.method_type == "fast":
                 def invert(n, w, v):
-                    return (np.real(np.sum(v, axis=0))/n, np.real(w), np.real(np.sum(inv(v), axis=1))/n)
+                    # Spectral Decomposition if adjacency matrix is symmetric
+                    return (np.real(np.sum(v, axis=0))/n, np.real(w), np.real(np.sum(v.T, axis=1))/n)
 
                 def add_input(x):
                     return invert(x.shape[0], *eig(x))
