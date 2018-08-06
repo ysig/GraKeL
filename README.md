@@ -17,6 +17,7 @@ The grakel library requires:
 * SciPy [>= 0.13.3]
 * Cython [>= 0.27.3]
 * cvxopt [>= 1.2.0] [optional: lovasz]
+* future [>=0.16.0] (for python 2.7)
 
 For installing dependencies the procedure is the well known:
 ```shell
@@ -36,6 +37,12 @@ To learn how to use the GraKeL api **as a user**, please read the [documentation
 
 Testing
 =======
+In order for the following to work you first need to build the package cython extension
+locally by executing:
+```shell
+$ python setup.py build_ext -i
+```
+
 To test the package, execute:
 ```shell
 $ nosetests
@@ -102,11 +109,6 @@ optional arguments:
 You can also execute the kernel test locally through a *test-main-function* as
 ```shell
 $ python -m grakel.tests
-```
-but in order for this to work you would need first to build the package cython extension
-locally by executing:
-```shell
-$ python setup.py build_ext -i
 ```
 
 Contributing
