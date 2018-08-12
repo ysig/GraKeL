@@ -174,8 +174,9 @@
 <div class="sphx-glr-example-title section" id="classification-on-the-mutag-dataset-using-the-wl-subtree-kernel">
 <span id="sphx-glr-auto-examples-plot-wl-subtree-mutag-py"></span><h1>Classification on the MUTAG dataset using the WL-subtree kernel.<a class="headerlink" href="#classification-on-the-mutag-dataset-using-the-wl-subtree-kernel" title="Permalink to this headline">¶</a></h1>
 <p>An example plot of <a class="reference internal" href="../generated/grakel.GraphKernel.html#grakel.GraphKernel" title="grakel.GraphKernel"><code class="xref py py-class docutils literal notranslate"><span class="pre">grakel.GraphKernel</span></code></a>, <a class="reference internal" href="../generated/grakel.WeisfeilerLehman.html#grakel.WeisfeilerLehman" title="grakel.WeisfeilerLehman"><code class="xref py py-class docutils literal notranslate"><span class="pre">grakel.WeisfeilerLehman</span></code></a>, <a class="reference internal" href="../generated/grakel.VertexHistogram.html#grakel.VertexHistogram" title="grakel.VertexHistogram"><code class="xref py py-class docutils literal notranslate"><span class="pre">grakel.VertexHistogram</span></code></a></p>
+<img alt="../_images/sphx_glr_plot_wl_subtree_MUTAG_001.png" class="sphx-glr-single-img" src="../_images/sphx_glr_plot_wl_subtree_MUTAG_001.png" />
 <p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Accuracy: 84.21 % | Took: 1.09 s
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Accuracy: 84.21 % | Took: 0.32 s
 </pre></div>
 </div>
 <div class="line-block">
@@ -192,6 +193,8 @@
 
 <span class="kn">from</span> <span class="nn">grakel</span> <span class="kn">import</span> <span class="n">datasets</span>
 <span class="kn">from</span> <span class="nn">grakel</span> <span class="kn">import</span> <a href="../generated/grakel.GraphKernel.html#grakel.GraphKernel" title="View documentation for grakel.GraphKernel"><span class="n">GraphKernel</span></a>
+
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pylab</span> <span class="k">as</span> <span class="n">pl</span>
 
 <span class="c1"># Loads the Mutag dataset from:</span>
 <span class="c1"># https://ls11-www.cs.tu-dortmund.de/staff/morris/graphkerneldatasets</span>
@@ -224,9 +227,16 @@
 
 <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Accuracy:&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">acc</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span> <span class="mi">2</span><span class="p">)),</span> <span class="s2">&quot;% | Took:&quot;</span><span class="p">,</span>
       <span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">,</span> <span class="mi">2</span><span class="p">)),</span> <span class="s2">&quot;s&quot;</span><span class="p">)</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">121</span><span class="p">)</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">K_train</span><span class="p">)</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">122</span><span class="p">)</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">K_test</span><span class="p">)</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<p><strong>Total running time of the script:</strong> ( 0 minutes  1.144 seconds)</p>
+<p><strong>Total running time of the script:</strong> ( 0 minutes  0.485 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-plot-wl-subtree-mutag-py">
 <div class="sphx-glr-download docutils container">
 <a class="reference download internal" href="../_downloads/plot_wl_subtree_MUTAG.py" download=""><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_wl_subtree_MUTAG.py</span></code></a></div>

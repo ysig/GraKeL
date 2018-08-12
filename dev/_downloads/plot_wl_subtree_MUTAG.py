@@ -17,6 +17,8 @@ from sklearn import svm
 from grakel import datasets
 from grakel import GraphKernel
 
+from matplotlib import pylab as pl
+
 # Loads the Mutag dataset from:
 # https://ls11-www.cs.tu-dortmund.de/staff/morris/graphkerneldatasets
 # the biggest collection of benchmark datasets for graph_kernels.
@@ -48,3 +50,11 @@ acc = accuracy_score(y_test, y_pred)
 
 print("Accuracy:", str(round(acc*100, 2)), "% | Took:",
       str(round(end - start, 2)), "s")
+
+fig = pl.figure()
+pl.subplot(121)
+pl.imshow(K_train)
+pl.subplot(122)
+pl.imshow(K_test)
+pl.show()
+
