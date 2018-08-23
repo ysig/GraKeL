@@ -97,12 +97,12 @@ class RandomWalk(Kernel):
         if not self.initialized_["method_type"]:
             # Setup method type and define operation.
             if self.method_type == "fast":
-                def invert(n, w, v):
+                def invert(w, v):
                     # Spectral Decomposition if adjacency matrix is symmetric
-                    return (np.real(np.sum(v, axis=0))/n, np.real(w), np.real(np.sum(v.T, axis=1))/n)
+                    return (np.real(np.sum(v, axis=0)), np.real(w))
 
                 def add_input(x):
-                    return invert(x.shape[0], *eig(x))
+                    return invert(*eig(x))
 
                 self._add_input = add_input
             elif self.method_type == "baseline":
@@ -232,15 +232,20 @@ class RandomWalk(Kernel):
             s = XY.shape[0]
             Id = np.identity(s)
 
-            if self.kernel_type == "geometric":
-                return np.linalg.multi_dot(
-                    (np.ones(s),
-                     inv(Id - self.lamda*XY).T, np.ones(shape=(s))))
-            elif self.kernel_type == "exponential":
-                return np.linalg.multi_dot((np.ones(s),
-                                            expm(self.lamda*XY).T,
-                                            np.ones(shape=(s))))
+            if self.p is not None:
+                P = np.eye(XY.shape[0])
+                S = self._mu[0] * P
+                for k in self._mu[1:]:
+                    P *= XY
+                    S += k*P
+            else:
+                if self.kernel_type == "geometric":
+                    S = inv(Id - self.lamda*XY).T
+                elif self.kernel_type == "exponential":
+                    S = expm(self.lamda*XY).T
 
+            p = np.ones(shape=(1, s))
+            return p.dot(S).dot(p.T)
         elif self.method_type == "fast":
             # Spectral demoposition algorithm as presented in
             # [Vishwanathan et al., 2006] p.13, s.4.4, with
@@ -248,29 +253,28 @@ class RandomWalk(Kernel):
             # witout labels
 
             # calculate kernel
-            qi_Pi, wi, Pi_inv_pi = X
-            qj_Pj, wj, Pj_inv_pj = Y
+            qi_Pi, wi = X
+            qj_Pj, wj = Y
 
-            # calculate left right flanking factors
-            fl = np.kron(qi_Pi, qj_Pj)
-            fr = np.kron(Pi_inv_pi, Pj_inv_pj)
+            # calculate flanking factor
+            ff = np.expand_dims(np.kron(qi_Pi, qj_Pj), axis=0)
 
             # calculate D based on the method
             Dij = np.kron(wi, wj)
             if self.p is not None:
                 Q = np.diagflat(Dij)
                 D = np.eye(Q.shape[0])
-                S = self._mu[0] * Q
+                S = self._mu[0] * D
                 for k in self._mu[1:]:
                     D *= Q
                     S += k*D
-
             else:
                 if self.kernel_type == "geometric":
-                    D = np.diagflat(1/(1-self.lamda*Dij))
+                    S = np.diagflat(1/(1-self.lamda*Dij))
                 elif self.kernel_type == "exponential":
-                    D = np.diagflat(np.exp(self.lamda*Dij))
-            return np.linalg.multi_dot((fl, D, fr))
+                    S = np.diagflat(np.exp(self.lamda*Dij))
+
+            return ff.dot(S).dot(ff.T)
 
 
 class RandomWalkLabeled(RandomWalk):
