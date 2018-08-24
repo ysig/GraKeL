@@ -164,18 +164,18 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="kn">from</span> <span class="nn">itertools</span> <span class="k">import</span> <span class="n">product</span>
-<span class="kn">from</span> <span class="nn">numpy</span> <span class="k">import</span> <span class="n">array</span>
 
 <span class="kn">from</span> <span class="nn">numpy</span> <span class="k">import</span> <span class="n">ComplexWarning</span>
 <span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="k">import</span> <span class="n">inv</span>
 <span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="k">import</span> <span class="n">eig</span>
 <span class="kn">from</span> <span class="nn">scipy.linalg</span> <span class="k">import</span> <span class="n">expm</span>
+<span class="kn">from</span> <span class="nn">scipy.sparse.linalg</span> <span class="k">import</span> <span class="n">cg</span>
+<span class="kn">from</span> <span class="nn">scipy.sparse.linalg</span> <span class="k">import</span> <span class="n">LinearOperator</span>
 
 <span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="k">import</span> <span class="n">Kernel</span>
 <span class="kn">from</span> <span class="nn">grakel.graph</span> <span class="k">import</span> <span class="n">Graph</span>
 
 <span class="c1"># Python 2/3 cross-compatibility import</span>
-<span class="kn">from</span> <span class="nn">six.moves</span> <span class="k">import</span> <span class="n">filterfalse</span>
 <span class="kn">from</span> <span class="nn">builtins</span> <span class="k">import</span> <span class="nb">range</span>
 
 
@@ -387,7 +387,6 @@
 
             <span class="c1"># XY is a square matrix</span>
             <span class="n">s</span> <span class="o">=</span> <span class="n">XY</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-            <span class="n">Id</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">P</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">XY</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
@@ -397,12 +396,11 @@
                     <span class="n">S</span> <span class="o">+=</span> <span class="n">k</span><span class="o">*</span><span class="n">P</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel_type</span> <span class="o">==</span> <span class="s2">&quot;geometric&quot;</span><span class="p">:</span>
-                    <span class="n">S</span> <span class="o">=</span> <span class="n">inv</span><span class="p">(</span><span class="n">Id</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">lamda</span><span class="o">*</span><span class="n">XY</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+                    <span class="n">S</span> <span class="o">=</span> <span class="n">inv</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">lamda</span><span class="o">*</span><span class="n">XY</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
                 <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel_type</span> <span class="o">==</span> <span class="s2">&quot;exponential&quot;</span><span class="p">:</span>
                     <span class="n">S</span> <span class="o">=</span> <span class="n">expm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lamda</span><span class="o">*</span><span class="n">XY</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
 
-            <span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">s</span><span class="p">))</span>
-            <span class="k">return</span> <span class="n">p</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">S</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">S</span><span class="p">)</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">method_type</span> <span class="o">==</span> <span class="s2">&quot;fast&quot;</span><span class="p">:</span>
             <span class="c1"># Spectral demoposition algorithm as presented in</span>
             <span class="c1"># [Vishwanathan et al., 2006] p.13, s.4.4, with</span>
@@ -419,12 +417,13 @@
             <span class="c1"># calculate D based on the method</span>
             <span class="n">Dij</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">wi</span><span class="p">,</span> <span class="n">wj</span><span class="p">)</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">Q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diagflat</span><span class="p">(</span><span class="n">Dij</span><span class="p">)</span>
-                <span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">Q</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">Dij</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],))</span>
                 <span class="n">S</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mu</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">D</span>
                 <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mu</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
-                    <span class="n">D</span> <span class="o">*=</span> <span class="n">Q</span>
+                    <span class="n">D</span> <span class="o">*=</span> <span class="n">Dij</span>
                     <span class="n">S</span> <span class="o">+=</span> <span class="n">k</span><span class="o">*</span><span class="n">D</span>
+
+                <span class="n">S</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diagflat</span><span class="p">(</span><span class="n">S</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel_type</span> <span class="o">==</span> <span class="s2">&quot;geometric&quot;</span><span class="p">:</span>
                     <span class="n">S</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diagflat</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">lamda</span><span class="o">*</span><span class="n">Dij</span><span class="p">))</span>
@@ -518,7 +517,7 @@
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;input must be an iterable</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="n">out</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+            <span class="n">proc</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
             <span class="k">for</span> <span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">X</span><span class="p">)):</span>
                 <span class="n">is_iter</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">collections</span><span class="o">.</span><span class="n">Iterable</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">is_iter</span><span class="p">:</span>
@@ -536,8 +535,21 @@
                                     <span class="s1">&#39;and at most 3 elements</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
                 <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
                 <span class="n">x</span><span class="o">.</span><span class="n">desired_format</span><span class="p">(</span><span class="s2">&quot;adjacency&quot;</span><span class="p">)</span>
-                <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">_add_input</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">get_adjacency_matrix</span><span class="p">()),</span>
-                            <span class="n">x</span><span class="o">.</span><span class="n">get_labels</span><span class="p">(</span><span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;adjacency&quot;</span><span class="p">)))</span>
+                <span class="n">Ax</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">get_adjacency_matrix</span><span class="p">()</span>
+                <span class="n">Lx</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">get_labels</span><span class="p">(</span><span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;adjacency&quot;</span><span class="p">)</span>
+                <span class="n">Lx</span> <span class="o">=</span> <span class="p">[</span><span class="n">Lx</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">Ax</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span>
+                <span class="n">proc</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">Ax</span><span class="p">,</span> <span class="n">Lx</span><span class="p">,</span> <span class="n">Ax</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+
+            <span class="n">out</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">Ax</span><span class="p">,</span> <span class="n">Lx</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">proc</span><span class="p">:</span>
+                <span class="n">amss</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+                <span class="n">labels</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">Lx</span><span class="p">)</span>
+                <span class="n">Lx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Lx</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">product</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
+                    <span class="n">selector</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">Lx</span> <span class="o">==</span> <span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+                                         <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">Lx</span> <span class="o">==</span> <span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+                    <span class="n">amss</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">Ax</span> <span class="o">*</span> <span class="n">selector</span>
+                <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">amss</span><span class="p">,</span> <span class="n">s</span><span class="p">))</span>
 
             <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;parsed input is empty&#39;</span><span class="p">)</span>
@@ -567,73 +579,55 @@
 <span class="sd">            The kernel value.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">X</span><span class="p">,</span> <span class="n">Lx</span> <span class="o">=</span> <span class="n">X</span>
-        <span class="n">Y</span><span class="p">,</span> <span class="n">Ly</span> <span class="o">=</span> <span class="n">Y</span>
+        <span class="n">X</span><span class="p">,</span> <span class="n">xs</span> <span class="o">=</span> <span class="n">X</span>
+        <span class="n">Y</span><span class="p">,</span> <span class="n">ys</span> <span class="o">=</span> <span class="n">Y</span>
+        <span class="n">ck</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">&amp;</span> <span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">Y</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">method_type</span> <span class="o">==</span> <span class="s2">&quot;baseline&quot;</span><span class="p">:</span>
-            <span class="c1"># calculate the labeled kronecker product graph</span>
-            <span class="n">XY</span> <span class="o">=</span> <span class="p">[[</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">l</span><span class="p">]</span> <span class="o">*</span> <span class="n">Y</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">l</span><span class="p">,</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">filterfalse</span><span class="p">(</span>
-                    <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">Lx</span><span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">!=</span> <span class="n">Ly</span><span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span>
-                    <span class="n">product</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="nb">range</span><span class="p">(</span><span class="n">Y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])))]</span>
-                  <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">filterfalse</span><span class="p">(</span>
-                    <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">Lx</span><span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">!=</span> <span class="n">Ly</span><span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span>
-                    <span class="n">product</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">range</span><span class="p">(</span><span class="n">Y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])))]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ck</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="o">.</span><span class="mi">0</span>
+        <span class="n">mn</span> <span class="o">=</span> <span class="n">xs</span> <span class="o">*</span> <span class="n">ys</span>
 
-            <span class="c1"># Check that the matrix is not empty.</span>
-            <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">XY</span><span class="p">):</span>
-                <span class="k">return</span> <span class="o">.</span><span class="mi">0</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">XY</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">XY</span><span class="p">)</span>
-
-            <span class="c1"># algorithm presented in</span>
-            <span class="c1"># [Kashima et al., 2003; Gartner et al., 2003]</span>
-            <span class="c1"># complexity of O(|V|^6)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel_type</span> <span class="o">==</span> <span class="s2">&quot;exponential&quot;</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">method_type</span> <span class="o">==</span> <span class="s2">&quot;baseline&quot;</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># Claculate Kronecker product matrix</span>
+            <span class="n">XY</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">mn</span><span class="p">,</span> <span class="n">mn</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">ck</span><span class="p">:</span>
+                <span class="n">XY</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">Y</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
 
             <span class="c1"># XY is a square matrix</span>
             <span class="n">s</span> <span class="o">=</span> <span class="n">XY</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-            <span class="n">Id</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
 
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel_type</span> <span class="o">==</span> <span class="s2">&quot;geometric&quot;</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">multi_dot</span><span class="p">(</span>
-                    <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">s</span><span class="p">),</span> <span class="n">inv</span><span class="p">(</span><span class="n">Id</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">lamda</span><span class="o">*</span><span class="n">XY</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">,</span>
-                     <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">s</span><span class="p">))))</span>
-            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel_type</span> <span class="o">==</span> <span class="s2">&quot;exponential&quot;</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">multi_dot</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">s</span><span class="p">),</span>
-                                            <span class="n">expm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lamda</span><span class="o">*</span><span class="n">XY</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">,</span>
-                                            <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">s</span><span class="p">))))</span>
-
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">method_type</span> <span class="o">==</span> <span class="s2">&quot;fast&quot;</span><span class="p">:</span>
-            <span class="c1"># Spectral demoposition algorithm as presented in</span>
-            <span class="c1"># [Vishwanathan et al., 2006] p.13, s.4.4, with</span>
-            <span class="c1"># complexity of O((|E|+|V|)|E||V|^2) for graphs</span>
-            <span class="c1"># witout labels</span>
-
-            <span class="c1"># calculate kernel</span>
-            <span class="n">qi_Pi</span><span class="p">,</span> <span class="n">wi</span><span class="p">,</span> <span class="n">Pi_inv_pi</span> <span class="o">=</span> <span class="n">X</span>
-            <span class="n">qj_Pj</span><span class="p">,</span> <span class="n">wj</span><span class="p">,</span> <span class="n">Pj_inv_pj</span> <span class="o">=</span> <span class="n">Y</span>
-
-            <span class="c1"># calculate left right flanking factors</span>
-            <span class="n">label_idx</span> <span class="o">=</span> <span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">qi_Pi</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-                         <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">qj_Pj</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span>
-            <span class="n">fl</span> <span class="o">=</span> <span class="n">array</span><span class="p">([</span><span class="n">qi_Pi</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">qj_Pj</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">label_idx</span><span class="p">])</span>
-            <span class="n">fr</span> <span class="o">=</span> <span class="n">array</span><span class="p">([</span><span class="n">Pi_inv_pi</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">Pj_inv_pj</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">label_idx</span><span class="p">])</span>
-
-            <span class="c1"># calculate D based on the method</span>
-            <span class="n">Dij</span> <span class="o">=</span> <span class="n">array</span><span class="p">([</span><span class="n">wi</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">wj</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">label_idx</span><span class="p">])</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">Q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diagflat</span><span class="p">(</span><span class="n">Dij</span><span class="p">)</span>
-                <span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">Q</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-                <span class="n">S</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mu</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">Q</span>
+                <span class="n">P</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">XY</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="n">S</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mu</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">P</span>
                 <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mu</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
-                    <span class="n">D</span> <span class="o">*=</span> <span class="n">Q</span>
-                    <span class="n">S</span> <span class="o">+=</span> <span class="n">k</span><span class="o">*</span><span class="n">D</span>
+                    <span class="n">P</span> <span class="o">*=</span> <span class="n">XY</span>
+                    <span class="n">S</span> <span class="o">+=</span> <span class="n">k</span><span class="o">*</span><span class="n">P</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel_type</span> <span class="o">==</span> <span class="s2">&quot;exponential&quot;</span><span class="p">:</span>
+                <span class="n">S</span> <span class="o">=</span> <span class="n">expm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lamda</span><span class="o">*</span><span class="n">XY</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel_type</span> <span class="o">==</span> <span class="s2">&quot;geometric&quot;</span><span class="p">:</span>
+                <span class="c1"># Baseline Algorithm as presented in</span>
+                <span class="c1"># [Vishwanathan et al., 2006]</span>
+                <span class="n">Id</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+                <span class="n">S</span> <span class="o">=</span> <span class="n">inv</span><span class="p">(</span><span class="n">Id</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">lamda</span><span class="o">*</span><span class="n">XY</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
 
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel_type</span> <span class="o">==</span> <span class="s2">&quot;geometric&quot;</span><span class="p">:</span>
-                    <span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diagflat</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">lamda</span><span class="o">*</span><span class="n">Dij</span><span class="p">))</span>
-                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel_type</span> <span class="o">==</span> <span class="s2">&quot;exponential&quot;</span><span class="p">:</span>
-                    <span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diagflat</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lamda</span><span class="o">*</span><span class="n">Dij</span><span class="p">))</span>
-            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">multi_dot</span><span class="p">((</span><span class="n">fl</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">fr</span><span class="p">))</span></div></div>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">S</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">method_type</span> <span class="o">==</span> <span class="s2">&quot;fast&quot;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel_type</span> <span class="o">==</span> <span class="s2">&quot;geometric&quot;</span><span class="p">:</span>
+            <span class="c1"># Conjugate Gradient Method as presented in</span>
+            <span class="c1"># [Vishwanathan et al., 2006] p.13, s.4.</span>
+            <span class="n">AxAy</span> <span class="o">=</span> <span class="p">[(</span><span class="n">X</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">Y</span><span class="p">[</span><span class="n">k</span><span class="p">])</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">ck</span><span class="p">]</span>
+
+            <span class="k">def</span> <span class="nf">lsf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">lamda</span><span class="p">):</span>
+                <span class="n">y</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">xm</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">))</span>
+                <span class="k">for</span> <span class="n">Ax</span><span class="p">,</span> <span class="n">Ay</span> <span class="ow">in</span> <span class="n">AxAy</span><span class="p">:</span>
+                    <span class="n">y</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">Ax</span><span class="p">,</span> <span class="n">xm</span><span class="p">),</span> <span class="n">Ay</span><span class="p">),</span> <span class="p">(</span><span class="n">mn</span><span class="p">,))</span>
+                <span class="k">return</span> <span class="n">x</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">lamda</span> <span class="o">*</span> <span class="n">y</span>
+
+            <span class="c1"># A*x=b</span>
+            <span class="n">A</span> <span class="o">=</span> <span class="n">LinearOperator</span><span class="p">((</span><span class="n">mn</span><span class="p">,</span> <span class="n">mn</span><span class="p">),</span> <span class="n">matvec</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">lsf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">lamda</span><span class="p">))</span>
+            <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">mn</span><span class="p">)</span>
+            <span class="n">x_sol</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">cg</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1.0e-6</span><span class="p">,</span> <span class="n">maxiter</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x_sol</span><span class="p">)</span></div></div>
 </pre></div>
 
            </div>

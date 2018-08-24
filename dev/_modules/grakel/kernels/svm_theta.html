@@ -339,8 +339,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Calculate subsets</span>
         <span class="n">n</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">samples_on_subsets</span> <span class="o">=</span> <span class="n">distribute_samples</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">subsets_size_range</span><span class="p">,</span>
-                                                <span class="bp">self</span><span class="o">.</span><span class="n">n_samples</span><span class="p">)</span>
+        <span class="n">samples_on_subsets</span> <span class="o">=</span> <span class="n">distribute_samples</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">subsets_size_range</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_samples</span><span class="p">)</span>
 
         <span class="c1"># Calculate level dictionary with lovasz values</span>
         <span class="n">phi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">subsets_size_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span>
