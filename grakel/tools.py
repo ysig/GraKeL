@@ -253,8 +253,9 @@ def distribute_samples(n, subsets_size_range, n_samples):
 
     # Distribute samples to subset groups
     maxd = min(max_ss, n)
-    w = np.array([int(binomial(n, k)) for k in range(min_ss, maxd+1)])
+    w = np.array([binomial(n, k) for k in range(min_ss, maxd+1)], dtype=float)
     w = w / np.sum(w)
+
     smpls = np.floor(w * n_samples).astype(int)
     ss = smpls.shape[0]
 

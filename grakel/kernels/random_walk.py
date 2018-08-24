@@ -7,18 +7,18 @@ import warnings
 import numpy as np
 
 from itertools import product
-from numpy import array
 
 from numpy import ComplexWarning
 from numpy.linalg import inv
 from numpy.linalg import eig
 from scipy.linalg import expm
+from scipy.sparse.linalg import cg
+from scipy.sparse.linalg import LinearOperator
 
 from grakel.kernels import Kernel
 from grakel.graph import Graph
 
 # Python 2/3 cross-compatibility import
-from six.moves import filterfalse
 from builtins import range
 
 
@@ -230,7 +230,6 @@ class RandomWalk(Kernel):
 
             # XY is a square matrix
             s = XY.shape[0]
-            Id = np.identity(s)
 
             if self.p is not None:
                 P = np.eye(XY.shape[0])
@@ -240,12 +239,11 @@ class RandomWalk(Kernel):
                     S += k*P
             else:
                 if self.kernel_type == "geometric":
-                    S = inv(Id - self.lamda*XY).T
+                    S = inv(np.identity(s) - self.lamda*XY).T
                 elif self.kernel_type == "exponential":
                     S = expm(self.lamda*XY).T
 
-            p = np.ones(shape=(1, s))
-            return p.dot(S).dot(p.T)
+            return np.sum(S)
         elif self.method_type == "fast":
             # Spectral demoposition algorithm as presented in
             # [Vishwanathan et al., 2006] p.13, s.4.4, with
@@ -262,12 +260,13 @@ class RandomWalk(Kernel):
             # calculate D based on the method
             Dij = np.kron(wi, wj)
             if self.p is not None:
-                Q = np.diagflat(Dij)
-                D = np.eye(Q.shape[0])
+                D = np.ones(shape=(Dij.shape[0],))
                 S = self._mu[0] * D
                 for k in self._mu[1:]:
-                    D *= Q
+                    D *= Dij
                     S += k*D
+
+                S = np.diagflat(S)
             else:
                 if self.kernel_type == "geometric":
                     S = np.diagflat(1/(1-self.lamda*Dij))
@@ -361,7 +360,7 @@ class RandomWalkLabeled(RandomWalk):
             raise TypeError('input must be an iterable\n')
         else:
             i = 0
-            out = list()
+            proc = list()
             for (idx, x) in enumerate(iter(X)):
                 is_iter = isinstance(x, collections.Iterable)
                 if is_iter:
@@ -379,8 +378,21 @@ class RandomWalkLabeled(RandomWalk):
                                     'and at most 3 elements\n')
                 i += 1
                 x.desired_format("adjacency")
-                out.append((self._add_input(x.get_adjacency_matrix()),
-                            x.get_labels(purpose="adjacency")))
+                Ax = x.get_adjacency_matrix()
+                Lx = x.get_labels(purpose="adjacency")
+                Lx = [Lx[idx] for idx in range(Ax.shape[0])]
+                proc.append((Ax, Lx, Ax.shape[0]))
+
+            out = list()
+            for Ax, Lx, s in proc:
+                amss = dict()
+                labels = set(Lx)
+                Lx = np.array(Lx)
+                for t in product(labels, labels):
+                    selector = np.matmul(np.expand_dims(Lx == t[0], axis=0),
+                                         np.expand_dims(Lx == t[1], axis=1))
+                    amss[t] = Ax * selector
+                out.append((amss, s))
 
             if i == 0:
                 raise ValueError('parsed input is empty')
@@ -410,70 +422,52 @@ class RandomWalkLabeled(RandomWalk):
             The kernel value.
 
         """
-        X, Lx = X
-        Y, Ly = Y
+        X, xs = X
+        Y, ys = Y
+        ck = set(X.keys()) & (set(Y.keys()))
 
-        if self.method_type == "baseline":
-            # calculate the labeled kronecker product graph
-            XY = [[X[i, l] * Y[j, k] for l, k in filterfalse(
-                    lambda x: Lx[x[0]] != Ly[x[1]],
-                    product(range(X.shape[1]), range(Y.shape[1])))]
-                  for i, j in filterfalse(
-                    lambda x: Lx[x[0]] != Ly[x[1]],
-                    product(range(X.shape[0]), range(Y.shape[0])))]
+        if len(ck) == 0:
+            return .0
+        mn = xs * ys
 
-            # Check that the matrix is not empty.
-            if any(len(l) == 0 for l in XY):
-                return .0
-            else:
-                XY = np.array(XY)
-
-            # algorithm presented in
-            # [Kashima et al., 2003; Gartner et al., 2003]
-            # complexity of O(|V|^6)
+        if self.kernel_type == "exponential" or self.method_type == "baseline" or self.p is not None:
+            # Claculate Kronecker product matrix
+            XY = np.zeros(shape=(mn, mn))
+            for k in ck:
+                XY += np.kron(X[k], Y[k])
 
             # XY is a square matrix
             s = XY.shape[0]
-            Id = np.identity(s)
 
-            if self.kernel_type == "geometric":
-                return np.linalg.multi_dot(
-                    (np.ones(s), inv(Id - self.lamda*XY).T,
-                     np.ones(shape=(s))))
-            elif self.kernel_type == "exponential":
-                return np.linalg.multi_dot((np.ones(s),
-                                            expm(self.lamda*XY).T,
-                                            np.ones(shape=(s))))
-
-        elif self.method_type == "fast":
-            # Spectral demoposition algorithm as presented in
-            # [Vishwanathan et al., 2006] p.13, s.4.4, with
-            # complexity of O((|E|+|V|)|E||V|^2) for graphs
-            # witout labels
-
-            # calculate kernel
-            qi_Pi, wi, Pi_inv_pi = X
-            qj_Pj, wj, Pj_inv_pj = Y
-
-            # calculate left right flanking factors
-            label_idx = [(i, j) for i in range(qi_Pi.shape[0])
-                         for j in range(qj_Pj.shape[0])]
-            fl = array([qi_Pi[i]*qj_Pj[j] for i, j in label_idx])
-            fr = array([Pi_inv_pi[i]*Pj_inv_pj[j] for i, j in label_idx])
-
-            # calculate D based on the method
-            Dij = array([wi[i]*wj[j] for i, j in label_idx])
             if self.p is not None:
-                Q = np.diagflat(Dij)
-                D = np.eye(Q.shape[0])
-                S = self._mu[0] * Q
+                P = np.eye(XY.shape[0])
+                S = self._mu[0] * P
                 for k in self._mu[1:]:
-                    D *= Q
-                    S += k*D
+                    P *= XY
+                    S += k*P
+            elif self.kernel_type == "exponential":
+                S = expm(self.lamda*XY).T
+            elif self.kernel_type == "geometric":
+                # Baseline Algorithm as presented in
+                # [Vishwanathan et al., 2006]
+                Id = np.identity(s)
+                S = inv(Id - self.lamda*XY).T
 
-            else:
-                if self.kernel_type == "geometric":
-                    D = np.diagflat(1/(1-self.lamda*Dij))
-                elif self.kernel_type == "exponential":
-                    D = np.diagflat(np.exp(self.lamda*Dij))
-            return np.linalg.multi_dot((fl, D, fr))
+            return np.sum(S)
+        elif self.method_type == "fast" and self.kernel_type == "geometric":
+            # Conjugate Gradient Method as presented in
+            # [Vishwanathan et al., 2006] p.13, s.4.
+            AxAy = [(X[k], Y[k]) for k in ck]
+
+            def lsf(x, lamda):
+                y = 0
+                xm = x.reshape((xs, ys))
+                for Ax, Ay in AxAy:
+                    y += np.reshape(np.matmul(np.matmul(Ax, xm), Ay), (mn,))
+                return x - self.lamda * y
+
+            # A*x=b
+            A = LinearOperator((mn, mn), matvec=lambda x: lsf(x, self.lamda))
+            b = np.ones(mn)
+            x_sol, _ = cg(A, b, tol=1.0e-6, maxiter=200)
+            return np.sum(x_sol)

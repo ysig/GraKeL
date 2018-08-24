@@ -182,8 +182,7 @@ class SvmTheta(Kernel):
         """
         # Calculate subsets
         n = A.shape[0]
-        samples_on_subsets = distribute_samples(n, self.subsets_size_range,
-                                                self.n_samples)
+        samples_on_subsets = distribute_samples(n, self.subsets_size_range, self.n_samples)
 
         # Calculate level dictionary with lovasz values
         phi = np.zeros(shape=(self.subsets_size_range[1] -

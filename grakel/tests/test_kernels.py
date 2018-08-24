@@ -200,13 +200,13 @@ dataset_attr_tr, dataset_attr_te = train_test_split(dataset_attr,
 
 def test_random_walk():
     """Eigenvalue test for the Simple, Labelled Random Walk kernel."""
-    rw_kernel = RandomWalk(verbose=verbose, normalize=normalize)
+    rw_kernel = RandomWalk(verbose=verbose, normalize=normalize, lamda=0.01)
     if verbose:
         print_kernel("Random Walk", rw_kernel, dataset_tr, dataset_te)
     else:
         positive_eig(rw_kernel, dataset)
 
-    rw_kernel_lab = RandomWalkLabeled(verbose=verbose, normalize=normalize)
+    rw_kernel_lab = RandomWalkLabeled(verbose=verbose, normalize=normalize, lamda=0.01)
     if verbose:
         print_kernel("Random Walk Labelled", rw_kernel_lab, dataset_tr, dataset_te)
     else:
