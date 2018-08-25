@@ -206,7 +206,7 @@ def test_random_walk():
     else:
         positive_eig(rw_kernel, dataset)
 
-    rw_kernel_lab = RandomWalkLabeled(verbose=verbose, normalize=normalize, lamda=0.01)
+    rw_kernel_lab = RandomWalkLabeled(verbose=verbose, normalize=normalize, lamda=0.0001)
     if verbose:
         print_kernel("Random Walk Labelled", rw_kernel_lab, dataset_tr, dataset_te)
     else:

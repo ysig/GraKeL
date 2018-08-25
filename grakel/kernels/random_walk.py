@@ -288,11 +288,11 @@ class RandomWalkLabeled(RandomWalk):
         A lambda factor concerning summation.
 
     method_type : str, valid_values={"baseline", "fast"}
-        The method to use for calculating random walk kernel:
+        The method to use for calculating random walk kernel [geometric]:
             + "baseline" *Complexity*: :math:`O(|V|^6)`
               (see :cite:`kashima2003marginalized`,
               :cite:`gartner2003graph`)
-            + "fast" *Complexity*: :math:`O((|E|+|V|)|V||M|)`
+            + "fast" *Complexity*: :math:`O(|E|^{2}rd|V|^{3})`
               (see :cite:`vishwanathan2006fast`)
 
     kernel_type : str, valid_values={"geometric", "exponential"}
@@ -389,8 +389,8 @@ class RandomWalkLabeled(RandomWalk):
                 labels = set(Lx)
                 Lx = np.array(Lx)
                 for t in product(labels, labels):
-                    selector = np.matmul(np.expand_dims(Lx == t[0], axis=0),
-                                         np.expand_dims(Lx == t[1], axis=1))
+                    selector = np.matmul(np.expand_dims(Lx == t[0], axis=1),
+                                         np.expand_dims(Lx == t[1], axis=0))
                     amss[t] = Ax * selector
                 out.append((amss, s))
 
@@ -402,10 +402,10 @@ class RandomWalkLabeled(RandomWalk):
     def pairwise_operation(self, X, Y):
         """Calculate the labeled random walk kernel.
 
-        Fast:
-        Spectral demoposition algorithm as presented in
-        :cite:`vishwanathan2006fast` p.13, s.4.4, with
-        complexity of :math:`O((|E|+|V|)|E||V|^2)` for graphs witout labels.
+        Fast [geometric]:
+        Conjugate Gradient method as presented in
+        :cite:`vishwanathan2006fast` p.12, s.4.2, with
+        complexity of :math:`O(|E|^{2}rd|V|^{3})` for labeled graphs.
 
         Baseline:
         Algorithm presented in :cite:`kashima2003marginalized`,
@@ -456,7 +456,7 @@ class RandomWalkLabeled(RandomWalk):
             return np.sum(S)
         elif self.method_type == "fast" and self.kernel_type == "geometric":
             # Conjugate Gradient Method as presented in
-            # [Vishwanathan et al., 2006] p.13, s.4.
+            # [Vishwanathan et al., 2006] p.12, s.4.2
             AxAy = [(X[k], Y[k]) for k in ck]
 
             def lsf(x, lamda):
