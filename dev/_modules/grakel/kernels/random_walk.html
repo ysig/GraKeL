@@ -445,11 +445,11 @@
 <span class="sd">        A lambda factor concerning summation.</span>
 
 <span class="sd">    method_type : str, valid_values={&quot;baseline&quot;, &quot;fast&quot;}</span>
-<span class="sd">        The method to use for calculating random walk kernel:</span>
+<span class="sd">        The method to use for calculating random walk kernel [geometric]:</span>
 <span class="sd">            + &quot;baseline&quot; *Complexity*: :math:`O(|V|^6)`</span>
 <span class="sd">              (see :cite:`kashima2003marginalized`,</span>
 <span class="sd">              :cite:`gartner2003graph`)</span>
-<span class="sd">            + &quot;fast&quot; *Complexity*: :math:`O((|E|+|V|)|V||M|)`</span>
+<span class="sd">            + &quot;fast&quot; *Complexity*: :math:`O(|E|^{2}rd|V|^{3})`</span>
 <span class="sd">              (see :cite:`vishwanathan2006fast`)</span>
 
 <span class="sd">    kernel_type : str, valid_values={&quot;geometric&quot;, &quot;exponential&quot;}</span>
@@ -546,8 +546,8 @@
                 <span class="n">labels</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">Lx</span><span class="p">)</span>
                 <span class="n">Lx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Lx</span><span class="p">)</span>
                 <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">product</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
-                    <span class="n">selector</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">Lx</span> <span class="o">==</span> <span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
-                                         <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">Lx</span> <span class="o">==</span> <span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+                    <span class="n">selector</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">Lx</span> <span class="o">==</span> <span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+                                         <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">Lx</span> <span class="o">==</span> <span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
                     <span class="n">amss</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">Ax</span> <span class="o">*</span> <span class="n">selector</span>
                 <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">amss</span><span class="p">,</span> <span class="n">s</span><span class="p">))</span>
 
@@ -559,10 +559,10 @@
 <div class="viewcode-block" id="RandomWalkLabeled.pairwise_operation"><a class="viewcode-back" href="../../../generated/grakel.RandomWalkLabeled.html#grakel.RandomWalkLabeled.pairwise_operation">[docs]</a>    <span class="k">def</span> <span class="nf">pairwise_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate the labeled random walk kernel.</span>
 
-<span class="sd">        Fast:</span>
-<span class="sd">        Spectral demoposition algorithm as presented in</span>
-<span class="sd">        :cite:`vishwanathan2006fast` p.13, s.4.4, with</span>
-<span class="sd">        complexity of :math:`O((|E|+|V|)|E||V|^2)` for graphs witout labels.</span>
+<span class="sd">        Fast [geometric]:</span>
+<span class="sd">        Conjugate Gradient method as presented in</span>
+<span class="sd">        :cite:`vishwanathan2006fast` p.12, s.4.2, with</span>
+<span class="sd">        complexity of :math:`O(|E|^{2}rd|V|^{3})` for labeled graphs.</span>
 
 <span class="sd">        Baseline:</span>
 <span class="sd">        Algorithm presented in :cite:`kashima2003marginalized`,</span>
@@ -613,7 +613,7 @@
             <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">S</span><span class="p">)</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">method_type</span> <span class="o">==</span> <span class="s2">&quot;fast&quot;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel_type</span> <span class="o">==</span> <span class="s2">&quot;geometric&quot;</span><span class="p">:</span>
             <span class="c1"># Conjugate Gradient Method as presented in</span>
-            <span class="c1"># [Vishwanathan et al., 2006] p.13, s.4.</span>
+            <span class="c1"># [Vishwanathan et al., 2006] p.12, s.4.2</span>
             <span class="n">AxAy</span> <span class="o">=</span> <span class="p">[(</span><span class="n">X</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">Y</span><span class="p">[</span><span class="n">k</span><span class="p">])</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">ck</span><span class="p">]</span>
 
             <span class="k">def</span> <span class="nf">lsf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">lamda</span><span class="p">):</span>
