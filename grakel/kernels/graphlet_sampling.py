@@ -2,7 +2,6 @@
 # Author: Ioannis Siglidis <y.siglidis@gmail.com>
 # License: BSD 3 clause
 import collections
-import itertools
 import math
 import warnings
 
@@ -14,6 +13,7 @@ from sklearn.utils.validation import check_is_fitted
 
 from grakel.graph import Graph
 from grakel.kernels import Kernel
+from grakel.kernels._c_functions import ConSubg
 from grakel.kernels._isomorphism import Graph as bGraph
 
 # Python 2/3 cross-compatibility import
@@ -505,6 +505,8 @@ def sample_graphlets_probabilistic(A, k, n_samples):
 def sample_graphlets_all_connected(A, k):
     """All the connected graphlets of size k of a given graph.
 
+    The implemented algorithm can be found in :cite:`Karakashian2013AnAF` as `ConSubg`.
+
     Parameters
     ----------
     A : np.array
@@ -520,7 +522,7 @@ def sample_graphlets_all_connected(A, k):
         of size k.
 
     """
-    for i in itertools.permutations(range(A.shape[0]), min(k, A.shape[0])):
-        Q = A[i, :][:, i]
-        if 0 not in np.sum(Q, axis=1):
-            yield bGraph(Q.shape[0], zip(*np.where(Q == 1)))
+    G = {i: set(np.where(A[i, :] != 0)[0]) for i in range(A.shape[0])}
+    for s in ConSubg(G, k, np.all(A == A.T)):
+        enum = {j: i for i, j in enumerate(s)}
+        yield bGraph(len(s), iter((enum[i], enum[j]) for i in s for j in s & G[i]))

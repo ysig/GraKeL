@@ -4,6 +4,10 @@
 import numpy as np
 import cython
 
+from functools import reduce as freduce
+from itertools import combinations
+from collections import defaultdict
+
 from numpy import floor, sqrt
 
 cimport numpy as np
@@ -166,3 +170,112 @@ def k_to_ij_rectangular(k, dim):
     i = k % dim
     j = k // dim
     return (i, j)
+
+
+# ConSubg from:
+# Karakashian, Shant Kirakos et al. “An Algorithm for Generating All Connected Subgraphs with k Vertices of a Graph.” (2013).
+def ConSubg(G, k, symmetric):
+    # G: dict of sets
+    l = set()
+    if symmetric:
+        sG = G
+        for u in G.keys():
+            l |= CombinationsWithV(u, k, sG)    
+            sGP = dict()
+            for v in sG.keys():
+                if u != v:
+                    sGP[v] = sG[v] - {u}
+            sG = sGP
+    else:
+        for u in G.keys():
+            l |= CombinationsWithV(u, k, G)
+
+    return l
+
+def CombinationsWithV(u, k, G_init):
+    l = list()
+    tree = defaultdict(set)
+    treeL = {0: u}
+    MarkN = dict()
+    def CombinationTree(u, k, G):
+        root = u
+        l = [set() for i in range(k)]
+        l[0].add(u)
+
+        MarkV = dict()
+        def BuildTree(nt, depth, k):
+            # globals l, MarkN, MarkV, tree
+            l[depth] = set(l[depth-1])
+            for v in G[treeL[nt]]:
+                if v != nt and v not in l[depth]:
+                    ntp = len(treeL)
+                    treeL[ntp] = v
+                    tree[nt].add(ntp)
+                    l[depth].add(v)
+                    if not MarkV.get(v, False):
+                        MarkN[ntp], MarkV[v] = True, True
+                    else:
+                        MarkN[ntp] = False
+                    if depth + 1 <= k-1:
+                        BuildTree(ntp, depth + 1, k)
+
+        BuildTree(0, 1, k)
+
+    def unionProduct(S1, S2):
+        # globals tree, MarkN
+        # print("To compare", S1, S2)
+        if not len(S1):
+            return set()
+        elif not len(S2):
+            return {S1}
+        else:
+            return {s1 | s2 for s1 in S1 for s2 in S2 for s1p, s2p in [({treeL[i] for i in s1}, {treeL[i] for i in s2})] if not len(s1p & {treeL[i] for i in s2}) and (any(MarkN[j] for j in s2) or all(not len({treeL[j] for j in tree[i]} & s2p) for i in s1))}
+      
+    # Memoization
+    CFM = dict()
+
+    def CombinationsFromTree(root, k):
+        # Globals tree
+        t = root
+        lnodesets = set()
+        if k == 1:
+            return {frozenset({t})}
+        for i in range(1, min(len(tree[t]), k - 1) + 1):
+            for NodeComb in combinations(tree[t], i):
+                for string in compositions(k - 1, i):
+                    fail = False
+                    S = list()
+                    for pos in range(i):
+                        stRoot = NodeComb[pos]
+                        size = string[pos]
+                        m = CFM.get((stRoot, size), None)
+                        if m is None:
+                            m = CFM[stRoot, size] = CombinationsFromTree(stRoot, size)
+                        
+                        S.append(m)
+                        if not len(S[-1]):
+                           fail = True
+                           break
+                    if fail:
+                       continue
+                    for combProduct in freduce(unionProduct, S):
+                        lnodesets.add(frozenset(combProduct | {t}))
+        return lnodesets
+
+    CombinationTree(u, k, G_init)
+    return {frozenset({treeL[f] for f in fs}) for fs in CombinationsFromTree(0, k)}
+
+def compositions(n, k):
+  if n < 0 or k < 0:
+    return
+  elif k == 0:
+    if n == 0:
+      yield []
+    return
+  elif k == 1:
+    yield [n]
+    return
+  else:
+    for i in range(1, n):
+      for comp in compositions(n-i, k-1):
+        yield [i] + comp
