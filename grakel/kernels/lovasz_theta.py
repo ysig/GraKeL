@@ -51,6 +51,11 @@ class LovaszTheta(Kernel):
                   default=:math:`f(x,y) = x*y`
         The applied metric between the lovasz_theta numbers of subgraphs.
 
+    max_dim : int, default=None
+        The maximum graph size that can appear both in fit or transform.
+        When None, max_dim is calculated based on the size of the biggest graph on fit.
+        This can lead to a crash in case a graph appears in transform with size bigger than in fit.
+
     Attributes
     ----------
     _n_samples : int
@@ -79,6 +84,7 @@ class LovaszTheta(Kernel):
                  random_seed=42,
                  n_samples=50,
                  subsets_size_range=(2, 8),
+                 max_dim=None,
                  base_kernel=lambda x, y: x.T.dot(y)):
         """Initialise a lovasz_theta kernel."""
         # setup valid parameters and initialise from parent
@@ -94,8 +100,10 @@ class LovaszTheta(Kernel):
         self.subsets_size_range = subsets_size_range
         self.base_kernel = base_kernel
         self.random_seed = random_seed
+        self.max_dim = max_dim
         self.initialized_.update({"n_samples": False, "subsets_size_range": False,
-                                  "base_kernel": False, "random_seed": False})
+                                  "base_kernel": False, "random_seed": False,
+                                  "max_dim": False})
 
     def initialize_(self):
         """Initialize all transformer arguments, needing initialization."""
@@ -127,6 +135,15 @@ class LovaszTheta(Kernel):
         if not self.initialized_["random_seed"]:
             np.random.seed(self.random_seed)
             self.initialized_["random_seed"] = True
+
+        if not self.initialized_["max_dim"]:
+            if self.max_dim is not None and (type(self.max_dim) is not int or self.max_dim < 1):
+                raise ValueError('max_dim if not None, should be an integer bigger than 1')
+            if self.max_dim is None:
+                self._d = None
+            else:
+                self._d = self.max_dim + 1
+            self.initialized_["max_dim"] = True
 
     def parse_input(self, X):
         """Parse and create features for lovasz_theta kernel.
@@ -175,7 +192,16 @@ class LovaszTheta(Kernel):
                 max_dim = max(max_dim, A.shape[0])
 
             if self._method_calling == 1:
-                self._d = max_dim + 1
+                if self._d is None:
+                    self._d = max_dim + 1
+
+            if self._d < max_dim + 1:
+                if self.max_dim is None and self._method_calling == 3:
+                    raise ValueError('Maximum dimension of a graph in transform is bigger '
+                                     'than the one found in fit. To avoid that use max_dim parameter.')
+                else:
+                    raise ValueError('max_dim should correspond to the '
+                                     'biggest graph inside the dataset')
 
             out = list()
             for A in adjm:
