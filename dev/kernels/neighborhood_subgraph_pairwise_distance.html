@@ -1,0 +1,325 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Neighborhood Subgraph Pairwise Distance Kernel &mdash; GraKeL 0.1a4 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/_static/css/supplementary.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="ODD-STh Kernel" href="odd_sth.html" />
+    <link rel="prev" title="Neighborhood Hash Kernel" href="neighborhood_hash.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> GraKeL
+          
+
+          
+            
+            <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1a4
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../user_manual.html">User Manual</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">GraKeL</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../kernels.html">Kernels (between graphs)</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="core_framework.html">Core Kernel Framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="edge_histogram.html">Edge Histogram Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="graph_hopper.html">Graph Hopper Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="graphlet_sampling.html">Graphlet Sampling Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hadamard_code.html">Hadamard Code Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kernel.html">Kernel (general class)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lovasz_theta.html">Lovasz Theta Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="multiscale_laplacian.html">Multiscale Laplacian Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="neighborhood_hash.html">Neighborhood Hash Kernel</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Neighborhood Subgraph Pairwise Distance Kernel</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#bibliography">Bibliography</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="odd_sth.html">ODD-STh Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="propagation.html">The Propagation Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyramid_match.html">Pyramid Match Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="random_walk.html">Random Walk Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="shortest_path.html">Shortest Path Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="subgraph_matching.html">Subgraph Matching Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="svm_theta.html">SVM Theta Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vertex_histogram.html">Vertex Histogram Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="weisfeiler_lehman.html">Weisfeiler Lehman Framework</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../graph_kernel.html">GraphKernel (class)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../graph.html">Graph (class)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../datasets.html">Dataset loading utilities</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../classes.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">Classification Examples</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">GraKeL</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../api.html">GraKeL</a> &raquo;</li>
+        
+          <li><a href="../kernels.html">Kernels (between graphs)</a> &raquo;</li>
+        
+      <li>Neighborhood Subgraph Pairwise Distance Kernel</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/kernels/neighborhood_subgraph_pairwise_distance.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="neighborhood-subgraph-pairwise-distance-kernel">
+<span id="nspdk"></span><h1>Neighborhood Subgraph Pairwise Distance Kernel<a class="headerlink" href="#neighborhood-subgraph-pairwise-distance-kernel" title="Permalink to this headline">¶</a></h1>
+<p>The neighborhood subgraph pairwise distance kernel extracts pairs of rooted subgraphs from each graph whose roots are located at a certain distance from each other, and which contain vertices up to a certain distance from the root <a class="reference internal" href="#costa2010fast" id="id1">[CDG10]</a>.
+It then compares graphs based on these pairs of rooted subgraphs.
+To avoid isomorphism checking, graph invariants are employed to encode each rooted subgraph.</p>
+<p>Let <span class="math notranslate nohighlight">\(G=(V,E)\)</span> be a graph.
+The distance between two vertices <span class="math notranslate nohighlight">\(u,v \in V\)</span>, denoted <span class="math notranslate nohighlight">\(D(u,v)\)</span>, is the length of the shortest path between them.
+The neighborhood of radius <span class="math notranslate nohighlight">\(r\)</span> of a vertex <span class="math notranslate nohighlight">\(v\)</span> is the set of vertices at a distance less than or equal to <span class="math notranslate nohighlight">\(r\)</span> from <span class="math notranslate nohighlight">\(v\)</span>, that is <span class="math notranslate nohighlight">\(\{ u \in V : D(u,v) \leq r\}\)</span>.
+Given a subset of vertices <span class="math notranslate nohighlight">\(S \subseteq V\)</span>, let <span class="math notranslate nohighlight">\(E(S)\)</span> be the set of edges that have both end-points in <span class="math notranslate nohighlight">\(S\)</span>.
+Then, the subgraph with vertex set <span class="math notranslate nohighlight">\(S\)</span> and edge set <span class="math notranslate nohighlight">\(E(S)\)</span> is known as the subgraph induced by <span class="math notranslate nohighlight">\(S\)</span>.
+The neighborhood subgraph of radius <span class="math notranslate nohighlight">\(r\)</span> of vertex <span class="math notranslate nohighlight">\(v\)</span> is the subgraph induced by the neighborhood of radius <span class="math notranslate nohighlight">\(r\)</span> of <span class="math notranslate nohighlight">\(v\)</span> and is denoted by <span class="math notranslate nohighlight">\(N_r^v\)</span>.
+Let also <span class="math notranslate nohighlight">\(R_{r,d}(A_v,B_u,G)\)</span> be a relation between two rooted graphs <span class="math notranslate nohighlight">\(A_v\)</span>, <span class="math notranslate nohighlight">\(B_u\)</span> and a graph <span class="math notranslate nohighlight">\(G=(V,E)\)</span> that is true if and only if both <span class="math notranslate nohighlight">\(A_v\)</span> and <span class="math notranslate nohighlight">\(B_u\)</span> are in <span class="math notranslate nohighlight">\(\{N_r^v : v \in V \}\)</span>, where we require <span class="math notranslate nohighlight">\(A_v, B_u\)</span> to be isomorphic to some <span class="math notranslate nohighlight">\(N_r^v\)</span> to verify the set inclusion, and that <span class="math notranslate nohighlight">\(D(u,v) = d\)</span>.
+We denote with <span class="math notranslate nohighlight">\(R^{-1}(G)\)</span> the inverse relation that yields all the pairs of rooted graphs <span class="math notranslate nohighlight">\(A_v\)</span>, <span class="math notranslate nohighlight">\(B_u\)</span> satisfying the above constraints.
+Hence, <span class="math notranslate nohighlight">\(R^{-1}(G)\)</span> selects all pairs of neighborhood graphs of radius <span class="math notranslate nohighlight">\(r\)</span> whose roots are at distance <span class="math notranslate nohighlight">\(d\)</span> in a given graph <span class="math notranslate nohighlight">\(G\)</span>.
+The neighborhood subgraph pairwise distance kernel utilizes the following kernel</p>
+<div class="math notranslate nohighlight">
+\[k_{r,d}(G, G') = \sum_{A_v, B_v \in R_{r,d}^{-1}(G)} \quad \sum_{A'_{v'}, B'_{v'} \in R_{r,d}^{-1}(G')} \delta(A_v, A'_{v'}) \delta(B_v, B'_{v'})\]</div>
+<p>where <span class="math notranslate nohighlight">\(\delta\)</span> is <span class="math notranslate nohighlight">\(1\)</span> if its input subgraphs are isomorphic, and <span class="math notranslate nohighlight">\(0\)</span> otherwise.
+The above kernel counts the number of identical pairs of neighboring graphs of radius <span class="math notranslate nohighlight">\(r\)</span> at distance <span class="math notranslate nohighlight">\(d\)</span> between two graphs.
+Then, the neighborhood subgraph pairwise distance kernel is defined as</p>
+<div class="math notranslate nohighlight">
+\[k(G, G') = \sum_{r=0}^{r^*} \sum_{d=0}^{d^*} \hat{k}_{r,d}(G, G')\]</div>
+<p>where <span class="math notranslate nohighlight">\(\hat{k}_{r,d}\)</span> is a normalized version of <span class="math notranslate nohighlight">\(k_{r,d}\)</span>, that is</p>
+<div class="math notranslate nohighlight">
+\[\hat{k}_{r,d}(G,G') = \frac{k_{r,d}(G,G')}{\sqrt{k_{r,d}(G,G) k_{r,d}(G',G')}}\]</div>
+<p>The above version ensures that relations of all orders are equally weighted regardless of the size of the induced part sets.</p>
+<p>The neighborhood subgraph pairwise distance kernel includes an exact matching kernel over two graphs (ie the <span class="math notranslate nohighlight">\(\delta\)</span> kernel) which is equivalent to solving the graph isomorphism problem.
+Solving the graph isomorphism problem is not feasible.
+Therefore, the kernel produces an approximate solution to it instead.
+Given a subgraph <span class="math notranslate nohighlight">\(G_S\)</span> induced by the set of vertices <span class="math notranslate nohighlight">\(S\)</span>, the kernel computes a graph invariant encoding for the subgraph via a label function <span class="math notranslate nohighlight">\(\mathcal{L}^g : \mathcal{G} \rightarrow \Sigma^*\)</span>, where <span class="math notranslate nohighlight">\(\mathcal{G}\)</span> is the set of rooted graphs and <span class="math notranslate nohighlight">\(\Sigma^*\)</span> is the set of strings over a finite alphabet <span class="math notranslate nohighlight">\(\Sigma\)</span>.
+The function <span class="math notranslate nohighlight">\(\mathcal{L}^g\)</span> makes use of two other label functions: (<span class="math notranslate nohighlight">\(1\)</span>) a function <span class="math notranslate nohighlight">\(\mathcal{L}^n\)</span> for vertices, and (<span class="math notranslate nohighlight">\(2\)</span>) a function <span class="math notranslate nohighlight">\(\mathcal{L}^e\)</span> for edges.
+The <span class="math notranslate nohighlight">\(\mathcal{L}^n\)</span> function assigns to vertex <span class="math notranslate nohighlight">\(v\)</span> the concatenation of the lexicographically sorted list of distance-distance from root-label triplets <span class="math notranslate nohighlight">\(\langle D(v,u), D(v,h), \mathcal{L}(u) \rangle\)</span> for all <span class="math notranslate nohighlight">\(u \in S\)</span>, where <span class="math notranslate nohighlight">\(h\)</span> is the root of the subgraph and <span class="math notranslate nohighlight">\(\mathcal{L}\)</span> is a function that maps vertices/edges to their label symbol.
+Hence, the above function relabels each vertex with a string that encodes the initial label of the vertex, the vertex distance from all other labeled vertices, and the distance from the root vertex.
+The <span class="math notranslate nohighlight">\(\mathcal{L}^e(u,v)\)</span> function assigns to edge <span class="math notranslate nohighlight">\((u,v)\)</span> the label <span class="math notranslate nohighlight">\(\langle \mathcal{L}^n(u)\)</span>, <span class="math notranslate nohighlight">\(\mathcal{L}^n(v)\)</span>, <span class="math notranslate nohighlight">\(\mathcal{L}((u,v)) \rangle\)</span>.
+The <span class="math notranslate nohighlight">\(\mathcal{L}^e(u,v)\)</span> function thus annotates each edge based on the new labels of its endpoints, and its initial label, if any.
+Finally, the function <span class="math notranslate nohighlight">\(\mathcal{L}^g(G_S)\)</span> assigns to the rooted graph induced by <span class="math notranslate nohighlight">\(S\)</span> the concatenation of the lexicographically sorted list of <span class="math notranslate nohighlight">\(\mathcal{L}^e(u,v)\)</span> for all <span class="math notranslate nohighlight">\((u,v) \in E(S)\)</span>.
+The kernel then employs a hashing function from strings to natural numbers <span class="math notranslate nohighlight">\(H : \Sigma^* \rightarrow \mathbb{N}\)</span> to obtain a unique identifier for each subgraph.
+Hence, instead of testing pairs of subgraphs for isomorphism, the kernel just checks if the subgraphs share the same identifier.</p>
+<p>The computational complexity of the neighborhood subgraph pairwise distance kernel is <span class="math notranslate nohighlight">\(\mathcal{O}(|V| |S| |E(S)| \log |E(S)|)\)</span> and is dominated by the repeated computation of the graph invariant for each vertex of the graph.
+Since this is a constant time procedure, for small values of <span class="math notranslate nohighlight">\(d^*\)</span> and <span class="math notranslate nohighlight">\(r^*\)</span>, the complexity of the kernel is in practice linear in the size of the graph.</p>
+<p>The implementation of the neighborhood subgraph pairwise distance kernel can be found below</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../generated/grakel.NeighborhoodSubgraphPairwiseDistance.html#grakel.NeighborhoodSubgraphPairwiseDistance" title="grakel.NeighborhoodSubgraphPairwiseDistance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NeighborhoodSubgraphPairwiseDistance</span></code></a>([…])</td>
+<td>The Neighborhood subgraph pairwise distance kernel.</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="bibliography">
+<h2>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">¶</a></h2>
+<p id="bibtex-bibliography-kernels/neighborhood_subgraph_pairwise_distance-0"><table class="docutils citation" frame="void" id="costa2010fast" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[CDG10]</a></td><td>Fabrizio Costa and Kurt De&nbsp;Grave. Fast Neighborhood Subgraph Pairwise Distance Kernel. In <em>Proceedings of the 26th International Conference on Machine Learning</em>, 255–262. 2010.</td></tr>
+</tbody>
+</table>
+</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="odd_sth.html" class="btn btn-neutral float-right" title="ODD-STh Kernel" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="neighborhood_hash.html" class="btn btn-neutral" title="Neighborhood Hash Kernel" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, DaSciM (BSD License).
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.1a4',
+            LANGUAGE:'en',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
