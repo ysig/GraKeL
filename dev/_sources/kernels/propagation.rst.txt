@@ -1,12 +1,12 @@
 .. _propagation:
 
-The Propagation Kernel
+Propagation Kernel
 ======================
 Propagation kernels where introduced as a general framework in :cite:`neumann2015propagation`. They are based in the idea of propagating label information between nodes of the graph, based on the graph structure.
 A graph is considered to have **attributes** on nodes, where in the case of labels they correspond to One-Hot-Vectors of the full dictionary of labels.
 The totality of nodes for each graph, can be seen as a probability distribution :math:`P` of size :math:`n \times d` where :math:`n` corresponds to the number of nodes and :math:`d` to the size of attributes.
 After the idea of diffusion is applied in order to construct the algorithmic framework of propagation kernels.
-Given a transition matrix :math:`T` that is row normalized, iteration will be build on the basis of the following simple substitution rule:
+Given a transition matrix :math:`T` that is row normalized, an iterative propagation scheme will be build on the basis of the following simple substitution rule:
 
 .. math::
 
@@ -20,7 +20,7 @@ The general algorithm for propagation kernels is as follows:
     The general algorithmic scheme for propagation kernels.
 
 
-As one can notice on the above algorithm, inside each iteration is:
+The kernel computation :math:`\langle \Phi, \Phi \rangle_{ij}`, at iteration :math:`t` between two graphs :math:`i, j` is equivalent with the:
 
 .. math::
 

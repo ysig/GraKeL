@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>The Propagation Kernel &mdash; GraKeL 0.1a4 documentation</title>
+  <title>Propagation Kernel &mdash; GraKeL 0.1a4 documentation</title>
   
 
   
@@ -104,7 +104,7 @@
 <li class="toctree-l3"><a class="reference internal" href="neighborhood_hash.html">Neighborhood Hash Kernel</a></li>
 <li class="toctree-l3"><a class="reference internal" href="neighborhood_subgraph_pairwise_distance.html">Neighborhood Subgraph Pairwise Distance Kernel</a></li>
 <li class="toctree-l3"><a class="reference internal" href="odd_sth.html">ODD-STh Kernel</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">The Propagation Kernel</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Propagation Kernel</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pyramid_match.html">Pyramid Match Kernel</a></li>
 <li class="toctree-l3"><a class="reference internal" href="random_walk.html">Random Walk Kernel</a></li>
 <li class="toctree-l3"><a class="reference internal" href="shortest_path.html">Shortest Path Kernel</a></li>
@@ -170,7 +170,7 @@
         
           <li><a href="../kernels.html">Kernels (between graphs)</a> &raquo;</li>
         
-      <li>The Propagation Kernel</li>
+      <li>Propagation Kernel</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -189,13 +189,13 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="the-propagation-kernel">
-<span id="propagation"></span><h1>The Propagation Kernel<a class="headerlink" href="#the-propagation-kernel" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="propagation-kernel">
+<span id="propagation"></span><h1>Propagation Kernel<a class="headerlink" href="#propagation-kernel" title="Permalink to this headline">¶</a></h1>
 <p>Propagation kernels where introduced as a general framework in <a class="reference internal" href="../generated/grakel.PropagationAttr.html#neumann2015propagation" id="id1">[NGBK15]</a>. They are based in the idea of propagating label information between nodes of the graph, based on the graph structure.
 A graph is considered to have <strong>attributes</strong> on nodes, where in the case of labels they correspond to One-Hot-Vectors of the full dictionary of labels.
 The totality of nodes for each graph, can be seen as a probability distribution <span class="math notranslate nohighlight">\(P\)</span> of size <span class="math notranslate nohighlight">\(n \times d\)</span> where <span class="math notranslate nohighlight">\(n\)</span> corresponds to the number of nodes and <span class="math notranslate nohighlight">\(d\)</span> to the size of attributes.
 After the idea of diffusion is applied in order to construct the algorithmic framework of propagation kernels.
-Given a transition matrix <span class="math notranslate nohighlight">\(T\)</span> that is row normalized, iteration will be build on the basis of the following simple substitution rule:</p>
+Given a transition matrix <span class="math notranslate nohighlight">\(T\)</span> that is row normalized, an iterative propagation scheme will be build on the basis of the following simple substitution rule:</p>
 <div class="math notranslate nohighlight">
 \[P_{t+1} \leftarrow T P_{t}\]</div>
 <p>Other than a user given transition matrix, <span class="math notranslate nohighlight">\(T = D^{−1}A\)</span>, was considered as default for each graph, where <span class="math notranslate nohighlight">\(D = diag(\sum_{j} A_{ij})\)</span> and <span class="math notranslate nohighlight">\(A\)</span> corresponds to the adjacency matrix of this graph.
@@ -204,7 +204,7 @@ The general algorithm for propagation kernels is as follows:</p>
 <img alt="../_images/marion1.png" src="../_images/marion1.png" />
 <p class="caption"><span class="caption-text">The general algorithmic scheme for propagation kernels.</span></p>
 </div>
-<p>As one can notice on the above algorithm, inside each iteration is:</p>
+<p>The kernel computation <span class="math notranslate nohighlight">\(\langle \Phi, \Phi \rangle_{ij}\)</span>, at iteration <span class="math notranslate nohighlight">\(t\)</span> between two graphs <span class="math notranslate nohighlight">\(i, j\)</span> is equivalent with the:</p>
 <div class="math notranslate nohighlight">
 \[K(G^{(i)}_{t}, G^{(j)}_{t}) = \sum_{u \in G^{(i)}_{t}} \sum_{v \in G^{(j)}_{t}} k(u, v)\]</div>
 <p>where the node kernel <span class="math notranslate nohighlight">\(k(u, v)\)</span> is resolved through binning.
