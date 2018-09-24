@@ -39,14 +39,16 @@ elif not dinfo["nl"]:
 # The baseline dataset for node/edge-attributes
 dataset_attr = datasets.fetch_dataset(dataset_name,
                                       with_classes=True,
-                                      prefer_attr_nodes=True,
-                                      prefer_attr_edges=True,
+                                      prefer_attr_nodes=False,
+                                      prefer_attr_edges=False,
                                       verbose=True)
 
 import numpy as np
 
 from tqdm import tqdm
 from time import time
+
+from six import itervalues, iteritems
 
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import KFold
@@ -74,10 +76,19 @@ def sec_to_time(sec):
         dt.append(str(round(sec, 2)) + " s")
     return " ".join(dt)
 
+def to_one_hot(G):
+    # Index all discrete labels
+    mp = {dl: i for (i, dl) in enumerate(set(l for g in G for l in itervalues(g[1])))}
+    def make_vec(k):
+        vec = np.zeros((len(mp),), dtype=float)
+        vec[k] = 1.0
+        return vec
+    return [(g[0], {i: make_vec(mp[k]) for (i, k) in iteritems(g[1])}) for g in G]
+
 # Loads the Mutag dataset from:
 # https://ls11-www.cs.tu-dortmund.de/staff/morris/graphkerneldatasets
 # the biggest collection of benchmark datasets for graph_kernels.
-G, y = dataset_attr.data, dataset_attr.target
+G, y = to_one_hot(dataset_attr.data), dataset_attr.target
 C_grid = (10. ** np.arange(4, 10, 1) / len(G)).tolist()
 
 stats = {"acc": list(), "time": list()}
@@ -103,7 +114,11 @@ for train_index, test_index in tqdm(kf.split(G, y),
             tei.pop(0)
 
     start = time()
-    gk = GraphKernel(kernel={"name": "multiscale_laplacian", "which": "fast"})
+    gk = GraphKernel(kernel={"name": "multiscale_laplacian",
+                             "which": "fast",
+                             "L": 1,
+                             "P": 10,
+                             "N": 10})
 
     # Calculate the kernel matrix.
     K_train = gk.fit_transform(G_train)
