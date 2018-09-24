@@ -11,6 +11,7 @@ from itertools import product
 from numpy import ComplexWarning
 from numpy.linalg import inv
 from numpy.linalg import eig
+from numpy.linalg import multi_dot
 from scipy.linalg import expm
 from scipy.sparse.linalg import cg
 from scipy.sparse.linalg import LinearOperator
@@ -96,7 +97,15 @@ class RandomWalk(Kernel):
 
         if not self.initialized_["method_type"]:
             # Setup method type and define operation.
-            if self.method_type == "fast":
+            if (self.method_type == "baseline" or
+                    (self.method_type == "fast"
+                     and self.p is None
+                     and self.kernel_type == "geometric")):
+                def add_input(x):
+                    return x
+                self._add_input = add_input
+
+            elif self.method_type == "fast":
                 def invert(w, v):
                     # Spectral Decomposition if adjacency matrix is symmetric
                     return (np.real(np.sum(v, axis=0)), np.real(w))
@@ -104,10 +113,6 @@ class RandomWalk(Kernel):
                 def add_input(x):
                     return invert(*eig(x))
 
-                self._add_input = add_input
-            elif self.method_type == "baseline":
-                def add_input(x):
-                    return x
                 self._add_input = add_input
             else:
                 raise ValueError('unsupported method_type')
@@ -244,7 +249,7 @@ class RandomWalk(Kernel):
                     S = expm(self.lamda*XY).T
 
             return np.sum(S)
-        elif self.method_type == "fast":
+        elif self.method_type == "fast" and (self.p is not None or self.kernel_type == "exponential"):
             # Spectral demoposition algorithm as presented in
             # [Vishwanathan et al., 2006] p.13, s.4.4, with
             # complexity of O((|E|+|V|)|E||V|^2) for graphs
@@ -268,12 +273,27 @@ class RandomWalk(Kernel):
 
                 S = np.diagflat(S)
             else:
-                if self.kernel_type == "geometric":
-                    S = np.diagflat(1/(1-self.lamda*Dij))
-                elif self.kernel_type == "exponential":
-                    S = np.diagflat(np.exp(self.lamda*Dij))
-
+                # Exponential
+                S = np.diagflat(np.exp(self.lamda*Dij))
             return ff.dot(S).dot(ff.T)
+        else:
+            # Random Walk
+            # Conjugate Gradient Method as presented in
+            # [Vishwanathan et al., 2006] p.12, s.4.2
+            Ax, Ay = X, Y
+            xs, ys = Ax.shape[0], Ay.shape[0]
+            mn = xs*ys
+
+            def lsf(x, lamda):
+                xm = x.reshape((xs, ys), order='F')
+                y = np.reshape(multi_dot((Ax, xm, Ay)), (mn,), order='F')
+                return x - self.lamda * y
+
+            # A*x=b
+            A = LinearOperator((mn, mn), matvec=lambda x: lsf(x, self.lamda))
+            b = np.ones(mn)
+            x_sol, _ = cg(A, b, tol=1.0e-6, maxiter=20)
+            return np.sum(x_sol)
 
 
 class RandomWalkLabeled(RandomWalk):
@@ -426,8 +446,6 @@ class RandomWalkLabeled(RandomWalk):
         Y, ys = Y
         ck = set(X.keys()) & (set(Y.keys()))
 
-        if len(ck) == 0:
-            return .0
         mn = xs * ys
 
         if self.kernel_type == "exponential" or self.method_type == "baseline" or self.p is not None:
@@ -459,15 +477,19 @@ class RandomWalkLabeled(RandomWalk):
             # [Vishwanathan et al., 2006] p.12, s.4.2
             AxAy = [(X[k], Y[k]) for k in ck]
 
-            def lsf(x, lamda):
-                y = 0
-                xm = x.reshape((xs, ys))
-                for Ax, Ay in AxAy:
-                    y += np.reshape(np.matmul(np.matmul(Ax, xm), Ay), (mn,))
-                return x - self.lamda * y
+            if len(ck):
+                def lsf(x, lamda):
+                    y = 0
+                    xm = x.reshape((xs, ys), order='F')
+                    for Ax, Ay in AxAy:
+                        y += np.reshape(multi_dot((Ax, xm, Ay)), (mn,), order='F')
+                    return x - self.lamda * y
+            else:
+                def lsf(x, lamda):
+                    return x - np.zeros(mn)
 
             # A*x=b
             A = LinearOperator((mn, mn), matvec=lambda x: lsf(x, self.lamda))
             b = np.ones(mn)
-            x_sol, _ = cg(A, b, tol=1.0e-6, maxiter=200)
+            x_sol, _ = cg(A, b, tol=1.0e-6, maxiter=20)
             return np.sum(x_sol)

@@ -31,7 +31,7 @@ class NeighborhoodHash(Kernel):
     bytes : int, default=2
         Byte size of hashes.
 
-    random_seed : int, default=15487103
+    random_seed : int, default=42
         Random seed for intialising labels.
 
     Attributes

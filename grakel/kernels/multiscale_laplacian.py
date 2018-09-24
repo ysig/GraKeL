@@ -10,12 +10,12 @@ import numpy as np
 import time
 
 from numbers import Real
-from math import sqrt
+from math import exp
 
-from numpy.linalg import det
 from numpy.linalg import eig
 from numpy.linalg import inv
 from numpy.linalg import multi_dot
+from numpy.linalg import eigvals
 
 from grakel.graph import Graph
 from scipy.sparse.csgraph import laplacian
@@ -42,6 +42,9 @@ class MultiscaleLaplacianFast(Kernel):
     heta : float, default=0.01
         A smoothing parameter of float value.
 
+    P : int, default=10
+        Restrict the maximum number of eigenvalues, taken on eigenvalue decomposition.
+
     N : int, default=50
         The number of vertex samples.
 
@@ -55,6 +58,9 @@ class MultiscaleLaplacianFast(Kernel):
 
     heta : float
         A smoothing parameter for calculation of S matrices.
+
+    P : int
+        The maximum number of eigenvalues, taken on eigenvalue decomposition.
 
     N : int
         The number of vertex samples.
@@ -71,6 +77,7 @@ class MultiscaleLaplacianFast(Kernel):
                  normalize=False, verbose=False,
                  random_seed=42,
                  L=3,
+                 P=10,
                  gamma=0.01,
                  heta=0.01,
                  N=50):
@@ -84,9 +91,10 @@ class MultiscaleLaplacianFast(Kernel):
         self.gamma = gamma
         self.heta = heta
         self.L = L
+        self.P = P
         self.N = N
         self.initialized_.update({"random_seed": False, "gamma": False,
-                                  "heta": False, "L": False, "N": False})
+                                  "heta": False, "L": False, "N": False, "P": False})
 
     def initialize_(self):
         """Initialize all transformer arguments, needing initialization."""
@@ -126,6 +134,11 @@ class MultiscaleLaplacianFast(Kernel):
                 raise TypeError('N must be a positive integer')
             self.initialized_["N"] = True
 
+        if not self.initialized_["P"]:
+            if type(self.P) is not int or self.P <= 0:
+                raise TypeError('P must be a positive integer')
+            self.initialized_["P"] = True
+
     def parse_input(self, X):
         """Fast ML Graph Kernel.
 
@@ -152,7 +165,6 @@ class MultiscaleLaplacianFast(Kernel):
             raise TypeError('input must be an iterable\n')
         else:
             ng = 0
-
             out = list()
             data = dict()
             neighborhoods = dict()
@@ -190,6 +202,21 @@ class MultiscaleLaplacianFast(Kernel):
             if ng == 0:
                 raise ValueError('parsed input is empty')
 
+            # Define a function for calculating the S's of subgraphs of each iteration
+            def calculate_C(k, j, l):
+                if type(neighborhoods[k]) is Graph:
+                    neighborhoods[k] = neighborhoods[k].produce_neighborhoods(
+                        r=self.L, sort_neighbors=False)
+
+                indexes = neighborhoods[k][l][j]
+                L = laplacian(data[k][0][indexes, :][:, indexes]).astype(float)
+                _increment_diagonal_(L, self.heta)
+                U = data[k][1][indexes, :]
+                S = multi_dot((U.T, inv(L), U))
+                _increment_diagonal_(S, self.gamma)
+
+                return (inv(S), np.sum(np.log(np.real(eigvals(S)))))
+
             if self._method_calling == 1:
                 V = [(k, j) for k in range(ng)
                      for j in range(data[k][0].shape[0])]
@@ -201,69 +228,82 @@ class MultiscaleLaplacianFast(Kernel):
                 phi_k = np.array([data[k][1][j, :] for (k, j) in vs])
 
                 # w the eigen vectors, v the eigenvalues
-                v, w = eig(phi_k.dot(phi_k.T))
+                K = phi_k.dot(phi_k.T)
+
+                # Calculate eigenvalues
+                v, w = eig(K)
                 v, w = np.real(v), np.real(w.T)
 
                 # keep only the positive
-                vpos = np.where(v > positive_eigenvalue_limit)
+                vpos = np.argpartition(v, -self.P)[-self.P:]
+                vpos = vpos[np.where(v[vpos] > positive_eigenvalue_limit)]
 
-                # ksi shape=(k, P)
-                ksi = np.dot(w[vpos], phi_k).T / np.sqrt(v[vpos])
+                # ksi.shape = (k, Ns) * (Ns, P)
+                ksi = w[vpos].dot(phi_k).T / np.sqrt(v[vpos])
+                for j in range(ng):
+                    # (N, k) * (k, P)
+                    data[j][1] = data[j][1].dot(ksi)
+                self.data_level = {0: ksi}
+                for l in range(1, self.L+1):
+                    # Take random samples from all the vertices of all graphs
+                    np.random.shuffle(V)
+                    vs = V[:ns]
 
-                self._ksi = ksi
+                    # Compute the reference subsampled Gram matrix
+                    K_proj = {k: np.zeros(shape=(data[k][0].shape[0], ns)) for k in range(ng)}
+                    K, C = np.zeros(shape=(len(vs), len(vs))), dict()
+                    for (m, (k, j)) in enumerate(vs):
+                        C[m] = calculate_C(k, j, l)
+                        K_proj[k][j, m] = K[m, m] = self.pairwise_operation(C[m], C[m])
+                        for (s, (k2, j2)) in enumerate(vs):
+                            if s < m:
+                                K[s, m] = K[m, s] \
+                                        = K_proj[k2][j2, m] \
+                                        = K_proj[k][j, s] \
+                                        = self.pairwise_operation(C[s], C[m])
+                            else:
+                                break
+
+                    # Compute the kernels of the relations of the reference to everything else
+                    for (k, j) in V[ns:]:
+                        for (m, _) in enumerate(vs):
+                            K_proj[k][j, m] = self.pairwise_operation(C[m], calculate_C(k, j, l))
+
+                    # w the eigen vectors, v the eigenvalues
+                    v, w = eig(K)
+                    v, w = np.real(v), np.real(w.T)
+
+                    # keep only the positive
+                    vpos = np.argpartition(v, -self.P)[-self.P:]
+                    vpos = vpos[np.where(v[vpos] > positive_eigenvalue_limit)]
+
+                    # Q shape=(k, P)
+                    Q = w[vpos].T / np.sqrt(v[vpos])
+                    for j in range(ng):
+                        # (n, ns) * (ns, P)
+                        data[j][1] = K_proj[j].dot(Q)
+                    self.data_level[l] = (C, Q)
+
+            elif self._method_calling == 3:
+                ksi = self.data_level[0]
                 for j in range(ng):
                     # (n, k) * (k, P)
                     data[j][1] = data[j][1].dot(ksi)
 
                 for l in range(1, self.L+1):
-                    np.random.shuffle(V)
-                    vs = V[:ns]
-                    K = np.zeros(shape=(len(vs), len(vs)))
-                    C = dict()
-                    for (m, (k, j)) in enumerate(vs):
-                        if type(neighborhoods[k]) is Graph:
-                            neighborhoods[k] = neighborhoods[k].produce_neighborhoods(
-                                r=self.L, sort_neighbors=False)
-
-                        indexes = neighborhoods[k][l][j]
-                        L = laplacian(data[k][0][indexes, :][:, indexes]).astype(float)
-                        _increment_diagonal_(L, self.heta)
-                        U = data[k][1][indexes, :].T
-                        S = multi_dot((U, inv(L), U.T))
-                        _increment_diagonal_(S, self.gamma)
-                        C[m] = (inv(S)/2.0, sqrt(sqrt(det(S))))
-
-                    for m in range(len(C)):
-                        K[m, m] = self.pairwise_operation(C[m], C[m])
-                        for k in range(m + 1, len(C)):
-                            K[m, k] = K[k, m] = self.pairwise_operation(C[m], C[k])
-
-                    phi_k = np.array([data[k][1][j, :] for (k, j) in vs])
-
-                    # w the eigen vectors, v the eigenvalues
-                    v, w = eig(phi_k.dot(phi_k.T))
-                    v, w = np.real(v), np.real(w.T)
-
-                    # keep only the positive
-                    vpos = np.where(v > positive_eigenvalue_limit)
-
-                    # ksi shape=(k, P)
-                    ksi = w[vpos].dot(phi_k).T / np.sqrt(v[vpos])
-
-                    self._ksi = self._ksi.dot(ksi)
+                    C, Q = self.data_level[l]
                     for j in range(ng):
-                        # (n, k) * (k, P)
-                        data[j][1] = data[j][1].dot(ksi)
+                        K_proj = np.zeros(shape=(data[j][0].shape[0], len(C)))
+                        for n in range(data[j][0].shape[0]):
+                            for m in range(len(C)):
+                                K_proj[n, m] = self.pairwise_operation(C[m], calculate_C(j, n, l))
+                        data[j][1] = K_proj.dot(Q)
 
-            elif self._method_calling == 3:
-                for j in range(ng):
-                    # (n, k) * (k, P)
-                    data[j][1] = data[j][1].dot(self._ksi)
-
+            # Apply the final calculation of S.
             for k in range(ng):
                 S = multi_dot((data[k][1].T, data[k][2], data[k][1]))
                 _increment_diagonal_(S, self.gamma)
-                out.append((inv(S)/2.0, sqrt(sqrt(det(S)))))
+                out.append((inv(S), np.sum(np.log(np.real(eigvals(S))))))
 
             return out
 
@@ -273,10 +313,9 @@ class MultiscaleLaplacianFast(Kernel):
         Parameters
         ----------
         x, y : tuple
-            An np.array of inverse (divided by 2) and fourth root of the
-            determinant of S matrices (for the calculation of S matrices
-            see the algorithm 1 of the supplement material in
-            cite:`kondor2016multiscale`).
+            An np.array of inverse and the log determinant of S
+            (for the calculation of S matrices see the algorithm 1
+             of the supplement material in cite:`kondor2016multiscale`).
 
         Returns
         -------
@@ -284,16 +323,17 @@ class MultiscaleLaplacianFast(Kernel):
             The FLG core kernel value.
 
         """
-        S_inv_x, det_x_q = x
-        S_inv_y, det_y_q = y
+        S_inv_x, log_det_x = x
+        S_inv_y, log_det_y = y
 
-        # Calculate the kernel nominator
-        k_nom = np.sqrt(det(inv(S_inv_x + S_inv_y)))
+        # Calculate the result in term of logs
+        log_detS = -np.sum(np.log(np.real(eigvals(S_inv_x + S_inv_y))))
+        logr = (log_detS - 0.5*(log_det_x + log_det_y))/2.0
 
-        # Calculate the kernel denominator
-        k_denom = det_x_q * det_y_q
-
-        return k_nom/k_denom
+        if logr < -30:
+            return .0
+        else:
+            return exp(logr)
 
 
 class MultiscaleLaplacian(Kernel):
@@ -573,17 +613,16 @@ class MultiscaleLaplacian(Kernel):
             _increment_diagonal_(Sx, self.gamma)
             _increment_diagonal_(Sy, self.gamma)
 
-            # A small lambda to calculate ^ 1/4
-            def quatre(x):
-                return sqrt(sqrt(x))
+            def sle(mat):
+                return np.sum(np.log(np.real(eigvals(mat))))
 
             # Caclulate the kernel nominator
-            k_nom = sqrt(det(inv(inv(Sx)/2.0 + inv(Sy)/2.0)))
+            log_detS = -sle(inv(Sx) + inv(Sy))
+            logr = (log_detS - 0.5*(sle(Sx) + sle(Sy)))/2.0
 
-            # Caclulate the kernel denominator
-            k_denom = quatre(det(Sx)*det(Sy))
+            if logr >= -30:
+                k = exp(logr)
 
-            k = k_nom/k_denom
         return k
 
 

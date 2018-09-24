@@ -122,6 +122,8 @@ class GraphKernel(BaseEstimator, TransformerMixin):
 
                     + (**o**) "N" : [int] > 0, if "which": "fast"
 
+                    + (**o**) "P" : [int] > 0, if "which": "fast"
+
                 - "subgraph_matching"
                     + (**o**) "kv" : [function] : (node_x, node_y, Lx, Ly) -> number
 
