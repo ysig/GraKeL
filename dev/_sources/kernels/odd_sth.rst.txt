@@ -12,7 +12,7 @@ The idea behind the ODD-STh kernel proposed in :cite:`Martino2012ATK`, has to do
 where :math:`DD(G_{i})` corresponds to a graph decomposition of this graph and :math:`K_{DAG}` is a kernel between DAGs. As a DAG decomposition of each graph they considered the set of all directed BFS explorations starting from each node inside the graph, as follows in the picture:
 
 .. figure:: ../_static/odd_sth_1.png
-    :scale: 50 %
+    :scale: 100 %
 
     A simple DAG decomposition of a single graph
    
@@ -27,7 +27,7 @@ Now in order to move from DAGs to trees each :math:`K_{DAG}` kernel was calculat
 where :math:`T()` corresponds to the tree-visits on DAGs (which preserve an essence of \textit{ordering} as found in (:cite:`Martino2012ATK`, section 5.2). An example of such tree visits follows:
 
 .. figure:: ../_static/odd_sth_2.png
-    :scale: 50 %
+    :scale: 100 %
 
     Ordered tree visits on a DAG decomposed from a graph
 
@@ -39,7 +39,7 @@ where :math:`T()` corresponds to the tree-visits on DAGs (which preserve an esse
 For increasing the efficiency of this algorithm for the new set of DAG decomposition, known as ODD (*Ordered Dag Decomposition*), an aggregation of all the decomposition in a single DAG was proposed notated as :math:`BigDAG`. This method introduced in (:cite:`Martino2006`, MinimalDAG: Figure 2, p. 3), aggregates nodes having same labels with frequencies if they correspond to the same path on each DAG, while conserves the existence of nodes that cannot be aggregated.
 
 .. figure:: ../_static/odd_sth_3.png
-    :scale: 50 %
+    :scale: 100 %
 
     Construction of a :math:`BigDAG` from two DAGs
 
@@ -58,7 +58,7 @@ with:
 where :math:`f_{u}` is the frequency counter of the node :math:`u` and :math:`C(u, v)` is the number of matching proper subtrees from :math:`u` and :math:`v`. An even more abstract idea they followed was to created a :math:`Big^{2}DAG` where all the :math:`BigDAGs` created from each graph, would be aggregated to a single one, in the same way as in trees, but instead of incrementing frequencies on common nodes a frequency vector of appended frequencies for each DAG, was constructed.
 
 .. figure:: ../_static/odd_sth_4.png
-    :scale: 50 %
+    :scale: 100 %
 
     Construction of a :math:`Big^{2}DAG` from two :math:`BigDAGs`
 

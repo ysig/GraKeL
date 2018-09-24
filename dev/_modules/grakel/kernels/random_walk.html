@@ -168,6 +168,7 @@
 <span class="kn">from</span> <span class="nn">numpy</span> <span class="k">import</span> <span class="n">ComplexWarning</span>
 <span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="k">import</span> <span class="n">inv</span>
 <span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="k">import</span> <span class="n">eig</span>
+<span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="k">import</span> <span class="n">multi_dot</span>
 <span class="kn">from</span> <span class="nn">scipy.linalg</span> <span class="k">import</span> <span class="n">expm</span>
 <span class="kn">from</span> <span class="nn">scipy.sparse.linalg</span> <span class="k">import</span> <span class="n">cg</span>
 <span class="kn">from</span> <span class="nn">scipy.sparse.linalg</span> <span class="k">import</span> <span class="n">LinearOperator</span>
@@ -253,7 +254,15 @@
 
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span><span class="p">[</span><span class="s2">&quot;method_type&quot;</span><span class="p">]:</span>
             <span class="c1"># Setup method type and define operation.</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">method_type</span> <span class="o">==</span> <span class="s2">&quot;fast&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">method_type</span> <span class="o">==</span> <span class="s2">&quot;baseline&quot;</span> <span class="ow">or</span>
+                    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">method_type</span> <span class="o">==</span> <span class="s2">&quot;fast&quot;</span>
+                     <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span> <span class="ow">is</span> <span class="kc">None</span>
+                     <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel_type</span> <span class="o">==</span> <span class="s2">&quot;geometric&quot;</span><span class="p">)):</span>
+                <span class="k">def</span> <span class="nf">add_input</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="n">x</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_add_input</span> <span class="o">=</span> <span class="n">add_input</span>
+
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">method_type</span> <span class="o">==</span> <span class="s2">&quot;fast&quot;</span><span class="p">:</span>
                 <span class="k">def</span> <span class="nf">invert</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
                     <span class="c1"># Spectral Decomposition if adjacency matrix is symmetric</span>
                     <span class="k">return</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)),</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">w</span><span class="p">))</span>
@@ -261,10 +270,6 @@
                 <span class="k">def</span> <span class="nf">add_input</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
                     <span class="k">return</span> <span class="n">invert</span><span class="p">(</span><span class="o">*</span><span class="n">eig</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
 
-                <span class="bp">self</span><span class="o">.</span><span class="n">_add_input</span> <span class="o">=</span> <span class="n">add_input</span>
-            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">method_type</span> <span class="o">==</span> <span class="s2">&quot;baseline&quot;</span><span class="p">:</span>
-                <span class="k">def</span> <span class="nf">add_input</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-                    <span class="k">return</span> <span class="n">x</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_add_input</span> <span class="o">=</span> <span class="n">add_input</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;unsupported method_type&#39;</span><span class="p">)</span>
@@ -401,7 +406,7 @@
                     <span class="n">S</span> <span class="o">=</span> <span class="n">expm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lamda</span><span class="o">*</span><span class="n">XY</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
 
             <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">S</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">method_type</span> <span class="o">==</span> <span class="s2">&quot;fast&quot;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">method_type</span> <span class="o">==</span> <span class="s2">&quot;fast&quot;</span> <span class="ow">and</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">p</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel_type</span> <span class="o">==</span> <span class="s2">&quot;exponential&quot;</span><span class="p">):</span>
             <span class="c1"># Spectral demoposition algorithm as presented in</span>
             <span class="c1"># [Vishwanathan et al., 2006] p.13, s.4.4, with</span>
             <span class="c1"># complexity of O((|E|+|V|)|E||V|^2) for graphs</span>
@@ -425,12 +430,27 @@
 
                 <span class="n">S</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diagflat</span><span class="p">(</span><span class="n">S</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel_type</span> <span class="o">==</span> <span class="s2">&quot;geometric&quot;</span><span class="p">:</span>
-                    <span class="n">S</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diagflat</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">lamda</span><span class="o">*</span><span class="n">Dij</span><span class="p">))</span>
-                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel_type</span> <span class="o">==</span> <span class="s2">&quot;exponential&quot;</span><span class="p">:</span>
-                    <span class="n">S</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diagflat</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lamda</span><span class="o">*</span><span class="n">Dij</span><span class="p">))</span>
+                <span class="c1"># Exponential</span>
+                <span class="n">S</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diagflat</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lamda</span><span class="o">*</span><span class="n">Dij</span><span class="p">))</span>
+            <span class="k">return</span> <span class="n">ff</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">S</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">ff</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Random Walk</span>
+            <span class="c1"># Conjugate Gradient Method as presented in</span>
+            <span class="c1"># [Vishwanathan et al., 2006] p.12, s.4.2</span>
+            <span class="n">Ax</span><span class="p">,</span> <span class="n">Ay</span> <span class="o">=</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span>
+            <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span> <span class="o">=</span> <span class="n">Ax</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">Ay</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">mn</span> <span class="o">=</span> <span class="n">xs</span><span class="o">*</span><span class="n">ys</span>
 
-            <span class="k">return</span> <span class="n">ff</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">S</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">ff</span><span class="o">.</span><span class="n">T</span><span class="p">)</span></div></div>
+            <span class="k">def</span> <span class="nf">lsf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">lamda</span><span class="p">):</span>
+                <span class="n">xm</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">),</span> <span class="n">order</span><span class="o">=</span><span class="s1">&#39;F&#39;</span><span class="p">)</span>
+                <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">multi_dot</span><span class="p">((</span><span class="n">Ax</span><span class="p">,</span> <span class="n">xm</span><span class="p">,</span> <span class="n">Ay</span><span class="p">)),</span> <span class="p">(</span><span class="n">mn</span><span class="p">,),</span> <span class="n">order</span><span class="o">=</span><span class="s1">&#39;F&#39;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">x</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">lamda</span> <span class="o">*</span> <span class="n">y</span>
+
+            <span class="c1"># A*x=b</span>
+            <span class="n">A</span> <span class="o">=</span> <span class="n">LinearOperator</span><span class="p">((</span><span class="n">mn</span><span class="p">,</span> <span class="n">mn</span><span class="p">),</span> <span class="n">matvec</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">lsf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">lamda</span><span class="p">))</span>
+            <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">mn</span><span class="p">)</span>
+            <span class="n">x_sol</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">cg</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1.0e-6</span><span class="p">,</span> <span class="n">maxiter</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x_sol</span><span class="p">)</span></div></div>
 
 
 <div class="viewcode-block" id="RandomWalkLabeled"><a class="viewcode-back" href="../../../generated/grakel.RandomWalkLabeled.html#grakel.RandomWalkLabeled">[docs]</a><span class="k">class</span> <span class="nc">RandomWalkLabeled</span><span class="p">(</span><span class="n">RandomWalk</span><span class="p">):</span>
@@ -583,8 +603,6 @@
         <span class="n">Y</span><span class="p">,</span> <span class="n">ys</span> <span class="o">=</span> <span class="n">Y</span>
         <span class="n">ck</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">&amp;</span> <span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">Y</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
 
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ck</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">return</span> <span class="o">.</span><span class="mi">0</span>
         <span class="n">mn</span> <span class="o">=</span> <span class="n">xs</span> <span class="o">*</span> <span class="n">ys</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel_type</span> <span class="o">==</span> <span class="s2">&quot;exponential&quot;</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">method_type</span> <span class="o">==</span> <span class="s2">&quot;baseline&quot;</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -616,17 +634,21 @@
             <span class="c1"># [Vishwanathan et al., 2006] p.12, s.4.2</span>
             <span class="n">AxAy</span> <span class="o">=</span> <span class="p">[(</span><span class="n">X</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">Y</span><span class="p">[</span><span class="n">k</span><span class="p">])</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">ck</span><span class="p">]</span>
 
-            <span class="k">def</span> <span class="nf">lsf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">lamda</span><span class="p">):</span>
-                <span class="n">y</span> <span class="o">=</span> <span class="mi">0</span>
-                <span class="n">xm</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">))</span>
-                <span class="k">for</span> <span class="n">Ax</span><span class="p">,</span> <span class="n">Ay</span> <span class="ow">in</span> <span class="n">AxAy</span><span class="p">:</span>
-                    <span class="n">y</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">Ax</span><span class="p">,</span> <span class="n">xm</span><span class="p">),</span> <span class="n">Ay</span><span class="p">),</span> <span class="p">(</span><span class="n">mn</span><span class="p">,))</span>
-                <span class="k">return</span> <span class="n">x</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">lamda</span> <span class="o">*</span> <span class="n">y</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ck</span><span class="p">):</span>
+                <span class="k">def</span> <span class="nf">lsf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">lamda</span><span class="p">):</span>
+                    <span class="n">y</span> <span class="o">=</span> <span class="mi">0</span>
+                    <span class="n">xm</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">),</span> <span class="n">order</span><span class="o">=</span><span class="s1">&#39;F&#39;</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">Ax</span><span class="p">,</span> <span class="n">Ay</span> <span class="ow">in</span> <span class="n">AxAy</span><span class="p">:</span>
+                        <span class="n">y</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">multi_dot</span><span class="p">((</span><span class="n">Ax</span><span class="p">,</span> <span class="n">xm</span><span class="p">,</span> <span class="n">Ay</span><span class="p">)),</span> <span class="p">(</span><span class="n">mn</span><span class="p">,),</span> <span class="n">order</span><span class="o">=</span><span class="s1">&#39;F&#39;</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="n">x</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">lamda</span> <span class="o">*</span> <span class="n">y</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">def</span> <span class="nf">lsf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">lamda</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="n">x</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">mn</span><span class="p">)</span>
 
             <span class="c1"># A*x=b</span>
             <span class="n">A</span> <span class="o">=</span> <span class="n">LinearOperator</span><span class="p">((</span><span class="n">mn</span><span class="p">,</span> <span class="n">mn</span><span class="p">),</span> <span class="n">matvec</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">lsf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">lamda</span><span class="p">))</span>
             <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">mn</span><span class="p">)</span>
-            <span class="n">x_sol</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">cg</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1.0e-6</span><span class="p">,</span> <span class="n">maxiter</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+            <span class="n">x_sol</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">cg</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1.0e-6</span><span class="p">,</span> <span class="n">maxiter</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x_sol</span><span class="p">)</span></div></div>
 </pre></div>
 
