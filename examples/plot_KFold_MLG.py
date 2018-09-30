@@ -37,11 +37,12 @@ elif not dinfo["nl"]:
 
 
 # The baseline dataset for node/edge-attributes
+print(dataset_name, len(dataset_name) * "-",sep="\n")
 dataset_attr = datasets.fetch_dataset(dataset_name,
                                       with_classes=True,
                                       prefer_attr_nodes=False,
                                       prefer_attr_edges=False,
-                                      verbose=True)
+                                      verbose=False)
 
 import numpy as np
 

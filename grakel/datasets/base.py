@@ -397,12 +397,12 @@ def fetch_dataset(
         as_graphs=False):
     """Load a dataset from a huge collection of benchmark datasets :cite:`KKMMN2016`.
 
-    For more info visit: https://ls11-www.cs.tu-dortmund.de/staff/morris/graphkerneldatasets
+    For more info visit: :xref:`gd`
 
     Parameters
     ----------
     name : str
-        The name of the dataset (as found in `gd`_).
+        The name of the dataset (as found in :xref:`gd`).
 
     verbose : bool, default=True
         Print messages, throughout execution.

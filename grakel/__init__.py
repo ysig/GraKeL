@@ -31,6 +31,8 @@ from grakel.kernels import EdgeHistogram
 from grakel.kernels import GraphHopper
 from grakel.kernels import CoreFramework
 
+from grakel.utils import KMTransformer
+from grakel.utils import cross_validate_Kfold_SVM
 from grakel.utils import graph_from_networkx
 from grakel.utils import graph_from_pandas
 from grakel.utils import graph_from_csv
@@ -64,7 +66,9 @@ __all__ = [
     "CoreFramework",
     "graph_from_networkx",
     "graph_from_pandas",
-    "graph_from_csv"
+    "graph_from_csv",
+    "KMTransformer",
+    "cross_validate_Kfold_SVM"
 ]
 
 # Generic release markers:

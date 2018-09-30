@@ -5,9 +5,19 @@ from __future__ import print_function
 
 import os
 
+from warnings import warn
+from numpy import arange
+from numpy.random import RandomState
 from grakel import graph_from_pandas
 from grakel import graph_from_networkx
 from grakel import graph_from_csv
+from grakel import cross_validate_Kfold_SVM
+from grakel import ShortestPath
+from grakel import RandomWalkLabeled
+from grakel import WeisfeilerLehman
+from grakel import VertexHistogram
+from grakel.datasets import fetch_dataset
+from grakel.datasets.base import read_data
 
 global verbose
 
@@ -150,7 +160,41 @@ def test_csv():
     assert(all(gs[0] == ga and gs[1] == ganl and gs[2] == gael for gs in graphs))
 
 
+def test_KM_Kfold():
+    """Testing KFold execution on wl, rw, sp input."""
+    def load_mutag():
+        try:
+            dataset = fetch_dataset("MUTAG", with_classes=True, verbose=verbose)
+        except Exception:
+            # Offline testing
+            warn('MUTAG could not be downloaded: using an offline version..')
+            cwd = os.getcwd()
+            os.chdir(os.path.join(os.path.dirname(__file__), 'data'))
+            dataset = read_data('MUTAG', with_classes=True)
+            os.chdir(cwd)
+        return dataset.data, dataset.target
+
+    # Input
+    X, y = load_mutag()
+    K = [ShortestPath().fit_transform(X), [RandomWalkLabeled(lamda=0.1).fit_transform(X),
+         RandomWalkLabeled(lamda=0.01).fit_transform(X)],
+         WeisfeilerLehman(base_kernel=VertexHistogram).fit_transform(X)]
+
+    # Parametrization
+    n_splits = 10
+    rs = RandomState(42)
+    n_iter = 10
+    C_grid = list(((10. ** arange(-7, 7, 2)) / len(y)).tolist())
+    scoring = "accuracy"
+
+    # Execute Kfold
+    cross_validate_Kfold_SVM(K, y,
+                             n_iter=n_iter, n_splits=n_splits, C_grid=C_grid,
+                             random_state=rs, scoring=scoring, fold_reduce=None)
+
+
 if __name__ == '__main__':
     test_pandas()
     test_networkx()
     test_csv()
+    test_KM_Kfold()

@@ -100,22 +100,45 @@ Fetch
 
 .. autosummary::
    :toctree: generated/
-   :template: function.rst
+   :template: function_bib.rst
 
    fetch_dataset
+
+.. autosummary::
+   :toctree: generated/
+   :template: function.rst
+
    get_dataset_info
 
 
 **User guide:** See the :ref:`datasets` section for further details.
 
 
-:mod:`grakel`: General
+:mod:`grakel`: Utils
 =================================
 
-Utils
------
-
 .. currentmodule:: grakel
+
+Use a kernel matrix as a transformer
+------------------------------------
+
+.. autosummary::
+   :toctree: generated/
+   :template: class.rst
+
+   KMTransformer
+
+Cross Validation
+----------------
+
+.. autosummary::
+   :toctree: generated/
+   :template: function.rst
+
+   cross_validate_Kfold_SVM
+
+Load from other file formats
+----------------------------
 
 .. autosummary::
    :toctree: generated/
@@ -126,6 +149,5 @@ Utils
    graph_from_csv
 
 **User guide:** Usefull functions for applying to existing datasets, of other formats.
-
 
 .. _gd:	https://ls11-www.cs.tu-dortmund.de/staff/morris/graphkerneldatasets

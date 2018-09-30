@@ -237,7 +237,7 @@ class GraphHopper(Kernel):
         return out
 
     def pairwise_operation(self, x, y):
-        """Graph Hopper kernel as proposed in :cite:`GraphHopper`.
+        """Graph Hopper kernel as proposed in :cite:`feragen2013scalable`.
 
         Parameters
         ----------
@@ -263,7 +263,7 @@ class GraphHopper(Kernel):
 
 
 def linear_kernel(x, y):
-    """Graph Hopper linear pairwise kernel as proposed in :cite:`GraphHopper`.
+    """Graph Hopper linear pairwise kernel as proposed in :cite:`feragen2013scalable`.
 
     Parameters
     ----------
@@ -284,7 +284,7 @@ def linear_kernel(x, y):
 
 
 def gaussian_kernel(x, y, mu):
-    """Graph Hopper gaussian pairwise kernel as proposed in :cite:`GraphHopper`.
+    """Graph Hopper gaussian pairwise kernel as proposed in :cite:`feragen2013scalable`.
 
     Parameters
     ----------
@@ -310,7 +310,7 @@ def gaussian_kernel(x, y, mu):
 
 
 def bridge_kernel(x, y):
-    """Graph Hopper bridge kernel as proposed in :cite:`GraphHopper`.
+    """Graph Hopper bridge kernel as proposed in :cite:`feragen2013scalable`.
 
     Parameters
     ----------
@@ -356,7 +356,7 @@ def kernelmatrix2distmatrix(K):
 def od_vectors_dag(G, shortestpath_dists):
     """Compute the set of occurrence and distance vectors for G.
 
-    Defined in :cite:`GraphHopper`.
+    Defined in :cite:`feragen2013scalable`.
 
     Parameters
     ----------

@@ -3,9 +3,225 @@
 # License: BSD 3 clause
 import os
 import numpy as np
-from grakel import Graph
+
 from collections import defaultdict
 from collections import Iterable
+from numpy.random import RandomState
+
+from sklearn.base import TransformerMixin
+from sklearn.pipeline import make_pipeline
+from sklearn.model_selection import KFold
+from sklearn.model_selection import GridSearchCV
+from sklearn.model_selection import ShuffleSplit
+from sklearn.base import BaseEstimator
+from sklearn.svm import SVC
+from sklearn.datasets.lfw import Bunch
+from sklearn.utils.validation import check_is_fitted
+
+from grakel import Graph
+from grakel.graph import is_adjacency as valid_matrix
+
+
+class KMTransformer(BaseEstimator, TransformerMixin):
+    """A Kernel Matrix Transformer.
+
+    Usefull for using precalculated Kernel Matrices inside scikit-learn pipeline.
+
+    Parameters
+    ----------
+    K : array-like, shape=[n, n]
+        If given an array the input can be as follows:
+            + array-like lists of lists
+
+            + np.array
+
+            + sparse matrix (scipy.sparse)
+        It can also be embedded in an sklearn Bunch object as mat (argument)
+
+    Attributes
+    ----------
+    _K : numpy.array, shape=[n, n]
+
+    """
+    def __init__(self, K=None):
+        """Initialise the Kernel Matrix Transformer"""
+
+        self.K = K
+        self.initialized_ = {"K": False}
+
+    def initialize_(self):
+        """Initialize all transformer arguments, needing initialisation."""
+        if not self.initialized_["K"]:
+            if self.K is None:
+                raise ValueError('K is None .. where 2-dimensional array-like object was expected')
+            else:
+                K = self.K
+                if isinstance(K, Bunch):
+                    try:
+                        K = K.mat
+                    except Exception:
+                        raise ValueError('If in an sklearn Bunch K must be under mat')
+                flag, M = valid_matrix(K, transform=True)
+                if not flag:
+                    print(self.K)
+                    raise ValueError('The provided K cannot be converted to a '
+                                     'two dimensional np.array.')
+            self._K = M
+            self.initialized_["K"] = True
+
+    def fit(self, X):
+        """Fit a list of indeces.
+
+        Parameters
+        ----------
+        X : Iterable of int:
+            Indexes for the X of the kernel matrix.
+
+        Returns
+        -------
+        self : object
+            Returns self.
+
+        """
+        self.initialize_()
+        if any(x < 0 or x > self._K.shape[0] for x in X):
+            raise ValueError('')
+        else:
+            self.X = np.array(X)
+
+        return self
+
+    def fit_transform(self, X, y=None):
+        """Fit and transform, on the same dataset.
+
+        Parameters
+        ----------
+        X : Iterable of int
+            Indexes for the first dimension of the kernel matrix.
+
+        y : None
+            There is no need of a target in a transformer, yet the pipeline API
+            requires this parameter.
+
+        Returns
+        -------
+        K : numpy array, shape = [len(X), len(X)]
+            Corresping to the values of the X indexes with themselfs.
+
+        """
+        # Initialize the Graph Kernel
+        self.initialize_()
+        if any(x < 0 or x > self._K.shape[0] for x in X):
+            raise ValueError('')
+        else:
+            self.X = np.array(X)
+
+        return self._K[self.X, :][:, self.X]
+
+    def transform(self, X):
+        """Calculate the kernel matrix, between given and fitted dataset.
+
+        Parameters
+        ----------
+        X : Iterable of int
+            Indexes for the second dimension of the kernel matrix.
+
+        Returns
+        -------
+        K : numpy array, shape = [len(Y), len(X)]
+            Corresping to the values of the Y indexes with X.
+
+        """
+        check_is_fitted(self, 'X')
+        if any(x < 0 or x > self._K.shape[0] for x in X):
+            raise ValueError('')
+
+        return self._K[X, :][:, self.X]
+
+
+def cross_validate_Kfold_SVM(K, y,
+                             n_iter=10, n_splits=10, C_grid=None,
+                             random_state=42, scoring="accuracy", fold_reduce=None):
+    """Cross Validate a list of precomputed kernels with an SVM.
+
+    Parameters
+    ----------
+    K : list
+        A list that must contain either numpy arrays or iterables of numpy arrays.
+
+    y : list
+        List of lists that for every element of K contains numbers of score for all iterations.
+
+    n_iter : int
+        Number of iteration for the K-Fold.
+
+    n_splits : int
+        Number of splits for the K-Fold.
+
+    random_state : int, or np.random.RandomState
+        Either a seed or a RandomState object for the use of a common RandomSate in the
+        begging of all operations.
+
+    fold_reduce : callable or None
+        A function that summarizes information between all folds.
+        Input must be a list of n_splits elements corresponding to scoring.
+        If None default is np.mean.
+
+    scoring : string, callable, list/tuple, dict or None, default: None
+        As in ``scoring`` in :xref:`lgscv`.
+
+    Returns
+    -------
+    out : list
+       A list that contains a list of the reduced folds for each iteration, for each primary
+       element of K.
+    """
+    # Initialise C_grid
+    if C_grid is None:
+        C_grid = ((10. ** np.arange(-7, 7, 2)) / len(y)).tolist()
+    elif type(C_grid) is np.array:
+        C_grid = np.squeeze(C_grid)
+        if len(C_grid.shape) != 1:
+            raise ValueError('C_grid should either be None or a squeezable to 1 dimension np.array')
+        else:
+            C_grid = list(C_grid)
+
+    # Initialise fold_reduce:
+    if fold_reduce is None:
+        fold_reduce = np.mean
+    elif not isinstance(callable, fold_reduce):
+        raise ValueError('fold_reduce should be a callable')
+
+    # Initialise and check random state
+    if type(random_state) is not RandomState:
+        random_state = RandomState(random_state)
+
+    # Initialise sklearn pipeline objects
+    kfolder = KFold(n_splits=n_splits, random_state=random_state, shuffle=True)
+    estimator = make_pipeline(KMTransformer(), SVC(kernel='precomputed'))
+
+    # Make all the requested folds
+    nfolds = tuple(tuple(kfolder.split(y)) for _ in range(n_iter))
+
+    out = list()
+    for ks in K:
+        mid = list()
+        if valid_matrix(ks):
+            pg = {"svc__C": C_grid, "kmtransformer__K": [Bunch(mat=ks)]}
+        elif isinstance(ks, Iterable) and all(valid_matrix(k) for k in ks):
+            pg = [{"svc__C": C_grid, "kmtransformer__K": [Bunch(mat=k)]} for k in ks]
+
+        for kfolds in nfolds:
+            fold_info = list()
+            for train, test in kfolds:
+                gs = GridSearchCV(estimator, param_grid=pg, scoring=scoring,
+                                  cv=ShuffleSplit(n_splits=1,
+                                                  test_size=0.1,
+                                                  random_state=random_state)).fit(train, y[train])
+                fold_info.append(gs.score(test, y[test]))
+            mid.append(fold_reduce(fold_info))
+        out.append(mid)
+    return out
 
 
 def graph_from_networkx(X, node_labels_tag=None, edge_labels_tag=None, edge_weight_tag=None,
