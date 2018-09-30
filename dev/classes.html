@@ -152,8 +152,16 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#grakel-general"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>: General</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#utils">Utils</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#grakel-utils"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>: Utils</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#use-a-kernel-matrix-as-a-transformer">Use a kernel matrix as a transformer</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="generated/grakel.KMTransformer.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.KMTransformer</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#cross-validation">Cross Validation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="generated/grakel.cross_validate_Kfold_SVM.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.cross_validate_Kfold_SVM</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#load-from-other-file-formats">Load from other file formats</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="generated/grakel.graph_from_networkx.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.graph_from_networkx</a></li>
 <li class="toctree-l4"><a class="reference internal" href="generated/grakel.graph_from_pandas.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.graph_from_pandas</a></li>
 <li class="toctree-l4"><a class="reference internal" href="generated/grakel.graph_from_csv.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.graph_from_csv</a></li>
@@ -392,7 +400,15 @@ to read <a class="reference internal" href="user_manual.html#user-manual"><span 
 <tr class="row-odd"><td><a class="reference internal" href="generated/grakel.datasets.fetch_dataset.html#grakel.datasets.fetch_dataset" title="grakel.datasets.fetch_dataset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_dataset</span></code></a>(name[,&nbsp;verbose,&nbsp;data_home,&nbsp;…])</td>
 <td>Load a dataset from a huge collection of benchmark datasets [KKMMN2016].</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/grakel.datasets.get_dataset_info.html#grakel.datasets.get_dataset_info" title="grakel.datasets.get_dataset_info"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_dataset_info</span></code></a>(dataset_name[,&nbsp;default])</td>
+</tbody>
+</table>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="generated/grakel.datasets.get_dataset_info.html#grakel.datasets.get_dataset_info" title="grakel.datasets.get_dataset_info"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_dataset_info</span></code></a>(dataset_name[,&nbsp;default])</td>
 <td>Return the info concerning the existence of a certain dataset.</td>
 </tr>
 </tbody>
@@ -400,10 +416,38 @@ to read <a class="reference internal" href="user_manual.html#user-manual"><span 
 <p><strong>User guide:</strong> See the <a class="reference internal" href="datasets.html#datasets"><span class="std std-ref">Dataset loading utilities</span></a> section for further details.</p>
 </div>
 </div>
-<div class="section" id="grakel-general">
-<h2><a class="reference internal" href="api.html#module-grakel" title="grakel"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code></a>: General<a class="headerlink" href="#grakel-general" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="utils">
-<h3>Utils<a class="headerlink" href="#utils" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="grakel-utils">
+<h2><a class="reference internal" href="api.html#module-grakel" title="grakel"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code></a>: Utils<a class="headerlink" href="#grakel-utils" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="use-a-kernel-matrix-as-a-transformer">
+<h3>Use a kernel matrix as a transformer<a class="headerlink" href="#use-a-kernel-matrix-as-a-transformer" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="generated/grakel.KMTransformer.html#grakel.KMTransformer" title="grakel.KMTransformer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">KMTransformer</span></code></a>([K])</td>
+<td>A Kernel Matrix Transformer.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="cross-validation">
+<h3>Cross Validation<a class="headerlink" href="#cross-validation" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="generated/grakel.cross_validate_Kfold_SVM.html#grakel.cross_validate_Kfold_SVM" title="grakel.cross_validate_Kfold_SVM"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cross_validate_Kfold_SVM</span></code></a>(K,&nbsp;y[,&nbsp;n_iter,&nbsp;…])</td>
+<td>Cross Validate a list of precomputed kernels with an SVM.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="load-from-other-file-formats">
+<h3>Load from other file formats<a class="headerlink" href="#load-from-other-file-formats" title="Permalink to this headline">¶</a></h3>
 <table border="1" class="longtable docutils">
 <colgroup>
 <col width="10%" />

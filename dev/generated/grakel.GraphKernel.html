@@ -103,7 +103,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-kernels-a-collection-of-graph-kernels"><code class="docutils literal notranslate"><span class="pre">grakel.kernels</span></code>: A collection of graph kernels</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-datasets-datasets"><code class="docutils literal notranslate"><span class="pre">grakel.datasets</span></code>: Datasets</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-general"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>: General</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-utils"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>: Utils</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">Classification Examples</a></li>
@@ -179,7 +179,7 @@
 <h1><a class="reference internal" href="../api.html#module-grakel" title="grakel"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code></a>.GraphKernel<a class="headerlink" href="#grakel-graphkernel" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="grakel.GraphKernel">
-<em class="property">class </em><code class="descclassname">grakel.</code><code class="descname">GraphKernel</code><span class="sig-paren">(</span><em>kernel=None</em>, <em>normalize=False</em>, <em>verbose=False</em>, <em>n_jobs=None</em>, <em>random_seed=42</em>, <em>Nystroem=False</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f0978b8/grakel/graph_kernels.py#L68"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/graph_kernels.html#GraphKernel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphKernel" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">grakel.</code><code class="descname">GraphKernel</code><span class="sig-paren">(</span><em>kernel=None</em>, <em>normalize=False</em>, <em>verbose=False</em>, <em>n_jobs=None</em>, <em>random_seed=42</em>, <em>Nystroem=False</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/21e302a/grakel/graph_kernels.py#L68"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/graph_kernels.html#GraphKernel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphKernel" title="Permalink to this definition">¶</a></dt>
 <dd><p>A decorator for graph kernels.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -496,13 +496,13 @@ Square root of the kernel matrix on <code class="docutils literal notranslate"><
 </table>
 <dl class="method">
 <dt id="grakel.GraphKernel.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>kernel=None</em>, <em>normalize=False</em>, <em>verbose=False</em>, <em>n_jobs=None</em>, <em>random_seed=42</em>, <em>Nystroem=False</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f0978b8/grakel/graph_kernels.py#L249"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/graph_kernels.html#GraphKernel.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphKernel.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>kernel=None</em>, <em>normalize=False</em>, <em>verbose=False</em>, <em>n_jobs=None</em>, <em>random_seed=42</em>, <em>Nystroem=False</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/21e302a/grakel/graph_kernels.py#L249"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/graph_kernels.html#GraphKernel.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphKernel.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p><cite>__init__</cite> for <cite>GraphKernel</cite> object.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="grakel.GraphKernel.fit">
-<code class="descname">fit</code><span class="sig-paren">(</span><em>X</em>, <em>y=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f0978b8/grakel/graph_kernels.py#L267"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/graph_kernels.html#GraphKernel.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphKernel.fit" title="Permalink to this definition">¶</a></dt>
+<code class="descname">fit</code><span class="sig-paren">(</span><em>X</em>, <em>y=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/21e302a/grakel/graph_kernels.py#L267"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/graph_kernels.html#GraphKernel.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphKernel.fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fit a dataset, for a transformer.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -536,7 +536,7 @@ requires this parameter.</p>
 
 <dl class="method">
 <dt id="grakel.GraphKernel.fit_transform">
-<code class="descname">fit_transform</code><span class="sig-paren">(</span><em>X</em>, <em>y=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f0978b8/grakel/graph_kernels.py#L356"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/graph_kernels.html#GraphKernel.fit_transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphKernel.fit_transform" title="Permalink to this definition">¶</a></dt>
+<code class="descname">fit_transform</code><span class="sig-paren">(</span><em>X</em>, <em>y=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/21e302a/grakel/graph_kernels.py#L356"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/graph_kernels.html#GraphKernel.fit_transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphKernel.fit_transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fit and transform, on the same dataset.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -572,7 +572,7 @@ all pairs of graphs between target an features</p>
 
 <dl class="method">
 <dt id="grakel.GraphKernel.get_params">
-<code class="descname">get_params</code><span class="sig-paren">(</span><em>deep=True</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f0978b8/grakel/../venv/lib/python2.7/site-packages/sklearn/base.py#L213"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphKernel.get_params" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_params</code><span class="sig-paren">(</span><em>deep=True</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/21e302a/grakel/../venv/lib/python2.7/site-packages/sklearn/base.py#L166"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphKernel.get_params" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get parameters for this estimator.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -599,13 +599,13 @@ contained subobjects that are estimators.</p>
 
 <dl class="method">
 <dt id="grakel.GraphKernel.initialize_">
-<code class="descname">initialize_</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f0978b8/grakel/graph_kernels.py#L392"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/graph_kernels.html#GraphKernel.initialize_"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphKernel.initialize_" title="Permalink to this definition">¶</a></dt>
+<code class="descname">initialize_</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/21e302a/grakel/graph_kernels.py#L392"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/graph_kernels.html#GraphKernel.initialize_"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphKernel.initialize_" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize all transformer arguments, needing initialisation.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="grakel.GraphKernel.make_kernel_">
-<code class="descname">make_kernel_</code><span class="sig-paren">(</span><em>kernel_list</em>, <em>hidden_args</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f0978b8/grakel/graph_kernels.py#L433"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/graph_kernels.html#GraphKernel.make_kernel_"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphKernel.make_kernel_" title="Permalink to this definition">¶</a></dt>
+<code class="descname">make_kernel_</code><span class="sig-paren">(</span><em>kernel_list</em>, <em>hidden_args</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/21e302a/grakel/graph_kernels.py#L433"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/graph_kernels.html#GraphKernel.make_kernel_"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphKernel.make_kernel_" title="Permalink to this definition">¶</a></dt>
 <dd><p>Produce the desired kernel function.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -633,13 +633,13 @@ certain kernel.</p>
 
 <dl class="method">
 <dt id="grakel.GraphKernel.set_params">
-<code class="descname">set_params</code><span class="sig-paren">(</span><em>**params</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f0978b8/grakel/graph_kernels.py#L542"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/graph_kernels.html#GraphKernel.set_params"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphKernel.set_params" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_params</code><span class="sig-paren">(</span><em>**params</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/21e302a/grakel/graph_kernels.py#L542"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/graph_kernels.html#GraphKernel.set_params"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphKernel.set_params" title="Permalink to this definition">¶</a></dt>
 <dd><p>Call the parent method.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="grakel.GraphKernel.transform">
-<code class="descname">transform</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f0978b8/grakel/graph_kernels.py#L324"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/graph_kernels.html#GraphKernel.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphKernel.transform" title="Permalink to this definition">¶</a></dt>
+<code class="descname">transform</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/21e302a/grakel/graph_kernels.py#L324"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/graph_kernels.html#GraphKernel.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphKernel.transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the kernel matrix, between given and fitted dataset.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />

@@ -174,14 +174,10 @@
 <span id="sphx-glr-auto-examples-plot-kfold-mlg-py"></span><h1>K-Fold classification on the ENZYMES dataset using the approximate Multiscale Laplacian kernel.<a class="headerlink" href="#k-fold-classification-on-the-enzymes-dataset-using-the-approximate-multiscale-laplacian-kernel" title="Permalink to this headline">¶</a></h1>
 <p>An example plot of <a class="reference internal" href="../generated/grakel.GraphKernel.html#grakel.GraphKernel" title="grakel.GraphKernel"><code class="xref py py-class docutils literal notranslate"><span class="pre">grakel.GraphKernel</span></code></a>, <a class="reference internal" href="../generated/grakel.MultiscaleLaplacianFast.html#grakel.MultiscaleLaplacianFast" title="grakel.MultiscaleLaplacianFast"><code class="xref py py-class docutils literal notranslate"><span class="pre">grakel.MultiscaleLaplacianFast</span></code></a></p>
 <p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Downloading dataset for ENZYMES..
-Extracting dataset  ENZYMES..
-Parsing dataset  ENZYMES..
-Parse was succesful..
-Deleting unzipped dataset files..
-Going back to the original directory..
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>ENZYMES
+-------
 Mean values of  10 folds:
-MLG [Fast] &gt; Accuracy: 54.67 % | Took: 1 m 57.14 s
+MLG [Fast] &gt; Accuracy: 54.67 % | Took: 1 m 37.42 s
 </pre></div>
 </div>
 <div class="line-block">
@@ -219,11 +215,12 @@ MLG [Fast] &gt; Accuracy: 54.67 % | Took: 1 m 57.14 s
 
 
 <span class="c1"># The baseline dataset for node/edge-attributes</span>
+<span class="k">print</span><span class="p">(</span><span class="n">dataset_name</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataset_name</span><span class="p">)</span> <span class="o">*</span> <span class="s2">&quot;-&quot;</span><span class="p">,</span><span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="n">dataset_attr</span> <span class="o">=</span> <a href="../generated/grakel.datasets.fetch_dataset.html#grakel.datasets.fetch_dataset" title="View documentation for grakel.datasets.fetch_dataset"><span class="n">datasets</span><span class="o">.</span><span class="n">fetch_dataset</span></a><span class="p">(</span><span class="n">dataset_name</span><span class="p">,</span>
                                       <span class="n">with_classes</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
                                       <span class="n">prefer_attr_nodes</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
                                       <span class="n">prefer_attr_edges</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
-                                      <span class="n">verbose</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+                                      <span class="n">verbose</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 
@@ -331,7 +328,7 @@ MLG [Fast] &gt; Accuracy: 54.67 % | Took: 1 m 57.14 s
       <span class="s2">&quot;% | Took:&quot;</span><span class="p">,</span> <span class="n">sec_to_time</span><span class="p">(</span><a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.mean.html#numpy.mean" title="View documentation for numpy.mean"><span class="n">np</span><span class="o">.</span><span class="n">mean</span></a><span class="p">(</span><span class="n">stats</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">])))</span>
 </pre></div>
 </div>
-<p><strong>Total running time of the script:</strong> ( 19 minutes  34.024 seconds)</p>
+<p><strong>Total running time of the script:</strong> ( 16 minutes  16.713 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-plot-kfold-mlg-py">
 <div class="sphx-glr-download docutils container">
 <a class="reference download internal" download="" href="../_downloads/3930c9e852661696e779ca1efd7a2483/plot_KFold_MLG.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_KFold_MLG.py</span></code></a></div>

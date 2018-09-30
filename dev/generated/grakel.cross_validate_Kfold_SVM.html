@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>grakel.graph_from_networkx &mdash; GraKeL 0.1a4 documentation</title>
+  <title>grakel.cross_validate_Kfold_SVM &mdash; GraKeL 0.1a4 documentation</title>
   
 
   
@@ -30,8 +30,8 @@
   <link rel="stylesheet" href="../_static/_static/css/supplementary.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="grakel.graph_from_pandas" href="grakel.graph_from_pandas.html" />
-    <link rel="prev" title="grakel.cross_validate_Kfold_SVM" href="grakel.cross_validate_Kfold_SVM.html" /> 
+    <link rel="next" title="grakel.graph_from_networkx" href="grakel.graph_from_networkx.html" />
+    <link rel="prev" title="grakel.KMTransformer" href="grakel.KMTransformer.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -99,13 +99,11 @@
 <li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-datasets-datasets"><code class="docutils literal notranslate"><span class="pre">grakel.datasets</span></code>: Datasets</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../classes.html#grakel-utils"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>: Utils</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="../classes.html#use-a-kernel-matrix-as-a-transformer">Use a kernel matrix as a transformer</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../classes.html#cross-validation">Cross Validation</a></li>
-<li class="toctree-l3 current"><a class="reference internal" href="../classes.html#load-from-other-file-formats">Load from other file formats</a><ul class="current">
-<li class="toctree-l4 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.graph_from_networkx</a></li>
-<li class="toctree-l4"><a class="reference internal" href="grakel.graph_from_pandas.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.graph_from_pandas</a></li>
-<li class="toctree-l4"><a class="reference internal" href="grakel.graph_from_csv.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.graph_from_csv</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../classes.html#cross-validation">Cross Validation</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.cross_validate_Kfold_SVM</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="../classes.html#load-from-other-file-formats">Load from other file formats</a></li>
 </ul>
 </li>
 </ul>
@@ -158,13 +156,13 @@
         
           <li><a href="../classes.html">API Reference</a> &raquo;</li>
         
-      <li><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.graph_from_networkx</li>
+      <li><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.cross_validate_Kfold_SVM</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/generated/grakel.graph_from_networkx.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/generated/grakel.cross_validate_Kfold_SVM.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -177,44 +175,48 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="grakel-graph-from-networkx">
-<h1><a class="reference internal" href="../api.html#module-grakel" title="grakel"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code></a>.graph_from_networkx<a class="headerlink" href="#grakel-graph-from-networkx" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="grakel-cross-validate-kfold-svm">
+<h1><a class="reference internal" href="../api.html#module-grakel" title="grakel"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code></a>.cross_validate_Kfold_SVM<a class="headerlink" href="#grakel-cross-validate-kfold-svm" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
-<dt id="grakel.graph_from_networkx">
-<code class="descclassname">grakel.</code><code class="descname">graph_from_networkx</code><span class="sig-paren">(</span><em>X</em>, <em>node_labels_tag=None</em>, <em>edge_labels_tag=None</em>, <em>edge_weight_tag=None</em>, <em>as_Graph=False</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/21e302a/grakel/utils.py#L227"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/utils.html#graph_from_networkx"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.graph_from_networkx" title="Permalink to this definition">¶</a></dt>
-<dd><p>Transform an iterable of networkx objects to an iterable of Graphs.</p>
-<p>A function for helping a user that has a collection of graphs in networkx to use grakel.</p>
+<dt id="grakel.cross_validate_Kfold_SVM">
+<code class="descclassname">grakel.</code><code class="descname">cross_validate_Kfold_SVM</code><span class="sig-paren">(</span><em>K</em>, <em>y</em>, <em>n_iter=10</em>, <em>n_splits=10</em>, <em>C_grid=None</em>, <em>random_state=42</em>, <em>scoring='accuracy'</em>, <em>fold_reduce=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/21e302a/grakel/utils.py#L142"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/utils.html#cross_validate_Kfold_SVM"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.cross_validate_Kfold_SVM" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cross Validate a list of precomputed kernels with an SVM.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>node_labels_tag</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str or None</span></dt>
-<dd><blockquote class="first">
-<div><p>Define where to search for labels of nodes, inside the <cite>node</cite> attribute of each graph.
-If None no labels are assigned.</p>
-</div></blockquote>
-<dl class="last docutils">
-<dt>edge_labels_tag <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
-<dd><p class="first last">Define where to search for labels of edges, inside the <cite>edge</cite> attribute of each graph.
-If None no labels are assigned.</p>
+<dt><strong>K</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
+<dd><p class="first last">A list that must contain either numpy arrays or iterables of numpy arrays.</p>
 </dd>
-<dt>edge_weight_tag <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd><p class="first last">Define where to search for weights inside the <cite>edge</cite> attribute of each graph.
-If None 1.0 weights are assigned.</p>
+<dt><strong>y</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
+<dd><p class="first last">List of lists that for every element of K contains numbers of score for all iterations.</p>
 </dd>
-<dt>as_Graph <span class="classifier-delimiter">:</span> <span class="classifier">bool, default=False</span></dt>
-<dd><p class="first last">Return each output as a grakel.Graph object.</p>
+<dt><strong>n_iter</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Number of iteration for the K-Fold.</p>
 </dd>
-</dl>
+<dt><strong>n_splits</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Number of splits for the K-Fold.</p>
+</dd>
+<dt><strong>random_state</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int, or np.random.RandomState</span></dt>
+<dd><p class="first last">Either a seed or a RandomState object for the use of a common RandomSate in the
+begging of all operations.</p>
+</dd>
+<dt><strong>fold_reduce</strong> <span class="classifier-delimiter">:</span> <span class="classifier">callable or None</span></dt>
+<dd><p class="first last">A function that summarizes information between all folds.
+Input must be a list of n_splits elements corresponding to scoring.
+If None default is np.mean.</p>
+</dd>
+<dt><strong>scoring</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string, callable, list/tuple, dict or None, default: None</span></dt>
+<dd><p class="first last">As in <code class="docutils literal notranslate"><span class="pre">scoring</span></code> in <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html">sklearn.model_selection.GridSearchCV</a>.</p>
 </dd>
 </dl>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>grakel_graphs</strong> <span class="classifier-delimiter">:</span> <span class="classifier">generator</span></dt>
-<dd><p class="first last">Returns a generator containing the same collections to be given as an input for
-any grakel kernel.</p>
+<dt><strong>out</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
+<dd><p class="first last">A list that contains a list of the reduced folds for each iteration, for each primary
+element of K.</p>
 </dd>
 </dl>
 </td>
@@ -233,10 +235,10 @@ any grakel kernel.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="grakel.graph_from_pandas.html" class="btn btn-neutral float-right" title="grakel.graph_from_pandas" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="grakel.graph_from_networkx.html" class="btn btn-neutral float-right" title="grakel.graph_from_networkx" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="grakel.cross_validate_Kfold_SVM.html" class="btn btn-neutral" title="grakel.cross_validate_Kfold_SVM" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="grakel.KMTransformer.html" class="btn btn-neutral" title="grakel.KMTransformer" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

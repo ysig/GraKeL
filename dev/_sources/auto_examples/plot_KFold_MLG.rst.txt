@@ -23,14 +23,10 @@ An example plot of :class:`grakel.GraphKernel`, :class:`grakel.MultiscaleLaplaci
 
  .. code-block:: none
 
-    Downloading dataset for ENZYMES..
-    Extracting dataset  ENZYMES..
-    Parsing dataset  ENZYMES..
-    Parse was succesful..
-    Deleting unzipped dataset files..
-    Going back to the original directory..
+    ENZYMES
+    -------
     Mean values of  10 folds:
-    MLG [Fast] > Accuracy: 54.67 % | Took: 1 m 57.14 s
+    MLG [Fast] > Accuracy: 54.67 % | Took: 1 m 37.42 s
 
 
 
@@ -72,11 +68,12 @@ An example plot of :class:`grakel.GraphKernel`, :class:`grakel.MultiscaleLaplaci
 
 
     # The baseline dataset for node/edge-attributes
+    print(dataset_name, len(dataset_name) * "-",sep="\n")
     dataset_attr = datasets.fetch_dataset(dataset_name,
                                           with_classes=True,
                                           prefer_attr_nodes=False,
                                           prefer_attr_edges=False,
-                                          verbose=True)
+                                          verbose=False)
 
     import numpy as np
 
@@ -183,7 +180,7 @@ An example plot of :class:`grakel.GraphKernel`, :class:`grakel.MultiscaleLaplaci
           str(round(np.mean(stats["acc"])*100, 2)),
           "% | Took:", sec_to_time(np.mean(stats["time"])))
 
-**Total running time of the script:** ( 19 minutes  34.024 seconds)
+**Total running time of the script:** ( 16 minutes  16.713 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plot_KFold_MLG.py:

@@ -160,9 +160,225 @@
 <span class="c1"># License: BSD 3 clause</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">grakel</span> <span class="k">import</span> <span class="n">Graph</span>
+
 <span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">defaultdict</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">Iterable</span>
+<span class="kn">from</span> <span class="nn">numpy.random</span> <span class="k">import</span> <span class="n">RandomState</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.base</span> <span class="k">import</span> <span class="n">TransformerMixin</span>
+<span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="k">import</span> <span class="n">make_pipeline</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="k">import</span> <span class="n">KFold</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="k">import</span> <span class="n">GridSearchCV</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="k">import</span> <span class="n">ShuffleSplit</span>
+<span class="kn">from</span> <span class="nn">sklearn.base</span> <span class="k">import</span> <span class="n">BaseEstimator</span>
+<span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="k">import</span> <span class="n">SVC</span>
+<span class="kn">from</span> <span class="nn">sklearn.datasets.lfw</span> <span class="k">import</span> <span class="n">Bunch</span>
+<span class="kn">from</span> <span class="nn">sklearn.utils.validation</span> <span class="k">import</span> <span class="n">check_is_fitted</span>
+
+<span class="kn">from</span> <span class="nn">grakel</span> <span class="k">import</span> <span class="n">Graph</span>
+<span class="kn">from</span> <span class="nn">grakel.graph</span> <span class="k">import</span> <span class="n">is_adjacency</span> <span class="k">as</span> <span class="n">valid_matrix</span>
+
+
+<div class="viewcode-block" id="KMTransformer"><a class="viewcode-back" href="../../generated/grakel.KMTransformer.html#grakel.KMTransformer">[docs]</a><span class="k">class</span> <span class="nc">KMTransformer</span><span class="p">(</span><span class="n">BaseEstimator</span><span class="p">,</span> <span class="n">TransformerMixin</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A Kernel Matrix Transformer.</span>
+
+<span class="sd">    Usefull for using precalculated Kernel Matrices inside scikit-learn pipeline.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    K : array-like, shape=[n, n]</span>
+<span class="sd">        If given an array the input can be as follows:</span>
+<span class="sd">            + array-like lists of lists</span>
+
+<span class="sd">            + np.array</span>
+
+<span class="sd">            + sparse matrix (scipy.sparse)</span>
+<span class="sd">        It can also be embedded in an sklearn Bunch object as mat (argument)</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    _K : numpy.array, shape=[n, n]</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="KMTransformer.__init__"><a class="viewcode-back" href="../../generated/grakel.KMTransformer.html#grakel.KMTransformer.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">K</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialise the Kernel Matrix Transformer&quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">K</span> <span class="o">=</span> <span class="n">K</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;K&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span></div>
+
+<div class="viewcode-block" id="KMTransformer.initialize_"><a class="viewcode-back" href="../../generated/grakel.KMTransformer.html#grakel.KMTransformer.initialize_">[docs]</a>    <span class="k">def</span> <span class="nf">initialize_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize all transformer arguments, needing initialisation.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span><span class="p">[</span><span class="s2">&quot;K&quot;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">K</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;K is None .. where 2-dimensional array-like object was expected&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">K</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">K</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="n">Bunch</span><span class="p">):</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">K</span> <span class="o">=</span> <span class="n">K</span><span class="o">.</span><span class="n">mat</span>
+                    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;If in an sklearn Bunch K must be under mat&#39;</span><span class="p">)</span>
+                <span class="n">flag</span><span class="p">,</span> <span class="n">M</span> <span class="o">=</span> <span class="n">valid_matrix</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">flag</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">K</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The provided K cannot be converted to a &#39;</span>
+                                     <span class="s1">&#39;two dimensional np.array.&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_K</span> <span class="o">=</span> <span class="n">M</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">initialized_</span><span class="p">[</span><span class="s2">&quot;K&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="KMTransformer.fit"><a class="viewcode-back" href="../../generated/grakel.KMTransformer.html#grakel.KMTransformer.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Fit a list of indeces.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : Iterable of int:</span>
+<span class="sd">            Indexes for the X of the kernel matrix.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : object</span>
+<span class="sd">            Returns self.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initialize_</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_K</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">X</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="KMTransformer.fit_transform"><a class="viewcode-back" href="../../generated/grakel.KMTransformer.html#grakel.KMTransformer.fit_transform">[docs]</a>    <span class="k">def</span> <span class="nf">fit_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Fit and transform, on the same dataset.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : Iterable of int</span>
+<span class="sd">            Indexes for the first dimension of the kernel matrix.</span>
+
+<span class="sd">        y : None</span>
+<span class="sd">            There is no need of a target in a transformer, yet the pipeline API</span>
+<span class="sd">            requires this parameter.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        K : numpy array, shape = [len(X), len(X)]</span>
+<span class="sd">            Corresping to the values of the X indexes with themselfs.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Initialize the Graph Kernel</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initialize_</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_K</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">X</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_K</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="p">:][:,</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="KMTransformer.transform"><a class="viewcode-back" href="../../generated/grakel.KMTransformer.html#grakel.KMTransformer.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Calculate the kernel matrix, between given and fitted dataset.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : Iterable of int</span>
+<span class="sd">            Indexes for the second dimension of the kernel matrix.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        K : numpy array, shape = [len(Y), len(X)]</span>
+<span class="sd">            Corresping to the values of the Y indexes with X.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">check_is_fitted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;X&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_K</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">X</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_K</span><span class="p">[</span><span class="n">X</span><span class="p">,</span> <span class="p">:][:,</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">]</span></div></div>
+
+
+<div class="viewcode-block" id="cross_validate_Kfold_SVM"><a class="viewcode-back" href="../../generated/grakel.cross_validate_Kfold_SVM.html#grakel.cross_validate_Kfold_SVM">[docs]</a><span class="k">def</span> <span class="nf">cross_validate_Kfold_SVM</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span>
+                             <span class="n">n_iter</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">n_splits</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">C_grid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                             <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s2">&quot;accuracy&quot;</span><span class="p">,</span> <span class="n">fold_reduce</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Cross Validate a list of precomputed kernels with an SVM.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    K : list</span>
+<span class="sd">        A list that must contain either numpy arrays or iterables of numpy arrays.</span>
+
+<span class="sd">    y : list</span>
+<span class="sd">        List of lists that for every element of K contains numbers of score for all iterations.</span>
+
+<span class="sd">    n_iter : int</span>
+<span class="sd">        Number of iteration for the K-Fold.</span>
+
+<span class="sd">    n_splits : int</span>
+<span class="sd">        Number of splits for the K-Fold.</span>
+
+<span class="sd">    random_state : int, or np.random.RandomState</span>
+<span class="sd">        Either a seed or a RandomState object for the use of a common RandomSate in the</span>
+<span class="sd">        begging of all operations.</span>
+
+<span class="sd">    fold_reduce : callable or None</span>
+<span class="sd">        A function that summarizes information between all folds.</span>
+<span class="sd">        Input must be a list of n_splits elements corresponding to scoring.</span>
+<span class="sd">        If None default is np.mean.</span>
+
+<span class="sd">    scoring : string, callable, list/tuple, dict or None, default: None</span>
+<span class="sd">        As in ``scoring`` in :xref:`lgscv`.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    out : list</span>
+<span class="sd">       A list that contains a list of the reduced folds for each iteration, for each primary</span>
+<span class="sd">       element of K.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Initialise C_grid</span>
+    <span class="k">if</span> <span class="n">C_grid</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">C_grid</span> <span class="o">=</span> <span class="p">((</span><span class="mf">10.</span> <span class="o">**</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">))</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">C_grid</span><span class="p">)</span> <span class="ow">is</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">:</span>
+        <span class="n">C_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">C_grid</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">C_grid</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;C_grid should either be None or a squeezable to 1 dimension np.array&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">C_grid</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">C_grid</span><span class="p">)</span>
+
+    <span class="c1"># Initialise fold_reduce:</span>
+    <span class="k">if</span> <span class="n">fold_reduce</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">fold_reduce</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span>
+    <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">callable</span><span class="p">,</span> <span class="n">fold_reduce</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;fold_reduce should be a callable&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Initialise and check random state</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">random_state</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">RandomState</span><span class="p">:</span>
+        <span class="n">random_state</span> <span class="o">=</span> <span class="n">RandomState</span><span class="p">(</span><span class="n">random_state</span><span class="p">)</span>
+
+    <span class="c1"># Initialise sklearn pipeline objects</span>
+    <span class="n">kfolder</span> <span class="o">=</span> <span class="n">KFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="n">n_splits</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">estimator</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">KMTransformer</span><span class="p">(),</span> <span class="n">SVC</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;precomputed&#39;</span><span class="p">))</span>
+
+    <span class="c1"># Make all the requested folds</span>
+    <span class="n">nfolds</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">kfolder</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">y</span><span class="p">))</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_iter</span><span class="p">))</span>
+
+    <span class="n">out</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">ks</span> <span class="ow">in</span> <span class="n">K</span><span class="p">:</span>
+        <span class="n">mid</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">valid_matrix</span><span class="p">(</span><span class="n">ks</span><span class="p">):</span>
+            <span class="n">pg</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;svc__C&quot;</span><span class="p">:</span> <span class="n">C_grid</span><span class="p">,</span> <span class="s2">&quot;kmtransformer__K&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">Bunch</span><span class="p">(</span><span class="n">mat</span><span class="o">=</span><span class="n">ks</span><span class="p">)]}</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ks</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span><span class="n">valid_matrix</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">ks</span><span class="p">):</span>
+            <span class="n">pg</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;svc__C&quot;</span><span class="p">:</span> <span class="n">C_grid</span><span class="p">,</span> <span class="s2">&quot;kmtransformer__K&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">Bunch</span><span class="p">(</span><span class="n">mat</span><span class="o">=</span><span class="n">k</span><span class="p">)]}</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">ks</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">kfolds</span> <span class="ow">in</span> <span class="n">nfolds</span><span class="p">:</span>
+            <span class="n">fold_info</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="ow">in</span> <span class="n">kfolds</span><span class="p">:</span>
+                <span class="n">gs</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">estimator</span><span class="p">,</span> <span class="n">param_grid</span><span class="o">=</span><span class="n">pg</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="n">scoring</span><span class="p">,</span>
+                                  <span class="n">cv</span><span class="o">=</span><span class="n">ShuffleSplit</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                                                  <span class="n">test_size</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+                                                  <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">))</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train</span><span class="p">,</span> <span class="n">y</span><span class="p">[</span><span class="n">train</span><span class="p">])</span>
+                <span class="n">fold_info</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">gs</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">test</span><span class="p">,</span> <span class="n">y</span><span class="p">[</span><span class="n">test</span><span class="p">]))</span>
+            <span class="n">mid</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fold_reduce</span><span class="p">(</span><span class="n">fold_info</span><span class="p">))</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mid</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">out</span></div>
 
 
 <div class="viewcode-block" id="graph_from_networkx"><a class="viewcode-back" href="../../generated/grakel.graph_from_networkx.html#grakel.graph_from_networkx">[docs]</a><span class="k">def</span> <span class="nf">graph_from_networkx</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">node_labels_tag</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">edge_labels_tag</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">edge_weight_tag</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
