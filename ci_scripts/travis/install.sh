@@ -2,7 +2,7 @@
 {pip} install --upgrade pip
 {pip} install --upgrade setuptools
 {pip} install -r requirements.txt
-{pip} install "cvxopt==1.2.0"
+{pip} install "cvxopt>=1.2.0"
 
 # Install coverage if needed
 if [[ "$COVERAGE" == "true" ]]; then
