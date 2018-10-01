@@ -12,22 +12,44 @@ Installing grakel
 
 The grakel library requires:
 
-* Python [>=2.7, >= 3.5]
-* NumPy [>= 1.8.2]
-* SciPy [>= 0.13.3]
-* Cython [>= 0.27.3]
-* cvxopt [>= 1.2.0] [optional: lovasz]
+* Python [>=2.7, >=3.5]
+* NumPy [>=1.8.2]
+* SciPy [>=0.13.3]
+* Cython [>=0.27.3]
+* cvxopt [>=1.2.0] [optional: lovasz]
 * future [>=0.16.0] (for python 2.7)
 
+
+Installing Dependencies
+-----------------------
+
 For installing dependencies the procedure is the well known:
+
 ```shell
 (sudo) pip install extension>=extension_version
 ```
-depending on if `pip` has superuser privilages.
 
-To install the *development-version* of the module execute:
+or
+
+```shell
+(sudo) pip install -r requirements.txt
+```
+where (sudo) depends on if `pip` has superuser privilages.
+
+
+Installing the *development-version*
+------------------------------------
+
+To install the *development-version* from [**pip**][https://pypi.org/project/grakel-dev] execute:
+
 ```shell
 $ (sudo) pip install grakel-dev
+```
+
+whereas to install it from [**conda**][https://anaconda.org/ysig/grakel-dev]:
+
+```shell
+$ conda install grakel-dev
 ```
 
 Usage

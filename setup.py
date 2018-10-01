@@ -72,10 +72,15 @@ bliss = Extension(name="grakel.kernels._isomorphism.bliss",
                   sources = [isodir + 'bliss.pyx']
                   )
 
+# Add readme pypi
+with open("README.md", "r") as fh:
+    long_description = fh.read()
+
 setup(name='grakel-dev',
-      version='0.1a4',
+      version='0.1a5',
       description='A scikit-learn compatible library for graph kernels',
-      long_description='A scikit-learn compatible library for graph kernels',
+      long_description=long_description,
+      long_description_content_type='text/markdown',
       project_urls={
         'Documentation': 'https://ysig.github.io/GraKeL/dev/',
         'Send us Feedback!': 'http://www.lix.polytechnique.fr/dascim/contact/',
@@ -83,7 +88,7 @@ setup(name='grakel-dev',
         'Tracker': 'https://github.com/ysig/GraKeL/issues',
         },
       author='Ioannis Siglidis [LiX / DaSciM]',
-      author_email='ioannis.siglidis@inria.fr',
+      author_email='y.siglidis@gmail.com',
       url='https://ysig.github.io/GraKeL/dev/',
       license="BSD",
       classifiers=['Intended Audience :: Science/Research',

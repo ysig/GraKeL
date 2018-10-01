@@ -13,7 +13,6 @@ from grakel import graph_from_networkx
 from grakel import graph_from_csv
 from grakel import cross_validate_Kfold_SVM
 from grakel import ShortestPath
-from grakel import RandomWalkLabeled
 from grakel import WeisfeilerLehman
 from grakel import VertexHistogram
 from grakel.datasets import fetch_dataset
@@ -176,9 +175,9 @@ def test_KM_Kfold():
 
     # Input
     X, y = load_mutag()
-    K = [ShortestPath().fit_transform(X), [RandomWalkLabeled(lamda=0.1).fit_transform(X),
-         RandomWalkLabeled(lamda=0.01).fit_transform(X)],
-         WeisfeilerLehman(base_kernel=VertexHistogram).fit_transform(X)]
+    K = [ShortestPath(normalize=True).fit_transform(X),
+         [WeisfeilerLehman(base_kernel=VertexHistogram, niter=3, normalize=True).fit_transform(X),
+          WeisfeilerLehman(base_kernel=VertexHistogram, niter=5, normalize=True).fit_transform(X)]]
 
     # Parametrization
     n_splits = 10

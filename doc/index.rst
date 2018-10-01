@@ -33,6 +33,17 @@ GrakeL provides
     classes
     auto_examples/index
 
+
+==========
+What's New
+==========
+
+- Version 0.1a5
+
+  Various bugfixes in kernel implementations.
+  Added a bunch of :code:`utils` functions for external operations: loading other graph formats to grakel, cross-validation.
+  Conda compatibility
+
 ==================
 Indices and tables
 ==================
