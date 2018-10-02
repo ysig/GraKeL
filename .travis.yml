@@ -43,14 +43,14 @@ matrix:
       env:
         - PIP=pip
         - PYTHON=python
-        - CIBW_BUILD="cp36-*"
+        - CIBW_BUILD="cp35-*"
     - sudo: required
       services:
         - docker
       env:
         - PIP=pip
         - PYTHON=python
-        - CIBW_SKIP="cp37-*"
+        - CIBW_BUILD="cp36-*"
     - os: osx
       sudo: required
       language: generic
