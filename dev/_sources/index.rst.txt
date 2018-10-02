@@ -38,11 +38,11 @@ GrakeL provides
 What's New
 ==========
 
-- Version 0.1a5
+- Version **0.1a5**
 
-  Various bugfixes in kernel implementations.
-  Added a bunch of :code:`utils` functions for external operations: loading other graph formats to grakel, cross-validation.
-  Conda compatibility
+  + Various bugfixes in kernel implementations.
+  + Added a bunch of :code:`utils` functions for external operations: loading other graph formats to grakel, cross-validation.
+  + **Conda** compatibility: visit `<https://anaconda.org/ysig/grakel-dev>`_.
 
 ==================
 Indices and tables
