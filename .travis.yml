@@ -17,7 +17,7 @@ env:
     - TWINE_USERNAME=ysig
     - DEPLOY_SDIST="false"
     - COVERAGE="false"
-    - DEPLOY_WHEEL="true"
+    - DEPLOY_WHEEL="false"
 
 matrix:
   include:

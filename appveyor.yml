@@ -10,23 +10,23 @@ environment:
     WHEELHOUSE_UPLOADER_USERNAME: ysig
     MODULE: grakel
     PROJECT_NAME: grakel-dev
-    TWINE_USERNAME: ysig    
+    TWINE_USERNAME: ysig 
 
   matrix:
     - PYTHON_VERSION: "2.7.14"
       PYTHON_ARCH: "64"
       MINICONDA: "C:\\Miniconda-x64"
-      DEPLOY_WHEEL: "false"
+      DEPLOY_WHEEL: "true"
 
     - PYTHON_VERSION: "3.5.2"
       PYTHON_ARCH: "64"
       MINICONDA: "C:\\Miniconda35-x64"
-      DEPLOY_WHEEL: "false"
+      DEPLOY_WHEEL: "true"
 
     - PYTHON_VERSION: "3.6.4"
       PYTHON_ARCH: "64"
       MINICONDA: "C:\\Miniconda36-x64"
-      DEPLOY_WHEEL: "false"
+      DEPLOY_WHEEL: "true"
 
 install:
   # Initialise conda

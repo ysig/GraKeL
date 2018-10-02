@@ -11,6 +11,7 @@ from scipy.special import binom as binomial
 # Python 2/3 cross-compatibility import
 from future.utils import iteritems
 
+
 class priority_dict(dict, object):
     """A priority dictionary.
 
