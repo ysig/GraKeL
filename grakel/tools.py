@@ -8,6 +8,8 @@ import numpy as np
 
 from scipy.special import binom as binomial
 
+# Python 2/3 cross-compatibility import
+from future.utils import iteritems
 
 class priority_dict(dict, object):
     """A priority dictionary.
@@ -62,7 +64,7 @@ class priority_dict(dict, object):
         dict.__setitem__(self, key, val)
         heap = self.__heap
         if len(heap) > 2 * len(self):
-            self.__heap = [(v, k) for k, v in self.iteritems()]
+            self.__heap = [(v, k) for k, v in iteritems(self)]
             self.__heap.sort()  # builtin sort likely faster than O(n) heapify
         else:
             newPair = (val, key)

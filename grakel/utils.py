@@ -210,6 +210,8 @@ def cross_validate_Kfold_SVM(K, y,
             pg = {"svc__C": C_grid, "kmtransformer__K": [Bunch(mat=ks)]}
         elif isinstance(ks, Iterable) and all(valid_matrix(k) for k in ks):
             pg = [{"svc__C": C_grid, "kmtransformer__K": [Bunch(mat=k)]} for k in ks]
+        else:
+            raise ValueError('Not a valid object for kernel matrix/ces')
 
         for kfolds in nfolds:
             fold_info = list()

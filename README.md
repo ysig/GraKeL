@@ -40,13 +40,13 @@ where (sudo) depends on if `pip` has superuser privilages.
 Installing the *development-version*
 ------------------------------------
 
-To install the *development-version* from [**pip**][https://pypi.org/project/grakel-dev] execute:
+To install the *development-version* from [**pip**](https://pypi.org/project/grakel-dev) execute:
 
 ```shell
 $ (sudo) pip install grakel-dev
 ```
 
-whereas to install it from [**conda**][https://anaconda.org/ysig/grakel-dev]:
+whereas to install it from [**conda**](https://anaconda.org/ysig/grakel-dev):
 
 ```shell
 $ conda install grakel-dev

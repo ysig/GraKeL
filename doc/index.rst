@@ -41,7 +41,7 @@ What's New
 - Version **0.1a5**
 
   + Various bugfixes in kernel implementations.
-  + Added a bunch of :code:`utils` functions for external operations: loading other graph formats to grakel, cross-validation.
+  + Added a bunch of :code:`utils` functions for external operations: transforming existing *graph formats* (csv, pandas, networkx) to the grakel native, *k-fold cross validation* with an SVM and *kernel matrix transformer* for manipulating precomputed kernel matrices in an :code:`Transformer` fashion.
   + **Conda** compatibility: visit `<https://anaconda.org/ysig/grakel-dev>`_.
 
 ==================
