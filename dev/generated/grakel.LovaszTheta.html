@@ -200,7 +200,7 @@
 <h1><a class="reference internal" href="../api.html#module-grakel" title="grakel"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code></a>.LovaszTheta<a class="headerlink" href="#grakel-lovasztheta" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="grakel.LovaszTheta">
-<em class="property">class </em><code class="descclassname">grakel.</code><code class="descname">LovaszTheta</code><span class="sig-paren">(</span><em>n_jobs=None</em>, <em>normalize=False</em>, <em>verbose=False</em>, <em>random_seed=42</em>, <em>n_samples=50</em>, <em>subsets_size_range=(2</em>, <em>8)</em>, <em>max_dim=None</em>, <em>base_kernel=&lt;function &lt;lambda&gt;&gt;</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/e46fe8f/grakel/kernels/lovasz_theta.py#L36"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/lovasz_theta.html#LovaszTheta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.LovaszTheta" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">grakel.</code><code class="descname">LovaszTheta</code><span class="sig-paren">(</span><em>n_jobs=None</em>, <em>normalize=False</em>, <em>verbose=False</em>, <em>random_seed=42</em>, <em>n_samples=50</em>, <em>subsets_size_range=(2</em>, <em>8)</em>, <em>max_dim=None</em>, <em>base_kernel=&lt;function &lt;lambda&gt;&gt;</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/3528269/grakel/kernels/lovasz_theta.py#L36"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/lovasz_theta.html#LovaszTheta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.LovaszTheta" title="Permalink to this definition">¶</a></dt>
 <dd><p>Lovasz theta kernel as proposed in <a class="reference internal" href="../kernels/svm_theta.html#johansson2014global" id="id1">[JJDB14]</a>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -338,13 +338,13 @@ numbers samples for all levels of the two graphs.</p>
 </table>
 <dl class="method">
 <dt id="grakel.LovaszTheta.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>n_jobs=None</em>, <em>normalize=False</em>, <em>verbose=False</em>, <em>random_seed=42</em>, <em>n_samples=50</em>, <em>subsets_size_range=(2</em>, <em>8)</em>, <em>max_dim=None</em>, <em>base_kernel=&lt;function &lt;lambda&gt;&gt;</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/e46fe8f/grakel/kernels/lovasz_theta.py#L80"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/lovasz_theta.html#LovaszTheta.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.LovaszTheta.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>n_jobs=None</em>, <em>normalize=False</em>, <em>verbose=False</em>, <em>random_seed=42</em>, <em>n_samples=50</em>, <em>subsets_size_range=(2</em>, <em>8)</em>, <em>max_dim=None</em>, <em>base_kernel=&lt;function &lt;lambda&gt;&gt;</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/3528269/grakel/kernels/lovasz_theta.py#L80"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/lovasz_theta.html#LovaszTheta.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.LovaszTheta.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialise a lovasz_theta kernel.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="grakel.LovaszTheta.diagonal">
-<code class="descname">diagonal</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/e46fe8f/grakel/kernels/kernel.py#L267"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.LovaszTheta.diagonal" title="Permalink to this definition">¶</a></dt>
+<code class="descname">diagonal</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/3528269/grakel/kernels/kernel.py#L267"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.LovaszTheta.diagonal" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the kernel matrix diagonal of the fit/transformed data.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -374,7 +374,7 @@ This consists of each element calculated with itself.</p>
 
 <dl class="method">
 <dt id="grakel.LovaszTheta.fit">
-<code class="descname">fit</code><span class="sig-paren">(</span><em>X</em>, <em>y=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/e46fe8f/grakel/kernels/kernel.py#L91"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.LovaszTheta.fit" title="Permalink to this definition">¶</a></dt>
+<code class="descname">fit</code><span class="sig-paren">(</span><em>X</em>, <em>y=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/3528269/grakel/kernels/kernel.py#L91"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.LovaszTheta.fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fit a dataset, for a transformer.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -409,7 +409,7 @@ requires this parameter.</p>
 
 <dl class="method">
 <dt id="grakel.LovaszTheta.fit_transform">
-<code class="descname">fit_transform</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/e46fe8f/grakel/kernels/kernel.py#L169"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.LovaszTheta.fit_transform" title="Permalink to this definition">¶</a></dt>
+<code class="descname">fit_transform</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/3528269/grakel/kernels/kernel.py#L169"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.LovaszTheta.fit_transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fit and transform, on the same dataset.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -445,7 +445,7 @@ all pairs of graphs between target an features</p>
 
 <dl class="method">
 <dt id="grakel.LovaszTheta.get_params">
-<code class="descname">get_params</code><span class="sig-paren">(</span><em>deep=True</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/e46fe8f/grakel/../venv/lib/python2.7/site-packages/sklearn/base.py#L166"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.LovaszTheta.get_params" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_params</code><span class="sig-paren">(</span><em>deep=True</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/3528269/grakel/../venv/lib/python2.7/site-packages/sklearn/base.py#L166"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.LovaszTheta.get_params" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get parameters for this estimator.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -472,13 +472,13 @@ contained subobjects that are estimators.</p>
 
 <dl class="method">
 <dt id="grakel.LovaszTheta.initialize_">
-<code class="descname">initialize_</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/e46fe8f/grakel/kernels/lovasz_theta.py#L108"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/lovasz_theta.html#LovaszTheta.initialize_"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.LovaszTheta.initialize_" title="Permalink to this definition">¶</a></dt>
+<code class="descname">initialize_</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/3528269/grakel/kernels/lovasz_theta.py#L108"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/lovasz_theta.html#LovaszTheta.initialize_"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.LovaszTheta.initialize_" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize all transformer arguments, needing initialization.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="grakel.LovaszTheta.pairwise_operation">
-<code class="descname">pairwise_operation</code><span class="sig-paren">(</span><em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/e46fe8f/grakel/kernels/lovasz_theta.py#L217"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/lovasz_theta.html#LovaszTheta.pairwise_operation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.LovaszTheta.pairwise_operation" title="Permalink to this definition">¶</a></dt>
+<code class="descname">pairwise_operation</code><span class="sig-paren">(</span><em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/3528269/grakel/kernels/lovasz_theta.py#L217"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/lovasz_theta.html#LovaszTheta.pairwise_operation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.LovaszTheta.pairwise_operation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Lovasz theta kernel as proposed in <a class="reference internal" href="../kernels/svm_theta.html#johansson2014global" id="id4">[JJDB14]</a>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -504,7 +504,7 @@ contained subobjects that are estimators.</p>
 
 <dl class="method">
 <dt id="grakel.LovaszTheta.parse_input">
-<code class="descname">parse_input</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/e46fe8f/grakel/kernels/lovasz_theta.py#L148"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/lovasz_theta.html#LovaszTheta.parse_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.LovaszTheta.parse_input" title="Permalink to this definition">¶</a></dt>
+<code class="descname">parse_input</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/3528269/grakel/kernels/lovasz_theta.py#L148"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/lovasz_theta.html#LovaszTheta.parse_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.LovaszTheta.parse_input" title="Permalink to this definition">¶</a></dt>
 <dd><p>Parse and create features for lovasz_theta kernel.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -535,13 +535,13 @@ graph format). A valid input also consists of graph type objects.</p>
 
 <dl class="method">
 <dt id="grakel.LovaszTheta.set_params">
-<code class="descname">set_params</code><span class="sig-paren">(</span><em>**params</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/e46fe8f/grakel/kernels/kernel.py#L386"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.LovaszTheta.set_params" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_params</code><span class="sig-paren">(</span><em>**params</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/3528269/grakel/kernels/kernel.py#L386"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.LovaszTheta.set_params" title="Permalink to this definition">¶</a></dt>
 <dd><p>Call the parent method.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="grakel.LovaszTheta.transform">
-<code class="descname">transform</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/e46fe8f/grakel/kernels/kernel.py#L128"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.LovaszTheta.transform" title="Permalink to this definition">¶</a></dt>
+<code class="descname">transform</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/3528269/grakel/kernels/kernel.py#L128"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.LovaszTheta.transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the kernel matrix, between given and fitted dataset.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
