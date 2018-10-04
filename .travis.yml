@@ -28,7 +28,6 @@ matrix:
         - PIP=pip
         - PYTHON=python
         - CIBW_BUILD="cp27-manylinux1_x86_64"
-        - COVERAGE="true"
         - DEPLOY_SDIST="true"
     - sudo: required
       services:
@@ -57,6 +56,7 @@ matrix:
       env:
         - PIP=pip2
         - PYTHON=python2
+        - COVERAGE="true"
         - CIBW_BUILD="cp27-macosx_10_6_intel"
     - os: osx
       sudo: required
