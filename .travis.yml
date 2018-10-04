@@ -11,7 +11,7 @@ cache:
 env:
   global:
     # Directory where tests are run from
-    - TEST_DIR=/tmp/test_dir
+    - TEST_DIR=$HOME/tmp/test_dir
     - MODULE=grakel
     - WHEEL_FOLDER=wheelhouse
     - TWINE_USERNAME=ysig
@@ -80,10 +80,9 @@ script:
   - |
     if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
         $PIP install numpy cython --upgrade;
-        IFS= ; export CIBW_TEST_COMMAND="nosetests $MODULE";
-    else
-        IFS= ; export CIBW_TEST_COMMAND="$(cat ci_scripts/travis/test.sh)";
+
     fi
+  - IFS= ; export CIBW_TEST_COMMAND="$(cat ci_scripts/travis/test.sh)";
   - cibuildwheel --output-dir $WHEEL_FOLDER
 
 after_success:
