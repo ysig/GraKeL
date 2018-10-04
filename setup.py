@@ -5,25 +5,13 @@
 # License: BSD 3 clause
 from __future__ import print_function
 import sys
-from warnings import warn
 from platform import system
 from setuptools import setup, find_packages, Extension
-
-if 'setuptools' in sys.modules:
-    try:
-        from setuptools.command.build_ext import build_ext as _build_ext
-    except ImportError:
-        # We may be in the process of importing setuptools, which tries
-        # to import this.
-        from distutils.command.build_ext import build_ext as _build_ext
-else:
-    from distutils.command.build_ext import build_ext as _build_ext
 
 with open('requirements.txt') as f:
     INSTALL_REQUIRES = [l.strip() for l in f.readlines() if l]
 
 OS = system()
-
 if OS == 'Windows':
     extra_compile_args = ["/O2"]
 elif OS in ['Linux', 'Darwin']:
@@ -54,27 +42,30 @@ ext = Extension(name="grakel.kernels._c_functions",
 isodir = "./grakel/kernels/_isomorphism/"
 blissdir = isodir + 'bliss-0.50/'
 # The essential bliss source files
-blisssrcs = ['graph.cc','heap.cc','orbit.cc','partition.cc','uintseqhash.cc']
+blisssrcs = ['graph.cc', 'heap.cc', 'orbit.cc', 'partition.cc', 'uintseqhash.cc']
 blisssrcs = [blissdir + src for src in blisssrcs]
 pn = str(sys.version_info[0])
 
 intpybliss = Extension(name="grakel.kernels._isomorphism.intpybliss",
-                  define_macros = [('MAJOR_VERSION', '0'),
-                                   ('MINOR_VERSION', '50beta')],
-                  include_dirs = [blissdir],
-                  language="c++",
-                  sources = [isodir + 'intpyblissmodule_' + pn + '.cc']+blisssrcs
-                  )
+                       define_macros=[('MAJOR_VERSION', '0'),
+                                      ('MINOR_VERSION', '50beta')],
+                       include_dirs=[blissdir],
+                       language="c++",
+                       sources=[isodir + 'intpyblissmodule_' + pn + '.cc']+blisssrcs
+                       )
 
 bliss = Extension(name="grakel.kernels._isomorphism.bliss",
-                  include_dirs = [isodir],
+                  include_dirs=[isodir],
                   language="c++",
-                  sources = [isodir + 'bliss.pyx']
+                  sources=[isodir + 'bliss.pyx']
                   )
 
 # Add readme pypi
 with open("README.md", "r") as fh:
     long_description = fh.read()
+    long_description = '\n'.join(s for i, s in enumerate(
+            [s for s in long_description.split('\n')
+             if not (len(s) >= 2 and s[:2] == "[!")]) if i != 2)
 
 setup(name='grakel-dev',
       version='0.1a5',
@@ -104,7 +95,7 @@ setup(name='grakel-dev',
                    'Programming Language :: Python :: 2.7',
                    'Programming Language :: Python :: 3.5',
                    'Programming Language :: Python :: 3.6',
-                 ],
+                   ],
       python_requires='>=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, <4',
       packages=find_packages(),
       package_data={'grakel.tests': ['data/Cuneiform/*.txt', 'data/MUTAG/*.txt']},
