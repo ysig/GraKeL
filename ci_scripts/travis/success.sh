@@ -9,8 +9,8 @@ if [[ "$COVERAGE" == "true" ]]; then
     # very reliable but we don't want travis to report a failure
     # in the github UI just because the coverage report failed to
     # be published.
-    $PIP install codecov
-    codecov || echo "Codecov upload failed"
+    $PYTHON -m pip install codecov
+    $PYTHON -m codecov || echo "Codecov upload failed"
 fi
 
 if [[ "$DEPLOY_WHEEL" == "true" ]]; then
