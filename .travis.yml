@@ -11,7 +11,7 @@ cache:
 env:
   global:
     # Directory where tests are run from
-    - TEST_DIR=/tmp/test_dir/
+    - TEST_DIR=/tmp/test_dir
     - MODULE=grakel
     - WHEEL_FOLDER=wheelhouse
     - TWINE_USERNAME=ysig
@@ -66,8 +66,6 @@ matrix:
         - PYTHON=python2
         - CIBW_BUILD="cp35-macosx_10_6_intel"
     - os: osx
-      macos:
-        xcode: "10.0.0"
       sudo: required
       language: generic
       env:
