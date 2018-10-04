@@ -80,7 +80,6 @@ script:
   - |
     if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
         $PIP install numpy cython --upgrade;
-
     fi
   - IFS= ; export CIBW_TEST_COMMAND="$(cat ci_scripts/travis/test.sh)";
   - cibuildwheel --output-dir $WHEEL_FOLDER

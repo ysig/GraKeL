@@ -9,8 +9,8 @@ if [[ "$COVERAGE" == "true" ]]; then
     # very reliable but we don't want travis to report a failure
     # in the github UI just because the coverage report failed to
     # be published.
-    $PIP install coveralls
-    coveralls || echo "Coveralls upload failed"
+    $PIP install codecov
+    codecov || echo "Codecov upload failed"
 fi
 
 if [[ "$DEPLOY_WHEEL" == "true" ]]; then
