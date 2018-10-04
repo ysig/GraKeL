@@ -7,7 +7,7 @@ if [[ "$COVERAGE" == "true" ]]; then
     cd $TEST_DIR;
     pwd;
     nosetests --with-coverage --cover-package=$MODULE $MODULE;
-    ls -x -l;
+    ls -la;
 else
     # Ignore arifacts: just change folder
     mkdir -p $TEST_DIR;
