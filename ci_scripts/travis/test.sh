@@ -6,7 +6,7 @@ if [[ "$COVERAGE" == "true" ]]; then
     mkdir -p $TEST_DIR;
     cd $TEST_DIR;
     pwd;
-    nosetests --with-coverage --cover-package=$MODULE --cover-xml-file=coverage.xml $MODULE;
+    nosetests $MODULE --with-coverage --cover-package=$MODULE --cover-xml;
     ls -la;
 else
     # Ignore arifacts: just change folder
