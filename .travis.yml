@@ -50,6 +50,13 @@ matrix:
         - PIP=pip
         - PYTHON=python
         - CIBW_BUILD="cp36-*"
+    - sudo: required
+      services:
+        - docker
+      env:
+        - PIP=pip
+        - PYTHON=python
+        - CIBW_BUILD="cp37-*"
     - os: osx
       sudo: required
       language: generic
@@ -72,6 +79,13 @@ matrix:
         - PIP=pip2
         - PYTHON=python2
         - CIBW_BUILD="cp36-macosx_10_6_intel"
+    - os: osx
+      sudo: required
+      language: generic
+      env:
+        - PIP=pip2
+        - PYTHON=python2
+        - CIBW_BUILD="cp37-macosx_10_6_intel"
 script:
   - $PIP install flake8 --upgrade && flake8 $TRAVIS_BUILD_DIR/grakel
   - $PIP install cibuildwheel

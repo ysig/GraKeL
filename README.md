@@ -1,9 +1,10 @@
 # GraKeL: A library for graph kernels
 
-[![Travis Status](https://travis-ci.org/ysig/GraKeL.svg?branch=develop)](https://travis-ci.org/ysig/GraKeL)
+[![Pypi Versions](https://img.shields.io/pypi/pyversions/grakel-dev.svg)](https://pypi.org/pypi/grakel-dev/)
 [![Coverage Status](https://codecov.io/gh/ysig/GraKeL/branch/develop/graph/badge.svg)](https://codecov.io/gh/ysig/GraKeL)
-[![CircleCI Status](https://circleci.com/gh/ysig/GraKeL/tree/develop.svg?style=shield)](https://circleci.com/gh/ysig/GraKeL/tree/develop)
+[![Travis Status](https://travis-ci.org/ysig/GraKeL.svg?branch=develop)](https://travis-ci.org/ysig/GraKeL)
 [![Appveyor status](https://ci.appveyor.com/api/projects/status/sss4lpfxwgejn6de/branch/develop?svg=true)](https://ci.appveyor.com/project/ysig/grakel)
+[![CircleCI Status](https://circleci.com/gh/ysig/GraKeL/tree/develop.svg?style=shield)](https://circleci.com/gh/ysig/GraKeL/tree/develop)
 
 **grakel** is a library compatible with the project of [scikit-learn](http://scikit-learn.org/)
 
