@@ -37,16 +37,6 @@ class PyramidMatch(Kernel):
 
     Attributes
     ----------
-    L : int
-        Defines the histogram level of the pyramid.
-
-    d : int
-        The dimension of the hypercube.
-
-    with_labels : bool
-        Defines if to use labels in the calculation of the `pyramid_match`
-        kernel.
-
     _num_labels : int
         The number of distinct labels, on the fit data.
 
@@ -71,28 +61,28 @@ class PyramidMatch(Kernel):
         self.with_labels = with_labels
         self.L = L
         self.d = d
-        self.initialized_.update({"d": False, "L": False, "with_labels": False})
+        self._initialized.update({"d": False, "L": False, "with_labels": False})
 
-    def initialize_(self):
+    def initialize(self):
         """Initialize all transformer arguments, needing initialization."""
-        super(PyramidMatch, self).initialize_()
+        super(PyramidMatch, self).initialize()
 
-        if not self.initialized_["with_labels"]:
+        if not self._initialized["with_labels"]:
             if type(self.with_labels) != bool:
                 raise TypeError('with labels must be a boolean variable')
-            self.initialized_["with_labels"] = True
+            self._initialized["with_labels"] = True
 
-        if not self.initialized_["L"]:
+        if not self._initialized["L"]:
             if type(self.L) is not int or self.L < 0:
                 raise TypeError('L: the number of levels must be an integer '
                                 'bigger equal to 0')
-            self.initialized_["L"] = True
+            self._initialized["L"] = True
 
-        if not self.initialized_["d"]:
+        if not self._initialized["d"]:
             if type(self.d) is not int or self.d < 1:
                 raise TypeError('d: hypercube dimension must be an '
                                 'integer bigger than 1')
-            self.initialized_["d"] = True
+            self._initialized["d"] = True
 
     def parse_input(self, X):
         """Parse and create features for pyramid_match kernel.

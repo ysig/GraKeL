@@ -6,7 +6,6 @@ import numpy as np
 
 from collections import defaultdict
 from collections import Iterable
-from numpy.random import RandomState
 
 from sklearn.base import TransformerMixin
 from sklearn.pipeline import make_pipeline
@@ -16,6 +15,7 @@ from sklearn.model_selection import ShuffleSplit
 from sklearn.base import BaseEstimator
 from sklearn.svm import SVC
 from sklearn.datasets.lfw import Bunch
+from sklearn.utils import check_random_state
 from sklearn.utils.validation import check_is_fitted
 
 from grakel import Graph
@@ -31,29 +31,31 @@ class KMTransformer(BaseEstimator, TransformerMixin):
     ----------
     K : array-like, shape=[n, n]
         If given an array the input can be as follows:
+
             + array-like lists of lists
 
             + np.array
 
             + sparse matrix (scipy.sparse)
-        It can also be embedded in an sklearn Bunch object as mat (argument)
+
+        It can also be embedded in an sklearn Bunch object as a mat (argument)
 
     Attributes
     ----------
-    _K : numpy.array, shape=[n, n]
+    K_ : numpy.array, shape=[n, n]
 
     """
     def __init__(self, K=None):
         """Initialise the Kernel Matrix Transformer"""
 
         self.K = K
-        self.initialized_ = {"K": False}
+        self._initialized = {"K": False}
 
-    def initialize_(self):
+    def initialize(self):
         """Initialize all transformer arguments, needing initialisation."""
-        if not self.initialized_["K"]:
+        if not self._initialized["K"]:
             if self.K is None:
-                raise ValueError('K is None .. where 2-dimensional array-like object was expected')
+                M = np.array([[1.0]])
             else:
                 K = self.K
                 if isinstance(K, Bunch):
@@ -66,10 +68,10 @@ class KMTransformer(BaseEstimator, TransformerMixin):
                     print(self.K)
                     raise ValueError('The provided K cannot be converted to a '
                                      'two dimensional np.array.')
-            self._K = M
-            self.initialized_["K"] = True
+            self.K_ = M
+            self._initialized["K"] = True
 
-    def fit(self, X):
+    def fit(self, X, y=None):
         """Fit a list of indeces.
 
         Parameters
@@ -83,8 +85,8 @@ class KMTransformer(BaseEstimator, TransformerMixin):
             Returns self.
 
         """
-        self.initialize_()
-        if any(x < 0 or x > self._K.shape[0] for x in X):
+        self.initialize()
+        if any(x < 0 or x > self.K_.shape[0] for x in X):
             raise ValueError('')
         else:
             self.X = np.array(X)
@@ -110,13 +112,13 @@ class KMTransformer(BaseEstimator, TransformerMixin):
 
         """
         # Initialize the Graph Kernel
-        self.initialize_()
-        if any(x < 0 or x > self._K.shape[0] for x in X):
+        self.initialize()
+        if any(x < 0 or x > self.K_.shape[0] for x in X):
             raise ValueError('')
         else:
             self.X = np.array(X)
 
-        return self._K[self.X, :][:, self.X]
+        return self.K_[self.X, :][:, self.X]
 
     def transform(self, X):
         """Calculate the kernel matrix, between given and fitted dataset.
@@ -133,15 +135,15 @@ class KMTransformer(BaseEstimator, TransformerMixin):
 
         """
         check_is_fitted(self, 'X')
-        if any(x < 0 or x > self._K.shape[0] for x in X):
+        if any(x < 0 or x > self.K_.shape[0] for x in X):
             raise ValueError('')
 
-        return self._K[X, :][:, self.X]
+        return self.K_[X, :][:, self.X]
 
 
 def cross_validate_Kfold_SVM(K, y,
                              n_iter=10, n_splits=10, C_grid=None,
-                             random_state=42, scoring="accuracy", fold_reduce=None):
+                             random_state=None, scoring="accuracy", fold_reduce=None):
     """Cross Validate a list of precomputed kernels with an SVM.
 
     Parameters
@@ -158,9 +160,8 @@ def cross_validate_Kfold_SVM(K, y,
     n_splits : int
         Number of splits for the K-Fold.
 
-    random_state : int, or np.random.RandomState
-        Either a seed or a RandomState object for the use of a common RandomSate in the
-        begging of all operations.
+    random_state :  RandomState or int, default=None
+        A random number generator instance or an int to initialize a RandomState as a seed.
 
     fold_reduce : callable or None
         A function that summarizes information between all folds.
@@ -193,8 +194,7 @@ def cross_validate_Kfold_SVM(K, y,
         raise ValueError('fold_reduce should be a callable')
 
     # Initialise and check random state
-    if type(random_state) is not RandomState:
-        random_state = RandomState(random_state)
+    random_state = check_random_state(random_state)
 
     # Initialise sklearn pipeline objects
     kfolder = KFold(n_splits=n_splits, random_state=random_state, shuffle=True)

@@ -10,6 +10,8 @@ from itertools import chain
 from collections import Counter
 from numbers import Real
 
+from sklearn.utils import check_random_state
+
 from grakel.graph import Graph
 from grakel.kernels import Kernel
 
@@ -17,6 +19,10 @@ from grakel.kernels import Kernel
 from six import itervalues
 from six import iteritems
 from six.moves import filterfalse
+
+
+def _dot(x, y):
+    return sum(x[k]*y[k] for k in x)
 
 
 class Propagation(Kernel):
@@ -37,30 +43,25 @@ class Propagation(Kernel):
             - "H": hellinger
             - "TV": total-variation
 
-    base_kernel : function (np.array, np.array -> number),
+    metric : function (Counter, Counter -> number),
         default=:math:`f(x,y)=\sum_{i} x_{i}*y_{i}`
-        A base_kernel between two 1-dimensional numpy arrays of numbers
-        that outputs a number.
+        A metric between two 1-dimensional numpy arrays of numbers that outputs a number.
+        It must consider the case where the keys of y are not in x, when different features appear
+        at transform.
+
+    random_state :  RandomState or int, default=None
+        A random number generator instance or an int to initialize a RandomState as a seed.
 
     Attributes
     ----------
-    M : str
-        The preserved distance metric (on local sensitive hashing).
-
-    tmax : int
-        Holds the maximum number of iterations.
-
-    w : int
-        Holds the bin width.
-
-    base_kernel : function (collections.Counter, collections.Counter -> number)
-        A base_kernel between two Counter for hashes that calculates a Number.
-
     _enum_labels : dict
         Holds the enumeration of the input labels.
 
     _parent_labels : set
         Holds a set of the input labels.
+
+    random_state_ : RandomState
+        A RandomState object handling all randomness of the class.
 
     """
 
@@ -71,9 +72,8 @@ class Propagation(Kernel):
                  n_jobs=None,
                  verbose=False,
                  normalize=False,
-                 random_seed=42,
-                 base_kernel=(lambda x, y: (sum(x[k]*y[k] for k in x) if len(x) < len(y)
-                                            else sum(x[k]*y[k] for k in x))),
+                 random_state=None,
+                 metric=_dot,
                  M="TV",
                  t_max=5,
                  w=0.01):
@@ -82,23 +82,23 @@ class Propagation(Kernel):
                                           verbose=verbose,
                                           normalize=normalize)
 
-        self.random_seed = random_seed
+        self.random_state = random_state
         self.M = M
         self.t_max = t_max
         self.w = w
-        self.base_kernel = base_kernel
-        self.initialized_.update({"M": False, "t_max": False, "w": False,
-                                  "random_seed": False, "base_kernel": False})
+        self.metric = metric
+        self._initialized.update({"M": False, "t_max": False, "w": False,
+                                  "random_state": False, "metric": False})
 
-    def initialize_(self):
+    def initialize(self):
         """Initialize all transformer arguments, needing initialization."""
-        super(Propagation, self).initialize_()
+        super(Propagation, self).initialize()
 
-        if not self.initialized_["random_seed"]:
-            np.random.seed(self.random_seed)
-            self.initialized_["random_seed"] = True
+        if not self._initialized["random_state"]:
+            self.random_state_ = check_random_state(self.random_state)
+            self._initialized["random_state"] = True
 
-        if not self.initialized_["base_kernel"]:
+        if not self._initialized["metric"]:
             if (type(self.M) is not str or
                     (self.M not in ["H", "TV"] and not self.attr_) or
                     (self.M not in ["L1", "L2"] and self.attr_)):
@@ -108,26 +108,26 @@ class Propagation(Kernel):
                     raise TypeError('Metric type must be a str, one of "H", "TV"')
 
             if not self.attr_:
-                self._take_sqrt = self.M is "H"
+                self.take_sqrt_ = self.M is "H"
 
-            self._take_cauchy = self.M in ["TV", "L1"]
-            self.initialized_["base_kernel"] = True
+            self.take_cauchy_ = self.M in ["TV", "L1"]
+            self._initialized["metric"] = True
 
-        if not self.initialized_["t_max"]:
+        if not self._initialized["t_max"]:
             if type(self.t_max) is not int or self.t_max <= 0:
                 raise TypeError('The number of iterations must be a ' +
                                 'positive integer.')
-            self.initialized_["t_max"] = True
+            self._initialized["t_max"] = True
 
-        if not self.initialized_["w"]:
+        if not self._initialized["w"]:
             if not isinstance(self.w, Real) and self.w <= 0:
                 raise TypeError('The bin width must be a positive number.')
-            self.initialized_["w"] = True
+            self._initialized["w"] = True
 
-        if not self.initialized_["base_kernel"]:
-            if not callable(self.base_kernel):
+        if not self._initialized["metric"]:
+            if not callable(self.metric):
                 raise TypeError('The base kernel must be callable.')
-            self.initialized_["base_kernel"] = True
+            self._initialized["metric"] = True
 
     def pairwise_operation(self, x, y):
         """Calculate the kernel value between two elements.
@@ -143,7 +143,7 @@ class Propagation(Kernel):
             The kernel value.
 
         """
-        return sum(self.base_kernel(x[t], y[t]) for t in range(self.t_max))
+        return sum(self.metric(x[t], y[t]) for t in range(self.t_max))
 
     def parse_input(self, X):
         """Parse and create features for the propation kernel.
@@ -225,8 +225,7 @@ class Propagation(Kernel):
 
             # enumerate labels
             if self._method_calling == 1:
-                enum_labels = {l: i for (i, l)
-                               in enumerate(list(labels))}
+                enum_labels = {l: i for (i, l) in enumerate(list(labels))}
                 self._enum_labels = enum_labels
                 self._parent_labels = labels
             elif self._method_calling == 3:
@@ -255,15 +254,15 @@ class Propagation(Kernel):
                 # simple normal
                 self._u, self._b, self._hd = list(), list(), list()
                 for t in range(self.t_max):
-                    u = np.random.randn(len(enum_labels))
+                    u = self.random_state_.randn(len(enum_labels))
 
-                    if self._take_cauchy:
+                    if self.take_cauchy_:
                         # cauchy
-                        u = np.divide(u, np.random.randn(len(enum_labels)))
+                        u = np.divide(u, self.random_state_.randn(len(enum_labels)))
 
                     self._u.append(u)
                     # random offset
-                    self._b.append(self.w*np.random.rand())
+                    self._b.append(self.w*self.random_state_.rand())
 
                 phi = {k: dict() for k in range(n)}
                 for t in range(self.t_max):
@@ -332,10 +331,10 @@ class Propagation(Kernel):
                     features = np.vectorize(lambda i: hd[i], otypes=[int])(hashes)
 
                     # for each the new labels graph hash P and produce the feature vectors
-                    u = np.random.randn(nnv)
-                    if self._take_cauchy:
-                            # cauchy
-                            u = np.divide(u, np.random.randn(nnv))
+                    u = self.random_state_.randn(nnv)
+                    if self.take_cauchy_:
+                        # cauchy
+                        u = np.divide(u, self.random_state_.randn(nnv))
 
                     u = np.hstack((self._u[t], u))
 
@@ -387,7 +386,7 @@ class Propagation(Kernel):
             The local sensitive hash coresponding to each vertex.
 
         """
-        if self._take_sqrt:
+        if self.take_sqrt_:
             X = np.sqrt(X)
 
         # hash
@@ -412,9 +411,9 @@ class PropagationAttr(Propagation):
             - "L1": l1-norm
             - "L2": l2-norm
 
-    base_kernel : function (np.array, np.array -> number),
+    metric : function (np.array, np.array -> number),
         default=:math:`f(x,y)=\sum_{i} x_{i}*y_{i}`
-        A base_kernel between two 1-dimensional numpy arrays of numbers
+        A metric between two 1-dimensional numpy arrays of numbers
         that outputs a number.
 
     Attributes
@@ -428,8 +427,8 @@ class PropagationAttr(Propagation):
     w : int
         Holds the bin width.
 
-    base_kernel : function (np.array, np.array -> number)
-        A base_kernel between two 1-dimensional numpy arrays of numbers
+    metric : function (np.array, np.array -> number)
+        A metric between two 1-dimensional numpy arrays of numbers
         that outputs a number.
 
     """
@@ -441,9 +440,8 @@ class PropagationAttr(Propagation):
                  n_jobs=None,
                  verbose=False,
                  normalize=False,
-                 random_seed=42,
-                 base_kernel=(lambda x, y: (sum(x[k]*y[k] for k in x) if len(x) < len(y)
-                              else sum(x[k]*y[k] for k in x))),
+                 random_state=None,
+                 metric=_dot,
                  M="L1",
                  t_max=5,
                  w=4):
@@ -451,16 +449,15 @@ class PropagationAttr(Propagation):
         super(PropagationAttr, self).__init__(n_jobs=n_jobs,
                                               verbose=verbose,
                                               normalize=normalize,
-                                              random_seed=random_seed,
-                                              base_kernel=base_kernel,
+                                              random_state=random_state,
+                                              metric=metric,
                                               M=M,
                                               t_max=t_max,
                                               w=w)
-        # self.initialized_[]=
 
-    def initialize_(self):
+    def initialize(self):
         """Initialize all transformer arguments, needing initialization."""
-        super(PropagationAttr, self).initialize_()
+        super(PropagationAttr, self).initialize()
 
     def parse_input(self, X):
         """Parse and create features for the attributed propation kernel.
@@ -557,14 +554,14 @@ class PropagationAttr(Propagation):
                 # simple normal
                 self._u, self._b, self._hd = list(), list(), list()
                 for t in range(self.t_max):
-                    u = np.random.randn(self._dim)
-                    if self._take_cauchy:
+                    u = self.random_state_.randn(self._dim)
+                    if self.take_cauchy_:
                         # cauchy
-                        u = np.divide(u, np.random.randn(self._dim))
+                        u = np.divide(u, self.random_state_.randn(self._dim))
 
                     self._u.append(u)
                     # random offset
-                    self._b.append(self.w*np.random.randn(self._dim))
+                    self._b.append(self.w*self.random_state_.randn(self._dim))
 
                 phi = {k: dict() for k in range(n)}
                 for t in range(self.t_max):

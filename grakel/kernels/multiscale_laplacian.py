@@ -12,6 +12,8 @@ import time
 from numbers import Real
 from math import exp
 
+from sklearn.utils import check_random_state
+
 from numpy.linalg import eig
 from numpy.linalg import inv
 from numpy.linalg import multi_dot
@@ -33,6 +35,9 @@ class MultiscaleLaplacianFast(Kernel):
 
     Parameters
     ----------
+    random_state :  RandomState or int, default=None
+        A random number generator instance or an int to initialize a RandomState as a seed.
+
     L : int, default=3
         The number of neighborhoods.
 
@@ -45,28 +50,17 @@ class MultiscaleLaplacianFast(Kernel):
     P : int, default=10
         Restrict the maximum number of eigenvalues, taken on eigenvalue decomposition.
 
-    N : int, default=50
+    n_samples : int, default=50
         The number of vertex samples.
 
     Attributes
     ----------
-    L : int
-        The number of neihborhoods.
+    random_state_ : RandomState
+        A RandomState object handling all randomness of the class.
 
-    gamma : Real
-        A smoothing parameter for calculation of S matrices.
-
-    heta : float
-        A smoothing parameter for calculation of S matrices.
-
-    P : int
-        The maximum number of eigenvalues, taken on eigenvalue decomposition.
-
-    N : int
-        The number of vertex samples.
-
-    ksi : np.array, len(shape)=2
-        The total ksi transformation of phi's as produced on fit.
+    _data_level : dict
+        A dictionary containing the feature basis information needed
+        for each level calculation on transform.
 
     """
 
@@ -75,69 +69,69 @@ class MultiscaleLaplacianFast(Kernel):
     def __init__(self,
                  n_jobs=None,
                  normalize=False, verbose=False,
-                 random_seed=42,
+                 random_state=None,
                  L=3,
                  P=10,
                  gamma=0.01,
                  heta=0.01,
-                 N=50):
+                 n_samples=50):
         """Initialise a `multiscale_laplacian` kernel."""
         super(MultiscaleLaplacianFast, self).__init__(
             n_jobs=n_jobs,
             normalize=normalize,
             verbose=verbose)
 
-        self.random_seed = random_seed
+        self.random_state = random_state
         self.gamma = gamma
         self.heta = heta
         self.L = L
         self.P = P
-        self.N = N
-        self.initialized_.update({"random_seed": False, "gamma": False,
-                                  "heta": False, "L": False, "N": False, "P": False})
+        self.n_samples = n_samples
+        self._initialized.update({"random_state": False, "gamma": False,
+                                  "heta": False, "L": False, "n_samples": False, "P": False})
 
-    def initialize_(self):
+    def initialize(self):
         """Initialize all transformer arguments, needing initialization."""
-        super(MultiscaleLaplacianFast, self).initialize_()
+        super(MultiscaleLaplacianFast, self).initialize()
 
-        if not self.initialized_["random_seed"]:
-            np.random.seed(self.random_seed)
-            self.initialized_["random_seed"] = True
+        if not self._initialized["random_state"]:
+            self.random_state_ = check_random_state(self.random_state)
+            self._initialized["random_state"] = True
 
-        if not self.initialized_["gamma"]:
+        if not self._initialized["gamma"]:
             if not isinstance(self.gamma, Real):
                 raise TypeError('gamma must be a real number')
             elif self.gamma == .0:
                 warnings.warn('with zero gamma the calculation may crash')
             elif self.gamma < 0:
                 raise TypeError('gamma must be positive')
-            self.initialized_["gamma"] = True
+            self._initialized["gamma"] = True
 
-        if not self.initialized_["heta"]:
+        if not self._initialized["heta"]:
             if not isinstance(self.heta, Real):
                 raise TypeError('heta must be a real number')
             elif self.heta == .0:
                 warnings.warn('with zero heta the calculation may crash')
             elif self.heta < 0:
                 raise TypeError('heta must be positive')
-            self.initialized_["heta"] = True
+            self._initialized["heta"] = True
 
-        if not self.initialized_["L"]:
+        if not self._initialized["L"]:
             if type(self.L) is not int:
                 raise TypeError('L must be an integer')
             elif self.L < 0:
                 raise TypeError('L must be positive')
-            self.initialized_["L"] = True
+            self._initialized["L"] = True
 
-        if not self.initialized_["N"]:
-            if type(self.N) is not int or self.N <= 0:
-                raise TypeError('N must be a positive integer')
-            self.initialized_["N"] = True
+        if not self._initialized["n_samples"]:
+            if type(self.n_samples) is not int or self.n_samples <= 0:
+                raise TypeError('n_samples must be a positive integer')
+            self._initialized["n_samples"] = True
 
-        if not self.initialized_["P"]:
+        if not self._initialized["P"]:
             if type(self.P) is not int or self.P <= 0:
                 raise TypeError('P must be a positive integer')
-            self.initialized_["P"] = True
+            self._initialized["P"] = True
 
     def parse_input(self, X):
         """Fast ML Graph Kernel.
@@ -221,9 +215,9 @@ class MultiscaleLaplacianFast(Kernel):
                 V = [(k, j) for k in range(ng)
                      for j in range(data[k][0].shape[0])]
 
-                ns = min(len(V), self.N)
+                ns = min(len(V), self.n_samples)
 
-                np.random.shuffle(V)
+                self.random_state_.shuffle(V)
                 vs = V[:ns]
                 phi_k = np.array([data[k][1][j, :] for (k, j) in vs])
 
@@ -241,12 +235,12 @@ class MultiscaleLaplacianFast(Kernel):
                 # ksi.shape = (k, Ns) * (Ns, P)
                 ksi = w[vpos].dot(phi_k).T / np.sqrt(v[vpos])
                 for j in range(ng):
-                    # (N, k) * (k, P)
+                    # (n_samples, k) * (k, P)
                     data[j][1] = data[j][1].dot(ksi)
-                self.data_level = {0: ksi}
+                self._data_level = {0: ksi}
                 for l in range(1, self.L+1):
                     # Take random samples from all the vertices of all graphs
-                    np.random.shuffle(V)
+                    self.random_state_.shuffle(V)
                     vs = V[:ns]
 
                     # Compute the reference subsampled Gram matrix
@@ -282,16 +276,16 @@ class MultiscaleLaplacianFast(Kernel):
                     for j in range(ng):
                         # (n, ns) * (ns, P)
                         data[j][1] = K_proj[j].dot(Q)
-                    self.data_level[l] = (C, Q)
+                    self._data_level[l] = (C, Q)
 
             elif self._method_calling == 3:
-                ksi = self.data_level[0]
+                ksi = self._data_level[0]
                 for j in range(ng):
                     # (n, k) * (k, P)
                     data[j][1] = data[j][1].dot(ksi)
 
                 for l in range(1, self.L+1):
-                    C, Q = self.data_level[l]
+                    C, Q = self._data_level[l]
                     for j in range(ng):
                         K_proj = np.zeros(shape=(data[j][0].shape[0], len(C)))
                         for n in range(data[j][0].shape[0]):
@@ -380,22 +374,22 @@ class MultiscaleLaplacian(Kernel):
         self.gamma = gamma
         self.heta = heta
         self.L = L
-        self.initialized_.update({"gamma": False, "heta": False, "L": False})
+        self._initialized.update({"gamma": False, "heta": False, "L": False})
 
-    def initialize_(self):
+    def initialize(self):
         """Initialize all transformer arguments, needing initialization."""
-        super(MultiscaleLaplacian, self).initialize_()
+        super(MultiscaleLaplacian, self).initialize()
 
-        if not self.initialized_["gamma"]:
+        if not self._initialized["gamma"]:
             if not isinstance(self.gamma, Real):
                 raise TypeError('gamma must be a real number')
             elif self.gamma == .0:
                 warnings.warn('with zero gamma the calculation may crash')
             elif self.gamma < 0:
                 raise TypeError('gamma must be a positive integer')
-            self.initialized_["gamma"] = True
+            self._initialized["gamma"] = True
 
-        if not self.initialized_["heta"]:
+        if not self._initialized["heta"]:
             if not isinstance(self.heta, Real):
                 raise TypeError('heta must be a real number')
 
@@ -403,14 +397,14 @@ class MultiscaleLaplacian(Kernel):
                 warnings.warn('with zero heta the calculation may crash')
             elif self.heta < 0:
                 raise TypeError('heta must be positive')
-            self.initialized_["heta"] = True
+            self._initialized["heta"] = True
 
-        if not self.initialized_["L"]:
+        if not self._initialized["L"]:
             if type(self.L) is not int:
                 raise TypeError('L must be an integer')
             elif self.L < 0:
                 raise TypeError('L must be positive')
-            self.initialized_["L"] = True
+            self._initialized["L"] = True
 
     def parse_input(self, X):
         """Parse and create features for multiscale_laplacian kernel.

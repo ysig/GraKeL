@@ -33,19 +33,16 @@ class EdgeHistogram(Kernel):
 
     """
 
-    def __init__(self, n_jobs=None,
-                 normalize=False, verbose=False):
+    def __init__(self, n_jobs=None, normalize=False, verbose=False):
         """Initialize an edge kernel."""
-        super(EdgeHistogram, self).__init__(n_jobs=n_jobs,
-                                            normalize=normalize,
-                                            verbose=verbose)
+        super(EdgeHistogram, self).__init__(n_jobs=n_jobs, normalize=normalize, verbose=verbose)
 
-    def initialized_(self):
+    def initialize(self):
         """Initialize all transformer arguments, needing initialization."""
-        if not self.initialized_["n_jobs"]:
+        if not self._initialized["n_jobs"]:
             if self.n_jobs is not None:
                 warn('no implemented parallelization for EdgeHistogram')
-            self.initialized_["n_jobs"] = True
+            self._initialized["n_jobs"] = True
 
     def parse_input(self, X):
         """Parse and check the given input for EH kernel.

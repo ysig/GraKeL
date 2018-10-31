@@ -86,7 +86,7 @@ class Kernel(BaseEstimator, TransformerMixin):
         self.verbose = verbose
         self.n_jobs = n_jobs
         self.normalize = normalize
-        self.initialized_ = dict(n_jobs=False)
+        self._initialized = dict(n_jobs=False)
 
     def fit(self, X, y=None):
         """Fit a dataset, for a transformer.
@@ -114,7 +114,7 @@ class Kernel(BaseEstimator, TransformerMixin):
         self._method_calling = 1
 
         # Parameter initialization
-        self.initialize_()
+        self.initialize()
 
         # Input validation and parsing
         if X is None:
@@ -352,9 +352,9 @@ class Kernel(BaseEstimator, TransformerMixin):
                 raise ValueError('Parsed input is empty.')
             return Xp
 
-    def initialize_(self):
+    def initialize(self):
         """Initialize all transformer arguments, needing initialisation."""
-        if not self.initialized_["n_jobs"]:
+        if not self._initialized["n_jobs"]:
             if type(self.n_jobs) is not int and self.n_jobs is not None:
                 raise ValueError('n_jobs parameter must be an int '
                                  'indicating the number of jobs as in joblib or None')
@@ -365,7 +365,7 @@ class Kernel(BaseEstimator, TransformerMixin):
                                                  backend="threading",
                                                  pre_dispatch='all')
                 self._n_jobs = self._parallel._effective_n_jobs()
-            self.initialized_["n_jobs"] = True
+            self._initialized["n_jobs"] = True
 
     def pairwise_operation(self, x, y):
         """Calculate a pairwise kernel between two elements.
@@ -385,7 +385,7 @@ class Kernel(BaseEstimator, TransformerMixin):
 
     def set_params(self, **params):
         """Call the parent method."""
-        if len(self.initialized_):
+        if len(self._initialized):
             # Copy the parameters
             params = copy.deepcopy(params)
 
@@ -393,10 +393,10 @@ class Kernel(BaseEstimator, TransformerMixin):
             for key, value in iteritems(params):
                 key, delim, sub_key = key.partition('__')
                 if delim:
-                    if sub_key in self.initialized_:
-                        self.initialized_[sub_key] = False
-                elif key in self.initialized_:
-                    self.initialized_[key] = False
+                    if sub_key in self._initialized:
+                        self._initialized[sub_key] = False
+                elif key in self._initialized:
+                    self._initialized[key] = False
 
         # Set parameters
         super(Kernel, self).set_params(**params)

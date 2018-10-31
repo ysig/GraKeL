@@ -6,7 +6,7 @@ A longer Introduction
 
 What is the `GraphKernel` class
 -------------------------------
-`GraphKernel` is a class decorator, which means that it takes a collection of classes, in our case Graph-Kernels and creates a uniform interface for all them, while providing the user with a way of adding various features.
+`GraphKernel` is a class *generic wrapper*, which means that it takes a collection of classes, in our case Graph-Kernels and creates a uniform interface for all them, while providing the user with a way of adding various features.
 
 These features can be listed as follows:
 
@@ -16,7 +16,7 @@ These features can be listed as follows:
         To initialize a :code:`base_kernel` kernel the procedure is simple. Any :code:`base_kernel` is a dictionary containing its name under the :code:`'name'` field and its parameterization on separate fields that signify kernel parameters and their values. The :code:`shortest_path` kernel we show on the introduction is such a kernel.
 
         .. note::
-            The decorator sometimes wraps two kernels in one (as in the :code:`MultiscaleLaplacian` and :code:`MultiscaleLaplacianFast`) and in order to learn
+            The generic wrapper sometimes wraps two kernels in one (as in the :code:`MultiscaleLaplacian` and :code:`MultiscaleLaplacianFast`) and in order to learn
             the meaning of each parameter the user is suggested to read the documentation found on :ref:`kernels`.
 
     - :code:`frameworks` : 
@@ -77,9 +77,9 @@ These features can be listed as follows:
         >>> K_train = wl_kernel.fit_transform(X)
         >>> K_test = wl_kernel.transform(Y)
         >>> print(K_train.shape)
-        (169, 10)
+        (169, 20)
         >>> print(K_test.shape)
-        (19, 10)
+        (19, 20)
 
 
     Classify using a standard SVC
@@ -126,7 +126,7 @@ These features can be listed as follows:
 * :code:`random_seed` : We would in generally want to satisfy the need of the user to provide
     a :code:`random_seed` either to kernels that are probabilistic, or to randomize accordingly
     procedures of the :code:`GraphKernel` that need randomization such as :code:`Nystroem`, where the
-    decorator draws probabilistically a number of components from the number of fitted samples.
+    generic wrapper draws probabilistically a number of components from the number of fitted samples.
 
     Let's give an example of a probabilistic kernel using our old water example. We will use a very well known kernel called *Graphlet-Sampling*, where we will
     sample probabilistically 5 subgraph samples from each graph either :math:`\mathbf{H}_{2}\mathbf{O}` or :math:`\mathbf{H}_{3}\mathbf{O}^{+}`.
@@ -159,7 +159,7 @@ These features can be listed as follows:
         10.0
 
     As we see a new value has been calculated because the default seed is now not used. If know a :code:`random_seed`
-    is initialized inside the decorator and no parameter is given signifying a :code:`random_seed` to the :code:`kernel`
+    is initialized inside the generic wrapper and no parameter is given signifying a :code:`random_seed` to the :code:`kernel`
     argument then if the kernel has such parameter the default will be used. This is demonstrated in what follows
 
     .. code-block:: python
@@ -171,7 +171,7 @@ These features can be listed as follows:
 
     where we get the same result. Now if both a :code:`GraphKernel` has a :code:`random_seed` and the :code:`kernel` is provided
     with one inside parametrization, the second will be used inside the :code:`kernel` and the first outside, in the rest code area
-    covered by the decorator, as expected. To demonstrate we will show is the following:
+    covered by the generic wrapper, as expected. To demonstrate we will show is the following:
 
     .. code-block:: python
 
@@ -194,7 +194,7 @@ These features can be listed as follows:
     .. note::
         Verbose is an argument that is currently unsupported (has no impact), but is set for future implementation of some output messages.
 
-To understand what the :code:`GraphKernel` object is doing, we must see inherently what objects it decorates.
+To understand what the :code:`GraphKernel` object is doing, we must see inherently what objects it wraps.
 
 The `Kernel` class
 ------------------
@@ -225,11 +225,11 @@ before fit we advise him to use the :code:`fit_transform`, function in the whole
 .. note::
     The very idea that lies before fitting concerns holding a reference dataset. This means a collections of features should be stored into memory and **not** get corrupted throughout various applications of :code:`transform`. This however - the need of copying and protecting the reference data - produces a computational overhead in kernels such as the :code:`odd_sth` where the user will may prefer the computational advantages of applying a sole :code:`fit_transform`.
 
-Using a :code:`kernel` type object through the decorator, should be equivalent with doing so without the decorator, if the correct parametrization is given.
-The decorator **does not** restrict any *user-oriented* interface of the kernels, except if the user wants to write a kernel of his own.
+Using a :code:`Kernel` type object through the generic wrapper, should be equivalent with doing so without the generic wrapper, if the correct parametrization is given.
+The generic wrapper **does not** restrict any *user-oriented* interface of the kernels, except if the user wants to write a kernel of his own.
 If you want to know more about the kernel structure in order to write your own see :ref:`myok`.
 
-To demonstrate a small example of the above we will construct our own a WL-subtree kernel instead of using the decorator.
+To demonstrate a small example of the above we will construct our own a WL-subtree kernel instead of using the generic wrapper.
 To do so first import the :code:`WeisfeilerLehman` and :code:`VertexHistogram` (where :code:`vertex_histogram` is equivalent
 with the :code:`subtree_kernel`) kernels as
 
@@ -266,7 +266,7 @@ If what we said till now is correct, the :code:`GraphKernel` object should produ
 
     >>> from grakel import GraphKernel
     >>> wl_graph_kernel = GraphKernel(kernel = [{"name": "weisfeiler_lehman", "niter": 5}, {"name": "subtree_wl"}])
-    >>> # The alias "subtree_wl" is supported inside the decorator
+    >>> # The alias "subtree_wl" is supported inside the generic wrapper
     >>> from numpy import array_equal
     >>> array_equal(wl_graph_kernel.fit_transform(X), wl_kernel.fit_transform(X))
     True

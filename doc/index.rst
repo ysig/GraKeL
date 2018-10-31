@@ -38,6 +38,20 @@ GrakeL provides
 What's New
 ==========
 
+- Version **0.1a6**
+
+  + More scikit-learn compatibility:
+
+    1. Initialise kernels by name and alias on GraphKernel (as GraphKernel(kernel="shortest_path").
+    2. Fit and instantion by default parameters
+    3. Random number generator standardized `check_random_state`. `random_seed` are now `random_state` arguments.
+
+  + Miscelanous: 
+
+    1. Detailed unsupported kernel output.
+    2. More detailed licensing information considering **cvxopt** and **BLISS**
+    3. Small bugfix inside the (Count Sensitive) Neighborhood Hash Kernel.
+
 - Version **0.1a5**
 
   + Various bugfixes in kernel implementations.

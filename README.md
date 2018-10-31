@@ -55,8 +55,43 @@ $ conda install grakel-dev
 
 Usage
 =====
-To learn how to use the GraKeL api **as a user**, please read the [documentation][doc] on sections *Introduction* and *A longer introduction*
-(in case your are full of curiosity).
+
+To learn how to use the GraKeL api **as a user**, please read the [documentation][doc] on sections *Introduction* and *A longer introduction* (in case your are full of curiosity).
+
+Initialise a Kernel
+-------------------
+
+```python
+from grakel import GraphKernel
+wl_subtree = GraphKernel(kernel=['WL', 'ST-WL'], normalize=True)
+```
+
+Provide Input
+-------------
+
+- Custom Input
+
+  ```python
+  H2O = [[(0, 1), (0, 2), (2, 0), (1, 0)], # Directed Graph
+         {0: 'O', 1: 'H', 2: 'H'}] # Node Labels
+  H3O = [[(0, 1), (0, 2), (0, 3), (3, 0), (2, 0), (1, 0)], # Directed Graph
+         {0: 'O', 1: 'H', 2: 'H', 3:'H'}]] # Node Labels
+  X = [H2O, H3O] # List of Graph-Like Objects
+  ```
+
+- Download a Dataset
+
+  ```python
+  from grakel.datasets import fetch_dataset
+  MUTAG = fetch_dataset("MUTAG")
+  X = MUTAG.data # MUTAG.target contains class labels
+  ```
+
+Calculate Kernel Matrix
+-----------------------
+```python
+   K = wl_subtree.fit_transform(X) # len(X) x len(X): symmetric
+```
 
 Testing
 =======
@@ -72,6 +107,7 @@ $ nosetests
 ```
 
 for executing unit_tests or use a testing-interface for testing the `kernel` module:
+
 ```shell
 $ python  grakel/tests/test_kernels.py --help
 usage: test_kernels.py [-h] [--verbose] [--problematic] [--slow]
@@ -95,6 +131,7 @@ optional arguments:
 ```
 
 for testing `graph_kernels`:
+
 ```shell
 $ python grakel/tests/test_graph_kernel.py --help
 usage: test_graph_kernels.py [-h] [--verbose] [--problematic] [--slow]
@@ -118,6 +155,7 @@ optional arguments:
 ```
 
 and for testing the `Graph` class:
+
 ```shell
 $ python grakel/tests/test_graph.py --help
 usage: test_graph.py [-h] [--verbose] [--ignore_warnings]
@@ -130,6 +168,7 @@ optional arguments:
   --ignore_warnings  ignore warnings produced by kernel executions
 ```
 You can also execute the kernel test locally through a *test-main-function* as
+
 ```shell
 $ python -m grakel.tests
 ```
@@ -142,9 +181,16 @@ For contributing to the GraKeL project, please read section *contributing* insid
 
 [doc]: https://ysig.github.io/GraKeL/dev/
 
+License
+=======
+GraKeL comes with a __BSD 3-clause__ license (as with scikit-learn).
+It contains the C++ source code of [BLISS](http://www.tcs.hut.fi/Software/bliss) (a library for graph isomorphism) which is __LGPL__ licensed.
+Futhermore its optional dependency in the package of [cvxopt][https://cvxopt.org/] (a tool for solving convex-optimization problems) comes with a __GPL__ license.
+
 Citation
 ========
 If you use GraKeL in a scientific publication, please cite our paper:
+
 ```
 @article{siglidis2018grakel,
   title={GraKeL: A Graph Kernel Library in Python},

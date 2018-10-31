@@ -11,6 +11,7 @@ from sklearn.utils.validation import check_is_fitted
 
 from grakel.graph import Graph
 from grakel.kernels import Kernel
+from grakel.kernels.shortest_path import ShortestPath
 
 # Python 2/3 cross-compatibility import
 from six import iteritems
@@ -21,18 +22,19 @@ class CoreFramework(Kernel):
 
     Parameters
     ----------
-    base_kernel : `grakel.kernels.kernel` or tuple
+    base_kernel : `grakel.kernels.kernel` or tuple, default=None
         If tuple it must consist of a valid kernel object and a
         dictionary of parameters. General parameters concerning
         normalization, concurrency, .. will be ignored, and the
         ones of given on `__init__` will be passed in case it is needed.
+        Default `base_kernel` is `VertexHistogram`.
 
     min_core : int, default=-1
         Core numbers bigger than min_core will only be considered.
 
     Attributes
     ----------
-    _base_kernel : function
+    base_kernel_ : function
         A void function that initializes a base kernel object.
 
     """
@@ -47,51 +49,50 @@ class CoreFramework(Kernel):
 
         self.min_core = -1
         self.base_kernel = base_kernel
-        self.initialized_.update({"min_core": False, "base_kernel": False})
+        self._initialized.update({"min_core": False, "base_kernel": False})
 
-    def initialize_(self):
+    def initialize(self):
         """Initialize all transformer arguments, needing initialization."""
-        if not self.initialized_["n_jobs"]:
+        if not self._initialized["n_jobs"]:
             if self.n_jobs is not None:
                 warnings.warn('no implemented parallelization for CoreFramework')
-            self.initialized_["n_jobs"] = True
+            self._initialized["n_jobs"] = True
 
-        if not self.initialized_["base_kernel"]:
+        if not self._initialized["base_kernel"]:
             base_kernel = self.base_kernel
             if base_kernel is not None:
-                if type(base_kernel) is type and issubclass(base_kernel, Kernel):
-                    params = dict()
-                else:
-                    try:
-                        base_kernel, params = base_kernel
-                    except Exception:
-                        raise TypeError('Base kernel was not formulated in '
-                                        'the correct way. '
-                                        'Check documentation.')
-
-                    if not (type(base_kernel) is type and
-                            issubclass(base_kernel, Kernel)):
-                        raise TypeError('The first argument must be a valid '
-                                        'grakel.kernel.kernel Object')
-                    if type(params) is not dict:
-                        raise ValueError('If the second argument of base '
-                                         'kernel exists, it must be a diction'
-                                         'ary between parameters names and '
-                                         'values')
-                    params.pop("normalize", None)
-
-                params["normalize"] = False
-                params["verbose"] = self.verbose
-                params["n_jobs"] = None
-                self._base_kernel = lambda *args: base_kernel(**params)
+                base_kernel, params = ShortestPath, dict()
+            elif type(base_kernel) is type and issubclass(base_kernel, Kernel):
+                params = dict()
             else:
-                raise ValueError('Upon initialization base_kernel cannot be None')
-            self.initialized_["base_kernel"] = True
+                try:
+                    base_kernel, params = base_kernel
+                except Exception:
+                    raise TypeError('Base kernel was not formulated in '
+                                    'the correct way. '
+                                    'Check documentation.')
 
-        if not self.initialized_["min_core"]:
+                if not (type(base_kernel) is type and
+                        issubclass(base_kernel, Kernel)):
+                    raise TypeError('The first argument must be a valid '
+                                    'grakel.kernel.kernel Object')
+                if type(params) is not dict:
+                    raise ValueError('If the second argument of base '
+                                     'kernel exists, it must be a diction'
+                                     'ary between parameters names and '
+                                     'values')
+                params.pop("normalize", None)
+
+            params["normalize"] = False
+            params["verbose"] = self.verbose
+            params["n_jobs"] = None
+            self.base_kernel_ = lambda *args: base_kernel(**params)
+            self._initialized["base_kernel"] = True
+
+        if not self._initialized["min_core"]:
             if type(self.min_core) is not int or self.min_core < -1:
                 raise TypeError("'min_core' must be an integer bigger than -1")
-            self.initialized_["min_core"] = True
+            self._initialized["min_core"] = True
 
     def parse_input(self, X):
         """Parse input and create features, while initializing and/or calculating sub-kernels.
@@ -197,10 +198,10 @@ class CoreFramework(Kernel):
 
             # calculate kernel
             if self._method_calling == 1 and indexes.shape[0] > 0:
-                base_kernel[i] = self._base_kernel()
+                base_kernel[i] = self.base_kernel_()
                 base_kernel[i].fit(subgraphs)
             elif self._method_calling == 2 and indexes.shape[0] > 0:
-                base_kernel[i] = self._base_kernel()
+                base_kernel[i] = self.base_kernel_()
                 ft_subgraph_mat = base_kernel[i].fit_transform(subgraphs)
                 for j in range(indexes.shape[0]):
                     K[indexes[j], indexes] += ft_subgraph_mat[j, :]
@@ -208,7 +209,7 @@ class CoreFramework(Kernel):
                 if self._max_core_number < i or self._fit_indexes[i].shape[0] == 0:
                     if len(indexes) > 0:
                         # add a dummy kernel for calculating the diagonal
-                        self._dummy_kernel[i] = self._base_kernel()
+                        self._dummy_kernel[i] = self.base_kernel_()
                         self._dummy_kernel[i].fit(subgraphs)
                 else:
                     if indexes.shape[0] > 0:
@@ -298,7 +299,7 @@ class CoreFramework(Kernel):
         """
         self._method_calling = 2
         self._is_transformed = False
-        self.initialize_()
+        self.initialize()
         if X is None:
             raise ValueError('transform input cannot be None')
         else:

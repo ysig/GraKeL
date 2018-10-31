@@ -27,9 +27,9 @@ class ShortestPathAttr(Kernel):
         shortest path, or chose automatically ("auto") based on the
         current graph format ("auto").
 
-    attribute_kernel : function, default=:math:`f(x,y)=\sum_{i}x_{i}*y_{i}`,
-        The kernel applied between attributes of the graph labels.
-        The user must provide a kernel based on the format of the provided
+    metric : function, default=:math:`f(x,y)=\sum_{i}x_{i}*y_{i}`,
+        The metric applied between attributes of the graph labels.
+        The user must provide a metric based on the format of the provided
         labels (considered as attributes).
 
     Attributes
@@ -44,19 +44,19 @@ class ShortestPathAttr(Kernel):
                  normalize=False,
                  verbose=False,
                  algorithm_type="auto",
-                 attribute_kernel=lambda x, y: np.dot(x, y)):
+                 metric=np.dot):
         """Initialise a `shortest_path_attr` kernel."""
         super(ShortestPathAttr, self).__init__(
             n_jobs=n_jobs, normalize=normalize, verbose=verbose)
 
         self.algorithm_type = algorithm_type
-        self.attribute_kernel = attribute_kernel
-        self.initialized_.update({"algorithm_type": False, "attribute_kernel": False})
+        self.metric = metric
+        self._initialized.update({"algorithm_type": False, "metric": False})
 
-    def initialize_(self):
+    def initialize(self):
         """Initialize all transformer arguments, needing initialization."""
-        super(ShortestPathAttr, self).initialize_()
-        if not self.initialized_["algorithm_type"]:
+        super(ShortestPathAttr, self).initialize()
+        if not self._initialized["algorithm_type"]:
             if self.algorithm_type == "auto":
                 self._graph_format = "auto"
             elif self.algorithm_type == "floyd_warshall":
@@ -67,12 +67,12 @@ class ShortestPathAttr(Kernel):
                 raise ValueError('Unsupported value ' +
                                  str(self.algorithm_type) +
                                  ' for "algorithm_type"')
-            self.initialized_["algorithm_type"] = True
+            self._initialized["algorithm_type"] = True
 
-        if not self.initialized_["attribute_kernel"]:
-            if not callable(self.attribute_kernel):
-                raise TypeError('"attribute_kernel" must be callable')
-            self.initialized_["attribute_kernel"] = True
+        if not self._initialized["metric"]:
+            if not callable(self.metric):
+                raise TypeError('"metric" must be callable')
+            self._initialized["metric"] = True
 
     def parse_input(self, X):
         """Parse and create features for the `shortest_path` kernel.
@@ -158,8 +158,8 @@ class ShortestPathAttr(Kernel):
                             continue
                         if (Sx[i, j] == Sy[k, m] and
                                 Sx[i, j] != float('Inf')):
-                            kernel += self.attribute_kernel(phi_x[i], phi_y[k]) *\
-                                self.attribute_kernel(phi_x[j], phi_y[m])
+                            kernel += self.metric(phi_x[i], phi_y[k]) *\
+                                self.metric(phi_x[j], phi_y[m])
 
         return kernel
 
@@ -232,16 +232,16 @@ class ShortestPath(Kernel):
 
         self.with_labels = with_labels
         self.algorithm_type = algorithm_type
-        self.initialized_.update({"with_labels": False, "algorithm_type": False})
+        self._initialized.update({"with_labels": False, "algorithm_type": False})
 
-    def initialize_(self):
+    def initialize(self):
         """Initialize all transformer arguments, needing initialization."""
-        if not self.initialized_["n_jobs"]:
+        if not self._initialized["n_jobs"]:
             if self.n_jobs is not None:
                 warnings.warn('no implemented parallelization for ShortestPath')
-            self.initialized_["n_jobs"] = True
+            self._initialized["n_jobs"] = True
 
-        if not self.initialized_["algorithm_type"]:
+        if not self._initialized["algorithm_type"]:
             if self.algorithm_type == "auto":
                 self._graph_format = "auto"
             elif self.algorithm_type == "floyd_warshall":
@@ -251,7 +251,7 @@ class ShortestPath(Kernel):
             else:
                 raise ValueError('Unsupported "algorithm_type"')
 
-        if not self.initialized_["with_labels"]:
+        if not self._initialized["with_labels"]:
             if self.with_labels:
                 self._lt = "vertex"
                 self._lhash = lambda S, u, v, *args: (args[0][u], args[0][v], S[u, v])

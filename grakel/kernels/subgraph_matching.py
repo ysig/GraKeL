@@ -14,7 +14,7 @@ from grakel.kernels._c_functions import sm_kernel
 
 
 # Define default vertex, edge and lambda weight functions
-def k_default(a, b):
+def _dirac(a, b):
     """Calculate the dirac function for labels."""
     return int(a == b)
 
@@ -29,8 +29,8 @@ class SubgraphMatching(Kernel):
     k : int, default=5
         The upper bound for the maximum size of subgraphs.
 
-    lw : str, valid_values={"uniform", "increasing"
-    "decreasing", "strong_decreasing"}, default="uniform" | iterable, size=k+1,
+    lw : str, valid_values={"uniform", "increasing", "decreasing", "strong_decreasing"},
+    default="uniform" | iterable, size=k+1,
     | callable, num_of_arguments=1, argument_type=int
         The lambda weights applied to the clique sizes.
 
@@ -46,16 +46,7 @@ class SubgraphMatching(Kernel):
 
     Attributes
     ----------
-    kv : function (`vertex_label, `vertex_label`, -> number),
-        The kernel function between two edge_labels.
-
-    ke : function (`edge_label`, `edge_label` -> number),
-        The kernel function between two edge_labels.
-
-    k : int
-        The kernel function between two edge_labels.
-
-    _lambdas : np.array, shape=(1, k+1)
+    lambdas_ : np.array, shape=(1, k+1)
         All the lambdas corresponding to all the valid sizes of subgraphs.
 
     """
@@ -63,8 +54,8 @@ class SubgraphMatching(Kernel):
     _graph_format = "all"
 
     def __init__(self, n_jobs=None, verbose=False,
-                 normalize=False, k=5, kv=k_default,
-                 ke=k_default, lw="uniform"):
+                 normalize=False, k=5, kv=_dirac,
+                 ke=_dirac, lw="uniform"):
         """Initialise a `subgraph_matching` kernel."""
         super(SubgraphMatching, self).__init__(
             n_jobs=n_jobs, verbose=verbose, normalize=normalize)
@@ -73,27 +64,27 @@ class SubgraphMatching(Kernel):
         self.kv = kv
         self.ke = ke
         self.lw = lw
-        self.initialized_.update({"k": False, "kv": False, "ke": False, "lw": False})
+        self._initialized.update({"k": False, "kv": False, "ke": False, "lw": False})
 
-    def initialize_(self):
+    def initialize(self):
         """Initialize all transformer arguments, needing initialization."""
-        super(SubgraphMatching, self).initialize_()
-        if not self.initialized_["k"]:
+        super(SubgraphMatching, self).initialize()
+        if not self._initialized["k"]:
             if type(self.k) is not int and self.k < 1:
                 raise TypeError('k must be an integer greater-equal than 1')
-            self.initialized_["k"] = True
+            self._initialized["k"] = True
 
-        if not self.initialized_["kv"]:
+        if not self._initialized["kv"]:
             if not callable(self.kv) and self.kv is not None:
                 raise TypeError('kv must be callable or None')
-            self.initialized_["kv"] = True
+            self._initialized["kv"] = True
 
-        if not self.initialized_["ke"]:
+        if not self._initialized["ke"]:
             if not callable(self.ke) and self.ke is not None:
                 raise TypeError('ke must be callable or None')
-            self.initialized_["ke"] = True
+            self._initialized["ke"] = True
 
-        if not self.initialized_["lw"]:
+        if not self._initialized["lw"]:
             k = self.k + 1
             not_str_iter = type(self.lw) is not str and \
                 isinstance(self.lw, collections.Iterable)
@@ -102,22 +93,22 @@ class SubgraphMatching(Kernel):
 
             if (not_str_iter and len(lw) == self.k and
                     all(isinstance(x, Real) for x in lw)):
-                self._lambdas = np.array(lw).reshape((1, k))
+                self.lambdas_ = np.array(lw).reshape((1, k))
             elif self.lw == "uniform":
-                self._lambdas = np.full((1, k), 1.0)
+                self.lambdas_ = np.full((1, k), 1.0)
             elif self.lw == "increasing":
-                self._lambdas = np.arange(1.0,
+                self.lambdas_ = np.arange(1.0,
                                           float(k) + 1.0).reshape(1, k)
             elif self.lw == "decreasing":
-                self._lambdas = np.full((1, k), 1.0) / \
+                self.lambdas_ = np.full((1, k), 1.0) / \
                                 np.arange(1.0, float(k) + 1.0).reshape(1, k)
             elif self.lw == "strong_decreasing":
-                self._lambdas = np.full((1, k), 1.0) / \
+                self.lambdas_ = np.full((1, k), 1.0) / \
                                 np.square(np.arange(1.0, float(k) + 1.0)
                                           ).reshape(1, k)
             elif callable(self.lw):
                 try:
-                    self._lambdas = \
+                    self.lambdas_ = \
                         np.array([self.lw(i) for i in range(k)]).reshape((1, k))
                 except Exception as e:
                     raise TypeError('Incorrect Callable: ' + str(e))
@@ -128,7 +119,7 @@ class SubgraphMatching(Kernel):
                                 'elements or a callable of one integer '
                                 'argument.')
 
-            self.initialized_["lw"] = True
+            self._initialized["lw"] = True
 
     def pairwise_operation(self, x, y):
         """Calculate the `subgraph_matching` kernel.
@@ -148,7 +139,7 @@ class SubgraphMatching(Kernel):
 
         """
         tv = sm_kernel(x, y, self.kv, self.ke, self.k)
-        return np.dot(self._lambdas, tv)
+        return np.dot(self.lambdas_, tv)
 
     def parse_input(self, X):
         """Parse and create features for the `subgraph_matching` kernel.

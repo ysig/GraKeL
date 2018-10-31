@@ -49,23 +49,8 @@ class RandomWalk(Kernel):
 
     Attributes
     ----------
-    lamda : float, default=0.1
-        A lambda factor concerning summation.
-
-    kernel_type : str, valid_values={"geometric", "exponential"},
-    default="geometric"
-        Defines how inner summation will be applied.
-
-    method_type : str valid_values={"baseline", "fast"},
-    default="fast"
-        The method to use for calculating random walk kernel:
-            + "baseline" *Complexity*: :math:`O(|V|^6)`
-              (see :cite:`kashima2003marginalized`, :cite:`gartner2003graph`)
-            + "fast" *Complexity*: :math:`O((|E|+|V|)|V||M|)`
-              (see :cite:`vishwanathan2006fast`)
-
-    p : int or None
-        If initialised defines the number of steps.
+    mu_ : list
+        List of coefficients concerning a finite sum, in case p is not None.
 
     """
 
@@ -88,14 +73,14 @@ class RandomWalk(Kernel):
         self.kernel_type = kernel_type
         self.p = p
         self.lamda = lamda
-        self.initialized_.update({"method_type": False, "kernel_type": False,
+        self._initialized.update({"method_type": False, "kernel_type": False,
                                   "p": False, "lamda": False})
 
-    def initialize_(self):
+    def initialize(self):
         """Initialize all transformer arguments, needing initialization."""
-        super(RandomWalk, self).initialize_()
+        super(RandomWalk, self).initialize()
 
-        if not self.initialized_["method_type"]:
+        if not self._initialized["method_type"]:
             # Setup method type and define operation.
             if (self.method_type == "baseline" or
                     (self.method_type == "fast"
@@ -103,7 +88,7 @@ class RandomWalk(Kernel):
                      and self.kernel_type == "geometric")):
                 def add_input(x):
                     return x
-                self._add_input = add_input
+                self.add_input_ = add_input
 
             elif self.method_type == "fast":
                 def invert(w, v):
@@ -113,44 +98,44 @@ class RandomWalk(Kernel):
                 def add_input(x):
                     return invert(*eig(x))
 
-                self._add_input = add_input
+                self.add_input_ = add_input
             else:
                 raise ValueError('unsupported method_type')
-            self.initialized_["method_type"] = True
+            self._initialized["method_type"] = True
 
-        if not self.initialized_["kernel_type"]:
+        if not self._initialized["kernel_type"]:
             if self.kernel_type not in ["geometric", "exponential"]:
                 raise ValueError('unsupported kernel type: either "geometric" '
                                  'or "exponential"')
 
-        if not self.initialized_["p"]:
+        if not self._initialized["p"]:
             if self.p is not None:
                 if type(self.p) is int and self.p > 0:
                     if self.kernel_type == "geometric":
-                        self._mu = [1]
+                        self.mu_ = [1]
                         fact = 1
                         power = 1
                         for k in range(1, self.p + 1):
                             fact *= k
                             power *= self.lamda
-                            self._mu.append(fact/power)
+                            self.mu_.append(fact/power)
                     else:
-                        self._mu = [1]
+                        self.mu_ = [1]
                         power = 1
                         for k in range(1, self.p + 1):
                             power *= self.lamda
-                            self._mu.append(power)
+                            self.mu_.append(power)
                 else:
                     raise TypeError('p must be a positive integer bigger than '
                                     'zero or nonetype')
-                self.initialized_["kernel_type"] = True
+                self._initialized["kernel_type"] = True
 
-        if not self.initialized_["lamda"]:
+        if not self._initialized["lamda"]:
             if self.lamda <= 0:
                 raise TypeError('lambda must be positive bigger than equal')
             elif self.lamda > 0.5 and self.p is None:
                 warnings.warn('ranodm-walk series may fail to converge')
-            self.initialized_["lamda"] = True
+            self._initialized["lamda"] = True
 
     def parse_input(self, X):
         """Parse and create features for random_walk kernel.
@@ -195,7 +180,7 @@ class RandomWalk(Kernel):
                                     'graph or an iterable with at least 1 ' +
                                     'and at most 3 elements\n')
                 i += 1
-                out.append(self._add_input(A))
+                out.append(self.add_input_(A))
 
             if i == 0:
                 raise ValueError('parsed input is empty')
@@ -238,8 +223,8 @@ class RandomWalk(Kernel):
 
             if self.p is not None:
                 P = np.eye(XY.shape[0])
-                S = self._mu[0] * P
-                for k in self._mu[1:]:
+                S = self.mu_[0] * P
+                for k in self.mu_[1:]:
                     P *= XY
                     S += k*P
             else:
@@ -266,8 +251,8 @@ class RandomWalk(Kernel):
             Dij = np.kron(wi, wj)
             if self.p is not None:
                 D = np.ones(shape=(Dij.shape[0],))
-                S = self._mu[0] * D
-                for k in self._mu[1:]:
+                S = self.mu_[0] * D
+                for k in self.mu_[1:]:
                     D *= Dij
                     S += k*D
 
@@ -292,7 +277,7 @@ class RandomWalk(Kernel):
             # A*x=b
             A = LinearOperator((mn, mn), matvec=lambda x: lsf(x, self.lamda))
             b = np.ones(mn)
-            x_sol, _ = cg(A, b, tol=1.0e-6, maxiter=20)
+            x_sol, _ = cg(A, b, tol=1.0e-6, maxiter=20, atol='legacy')
             return np.sum(x_sol)
 
 
@@ -459,8 +444,8 @@ class RandomWalkLabeled(RandomWalk):
 
             if self.p is not None:
                 P = np.eye(XY.shape[0])
-                S = self._mu[0] * P
-                for k in self._mu[1:]:
+                S = self.mu_[0] * P
+                for k in self.mu_[1:]:
                     P *= XY
                     S += k*P
             elif self.kernel_type == "exponential":
@@ -491,5 +476,5 @@ class RandomWalkLabeled(RandomWalk):
             # A*x=b
             A = LinearOperator((mn, mn), matvec=lambda x: lsf(x, self.lamda))
             b = np.ones(mn)
-            x_sol, _ = cg(A, b, tol=1.0e-6, maxiter=20)
+            x_sol, _ = cg(A, b, tol=1.0e-6, maxiter=20, atol='legacy')
             return np.sum(x_sol)
