@@ -8,59 +8,53 @@
 
 **grakel** is a library compatible with the project of [scikit-learn](http://scikit-learn.org/)
 
-Installing grakel
+Installation
 =================
 
 The grakel library requires:
 
-* Python [>=2.7, >=3.5]
-* NumPy [>=1.8.2]
-* SciPy [>=0.13.3]
-* Cython [>=0.27.3]
-* cvxopt [>=1.2.0] [optional: lovasz]
-* future [>=0.16.0] (for python 2.7)
+* Python (>=2.7, >=3.5)
+* NumPy (>=1.8.2)
+* SciPy (>=0.13.3)
+* Cython (>=0.27.3)
+* cvxopt (>=1.2.0) [optional: lovasz]
+* future (>=0.16.0) (for python 2.7)
 
 
 Installing Dependencies
 -----------------------
 
-For installing dependencies the procedure is the well known:
+You can install the dependencies as follows:
 
 ```shell
-(sudo) pip install extension>=extension_version
+$ pip install extension>=extension_version
 ```
 
 or
 
 ```shell
-(sudo) pip install -r requirements.txt
+$ pip install -r requirements.txt
 ```
-where (sudo) depends on if `pip` has superuser privilages.
-
 
 Installing the *development-version*
 ------------------------------------
 
-To install the *development-version* from [**pip**](https://pypi.org/project/grakel-dev) execute:
+To install the *development-version* using [**pip**](https://pypi.org/project/grakel-dev) execute:
 
 ```shell
-$ (sudo) pip install grakel-dev
+$ pip install grakel-dev
 ```
 
-whereas to install it from [**conda**](https://anaconda.org/ysig/grakel-dev):
+Getting Started
+===============
+Two pointers to get you started:
 
-```shell
-$ conda install grakel-dev
-```
-
-Usage
-=====
-To learn how to use the GraKeL api **as a user**, please read the [documentation][doc] on sections *Introduction* and *A longer introduction*
-(in case your are full of curiosity).
+* [Documentation][doc]
+* [Examples][examples]
 
 Testing
 =======
-In order for the following to work you first need to build the package cython extension
+You first need to build the package cython extension
 locally by executing:
 ```shell
 $ python setup.py build_ext -i
@@ -71,7 +65,7 @@ To test the package, execute:
 $ nosetests
 ```
 
-for executing unit_tests or use a testing-interface for testing the `kernel` module:
+For executing unit_tests or use a testing-interface for testing the `kernel` module:
 ```shell
 $ python  grakel/tests/test_kernels.py --help
 usage: test_kernels.py [-h] [--verbose] [--problematic] [--slow]
@@ -94,7 +88,7 @@ optional arguments:
 
 ```
 
-for testing `graph_kernels`:
+For testing `graph_kernels`:
 ```shell
 $ python grakel/tests/test_graph_kernel.py --help
 usage: test_graph_kernels.py [-h] [--verbose] [--problematic] [--slow]
@@ -117,7 +111,7 @@ optional arguments:
 
 ```
 
-and for testing the `Graph` class:
+And for testing the `Graph` class:
 ```shell
 $ python grakel/tests/test_graph.py --help
 usage: test_graph.py [-h] [--verbose] [--ignore_warnings]
@@ -141,6 +135,7 @@ the package [documentation][doc].
 For contributing to the GraKeL project, please read section *contributing* inside the package [documentation][doc].
 
 [doc]: https://ysig.github.io/GraKeL/dev/
+[examples]: https://ysig.github.io/GraKeL/dev/auto_examples/index.html
 
 Citation
 ========
