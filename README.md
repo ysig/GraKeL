@@ -130,9 +130,7 @@ $ python -m grakel.tests
 
 Contributing
 ============
-For learning how to integrate your own kernel, please read section *Write your own kernel* inside 
-the package [documentation][doc]. 
-For contributing to the GraKeL project, please read section *contributing* inside the package [documentation][doc].
+To learn how to integrate your own kernel and how to contribute to the GraKeL project, please read the sections *Write your own kernel* and *Contributing* in the [Documentation][doc], respectively.
 
 [doc]: https://ysig.github.io/GraKeL/dev/
 [examples]: https://ysig.github.io/GraKeL/dev/auto_examples/index.html
