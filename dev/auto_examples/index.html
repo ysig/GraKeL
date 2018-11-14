@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Classification Examples &mdash; GraKeL 0.1a5 documentation</title>
+  <title>Examples &mdash; GraKeL 0.1a5 documentation</title>
   
 
   
@@ -93,9 +93,10 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../api.html">GraKeL</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../classes.html">API Reference</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Classification Examples</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Examples</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="plot_pipeline_shortest_path.html">Cross-Validation scikit-learn Pipeline example on the MUTAG dataset using the Shortest Path Kernel.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_wl_subtree_MUTAG.html">Classification on the MUTAG dataset using the WL-subtree kernel.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="document_retrieval_example.html">Retrieval of most similar document using the Weisfeiler-Lehman subtree kernel.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="lovasz_svm_theta.html">Classification on MUTAG using the Lovasz theta and SVM-theta kernels.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classification_statistics.html">Classification statistics on the MUTAG, ENZYMES datasets.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_KFold_MLG.html">K-Fold classification on the ENZYMES dataset using the approximate Multiscale Laplacian kernel.</a></li>
@@ -146,7 +147,7 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>Classification Examples</li>
+      <li>Examples</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -165,9 +166,9 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="classification-examples">
-<span id="general-examples"></span><h1>Classification Examples<a class="headerlink" href="#classification-examples" title="Permalink to this headline">¶</a></h1>
-<p>Examples that make use of graph kernels and the SVM classifier to perform graph classification. The examples demonstrate the accuracy of various graph kernels (WL-subtree, Shortest-Path, Multiscale-Laplacian, Lovasz/SVM-Theta) on some popular datasets using different experimental settings (simple, manual K-Fold with Grid-Search, Pipeline Grid-search, or randomized K-folds).</p>
+  <div class="section" id="examples">
+<span id="general-examples"></span><h1>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h1>
+<p>Examples that use graph kernels to perform various tasks (e.g., graph classification, retrieval of most similar document, etc).</p>
 <div class="sphx-glr-thumbcontainer" tooltip="An example plot of :class:`grakel.GraphKernel`, :class:`grakel.ShortestPath` "><div class="figure" id="id1">
 <img alt="../_images/sphx_glr_plot_pipeline_shortest_path_thumb.png" src="../_images/sphx_glr_plot_pipeline_shortest_path_thumb.png" />
 <p class="caption"><span class="caption-text"><a class="reference internal" href="plot_pipeline_shortest_path.html#sphx-glr-auto-examples-plot-pipeline-shortest-path-py"><span class="std std-ref">Cross-Validation scikit-learn Pipeline example on the MUTAG dataset using the Shortest Path Kernel.</span></a></span></p>
@@ -180,19 +181,25 @@
 </div>
 </div><div class="toctree-wrapper compound">
 </div>
-<div class="sphx-glr-thumbcontainer" tooltip="An example plot of :class:`grakel.GraphKernel`, :class:`grakel.LovaszTheta`, :class:`grakel.Svm..."><div class="figure" id="id3">
+<div class="sphx-glr-thumbcontainer" tooltip="Retrieval of most similar document using the Weisfeiler"><div class="figure" id="id3">
+<img alt="../_images/sphx_glr_document_retrieval_example_thumb.png" src="../_images/sphx_glr_document_retrieval_example_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="document_retrieval_example.html#sphx-glr-auto-examples-document-retrieval-example-py"><span class="std std-ref">Retrieval of most similar document using the Weisfeiler-Lehman subtree kernel.</span></a></span></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="An example plot of :class:`grakel.GraphKernel`, :class:`grakel.LovaszTheta`, :class:`grakel.Svm..."><div class="figure" id="id4">
 <img alt="../_images/sphx_glr_lovasz_svm_theta_thumb.png" src="../_images/sphx_glr_lovasz_svm_theta_thumb.png" />
 <p class="caption"><span class="caption-text"><a class="reference internal" href="lovasz_svm_theta.html#sphx-glr-auto-examples-lovasz-svm-theta-py"><span class="std std-ref">Classification on MUTAG using the Lovasz theta and SVM-theta kernels.</span></a></span></p>
 </div>
 </div><div class="toctree-wrapper compound">
 </div>
-<div class="sphx-glr-thumbcontainer" tooltip="An example plot of :class:`grakel.GraphKernel` "><div class="figure" id="id4">
+<div class="sphx-glr-thumbcontainer" tooltip="An example plot of :class:`grakel.GraphKernel` "><div class="figure" id="id5">
 <img alt="../_images/sphx_glr_classification_statistics_thumb.png" src="../_images/sphx_glr_classification_statistics_thumb.png" />
 <p class="caption"><span class="caption-text"><a class="reference internal" href="classification_statistics.html#sphx-glr-auto-examples-classification-statistics-py"><span class="std std-ref">Classification statistics on the MUTAG, ENZYMES datasets.</span></a></span></p>
 </div>
 </div><div class="toctree-wrapper compound">
 </div>
-<div class="sphx-glr-thumbcontainer" tooltip="An example plot of :class:`grakel.GraphKernel`, :class:`grakel.MultiscaleLaplacianFast` "><div class="figure" id="id5">
+<div class="sphx-glr-thumbcontainer" tooltip="An example plot of :class:`grakel.GraphKernel`, :class:`grakel.MultiscaleLaplacianFast` "><div class="figure" id="id6">
 <img alt="../_images/sphx_glr_plot_KFold_MLG_thumb.png" src="../_images/sphx_glr_plot_KFold_MLG_thumb.png" />
 <p class="caption"><span class="caption-text"><a class="reference internal" href="plot_KFold_MLG.html#sphx-glr-auto-examples-plot-kfold-mlg-py"><span class="std std-ref">K-Fold classification on the ENZYMES dataset using the approximate Multiscale Laplacian kernel.</span></a></span></p>
 </div>
