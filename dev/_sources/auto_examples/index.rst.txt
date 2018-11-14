@@ -71,6 +71,26 @@ Examples that use graph kernels to perform various tasks (e.g., graph classifica
 
 .. raw:: html
 
+    <div class="sphx-glr-thumbcontainer" tooltip="Classifying handwritten digits using the neighborhood subgraph pairwise distance kernel">
+
+.. only:: html
+
+    .. figure:: /auto_examples/images/thumb/sphx_glr_digit_classification_example_thumb.png
+
+        :ref:`sphx_glr_auto_examples_digit_classification_example.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/digit_classification_example
+
+.. raw:: html
+
     <div class="sphx-glr-thumbcontainer" tooltip="An example plot of :class:`grakel.GraphKernel`, :class:`grakel.LovaszTheta`, :class:`grakel.Svm...">
 
 .. only:: html
