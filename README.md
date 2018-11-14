@@ -6,12 +6,12 @@
 [![Appveyor status](https://ci.appveyor.com/api/projects/status/sss4lpfxwgejn6de/branch/develop?svg=true)](https://ci.appveyor.com/project/ysig/grakel)
 [![CircleCI Status](https://circleci.com/gh/ysig/GraKeL/tree/develop.svg?style=shield)](https://circleci.com/gh/ysig/GraKeL/tree/develop)
 
-**grakel** is a library compatible with the project of [scikit-learn](http://scikit-learn.org/)
+**GraKeL** is a library compatible with the project of [scikit-learn](http://scikit-learn.org/)
 
 Installation
 =================
 
-The grakel library requires:
+The GraKeL library requires:
 
 * Python (>=2.7, >=3.5)
 * NumPy (>=1.8.2)
@@ -130,7 +130,7 @@ $ python -m grakel.tests
 
 Contributing
 ============
-For learning how to integrate your own kernel, please read section *Write your own kernel* inside
+For learning how to integrate your own kernel, please read section *Write your own kernel* inside 
 the package [documentation][doc]. 
 For contributing to the GraKeL project, please read section *contributing* inside the package [documentation][doc].
 
