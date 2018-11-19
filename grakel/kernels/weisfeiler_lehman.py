@@ -131,6 +131,10 @@ class WeisfeilerLehman(Kernel):
         if self._method_calling not in [1, 2]:
             raise ValueError('method call must be called either from fit ' +
                              'or fit-transform')
+        elif hasattr(self, '_X_diag'):
+            # Clean _X_diag value
+            delattr(self, '_X_diag')
+
         # Input validation and parsing
         if not isinstance(X, collections.Iterable):
             raise TypeError('input must be an iterable\n')
@@ -359,12 +363,11 @@ class WeisfeilerLehman(Kernel):
                 if nx == 0:
                     raise ValueError('parsed input is empty')
 
-        WL_labels_inverse = dict()
         nl = len(self._inv_labels[0])
         WL_labels_inverse = {dv: idx for (idx, dv) in
                              enumerate(sorted(list(distinct_values)), nl)}
 
-        def generate_graphs(WL_labels_inverse):
+        def generate_graphs(WL_labels_inverse, nl):
             # calculate the kernel matrix for the 0 iteration
             new_graphs = list()
             for j in range(nx):
@@ -382,7 +385,7 @@ class WeisfeilerLehman(Kernel):
             for i in range(1, self._n_iter):
                 new_graphs = list()
                 L_temp, label_set = dict(), set()
-                nl = len(self._inv_labels[i])
+                nl += len(self._inv_labels[i])
                 for j in range(nx):
                     # Find unique labels and sort them for both graphs
                     # Keep for each node the temporary
@@ -418,12 +421,12 @@ class WeisfeilerLehman(Kernel):
         if self._parallel is None:
             # Calculate the kernel matrix without parallelization
             K = np.sum((self.X[i].transform(g) for (i, g)
-                       in enumerate(generate_graphs(WL_labels_inverse))), axis=0)
+                       in enumerate(generate_graphs(WL_labels_inverse, nl))), axis=0)
 
         else:
             # Calculate the kernel marix with parallelization
             K = np.sum(self._parallel(joblib.delayed(etransform)(self.X[i], g) for (i, g)
-                       in enumerate(generate_graphs(WL_labels_inverse))), axis=0)
+                       in enumerate(generate_graphs(WL_labels_inverse, nl))), axis=0)
 
         self._is_transformed = True
         if self.normalize:
