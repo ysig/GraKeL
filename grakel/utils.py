@@ -327,8 +327,6 @@ def graph_from_networkx(X, node_labels_tag=None, edge_labels_tag=None, edge_weig
         nl = nodel_init()
         el = edgel_init()
         nodes, edges = take_ne(G)
-        print(nodes)
-        print(edges)
         for u in G.nodes():
             graph_object[u] = dict()
             nodel_put(nl, u, nodes)
