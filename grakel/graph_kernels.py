@@ -420,8 +420,8 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                 # picking default number of components
                 self.nystroem_ = default_n_components
             elif self.Nystroem <= 0:
-                    raise ValueError('number of nystroem components '
-                                     'must be positive')
+                raise ValueError('number of nystroem components '
+                                 'must be positive')
             else:
                 self.nystroem_ = self.Nystroem
             self._initialized["Nystroem"] = True

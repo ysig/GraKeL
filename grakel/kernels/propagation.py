@@ -108,7 +108,7 @@ class Propagation(Kernel):
                     raise TypeError('Metric type must be a str, one of "H", "TV"')
 
             if not self.attr_:
-                self.take_sqrt_ = self.M is "H"
+                self.take_sqrt_ = self.M == "H"
 
             self.take_cauchy_ = self.M in ["TV", "L1"]
             self._initialized["metric"] = True

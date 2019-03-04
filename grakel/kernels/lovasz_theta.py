@@ -118,9 +118,9 @@ class LovaszTheta(Kernel):
                     or any(type(i) is not int for i in self.subsets_size_range)
                     or self.subsets_size_range[0] > self.subsets_size_range[1]
                     or self.subsets_size_range[0] <= 0):
-                    raise TypeError('subsets_size_range subset size range'
-                                    'must be a tuple of two integers in '
-                                    'increasing order, bigger than 1')
+                raise TypeError('subsets_size_range subset size range'
+                                'must be a tuple of two integers in '
+                                'increasing order, bigger than 1')
             self._initialized["subsets_size_range"] = True
 
         if not self._initialized["base_kernel"]:

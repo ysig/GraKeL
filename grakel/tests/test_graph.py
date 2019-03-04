@@ -106,7 +106,7 @@ def test_graph_edge_dictionary():
             print(k)
             print(gklg, '\n')
         else:
-            if (k is "adjc"):
+            if (k == "adjc"):
                 npt.assert_equal(
                     desired_output_label_group_idx,
                     proper_dict(gklg))

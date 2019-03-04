@@ -411,9 +411,10 @@ def od_vectors_dag(G, shortestpath_dists):
         # are depth-first ordered in the original tree; thus, we can just start
         # from the end of the DAG matrix.
         edges_ending_at_ith_from_end = np.where(np.squeeze(sortedG[:, dag_size - i - 1]) == 1)[0]
-        des[edges_ending_at_ith_from_end, :] = des[edges_ending_at_ith_from_end, :] + \
+        des[edges_ending_at_ith_from_end, :] = (
+            des[edges_ending_at_ith_from_end, :] +
             repmat(np.hstack([0, des[dag_size - i - 1, :-1]]),
-                             edges_ending_at_ith_from_end.shape[0], 1)
+                             edges_ending_at_ith_from_end.shape[0], 1))
 
     return occ[re_sorted, :], des[re_sorted, :]
 

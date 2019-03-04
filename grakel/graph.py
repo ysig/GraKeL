@@ -155,7 +155,7 @@ class Graph(object):
                 self.build_graph(initialization_object,
                                  node_labels,
                                  edge_labels)
-            elif graph_format is "auto":
+            elif graph_format == "auto":
                 raise ValueError('no initialization object ' +
                                  '- format must not be auto')
         else:
@@ -194,7 +194,7 @@ class Graph(object):
                 # Assign labels for edges
                 self.index_edge_labels = edge_labels
 
-                if(self._format is "auto"):
+                if(self._format == "auto"):
                     self._format = "adjacency"
             elif is_edge_dictionary(g):
                 # Input is considered as an edge dictionary
@@ -206,7 +206,7 @@ class Graph(object):
                 # Assign labels for edges
                 self.edge_labels = edge_labels
 
-                if(self._format is "auto"):
+                if(self._format == "auto"):
                     self._format = "dictionary"
             else:
                 raise ValueError(
@@ -215,10 +215,10 @@ class Graph(object):
                     'types for graph type object.')
 
         # If graph is of one type prune the other
-        if self._format is "adjacency":
+        if self._format == "adjacency":
             self.edge_dictionary = None
 
-        elif self._format is "dictionary":
+        elif self._format == "dictionary":
             self.adjacency_matrix = None
 
         # Import the given input properly
@@ -254,12 +254,12 @@ class Graph(object):
             if (graph_format is not self._format):
                 past_format = self._format
                 self._format = graph_format
-                if past_format is "adjacency":
+                if past_format == "adjacency":
                     self._import_adjacency()
-                elif past_format is "dictionary":
+                elif past_format == "dictionary":
                     self._import_dictionary()
                 else:
-                    if self._format is "dictionary":
+                    if self._format == "dictionary":
                         self.n = -1
                         self.adjacency_matrix = None
                         self.edsamic = None
@@ -293,14 +293,14 @@ class Graph(object):
         None.
 
         """
-        if graph_format is "all":
+        if graph_format == "all":
             self.change_format(graph_format)
-        elif graph_format is "dictionary":
+        elif graph_format == "dictionary":
             if self._format not in ["all", "dictionary"]:
                 if warn:
                     warnings.warn('changing format from "dictionary" to "all"')
                 self.change_format("all")
-        elif graph_format is "adjacency":
+        elif graph_format == "adjacency":
             if self._format not in ["all", "adjacency"]:
                 warnings.warn('changing format from "adjacency" to "all"')
                 self.change_format("all")
@@ -529,7 +529,7 @@ class Graph(object):
                                      'labels for dictionary symbols')
 
                 # Transform to a valid format
-                if self._format is "all":
+                if self._format == "all":
                     self.convert_labels("adjacency", "vertex")
                 if bool(self.label_group) and \
                         ((label_type, purpose) in self.label_group):
@@ -541,7 +541,7 @@ class Graph(object):
                     raise ValueError('graph is in a format that supports ' +
                                      'labels for indexes')
 
-                if self._format is "all":
+                if self._format == "all":
                     self.convert_labels("dictionary", "vertex")
                 if bool(self.label_group) and \
                    (label_type, purpose) in self.label_group:
@@ -550,7 +550,7 @@ class Graph(object):
                 warnings.warn('no labels to convert from, ' +
                               'for the given purpose')
         elif label_type == "edge":
-            if purpose is "dictionary":
+            if purpose == "dictionary":
                 if self._format in ["dictionary", "all"]:
                     self.edge_labels = new_labels
                 else:
@@ -558,12 +558,12 @@ class Graph(object):
                                      'supports labels for dictionary symbols')
 
                 # Transform to a valid format
-                if self._format is "all":
+                if self._format == "all":
                     self.convert_labels("adjacency", "edge")
                 if (label_type, purpose) in self.label_group:
                     self.label_group[(label_type, purpose)] = dict()
 
-            elif purpose is "adjacency":
+            elif purpose == "adjacency":
                 if self._format in ["all", "adjacency"]:
                     self.index_edge_labels = new_labels
                 else:
@@ -635,13 +635,13 @@ class Graph(object):
             return self.shortest_path_mat, self.index_node_labels
 
         # Assign the desired algorithm
-        if algorithm_type is "auto":
+        if algorithm_type == "auto":
             if self._format in ["all", "dictionary"]:
                 algorithm_type = "dijkstra"
-            elif self._format is "adjacency":
+            elif self._format == "adjacency":
                 algorithm_type = "floyd_warshall"
 
-        if algorithm_type is "dijkstra":
+        if algorithm_type == "dijkstra":
             # all format required
             self.desired_format("all", warn=True)
             if (bool(self.edsamic)):
@@ -656,18 +656,18 @@ class Graph(object):
                 for s in dict_fd.keys():
                     shortest_path_mat[indexes[k], indexes[s]] = dict_fd[s]
 
-        elif algorithm_type is "floyd_warshall":
+        elif algorithm_type == "floyd_warshall":
             self.desired_format("adjacency", warn=True)
             shortest_path_mat = floyd_warshall(self.adjacency_matrix)
 
         self.shortest_path_mat = shortest_path_mat
-        if labels is "all":
+        if labels == "all":
             return shortest_path_mat,\
                 self.get_labels(),\
                 self.get_labels("edge")
-        if labels is "edge":
+        if labels == "edge":
             return shortest_path_mat, self.get_labels("edge")
-        if labels is "vertex":
+        if labels == "vertex":
             return shortest_path_mat, self.get_labels()
         else:
             return shortest_path_mat
@@ -933,7 +933,7 @@ class Graph(object):
                 raise ValueError('input matrix must be squared')
 
             # import_adjacency
-            if (self._format is "all" or self._format is "adjacency"):
+            if (self._format == "all" or self._format == "adjacency"):
                 self.adjacency_matrix = adjacency_matrix
             self.n = n
         else:
@@ -957,7 +957,7 @@ class Graph(object):
                                 init=init)
 
             # Prune not interesting format
-            if self._format is "dictionary":
+            if self._format == "dictionary":
                 self.n = -1
                 self.adjacency_matrix = None
                 self.edsamic = None
@@ -1147,7 +1147,7 @@ class Graph(object):
             Returns the adjacency matrix of the current graph.
 
         """
-        if self._format is "dictionary":
+        if self._format == "dictionary":
             A = np.zeros(shape=(len(self.vertices), len(self.vertices)))
             v_map = {v: i for (i, v) in enumerate(sorted(list(self.vertices)))}
             for (k, v) in iteritems(self.edge_dictionary):
