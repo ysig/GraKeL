@@ -482,6 +482,11 @@ class GraphKernel(BaseEstimator, TransformerMixin):
         for (keys, val) in iteritems(hidden_args):
             kernel[keys] = val
 
+        def get_random_state_(kernel):
+            return kernel.pop(
+                "random_state",
+                (self.random_state_ if self.random_state is not None else None))
+
         if kernel_name in sbks:
             if len(kernel_list) != 0:
                 warnings.warn('Kernel List not empty while reaching a base-kernel - '
@@ -502,7 +507,7 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                 else:
                     return ShortestPath, kernel
             elif kernel_name in sbk[4]:
-                kernel["random_state"] = self.random_state
+                kernel["random_state"] = get_random_state_(kernel)
                 return GraphletSampling, kernel
             elif kernel_name in sbk[5]:
                 return SubgraphMatching, kernel
@@ -511,13 +516,13 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                     kernel.pop("N", None)
                     return (MultiscaleLaplacian, kernel)
                 else:
-                    kernel["random_state"] = self.random_state
+                    kernel["random_state"] = get_random_state_(kernel)
                     return (MultiscaleLaplacianFast, kernel)
             elif kernel_name in sbk[7]:
-                kernel["random_state"] = self.random_state
+                kernel["random_state"] = get_random_state_(kernel)
                 return LovaszTheta, kernel
             elif kernel_name in sbk[8]:
-                kernel["random_state"] = self.random_state
+                kernel["random_state"] = get_random_state_(kernel)
                 return SvmTheta, kernel
             elif kernel_name in sbk[9]:
                 return NeighborhoodHash, kernel
@@ -526,7 +531,7 @@ class GraphKernel(BaseEstimator, TransformerMixin):
             elif kernel_name in sbk[11]:
                 return OddSth, kernel
             elif kernel_name in sbk[12]:
-                kernel["random_state"] = self.random_state
+                kernel["random_state"] = get_random_state_(kernel)
                 if kernel.pop("with_attributes", False):
                     return PropagationAttr, kernel
                 else:

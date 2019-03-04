@@ -355,8 +355,8 @@ def graph_from_pandas(edge_df, node_df=None, directed=False, as_Graph=False):
                 2. The column name of the graph index
                 3. A tuple containing source and destination column names
                 4. The column name of weights column (None if non-existent)
-                5. The column name pointing the column containing edge labels or a list pointing
-                   the columns of attributes (None if edge labels are non-existent).
+                5. The column name pointing the column containing edge-labels or a list pointing
+                   the columns of attributes (None if edge-labels are non-existent).
 
             If node_df exists, correspondance of graph indexes and node indexes must be exact.
 
@@ -365,8 +365,8 @@ def graph_from_pandas(edge_df, node_df=None, directed=False, as_Graph=False):
 
                 1. A pandas dataframe containing all the nodes of a collection of graphs
                 2. The column name of the graph index
-                3. The column name pointing the column containing edge labels or a list pointing
-                   the columns of attributes (None if edge labels are non-existent).
+                3. The column name pointing the column containing node-labels or a list pointing
+                   the columns of attributes (None if node-labels are non-existent).
 
             Node id must correspond to node number.
 

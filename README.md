@@ -185,7 +185,7 @@ License
 =======
 GraKeL comes with a __BSD 3-clause__ license (as with scikit-learn).
 It contains the C++ source code of [BLISS](http://www.tcs.hut.fi/Software/bliss) (a library for graph isomorphism) which is __LGPL__ licensed.
-Futhermore its optional dependency in the package of [cvxopt][https://cvxopt.org/] (a tool for solving convex-optimization problems) comes with a __GPL__ license.
+Futhermore its optional dependency in the package of [cvxopt](https://cvxopt.org/) (a tool for solving convex-optimization problems) comes with a __GPL__ license.
 
 Citation
 ========

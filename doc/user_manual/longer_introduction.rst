@@ -123,13 +123,10 @@ These features can be listed as follows:
 
     To extend these feature to more kernels or to propose new computational strategies see how you canc **contribute** in :ref:`contributing`.
 
-* :code:`random_seed` : We would in generally want to satisfy the need of the user to provide
-    a :code:`random_seed` either to kernels that are probabilistic, or to randomize accordingly
-    procedures of the :code:`GraphKernel` that need randomization such as :code:`Nystroem`, where the
-    generic wrapper draws probabilistically a number of components from the number of fitted samples.
+* :code:`random_state` : We would generally need to provide to the user the ability to initialize a graph kernel by her/his own :code:`random_state`.
+    This would have an application either to kernels that are probabilistic, or to procedures of the generic wrapper :code:`GraphKernel` that require randomization such as :code:`Nystroem`, where a number of components is drawn randomly from the set of fitted samples. A :code:`random_state` can either be a seed or a :code:`np.RandomState` object, as this follows the `the specifications of scikit-learn <https://scikit-learn.org/stable/developers/contributing.html#random-numbers>`_.
 
-    Let's give an example of a probabilistic kernel using our old water example. We will use a very well known kernel called *Graphlet-Sampling*, where we will
-    sample probabilistically 5 subgraph samples from each graph either :math:`\mathbf{H}_{2}\mathbf{O}` or :math:`\mathbf{H}_{3}\mathbf{O}^{+}`.
+    Let's apply our old water example to a probabilistic kernel. We will use the well known *Graphlet-Sampling*, where we will sample 5 graphlets (i.e. small subgraphs) from each graph.
 
     After initializing the input
 
@@ -143,51 +140,60 @@ These features can be listed as follows:
 
     .. code-block:: python
 
-        >>> gs_kernel = GraphKernel(kernel=dict(name="graphlet_sampling", n_samples=5))
+        >>> gs_kernel = GraphKernel(kernel=dict(name="graphlet_sampling", sampling=dict(n_samples=5)))
         >>> gs_kernel.fit(H2O)
+        GraphKernel(Nystroem=False,
+          kernel={'name': 'graphlet_sampling', 'sampling': {'n_samples': 5}},
+          n_jobs=None, normalize=False, random_state=None, verbose=False)
         >>> gs_kernel.transform(H3O)
-        20.0
+        0
 
-    Note that if a random seed is not given as an argument either to the :code:`GraphKernel` or to the kernel parameters
-    a default will be used. Now let's try to give one as a parameter of the kernel (say 3)
-
-    .. code-block:: python
-
-        gs_kernel = GraphKernel(kernel=dict(name="graphlet_sampling", n_samples=5, random_seed=3))
-        gs_kernel.fit(H2O)
-        gs_kernel.transform(H3O)
-        10.0
-
-    As we see a new value has been calculated because the default seed is now not used. If know a :code:`random_seed`
-    is initialized inside the generic wrapper and no parameter is given signifying a :code:`random_seed` to the :code:`kernel`
-    argument then if the kernel has such parameter the default will be used. This is demonstrated in what follows
+    Note that if a random state is not given as an argument either to the :code:`GraphKernel` or to the kernel parameters
+    a default one will be used, initialized as a None random_state. This is connected to the current time, and its value will probably change throughout executions (other resulting values will be 10.0, 15.0, 20.0).
+    Now let's try to give one as the parameter of the kernel (say 42).
 
     .. code-block:: python
 
-        gs_kernel = GraphKernel(kernel=dict(name="graphlet_sampling", n_samples=5), random_seed=3)
-        gs_kernel.fit(H2O)
-        gs_kernel.transform(H3O)
-        10.0
-
-    where we get the same result. Now if both a :code:`GraphKernel` has a :code:`random_seed` and the :code:`kernel` is provided
-    with one inside parametrization, the second will be used inside the :code:`kernel` and the first outside, in the rest code area
-    covered by the generic wrapper, as expected. To demonstrate we will show is the following:
-
-    .. code-block:: python
-
-        >>> gs_kernel = GraphKernel(kernel=dict(name="graphlet_sampling", n_samples=5, random_seed=3), random_seed=10)
+        >>> gs_kernel = GraphKernel(kernel=dict(name="graphlet_sampling", sampling=dict(n_samples=5), random_state=42))
         >>> gs_kernel.fit(H2O)
+        GraphKernel(Nystroem=False,
+          kernel={'name': 'graphlet_sampling', 'sampling': {'n_samples': 5}, 'random_state': 42},
+          n_jobs=None, normalize=False, random_state=None, verbose=False)
+        >>> gs_kernel.transform(H3O)
+        15.0
+
+    As we see a new value has been calculated, which is deterministically related to the value 42.
+    The same can be done if :code:`random_state` is initialized inside for the generic wrapper and no parameter is given for a :code:`random_state` to the :code:`kernel`
+    argument.
+
+    .. code-block:: python
+
+        >>> gs_kernel = GraphKernel(kernel=dict(name="graphlet_sampling", sampling=dict(n_samples=5)), random_state=42)
+        >>> gs_kernel.fit(H2O)
+        GraphKernel(Nystroem=False,
+          kernel={'name': 'graphlet_sampling', 'sampling': {'n_samples': 5}},
+          n_jobs=None, normalize=False, random_state=42, verbose=False)
+        >>> gs_kernel.transform(H3O)
+        15.0
+
+    where we get the same result. Now if both a :code:`GraphKernel` has a :code:`random_state` and the :code:`kernel` is provided
+    with one as an argument, the second will be used inside the :code:`kernel` and the first for the generic wrapper, as expected
+    .. code-block:: python
+
+        >>> gs_kernel = GraphKernel(kernel=dict(name="graphlet_sampling", sampling=dict(n_samples=5, random_state=0)), random_state=42)
+        >>> gs_kernel.fit(H2O)
+        GraphKernel(Nystroem=False,
+          kernel={'name': 'graphlet_sampling', 'sampling': {'n_samples': 5}, 'random_state': 0},
+          n_jobs=None, normalize=False, random_state=42, verbose=False)
         >>> gs_kernel.transform(H3O)
         10.0
 
     where
-
     .. code-block:: python
 
-        >>> gs_kernel = GraphKernel(kernel=dict(name="graphlet_sampling", n_samples=5, random_seed=10))
-        >>> gs_kernel.fit(H2O)
-        >>> gs_kernel.transform(H3O)
-        15.0
+        >>> gs_kernel = GraphKernel(kernel=dict(name="graphlet_sampling", n_samples=5), random_seed=0)
+        >>> gs_kernel.fit(H2O).transform(H3O)
+        10.0
 
 
 * :code:`verbose` : 

@@ -224,10 +224,10 @@ class GraphletSampling(Kernel):
                         return sample_graphlets_probabilistic(A, k, n_samples, self.random_state_)
                 else:
                     raise ValueError('sampling doesn\'t have a valid dictionary format')
-                self.sample_graphlets_ = sample_graphlets
             else:
                 raise TypeError('sampling can either be a dictionary or None')
-            self._initialized["sampling"] = True
+            self.sample_graphlets_ = sample_graphlets
+        self._initialized["sampling"] = True
 
     def transform(self, X):
         """Calculate the kernel matrix, between given and fitted dataset.
