@@ -7,6 +7,7 @@ from collections import defaultdict
 from collections import Iterable
 from numbers import Real
 from warnings import warn
+from numpy.matlib import repmat
 
 from grakel.kernels import Kernel
 from grakel.graph import Graph
@@ -403,7 +404,7 @@ def od_vectors_dag(G, shortestpath_dists):
     for i in range(dag_size):
         edges_starting_at_ith = np.where(np.squeeze(sortedG[i, :]) == 1)[0]
         occ[edges_starting_at_ith, :] = occ[edges_starting_at_ith, :] + \
-            np.matlib.repmat(np.hstack([0, occ[i, :-1]]), edges_starting_at_ith.shape[0], 1)
+            repmat(np.hstack([0, occ[i, :-1]]), edges_starting_at_ith.shape[0], 1)
 
         # Now use message-passing from the bottom of the DAG to add up the
         # edges from each node. This is easy because the vertices in the DAG
@@ -411,7 +412,7 @@ def od_vectors_dag(G, shortestpath_dists):
         # from the end of the DAG matrix.
         edges_ending_at_ith_from_end = np.where(np.squeeze(sortedG[:, dag_size - i - 1]) == 1)[0]
         des[edges_ending_at_ith_from_end, :] = des[edges_ending_at_ith_from_end, :] + \
-            np.matlib.repmat(np.hstack([0, des[dag_size - i - 1, :-1]]),
+            repmat(np.hstack([0, des[dag_size - i - 1, :-1]]),
                              edges_ending_at_ith_from_end.shape[0], 1)
 
     return occ[re_sorted, :], des[re_sorted, :]
