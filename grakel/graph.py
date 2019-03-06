@@ -521,7 +521,7 @@ class Graph(object):
         if new_labels is None or not bool(new_labels):
             warnings.warn('user must provide new labels, input is None')
         elif label_type == "vertex":
-            if purpose is "dictionary":
+            if purpose == "dictionary":
                 if self._format in ["dictionary", "all"]:
                     self.node_labels = new_labels
                 else:
@@ -534,7 +534,7 @@ class Graph(object):
                 if bool(self.label_group) and \
                         ((label_type, purpose) in self.label_group):
                     self.label_group[(label_type, purpose)] = dict()
-            elif purpose is "adjacency":
+            elif purpose == "adjacency":
                 if self._format in ["all", "adjacency"]:
                     self.index_node_labels = new_labels
                 else:
@@ -570,7 +570,7 @@ class Graph(object):
                     raise ValueError('graph is in a format that supports ' +
                                      'labels for indexes')
 
-                if self._format is "all":
+                if self._format == "all":
                     self.convert_labels("dictionary", "edge")
                 if (label_type, purpose) in self.label_group:
                     self.label_group[(label_type, purpose)] = dict()

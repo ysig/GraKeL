@@ -414,7 +414,7 @@ def od_vectors_dag(G, shortestpath_dists):
         des[edges_ending_at_ith_from_end, :] = (
             des[edges_ending_at_ith_from_end, :] +
             repmat(np.hstack([0, des[dag_size - i - 1, :-1]]),
-                             edges_ending_at_ith_from_end.shape[0], 1))
+                   edges_ending_at_ith_from_end.shape[0], 1))
 
     return occ[re_sorted, :], des[re_sorted, :]
 
