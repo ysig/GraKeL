@@ -59,7 +59,6 @@ matrix:
         - CIBW_BUILD="cp37-*"
     - os: osx
       sudo: required
-      language: generic
       env:
         - PIP=pip2
         - PYTHON=python2
@@ -67,21 +66,18 @@ matrix:
         - CIBW_BUILD="cp27-macosx_10_6_intel"
     - os: osx
       sudo: required
-      language: generic
       env:
         - PIP=pip2
         - PYTHON=python2
         - CIBW_BUILD="cp35-macosx_10_6_intel"
     - os: osx
       sudo: required
-      language: generic
       env:
         - PIP=pip2
         - PYTHON=python2
         - CIBW_BUILD="cp36-macosx_10_6_intel"
     - os: osx
       sudo: required
-      language: generic
       env:
         - PIP=pip2
         - PYTHON=python2
