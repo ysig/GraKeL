@@ -225,7 +225,7 @@ class RandomWalk(Kernel):
                 P = np.eye(XY.shape[0])
                 S = self.mu_[0] * P
                 for k in self.mu_[1:]:
-                    P *= XY
+                    P = np.matmul(P, XY)
                     S += k*P
             else:
                 if self.kernel_type == "geometric":

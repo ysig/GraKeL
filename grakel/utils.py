@@ -65,7 +65,6 @@ class KMTransformer(BaseEstimator, TransformerMixin):
                         raise ValueError('If in an sklearn Bunch K must be under mat')
                 flag, M = valid_matrix(K, transform=True)
                 if not flag:
-                    print(self.K)
                     raise ValueError('The provided K cannot be converted to a '
                                      'two dimensional np.array.')
             self.K_ = M
