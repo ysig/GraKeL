@@ -359,12 +359,11 @@ class GraphKernel(BaseEstimator, TransformerMixin):
             all pairs of graphs between target an features
 
         """
-        # Check if nystroem has been initialized had been called
-        if bool(self.nystroem_):
-            check_is_fitted(self, 'components_')
-
         # Transform - calculate kernel matrix
-        if bool(self.nystroem_):
+        check_is_fitted(self, 'kernel_')
+        if hasattr(self, 'nystroem_') and bool(self.nystroem_):
+            # Check if nystroem has been initialized had been called
+            check_is_fitted(self, 'components_')
             K = self.kernel_.transform(X).dot(self.nystroem_normalization_.T)
         else:
             K = self.kernel_.transform(X)
