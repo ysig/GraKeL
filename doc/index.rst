@@ -51,6 +51,7 @@ What's New
     1. Detailed unsupported kernel output.
     2. More detailed licensing information considering **cvxopt** and **BLISS**
     3. Small bugfix inside the (Count Sensitive) Neighborhood Hash Kernel.
+    4. Added sparse-compatibility for VertexHistogram and for EdgeHistogram.
 
 - Version **0.1a5**
 

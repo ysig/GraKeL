@@ -99,10 +99,10 @@ class GraphKernel(BaseEstimator, TransformerMixin):
             1. base_kernels (the structure must always reach a base kernel)
 
                 - "vertex_histogram" or "subtree_wl" or "VH" or "ST-WL"
-                    *No arguments*
+                    + (**o**) "sparse" : bool or 'auto'
 
                 - "edge_histogram" or "EH"
-                    *No arguments*
+                    + (**o**) "sparse" : bool or 'auto'
 
                 - "random_walk" or "RW"
                     + (**o**) "with_labels" : bool
@@ -440,8 +440,7 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                                  'function of the graph kernel generic wrapper.'
                                  'Valid kernel types are dict, str, and list of dict or str.')
 
-            hidden_args = {"verbose": self.verbose,
-                           "normalize": self.normalize,
+            hidden_args = {"verbose": self.verbose, "normalize": self.normalize,
                            "n_jobs": self.n_jobs}
 
             # Initialize a new kernel each time a new fit is being called
@@ -479,7 +478,10 @@ class GraphKernel(BaseEstimator, TransformerMixin):
             kernel_name = kernel.pop("name")
 
         for (keys, val) in iteritems(hidden_args):
-            kernel[keys] = val
+            if keys in kernel:
+                warnings.warn('Overriding global kernel attribute ' + str(keys) + ' with ' + str(val) +
+                              '. Please set this attribute as an argument of GraphKernel.')             
+                kernel[keys] = val
 
         def get_random_state_(kernel):
             return kernel.pop(
