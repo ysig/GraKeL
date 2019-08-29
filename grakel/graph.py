@@ -9,9 +9,9 @@ import numpy as np
 from scipy.sparse import isspmatrix
 from scipy.sparse.csgraph import laplacian
 
-from grakel.tools import inv_dict
-from grakel.tools import nested_dict_add
-from grakel.tools import priority_dict
+from tools import inv_dict
+from tools import nested_dict_add
+from tools import priority_dict
 
 # Python 2/3 cross-compatibility import
 from six import iteritems

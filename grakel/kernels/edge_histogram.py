@@ -12,7 +12,9 @@ from sklearn.utils.validation import check_is_fitted
 from grakel.kernels import Kernel
 from grakel.graph import Graph
 
+from numpy import array
 from numpy import zeros
+from numpy import squeeze
 from numpy import einsum
 from scipy.sparse import csr_matrix
 
@@ -41,7 +43,7 @@ class EdgeHistogram(Kernel):
     def __init__(self, n_jobs=None, normalize=False, verbose=False, sparse='auto'):
         """Initialize an edge kernel."""
         super(EdgeHistogram, self).__init__(n_jobs=n_jobs, normalize=normalize, verbose=verbose)
-        self.sparse=sparse
+        self.sparse = sparse
         self._initialized.update({'sparse': True})
 
     def initialize(self):
@@ -129,7 +131,7 @@ class EdgeHistogram(Kernel):
                     self.sparse_ = (len(cols)/float(ni * len(labels)) <= 0.5)
                 else:
                     self.sparse_ = bool(self.sparse)
-           
+
             if self.sparse_:
                 features = csr_matrix((data, (rows, cols)), shape=(ni, len(labels)), copy=False)
             else:

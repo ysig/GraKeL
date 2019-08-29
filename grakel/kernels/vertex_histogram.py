@@ -43,7 +43,7 @@ class VertexHistogram(Kernel):
     def __init__(self, n_jobs=None, normalize=False, verbose=False, sparse='auto'):
         """Initialise a vertex histogram kernel."""
         super(VertexHistogram, self).__init__(n_jobs=n_jobs, normalize=normalize, verbose=verbose)
-        self.sparse=sparse
+        self.sparse = sparse
         self._initialized.update({'sparse': True})
 
     def _initialized(self):
@@ -130,7 +130,7 @@ class VertexHistogram(Kernel):
                     self.sparse_ = (len(cols)/float(ni * len(labels)) <= 0.5)
                 else:
                     self.sparse_ = bool(self.sparse)
-           
+
             if self.sparse_:
                 features = csr_matrix((data, (rows, cols)), shape=(ni, len(labels)), copy=False)
             else:
@@ -200,7 +200,7 @@ class VertexHistogram(Kernel):
             if self.sparse_:
                 self._X_diag = squeeze(array(self.X.multiply(self.X).sum(axis=1)))
             else:
-                self._X_diag = einsum('ij,ij->i', self.X, self.X)                
+                self._X_diag = einsum('ij,ij->i', self.X, self.X)
         try:
             check_is_fitted(self, ['_Y'])
             if self.sparse_:

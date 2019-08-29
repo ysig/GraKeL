@@ -480,7 +480,7 @@ class GraphKernel(BaseEstimator, TransformerMixin):
         for (keys, val) in iteritems(hidden_args):
             if keys in kernel:
                 warnings.warn('Overriding global kernel attribute ' + str(keys) + ' with ' + str(val) +
-                              '. Please set this attribute as an argument of GraphKernel.')             
+                              '. Please set this attribute as an argument of GraphKernel.')
                 kernel[keys] = val
 
         def get_random_state_(kernel):
