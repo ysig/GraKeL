@@ -1,5 +1,6 @@
 """A python file that implements a class and functions for graphs."""
 
+from __future__ import absolute_import
 import collections
 import numbers
 import warnings
@@ -9,9 +10,9 @@ import numpy as np
 from scipy.sparse import isspmatrix
 from scipy.sparse.csgraph import laplacian
 
-from tools import inv_dict
-from tools import nested_dict_add
-from tools import priority_dict
+from .tools import inv_dict
+from .tools import nested_dict_add
+from .tools import priority_dict
 
 # Python 2/3 cross-compatibility import
 from six import iteritems
