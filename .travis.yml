@@ -18,6 +18,7 @@ env:
     - DEPLOY_SDIST="false"
     - COVERAGE="false"
     - DEPLOY_WHEEL="false"
+    - FLAKE="false"
 
 matrix:
   include:
@@ -27,22 +28,9 @@ matrix:
       env:
         - PIP=pip
         - PYTHON=python
-        - CIBW_BUILD="cp27-manylinux1_x86_64"
-        - DEPLOY_SDIST="true"
-    - sudo: required
-      services:
-        - docker
-      env:
-        - PIP=pip
-        - PYTHON=python
-        - CIBW_BUILD="cp27-manylinux1_i686"
-    - sudo: required
-      services:
-        - docker
-      env:
-        - PIP=pip
-        - PYTHON=python
         - CIBW_BUILD="cp35-*"
+        - FLAKE="true"
+        - DEPLOY_SDIST="false"
     - sudo: required
       services:
         - docker
@@ -57,33 +45,51 @@ matrix:
         - PIP=pip
         - PYTHON=python
         - CIBW_BUILD="cp37-*"
+    - sudo: required
+      services:
+        - docker
+      env:
+        - PIP=pip
+        - PYTHON=python
+        - CIBW_BUILD="cp27-manylinux1_x86_64"
+    - sudo: required
+      services:
+        - docker
+      env:
+        - PIP=pip
+        - PYTHON=python
+        - CIBW_BUILD="cp27-manylinux1_i686"
     - os: osx
       sudo: required
       env:
-        - PIP=pip2
-        - PYTHON=python2
+        - PIP=pip3
+        - PYTHON=python3
         - COVERAGE="true"
         - CIBW_BUILD="cp27-macosx_10_6_intel"
     - os: osx
       sudo: required
       env:
-        - PIP=pip2
-        - PYTHON=python2
+        - PIP=pip3
+        - PYTHON=python3
         - CIBW_BUILD="cp35-macosx_10_6_intel"
     - os: osx
       sudo: required
       env:
-        - PIP=pip2
-        - PYTHON=python2
+        - PIP=pip3
+        - PYTHON=python3
         - CIBW_BUILD="cp36-macosx_10_6_intel"
     - os: osx
       sudo: required
       env:
-        - PIP=pip2
-        - PYTHON=python2
+        - PIP=pip3
+        - PYTHON=python3
         - CIBW_BUILD="cp37-macosx_10_6_intel"
 script:
-  - $PIP install flake8 --upgrade && flake8 $TRAVIS_BUILD_DIR/grakel
+  - |
+    if [[ "$FLAKE" == "true" ]]; then
+        $PIP install flake8 --upgrade
+        $flake8 $TRAVIS_BUILD_DIR/grakel
+    fi
   - $PIP install cibuildwheel
   - export CIBW_ENVIRONMENT="TEST_DIR=$TEST_DIR MODULE=$MODULE COVERAGE=$COVERAGE";
   - IFS= ; export CIBW_BEFORE_BUILD="$(cat ci_scripts/travis/install.sh)";
