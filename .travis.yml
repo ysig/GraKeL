@@ -62,6 +62,7 @@ matrix:
     - os: osx
       sudo: required
       env:
+        - TOXENV=py35
         - PIP=pip3
         - PYTHON=python3
         - COVERAGE="true"
@@ -71,24 +72,26 @@ matrix:
       env:
         - PIP=pip3
         - PYTHON=python3
+        - TOXENV=py35
         - CIBW_BUILD="cp35-macosx_10_6_intel"
     - os: osx
       sudo: required
       env:
         - PIP=pip3
         - PYTHON=python3
+        - TOXENV=py35
         - CIBW_BUILD="cp36-macosx_10_6_intel"
     - os: osx
       sudo: required
       env:
         - PIP=pip3
         - PYTHON=python3
+        - TOXENV=py35
         - CIBW_BUILD="cp37-macosx_10_6_intel"
 script:
   - |
     if [[ "$FLAKE" == "true" ]]; then
-        $PIP install flake8 --upgrade
-        $flake8 $TRAVIS_BUILD_DIR/grakel
+        $PIP install flake8 --upgrade; flake8 $TRAVIS_BUILD_DIR/grakel;
     fi
   - $PIP install cibuildwheel
   - export CIBW_ENVIRONMENT="TEST_DIR=$TEST_DIR MODULE=$MODULE COVERAGE=$COVERAGE";
