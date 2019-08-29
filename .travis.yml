@@ -101,10 +101,6 @@ script:
   - $PIP install cibuildwheel
   - export CIBW_ENVIRONMENT="TEST_DIR=$TEST_DIR MODULE=$MODULE COVERAGE=$COVERAGE";
   - IFS= ; export CIBW_BEFORE_BUILD="$(cat ci_scripts/travis/install.sh)";
-  - |
-    if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-        $PIP install numpy cython --upgrade;
-    fi
   - IFS= ; export CIBW_TEST_COMMAND="$(cat ci_scripts/travis/test.sh)";
   - cibuildwheel --output-dir $WHEEL_FOLDER
 
