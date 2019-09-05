@@ -60,7 +60,7 @@ These features can be listed as follows:
 
     Download the dataset and split to train and test
 
-    .. code-block:: python
+    .. doctest:: 
 
         >>> from grakel import datasets
         >>> MUTAG = datasets.fetch_dataset("MUTAG", verbose=False)
@@ -70,10 +70,10 @@ These features can be listed as follows:
 
     Initialise a :code:`GraphKernel`, using :code:`Nystroem` of 20 samples
 
-    .. code-block:: python
+    .. doctest:: 
 
         >>> from grakel import GraphKernel
-        >>> wl_kernel = GraphKernel(kernel = [{"name": "weisfeiler_lehman", "niter": 5}, {"name": "subtree_wl"}], Nystroem=20)
+        >>> wl_kernel = GraphKernel(kernel = [{"name": "weisfeiler_lehman", "n_iter": 5}, "subtree_wl"], Nystroem=20)
         >>> K_train = wl_kernel.fit_transform(X)
         >>> K_test = wl_kernel.transform(Y)
         >>> print(K_train.shape)
@@ -84,7 +84,7 @@ These features can be listed as follows:
 
     Classify using a standard SVC
 
-    .. code-block:: python
+    .. doctest:: 
 
         >>> y_train, y_test = y[:split_point], y[split_point:]
         >>> from sklearn import svm
@@ -98,8 +98,8 @@ These features can be listed as follows:
 
     finnaly calculate accuracy score
 
-    .. code-block:: python
-        
+    .. doctest::
+
         >>> from sklearn.metrics import accuracy_score
         >>> print(str(round(accuracy_score(y_test, y_pred)*100, 2)), "%")
         78.95 %
@@ -130,7 +130,7 @@ These features can be listed as follows:
 
     After initializing the input
 
-    .. code-block:: python
+    .. doctest::
 
         >>> from grakel import GraphKernel
         >>> H2O = [[[[0, 1, 1], [1, 0, 0], [1, 0, 0]], {0: 'O', 1: 'H', 2: 'H'}]]
@@ -138,62 +138,67 @@ These features can be listed as follows:
 
     let's calculate a default kernel value
 
-    .. code-block:: python
+    .. doctest::
 
         >>> gs_kernel = GraphKernel(kernel=dict(name="graphlet_sampling", sampling=dict(n_samples=5)))
         >>> gs_kernel.fit(H2O)
         GraphKernel(Nystroem=False,
-          kernel={'name': 'graphlet_sampling', 'sampling': {'n_samples': 5}},
-          n_jobs=None, normalize=False, random_state=None, verbose=False)
-        >>> gs_kernel.transform(H3O)
-        0
+              kernel={'name': 'graphlet_sampling', 'sampling': {'n_samples': 5}},
+              n_jobs=None, normalize=False, random_state=None, verbose=False)
+    
+        >>> gs_kernel.transform(H3O) # doctest: +SKIP
+        array([[10.]])
 
     Note that if a random state is not given as an argument either to the :code:`GraphKernel` or to the kernel parameters
     a default one will be used, initialized as a None random_state. This is connected to the current time, and its value will probably change throughout executions (other resulting values will be 10.0, 15.0, 20.0).
     Now let's try to give one as the parameter of the kernel (say 42).
 
-    .. code-block:: python
+    .. doctest:: 
 
         >>> gs_kernel = GraphKernel(kernel=dict(name="graphlet_sampling", sampling=dict(n_samples=5), random_state=42))
         >>> gs_kernel.fit(H2O)
         GraphKernel(Nystroem=False,
-          kernel={'name': 'graphlet_sampling', 'sampling': {'n_samples': 5}, 'random_state': 42},
-          n_jobs=None, normalize=False, random_state=None, verbose=False)
+              kernel={'name': 'graphlet_sampling', 'sampling': {'n_samples': 5}, 'random_state': 42},
+              n_jobs=None, normalize=False, random_state=None, verbose=False)
         >>> gs_kernel.transform(H3O)
-        15.0
+        array([[15.]])
 
     As we see a new value has been calculated, which is deterministically related to the value 42.
     The same can be done if :code:`random_state` is initialized inside for the generic wrapper and no parameter is given for a :code:`random_state` to the :code:`kernel`
     argument.
 
-    .. code-block:: python
+    .. doctest::
 
         >>> gs_kernel = GraphKernel(kernel=dict(name="graphlet_sampling", sampling=dict(n_samples=5)), random_state=42)
         >>> gs_kernel.fit(H2O)
         GraphKernel(Nystroem=False,
-          kernel={'name': 'graphlet_sampling', 'sampling': {'n_samples': 5}},
-          n_jobs=None, normalize=False, random_state=42, verbose=False)
+              kernel={'name': 'graphlet_sampling', 'sampling': {'n_samples': 5}},
+              n_jobs=None, normalize=False, random_state=42, verbose=False)
+    
         >>> gs_kernel.transform(H3O)
-        15.0
+        array([[15.]])
 
     where we get the same result. Now if both a :code:`GraphKernel` has a :code:`random_state` and the :code:`kernel` is provided
     with one as an argument, the second will be used inside the :code:`kernel` and the first for the generic wrapper, as expected
-    .. code-block:: python
+
+    .. doctest::
 
         >>> gs_kernel = GraphKernel(kernel=dict(name="graphlet_sampling", sampling=dict(n_samples=5, random_state=0)), random_state=42)
         >>> gs_kernel.fit(H2O)
         GraphKernel(Nystroem=False,
-          kernel={'name': 'graphlet_sampling', 'sampling': {'n_samples': 5}, 'random_state': 0},
-          n_jobs=None, normalize=False, random_state=42, verbose=False)
+              kernel={'name': 'graphlet_sampling', 'sampling': {'n_samples': 5, 'random_state': 0}},
+              n_jobs=None, normalize=False, random_state=42, verbose=False)
+    
         >>> gs_kernel.transform(H3O)
-        10.0
+        array([[15.]])
 
     where
-    .. code-block:: python
 
-        >>> gs_kernel = GraphKernel(kernel=dict(name="graphlet_sampling", n_samples=5), random_seed=0)
+    .. doctest::
+
+        >>> gs_kernel = GraphKernel(kernel=dict(name="graphlet_sampling", sampling=dict(n_samples=5)), random_state=0)
         >>> gs_kernel.fit(H2O).transform(H3O)
-        10.0
+        array([[10.]])
 
 
 * :code:`verbose` : 

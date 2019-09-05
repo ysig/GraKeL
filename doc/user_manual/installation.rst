@@ -14,6 +14,8 @@ The grakel library requires:
 The project can be easily installed by running :code:`pip install .` or :code:`python setup.py install` on the parent folder. 
 
 Periodically each new version is uploaded at `pypi`_ as well as `anaconda`_.
+To install the development-version with cvxopt, one can run :code:`pip install grakel-dev[lovasz]` (you can ommit :code:`[lovasz]` otherwise).
+
 
 ---------------------
 Why so many packages?
@@ -53,3 +55,4 @@ can be viable through the use of `free software`_.
 .. _VF2: https://networkx.github.io/documentation/networkx-1.10/reference/algorithms.isomorphism.vf2.html
 .. _pypi: https://pypi.org/project/grakel-dev/
 .. _anaconda: https://anaconda.org/ysig/grakel-dev
+

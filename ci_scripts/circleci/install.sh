@@ -27,6 +27,6 @@ python setup.py develop
 
 
 # Build Docs
-set -o pipefail && cd doc && make html 2>&1 | tee ~/log.txt && cd ..
+set -o pipefail && cd doc && make clean html docteset 2>&1 | tee ~/log.txt && cd ..
 cat ~/log.txt && if grep -q "Traceback (most recent call last):" ~/log.txt; then false; else true; fi
 

@@ -57,9 +57,13 @@ organization of the *Paris-Saclay* University at the `DaSciM`_ laboratory of LiX
 
 The project is currently carried out under the administrative supervision of the DaSciM Team Leader, `Michalis Vazirgiannis`_ as well as the scientific
 supervision of Giannis Nikolentzos, a postdoctoral researcher.
-Other members of the lab aiding with the construction of this library are: Xristos Giatsidis, Stratis Limnios and Konstantinos Skianis.
+Other members of the lab aiding with the construction of this library are: Christos Giatsidis, Stratis Limnios and Konstantinos Skianis.
 
-The project BSD license - a prerequisite of *sk-learn* compatibility - is accepted by the editor as it does not offend the virtues of the free-software community.
+License
+-------
+The project __BSD 3-clause__ - a prerequisite of *sk-learn* compatibility - is accepted by the editor as it does not offend the virtues of the free-software community.
+It contains the C++ source code of [BLISS](http://www.tcs.hut.fi/Software/bliss) (a library for graph isomorphism) which is __LGPL__ licensed.
+Futhermore its optional dependency in the package of [cvxopt](https://cvxopt.org/) (a tool for solving convex-optimization problems) comes with a __GPL__ license.
 
 .. _DaSciM: http://www.lix.polytechnique.fr/dascim/
 .. _Michalis Vazirgiannis: http://www.lix.polytechnique.fr/~mvazirg/
