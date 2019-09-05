@@ -32,6 +32,7 @@ class Graph(object):
         The initialisation object for the graph (*valid-graph-format*).
 
             - If given a dictionary the input can be as follows:
+
                 + 2-level nested dictionaries from edge symbols to weights
 
                 + Dictionary of symbols to list of symbols (unweighted)
@@ -43,6 +44,7 @@ class Graph(object):
                 + Iterable of tuples of len 3 (vertex, vertex, weight)
 
             - If given an array the input can be as follows:
+
                 + array-like lists of lists
 
                 + np.array
@@ -51,6 +53,7 @@ class Graph(object):
 
     node_labels : dict, default=None
         A label dictionary corresponding to all vertices of the graph:
+
             + for adjacency matrix labels should be given to numbers starting
               from 0 and ending in N-1, where the matrix has size N by N
 
@@ -63,6 +66,7 @@ class Graph(object):
     graph_format : str, valid_values={"dictionary", "adjacency", "all", "auto"}, default=None
         Defines the internal representation of the graph object which can be
         a dictionary as a matrix, or both:
+
             + for dictionary: "dictionary"
 
             + for adjacency_matrix: "adjacency"
@@ -236,6 +240,7 @@ class Graph(object):
         graph_format : str, valid_values={"dictionary", "adjacency", "all"}
             Defines the internal representation of the graph object which can
             be a dictionary as a matrix, or both:
+
                 + for dictionary: "dictionary"
 
                 + for adjacency_matrix: "adjacency"
@@ -280,6 +285,7 @@ class Graph(object):
         graph_format : str, valid_values={"dictionary", "adjacency", "all"}
             Defines the internal representation of the graph object which
             can be a dictionary as a matrix, or both:
+
                 + for dictionary: "dictionary"
 
                 + for adjacency_matrix: "adjacency"
@@ -594,6 +600,7 @@ class Graph(object):
         algorithm_type : str, valid_values={"auto", "adjacency", "dictionary"}, default="auto"
             Defines which shortest-path algorithm will be used for building the
             shortest path matrix:
+
                 + "dijkstra" : choses the dijkstra algorithm (Matrix
                   computation complexity: :math:`O(|V|(|E|+|V|)log(|V|))`
 

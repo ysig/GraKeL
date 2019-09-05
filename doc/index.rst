@@ -43,8 +43,9 @@ What's New
   + More scikit-learn compatibility:
 
     1. Initialise kernels by name and alias on GraphKernel (as GraphKernel(kernel="shortest_path").
-    2. Fit and instantion by default parameters
+    2. Fit and instantion by default parameters.
     3. Random number generator standardized `check_random_state`. `random_seed` are now `random_state` arguments.
+    4. Doctests.
 
   + Miscelanous: 
 
