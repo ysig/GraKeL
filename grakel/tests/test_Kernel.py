@@ -1,6 +1,7 @@
 """A random input test for Kernel Oblects similar to test_estimator."""
 # Author: Ioannis Siglidis <y.siglidis@gmail.com>
 # License: BSD 3 clause
+
 import warnings
 import numpy as np
 
@@ -74,7 +75,7 @@ def test_random_walk_pd():
     gk = GraphKernel(kernel="RW", verbose=verbose, normalize=normalize, n_jobs=-1)
 
     try:
-        gk.fit_transform(test)
+        gk.fit_transform(train)
         gk.transform(test)
         assert True
     except Exception as exception:
@@ -115,7 +116,7 @@ def test_random_walk_labels_pd():
                      verbose=verbose, normalize=normalize, )
 
     try:
-        gk.fit_transform(test)
+        gk.fit_transform(train)
         gk.transform(test)
         assert True
     except Exception as exception:
@@ -172,7 +173,7 @@ def test_shortest_path_pd():
     gk = GraphKernel(kernel="SP", verbose=verbose, normalize=normalize)
 
     try:
-        gk.fit_transform(test)
+        gk.fit_transform(train)
         gk.transform(test)
         assert True
     except Exception as exception:
@@ -190,7 +191,7 @@ def test_shortest_path_pd():
                      verbose=verbose, normalize=normalize, n_jobs=-1)
 
     try:
-        gk.fit_transform(test)
+        gk.fit_transform(train)
         gk.transform(test)
         assert True
     except Exception as exception:

@@ -171,8 +171,7 @@ class GraphletSampling(Kernel):
                                       'ignoring arguments:', ', '.join(args))
 
                     # Initialise the sample graphlets function
-                    def sample_graphlets(A):
-                        return sample_graphlets_probabilistic(A, k, n_samples, self.random_state_)
+                    sample_graphlets = sample_graphlets_probabilistic
 
                 elif ("delta" in sampling or "epsilon" in sampling
                         or "a" in sampling):
@@ -220,13 +219,14 @@ class GraphletSampling(Kernel):
                     n_samples = math.ceil(2*(a*np.log10(2) +
                                           np.log10(1/delta))/(epsilon**2))
 
-                    def sample_graphlets(A):
-                        return sample_graphlets_probabilistic(A, k, n_samples, self.random_state_)
+                    sample_graphlets = sample_graphlets_probabilistic
                 else:
                     raise ValueError('sampling doesn\'t have a valid dictionary format')
             else:
                 raise TypeError('sampling can either be a dictionary or None')
             self.sample_graphlets_ = sample_graphlets
+            self.k_ = k
+            self.n_samples_ = n_samples
         self._initialized["sampling"] = True
 
     def transform(self, X):
@@ -412,7 +412,7 @@ class GraphletSampling(Kernel):
                 A = (A > 0).astype(int)
                 i += 1
                 # sample graphlets based on the initialized method
-                samples = self.sample_graphlets_(A)
+                samples = self.sample_graphlets_(A, self.k_, self.n_samples_, self.random_state_)
 
                 if self._method_calling == 1:
                     for (j, sg) in enumerate(samples):

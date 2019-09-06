@@ -52,9 +52,10 @@ class LovaszTheta(Kernel):
     random_state :  RandomState or int, default=None
         A random number generator instance or an int to initialize a RandomState as a seed.
 
-    base_kernel : function (np.1darray, np.1darray -> number),
-                  default=:math:`f(x,y) = x*y`
+    base_kernel : function (np.1darray, np.1darray -> number), default=None
+                  
         The applied metric between the lovasz_theta numbers of subgraphs.
+        If None :math:`f(x,y) = x*y`
 
     max_dim : int, default=None
         The maximum graph size that can appear both in fit or transform.
@@ -82,7 +83,7 @@ class LovaszTheta(Kernel):
                  n_samples=50,
                  subsets_size_range=(2, 8),
                  max_dim=None,
-                 base_kernel=lambda x, y: x.T.dot(y)):
+                 base_kernel=None):
         """Initialise a lovasz_theta kernel."""
         # setup valid parameters and initialise from parent
         if not cvxopt_installed:
@@ -124,10 +125,11 @@ class LovaszTheta(Kernel):
             self._initialized["subsets_size_range"] = True
 
         if not self._initialized["base_kernel"]:
-            if not callable(self.base_kernel):
+            if not callable(self.base_kernel) and self.base_kernel is not None:
                 raise TypeError('base_kernel between arguments ' +
                                 'must be a function')
             self._initialized["base_kernel"] = True
+            self.base_kernel_ = inner_product
 
         if not self._initialized["random_state"]:
             self.random_state_ = check_random_state(self.random_state)
@@ -225,7 +227,7 @@ class LovaszTheta(Kernel):
             The kernel value.
 
         """
-        return self.base_kernel(x, y)
+        return self.base_kernel_(x, y)
 
     def _calculate_MEC_(self, U):
         """Calculate the minimum enclosing cone for given U.
@@ -492,3 +494,7 @@ def _fitball_(A):
         c = C + A[:, 1]
 
     return c, r
+
+
+def inner_product(x, y):
+    return x.T.dot(y)

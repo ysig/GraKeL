@@ -96,7 +96,7 @@ class HadamardCode(Kernel):
             params["normalize"] = False
             params["verbose"] = self.verbose
             params["n_jobs"] = None
-            self.base_kernel_ = lambda *args: base_kernel(**params)
+            self.base_kernel_ = (base_kernel, params)
             self._initialized["base_kernel"] = True
 
         if not self._initialized["n_iter"]:
@@ -137,7 +137,7 @@ class HadamardCode(Kernel):
             if self._method_calling in [1, 2]:
                 nl, labels_enum, base_kernel = 0, dict(), dict()
                 for kidx in range(self.n_iter):
-                    base_kernel[kidx] = self.base_kernel_()
+                    base_kernel[kidx] = self.base_kernel_[0](**self.base_kernel_[1])
             elif self._method_calling == 3:
                 nl, labels_enum, base_kernel = len(self._labels_enum), dict(self._labels_enum), self.X
             inp = list()
@@ -218,7 +218,7 @@ class HadamardCode(Kernel):
                 yield new_graphs
 
         if self._method_calling in [1, 2]:
-            base_kernel = {i: self.base_kernel_() for i in range(self.n_iter)}
+            base_kernel = {i: self.base_kernel_[0](**self.base_kernel_[1]) for i in range(self.n_iter)}
 
         if self._parallel is None:
             # Add the zero iteration element

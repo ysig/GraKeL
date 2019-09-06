@@ -77,9 +77,9 @@ class NeighborhoodHash(Kernel):
 
         if not self._initialized["nh_type"]:
             if self.nh_type == 'simple':
-                self.NH_ = lambda G: self.neighborhood_hash_simple(G)
+                self.NH_ = self.neighborhood_hash_simple
             elif self.nh_type == 'count_sensitive':
-                self.NH_ = lambda G: self.neighborhood_hash_count_sensitive(G)
+                self.NH_ = self.neighborhood_hash_count_sensitive
             else:
                 raise TypeError('unrecognised neighborhood hashing type')
             self._initialized["nh_type"] = True

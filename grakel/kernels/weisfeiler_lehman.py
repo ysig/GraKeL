@@ -75,8 +75,7 @@ class WeisfeilerLehman(Kernel):
             base_kernel = self.base_kernel
             if base_kernel is None:
                 base_kernel, params = VertexHistogram, dict()
-            elif type(base_kernel) is type and \
-                    issubclass(base_kernel, Kernel):
+            elif type(base_kernel) is type and issubclass(base_kernel, Kernel):
                 params = dict()
             else:
                 try:
@@ -100,7 +99,8 @@ class WeisfeilerLehman(Kernel):
             params["normalize"] = False
             params["verbose"] = self.verbose
             params["n_jobs"] = None
-            self._base_kernel = lambda *args: base_kernel(**params)
+            self._base_kernel = base_kernel
+            self._params = params
             self._initialized["base_kernel"] = True
 
         if not self._initialized["n_iter"]:
@@ -240,7 +240,7 @@ class WeisfeilerLehman(Kernel):
                 self._inv_labels[i] = WL_labels_inverse
                 yield new_graphs
 
-        base_kernel = {i: self._base_kernel() for i in range(self._n_iter)}
+        base_kernel = {i: self._base_kernel(**self._params) for i in range(self._n_iter)}
         if self._parallel is None:
             if self._method_calling == 1:
                 for (i, g) in enumerate(generate_graphs(label_count, WL_labels_inverse)):

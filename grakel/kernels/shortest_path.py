@@ -254,12 +254,12 @@ class ShortestPath(Kernel):
         if not self._initialized["with_labels"]:
             if self.with_labels:
                 self._lt = "vertex"
-                self._lhash = lambda S, u, v, *args: (args[0][u], args[0][v], S[u, v])
-                self._decompose_input = lambda args: (args[0], args[1:])
+                self._lhash = lhash_labels
+                self._decompose_input = decompose_input_labels
             else:
                 self._lt = "none"
-                self._lhash = lambda S, u, v, *args: S[u, v]
-                self._decompose_input = lambda a: (a, [])
+                self._lhash = lhash
+                self._decompose_input = decompose_input
 
     def transform(self, X):
         """Calculate the kernel matrix, between given and fitted dataset.
@@ -485,3 +485,19 @@ class ShortestPath(Kernel):
             elif self._method_calling == 3:
                 self._ny = i+1
             return sp_counts
+
+
+def lhash(S, u, v, *args):
+    return S[u, v]
+
+
+def decompose_input(a):
+    return (a, [])
+
+
+def lhash_labels(S, u, v, *args):
+    return (args[0][u], args[0][v], S[u, v])
+
+
+def decompose_input_labels(args):
+    return (args[0], args[1:])

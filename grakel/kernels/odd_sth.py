@@ -71,11 +71,7 @@ class OddSth(Kernel):
             if self.h is not None and (type(self.h) is not int or self.h <= 0):
                 raise ValueError('h must be an integer bigger than zero')
 
-            if self.h is None:
-                self.make_big_dag_ = lambda x: make_big_dag(x, h=-1)
-            else:
-                self.make_big_dag_ = lambda x: make_big_dag(x, h=self.h)
-
+            self.h_ = (-1 if self.h is None else self.h)
             self._initialized["h"] = True
 
     def parse_input(self, X):
@@ -121,7 +117,7 @@ class OddSth(Kernel):
                                     'or 3 elements consisting of a graph ' +
                                     'type object, labels for vertices and ' +
                                     'labels for edges.')
-                out = big_dag_append(self.make_big_dag_(x), out, merge_features=False)
+                out = big_dag_append(make_big_dag(x, self.h_), out, merge_features=False)
                 i += 1
 
             if self._method_calling == 1:

@@ -86,19 +86,10 @@ class RandomWalk(Kernel):
                     (self.method_type == "fast"
                      and self.p is None
                      and self.kernel_type == "geometric")):
-                def add_input(x):
-                    return x
-                self.add_input_ = add_input
-
+                self.add_input_ = idem
             elif self.method_type == "fast":
-                def invert(w, v):
-                    # Spectral Decomposition if adjacency matrix is symmetric
-                    return (np.real(np.sum(v, axis=0)), np.real(w))
-
-                def add_input(x):
-                    return invert(*eig(x))
-
-                self.add_input_ = add_input
+                # Spectral Decomposition if adjacency matrix is symmetric
+                self.add_input_ = sd
             else:
                 raise ValueError('unsupported method_type')
             self._initialized["method_type"] = True
@@ -478,3 +469,15 @@ class RandomWalkLabeled(RandomWalk):
             b = np.ones(mn)
             x_sol, _ = cg(A, b, tol=1.0e-6, maxiter=20, atol='legacy')
             return np.sum(x_sol)
+
+
+def idem(x):
+    return x
+
+
+def invert(w, v):
+    return (np.real(np.sum(v, axis=0)), np.real(w))
+
+
+def sd(x):
+    return invert(*eig(x))

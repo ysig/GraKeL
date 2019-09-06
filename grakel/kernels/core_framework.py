@@ -86,7 +86,8 @@ class CoreFramework(Kernel):
             params["normalize"] = False
             params["verbose"] = self.verbose
             params["n_jobs"] = None
-            self.base_kernel_ = lambda *args: base_kernel(**params)
+            self.base_kernel_ = base_kernel
+            self.params_ = params
             self._initialized["base_kernel"] = True
 
         if not self._initialized["min_core"]:
@@ -198,10 +199,10 @@ class CoreFramework(Kernel):
 
             # calculate kernel
             if self._method_calling == 1 and indexes.shape[0] > 0:
-                base_kernel[i] = self.base_kernel_()
+                base_kernel[i] = self.base_kernel_(**self.params_)
                 base_kernel[i].fit(subgraphs)
             elif self._method_calling == 2 and indexes.shape[0] > 0:
-                base_kernel[i] = self.base_kernel_()
+                base_kernel[i] = self.base_kernel_(**self.params_)
                 ft_subgraph_mat = base_kernel[i].fit_transform(subgraphs)
                 for j in range(indexes.shape[0]):
                     K[indexes[j], indexes] += ft_subgraph_mat[j, :]
@@ -209,7 +210,7 @@ class CoreFramework(Kernel):
                 if self._max_core_number < i or self._fit_indexes[i].shape[0] == 0:
                     if len(indexes) > 0:
                         # add a dummy kernel for calculating the diagonal
-                        self._dummy_kernel[i] = self.base_kernel_()
+                        self._dummy_kernel[i] = self.base_kernel_(**self.params_)
                         self._dummy_kernel[i].fit(subgraphs)
                 else:
                     if indexes.shape[0] > 0:
