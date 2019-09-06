@@ -46,12 +46,11 @@ except ImportError:
 
 
 def is_picklable(obj):
-  try:
-    pickle.dumps(obj)
-  except Exception as ex:
-    print(ex)
-    #return False
-  return True
+    try:
+        pickle.dumps(obj)
+    except Exception as ex:
+        return False, ex
+    return True
 
 
 def test_random_walk():
@@ -162,6 +161,8 @@ def test_pyramid_match():
     pm_kernel = PyramidMatch(verbose=verbose, normalize=normalize)
     gk = GraphKernel(kernel={"name": "pyramid_match"}, verbose=verbose,
                      normalize=normalize)
+    pm_kernel.fit(train)
+    assert is_picklable(pm_kernel)
     gk.fit(train)
     assert is_picklable(gk)
 

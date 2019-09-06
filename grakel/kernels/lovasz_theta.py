@@ -53,7 +53,7 @@ class LovaszTheta(Kernel):
         A random number generator instance or an int to initialize a RandomState as a seed.
 
     base_kernel : function (np.1darray, np.1darray -> number), default=None
-                  
+
         The applied metric between the lovasz_theta numbers of subgraphs.
         If None :math:`f(x,y) = x*y`
 
