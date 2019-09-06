@@ -55,7 +55,7 @@ def is_picklable(obj):
 
 
 def test_random_walk():
-    """Random input test for the Simple Random Walk kernel."""
+    """Picklability test for the Simple Random Walk kernel."""
     train, _ = generate_dataset(n_graphs=100,
                                 r_vertices=(10, 20),
                                 r_connectivity=(0.4, 0.8),
@@ -70,7 +70,7 @@ def test_random_walk():
 
 
 def test_random_walk_labels():
-    """Random input test for the Labelled Random Walk kernel."""
+    """Picklability test for the Labelled Random Walk kernel."""
     train, _ = generate_dataset(n_graphs=100,
                                 r_vertices=(10, 20),
                                 r_connectivity=(0.4, 0.8),
@@ -85,7 +85,7 @@ def test_random_walk_labels():
 
 
 def test_shortest_path():
-    """Random input test for the Shortest Path kernel."""
+    """Picklability test for the Shortest Path kernel."""
     train, _ = generate_dataset(n_graphs=100,
                                 r_vertices=(10, 20),
                                 r_connectivity=(0.4, 0.8),
@@ -114,7 +114,7 @@ def test_shortest_path():
 
 
 def test_graphlet_sampling():
-    """Random input test for the Graphlet Sampling Kernel [+ decorator]."""
+    """Picklability test for the Graphlet Sampling Kernel [+ generic-wrapper]."""
     train, _ = generate_dataset(n_graphs=100,
                                 r_vertices=(10, 20),
                                 r_connectivity=(0.4, 0.8),
@@ -134,7 +134,7 @@ def test_graphlet_sampling():
 
 
 def test_weisfeiler_lehman():
-    """Random input test for the Weisfeiler Lehman kernel."""
+    """Picklability test for the Weisfeiler Lehman kernel."""
     train, _ = generate_dataset(n_graphs=100,
                                 r_vertices=(10, 20),
                                 r_connectivity=(0.4, 0.8),
@@ -150,7 +150,7 @@ def test_weisfeiler_lehman():
 
 
 def test_pyramid_match():
-    """Random input test for the Pyramid Match kernel [+ decorator]."""
+    """Picklability test for the Pyramid Match kernel [+ generic-wrapper]."""
     train, _ = generate_dataset(n_graphs=100,
                                 r_vertices=(10, 20),
                                 r_connectivity=(0.4, 0.8),
@@ -167,7 +167,7 @@ def test_pyramid_match():
 
 
 def test_pyramid_match_no_labels():
-    """Random input test for the Pyramid Match kernel with no labels [+ decorator]."""
+    """Picklability test for the Pyramid Match kernel with no labels [+ generic-wrapper]."""
     train, _ = generate_dataset(n_graphs=100,
                                 r_vertices=(10, 20),
                                 r_connectivity=(0.4, 0.8),
@@ -186,7 +186,7 @@ def test_pyramid_match_no_labels():
 
 
 def test_neighborhood_hash():
-    """Random input test for the Neighborhood Hash kernel."""
+    """Picklability test for the Neighborhood Hash kernel."""
     train, _ = generate_dataset(n_graphs=100,
                                 r_vertices=(10, 20),
                                 r_connectivity=(0.4, 0.8),
@@ -201,7 +201,7 @@ def test_neighborhood_hash():
 
 
 def test_subgraph_matching():
-    """Random input test for the Subgraph Matching kernel."""
+    """Picklability test for the Subgraph Matching kernel."""
     # node-label/edge-label
     train, _ = generate_dataset(n_graphs=100,
                                 r_vertices=(10, 20),
@@ -256,7 +256,7 @@ def test_subgraph_matching():
 
 
 def test_neighborhood_subgraph_pairwise_distance():
-    """Random input test for the Neighborhood Subgraph Pairwise Distance kernel [+ decorator]."""
+    """Picklability test for the Neighborhood Subgraph Pairwise Distance kernel [+ generic-wrapper]."""
     train, _ = generate_dataset(n_graphs=100,
                                 r_vertices=(5, 10),
                                 r_connectivity=(0.4, 0.8),
@@ -278,7 +278,7 @@ def test_neighborhood_subgraph_pairwise_distance():
 
 if cvxopt:
     def test_lovasz_theta():
-        """Random input test for the Lovasz-theta distance kernel."""
+        """Picklability test for the Lovasz-theta distance kernel."""
         train, _ = generate_dataset(n_graphs=50,
                                     r_vertices=(5, 10),
                                     r_connectivity=(0.4, 0.8),
@@ -293,7 +293,7 @@ if cvxopt:
 
 
 def test_svm_theta():
-    """Random input test for the SVM-theta distance kernel."""
+    """Picklability test for the SVM-theta distance kernel."""
     train, _ = generate_dataset(n_graphs=100,
                                 r_vertices=(10, 20),
                                 r_connectivity=(0.4, 0.8),
@@ -308,7 +308,7 @@ def test_svm_theta():
 
 
 def test_odd_sth():
-    """Random input test for the ODD-STh kernel [+ decorator]."""
+    """Picklability test for the ODD-STh kernel [+ generic-wrapper]."""
     train, _ = generate_dataset(n_graphs=100,
                                 r_vertices=(10, 20),
                                 r_connectivity=(0.4, 0.8),
@@ -328,7 +328,7 @@ def test_odd_sth():
 
 
 def test_propagation():
-    """Random input test for the Propagation kernel."""
+    """Picklability test for the Propagation kernel."""
     train, _ = generate_dataset(n_graphs=100,
                                 r_vertices=(10, 20),
                                 r_connectivity=(0.4, 0.8),
@@ -355,7 +355,7 @@ def test_propagation():
 
 
 def test_hadamard_code():
-    """Random input test for the Hadamard Code kernel."""
+    """Picklability test for the Hadamard Code kernel."""
     train, _ = generate_dataset(n_graphs=100,
                                 r_vertices=(10, 20),
                                 r_connectivity=(0.4, 0.8),
@@ -371,7 +371,7 @@ def test_hadamard_code():
 
 
 def test_multiscale_laplacian():
-    """Random input test for the Multiscale Laplacian kernel."""
+    """Picklability test for the Multiscale Laplacian kernel."""
     # Intialise kernel
     train, _ = generate_dataset(n_graphs=30,
                                 r_vertices=(5, 10),
@@ -387,7 +387,7 @@ def test_multiscale_laplacian():
 
 
 def test_multiscale_laplacian_fast():
-    """Random input test for the Fast Multiscale Laplacian kernel."""
+    """Picklability test for the Fast Multiscale Laplacian kernel."""
     # Initialise kernel
     train, _ = generate_dataset(n_graphs=100,
                                 r_vertices=(10, 20),
@@ -404,7 +404,7 @@ def test_multiscale_laplacian_fast():
 
 
 def test_vertex_histogram():
-    """Random input test for the Vertex Histogram Kernel [+ decorator]."""
+    """Picklability test for the Vertex Histogram Kernel [+ generic-wrapper]."""
     train, _ = generate_dataset(n_graphs=100,
                                 r_vertices=(10, 20),
                                 r_connectivity=(0.4, 0.8),
@@ -424,7 +424,7 @@ def test_vertex_histogram():
 
 
 def test_edge_histogram():
-    """Random input test for the Edge Histogram kernel [+ decorator]."""
+    """Picklability test for the Edge Histogram kernel [+ generic-wrapper]."""
     train, _ = generate_dataset(n_graphs=100,
                                 r_vertices=(10, 20),
                                 r_connectivity=(0.4, 0.8),
@@ -444,7 +444,7 @@ def test_edge_histogram():
 
 
 def test_graph_hopper():
-    """Random input test for the Graph Hopper kernel."""
+    """Picklability test for the Graph Hopper kernel."""
     train, _ = generate_dataset(n_graphs=100,
                                 r_vertices=(10, 20),
                                 r_connectivity=(0.4, 0.8),
@@ -459,7 +459,7 @@ def test_graph_hopper():
 
 
 def test_core_framework():
-    """Random input test for the Core kernel Framework [+ decorator]."""
+    """Picklability test for the Core kernel Framework [+ generic-wrapper]."""
     train, _ = generate_dataset(n_graphs=100,
                                 r_vertices=(10, 20),
                                 r_connectivity=(0.4, 0.8),
