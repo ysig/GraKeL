@@ -1,6 +1,5 @@
 """The main graph kernel class, implemented as a sci-kit transformer."""
 import copy
-import time
 import warnings
 
 import numpy as np
@@ -8,6 +7,7 @@ import numpy as np
 from scipy.linalg import svd
 from sklearn.base import BaseEstimator
 from sklearn.base import TransformerMixin
+from sklearn.utils import check_random_state
 from sklearn.utils.validation import check_is_fitted
 
 from grakel.kernels import GraphletSampling
@@ -36,42 +36,53 @@ from grakel.kernels import CoreFramework
 # Python 2/3 cross-compatibility import
 from future.utils import iteritems
 
-np.random.seed(int(time.time()))
-
-supported_base_kernels = [
-    "subtree_wl", "random_walk",
-    "shortest_path",
-    "graphlet_sampling", "subgraph_matching",
-    "multiscale_laplacian",
-    "lovasz_theta", "svm_theta",
-    "neighborhood_hash", "neighborhood_subgraph_pairwise_distance",
-    "NSPDK",
-    "odd_sth", "propagation",
-    "pyramid_match",
-    "propagation", "vertex_histogram", "edge_histogram",
-    "graph_hopper"
+# Supported base kernels
+sbk = [
+    ["vertex_histogram", "subtree_wl", "VH", "ST-WL"],
+    ["edge_histogram", "EH"],
+    ["random_walk", "RW"],
+    ["shortest_path", "SP"],
+    ["graphlet_sampling", "GR"],
+    ["subgraph_matching", "SM"],
+    ["multiscale_laplacian", "ML"],
+    ["lovasz_theta", "LOVT"],
+    ["svm_theta", "SVMT"],
+    ["neighborhood_hash", "NH"],
+    ["neighborhood_subgraph_pairwise_distance", "NSPD"],
+    ["odd_sth", "ODD"],
+    ["propagation", "PR"],
+    ["pyramid_match", "PM"],
+    ["graph_hopper", "GH"]
     ]
 
-supported_general_kernels = [
-    "weisfeiler_lehman",
-    "hadamard_code",
-    "core_framework"
+sbks = set(e for ls in sbk for e in ls)
+
+# Supported frameworks
+sf = [
+    ["weisfeiler_lehman", "WL"],
+    ["hadamard_code", "HC"],
+    ["core_framework", "CORE"]
     ]
 
-default_verbose_value = True
+sfs = set(e for ls in sf for e in ls)
 
-default_random_seed_value = 42
+# Supported kernels message
+sep = u"\n \u27E1 "
+sk_msg = ("Base-Kernels\n" + 12*"-" + sep + sep.join(','.join(synonyms) for synonyms in sbk) +
+          "\n\nFrameworks\n" + 10*"-" + sep + sep.join(','.join(synonyms) for synonyms in sf))
 
+# Defaults
 default_n_components = 100
 
 
 class GraphKernel(BaseEstimator, TransformerMixin):
-    r"""A decorator for graph kernels.
+    r"""A generic wrapper for graph kernels.
 
     Parameters
     ----------
-    kernel : list(dict(key:str, value:value))
-        A list of dictionaries, or a single dictionary that has the following structure:
+    kernel : list*(dict or str)
+        A single element or a list of :code:`dict` with:
+
             * "name" : [str] - with the kernel name
 
             * "name_of_parameter_1" : value
@@ -82,10 +93,18 @@ class GraphKernel(BaseEstimator, TransformerMixin):
 
             * "name_of_parameter_k" : value
 
-        available "names" / "parametres" are:
+        or of :code:`str`, designating a kernel name.
+
+        available "name" or "name-alias" / "parametres" are:
             1. base_kernels (the structure must always reach a base kernel)
 
-                - "random_walk"
+                - "vertex_histogram" or "subtree_wl" or "VH" or "ST-WL"
+                    + (**o**) "sparse" : bool or 'auto'
+
+                - "edge_histogram" or "EH"
+                    + (**o**) "sparse" : bool or 'auto'
+
+                - "random_walk" or "RW"
                     + (**o**) "with_labels" : bool
 
                     + (**o**) "lamda" : float
@@ -97,21 +116,21 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                     + (**o**) "p" : [int] > 0
 
 
-                - "shortest_path"
+                - "shortest_path" or "SP"
                     + (**o**) "algorithm_type" : [str] "dijkstra", "floyd_warshall"
 
                     + (**o**) "as_attributes" : [bool]
 
-                    + (**o**) "attribute_kernel" : [function] : (attribute_x, attribute_y) -> number
+                    + (**o**) "metric" : [function] : (attribute_x, attribute_y) -> number
 
                     + (**o**) "with_labels" : [bool]
 
-                - "graphlet_sampling"
+                - "graphlet_sampling" or "GR"
                     + (**o**) "k" : [int]
 
                     + (**o**) "sampling" : [dict] or **None**
 
-                - "multiscale_laplacian"
+                - "multiscale_laplacian" or "ML"
                     + (**o**) "which" : [str] "slow", "fast"
 
                     + (**o**) "L" : [int] > 0
@@ -120,32 +139,32 @@ class GraphKernel(BaseEstimator, TransformerMixin):
 
                     + (**o**) "heta" : [float] > .0
 
-                    + (**o**) "N" : [int] > 0, if "which": "fast"
+                    + (**o**) "n_samples" : [int] > 0, if "which": "fast"
 
                     + (**o**) "P" : [int] > 0, if "which": "fast"
 
-                - "subgraph_matching"
+                - "subgraph_matching" or "SM"
                     + (**o**) "kv" : [function] : (node_x, node_y, Lx, Ly) -> number
 
                     + (**o**) "ke" : [function] : (edge_x, edge_y, Lx, Ly) -> number
 
                     + (**o**) "lw" : a lambda weight function for cliques: set -> number
 
-                - "lovasz_theta"
+                - "lovasz_theta" or "LOVT"
                     + (**o**) "n_samples" : [int] > 1
 
                     + (**o**) "subsets_size_range" : [tuple] of two [int]
 
                     + (**o**) "metric" : [function] (number, number) -> number
 
-                - "svm_theta"
+                - "svm_theta" or "SVMT"
                     + (**o**) "n_samples" : [int] > 1
 
                     + (**o**) "subsets_size_range" : [tuple] with 2 [int] elements
 
                     + (**o**) "metric" : [function] (number, number) -> number
 
-                - "neighborhood_hash"
+                - "neighborhood_hash" or "NH"
                     + (**o**) "nh_type" : [str] "simple" or "count-sensitive"
 
                     + (**o**) "R" : [int] > 0
@@ -157,10 +176,10 @@ class GraphKernel(BaseEstimator, TransformerMixin):
 
                     + (**o**) "d" : (int) positive integer
 
-                - "odd_sth"
+                - "odd_sth" or "ODD"
                     + (**o**) "h" : [int] > 0
 
-                - "propagation"
+                - "propagation" or "PR"
                     + (**o**) t_max: [int] > 0
 
                     + (**o**) T: [dict] [int]: [np.arrays]
@@ -171,34 +190,27 @@ class GraphKernel(BaseEstimator, TransformerMixin):
 
                     + (**o**) w: [int] > 0
 
-                    + (**o**) base_kernel: [function] x:[Counter] , y:[Counter] -> [number]
+                    + (**o**) metric: [function] x:[Counter] , y:[Counter] -> [number]
 
-                - "pyramid_match"
+                - "pyramid_match" or "PM"
                     + (**o**) with_labels: [bool]
 
                     + (**o**) d: [int] > 0
 
                     + (**o**) L: [int] >= 0
 
-                - "graph_hopper"
+                - "graph_hopper" or "GH"
                     + (**o**) kernel_type: [str: {'linear', 'gaussian'}] or [tuple: {('gaussian', mu)}]
                       or [function] x:[(np.array, np.array)] , y:[(np.array, np.array)] -> [number]
 
-                - "vertex_histogram" or "subtree_wl"
-                    *No arguments*
+            2. frameworks (if a next kernel in the list it asssigned as a base-kernel, else see default)
+                - "weisfeiler_lehman" or "WL" / default="VH"
+                    + (**o**) "n_iter" : [int] >= 0
 
-                - "edge_histogram"
-                    *No arguments*
+                - "hadamard_code" or "HC" / default="VH"
+                    + (**o**) "n_iter" : [int] > 0
 
-            2. general_kernels (this kernel will use the next kernel
-               on the list as base kernel)
-                - "weisfeiler_lehman"
-                    + (**o**) "niter" : [int] >= 0
-
-                - "hadamard_code"
-                    + (**o**) "niter" : [int] > 0
-
-                - "core_framework"
+                - "core_framework" or "CORE" / default="SP"
                     + (**o**) "min_core" : [int] >= -1
 
         where (**o**): stands for optional parameters
@@ -218,17 +230,20 @@ class GraphKernel(BaseEstimator, TransformerMixin):
     verbose : bool, optional
         Define if messages will be printed on stdout.
 
-    random_seed : int, optional
-        Initialize can provide a randomness by providing a random seed.
+    random_state :  RandomState or int, default=None
+        A random number generator instance or an int to initialize a RandomState as a seed.
 
     Attributes
     ----------
+    _initialized : dict
+        Monitors which parameter derived object should be _initialized.
+
     kernel_ : function
         The full kernel applied between graph objects.
 
     nystroem_ : int
         Holds the nystroem, number of components.
-        If not initialized, it stands as a False
+        If not _initialized, it stands as a False
         boolean variable.
 
     components_ : array, shape=(n_components, n_features)
@@ -241,27 +256,30 @@ class GraphKernel(BaseEstimator, TransformerMixin):
     component_indices_ : array, shape=(n_components)
         Indices of ``components_`` in the training set.
 
-    initialized_ : dict
-        Monitors which parameter derived object should be initialized.
+    random_state_ : RandomState
+        A RandomState object handling all randomness of the class.
 
     """
 
     def __init__(self,
-                 kernel=None,
+                 kernel="shortest_path",
                  normalize=False,
                  verbose=False,
                  n_jobs=None,
-                 random_seed=default_random_seed_value,
+                 random_state=None,
                  Nystroem=False):
         """`__init__` for `GraphKernel` object."""
         self.kernel = kernel
         self.normalize = normalize
         self.verbose = verbose
         self.n_jobs = n_jobs
-        self.random_seed = random_seed
+        self.random_state = random_state
         self.Nystroem = Nystroem
-        self.initialized_ = {"kernel": False,
+        self._initialized = {"kernel": False,
                              "Nystroem": False,
+                             "random_state": False,
+                             "normalize": False,
+                             "verbose": False,
                              "n_jobs": False}
 
     def fit(self, X, y=None):
@@ -287,7 +305,7 @@ class GraphKernel(BaseEstimator, TransformerMixin):
 
         """
         # Initialize the Graph Kernel.
-        self.initialize_()
+        self.initialize()
 
         # Input validation and parsing
         if bool(self.nystroem_):
@@ -304,7 +322,7 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                 n_components = self.nystroem_
 
             n_components = min(nx, n_components)
-            inds = np.random.permutation(nx)
+            inds = self.random_state_.permutation(nx)
             basis_inds = inds[:n_components]
             basis = [X[i] for i in basis_inds]
 
@@ -341,12 +359,11 @@ class GraphKernel(BaseEstimator, TransformerMixin):
             all pairs of graphs between target an features
 
         """
-        # Check if nystroem has been initialized had been called
-        if bool(self.nystroem_):
-            check_is_fitted(self, 'components_')
-
         # Transform - calculate kernel matrix
-        if bool(self.nystroem_):
+        check_is_fitted(self, 'kernel_')
+        if hasattr(self, 'nystroem_') and bool(self.nystroem_):
+            # Check if nystroem has been initialized had been called
+            check_is_fitted(self, 'components_')
             K = self.kernel_.transform(X).dot(self.nystroem_normalization_.T)
         else:
             K = self.kernel_.transform(X)
@@ -378,7 +395,7 @@ class GraphKernel(BaseEstimator, TransformerMixin):
 
         """
         # Initialize the Graph Kernel
-        self.initialize_()
+        self.initialize()
 
         # Transform - calculate kernel matrix
         if bool(self.nystroem_):
@@ -389,9 +406,9 @@ class GraphKernel(BaseEstimator, TransformerMixin):
 
         return K
 
-    def initialize_(self):
+    def initialize(self):
         """Initialize all transformer arguments, needing initialisation."""
-        if not self.initialized_["Nystroem"]:
+        if not self._initialized["Nystroem"]:
             if type(self.Nystroem) not in [int, bool]:
                 raise ValueError('Nystroem parameter must be an int, '
                                  'indicating the number of components'
@@ -402,33 +419,35 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                 # picking default number of components
                 self.nystroem_ = default_n_components
             elif self.Nystroem <= 0:
-                    raise ValueError('number of nystroem components '
-                                     'must be positive')
+                raise ValueError('number of nystroem components '
+                                 'must be positive')
             else:
                 self.nystroem_ = self.Nystroem
-            self.initialized_["Nystroem"] = True
+            self._initialized["Nystroem"] = True
 
-        if not self.initialized_["kernel"] or not self.initialized_["n_jobs"]:
-            if self.kernel is None:
-                raise ValueError('kernel must be defined at the __init__ '
-                                 'function of the graph kernel decorator ')
-            else:
-                hidden_args = {"verbose": self.verbose,
-                               "normalize": self.normalize,
-                               "n_jobs": self.n_jobs}
+        if any(not self._initialized[param]
+               for param in ["random_state", "normalize", "verbose", "n_jobs", "kernel"]):
+            # Intialise random_state_
+            if not self._initialized["random_state"]:
+                self.random_state_ = check_random_state(self.random_state)
 
-                k = self.kernel
-                if type(k) is dict:
-                    # allow single kernel dictionary inputs
-                    k = [self.kernel]
-                elif type(k) is not list:
-                    raise ValueError('unsupported kernel format')
+            k = self.kernel
+            if type(k) is dict or type(k) is str:
+                # allow single kernel dictionary inputs
+                k = [self.kernel]
+            elif type(k) is not list:
+                raise ValueError('A "kernel" must be defined at the __init__ '
+                                 'function of the graph kernel generic wrapper.'
+                                 'Valid kernel types are dict, str, and list of dict or str.')
 
-                kernel, params = self.make_kernel_(
-                    copy.deepcopy(k), hidden_args)
+            hidden_args = {"verbose": self.verbose, "normalize": self.normalize,
+                           "n_jobs": self.n_jobs}
 
-                self.kernel_ = kernel(**params)
-            self.initialized_["kernel"] = True
+            # Initialize a new kernel each time a new fit is being called
+            kernel, params = self.make_kernel_(copy.deepcopy(k), hidden_args)
+            self.kernel_ = kernel(**params)
+            for param in ["random_state", "normalize", "verbose", "n_jobs", "kernel"]:
+                self._initialized[param] = True
 
     def make_kernel_(self, kernel_list, hidden_args):
         """Produce the desired kernel function.
@@ -447,97 +466,94 @@ class GraphKernel(BaseEstimator, TransformerMixin):
 
         """
         kernel = kernel_list.pop(0)
-        if type(kernel) is not dict:
-            raise ValueError('each element of the list of kernels must'
-                             ' be a dictionary')
-        if "name" not in kernel:
-            raise ValueError('each dictionary concerning a kernel must'
-                             ' have a "name" parameter designating the'
-                             'kernel')
-        kernel_name = kernel.pop("name")
+        if type(kernel) is str:
+            kernel_name, kernel = str(kernel), dict()
+        elif type(kernel) is not dict:
+            raise ValueError('each element of the list of kernels must be a dictionary or a string')
+        else:
+            if "name" not in kernel:
+                raise ValueError('each dictionary concerning a kernel must '
+                                 'have a "name" parameter designating the '
+                                 'kernel')
+            kernel_name = kernel.pop("name")
+
         for (keys, val) in iteritems(hidden_args):
+            if keys in kernel:
+                warnings.warn('Overriding global kernel attribute ' + str(keys) + ' with ' + str(val) +
+                              '. Please set this attribute as an argument of GraphKernel.')
             kernel[keys] = val
-        if kernel_name in supported_base_kernels:
+
+        def get_random_state_(kernel):
+            return kernel.pop(
+                "random_state",
+                (self.random_state_ if self.random_state is not None else None))
+
+        if kernel_name in sbks:
             if len(kernel_list) != 0:
-                warnings.warn('rest kernel arguments are being ignored\
-                               - reached base kernel')
-            if kernel_name in ["vertex_histogram", "subtree_wl"]:
+                warnings.warn('Kernel List not empty while reaching a base-kernel - '
+                              'the rest kernel names will be ignored')
+
+            if kernel_name in sbk[0]:
                 return VertexHistogram, kernel
-            elif kernel_name == "random_walk":
+            elif kernel_name in sbk[1]:
+                return EdgeHistogram, kernel
+            elif kernel_name in sbk[2]:
                 if kernel.pop("with_labels", False):
                     return RandomWalkLabeled, kernel
                 else:
                     return RandomWalk, kernel
-            elif kernel_name == "shortest_path":
+            elif kernel_name in sbk[3]:
                 if kernel.pop("as_attributes", False):
                     return ShortestPathAttr, kernel
                 else:
                     return ShortestPath, kernel
-            elif kernel_name == "graphlet_sampling":
-                if ("random_seed" not in kernel and
-                    self.random_seed is not
-                        default_random_seed_value):
-                        kernel["random_seed"] = self.random_seed
+            elif kernel_name in sbk[4]:
+                kernel["random_state"] = get_random_state_(kernel)
                 return GraphletSampling, kernel
-            elif kernel_name == "multiscale_laplacian":
+            elif kernel_name in sbk[5]:
+                return SubgraphMatching, kernel
+            elif kernel_name in sbk[6]:
                 if kernel.pop("which", "fast") == "slow":
                     kernel.pop("N", None)
                     return (MultiscaleLaplacian, kernel)
                 else:
-                    if ("random_seed" not in kernel and
-                        self.random_seed is not
-                            default_random_seed_value):
-                        kernel["random_seed"] = self.random_seed
+                    kernel["random_state"] = get_random_state_(kernel)
                     return (MultiscaleLaplacianFast, kernel)
-            elif kernel_name == "subgraph_matching":
-                return SubgraphMatching, kernel
-            elif kernel_name == "lovasz_theta":
-                if ("random_seed" not in kernel and
-                        self.random_seed is not
-                        default_random_seed_value):
-                    kernel["random_seed"] = self.random_seed
+            elif kernel_name in sbk[7]:
+                kernel["random_state"] = get_random_state_(kernel)
                 return LovaszTheta, kernel
-            elif kernel_name == "svm_theta":
-                if ("random_seed" not in kernel and
-                    self.random_seed is not
-                        default_random_seed_value):
-                    kernel["random_seed"] = self.random_seed
+            elif kernel_name in sbk[8]:
+                kernel["random_state"] = get_random_state_(kernel)
                 return SvmTheta, kernel
-            elif kernel_name == "neighborhood_hash":
+            elif kernel_name in sbk[9]:
                 return NeighborhoodHash, kernel
-            elif kernel_name in ["neighborhood_subgraph_pairwise_distance",
-                                 "NSPD"]:
+            elif kernel_name in sbk[10]:
                 return NeighborhoodSubgraphPairwiseDistance, kernel
-            elif kernel_name == "odd_sth":
+            elif kernel_name in sbk[11]:
                 return OddSth, kernel
-            elif kernel_name == "propagation":
-                if ("random_seed" not in kernel and
-                    self.random_seed is not
-                        default_random_seed_value):
-                    kernel["random_seed"] = self.random_seed
+            elif kernel_name in sbk[12]:
+                kernel["random_state"] = get_random_state_(kernel)
                 if kernel.pop("with_attributes", False):
                     return PropagationAttr, kernel
                 else:
                     return Propagation, kernel
-            elif kernel_name == "graph_hopper":
-                return GraphHopper, kernel
-            elif kernel_name == "pyramid_match":
+            elif kernel_name in sbk[13]:
                 return PyramidMatch, kernel
-            elif kernel_name == "edge_histogram":
-                return EdgeHistogram, kernel
-        elif kernel_name in supported_general_kernels:
-            if (len(kernel_list) == 0):
-                raise ValueError(str(kernel_name)+' is not a base kernel')
-            else:
+            elif kernel_name in sbk[14]:
+                return GraphHopper, kernel
+
+        elif kernel_name in sfs:
+            if len(kernel_list):
                 kernel["base_kernel"] = self.make_kernel_(kernel_list, {})
-            if kernel_name == "weisfeiler_lehman":
+            if kernel_name in sf[0]:
                 return (WeisfeilerLehman, kernel)
-            elif kernel_name == "hadamard_code":
+            elif kernel_name in sf[1]:
                 return (HadamardCode, kernel)
-            elif kernel_name == "core_framework":
+            elif kernel_name in sf[2]:
                 return (CoreFramework, kernel)
         else:
-            raise ValueError("unsupported kernel: " + str(kernel_name))
+            raise ValueError("Unsupported kernel: " + str(kernel_name) + "\n"
+                             "Supported kernels are:\n\n" + sk_msg)
 
     def set_params(self, **params):
         """Call the parent method."""
@@ -548,10 +564,10 @@ class GraphKernel(BaseEstimator, TransformerMixin):
         for key, value in iteritems(params):
             key, delim, sub_key = key.partition('__')
             if delim:
-                if sub_key in self.initialized_:
-                    self.initialized_[sub_key] = False
-            elif key in self.initialized_:
-                self.initialized_[key] = False
+                if sub_key in self._initialized:
+                    self._initialized[sub_key] = False
+            elif key in self._initialized:
+                self._initialized[key] = False
 
         # Set parameters
         super(GraphKernel, self).set_params(**params)

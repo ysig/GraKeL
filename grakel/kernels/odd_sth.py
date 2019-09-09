@@ -30,9 +30,6 @@ class OddSth(Kernel):
 
     Attributes
     ----------
-    h : int
-        Maximum dag height.
-
     _nx : int
         The number of parsed inputs on fit.
 
@@ -55,32 +52,27 @@ class OddSth(Kernel):
 
     """
 
-    def __init__(self, n_jobs=None,
-                 normalize=False, verbose=False, h=None):
+    def __init__(self, n_jobs=None, normalize=False, verbose=False, h=None):
         """Initialise an `odd_sth` kernel."""
         super(OddSth, self).__init__(n_jobs=n_jobs,
                                      normalize=normalize,
                                      verbose=verbose)
         self.h = h
-        self.initialized_.update({"h": False})
+        self._initialized.update({"h": False})
 
-    def initialize_(self):
+    def initialize(self):
         """Initialize all transformer arguments, needing initialization."""
-        if not self.initialized_["n_jobs"]:
+        if not self._initialized["n_jobs"]:
             if self.n_jobs is not None:
                 warnings.warn('no implemented parallelization for OddSth')
-            self.initialized_["n_jobs"] = True
+            self._initialized["n_jobs"] = True
 
-        if not self.initialized_["h"]:
+        if not self._initialized["h"]:
             if self.h is not None and (type(self.h) is not int or self.h <= 0):
                 raise ValueError('h must be an integer bigger than zero')
 
-            if self.h is None:
-                self._make_big_dag = lambda x: make_big_dag(x, h=-1)
-            else:
-                self._make_big_dag = lambda x: make_big_dag(x, h=self.h)
-
-            self.initialized_["h"] = True
+            self.h_ = (-1 if self.h is None else self.h)
+            self._initialized["h"] = True
 
     def parse_input(self, X):
         """Parse and create features for the propagation kernel.
@@ -125,7 +117,7 @@ class OddSth(Kernel):
                                     'or 3 elements consisting of a graph ' +
                                     'type object, labels for vertices and ' +
                                     'labels for edges.')
-                out = big_dag_append(self._make_big_dag(x), out, merge_features=False)
+                out = big_dag_append(make_big_dag(x, self.h_), out, merge_features=False)
                 i += 1
 
             if self._method_calling == 1:

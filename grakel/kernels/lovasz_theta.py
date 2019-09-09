@@ -10,6 +10,8 @@ from grakel.kernels import Kernel
 from grakel.graph import Graph
 from grakel.tools import distribute_samples
 
+from sklearn.utils import check_random_state
+
 from math import sqrt
 from numpy import pad
 from numpy.linalg import LinAlgError
@@ -47,9 +49,13 @@ class LovaszTheta(Kernel):
     subsets_size_range : tuple, len=2, default=(2,8)
         (min, max) size of the vertex set of sampled subgraphs.
 
-    base_kernel : function (np.1darray, np.1darray -> number),
-                  default=:math:`f(x,y) = x*y`
+    random_state :  RandomState or int, default=None
+        A random number generator instance or an int to initialize a RandomState as a seed.
+
+    base_kernel : function (np.1darray, np.1darray -> number), default=None
+
         The applied metric between the lovasz_theta numbers of subgraphs.
+        If None :math:`f(x,y) = x*y`
 
     max_dim : int, default=None
         The maximum graph size that can appear both in fit or transform.
@@ -58,20 +64,12 @@ class LovaszTheta(Kernel):
 
     Attributes
     ----------
-    _n_samples : int
-        Number of samples drawn for the computation of lovasz theta.
-
-    _ssr : tuple, len=2
-        A tuple containing two integers designating the minimum and the maximum
-        size of the vertex set of considered subgraphs.
-
-    _d : int,
+    d_ : int,
         The maximum matrix dimension of fit plus 1. Signifies the number
         of features assigned for lovasz labelling.
 
-    _base_kernel : function (number, number -> number)
-        The applied base_kernel between features of the mean lovasz_theta
-        numbers samples for all levels of the two graphs.
+    random_state_ : RandomState
+        A RandomState object handling all randomness of the class.
 
     """
 
@@ -81,11 +79,11 @@ class LovaszTheta(Kernel):
                  n_jobs=None,
                  normalize=False,
                  verbose=False,
-                 random_seed=42,
+                 random_state=None,
                  n_samples=50,
                  subsets_size_range=(2, 8),
                  max_dim=None,
-                 base_kernel=lambda x, y: x.T.dot(y)):
+                 base_kernel=None):
         """Initialise a lovasz_theta kernel."""
         # setup valid parameters and initialise from parent
         if not cvxopt_installed:
@@ -99,51 +97,52 @@ class LovaszTheta(Kernel):
         self.n_samples = n_samples
         self.subsets_size_range = subsets_size_range
         self.base_kernel = base_kernel
-        self.random_seed = random_seed
+        self.random_state = random_state
         self.max_dim = max_dim
-        self.initialized_.update({"n_samples": False, "subsets_size_range": False,
-                                  "base_kernel": False, "random_seed": False,
+        self._initialized.update({"n_samples": False, "subsets_size_range": False,
+                                  "base_kernel": False, "random_state": False,
                                   "max_dim": False})
 
-    def initialize_(self):
+    def initialize(self):
         """Initialize all transformer arguments, needing initialization."""
-        super(LovaszTheta, self).initialize_()
+        super(LovaszTheta, self).initialize()
 
-        if not self.initialized_["n_samples"]:
+        if not self._initialized["n_samples"]:
             if self.n_samples <= 0 or type(self.n_samples) is not int:
                 raise TypeError('n_samples must an integer be bigger than '
                                 'zero')
-            self.initialized_["n_samples"] = True
+            self._initialized["n_samples"] = True
 
-        if not self.initialized_["subsets_size_range"]:
+        if not self._initialized["subsets_size_range"]:
             if (type(self.subsets_size_range) is not tuple
                     or len(self.subsets_size_range) != 2
                     or any(type(i) is not int for i in self.subsets_size_range)
                     or self.subsets_size_range[0] > self.subsets_size_range[1]
                     or self.subsets_size_range[0] <= 0):
-                    raise TypeError('subsets_size_range subset size range'
-                                    'must be a tuple of two integers in '
-                                    'increasing order, bigger than 1')
-            self.initialized_["subsets_size_range"] = True
+                raise TypeError('subsets_size_range subset size range'
+                                'must be a tuple of two integers in '
+                                'increasing order, bigger than 1')
+            self._initialized["subsets_size_range"] = True
 
-        if not self.initialized_["base_kernel"]:
-            if not callable(self.base_kernel):
+        if not self._initialized["base_kernel"]:
+            if not callable(self.base_kernel) and self.base_kernel is not None:
                 raise TypeError('base_kernel between arguments ' +
                                 'must be a function')
-            self.initialized_["base_kernel"] = True
+            self._initialized["base_kernel"] = True
+            self.base_kernel_ = inner_product
 
-        if not self.initialized_["random_seed"]:
-            np.random.seed(self.random_seed)
-            self.initialized_["random_seed"] = True
+        if not self._initialized["random_state"]:
+            self.random_state_ = check_random_state(self.random_state)
+            self._initialized["random_state"] = True
 
-        if not self.initialized_["max_dim"]:
+        if not self._initialized["max_dim"]:
             if self.max_dim is not None and (type(self.max_dim) is not int or self.max_dim < 1):
                 raise ValueError('max_dim if not None, should be an integer bigger than 1')
             if self.max_dim is None:
-                self._d = None
+                self.d_ = None
             else:
-                self._d = self.max_dim + 1
-            self.initialized_["max_dim"] = True
+                self.d_ = self.max_dim + 1
+            self._initialized["max_dim"] = True
 
     def parse_input(self, X):
         """Parse and create features for lovasz_theta kernel.
@@ -192,10 +191,10 @@ class LovaszTheta(Kernel):
                 max_dim = max(max_dim, A.shape[0])
 
             if self._method_calling == 1:
-                if self._d is None:
-                    self._d = max_dim + 1
+                if self.d_ is None:
+                    self.d_ = max_dim + 1
 
-            if self._d < max_dim + 1:
+            if self.d_ < max_dim + 1:
                 if self.max_dim is None and self._method_calling == 3:
                     raise ValueError('Maximum dimension of a graph in transform is bigger '
                                      'than the one found in fit. To avoid that use max_dim parameter.')
@@ -206,7 +205,7 @@ class LovaszTheta(Kernel):
             out = list()
             for A in adjm:
                 X, t = _calculate_lovasz_embeddings_(A)
-                U = _calculate_lovasz_labelling_(X, t, self._d)
+                U = _calculate_lovasz_labelling_(X, t, self.d_)
                 out.append(self._calculate_MEC_(U))
 
             if i == 0:
@@ -228,7 +227,7 @@ class LovaszTheta(Kernel):
             The kernel value.
 
         """
-        return self.base_kernel(x, y)
+        return self.base_kernel_(x, y)
 
     def _calculate_MEC_(self, U):
         """Calculate the minimum enclosing cone for given U.
@@ -261,11 +260,11 @@ class LovaszTheta(Kernel):
                 level_values = list()
                 for k in range(v):
                     if level <= n:
-                        indexes = np.random.choice(n, level, replace=False)
+                        indexes = self.random_state_.choice(n, level, replace=False)
                     else:
                         indexes = range(n)
                     # calculate the metrix value for that level
-                    level_values.append(_minimum_cone_(U[:, indexes]))
+                    level_values.append(_minimum_cone_(U[:, indexes], self.random_state_))
                 phi[i] = np.mean(level_values)
 
         return phi
@@ -369,7 +368,7 @@ def _calculate_lovasz_labelling_(X, t, d):
     return U
 
 
-def _minimum_cone_(U):
+def _minimum_cone_(U, rs):
     """Calculate the minimum cone.
 
     Computes the angle and center of the minimum cone, with its point
@@ -380,6 +379,9 @@ def _minimum_cone_(U):
     U : np.array, ndim=2
         The vectors that will be enclosed.
 
+    rs : RandomState
+        A RandomState object handling all randomness of the class.
+
     Returns
     -------
     angle_cosine : float
@@ -388,9 +390,9 @@ def _minimum_cone_(U):
     """
     n = U.shape[1]
 
-    P = np.random.permutation(n) - 1
+    P = rs.permutation(n) - 1
     R = np.array([], dtype=int)
-    c, _ = _b_minidisk_(U, P, R)
+    c, _ = _b_minidisk_(U, P, R, rs)
 
     with np.errstate(divide='ignore'):
         c /= norm(c, 2)
@@ -405,7 +407,7 @@ def _minimum_cone_(U):
     return t
 
 
-def _b_minidisk_(A, P, R):
+def _b_minidisk_(A, P, R, rs):
     """Calculate the minidisk.
 
     Implements Welzl's algorithm (*move-to-front*)
@@ -420,6 +422,9 @@ def _b_minidisk_(A, P, R):
 
     R : np.array, ndim=1
         A subset of vectors that are enclosed.
+
+    rs : RandomState
+        A RandomState object handling all randomness of the class.
 
     Returns
     -------
@@ -439,14 +444,14 @@ def _b_minidisk_(A, P, R):
         else:
             c, r = _fitball_(A[:, R])
     else:
-        p = P[np.random.randint(0, nP)]
+        p = P[rs.randint(0, nP)]
         P_prime = np.delete(P, np.where(P == p))
-        c, r = _b_minidisk_(A, P_prime, R)
+        c, r = _b_minidisk_(A, P_prime, R, rs)
         if norm(A[:, p] - c, 2) - r > tolerance:
             # if not inside ball
             if p not in R:
                 R_prime = pad(R, [(0, 1)], mode='constant', constant_values=p)
-                c, r = _b_minidisk_(A, P_prime, R_prime)
+                c, r = _b_minidisk_(A, P_prime, R_prime, rs)
     return c, r
 
 
@@ -489,3 +494,7 @@ def _fitball_(A):
         c = C + A[:, 1]
 
     return c, r
+
+
+def inner_product(x, y):
+    return x.T.dot(y)

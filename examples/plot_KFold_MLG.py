@@ -119,7 +119,7 @@ for train_index, test_index in tqdm(kf.split(G, y),
                              "which": "fast",
                              "L": 1,
                              "P": 10,
-                             "N": 10})
+                             "n_samples": 10})
 
     # Calculate the kernel matrix.
     K_train = gk.fit_transform(G_train)

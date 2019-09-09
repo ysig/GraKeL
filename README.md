@@ -49,12 +49,10 @@ Getting Started
 ===============
 Two pointers to get you started:
 
-* [Documentation][doc]
-* [Examples][examples]
 
 Testing
 =======
-You first need to build the package cython extension
+You first need to build the package's c++ extensions
 locally by executing:
 ```shell
 $ python setup.py build_ext -i
@@ -124,6 +122,7 @@ optional arguments:
   --ignore_warnings  ignore warnings produced by kernel executions
 ```
 You can also execute the kernel test locally through a *test-main-function* as
+
 ```shell
 $ python -m grakel.tests
 ```
@@ -135,9 +134,16 @@ To learn how to integrate your own kernel and how to contribute to the GraKeL pr
 [doc]: https://ysig.github.io/GraKeL/dev/
 [examples]: https://ysig.github.io/GraKeL/dev/auto_examples/index.html
 
+License
+=======
+GraKeL comes with a __BSD 3-clause__ license (as with scikit-learn).
+It contains the C++ source code of [BLISS](http://www.tcs.hut.fi/Software/bliss) (a library for graph isomorphism) which is __LGPL__ licensed.
+Futhermore its optional dependency in the package of [cvxopt](https://cvxopt.org/) (a tool for solving convex-optimization problems) comes with a __GPL__ license.
+
 Citation
 ========
 If you use GraKeL in a scientific publication, please cite our paper:
+
 ```
 @article{siglidis2018grakel,
   title={GraKeL: A Graph Kernel Library in Python},

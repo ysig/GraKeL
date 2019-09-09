@@ -17,6 +17,7 @@ from sklearn.externals import joblib
 
 from grakel.graph import Graph
 from grakel.kernels import Kernel
+from grakel.kernels.vertex_histogram import VertexHistogram
 
 # Python 2/3 cross-compatibility import
 from six import iteritems
@@ -28,11 +29,12 @@ class HadamardCode(Kernel):
 
     Parameters
     ----------
-    base_kernel : `grakel.kernels.kernel` or tuple
+    base_kernel : `grakel.kernels.Kernel` or tuple, default=None
         If tuple it must consist of a valid kernel object and a
         dictionary of parameters. General parameters concerning
         normalization, concurrency, .. will be ignored, and the
         ones of given on `__init__` will be passed in case it is needed.
+        Default `base_kernel` is `VertexHistogram`.
 
     rho : int, condition_of_appearance: hc_type=="shortened", default=-1
         The size of each single bit arrays. If -1 is chosen r is calculated as
@@ -41,20 +43,12 @@ class HadamardCode(Kernel):
     L : int, condition_of_appearance: hc_type=="shortened", default=4
         The number of bytes to store the bitarray of each label.
 
-    niter : int, default=5
+    n_iter : int, default=5
         The number of iterations.
 
     Attributes
     ----------
-    _add : function
-        A function setted relevant to the version of the algorithm
-        for adding hashed labels.
-
-    _get : function
-        A function setted relevant to the version of the algorithm
-        for getting a label element.
-
-    _base_kernel : function
+    base_kernel_ : function
         A void function that initializes a base kernel object.
 
     """
@@ -62,56 +56,53 @@ class HadamardCode(Kernel):
     _graph_format = "auto"
 
     def __init__(self, n_jobs=None, verbose=False,
-                 normalize=False, niter=5, base_kernel=None):
+                 normalize=False, n_iter=5, base_kernel=None):
         """Initialise a `hadamard_code` kernel."""
         super(HadamardCode, self).__init__(
             n_jobs=n_jobs, verbose=verbose, normalize=normalize)
 
-        self.niter = niter
+        self.n_iter = n_iter
         self.base_kernel = base_kernel
-        self.initialized_.update({"niter": False, "base_kernel": False})
+        self._initialized.update({"n_iter": False, "base_kernel": False})
 
-    def initialize_(self):
+    def initialize(self):
         """Initialize all transformer arguments, needing initialization."""
-        super(HadamardCode, self).initialize_()
-
-        if not self.initialized_["base_kernel"]:
+        super(HadamardCode, self).initialize()
+        if not self._initialized["base_kernel"]:
             base_kernel = self.base_kernel
-            if base_kernel is not None:
-                if type(base_kernel) is type and issubclass(base_kernel, Kernel):
-                    params = dict()
-                else:
-                    try:
-                        base_kernel, params = base_kernel
-                    except Exception:
-                        raise TypeError('Base kernel was not formulated in '
-                                        'the correct way. '
-                                        'Check documentation.')
-
-                    if not (type(base_kernel) is type and
-                            issubclass(base_kernel, Kernel)):
-                        raise TypeError('The first argument must be a valid '
-                                        'grakel.kernel.kernel Object')
-                    if type(params) is not dict:
-                        raise ValueError('If the second argument of base '
-                                         'kernel exists, it must be a diction'
-                                         'ary between parameters names and '
-                                         'values')
-                    params.pop("normalize", None)
-
-                params["normalize"] = False
-                params["verbose"] = self.verbose
-                params["n_jobs"] = None
-                self._base_kernel = lambda *args: base_kernel(**params)
+            if base_kernel is None:
+                base_kernel, params = VertexHistogram, dict()
+            elif type(base_kernel) is type and issubclass(base_kernel, Kernel):
+                params = dict()
             else:
-                raise ValueError('Upon initialization base_kernel cannot be '
-                                 'None')
-            self.initialized_["base_kernel"] = True
+                try:
+                    base_kernel, params = base_kernel
+                except Exception:
+                    raise TypeError('Base kernel was not formulated in '
+                                    'the correct way. '
+                                    'Check documentation.')
 
-        if not self.initialized_["niter"]:
-            if type(self.niter) is not int or self.niter <= 0:
-                raise TypeError("'niter' must be a positive integer")
-            self.initialized_["niter"] = True
+                if not (type(base_kernel) is type and
+                        issubclass(base_kernel, Kernel)):
+                    raise TypeError('The first argument must be a valid '
+                                    'grakel.kernel.kernel Object')
+                if type(params) is not dict:
+                    raise ValueError('If the second argument of base '
+                                     'kernel exists, it must be a diction'
+                                     'ary between parameters names and '
+                                     'values')
+                params.pop("normalize", None)
+
+            params["normalize"] = False
+            params["verbose"] = self.verbose
+            params["n_jobs"] = None
+            self.base_kernel_ = (base_kernel, params)
+            self._initialized["base_kernel"] = True
+
+        if not self._initialized["n_iter"]:
+            if type(self.n_iter) is not int or self.n_iter <= 0:
+                raise TypeError("'n_iter' must be a positive integer")
+            self._initialized["n_iter"] = True
 
     def parse_input(self, X):
         """Parse input and create features, while initializing and/or calculating sub-kernels.
@@ -136,7 +127,7 @@ class HadamardCode(Kernel):
             `fit_transform`.
 
         """
-        if self._base_kernel is None:
+        if self.base_kernel_ is None:
             raise ValueError('User must provide a base_kernel')
         # Input validation and parsing
         if not isinstance(X, collections.Iterable):
@@ -145,8 +136,8 @@ class HadamardCode(Kernel):
             nx, labels = 0, list()
             if self._method_calling in [1, 2]:
                 nl, labels_enum, base_kernel = 0, dict(), dict()
-                for kidx in range(self.niter):
-                    base_kernel[kidx] = self._base_kernel()
+                for kidx in range(self.n_iter):
+                    base_kernel[kidx] = self.base_kernel_[0](**self.base_kernel_[1])
             elif self._method_calling == 3:
                 nl, labels_enum, base_kernel = len(self._labels_enum), dict(self._labels_enum), self.X
             inp = list()
@@ -211,7 +202,7 @@ class HadamardCode(Kernel):
 
             yield new_graphs
             # Main
-            for i in range(1, self.niter):
+            for i in range(1, self.n_iter):
                 new_graphs, labels, new_labels = list(), new_labels, list()
                 for ((obj, extra), neighbor, old_label) in zip(inp, neighbors, labels):
                     # Find unique labels and sort them for both graphs and keep for each node
@@ -227,7 +218,7 @@ class HadamardCode(Kernel):
                 yield new_graphs
 
         if self._method_calling in [1, 2]:
-            base_kernel = {i: self._base_kernel() for i in range(self.niter)}
+            base_kernel = {i: self.base_kernel_[0](**self.base_kernel_[1]) for i in range(self.n_iter)}
 
         if self._parallel is None:
             # Add the zero iteration element
@@ -330,7 +321,7 @@ class HadamardCode(Kernel):
         """
         self._method_calling = 2
         self._is_transformed = False
-        self.initialize_()
+        self.initialize()
         if X is None:
             raise ValueError('transform input cannot be None')
         else:
@@ -370,7 +361,7 @@ class HadamardCode(Kernel):
             check_is_fitted(self, ['_X_diag'])
             if self._is_transformed:
                 Y_diag = self.X[0].diagonal()[1]
-                for i in range(1, self.niter):
+                for i in range(1, self.n_iter):
                     Y_diag += self.X[i].diagonal()[1]
         except NotFittedError:
             # Calculate diagonal of X
@@ -378,7 +369,7 @@ class HadamardCode(Kernel):
                 X_diag, Y_diag = self.X[0].diagonal()
                 # X_diag is considered a mutable and should not affect the kernel matrix itself.
                 X_diag.flags.writeable = True
-                for i in range(1, self.niter):
+                for i in range(1, self.n_iter):
                     x, y = self.X[i].diagonal()
                     X_diag += x
                     Y_diag += y
@@ -388,7 +379,7 @@ class HadamardCode(Kernel):
                 X_diag = self.X[0].diagonal()
                 # X_diag is considered a mutable and should not affect the kernel matrix itself.
                 X_diag.flags.writeable = True
-                for i in range(1, self.niter):
+                for i in range(1, self.n_iter):
                     x = self.X[i].diagonal()
                     X_diag += x
                 self._X_diag = X_diag

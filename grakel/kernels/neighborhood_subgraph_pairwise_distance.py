@@ -37,12 +37,6 @@ class NeighborhoodSubgraphPairwiseDistance(Kernel):
 
     Attributes
     ----------
-    r : int
-        The maximum considered radius between vertices.
-
-    d : int
-        Neighborhood depth.
-
     _ngx : int
         The number of graphs upon fit.
 
@@ -62,11 +56,7 @@ class NeighborhoodSubgraphPairwiseDistance(Kernel):
 
     _graph_format = "dictionary"
 
-    def __init__(self,
-                 n_jobs=None,
-                 normalize=False,
-                 verbose=False,
-                 r=3, d=4):
+    def __init__(self, n_jobs=None, normalize=False, verbose=False, r=3, d=4):
         """Initialize an NSPD kernel."""
         # setup valid parameters and initialise from parent
         super(NeighborhoodSubgraphPairwiseDistance, self).__init__(
@@ -76,24 +66,24 @@ class NeighborhoodSubgraphPairwiseDistance(Kernel):
 
         self.r = r
         self.d = d
-        self.initialized_.update({"r": False, "d": False})
+        self._initialized.update({"r": False, "d": False})
 
-    def initialize_(self):
+    def initialize(self):
         """Initialize all transformer arguments, needing initialization."""
-        if not self.initialized_["n_jobs"]:
+        if not self._initialized["n_jobs"]:
             if self.n_jobs is not None:
                 warnings.warn('no implemented parallelization for NeighborhoodSubgraphPairwiseDistance')
-            self.initialized_["n_jobs"] = True
+            self._initialized["n_jobs"] = True
 
-        if not self.initialized_["r"]:
+        if not self._initialized["r"]:
             if type(self.r) is not int or self.r < 0:
                 raise ValueError('r must be a positive integer')
-            self.initialized_["r"] = True
+            self._initialized["r"] = True
 
-        if not self.initialized_["d"]:
+        if not self._initialized["d"]:
             if type(self.d) is not int or self.d < 0:
                 raise ValueError('d must be a positive integer')
-            self.initialized_["d"] = True
+            self._initialized["d"] = True
 
     def parse_input(self, X):
         """Parse and create features for the NSPD kernel.
@@ -284,8 +274,7 @@ class NeighborhoodSubgraphPairwiseDistance(Kernel):
                                      iteritems(Y)):
             M = self.X[key]
             K = M.dot(Mp.T[:M.shape[1]]).toarray().T
-            S += K / np.sqrt(np.outer(np.array(Mp.power(2).sum(-1)),
-                                      N[key]))
+            S += np.nan_to_num(K / np.sqrt(np.outer(np.array(Mp.power(2).sum(-1)), N[key])))
 
         self._Y = Y
         self._is_transformed = True
@@ -321,7 +310,7 @@ class NeighborhoodSubgraphPairwiseDistance(Kernel):
             K = M.dot(M.T).toarray()
             K_diag = K.diagonal()
             N[key] = K_diag
-            S += K / np.sqrt(np.outer(K_diag, K_diag))
+            S += np.nan_to_num(K / np.sqrt(np.outer(K_diag, K_diag)))
 
         self._X_level_norm_factor = N
 

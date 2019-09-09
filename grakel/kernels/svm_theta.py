@@ -8,6 +8,7 @@ import numpy as np
 
 from scipy.linalg import eigvalsh
 from sklearn.svm import OneClassSVM
+from sklearn.utils import check_random_state
 
 from grakel.kernels import Kernel
 from grakel.graph import Graph
@@ -15,6 +16,10 @@ from grakel.tools import distribute_samples
 
 positive_eigenvalue_limit = float("+1e-6")
 min_weight = float("1e-10")
+
+
+def _inner(x, y):
+    return np.inner(x, y)[0, 0]
 
 
 class SvmTheta(Kernel):
@@ -36,27 +41,21 @@ class SvmTheta(Kernel):
     metric : function (number, number -> number), default=:math:`f(x,y)=x*y`
         The applied metric between the svm_theta numbers of the two graphs.
 
+    random_state :  RandomState or int, default=None
+        A random number generator instance or an int to initialize a RandomState as a seed.
+
     Attributes
     ----------
-    _n_samples : int
-        Number of samples drawn for the computation of lovasz theta.
-
-    _ssr : tuple, len=2
-        A tuple containing two integers designating the minimum and the maximum
-        size of the vertex set of considered subgraphs.
-
-    _base_kernel : function (number, number -> number)
-        The applied base_kernel between features of the mean lovasz_theta
-        numbers samples for all levels of the two graphs.
+    random_state_ : RandomState
+        A RandomState object handling all randomness of the class.
 
     """
 
     _graph_format = "adjacency"
 
     def __init__(self, n_jobs=None, normalize=False,
-                 verbose=False, random_seed=42, n_samples=50,
-                 subsets_size_range=(2, 8),
-                 base_kernel=lambda x, y: x.T.dot(y)):
+                 verbose=False, random_state=None, n_samples=50,
+                 subsets_size_range=(2, 8), metric=_inner):
         """Initialise a lovasz_theta kernel."""
         # setup valid parameters and initialise from parent
         super(SvmTheta, self).__init__(n_jobs=n_jobs,
@@ -65,40 +64,40 @@ class SvmTheta(Kernel):
 
         self.n_samples = n_samples
         self.subsets_size_range = subsets_size_range
-        self.base_kernel = base_kernel
-        self.random_seed = random_seed
-        self.initialized_.update({"n_samples": False, "subsets_size_range": False,
-                                  "base_kernel": False, "random_seed": False})
+        self.metric = metric
+        self.random_state = random_state
+        self._initialized.update({"n_samples": False, "subsets_size_range": False,
+                                  "metric": False, "random_state": False})
 
-    def initialized_(self):
+    def initialize(self):
         """Initialize all transformer arguments, needing initialization."""
-        super(SvmTheta, self).initialize_()
-        if not self.initialized_["n_samles"]:
+        super(SvmTheta, self).initialize()
+        if not self._initialized["n_samples"]:
             if self.n_samples <= 0 or type(self.n_samples) is not int:
                 raise TypeError('n_samples must an integer be bigger '
                                 'than zero')
-            self.initialized_["n_samles"] = True
+            self._initialized["n_samples"] = True
 
-        if not self.initialized_["subsets_size_range"]:
+        if not self._initialized["subsets_size_range"]:
             if (type(self.subsets_size_range) is not tuple
                     or len(self.subsets_size_range) != 2
                     or any(type(i) is not int for i in self.subsets_size_range)
                     or self.subsets_size_range[0] > self.subsets_size_range[1]
                     or self.subsets_size_range[0] <= 0):
-                    raise TypeError('subsets_size_range subset size range'
-                                    'must be a tuple of two integers in '
-                                    'increasing order, bigger than 1')
-            self.initialized_["subsets_size_range"] = True
+                raise TypeError('subsets_size_range subset size range'
+                                'must be a tuple of two integers in '
+                                'increasing order, bigger than 1')
+            self._initialized["subsets_size_range"] = True
 
-        if not self.initialized_["base_kernel"]:
-            if not callable(self.base_kernel):
-                raise TypeError('base_kernel between arguments' +
+        if not self._initialized["metric"]:
+            if not callable(self.metric):
+                raise TypeError('metric between arguments' +
                                 'must be a function')
-            self.initialized_["base_kernel"] = True
+            self._initialized["metric"] = True
 
-        if not self.initialized_["random_seed"]:
-            np.random.seed(self.random_seed)
-            self.initialized_["random_seed"] = True
+        if not self._initialized["random_state"]:
+            self.random_state_ = check_random_state(self.random_state)
+            self._initialized["random_state"] = True
 
     def parse_input(self, X):
         """Parse and create features for svm_theta kernel.
@@ -163,7 +162,7 @@ class SvmTheta(Kernel):
             The kernel value.
 
         """
-        return self.base_kernel(x, y)
+        return self.metric(x, y)
 
     def _calculate_svm_theta_levels_(self, A, dual_coefs):
         """Calculate the svm_theta by levels for amaximum number of samples.
@@ -194,7 +193,7 @@ class SvmTheta(Kernel):
                 level_values = list()
                 for k in range(v):
                     if level <= n:
-                        indexes = np.random.choice(n, level, replace=False)
+                        indexes = self.random_state_.choice(n, level, replace=False)
                     else:
                         indexes = range(n)
                     # calculate the metrix value for that level

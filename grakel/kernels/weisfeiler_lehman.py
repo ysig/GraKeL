@@ -12,6 +12,7 @@ from sklearn.externals import joblib
 
 from grakel.graph import Graph
 from grakel.kernels import Kernel
+from grakel.kernels.vertex_histogram import VertexHistogram
 
 # Python 2/3 cross-compatibility import
 from six import iteritems
@@ -25,14 +26,15 @@ class WeisfeilerLehman(Kernel):
 
     Parameters
     ----------
-    base_kernel : `grakel.kernels.kernel` or tuple
+    n_iter : int, default=5
+        The number of iterations.
+
+    base_kernel : `grakel.kernels.Kernel` or tuple, default=None
         If tuple it must consist of a valid kernel object and a
         dictionary of parameters. General parameters concerning
         normalization, concurrency, .. will be ignored, and the
         ones of given on `__init__` will be passed in case it is needed.
-
-    niter : int, default=5
-        The number of iterations.
+        Default `base_kernel` is `VertexHistogram`.
 
     Attributes
     ----------
@@ -42,7 +44,7 @@ class WeisfeilerLehman(Kernel):
     _nx : number
         Holds the number of inputs.
 
-    _niter : int
+    _n_iter : int
         Holds the number, of iterations.
 
     _base_kernel : function
@@ -56,58 +58,56 @@ class WeisfeilerLehman(Kernel):
     _graph_format = "dictionary"
 
     def __init__(self, n_jobs=None, verbose=False,
-                 normalize=False, niter=5, base_kernel=None):
+                 normalize=False, n_iter=5, base_kernel=VertexHistogram):
         """Initialise a `weisfeiler_lehman` kernel."""
         super(WeisfeilerLehman, self).__init__(
             n_jobs=n_jobs, verbose=verbose, normalize=normalize)
 
-        self.niter = niter
+        self.n_iter = n_iter
         self.base_kernel = base_kernel
-        self.initialized_.update({"niter": False, "base_kernel": False})
+        self._initialized.update({"n_iter": False, "base_kernel": False})
         self._base_kernel = None
 
-    def initialize_(self):
+    def initialize(self):
         """Initialize all transformer arguments, needing initialization."""
-        super(WeisfeilerLehman, self).initialize_()
-        if not self.initialized_["base_kernel"]:
+        super(WeisfeilerLehman, self).initialize()
+        if not self._initialized["base_kernel"]:
             base_kernel = self.base_kernel
-            if base_kernel is not None:
-                if type(base_kernel) is type and \
-                        issubclass(base_kernel, Kernel):
-                    params = dict()
-                else:
-                    try:
-                        base_kernel, params = base_kernel
-                    except Exception:
-                        raise TypeError('Base kernel was not formulated in '
-                                        'the correct way. '
-                                        'Check documentation.')
-
-                    if not (type(base_kernel) is type and
-                            issubclass(base_kernel, Kernel)):
-                        raise TypeError('The first argument must be a valid '
-                                        'grakel.kernel.kernel Object')
-                    if type(params) is not dict:
-                        raise ValueError('If the second argument of base '
-                                         'kernel exists, it must be a diction'
-                                         'ary between parameters names and '
-                                         'values')
-                    params.pop("normalize", None)
-
-                params["normalize"] = False
-                params["verbose"] = self.verbose
-                params["n_jobs"] = None
-                self._base_kernel = lambda *args: base_kernel(**params)
+            if base_kernel is None:
+                base_kernel, params = VertexHistogram, dict()
+            elif type(base_kernel) is type and issubclass(base_kernel, Kernel):
+                params = dict()
             else:
-                raise ValueError('Upon initialization base_kernel cannot be '
-                                 'None')
-            self.initialized_["base_kernel"] = True
+                try:
+                    base_kernel, params = base_kernel
+                except Exception:
+                    raise TypeError('Base kernel was not formulated in '
+                                    'the correct way. '
+                                    'Check documentation.')
 
-        if not self.initialized_["niter"]:
-            if type(self.niter) is not int or self.niter <= 0:
-                raise TypeError("'niter' must be a positive integer")
-            self._niter = self.niter + 1
-            self.initialized_["niter"] = True
+                if not (type(base_kernel) is type and
+                        issubclass(base_kernel, Kernel)):
+                    raise TypeError('The first argument must be a valid '
+                                    'grakel.kernel.kernel Object')
+                if type(params) is not dict:
+                    raise ValueError('If the second argument of base '
+                                     'kernel exists, it must be a diction'
+                                     'ary between parameters names and '
+                                     'values')
+                params.pop("normalize", None)
+
+            params["normalize"] = False
+            params["verbose"] = self.verbose
+            params["n_jobs"] = None
+            self._base_kernel = base_kernel
+            self._params = params
+            self._initialized["base_kernel"] = True
+
+        if not self._initialized["n_iter"]:
+            if type(self.n_iter) is not int or self.n_iter <= 0:
+                raise TypeError("'n_iter' must be a positive integer")
+            self._n_iter = self.n_iter + 1
+            self._initialized["n_iter"] = True
 
     def parse_input(self, X):
         """Parse input for weisfeiler lehman.
@@ -131,6 +131,10 @@ class WeisfeilerLehman(Kernel):
         if self._method_calling not in [1, 2]:
             raise ValueError('method call must be called either from fit ' +
                              'or fit-transform')
+        elif hasattr(self, '_X_diag'):
+            # Clean _X_diag value
+            delattr(self, '_X_diag')
+
         # Input validation and parsing
         if not isinstance(X, collections.Iterable):
             raise TypeError('input must be an iterable\n')
@@ -206,7 +210,7 @@ class WeisfeilerLehman(Kernel):
                 new_graphs.append((Gs_ed[j], new_labels) + extras[j])
             yield new_graphs
 
-            for i in range(1, self._niter):
+            for i in range(1, self._n_iter):
                 label_set, WL_labels_inverse, L_temp = set(), dict(), dict()
                 for j in range(nx):
                     # Find unique labels and sort
@@ -236,7 +240,7 @@ class WeisfeilerLehman(Kernel):
                 self._inv_labels[i] = WL_labels_inverse
                 yield new_graphs
 
-        base_kernel = {i: self._base_kernel() for i in range(self._niter)}
+        base_kernel = {i: self._base_kernel(**self._params) for i in range(self._n_iter)}
         if self._parallel is None:
             if self._method_calling == 1:
                 for (i, g) in enumerate(generate_graphs(label_count, WL_labels_inverse)):
@@ -284,7 +288,7 @@ class WeisfeilerLehman(Kernel):
         """
         self._method_calling = 2
         self._is_transformed = False
-        self.initialize_()
+        self.initialize()
         if X is None:
             raise ValueError('transform input cannot be None')
         else:
@@ -359,12 +363,11 @@ class WeisfeilerLehman(Kernel):
                 if nx == 0:
                     raise ValueError('parsed input is empty')
 
-        WL_labels_inverse = dict()
         nl = len(self._inv_labels[0])
         WL_labels_inverse = {dv: idx for (idx, dv) in
                              enumerate(sorted(list(distinct_values)), nl)}
 
-        def generate_graphs(WL_labels_inverse):
+        def generate_graphs(WL_labels_inverse, nl):
             # calculate the kernel matrix for the 0 iteration
             new_graphs = list()
             for j in range(nx):
@@ -379,10 +382,10 @@ class WeisfeilerLehman(Kernel):
                 new_graphs.append([Gs_ed[j], new_labels])
             yield new_graphs
 
-            for i in range(1, self._niter):
+            for i in range(1, self._n_iter):
                 new_graphs = list()
                 L_temp, label_set = dict(), set()
-                nl = len(self._inv_labels[i])
+                nl += len(self._inv_labels[i])
                 for j in range(nx):
                     # Find unique labels and sort them for both graphs
                     # Keep for each node the temporary
@@ -418,12 +421,12 @@ class WeisfeilerLehman(Kernel):
         if self._parallel is None:
             # Calculate the kernel matrix without parallelization
             K = np.sum((self.X[i].transform(g) for (i, g)
-                       in enumerate(generate_graphs(WL_labels_inverse))), axis=0)
+                       in enumerate(generate_graphs(WL_labels_inverse, nl))), axis=0)
 
         else:
             # Calculate the kernel marix with parallelization
             K = np.sum(self._parallel(joblib.delayed(etransform)(self.X[i], g) for (i, g)
-                       in enumerate(generate_graphs(WL_labels_inverse))), axis=0)
+                       in enumerate(generate_graphs(WL_labels_inverse, nl))), axis=0)
 
         self._is_transformed = True
         if self.normalize:
@@ -461,7 +464,7 @@ class WeisfeilerLehman(Kernel):
             check_is_fitted(self, ['_X_diag'])
             if self._is_transformed:
                 Y_diag = self.X[0].diagonal()[1]
-                for i in range(1, self._niter):
+                for i in range(1, self._n_iter):
                     Y_diag += self.X[i].diagonal()[1]
         except NotFittedError:
             # Calculate diagonal of X
@@ -469,7 +472,7 @@ class WeisfeilerLehman(Kernel):
                 X_diag, Y_diag = self.X[0].diagonal()
                 # X_diag is considered a mutable and should not affect the kernel matrix itself.
                 X_diag.flags.writeable = True
-                for i in range(1, self._niter):
+                for i in range(1, self._n_iter):
                     x, y = self.X[i].diagonal()
                     X_diag += x
                     Y_diag += y
@@ -479,7 +482,7 @@ class WeisfeilerLehman(Kernel):
                 X_diag = self.X[0].diagonal()
                 # X_diag is considered a mutable and should not affect the kernel matrix itself.
                 X_diag.flags.writeable = True
-                for i in range(1, self._niter):
+                for i in range(1, self._n_iter):
                     x = self.X[i].diagonal()
                     X_diag += x
                 self._X_diag = X_diag

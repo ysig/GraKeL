@@ -7,6 +7,7 @@ from collections import defaultdict
 from collections import Iterable
 from numbers import Real
 from warnings import warn
+from numpy.matlib import repmat
 
 from grakel.kernels import Kernel
 from grakel.graph import Graph
@@ -31,10 +32,10 @@ class GraphHopper(Kernel):
 
     Attributes
     ----------
-    _metric : function
+    metric_ : function
         The base metric applied between features.
 
-    _calculate_norm : bool
+    calculate_norm_ : bool
         Defines if the norm of the attributes will be calculated
         (in order to avoid recalculation when using it with e.g. gaussian).
 
@@ -42,38 +43,37 @@ class GraphHopper(Kernel):
 
     _graph_format = "all"
 
-    def __init__(self, n_jobs=None,
-                 normalize=False, verbose=False, kernel_type='linear'):
+    def __init__(self, n_jobs=None, normalize=False, verbose=False, kernel_type='linear'):
         """Initialize an Graph Hopper kernel."""
         super(GraphHopper, self).__init__(n_jobs=n_jobs,
                                           normalize=normalize,
                                           verbose=verbose)
         self.kernel_type = kernel_type
-        self.initialized_.update({"kernel_type": False})
+        self._initialized.update({"kernel_type": False})
 
-    def initialize_(self):
+    def initialize(self):
         """Initialize all transformer arguments, needing initialization."""
-        super(GraphHopper, self).initialize_()
-        if not self.initialized_["kernel_type"]:
+        super(GraphHopper, self).initialize()
+        if not self._initialized["kernel_type"]:
             if type(self.kernel_type) is str:
                 if self.kernel_type == "linear":
-                    self._metric = linear_kernel
-                    self._calculate_norm = False
+                    self.metric_ = linear_kernel
+                    self.calculate_norm_ = False
                 elif self.kernel_type == "gaussian":
-                    self._metric = lambda x, y: gaussian_kernel(x, y, 1)
-                    self._calculate_norm = True
+                    self.metric_ = lambda x, y: gaussian_kernel(x, y, 1)
+                    self.calculate_norm_ = True
                 elif self.kernel_type == "bridge":
-                    self._metric = bridge_kernel
-                    self._calculate_norm = False
+                    self.metric_ = bridge_kernel
+                    self.calculate_norm_ = False
                 else:
                     raise ValueError('Unsupported kernel with name "' + str(self.kernel_type) + '"')
             elif (type(self.kernel_type) is tuple and len(self.kernel_type) == 2 and
                     self.kernel_type[0] == "gaussian" and isinstance(self.kernel_type[1], Real)):
-                self._metric = lambda x, y: gaussian_kernel(x, y, self.kernel_type[1])
-                self._calculate_norm = True
+                self.metric_ = lambda x, y: gaussian_kernel(x, y, self.kernel_type[1])
+                self.calculate_norm_ = True
             elif callable(self.kernel_type):
-                self._metric = self._kernel_type
-                self._calculate_norm = False
+                self.metric_ = self._kernel_type
+                self.calculate_norm_ = False
             else:
                 raise TypeError('Unrecognized "kernel_type": can either be a str '
                                 'from the supported: "linear", "gaussian", "bridge" '
@@ -230,7 +230,7 @@ class GraphHopper(Kernel):
                             # M[v,:,:] is M[v]; a = node coordinate in path, b = path length
                             M[v, a, b] += des_mat_j_root[v, b - a]*occ_mat_j_root[v, a]
 
-            if self._calculate_norm:
+            if self.calculate_norm_:
                 out.append((M, attributes, np.sum(attributes ** 2, axis=1)))
             else:
                 out.append((M, attributes))
@@ -258,7 +258,7 @@ class GraphHopper(Kernel):
         elif y[0].shape[1] > m:
             yp = yp[:, :m, :][:, :, :m]
 
-        return self._metric((xp.reshape(xp.shape[0], m_sq),) + x[1:],
+        return self.metric_((xp.reshape(xp.shape[0], m_sq),) + x[1:],
                             (yp.reshape(yp.shape[0], m_sq),) + y[1:])
 
 
@@ -404,16 +404,17 @@ def od_vectors_dag(G, shortestpath_dists):
     for i in range(dag_size):
         edges_starting_at_ith = np.where(np.squeeze(sortedG[i, :]) == 1)[0]
         occ[edges_starting_at_ith, :] = occ[edges_starting_at_ith, :] + \
-            np.matlib.repmat(np.hstack([0, occ[i, :-1]]), edges_starting_at_ith.shape[0], 1)
+            repmat(np.hstack([0, occ[i, :-1]]), edges_starting_at_ith.shape[0], 1)
 
         # Now use message-passing from the bottom of the DAG to add up the
         # edges from each node. This is easy because the vertices in the DAG
         # are depth-first ordered in the original tree; thus, we can just start
         # from the end of the DAG matrix.
         edges_ending_at_ith_from_end = np.where(np.squeeze(sortedG[:, dag_size - i - 1]) == 1)[0]
-        des[edges_ending_at_ith_from_end, :] = des[edges_ending_at_ith_from_end, :] + \
-            np.matlib.repmat(np.hstack([0, des[dag_size - i - 1, :-1]]),
-                             edges_ending_at_ith_from_end.shape[0], 1)
+        des[edges_ending_at_ith_from_end, :] = (
+            des[edges_ending_at_ith_from_end, :] +
+            repmat(np.hstack([0, des[dag_size - i - 1, :-1]]),
+                   edges_ending_at_ith_from_end.shape[0], 1))
 
     return occ[re_sorted, :], des[re_sorted, :]
 

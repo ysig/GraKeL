@@ -70,6 +70,10 @@ xref_links = {
     }
 
 
+doctest_global_setup = '''
+import numpy as np
+'''
+
 # this is needed for some reason...
 # see https://github.com/numpy/numpydoc/issues/69
 numpydoc_class_members_toctree = False

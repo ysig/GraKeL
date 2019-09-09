@@ -1,6 +1,7 @@
 """Dataset generation fo rtesting purposes."""
 import numpy as np
 from numbers import Real
+from sklearn.utils import check_random_state
 
 
 def generate_dataset(
@@ -9,7 +10,7 @@ def generate_dataset(
         r_connectivity=(0.2, 0.8),
         r_weight_edges=(1, 1),
         n_graphs_test=20,
-        random_seed=42,
+        random_state=None,
         features="nl"):
     """
     Generate a random graph datset for testing.
@@ -33,8 +34,8 @@ def generate_dataset(
     n_graphs_test : int
         Number of graphs inside test.
 
-    random_seed : int or numpy.random.RandomState
-        Either the state or a seed for initialising a numpy.random.RandomState.
+    random_state :  RandomState or int, default=None
+        A random number generator instance or an int to initialize a RandomState as a seed.
 
     features : str or tuple or None
         - str : can be either "nl" or "na", "el" or "ea"
@@ -66,12 +67,7 @@ def generate_dataset(
         raise TypeError('Number of graphs inside test must be smaller than the total '
                         'number of graphs and positive.')
 
-    if type(random_seed) is int:
-        rs = np.random.RandomState(random_seed)
-    elif type(random_seed) is np.random.RandomState:
-        rs = random_seed
-    else:
-        raise TypeError('random_seed should be eithern an integer or a numpy.random.RandomState')
+    rs = check_random_state(random_state)
 
     if (type(r_vertices) is not tuple or len(r_vertices) != 2
             or r_vertices[0] > r_vertices[1] or r_vertices[0] < 0 or

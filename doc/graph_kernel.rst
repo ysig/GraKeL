@@ -2,7 +2,7 @@
 
 GraphKernel (class)
 ===================
-Documentation for the graph-kernel decorator.
+Documentation for the graph-kernel generic wrapper.
 
 The `GraphKernel` *Decorator*
 -----------------------------

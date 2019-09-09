@@ -14,6 +14,9 @@ from grakel.graph import Graph
 
 from numpy import zeros
 from numpy import einsum
+from numpy import array
+from numpy import squeeze
+from scipy.sparse import csr_matrix
 
 # Python 2/3 cross-compatibility import
 from six import iteritems
@@ -25,7 +28,11 @@ class VertexHistogram(Kernel):
 
     Parameters
     ----------
-    None.
+    sparse : bool, or 'auto', default='auto'
+        Defines if the data will be stored in a sparse format.
+        Sparse format is slower, but less memory consuming and in some cases the only solution.
+        If 'auto', uses a sparse matrix when the number of zeros is more than the half of the matrix size.
+        In all cases if the dense matrix doesn't fit system memory, I sparse approach will be tried.
 
     Attributes
     ----------
@@ -33,21 +40,22 @@ class VertexHistogram(Kernel):
 
     """
 
-    def __init__(self,
-                 n_jobs=None,
-                 normalize=False,
-                 verbose=False):
+    def __init__(self, n_jobs=None, normalize=False, verbose=False, sparse='auto'):
         """Initialise a vertex histogram kernel."""
-        super(VertexHistogram, self).__init__(n_jobs=n_jobs,
-                                              normalize=normalize,
-                                              verbose=verbose)
+        super(VertexHistogram, self).__init__(n_jobs=n_jobs, normalize=normalize, verbose=verbose)
+        self.sparse = sparse
+        self._initialized.update({'sparse': True})
 
-    def initialized_(self):
+    def _initialized(self):
         """Initialize all transformer arguments, needing initialization."""
-        if not self.initialized_["n_jobs"]:
+        if not self._initialized["n_jobs"]:
             if self.n_jobs is not None:
                 warn('no implemented parallelization for VertexHistogram')
-            self.initialized_["n_jobs"] = True
+            self._initialized["n_jobs"] = True
+        if not self._initialized["sparse"]:
+            if self.sparse not in ['auto', False, True]:
+                TypeError('sparse could be False, True or auto')
+            self._initialized["sparse"] = True
 
     def parse_input(self, X):
         """Parse and check the given input for VH kernel.
@@ -117,9 +125,22 @@ class VertexHistogram(Kernel):
                     data.append(frequency)
                 ni += 1
 
-            # Initialise the feature matrix
-            features = zeros(shape=(ni, len(labels)))
-            features[rows, cols] = data
+            if self._method_calling in [1, 2]:
+                if self.sparse == 'auto':
+                    self.sparse_ = (len(cols)/float(ni * len(labels)) <= 0.5)
+                else:
+                    self.sparse_ = bool(self.sparse)
+
+            if self.sparse_:
+                features = csr_matrix((data, (rows, cols)), shape=(ni, len(labels)), copy=False)
+            else:
+                # Initialise the feature matrix
+                try:
+                    features = zeros(shape=(ni, len(labels)))
+                    features[rows, cols] = data
+                except MemoryError:
+                    warn('memory-error: switching to sparse')
+                    self.sparse_, features = True, csr_matrix((data, (rows, cols)), shape=(ni, len(labels)), copy=False)
 
             if ni == 0:
                 raise ValueError('parsed input is empty')
@@ -149,7 +170,11 @@ class VertexHistogram(Kernel):
             K = self.X.dot(self.X.T)
         else:
             K = Y[:, :self.X.shape[1]].dot(self.X.T)
-        return K
+
+        if self.sparse_:
+            return K.toarray()
+        else:
+            return K
 
     def diagonal(self):
         """Calculate the kernel matrix diagonal of the fitted data.
@@ -167,16 +192,21 @@ class VertexHistogram(Kernel):
 
         """
         # Check is fit had been called
-        check_is_fitted(self, ['X'])
+        check_is_fitted(self, ['X', 'sparse_'])
         try:
             check_is_fitted(self, ['_X_diag'])
         except NotFittedError:
             # Calculate diagonal of X
-            self._X_diag = einsum('ij,ij->i', self.X, self.X)
-
+            if self.sparse_:
+                self._X_diag = squeeze(array(self.X.multiply(self.X).sum(axis=1)))
+            else:
+                self._X_diag = einsum('ij,ij->i', self.X, self.X)
         try:
             check_is_fitted(self, ['_Y'])
-            Y_diag = einsum('ij,ij->i', self._Y, self._Y)
+            if self.sparse_:
+                Y_diag = squeeze(array(self._Y.multiply(self._Y).sum(axis=1)))
+            else:
+                Y_diag = einsum('ij,ij->i', self._Y, self._Y)
             return self._X_diag, Y_diag
         except NotFittedError:
             return self._X_diag

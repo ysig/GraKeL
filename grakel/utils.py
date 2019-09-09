@@ -6,7 +6,6 @@ import numpy as np
 
 from collections import defaultdict
 from collections import Iterable
-from numpy.random import RandomState
 
 from sklearn.base import TransformerMixin
 from sklearn.pipeline import make_pipeline
@@ -16,6 +15,7 @@ from sklearn.model_selection import ShuffleSplit
 from sklearn.base import BaseEstimator
 from sklearn.svm import SVC
 from sklearn.datasets.lfw import Bunch
+from sklearn.utils import check_random_state
 from sklearn.utils.validation import check_is_fitted
 
 from grakel import Graph
@@ -31,29 +31,31 @@ class KMTransformer(BaseEstimator, TransformerMixin):
     ----------
     K : array-like, shape=[n, n]
         If given an array the input can be as follows:
+
             + array-like lists of lists
 
             + np.array
 
             + sparse matrix (scipy.sparse)
-        It can also be embedded in an sklearn Bunch object as mat (argument)
+
+        It can also be embedded in an sklearn Bunch object as a mat (argument)
 
     Attributes
     ----------
-    _K : numpy.array, shape=[n, n]
+    K_ : numpy.array, shape=[n, n]
 
     """
     def __init__(self, K=None):
         """Initialise the Kernel Matrix Transformer"""
 
         self.K = K
-        self.initialized_ = {"K": False}
+        self._initialized = {"K": False}
 
-    def initialize_(self):
+    def initialize(self):
         """Initialize all transformer arguments, needing initialisation."""
-        if not self.initialized_["K"]:
+        if not self._initialized["K"]:
             if self.K is None:
-                raise ValueError('K is None .. where 2-dimensional array-like object was expected')
+                M = np.array([[1.0]])
             else:
                 K = self.K
                 if isinstance(K, Bunch):
@@ -63,13 +65,12 @@ class KMTransformer(BaseEstimator, TransformerMixin):
                         raise ValueError('If in an sklearn Bunch K must be under mat')
                 flag, M = valid_matrix(K, transform=True)
                 if not flag:
-                    print(self.K)
                     raise ValueError('The provided K cannot be converted to a '
                                      'two dimensional np.array.')
-            self._K = M
-            self.initialized_["K"] = True
+            self.K_ = M
+            self._initialized["K"] = True
 
-    def fit(self, X):
+    def fit(self, X, y=None):
         """Fit a list of indeces.
 
         Parameters
@@ -83,8 +84,8 @@ class KMTransformer(BaseEstimator, TransformerMixin):
             Returns self.
 
         """
-        self.initialize_()
-        if any(x < 0 or x > self._K.shape[0] for x in X):
+        self.initialize()
+        if any(x < 0 or x > self.K_.shape[0] for x in X):
             raise ValueError('')
         else:
             self.X = np.array(X)
@@ -110,13 +111,13 @@ class KMTransformer(BaseEstimator, TransformerMixin):
 
         """
         # Initialize the Graph Kernel
-        self.initialize_()
-        if any(x < 0 or x > self._K.shape[0] for x in X):
+        self.initialize()
+        if any(x < 0 or x > self.K_.shape[0] for x in X):
             raise ValueError('')
         else:
             self.X = np.array(X)
 
-        return self._K[self.X, :][:, self.X]
+        return self.K_[self.X, :][:, self.X]
 
     def transform(self, X):
         """Calculate the kernel matrix, between given and fitted dataset.
@@ -133,15 +134,15 @@ class KMTransformer(BaseEstimator, TransformerMixin):
 
         """
         check_is_fitted(self, 'X')
-        if any(x < 0 or x > self._K.shape[0] for x in X):
+        if any(x < 0 or x > self.K_.shape[0] for x in X):
             raise ValueError('')
 
-        return self._K[X, :][:, self.X]
+        return self.K_[X, :][:, self.X]
 
 
 def cross_validate_Kfold_SVM(K, y,
                              n_iter=10, n_splits=10, C_grid=None,
-                             random_state=42, scoring="accuracy", fold_reduce=None):
+                             random_state=None, scoring="accuracy", fold_reduce=None):
     """Cross Validate a list of precomputed kernels with an SVM.
 
     Parameters
@@ -158,9 +159,8 @@ def cross_validate_Kfold_SVM(K, y,
     n_splits : int
         Number of splits for the K-Fold.
 
-    random_state : int, or np.random.RandomState
-        Either a seed or a RandomState object for the use of a common RandomSate in the
-        begging of all operations.
+    random_state :  RandomState or int, default=None
+        A random number generator instance or an int to initialize a RandomState as a seed.
 
     fold_reduce : callable or None
         A function that summarizes information between all folds.
@@ -193,8 +193,7 @@ def cross_validate_Kfold_SVM(K, y,
         raise ValueError('fold_reduce should be a callable')
 
     # Initialise and check random state
-    if type(random_state) is not RandomState:
-        random_state = RandomState(random_state)
+    random_state = check_random_state(random_state)
 
     # Initialise sklearn pipeline objects
     kfolder = KFold(n_splits=n_splits, random_state=random_state, shuffle=True)
@@ -327,8 +326,6 @@ def graph_from_networkx(X, node_labels_tag=None, edge_labels_tag=None, edge_weig
         nl = nodel_init()
         el = edgel_init()
         nodes, edges = take_ne(G)
-        print(nodes)
-        print(edges)
         for u in G.nodes():
             graph_object[u] = dict()
             nodel_put(nl, u, nodes)
@@ -357,8 +354,8 @@ def graph_from_pandas(edge_df, node_df=None, directed=False, as_Graph=False):
                 2. The column name of the graph index
                 3. A tuple containing source and destination column names
                 4. The column name of weights column (None if non-existent)
-                5. The column name pointing the column containing edge labels or a list pointing
-                   the columns of attributes (None if edge labels are non-existent).
+                5. The column name pointing the column containing edge-labels or a list pointing
+                   the columns of attributes (None if edge-labels are non-existent).
 
             If node_df exists, correspondance of graph indexes and node indexes must be exact.
 
@@ -367,8 +364,8 @@ def graph_from_pandas(edge_df, node_df=None, directed=False, as_Graph=False):
 
                 1. A pandas dataframe containing all the nodes of a collection of graphs
                 2. The column name of the graph index
-                3. The column name pointing the column containing edge labels or a list pointing
-                   the columns of attributes (None if edge labels are non-existent).
+                3. The column name pointing the column containing node-labels or a list pointing
+                   the columns of attributes (None if node-labels are non-existent).
 
             Node id must correspond to node number.
 

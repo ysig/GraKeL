@@ -9,6 +9,7 @@ import numpy as np
 
 from scipy.interpolate import interp1d
 from sklearn.exceptions import NotFittedError
+from sklearn.utils import check_random_state
 from sklearn.utils.validation import check_is_fitted
 
 from grakel.graph import Graph
@@ -35,7 +36,8 @@ class GraphletSampling(Kernel):
 
     Parameters
     ----------
-    random_seed : int, default=42
+    random_state :  RandomState or int, default=None
+        A random number generator instance or an int to initialize a RandomState as a seed.
 
     k : int, default=5
         The dimension of the given graphlets.
@@ -81,10 +83,13 @@ class GraphletSampling(Kernel):
         A dictionary of pairs between each input graph and a bins where the
         sampled graphlets have fallen.
 
-    _sample_graphlets : function
+    sample_graphlets_ : function
         A function taking as input a binary adjacency matrix, parametrised
         to work for the certain samples, k and deterministic/propabilistic
         mode.
+
+    random_state_ : RandomState
+        A RandomState object handling all randomness of the class.
 
     _graph_bins : dict
         A dictionary of graph bins holding pynauty objects
@@ -110,7 +115,7 @@ class GraphletSampling(Kernel):
     def __init__(self,
                  n_jobs=None,
                  normalize=False, verbose=False,
-                 random_seed=42,
+                 random_state=None,
                  k=5,
                  sampling=None):
         """Initialise a subtree_wl kernel."""
@@ -118,24 +123,24 @@ class GraphletSampling(Kernel):
                                                normalize=normalize,
                                                verbose=verbose)
 
-        self.random_seed = random_seed
+        self.random_state = random_state
         self.k = k
         self.sampling = sampling
-        self.initialized_.update({"random_seed": False, "k": False, "sampling": False})
+        self._initialized.update({"random_state": False, "k": False, "sampling": False})
 
-    def initialize_(self):
+    def initialize(self):
         """Initialize all transformer arguments, needing initialization."""
         self._graph_bins = dict()
-        if not self.initialized_["n_jobs"]:
+        if not self._initialized["n_jobs"]:
             if self.n_jobs is not None:
                 warnings.warn('no implemented parallelization for GraphletSampling')
-            self.initialized_["n_jobs"] = True
+            self._initialized["n_jobs"] = True
 
-        if not self.initialized_["random_seed"]:
-            np.random.seed(self.random_seed)
-            self.initialized_["random_seed"] = True
+        if not self._initialized["random_state"]:
+            self.random_state_ = check_random_state(self.random_state)
+            self._initialized["random_state"] = True
 
-        if not self.initialized_["k"]:
+        if not self._initialized["k"]:
             if type(self.k) is not int:
                 raise TypeError('k must be an int')
 
@@ -145,14 +150,14 @@ class GraphletSampling(Kernel):
             elif self.k < 3:
                 raise TypeError('k must be bigger than 3')
 
-            self.initialized_["k"] = True
+            self._initialized["k"] = True
 
-        if not self.initialized_["sampling"]:
+        if not self._initialized["sampling"]:
             sampling = self.sampling
             k = self.k
             if sampling is None:
-                self._sample_graphlets = lambda A: \
-                    sample_graphlets_all_connected(A, k)
+                def sample_graphlets(A):
+                    return sample_graphlets_all_connected(A, k)
             elif type(sampling) is dict:
                 if "n_samples" in sampling:
                     # Get the number of samples
@@ -166,9 +171,9 @@ class GraphletSampling(Kernel):
                                       'ignoring arguments:', ', '.join(args))
 
                     # Initialise the sample graphlets function
-                    self._sample_graphlets = lambda A: \
-                        sample_graphlets_probabilistic(A, k, n_samples)
-                if ("delta" in sampling or "epsilon" in sampling
+                    sample_graphlets = sample_graphlets_probabilistic
+
+                elif ("delta" in sampling or "epsilon" in sampling
                         or "a" in sampling):
                     # Otherwise if delta exists
                     delta = sampling.get("delta", 0.05)
@@ -214,11 +219,15 @@ class GraphletSampling(Kernel):
                     n_samples = math.ceil(2*(a*np.log10(2) +
                                           np.log10(1/delta))/(epsilon**2))
 
-                    self._sample_graphlets = lambda A: \
-                        sample_graphlets_probabilistic(A, k, n_samples)
+                    sample_graphlets = sample_graphlets_probabilistic
+                else:
+                    raise ValueError('sampling doesn\'t have a valid dictionary format')
             else:
                 raise TypeError('sampling can either be a dictionary or None')
-            self.initialized_["sampling"] = True
+            self.sample_graphlets_ = sample_graphlets
+            self.k_ = k
+            self.n_samples_ = n_samples
+        self._initialized["sampling"] = True
 
     def transform(self, X):
         """Calculate the kernel matrix, between given and fitted dataset.
@@ -403,7 +412,7 @@ class GraphletSampling(Kernel):
                 A = (A > 0).astype(int)
                 i += 1
                 # sample graphlets based on the initialized method
-                samples = self._sample_graphlets(A)
+                samples = self.sample_graphlets_(A, self.k_, self.n_samples_, self.random_state_)
 
                 if self._method_calling == 1:
                     for (j, sg) in enumerate(samples):
@@ -465,7 +474,7 @@ class GraphletSampling(Kernel):
             return local_values
 
 
-def sample_graphlets_probabilistic(A, k, n_samples):
+def sample_graphlets_probabilistic(A, k, n_samples, rs):
     """Propabilistical sampling of n_samples of 3..k sized graphs.
 
     Parameters
@@ -479,6 +488,9 @@ def sample_graphlets_probabilistic(A, k, n_samples):
     n_samples : int
         Sets the value of randomly drawn random samples,
         from sizes between 3..k
+
+    rs : RandomState
+        A RandomState object handling all randomness of the class.
 
     Returns
     -------
@@ -494,10 +506,10 @@ def sample_graphlets_probabilistic(A, k, n_samples):
             return min_r
     else:
         def rsamp(*args):
-            return np.random.randint(min_r, max_r+1)
+            return rs.randint(min_r, max_r+1)
 
     for i in range(n_samples):
-        index_rand = np.random.choice(s, rsamp(), replace=False)
+        index_rand = rs.choice(s, rsamp(), replace=False)
         Q = A[index_rand, :][:, index_rand]
         yield bGraph(Q.shape[0], zip(*np.where(Q == 1)))
 

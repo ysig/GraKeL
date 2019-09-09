@@ -4,12 +4,10 @@
 import collections
 import warnings
 
-from numpy.random import seed
-from numpy.random import choice
-
 from grakel.graph import Graph
 from grakel.kernels import Kernel
 
+from sklearn.utils import check_random_state
 from sklearn.utils.validation import check_is_fitted
 
 # Python 2/3 cross-compatibility import
@@ -31,25 +29,16 @@ class NeighborhoodHash(Kernel):
     bytes : int, default=2
         Byte size of hashes.
 
-    random_seed : int, default=42
-        Random seed for intialising labels.
+    random_state :  RandomState or int, default=None
+        A random number generator instance or an int to initialize a RandomState as a seed.
 
     Attributes
     ----------
-    R : number
-        The maximum number of neighborhood hash.
-
-    bits : int
-        Defines the bit size of hashes.
-
-    nh_type : str
-        The existing neighborhood hash type as defined in :cite:`Hido2009ALG`.
-
-    _NH : function
+    NH_ : function
         The neighborhood hashing function.
 
-    _noc_f : bool
-        A flag concerning the number of occurencies metric.
+    random_state_ : RandomState
+        A RandomState object handling all randomness of the class.
 
     """
 
@@ -57,7 +46,7 @@ class NeighborhoodHash(Kernel):
                  n_jobs=None,
                  normalize=False,
                  verbose=False,
-                 random_seed=42,
+                 random_state=None,
                  R=3,
                  nh_type='simple',
                  bits=8):
@@ -66,44 +55,42 @@ class NeighborhoodHash(Kernel):
                                                normalize=normalize,
                                                verbose=False)
 
-        self.random_seed = random_seed
+        self.random_state = random_state
         self.R = R
         self.nh_type = nh_type
         self.bits = bits
-        self.initialized_.update({"random_seed": False, "R": False, "nh_type": False,
+        self._initialized.update({"random_state": False, "R": False, "nh_type": False,
                                   "bits": False})
 
-    def initialize_(self):
+    def initialize(self):
         """Initialize all transformer arguments, needing initialization."""
-        super(NeighborhoodHash, self).initialize_()
+        super(NeighborhoodHash, self).initialize()
 
-        if not self.initialized_["random_seed"]:
-            seed(self.random_seed)
-            self.initialized_["random_seed"] = True
+        if not self._initialized["random_state"]:
+            self.random_state_ = check_random_state(self.random_state)
+            self._initialized["random_state"] = True
 
-        if not self.initialized_["R"]:
+        if not self._initialized["R"]:
             if type(self.R) is not int or self.R <= 0:
                 raise TypeError('R must be an intger bigger than zero')
-            self.initialized_["R"] = True
+            self._initialized["R"] = True
 
-        if not self.initialized_["nh_type"]:
+        if not self._initialized["nh_type"]:
             if self.nh_type == 'simple':
-                self._noc_f = False
-                self._NH = lambda G: self.neighborhood_hash_simple(G)
+                self.NH_ = self.neighborhood_hash_simple
             elif self.nh_type == 'count_sensitive':
-                self._noc_f = True
-                self._NH = lambda G: self.neighborhood_hash_count_sensitive(G)
+                self.NH_ = self.neighborhood_hash_count_sensitive
             else:
                 raise TypeError('unrecognised neighborhood hashing type')
-            self.initialized_["nh_type"] = True
+            self._initialized["nh_type"] = True
 
-        if not self.initialized_["bits"]:
+        if not self._initialized["bits"]:
             if type(self.bits) is not int or self.bits <= 0:
                 raise TypeError('illegal number of bits for hashing')
 
             self._max_number = 1 << self.bits
             self._mask = self._max_number-1
-            self.initialized_["bits"] = True
+            self._initialized["bits"] = True
 
     def fit(self, X, y=None):
         """Fit a dataset, for a transformer.
@@ -130,7 +117,7 @@ class NeighborhoodHash(Kernel):
         self._method_calling = 1
         self._is_transformed = False
         # Input validation and parsing
-        self.initialize_()
+        self.initialize()
         if X is None:
             raise ValueError('`fit` input cannot be None')
         else:
@@ -188,20 +175,20 @@ class NeighborhoodHash(Kernel):
                 # If labels exceed the biggest possible size
                 nl, nrl = list(), len(labels_hash_set)
                 while nrl > self._max_number:
-                    nl += choice(self._max_number,
-                                 self._max_number,
-                                 replace=False).tolist()
+                    nl += self.random_state_.choice(self._max_number,
+                                                    self._max_number,
+                                                    replace=False).tolist()
                     nrl -= self._max_number
                 if nrl > 0:
-                    nl += choice(self._max_number,
-                                 nrl,
-                                 replace=False).tolist()
+                    nl += self.random_state_.choice(self._max_number,
+                                                    nrl,
+                                                    replace=False).tolist()
                 # unify the collisions per element.
 
             else:
                 # else draw n random numbers.
-                nl = choice(self._max_number, len(labels_hash_set),
-                            replace=False).tolist()
+                nl = self.random_state_.choice(self._max_number, len(labels_hash_set),
+                                               replace=False).tolist()
 
             self._labels_hash_dict = dict(zip(labels_hash_set, nl))
 
@@ -210,9 +197,9 @@ class NeighborhoodHash(Kernel):
                 new_labels = {v: self._labels_hash_dict[l]
                               for v, l in iteritems(labels)}
                 g = (vertices, new_labels, neighbors,)
-                gr = {0: self._NH(g)}
+                gr = {0: self.NH_(g)}
                 for r in range(1, self.R):
-                    gr[r] = self._NH(gr[r-1])
+                    gr[r] = self.NH_(gr[r-1])
 
                 # save the output for all levels
                 out.append(gr)
@@ -321,9 +308,9 @@ class NeighborhoodHash(Kernel):
                      ({n: x.neighbors(n, purpose="any")
                        for n in vertices},))
 
-                gr = {0: self._NH(g)}
+                gr = {0: self.NH_(g)}
                 for r in range(1, self.R):
-                    gr[r] = self._NH(gr[r-1])
+                    gr[r] = self.NH_(gr[r-1])
 
                 # save the output for all levels
                 out.append(gr)
@@ -334,9 +321,9 @@ class NeighborhoodHash(Kernel):
 
         # Transform - calculate kernel matrix
         # Output is always normalized
-        KM = self._calculate_kernel_matrix(out)
+        km = self._calculate_kernel_matrix(out)
         self._is_transformed = True
-        return KM
+        return km
 
     def pairwise_operation(self, x, y):
         """Calculate a pairwise kernel between two elements.
@@ -432,7 +419,7 @@ class NeighborhoodHash(Kernel):
                 for n in neighbors[u]:
                     label ^= labels[n]
                 new_labels[u] = label
-        return tuple(self.vertex_sort_(vertices, new_labels)) + (neighbors,)
+        return tuple(self._vertex_sort(vertices, new_labels)) + (neighbors,)
 
     def neighborhood_hash_count_sensitive(self, G):
         """Count sensitive neighborhood hash as defined in :cite:`Hido2009ALG`.
@@ -447,8 +434,7 @@ class NeighborhoodHash(Kernel):
         Returns
         -------
         vertices_labels_edges_noc : tuple
-            A tuple of 4 elements consisting of vertices sorted by labels,
-            vertex label dict, edge dict and number of occurencies dict.
+            A tuple of vertices, new_labels-dictionary and edges.
 
         """
         vertices, labels, neighbors = G
@@ -459,11 +445,10 @@ class NeighborhoodHash(Kernel):
                 new_labels[u] = None
             else:
                 label = self.ROT(labels[u], 1)
-                label ^= self.radix_sort_rot([labels[n] is None
-                                              for n in neighbors[u]])
+                label ^= self.radix_sort_rot([labels[n] for n in neighbors[u]])
                 new_labels[u] = label
 
-        return tuple(self.vertex_sort_(vertices, new_labels)) + (neighbors,)
+        return tuple(self._vertex_sort(vertices, new_labels)) + (neighbors,)
 
     def radix_sort_rot(self, labels):
         """Sorts vertices based on labels.
@@ -522,7 +507,7 @@ class NeighborhoodHash(Kernel):
             result ^= self.ROT(previous ^ occ, occ)
         return result
 
-    def vertex_sort_(self, vertices, labels):
+    def _vertex_sort(self, vertices, labels):
         """Sorts vertices based on labels.
 
         Parameters
