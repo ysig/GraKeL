@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>API Reference &mdash; GraKeL 0.1a5 documentation</title>
+  <title>API Reference &mdash; GraKeL 0.1a6 documentation</title>
   
 
   
@@ -17,13 +17,21 @@
   
 
   
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="_static/gallery.css" type="text/css" />
@@ -32,21 +40,16 @@
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="grakel.Kernel" href="generated/grakel.Kernel.html" />
     <link rel="prev" title="grakel.datasets.get_dataset_info" href="generated/grakel.datasets.get_dataset_info.html" /> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -63,7 +66,7 @@
             
             
               <div class="version">
-                0.1a5
+                0.1a6
               </div>
             
           
@@ -293,7 +296,7 @@ to read <a class="reference internal" href="user_manual.html#user-manual"><span 
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><a class="reference internal" href="generated/grakel.GraphKernel.html#grakel.GraphKernel" title="grakel.GraphKernel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">grakel.GraphKernel</span></code></a>([kernel,&nbsp;normalize,&nbsp;…])</td>
-<td>A decorator for graph kernels.</td>
+<td>A generic wrapper for graph kernels.</td>
 </tr>
 </tbody>
 </table>
@@ -370,10 +373,10 @@ to read <a class="reference internal" href="user_manual.html#user-manual"><span 
 <tr class="row-even"><td><a class="reference internal" href="generated/grakel.HadamardCode.html#grakel.HadamardCode" title="grakel.HadamardCode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HadamardCode</span></code></a>([n_jobs,&nbsp;verbose,&nbsp;normalize,&nbsp;…])</td>
 <td>The simple Hadamard code kernel, as proposed in <a class="reference internal" href="kernels/hadamard_code.html#icpram16" id="id7">[KI16]</a>.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="generated/grakel.VertexHistogram.html#grakel.VertexHistogram" title="grakel.VertexHistogram"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VertexHistogram</span></code></a>([n_jobs,&nbsp;normalize,&nbsp;verbose])</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/grakel.VertexHistogram.html#grakel.VertexHistogram" title="grakel.VertexHistogram"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VertexHistogram</span></code></a>([n_jobs,&nbsp;normalize,&nbsp;…])</td>
 <td>Vertex Histogram kernel as found in <a class="reference internal" href="kernels/random_walk.html#sugiyama2015halting" id="id8">[SB15]</a>.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/grakel.EdgeHistogram.html#grakel.EdgeHistogram" title="grakel.EdgeHistogram"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EdgeHistogram</span></code></a>([n_jobs,&nbsp;normalize,&nbsp;verbose])</td>
+<tr class="row-even"><td><a class="reference internal" href="generated/grakel.EdgeHistogram.html#grakel.EdgeHistogram" title="grakel.EdgeHistogram"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EdgeHistogram</span></code></a>([n_jobs,&nbsp;normalize,&nbsp;verbose,&nbsp;…])</td>
 <td>Edge Histogram kernel as found in <a class="reference internal" href="kernels/random_walk.html#sugiyama2015halting" id="id9">[SB15]</a>.</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="generated/grakel.GraphHopper.html#grakel.GraphHopper" title="grakel.GraphHopper"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GraphHopper</span></code></a>([n_jobs,&nbsp;normalize,&nbsp;verbose,&nbsp;…])</td>
@@ -481,7 +484,7 @@ to read <a class="reference internal" href="user_manual.html#user-manual"><span 
         <a href="generated/grakel.Kernel.html" class="btn btn-neutral float-right" title="grakel.Kernel" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="generated/grakel.datasets.get_dataset_info.html" class="btn btn-neutral" title="grakel.datasets.get_dataset_info" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="generated/grakel.datasets.get_dataset_info.html" class="btn btn-neutral float-left" title="grakel.datasets.get_dataset_info" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -507,26 +510,16 @@ to read <a class="reference internal" href="user_manual.html#user-manual"><span 
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

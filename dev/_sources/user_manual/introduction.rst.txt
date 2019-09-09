@@ -43,10 +43,11 @@ really essential as an origin of the Graph Kernel field.
 After following the instructions found on :ref:`installation`, in order to initialize a *Shortest Path* kernel
 using the **grakel** library, you just need to do the following:
 
-.. code-block:: python
+.. doctest::
 
-    >>> from grakel import GraphKernel
-    >>> sp_kernel = GraphKernel(kernel={"name": "shortest_path"})
+   >>> from grakel import GraphKernel
+   >>> sp_kernel = GraphKernel(kernel="shortest_path")
+
 
 Kernels as the above are considered as *base kernels*, meaning that they can be computed onto the sets
 of Graphs needed only a minor parametrization. A second type of kernels appear in the literature which
@@ -62,10 +63,10 @@ bigger expressiveness to the base_kernel calculations (an interesting `post`_ ex
 To initialize such a kernel, using the default subtree kernel, found originally on the paper's
 page 9, eq. 2, you can do the following:
 
-.. code-block:: python
+.. doctest::
 
     >>> from grakel import GraphKernel
-    >>> wl_kernel = GraphKernel(kernel=[{"name": "weisfeiler_lehman"}, {"name": "subtree_wl"}])
+    >>> wl_kernel = GraphKernel(kernel=["weisfeiler_lehman", "subtree_wl"])
 
 Calculate a kernel
 ------------------
@@ -74,7 +75,7 @@ Let's consider a toy example, comparing water :math:`\mathbf{H}_{2}\mathbf{O}` w
 
 For start we would calculate the kernel value of water with itself:
 
-.. code-block:: python
+.. doctest::
 
     >>> H2O = [[[[0, 1, 1], [1, 0, 0], [1, 0, 0]], {0: 'O', 1: 'H', 2: 'H'}]]
     >>> sp_kernel.fit_transform(H2O)
@@ -83,7 +84,7 @@ For start we would calculate the kernel value of water with itself:
 Now to calculate the graph similarity to hydronium based on the shortest path
 graph kernel
 
-.. code-block:: python
+.. doctest::
 
     >>> H3O = [[[[0, 1, 1, 1], [1, 0, 0, 0], [1, 0, 0, 0], [1, 0, 0, 0]], {0: 'O', 1: 'H', 2: 'H', 3:'H'}]]
     >>> sp_kernel.transform(H3O)
@@ -95,9 +96,9 @@ This is a false assumption derived from the fact that the kernel calculation is 
 To apply normalization we add such an argument on the GraphKernel method
 initialization and continue
 
-.. code-block:: python
+.. doctest::
 
-    >>> sp_kernel = GraphKernel(kernel={"name": "shortest_path"}, normalize=True)
+    >>> sp_kernel = GraphKernel(kernel="shortest_path", normalize=True)
     >>> sp_kernel.fit_transform(H2O)
     array([[1.]])
     >>> sp_kernel.transform(H3O)
@@ -183,28 +184,28 @@ The next important step and final for our short introduction is to see how to ap
 To do so we will utilize the :code:`fetch_dataset` function found on :ref:`datasets`.
 Firstly download the dataset:
 
-.. code-block:: python
+.. doctest::
 
     >>> from grakel import GraphKernel, datasets
-    >>> mutag = datasets.fetch_dataset("MUTAG", verbose=False)
-    >>> mutag_data = mutag.data
+    >>> MUTAG = datasets.fetch_dataset("MUTAG", verbose=False)
+    >>> MUTAG_data = MUTAG.data
 
 Note that the :code:`fetch_dataset` function returns a sklearn.utils.Bunch object, where
 the graph-data can be found in the data class member of the result.
     
 Now let's initialize a Weisfeiler-Lehman Kernel with 5 iterations:
 
-.. code-block:: python
+.. doctest::
 
-    >>> wl_kernel = GraphKernel(kernel = [{"name": "weisfeiler_lehman", "niter": 5}, {"name": "subtree_wl"}], normalize=True)
+    >>> wl_kernel = GraphKernel(kernel = [{"name": "weisfeiler_lehman", "n_iter": 5}, "subtree_wl"], normalize=True)
 
 Now let's split the dataset in a train/test manner and calculate fit on the train set.
 
-.. code-block:: python
+.. doctest::
 
-    >>> split_point = int(len(mutag_data) * 0.9)
-    >>> X_train, X_test = mutag_data[:split_point], mutag_data[split_point:]
-    >>> wl_kernel = GraphKernel(kernel=[{"name": "weisfeiler_lehman", "niter": 5}, {"name": "subtree_wl"}], normalize=True)
+    >>> split_point = int(len(MUTAG_data) * 0.9)
+    >>> X_train, X_test = MUTAG_data[:split_point], MUTAG_data[split_point:]
+    >>> wl_kernel = GraphKernel(kernel=[{"name": "weisfeiler_lehman", "n_iter": 5}, "subtree_wl"], normalize=True)
 
 In order to apply classification on a dataset based on the calculation of a kernel matrix, one generally needs 
 the matrix between all the training data. Namely given :math:`\mathcal{G}^{\text{train}}` a collection of graphs, calculate
@@ -212,20 +213,20 @@ the kernel values with a function :math:`\mathcal{K}: \mathcal{G}^{\text{train}}
 where :math:`n_{\text{train}}` is the number of graphs inside the training set. This function that simply outputs the kernel
 matrix between all graphs of the graphs of the training set is equivalent with
 
-.. code-block:: python
+.. doctest::
 
     >>> K_train = wl_kernel.fit_transform(X_train)
 
 The :code:`wl_kernel` is now fitted with the train data and we would like given a collection of graphs :math:`\mathcal{G}^{\text{test}}`
 to calculate all the kernel values with a function :math:`\mathcal{K}: \mathcal{G}^{\text{train}} \times \mathcal{G}^{\text{test}} \rightarrow \mathbb{R}^{n_{\text{test}}} \times \mathbb{R}^{n_{\text{train}}}` where :math:`n_{\text{test}}` is the number of graphs inside the test set. This function can be calculated as:
 
-.. code-block:: python
+.. doctest::
 
     >>> K_test = wl_kernel.transform(X_test)
 
 which is equivalent to calculating:
 
-.. code-block:: python
+.. doctest::
 
     >>> K_test = wl_kernel.fit(X_train).transform(X_test)
 
@@ -236,33 +237,34 @@ Finally to demonstrate a classification task using a standard SVM, with a precom
 (a very well known process in the field's literature) we first take the targets (which are the
 class labels) as follows:
 
-.. code-block:: python
+.. doctest::
 
     >>> y = MUTAG.target
     >>> y_train, y_test = y[:split_point], y[split_point:]
 
 :code:`import` and initialize a sk-learn :code:`SVC`
 
-.. code-block:: python
+.. doctest::
 
     >>> from sklearn.svm import SVC
     >>> clf = SVC(kernel='precomputed')
 
 classify
 
-.. code-block:: python
+.. doctest:: 
 
     >>> clf.fit(K_train, y_train)
     SVC(C=1.0, cache_size=200, class_weight=None, coef0=0.0,
-	  decision_function_shape='ovr', degree=3, gamma='auto',
-	  kernel='precomputed', max_iter=-1, probability=False, random_state=None,
-	  shrinking=True, tol=0.001, verbose=False)
+      decision_function_shape='ovr', degree=3, gamma='auto',
+      kernel='precomputed', max_iter=-1, probability=False, random_state=None,
+      shrinking=True, tol=0.001, verbose=False)
+
     >>> y_pred = clf.predict(K_test)
 
 and print the accuracy score
 
-.. code-block:: python
+.. doctest::
 
     >>> from sklearn.metrics import accuracy_score
     >>> print("%2.2f %%" %(round(accuracy_score(y_test, y_pred)*100)))
-    78.95 %
+    79.00 %

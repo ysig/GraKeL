@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Overview: module code &mdash; GraKeL 0.1a6 documentation</title>
+  <title>Computation times &mdash; GraKeL 0.1a6 documentation</title>
   
 
   
@@ -94,7 +94,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../api.html">GraKeL</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../classes.html">API Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Examples</a></li>
 </ul>
 
             
@@ -140,10 +140,14 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>Overview: module code</li>
+      <li>Computation times</li>
     
     
       <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/auto_examples/sg_execution_times.rst.txt" rel="nofollow"> View page source</a>
+          
         
       </li>
     
@@ -155,33 +159,19 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <h1>All modules for which code is available</h1>
-<ul><li><a href="grakel/datasets/base.html">grakel.datasets.base</a></li>
-<li><a href="grakel/graph.html">grakel.graph</a></li>
-<li><a href="grakel/graph_kernels.html">grakel.graph_kernels</a></li>
-<li><a href="grakel/kernels/core_framework.html">grakel.kernels.core_framework</a></li>
-<li><a href="grakel/kernels/edge_histogram.html">grakel.kernels.edge_histogram</a></li>
-<li><a href="grakel/kernels/graph_hopper.html">grakel.kernels.graph_hopper</a></li>
-<li><a href="grakel/kernels/graphlet_sampling.html">grakel.kernels.graphlet_sampling</a></li>
-<li><a href="grakel/kernels/hadamard_code.html">grakel.kernels.hadamard_code</a></li>
-<li><a href="grakel/kernels/kernel.html">grakel.kernels.kernel</a></li>
-<li><a href="grakel/kernels/lovasz_theta.html">grakel.kernels.lovasz_theta</a></li>
-<li><a href="grakel/kernels/multiscale_laplacian.html">grakel.kernels.multiscale_laplacian</a></li>
-<li><a href="grakel/kernels/neighborhood_hash.html">grakel.kernels.neighborhood_hash</a></li>
-<li><a href="grakel/kernels/neighborhood_subgraph_pairwise_distance.html">grakel.kernels.neighborhood_subgraph_pairwise_distance</a></li>
-<li><a href="grakel/kernels/odd_sth.html">grakel.kernels.odd_sth</a></li>
-<li><a href="grakel/kernels/propagation.html">grakel.kernels.propagation</a></li>
-<li><a href="grakel/kernels/pyramid_match.html">grakel.kernels.pyramid_match</a></li>
-<li><a href="grakel/kernels/random_walk.html">grakel.kernels.random_walk</a></li>
-<li><a href="grakel/kernels/shortest_path.html">grakel.kernels.shortest_path</a></li>
-<li><a href="grakel/kernels/subgraph_matching.html">grakel.kernels.subgraph_matching</a></li>
-<li><a href="grakel/kernels/svm_theta.html">grakel.kernels.svm_theta</a></li>
-<li><a href="grakel/kernels/vertex_histogram.html">grakel.kernels.vertex_histogram</a></li>
-<li><a href="grakel/kernels/weisfeiler_lehman.html">grakel.kernels.weisfeiler_lehman</a></li>
-<li><a href="grakel/utils.html">grakel.utils</a></li>
-<li><a href="scipy/sparse/csgraph/_laplacian.html">scipy.sparse.csgraph._laplacian</a></li>
-<li><a href="sklearn/base.html">sklearn.base</a></li>
+  <div class="section" id="computation-times">
+<span id="sphx-glr-auto-examples-sg-execution-times"></span><h1>Computation times<a class="headerlink" href="#computation-times" title="Permalink to this headline">¶</a></h1>
+<p><strong>00:05.935</strong> total execution time for <strong>auto_examples</strong> files:</p>
+<ul class="simple">
+<li><strong>00:05.653</strong>: <a class="reference internal" href="plot_pipeline_shortest_path.html#sphx-glr-auto-examples-plot-pipeline-shortest-path-py"><span class="std std-ref">Cross-Validation scikit-learn Pipeline example on the MUTAG dataset using the Shortest Path Kernel.</span></a> (<code class="docutils literal notranslate"><span class="pre">plot_pipeline_shortest_path.py</span></code>)</li>
+<li><strong>00:00.281</strong>: <a class="reference internal" href="plot_wl_subtree_MUTAG.html#sphx-glr-auto-examples-plot-wl-subtree-mutag-py"><span class="std std-ref">Classification on the MUTAG dataset using the WL-subtree kernel.</span></a> (<code class="docutils literal notranslate"><span class="pre">plot_wl_subtree_MUTAG.py</span></code>)</li>
+<li><strong>00:00.000</strong>: <a class="reference internal" href="KFold_MLG.html#sphx-glr-auto-examples-kfold-mlg-py"><span class="std std-ref">K-Fold classification on the ENZYMES dataset using the approximate Multiscale Laplacian kernel.</span></a> (<code class="docutils literal notranslate"><span class="pre">KFold_MLG.py</span></code>)</li>
+<li><strong>00:00.000</strong>: <a class="reference internal" href="digit_classification_example.html#sphx-glr-auto-examples-digit-classification-example-py"><span class="std std-ref">Classifying handwritten digits using the neighborhood subgraph pairwise distance kernel.</span></a> (<code class="docutils literal notranslate"><span class="pre">digit_classification_example.py</span></code>)</li>
+<li><strong>00:00.000</strong>: <a class="reference internal" href="document_retrieval_example.html#sphx-glr-auto-examples-document-retrieval-example-py"><span class="std std-ref">Retrieval of most similar document using the Weisfeiler-Lehman subtree kernel.</span></a> (<code class="docutils literal notranslate"><span class="pre">document_retrieval_example.py</span></code>)</li>
+<li><strong>00:00.000</strong>: <a class="reference internal" href="lovasz_svm_theta.html#sphx-glr-auto-examples-lovasz-svm-theta-py"><span class="std std-ref">Classification on MUTAG using the Lovasz theta and SVM-theta kernels.</span></a> (<code class="docutils literal notranslate"><span class="pre">lovasz_svm_theta.py</span></code>)</li>
 </ul>
+</div>
+
 
            </div>
            

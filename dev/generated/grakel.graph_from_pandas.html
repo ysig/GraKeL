@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>grakel.graph_from_pandas &mdash; GraKeL 0.1a5 documentation</title>
+  <title>grakel.graph_from_pandas &mdash; GraKeL 0.1a6 documentation</title>
   
 
   
@@ -17,13 +17,21 @@
   
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
@@ -32,21 +40,16 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="grakel.graph_from_csv" href="grakel.graph_from_csv.html" />
     <link rel="prev" title="grakel.graph_from_networkx" href="grakel.graph_from_networkx.html" /> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -63,7 +66,7 @@
             
             
               <div class="version">
-                0.1a5
+                0.1a6
               </div>
             
           
@@ -181,7 +184,7 @@
 <h1><a class="reference internal" href="../api.html#module-grakel" title="grakel"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code></a>.graph_from_pandas<a class="headerlink" href="#grakel-graph-from-pandas" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="grakel.graph_from_pandas">
-<code class="descclassname">grakel.</code><code class="descname">graph_from_pandas</code><span class="sig-paren">(</span><em>edge_df</em>, <em>node_df=None</em>, <em>directed=False</em>, <em>as_Graph=False</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f7b9aaf/grakel/utils.py#L345"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/utils.html#graph_from_pandas"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.graph_from_pandas" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">grakel.</code><code class="descname">graph_from_pandas</code><span class="sig-paren">(</span><em>edge_df</em>, <em>node_df=None</em>, <em>directed=False</em>, <em>as_Graph=False</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/089b65a/grakel/utils.py#L342"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/utils.html#graph_from_pandas"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.graph_from_pandas" title="Permalink to this definition">¶</a></dt>
 <dd><p>Produces a collection of Graph Objects from pandas dataframes.</p>
 <p>A function for helping a user that has a bunch of graph csv
 files make a collection for grakel input.</p>
@@ -199,8 +202,8 @@ files make a collection for grakel input.</p>
 <li>The column name of the graph index</li>
 <li>A tuple containing source and destination column names</li>
 <li>The column name of weights column (None if non-existent)</li>
-<li>The column name pointing the column containing edge labels or a list pointing
-the columns of attributes (None if edge labels are non-existent).</li>
+<li>The column name pointing the column containing edge-labels or a list pointing
+the columns of attributes (None if edge-labels are non-existent).</li>
 </ol>
 </div></blockquote>
 <p>If node_df exists, correspondance of graph indexes and node indexes must be exact.</p>
@@ -212,8 +215,8 @@ the columns of attributes (None if edge labels are non-existent).</li>
 <div><ol class="arabic simple">
 <li>A pandas dataframe containing all the nodes of a collection of graphs</li>
 <li>The column name of the graph index</li>
-<li>The column name pointing the column containing edge labels or a list pointing
-the columns of attributes (None if edge labels are non-existent).</li>
+<li>The column name pointing the column containing node-labels or a list pointing
+the columns of attributes (None if node-labels are non-existent).</li>
 </ol>
 </div></blockquote>
 <p class="last">Node id must correspond to node number.</p>
@@ -255,7 +258,7 @@ corresponding graph object</p>
         <a href="grakel.graph_from_csv.html" class="btn btn-neutral float-right" title="grakel.graph_from_csv" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="grakel.graph_from_networkx.html" class="btn btn-neutral" title="grakel.graph_from_networkx" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="grakel.graph_from_networkx.html" class="btn btn-neutral float-left" title="grakel.graph_from_networkx" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -281,26 +284,16 @@ corresponding graph object</p>
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

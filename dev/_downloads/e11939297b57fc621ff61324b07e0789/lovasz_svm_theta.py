@@ -1,7 +1,7 @@
 """
-=======================================================
+=====================================================================
 Classification on MUTAG using the Lovasz theta and SVM-theta kernels.
-=======================================================
+=====================================================================
 
 An example plot of :class:`grakel.GraphKernel`, :class:`grakel.LovaszTheta`, :class:`grakel.SvmTheta`
 """

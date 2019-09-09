@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>grakel.VertexHistogram &mdash; GraKeL 0.1a5 documentation</title>
+  <title>grakel.VertexHistogram &mdash; GraKeL 0.1a6 documentation</title>
   
 
   
@@ -17,13 +17,21 @@
   
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
@@ -32,21 +40,16 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="grakel.EdgeHistogram" href="grakel.EdgeHistogram.html" />
     <link rel="prev" title="grakel.MultiscaleLaplacianFast" href="grakel.MultiscaleLaplacianFast.html" /> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -63,7 +66,7 @@
             
             
               <div class="version">
-                0.1a5
+                0.1a6
               </div>
             
           
@@ -200,15 +203,19 @@
 <h1><a class="reference internal" href="../api.html#module-grakel" title="grakel"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code></a>.VertexHistogram<a class="headerlink" href="#grakel-vertexhistogram" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="grakel.VertexHistogram">
-<em class="property">class </em><code class="descclassname">grakel.</code><code class="descname">VertexHistogram</code><span class="sig-paren">(</span><em>n_jobs=None</em>, <em>normalize=False</em>, <em>verbose=False</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f7b9aaf/grakel/kernels/vertex_histogram.py#L23"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/vertex_histogram.html#VertexHistogram"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.VertexHistogram" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">grakel.</code><code class="descname">VertexHistogram</code><span class="sig-paren">(</span><em>n_jobs=None</em>, <em>normalize=False</em>, <em>verbose=False</em>, <em>sparse='auto'</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/089b65a/grakel/kernels/vertex_histogram.py#L26"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/vertex_histogram.html#VertexHistogram"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.VertexHistogram" title="Permalink to this definition">¶</a></dt>
 <dd><p>Vertex Histogram kernel as found in <a class="reference internal" href="../kernels/random_walk.html#sugiyama2015halting" id="id1">[SB15]</a>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>None.</strong></dt>
-<dd></dd>
+<dt><strong>sparse</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool, or ‘auto’, default=’auto’</span></dt>
+<dd><p class="first last">Defines if the data will be stored in a sparse format.
+Sparse format is slower, but less memory consuming and in some cases the only solution.
+If ‘auto’, uses a sparse matrix when the number of zeros is more than the half of the matrix size.
+In all cases if the dense matrix doesn’t fit system memory, I sparse approach will be tried.</p>
+</dd>
 </dl>
 </td>
 </tr>
@@ -227,34 +234,31 @@
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.VertexHistogram.diagonal" title="grakel.VertexHistogram.diagonal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">diagonal</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.VertexHistogram.diagonal" title="grakel.VertexHistogram.diagonal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">diagonal</span></code></a>(self)</td>
 <td>Calculate the kernel matrix diagonal of the fitted data.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.VertexHistogram.fit" title="grakel.VertexHistogram.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(X[,&nbsp;y])</td>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.VertexHistogram.fit" title="grakel.VertexHistogram.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(self,&nbsp;X[,&nbsp;y])</td>
 <td>Fit a dataset, for a transformer.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.VertexHistogram.fit_transform" title="grakel.VertexHistogram.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code></a>(X)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.VertexHistogram.fit_transform" title="grakel.VertexHistogram.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code></a>(self,&nbsp;X)</td>
 <td>Fit and transform, on the same dataset.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.VertexHistogram.get_params" title="grakel.VertexHistogram.get_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code></a>([deep])</td>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.VertexHistogram.get_params" title="grakel.VertexHistogram.get_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code></a>(self[,&nbsp;deep])</td>
 <td>Get parameters for this estimator.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.VertexHistogram.initialize_" title="grakel.VertexHistogram.initialize_"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize_</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.VertexHistogram.initialize" title="grakel.VertexHistogram.initialize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize</span></code></a>(self)</td>
 <td>Initialize all transformer arguments, needing initialisation.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.VertexHistogram.initialized_" title="grakel.VertexHistogram.initialized_"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialized_</span></code></a>()</td>
-<td>Initialize all transformer arguments, needing initialization.</td>
-</tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.VertexHistogram.pairwise_operation" title="grakel.VertexHistogram.pairwise_operation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pairwise_operation</span></code></a>(x,&nbsp;y)</td>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.VertexHistogram.pairwise_operation" title="grakel.VertexHistogram.pairwise_operation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pairwise_operation</span></code></a>(self,&nbsp;x,&nbsp;y)</td>
 <td>Calculate a pairwise kernel between two elements.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.VertexHistogram.parse_input" title="grakel.VertexHistogram.parse_input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_input</span></code></a>(X)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.VertexHistogram.parse_input" title="grakel.VertexHistogram.parse_input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_input</span></code></a>(self,&nbsp;X)</td>
 <td>Parse and check the given input for VH kernel.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.VertexHistogram.set_params" title="grakel.VertexHistogram.set_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code></a>(**params)</td>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.VertexHistogram.set_params" title="grakel.VertexHistogram.set_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code></a>(self,&nbsp;\*\*params)</td>
 <td>Call the parent method.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.VertexHistogram.transform" title="grakel.VertexHistogram.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(X)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.VertexHistogram.transform" title="grakel.VertexHistogram.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(self,&nbsp;X)</td>
 <td>Calculate the kernel matrix, between given and fitted dataset.</td>
 </tr>
 </tbody>
@@ -279,47 +283,44 @@
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.VertexHistogram.diagonal" title="grakel.VertexHistogram.diagonal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">diagonal</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.VertexHistogram.diagonal" title="grakel.VertexHistogram.diagonal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">diagonal</span></code></a>(self)</td>
 <td>Calculate the kernel matrix diagonal of the fitted data.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.VertexHistogram.fit" title="grakel.VertexHistogram.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(X[,&nbsp;y])</td>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.VertexHistogram.fit" title="grakel.VertexHistogram.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(self,&nbsp;X[,&nbsp;y])</td>
 <td>Fit a dataset, for a transformer.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.VertexHistogram.fit_transform" title="grakel.VertexHistogram.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code></a>(X)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.VertexHistogram.fit_transform" title="grakel.VertexHistogram.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code></a>(self,&nbsp;X)</td>
 <td>Fit and transform, on the same dataset.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.VertexHistogram.get_params" title="grakel.VertexHistogram.get_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code></a>([deep])</td>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.VertexHistogram.get_params" title="grakel.VertexHistogram.get_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code></a>(self[,&nbsp;deep])</td>
 <td>Get parameters for this estimator.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.VertexHistogram.initialize_" title="grakel.VertexHistogram.initialize_"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize_</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.VertexHistogram.initialize" title="grakel.VertexHistogram.initialize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize</span></code></a>(self)</td>
 <td>Initialize all transformer arguments, needing initialisation.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.VertexHistogram.initialized_" title="grakel.VertexHistogram.initialized_"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialized_</span></code></a>()</td>
-<td>Initialize all transformer arguments, needing initialization.</td>
-</tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.VertexHistogram.pairwise_operation" title="grakel.VertexHistogram.pairwise_operation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pairwise_operation</span></code></a>(x,&nbsp;y)</td>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.VertexHistogram.pairwise_operation" title="grakel.VertexHistogram.pairwise_operation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pairwise_operation</span></code></a>(self,&nbsp;x,&nbsp;y)</td>
 <td>Calculate a pairwise kernel between two elements.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.VertexHistogram.parse_input" title="grakel.VertexHistogram.parse_input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_input</span></code></a>(X)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.VertexHistogram.parse_input" title="grakel.VertexHistogram.parse_input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_input</span></code></a>(self,&nbsp;X)</td>
 <td>Parse and check the given input for VH kernel.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.VertexHistogram.set_params" title="grakel.VertexHistogram.set_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code></a>(**params)</td>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.VertexHistogram.set_params" title="grakel.VertexHistogram.set_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code></a>(self,&nbsp;\*\*params)</td>
 <td>Call the parent method.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.VertexHistogram.transform" title="grakel.VertexHistogram.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(X)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.VertexHistogram.transform" title="grakel.VertexHistogram.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(self,&nbsp;X)</td>
 <td>Calculate the kernel matrix, between given and fitted dataset.</td>
 </tr>
 </tbody>
 </table>
 <dl class="method">
 <dt id="grakel.VertexHistogram.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>n_jobs=None</em>, <em>normalize=False</em>, <em>verbose=False</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f7b9aaf/grakel/kernels/vertex_histogram.py#L36"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/vertex_histogram.html#VertexHistogram.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.VertexHistogram.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>self</em>, <em>n_jobs=None</em>, <em>normalize=False</em>, <em>verbose=False</em>, <em>sparse='auto'</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/089b65a/grakel/kernels/vertex_histogram.py#L43"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/vertex_histogram.html#VertexHistogram.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.VertexHistogram.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialise a vertex histogram kernel.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="grakel.VertexHistogram.diagonal">
-<code class="descname">diagonal</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f7b9aaf/grakel/kernels/vertex_histogram.py#L154"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/vertex_histogram.html#VertexHistogram.diagonal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.VertexHistogram.diagonal" title="Permalink to this definition">¶</a></dt>
+<code class="descname">diagonal</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/089b65a/grakel/kernels/vertex_histogram.py#L179"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/vertex_histogram.html#VertexHistogram.diagonal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.VertexHistogram.diagonal" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the kernel matrix diagonal of the fitted data.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -345,7 +346,7 @@ of each element calculated with itself.</p>
 
 <dl class="method">
 <dt id="grakel.VertexHistogram.fit">
-<code class="descname">fit</code><span class="sig-paren">(</span><em>X</em>, <em>y=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f7b9aaf/grakel/kernels/kernel.py#L91"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.VertexHistogram.fit" title="Permalink to this definition">¶</a></dt>
+<code class="descname">fit</code><span class="sig-paren">(</span><em>self</em>, <em>X</em>, <em>y=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/089b65a/grakel/kernels/kernel.py#L91"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.VertexHistogram.fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fit a dataset, for a transformer.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -369,7 +370,7 @@ requires this parameter.</p>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
 <dt><strong>self</strong> <span class="classifier-delimiter">:</span> <span class="classifier">object</span></dt>
 <dd></dd>
-<dt><strong>Returns self.</strong></dt>
+<dt>Returns self.</dt>
 <dd></dd>
 </dl>
 </td>
@@ -380,7 +381,7 @@ requires this parameter.</p>
 
 <dl class="method">
 <dt id="grakel.VertexHistogram.fit_transform">
-<code class="descname">fit_transform</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f7b9aaf/grakel/kernels/kernel.py#L169"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.VertexHistogram.fit_transform" title="Permalink to this definition">¶</a></dt>
+<code class="descname">fit_transform</code><span class="sig-paren">(</span><em>self</em>, <em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/089b65a/grakel/kernels/kernel.py#L169"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.VertexHistogram.fit_transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fit and transform, on the same dataset.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -416,7 +417,7 @@ all pairs of graphs between target an features</p>
 
 <dl class="method">
 <dt id="grakel.VertexHistogram.get_params">
-<code class="descname">get_params</code><span class="sig-paren">(</span><em>deep=True</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f7b9aaf/grakel/../venv/lib/python2.7/site-packages/sklearn/base.py#L166"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.VertexHistogram.get_params" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_params</code><span class="sig-paren">(</span><em>self</em>, <em>deep=True</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/089b65a/grakel/../venv/lib/python2.7/site-packages/sklearn/base.py#L168"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.VertexHistogram.get_params" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get parameters for this estimator.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -442,20 +443,14 @@ contained subobjects that are estimators.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="grakel.VertexHistogram.initialize_">
-<code class="descname">initialize_</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f7b9aaf/grakel/kernels/kernel.py#L355"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.VertexHistogram.initialize_" title="Permalink to this definition">¶</a></dt>
+<dt id="grakel.VertexHistogram.initialize">
+<code class="descname">initialize</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/089b65a/grakel/kernels/kernel.py#L355"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.VertexHistogram.initialize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize all transformer arguments, needing initialisation.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="grakel.VertexHistogram.initialized_">
-<code class="descname">initialized_</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f7b9aaf/grakel/kernels/vertex_histogram.py#L45"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/vertex_histogram.html#VertexHistogram.initialized_"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.VertexHistogram.initialized_" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize all transformer arguments, needing initialization.</p>
-</dd></dl>
-
-<dl class="method">
 <dt id="grakel.VertexHistogram.pairwise_operation">
-<code class="descname">pairwise_operation</code><span class="sig-paren">(</span><em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f7b9aaf/grakel/kernels/kernel.py#L370"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.VertexHistogram.pairwise_operation" title="Permalink to this definition">¶</a></dt>
+<code class="descname">pairwise_operation</code><span class="sig-paren">(</span><em>self</em>, <em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/089b65a/grakel/kernels/kernel.py#L370"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.VertexHistogram.pairwise_operation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate a pairwise kernel between two elements.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -481,7 +476,7 @@ contained subobjects that are estimators.</p>
 
 <dl class="method">
 <dt id="grakel.VertexHistogram.parse_input">
-<code class="descname">parse_input</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f7b9aaf/grakel/kernels/vertex_histogram.py#L52"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/vertex_histogram.html#VertexHistogram.parse_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.VertexHistogram.parse_input" title="Permalink to this definition">¶</a></dt>
+<code class="descname">parse_input</code><span class="sig-paren">(</span><em>self</em>, <em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/089b65a/grakel/kernels/vertex_histogram.py#L60"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/vertex_histogram.html#VertexHistogram.parse_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.VertexHistogram.parse_input" title="Permalink to this definition">¶</a></dt>
 <dd><p>Parse and check the given input for VH kernel.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -512,13 +507,13 @@ format).</p>
 
 <dl class="method">
 <dt id="grakel.VertexHistogram.set_params">
-<code class="descname">set_params</code><span class="sig-paren">(</span><em>**params</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f7b9aaf/grakel/kernels/kernel.py#L386"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.VertexHistogram.set_params" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_params</code><span class="sig-paren">(</span><em>self</em>, <em>**params</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/089b65a/grakel/kernels/kernel.py#L386"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.VertexHistogram.set_params" title="Permalink to this definition">¶</a></dt>
 <dd><p>Call the parent method.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="grakel.VertexHistogram.transform">
-<code class="descname">transform</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f7b9aaf/grakel/kernels/kernel.py#L128"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.VertexHistogram.transform" title="Permalink to this definition">¶</a></dt>
+<code class="descname">transform</code><span class="sig-paren">(</span><em>self</em>, <em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/089b65a/grakel/kernels/kernel.py#L128"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.VertexHistogram.transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the kernel matrix, between given and fitted dataset.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -561,7 +556,11 @@ all pairs of graphs between target an features</p>
 </p>
 <div class="section" id="examples-using-grakel-vertexhistogram">
 <h3>Examples using <code class="docutils literal notranslate"><span class="pre">grakel.VertexHistogram</span></code><a class="headerlink" href="#examples-using-grakel-vertexhistogram" title="Permalink to this headline">¶</a></h3>
-<div class="sphx-glr-thumbcontainer" tooltip="Retrieval of most similar document using the Weisfeiler"><div class="figure" id="id2">
+<div class="sphx-glr-thumbcontainer" tooltip="An example plot of grakel.GraphKernel, grakel.WeisfeilerLehman, grakel.VertexHistogram "><div class="figure" id="id2">
+<img alt="../_images/sphx_glr_plot_wl_subtree_MUTAG_thumb.png" src="../_images/sphx_glr_plot_wl_subtree_MUTAG_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/plot_wl_subtree_MUTAG.html#sphx-glr-auto-examples-plot-wl-subtree-mutag-py"><span class="std std-ref">Classification on the MUTAG dataset using the WL-subtree kernel.</span></a></span></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Retrieval of most similar document using the Weisfeiler"><div class="figure" id="id3">
 <img alt="../_images/sphx_glr_document_retrieval_example_thumb.png" src="../_images/sphx_glr_document_retrieval_example_thumb.png" />
 <p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/document_retrieval_example.html#sphx-glr-auto-examples-document-retrieval-example-py"><span class="std std-ref">Retrieval of most similar document using the Weisfeiler-Lehman subtree kernel.</span></a></span></p>
 </div>
@@ -580,7 +579,7 @@ all pairs of graphs between target an features</p>
         <a href="grakel.EdgeHistogram.html" class="btn btn-neutral float-right" title="grakel.EdgeHistogram" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="grakel.MultiscaleLaplacianFast.html" class="btn btn-neutral" title="grakel.MultiscaleLaplacianFast" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="grakel.MultiscaleLaplacianFast.html" class="btn btn-neutral float-left" title="grakel.MultiscaleLaplacianFast" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -606,26 +605,16 @@ all pairs of graphs between target an features</p>
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

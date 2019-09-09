@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>grakel.cross_validate_Kfold_SVM &mdash; GraKeL 0.1a5 documentation</title>
+  <title>grakel.cross_validate_Kfold_SVM &mdash; GraKeL 0.1a6 documentation</title>
   
 
   
@@ -17,13 +17,21 @@
   
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
@@ -32,21 +40,16 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="grakel.graph_from_networkx" href="grakel.graph_from_networkx.html" />
     <link rel="prev" title="grakel.KMTransformer" href="grakel.KMTransformer.html" /> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -63,7 +66,7 @@
             
             
               <div class="version">
-                0.1a5
+                0.1a6
               </div>
             
           
@@ -179,7 +182,7 @@
 <h1><a class="reference internal" href="../api.html#module-grakel" title="grakel"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code></a>.cross_validate_Kfold_SVM<a class="headerlink" href="#grakel-cross-validate-kfold-svm" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="grakel.cross_validate_Kfold_SVM">
-<code class="descclassname">grakel.</code><code class="descname">cross_validate_Kfold_SVM</code><span class="sig-paren">(</span><em>K</em>, <em>y</em>, <em>n_iter=10</em>, <em>n_splits=10</em>, <em>C_grid=None</em>, <em>random_state=42</em>, <em>scoring='accuracy'</em>, <em>fold_reduce=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f7b9aaf/grakel/utils.py#L142"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/utils.html#cross_validate_Kfold_SVM"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.cross_validate_Kfold_SVM" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">grakel.</code><code class="descname">cross_validate_Kfold_SVM</code><span class="sig-paren">(</span><em>K</em>, <em>y</em>, <em>n_iter=10</em>, <em>n_splits=10</em>, <em>C_grid=None</em>, <em>random_state=None</em>, <em>scoring='accuracy'</em>, <em>fold_reduce=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/089b65a/grakel/utils.py#L143"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/utils.html#cross_validate_Kfold_SVM"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.cross_validate_Kfold_SVM" title="Permalink to this definition">¶</a></dt>
 <dd><p>Cross Validate a list of precomputed kernels with an SVM.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -198,9 +201,8 @@
 <dt><strong>n_splits</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
 <dd><p class="first last">Number of splits for the K-Fold.</p>
 </dd>
-<dt><strong>random_state</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int, or np.random.RandomState</span></dt>
-<dd><p class="first last">Either a seed or a RandomState object for the use of a common RandomSate in the
-begging of all operations.</p>
+<dt><strong>random_state</strong> <span class="classifier-delimiter">:</span> <span class="classifier">RandomState or int, default=None</span></dt>
+<dd><p class="first last">A random number generator instance or an int to initialize a RandomState as a seed.</p>
 </dd>
 <dt><strong>fold_reduce</strong> <span class="classifier-delimiter">:</span> <span class="classifier">callable or None</span></dt>
 <dd><p class="first last">A function that summarizes information between all folds.
@@ -238,7 +240,7 @@ element of K.</p>
         <a href="grakel.graph_from_networkx.html" class="btn btn-neutral float-right" title="grakel.graph_from_networkx" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="grakel.KMTransformer.html" class="btn btn-neutral" title="grakel.KMTransformer" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="grakel.KMTransformer.html" class="btn btn-neutral float-left" title="grakel.KMTransformer" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -264,26 +266,16 @@ element of K.</p>
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

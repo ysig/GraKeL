@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>A longer Introduction &mdash; GraKeL 0.1a5 documentation</title>
+  <title>A longer Introduction &mdash; GraKeL 0.1a6 documentation</title>
   
 
   
@@ -17,13 +17,21 @@
   
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
@@ -32,21 +40,16 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Write your own kernel" href="make_your_own_kernel.html" />
     <link rel="prev" title="A short Introduction" href="introduction.html" /> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -63,7 +66,7 @@
             
             
               <div class="version">
-                0.1a5
+                0.1a6
               </div>
             
           
@@ -176,7 +179,7 @@
 <span id="longer-introduction"></span><h1>A longer Introduction<a class="headerlink" href="#a-longer-introduction" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="what-is-the-graphkernel-class">
 <h2>What is the <cite>GraphKernel</cite> class<a class="headerlink" href="#what-is-the-graphkernel-class" title="Permalink to this headline">¶</a></h2>
-<p><cite>GraphKernel</cite> is a class decorator, which means that it takes a collection of classes, in our case Graph-Kernels and creates a uniform interface for all them, while providing the user with a way of adding various features.</p>
+<p><cite>GraphKernel</cite> is a class <em>generic wrapper</em>, which means that it takes a collection of classes, in our case Graph-Kernels and creates a uniform interface for all them, while providing the user with a way of adding various features.</p>
 <p>These features can be listed as follows:</p>
 <ul>
 <li><p class="first"><code class="code docutils literal notranslate"><span class="pre">kernel</span></code> : The kernel can be either a <code class="code docutils literal notranslate"><span class="pre">base_kernel</span></code> or a list of <code class="code docutils literal notranslate"><span class="pre">general_kernels</span></code> that end in a <code class="code docutils literal notranslate"><span class="pre">base_kernel</span></code>.</p>
@@ -187,7 +190,7 @@
 <dd><p class="first">To initialize a <code class="code docutils literal notranslate"><span class="pre">base_kernel</span></code> kernel the procedure is simple. Any <code class="code docutils literal notranslate"><span class="pre">base_kernel</span></code> is a dictionary containing its name under the <code class="code docutils literal notranslate"><span class="pre">'name'</span></code> field and its parameterization on separate fields that signify kernel parameters and their values. The <code class="code docutils literal notranslate"><span class="pre">shortest_path</span></code> kernel we show on the introduction is such a kernel.</p>
 <div class="last admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">The decorator sometimes wraps two kernels in one (as in the <code class="code docutils literal notranslate"><span class="pre">MultiscaleLaplacian</span></code> and <code class="code docutils literal notranslate"><span class="pre">MultiscaleLaplacianFast</span></code>) and in order to learn
+<p class="last">The generic wrapper sometimes wraps two kernels in one (as in the <code class="code docutils literal notranslate"><span class="pre">MultiscaleLaplacian</span></code> and <code class="code docutils literal notranslate"><span class="pre">MultiscaleLaplacianFast</span></code>) and in order to learn
 the meaning of each parameter the user is suggested to read the documentation found on <a class="reference internal" href="../kernels.html#kernels"><span class="std std-ref">Kernels (between graphs)</span></a>.</p>
 </div>
 </dd>
@@ -238,7 +241,7 @@ in the sample space. An example indicating the power of nystroem can be indicate
 <div class="line">Example: We will perform a simple classification task.</div>
 </div>
 <p>Download the dataset and split to train and test</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">grakel</span> <span class="kn">import</span> <span class="n">datasets</span>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">grakel</span> <span class="kn">import</span> <span class="n">datasets</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">MUTAG</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">fetch_dataset</span><span class="p">(</span><span class="s2">&quot;MUTAG&quot;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">MUTAG_data</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">MUTAG</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">MUTAG</span><span class="o">.</span><span class="n">target</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">split_point</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">MUTAG_data</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.9</span><span class="p">)</span>
@@ -246,18 +249,18 @@ in the sample space. An example indicating the power of nystroem can be indicate
 </pre></div>
 </div>
 <p>Initialise a <code class="code docutils literal notranslate"><span class="pre">GraphKernel</span></code>, using <code class="code docutils literal notranslate"><span class="pre">Nystroem</span></code> of 20 samples</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">grakel</span> <span class="kn">import</span> <span class="n">GraphKernel</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">wl_kernel</span> <span class="o">=</span> <span class="n">GraphKernel</span><span class="p">(</span><span class="n">kernel</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;weisfeiler_lehman&quot;</span><span class="p">,</span> <span class="s2">&quot;niter&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">},</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;subtree_wl&quot;</span><span class="p">}],</span> <span class="n">Nystroem</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">grakel</span> <span class="kn">import</span> <span class="n">GraphKernel</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">wl_kernel</span> <span class="o">=</span> <span class="n">GraphKernel</span><span class="p">(</span><span class="n">kernel</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;weisfeiler_lehman&quot;</span><span class="p">,</span> <span class="s2">&quot;n_iter&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">},</span> <span class="s2">&quot;subtree_wl&quot;</span><span class="p">],</span> <span class="n">Nystroem</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">K_train</span> <span class="o">=</span> <span class="n">wl_kernel</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">K_test</span> <span class="o">=</span> <span class="n">wl_kernel</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">K_train</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="go">(169, 10)</span>
+<span class="go">(169, 20)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">K_test</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="go">(19, 10)</span>
+<span class="go">(19, 20)</span>
 </pre></div>
 </div>
 <p>Classify using a standard SVC</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">y</span><span class="p">[:</span><span class="n">split_point</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">split_point</span><span class="p">:]</span>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">y</span><span class="p">[:</span><span class="n">split_point</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">split_point</span><span class="p">:]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">svm</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">clf</span> <span class="o">=</span> <span class="n">svm</span><span class="o">.</span><span class="n">SVC</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">K_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
@@ -269,7 +272,7 @@ in the sample space. An example indicating the power of nystroem can be indicate
 </pre></div>
 </div>
 <p>finnaly calculate accuracy score</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span> <span class="mi">2</span><span class="p">)),</span> <span class="s2">&quot;%&quot;</span><span class="p">)</span>
 <span class="go">78.95 %</span>
 </pre></div>
@@ -303,56 +306,67 @@ computation bottlenecks of the whole operation.</p>
 </dl>
 </li>
 <li><dl class="first docutils">
-<dt><code class="code docutils literal notranslate"><span class="pre">random_seed</span></code> <span class="classifier-delimiter">:</span> <span class="classifier">We would in generally want to satisfy the need of the user to provide</span></dt>
-<dd><p class="first">a <code class="code docutils literal notranslate"><span class="pre">random_seed</span></code> either to kernels that are probabilistic, or to randomize accordingly
-procedures of the <code class="code docutils literal notranslate"><span class="pre">GraphKernel</span></code> that need randomization such as <code class="code docutils literal notranslate"><span class="pre">Nystroem</span></code>, where the
-decorator draws probabilistically a number of components from the number of fitted samples.</p>
-<p>Let’s give an example of a probabilistic kernel using our old water example. We will use a very well known kernel called <em>Graphlet-Sampling</em>, where we will
-sample probabilistically 5 subgraph samples from each graph either <span class="math notranslate nohighlight">\(\mathbf{H}_{2}\mathbf{O}\)</span> or <span class="math notranslate nohighlight">\(\mathbf{H}_{3}\mathbf{O}^{+}\)</span>.</p>
+<dt><code class="code docutils literal notranslate"><span class="pre">random_state</span></code> <span class="classifier-delimiter">:</span> <span class="classifier">We would generally need to provide to the user the ability to initialize a graph kernel by her/his own <code class="code docutils literal notranslate"><span class="pre">random_state</span></code>.</span></dt>
+<dd><p class="first">This would have an application either to kernels that are probabilistic, or to procedures of the generic wrapper <code class="code docutils literal notranslate"><span class="pre">GraphKernel</span></code> that require randomization such as <code class="code docutils literal notranslate"><span class="pre">Nystroem</span></code>, where a number of components is drawn randomly from the set of fitted samples. A <code class="code docutils literal notranslate"><span class="pre">random_state</span></code> can either be a seed or a <code class="code docutils literal notranslate"><span class="pre">np.RandomState</span></code> object, as this follows the <a class="reference external" href="https://scikit-learn.org/stable/developers/contributing.html#random-numbers">the specifications of scikit-learn</a>.</p>
+<p>Let’s apply our old water example to a probabilistic kernel. We will use the well known <em>Graphlet-Sampling</em>, where we will sample 5 graphlets (i.e. small subgraphs) from each graph.</p>
 <p>After initializing the input</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">grakel</span> <span class="kn">import</span> <span class="n">GraphKernel</span>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">grakel</span> <span class="kn">import</span> <span class="n">GraphKernel</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">H2O</span> <span class="o">=</span> <span class="p">[[[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s1">&#39;O&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="s1">&#39;H&#39;</span><span class="p">}]]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">H3O</span> <span class="o">=</span> <span class="p">[[[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s1">&#39;O&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span><span class="s1">&#39;H&#39;</span><span class="p">}]]</span>
 </pre></div>
 </div>
 <p>let’s calculate a default kernel value</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">gs_kernel</span> <span class="o">=</span> <span class="n">GraphKernel</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;graphlet_sampling&quot;</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="mi">5</span><span class="p">))</span>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">gs_kernel</span> <span class="o">=</span> <span class="n">GraphKernel</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;graphlet_sampling&quot;</span><span class="p">,</span> <span class="n">sampling</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">5</span><span class="p">)))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">gs_kernel</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">H2O</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">gs_kernel</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">H3O</span><span class="p">)</span>
-<span class="go">20.0</span>
+<span class="go">GraphKernel(Nystroem=False,</span>
+<span class="go">      kernel={&#39;name&#39;: &#39;graphlet_sampling&#39;, &#39;sampling&#39;: {&#39;n_samples&#39;: 5}},</span>
+<span class="go">      n_jobs=None, normalize=False, random_state=None, verbose=False)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gs_kernel</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">H3O</span><span class="p">)</span> 
+<span class="go">array([[10.]])</span>
 </pre></div>
 </div>
-<p>Note that if a random seed is not given as an argument either to the <code class="code docutils literal notranslate"><span class="pre">GraphKernel</span></code> or to the kernel parameters
-a default will be used. Now let’s try to give one as a parameter of the kernel (say 3)</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">gs_kernel</span> <span class="o">=</span> <span class="n">GraphKernel</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;graphlet_sampling&quot;</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="mi">3</span><span class="p">))</span>
-<span class="n">gs_kernel</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">H2O</span><span class="p">)</span>
-<span class="n">gs_kernel</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">H3O</span><span class="p">)</span>
-<span class="mf">10.0</span>
-</pre></div>
-</div>
-<p>As we see a new value has been calculated because the default seed is now not used. If know a <code class="code docutils literal notranslate"><span class="pre">random_seed</span></code>
-is initialized inside the decorator and no parameter is given signifying a <code class="code docutils literal notranslate"><span class="pre">random_seed</span></code> to the <code class="code docutils literal notranslate"><span class="pre">kernel</span></code>
-argument then if the kernel has such parameter the default will be used. This is demonstrated in what follows</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">gs_kernel</span> <span class="o">=</span> <span class="n">GraphKernel</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;graphlet_sampling&quot;</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="mi">5</span><span class="p">),</span> <span class="n">random_seed</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-<span class="n">gs_kernel</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">H2O</span><span class="p">)</span>
-<span class="n">gs_kernel</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">H3O</span><span class="p">)</span>
-<span class="mf">10.0</span>
-</pre></div>
-</div>
-<p>where we get the same result. Now if both a <code class="code docutils literal notranslate"><span class="pre">GraphKernel</span></code> has a <code class="code docutils literal notranslate"><span class="pre">random_seed</span></code> and the <code class="code docutils literal notranslate"><span class="pre">kernel</span></code> is provided
-with one inside parametrization, the second will be used inside the <code class="code docutils literal notranslate"><span class="pre">kernel</span></code> and the first outside, in the rest code area
-covered by the decorator, as expected. To demonstrate we will show is the following:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">gs_kernel</span> <span class="o">=</span> <span class="n">GraphKernel</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;graphlet_sampling&quot;</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span> <span class="n">random_seed</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<p>Note that if a random state is not given as an argument either to the <code class="code docutils literal notranslate"><span class="pre">GraphKernel</span></code> or to the kernel parameters
+a default one will be used, initialized as a None random_state. This is connected to the current time, and its value will probably change throughout executions (other resulting values will be 10.0, 15.0, 20.0).
+Now let’s try to give one as the parameter of the kernel (say 42).</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">gs_kernel</span> <span class="o">=</span> <span class="n">GraphKernel</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;graphlet_sampling&quot;</span><span class="p">,</span> <span class="n">sampling</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">5</span><span class="p">),</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">gs_kernel</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">H2O</span><span class="p">)</span>
+<span class="go">GraphKernel(Nystroem=False,</span>
+<span class="go">      kernel={&#39;name&#39;: &#39;graphlet_sampling&#39;, &#39;sampling&#39;: {&#39;n_samples&#39;: 5}, &#39;random_state&#39;: 42},</span>
+<span class="go">      n_jobs=None, normalize=False, random_state=None, verbose=False)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">gs_kernel</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">H3O</span><span class="p">)</span>
-<span class="go">10.0</span>
+<span class="go">array([[15.]])</span>
+</pre></div>
+</div>
+<p>As we see a new value has been calculated, which is deterministically related to the value 42.
+The same can be done if <code class="code docutils literal notranslate"><span class="pre">random_state</span></code> is initialized inside for the generic wrapper and no parameter is given for a <code class="code docutils literal notranslate"><span class="pre">random_state</span></code> to the <code class="code docutils literal notranslate"><span class="pre">kernel</span></code>
+argument.</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">gs_kernel</span> <span class="o">=</span> <span class="n">GraphKernel</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;graphlet_sampling&quot;</span><span class="p">,</span> <span class="n">sampling</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">5</span><span class="p">)),</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gs_kernel</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">H2O</span><span class="p">)</span>
+<span class="go">GraphKernel(Nystroem=False,</span>
+<span class="go">      kernel={&#39;name&#39;: &#39;graphlet_sampling&#39;, &#39;sampling&#39;: {&#39;n_samples&#39;: 5}},</span>
+<span class="go">      n_jobs=None, normalize=False, random_state=42, verbose=False)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gs_kernel</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">H3O</span><span class="p">)</span>
+<span class="go">array([[15.]])</span>
+</pre></div>
+</div>
+<p>where we get the same result. Now if both a <code class="code docutils literal notranslate"><span class="pre">GraphKernel</span></code> has a <code class="code docutils literal notranslate"><span class="pre">random_state</span></code> and the <code class="code docutils literal notranslate"><span class="pre">kernel</span></code> is provided
+with one as an argument, the second will be used inside the <code class="code docutils literal notranslate"><span class="pre">kernel</span></code> and the first for the generic wrapper, as expected</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">gs_kernel</span> <span class="o">=</span> <span class="n">GraphKernel</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;graphlet_sampling&quot;</span><span class="p">,</span> <span class="n">sampling</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)),</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gs_kernel</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">H2O</span><span class="p">)</span>
+<span class="go">GraphKernel(Nystroem=False,</span>
+<span class="go">      kernel={&#39;name&#39;: &#39;graphlet_sampling&#39;, &#39;sampling&#39;: {&#39;n_samples&#39;: 5, &#39;random_state&#39;: 0}},</span>
+<span class="go">      n_jobs=None, normalize=False, random_state=42, verbose=False)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gs_kernel</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">H3O</span><span class="p">)</span>
+<span class="go">array([[15.]])</span>
 </pre></div>
 </div>
 <p>where</p>
-<div class="last highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">gs_kernel</span> <span class="o">=</span> <span class="n">GraphKernel</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;graphlet_sampling&quot;</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">gs_kernel</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">H2O</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">gs_kernel</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">H3O</span><span class="p">)</span>
-<span class="go">15.0</span>
+<div class="last highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">gs_kernel</span> <span class="o">=</span> <span class="n">GraphKernel</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;graphlet_sampling&quot;</span><span class="p">,</span> <span class="n">sampling</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">5</span><span class="p">)),</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gs_kernel</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">H2O</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">H3O</span><span class="p">)</span>
+<span class="go">array([[10.]])</span>
 </pre></div>
 </div>
 </dd>
@@ -368,7 +382,7 @@ covered by the decorator, as expected. To demonstrate we will show is the follow
 </dl>
 </li>
 </ul>
-<p>To understand what the <code class="code docutils literal notranslate"><span class="pre">GraphKernel</span></code> object is doing, we must see inherently what objects it decorates.</p>
+<p>To understand what the <code class="code docutils literal notranslate"><span class="pre">GraphKernel</span></code> object is doing, we must see inherently what objects it wraps.</p>
 </div>
 <div class="section" id="the-kernel-class">
 <h2>The <cite>Kernel</cite> class<a class="headerlink" href="#the-kernel-class" title="Permalink to this headline">¶</a></h2>
@@ -395,10 +409,10 @@ before fit we advise him to use the <code class="code docutils literal notransla
 <p class="first admonition-title">Note</p>
 <p class="last">The very idea that lies before fitting concerns holding a reference dataset. This means a collections of features should be stored into memory and <strong>not</strong> get corrupted throughout various applications of <code class="code docutils literal notranslate"><span class="pre">transform</span></code>. This however - the need of copying and protecting the reference data - produces a computational overhead in kernels such as the <code class="code docutils literal notranslate"><span class="pre">odd_sth</span></code> where the user will may prefer the computational advantages of applying a sole <code class="code docutils literal notranslate"><span class="pre">fit_transform</span></code>.</p>
 </div>
-<p>Using a <code class="code docutils literal notranslate"><span class="pre">kernel</span></code> type object through the decorator, should be equivalent with doing so without the decorator, if the correct parametrization is given.
-The decorator <strong>does not</strong> restrict any <em>user-oriented</em> interface of the kernels, except if the user wants to write a kernel of his own.
+<p>Using a <code class="code docutils literal notranslate"><span class="pre">Kernel</span></code> type object through the generic wrapper, should be equivalent with doing so without the generic wrapper, if the correct parametrization is given.
+The generic wrapper <strong>does not</strong> restrict any <em>user-oriented</em> interface of the kernels, except if the user wants to write a kernel of his own.
 If you want to know more about the kernel structure in order to write your own see <a class="reference internal" href="make_your_own_kernel.html#myok"><span class="std std-ref">Write your own kernel</span></a>.</p>
-<p>To demonstrate a small example of the above we will construct our own a WL-subtree kernel instead of using the decorator.
+<p>To demonstrate a small example of the above we will construct our own a WL-subtree kernel instead of using the generic wrapper.
 To do so first import the <code class="code docutils literal notranslate"><span class="pre">WeisfeilerLehman</span></code> and <code class="code docutils literal notranslate"><span class="pre">VertexHistogram</span></code> (where <code class="code docutils literal notranslate"><span class="pre">vertex_histogram</span></code> is equivalent
 with the <code class="code docutils literal notranslate"><span class="pre">subtree_kernel</span></code>) kernels as</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">grakel</span> <span class="kn">import</span> <span class="n">WeisfeilerLehman</span>
@@ -424,7 +438,7 @@ with the <code class="code docutils literal notranslate"><span class="pre">subtr
 <p>If what we said till now is correct, the <code class="code docutils literal notranslate"><span class="pre">GraphKernel</span></code> object should produce the same kernel matrix output on the MUTAG train/test data split.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">grakel</span> <span class="kn">import</span> <span class="n">GraphKernel</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">wl_graph_kernel</span> <span class="o">=</span> <span class="n">GraphKernel</span><span class="p">(</span><span class="n">kernel</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;weisfeiler_lehman&quot;</span><span class="p">,</span> <span class="s2">&quot;niter&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">},</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;subtree_wl&quot;</span><span class="p">}])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># The alias &quot;subtree_wl&quot; is supported inside the decorator</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># The alias &quot;subtree_wl&quot; is supported inside the generic wrapper</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">array_equal</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">array_equal</span><span class="p">(</span><span class="n">wl_graph_kernel</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="n">wl_kernel</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">))</span>
 <span class="go">True</span>
@@ -565,7 +579,7 @@ First initialize those objects:</p>
         <a href="make_your_own_kernel.html" class="btn btn-neutral float-right" title="Write your own kernel" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="introduction.html" class="btn btn-neutral" title="A short Introduction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="introduction.html" class="btn btn-neutral float-left" title="A short Introduction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -591,26 +605,16 @@ First initialize those objects:</p>
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

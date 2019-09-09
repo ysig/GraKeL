@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>K-Fold classification on the ENZYMES dataset using the approximate Multiscale Laplacian kernel. &mdash; GraKeL 0.1a5 documentation</title>
+  <title>K-Fold classification on the ENZYMES dataset using the approximate Multiscale Laplacian kernel. &mdash; GraKeL 0.1a6 documentation</title>
   
 
   
@@ -17,35 +17,38 @@
   
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="../_static/_static/css/supplementary.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="Classification statistics on the MUTAG, ENZYMES datasets." href="classification_statistics.html" /> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
+    <link rel="prev" title="Classification on MUTAG using the Lovasz theta and SVM-theta kernels." href="lovasz_svm_theta.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -62,7 +65,7 @@
             
             
               <div class="version">
-                0.1a5
+                0.1a6
               </div>
             
           
@@ -98,7 +101,6 @@
 <li class="toctree-l2"><a class="reference internal" href="document_retrieval_example.html">Retrieval of most similar document using the Weisfeiler-Lehman subtree kernel.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="digit_classification_example.html">Classifying handwritten digits using the neighborhood subgraph pairwise distance kernel.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="lovasz_svm_theta.html">Classification on MUTAG using the Lovasz theta and SVM-theta kernels.</a></li>
-<li class="toctree-l2"><a class="reference internal" href="classification_statistics.html">Classification statistics on the MUTAG, ENZYMES datasets.</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">K-Fold classification on the ENZYMES dataset using the approximate Multiscale Laplacian kernel.</a></li>
 </ul>
 </li>
@@ -155,7 +157,7 @@
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/auto_examples/plot_KFold_MLG.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/auto_examples/KFold_MLG.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -170,28 +172,18 @@
             
   <div class="sphx-glr-download-link-note admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">Click <a class="reference internal" href="#sphx-glr-download-auto-examples-plot-kfold-mlg-py"><span class="std std-ref">here</span></a> to download the full example code</p>
+<p class="last">Click <a class="reference internal" href="#sphx-glr-download-auto-examples-kfold-mlg-py"><span class="std std-ref">here</span></a> to download the full example code</p>
 </div>
 <div class="sphx-glr-example-title section" id="k-fold-classification-on-the-enzymes-dataset-using-the-approximate-multiscale-laplacian-kernel">
-<span id="sphx-glr-auto-examples-plot-kfold-mlg-py"></span><h1>K-Fold classification on the ENZYMES dataset using the approximate Multiscale Laplacian kernel.<a class="headerlink" href="#k-fold-classification-on-the-enzymes-dataset-using-the-approximate-multiscale-laplacian-kernel" title="Permalink to this headline">¶</a></h1>
+<span id="sphx-glr-auto-examples-kfold-mlg-py"></span><h1>K-Fold classification on the ENZYMES dataset using the approximate Multiscale Laplacian kernel.<a class="headerlink" href="#k-fold-classification-on-the-enzymes-dataset-using-the-approximate-multiscale-laplacian-kernel" title="Permalink to this headline">¶</a></h1>
 <p>An example plot of <a class="reference internal" href="../generated/grakel.GraphKernel.html#grakel.GraphKernel" title="grakel.GraphKernel"><code class="xref py py-class docutils literal notranslate"><span class="pre">grakel.GraphKernel</span></code></a>, <a class="reference internal" href="../generated/grakel.MultiscaleLaplacianFast.html#grakel.MultiscaleLaplacianFast" title="grakel.MultiscaleLaplacianFast"><code class="xref py py-class docutils literal notranslate"><span class="pre">grakel.MultiscaleLaplacianFast</span></code></a></p>
-<p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>ENZYMES
--------
-Mean values of  10 folds:
-MLG [Fast] &gt; Accuracy: 54.67 % | Took: 44.76 s
-</pre></div>
-</div>
-<div class="line-block">
-<div class="line"><br /></div>
-</div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
-<span class="k">print</span><span class="p">(</span><span class="vm">__doc__</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">print_function</span>
+<span class="nb">print</span><span class="p">(</span><span class="vm">__doc__</span><span class="p">)</span>
 
 <span class="kn">import</span> <span class="nn">argparse</span>
 
-<span class="kn">from</span> <span class="nn">grakel</span> <span class="kn">import</span> <a href="../generated/grakel.GraphKernel.html#grakel.GraphKernel" title="View documentation for grakel.GraphKernel"><span class="n">GraphKernel</span></a>
-<span class="kn">from</span> <span class="nn">grakel</span> <span class="kn">import</span> <span class="n">datasets</span>
+<span class="kn">from</span> <span class="nn">grakel</span> <span class="k">import</span> <a href="../generated/grakel.GraphKernel.html#grakel.GraphKernel" title="View documentation for grakel.GraphKernel"><span class="n">GraphKernel</span></a>
+<span class="kn">from</span> <span class="nn">grakel</span> <span class="k">import</span> <span class="n">datasets</span>
 
 <span class="c1"># Create an argument parser for the installer of pynauty</span>
 <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span>
@@ -210,30 +202,30 @@ MLG [Fast] &gt; Accuracy: 54.67 % | Took: 44.76 s
 
 <span class="c1"># Check the dataset provided by the user</span>
 <span class="n">dinfo</span> <span class="o">=</span> <a href="../generated/grakel.datasets.get_dataset_info.html#grakel.datasets.get_dataset_info" title="View documentation for grakel.datasets.get_dataset_info"><span class="n">datasets</span><span class="o">.</span><span class="n">get_dataset_info</span></a><span class="p">(</span><span class="n">dataset_name</span><span class="p">)</span>
-<span class="k">if</span> <span class="n">dinfo</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+<span class="k">if</span> <span class="n">dinfo</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Dataset not found!&#39;</span><span class="p">)</span>
 <span class="k">elif</span> <span class="ow">not</span> <span class="n">dinfo</span><span class="p">[</span><span class="s2">&quot;nl&quot;</span><span class="p">]:</span>
     <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Dataset must have contain node attributes.&#39;</span><span class="p">)</span>
 
 
 <span class="c1"># The baseline dataset for node/edge-attributes</span>
-<span class="k">print</span><span class="p">(</span><span class="n">dataset_name</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataset_name</span><span class="p">)</span> <span class="o">*</span> <span class="s2">&quot;-&quot;</span><span class="p">,</span><span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">dataset_name</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataset_name</span><span class="p">)</span> <span class="o">*</span> <span class="s2">&quot;-&quot;</span><span class="p">,</span><span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="n">dataset_attr</span> <span class="o">=</span> <a href="../generated/grakel.datasets.fetch_dataset.html#grakel.datasets.fetch_dataset" title="View documentation for grakel.datasets.fetch_dataset"><span class="n">datasets</span><span class="o">.</span><span class="n">fetch_dataset</span></a><span class="p">(</span><span class="n">dataset_name</span><span class="p">,</span>
-                                      <span class="n">with_classes</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-                                      <span class="n">prefer_attr_nodes</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
-                                      <span class="n">prefer_attr_edges</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
-                                      <span class="n">verbose</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+                                      <span class="n">with_classes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                      <span class="n">prefer_attr_nodes</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                      <span class="n">prefer_attr_edges</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                      <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
-<span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">time</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="k">import</span> <span class="n">tqdm</span>
+<span class="kn">from</span> <span class="nn">time</span> <span class="k">import</span> <span class="n">time</span>
 
-<span class="kn">from</span> <span class="nn">six</span> <span class="kn">import</span> <span class="n">itervalues</span><span class="p">,</span> <span class="n">iteritems</span>
+<span class="kn">from</span> <span class="nn">six</span> <span class="k">import</span> <span class="n">itervalues</span><span class="p">,</span> <span class="n">iteritems</span>
 
-<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <a href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.accuracy_score.html#sklearn.metrics.accuracy_score" title="View documentation for sklearn.metrics.accuracy_score"><span class="n">accuracy_score</span></a>
-<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <a href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.KFold.html#sklearn.model_selection.KFold" title="View documentation for sklearn.model_selection.KFold"><span class="n">KFold</span></a>
-<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">svm</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="k">import</span> <a href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.accuracy_score.html#sklearn.metrics.accuracy_score" title="View documentation for sklearn.metrics.accuracy_score"><span class="n">accuracy_score</span></a>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="k">import</span> <a href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.KFold.html#sklearn.model_selection.KFold" title="View documentation for sklearn.model_selection.KFold"><span class="n">KFold</span></a>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="k">import</span> <span class="n">svm</span>
 
 <span class="k">def</span> <span class="nf">sec_to_time</span><span class="p">(</span><span class="n">sec</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Print time in a correct format.&quot;&quot;&quot;</span>
@@ -273,7 +265,7 @@ MLG [Fast] &gt; Accuracy: 54.67 % | Took: 44.76 s
 <span class="n">C_grid</span> <span class="o">=</span> <span class="p">(</span><span class="mf">10.</span> <span class="o">**</span> <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.arange.html#numpy.arange" title="View documentation for numpy.arange"><span class="n">np</span><span class="o">.</span><span class="n">arange</span></a><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">G</span><span class="p">))</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
 
 <span class="n">stats</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;acc&quot;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(),</span> <span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="nb">list</span><span class="p">()}</span>
-<span class="n">kf</span> <span class="o">=</span> <a href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.KFold.html#sklearn.model_selection.KFold" title="View documentation for sklearn.model_selection.KFold"><span class="n">KFold</span></a><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">kf</span> <span class="o">=</span> <a href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.KFold.html#sklearn.model_selection.KFold" title="View documentation for sklearn.model_selection.KFold"><span class="n">KFold</span></a><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">niter</span> <span class="o">=</span> <span class="n">kf</span><span class="o">.</span><span class="n">get_n_splits</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
 
 <span class="k">for</span> <span class="n">train_index</span><span class="p">,</span> <span class="n">test_index</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">kf</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span>
@@ -299,7 +291,7 @@ MLG [Fast] &gt; Accuracy: 54.67 % | Took: 44.76 s
                              <span class="s2">&quot;which&quot;</span><span class="p">:</span> <span class="s2">&quot;fast&quot;</span><span class="p">,</span>
                              <span class="s2">&quot;L&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
                              <span class="s2">&quot;P&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
-                             <span class="s2">&quot;N&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">})</span>
+                             <span class="s2">&quot;n_samples&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">})</span>
 
     <span class="c1"># Calculate the kernel matrix.</span>
     <span class="n">K_train</span> <span class="o">=</span> <span class="n">gk</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">G_train</span><span class="p">)</span>
@@ -324,20 +316,20 @@ MLG [Fast] &gt; Accuracy: 54.67 % | Took: 44.76 s
     <span class="n">stats</span><span class="p">[</span><span class="s2">&quot;acc&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">acc</span><span class="p">)</span>
     <span class="n">stats</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">end</span><span class="o">-</span><span class="n">start</span><span class="p">)</span>
 
-<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Mean values of &quot;</span><span class="p">,</span> <span class="n">niter</span><span class="p">,</span> <span class="s2">&quot;folds:&quot;</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="s2">&quot;MLG [Fast] &gt; Accuracy:&quot;</span><span class="p">,</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Mean values of &quot;</span><span class="p">,</span> <span class="n">niter</span><span class="p">,</span> <span class="s2">&quot;folds:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;MLG [Fast] &gt; Accuracy:&quot;</span><span class="p">,</span>
       <span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.mean.html#numpy.mean" title="View documentation for numpy.mean"><span class="n">np</span><span class="o">.</span><span class="n">mean</span></a><span class="p">(</span><span class="n">stats</span><span class="p">[</span><span class="s2">&quot;acc&quot;</span><span class="p">])</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span> <span class="mi">2</span><span class="p">)),</span>
       <span class="s2">&quot;% | Took:&quot;</span><span class="p">,</span> <span class="n">sec_to_time</span><span class="p">(</span><a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.mean.html#numpy.mean" title="View documentation for numpy.mean"><span class="n">np</span><span class="o">.</span><span class="n">mean</span></a><span class="p">(</span><span class="n">stats</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">])))</span>
 </pre></div>
 </div>
-<p><strong>Total running time of the script:</strong> ( 7 minutes  30.722 seconds)</p>
-<div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-plot-kfold-mlg-py">
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.000 seconds)</p>
+<div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-kfold-mlg-py">
 <div class="sphx-glr-download docutils container">
-<a class="reference download internal" download="" href="../_downloads/3930c9e852661696e779ca1efd7a2483/plot_KFold_MLG.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_KFold_MLG.py</span></code></a></div>
+<a class="reference download internal" download="" href="../_downloads/2243d05b1d6399af25f578db4755cabb/KFold_MLG.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">KFold_MLG.py</span></code></a></div>
 <div class="sphx-glr-download docutils container">
-<a class="reference download internal" download="" href="../_downloads/df1350364a370d2eab03d9f63e00e7ee/plot_KFold_MLG.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_KFold_MLG.ipynb</span></code></a></div>
+<a class="reference download internal" download="" href="../_downloads/252f5758324be81cecdc2a4444e58372/KFold_MLG.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">KFold_MLG.ipynb</span></code></a></div>
 </div>
-<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.readthedocs.io">Gallery generated by Sphinx-Gallery</a></p>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
 </div>
 
 
@@ -349,7 +341,7 @@ MLG [Fast] &gt; Accuracy: 54.67 % | Took: 44.76 s
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
       
-        <a href="classification_statistics.html" class="btn btn-neutral" title="Classification statistics on the MUTAG, ENZYMES datasets." accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="lovasz_svm_theta.html" class="btn btn-neutral float-left" title="Classification on MUTAG using the Lovasz theta and SVM-theta kernels." accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -375,26 +367,16 @@ MLG [Fast] &gt; Accuracy: 54.67 % | Took: 44.76 s
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Examples &mdash; GraKeL 0.1a5 documentation</title>
+  <title>Examples &mdash; GraKeL 0.1a6 documentation</title>
   
 
   
@@ -17,13 +17,21 @@
   
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
@@ -32,21 +40,16 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Cross-Validation scikit-learn Pipeline example on the MUTAG dataset using the Shortest Path Kernel." href="plot_pipeline_shortest_path.html" />
     <link rel="prev" title="grakel.graph_from_csv" href="../generated/grakel.graph_from_csv.html" /> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -63,7 +66,7 @@
             
             
               <div class="version">
-                0.1a5
+                0.1a6
               </div>
             
           
@@ -99,8 +102,7 @@
 <li class="toctree-l2"><a class="reference internal" href="document_retrieval_example.html">Retrieval of most similar document using the Weisfeiler-Lehman subtree kernel.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="digit_classification_example.html">Classifying handwritten digits using the neighborhood subgraph pairwise distance kernel.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="lovasz_svm_theta.html">Classification on MUTAG using the Lovasz theta and SVM-theta kernels.</a></li>
-<li class="toctree-l2"><a class="reference internal" href="classification_statistics.html">Classification statistics on the MUTAG, ENZYMES datasets.</a></li>
-<li class="toctree-l2"><a class="reference internal" href="plot_KFold_MLG.html">K-Fold classification on the ENZYMES dataset using the approximate Multiscale Laplacian kernel.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="KFold_MLG.html">K-Fold classification on the ENZYMES dataset using the approximate Multiscale Laplacian kernel.</a></li>
 </ul>
 </li>
 </ul>
@@ -168,15 +170,15 @@
            <div itemprop="articleBody">
             
   <div class="section" id="examples">
-<span id="general-examples"></span><h1>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h1>
+<span id="general-examples"></span><span id="sphx-glr-auto-examples"></span><h1>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h1>
 <p>Examples that use graph kernels to perform various tasks (e.g., graph classification, retrieval of most similar document, etc).</p>
-<div class="sphx-glr-thumbcontainer" tooltip="An example plot of :class:`grakel.GraphKernel`, :class:`grakel.ShortestPath` "><div class="figure" id="id1">
+<div class="sphx-glr-thumbcontainer" tooltip="An example plot of grakel.GraphKernel, grakel.ShortestPath "><div class="figure" id="id1">
 <img alt="../_images/sphx_glr_plot_pipeline_shortest_path_thumb.png" src="../_images/sphx_glr_plot_pipeline_shortest_path_thumb.png" />
 <p class="caption"><span class="caption-text"><a class="reference internal" href="plot_pipeline_shortest_path.html#sphx-glr-auto-examples-plot-pipeline-shortest-path-py"><span class="std std-ref">Cross-Validation scikit-learn Pipeline example on the MUTAG dataset using the Shortest Path Kernel.</span></a></span></p>
 </div>
 </div><div class="toctree-wrapper compound">
 </div>
-<div class="sphx-glr-thumbcontainer" tooltip="An example plot of :class:`grakel.GraphKernel`, :class:`grakel.WeisfeilerLehman`, :class:`grake..."><div class="figure" id="id2">
+<div class="sphx-glr-thumbcontainer" tooltip="An example plot of grakel.GraphKernel, grakel.WeisfeilerLehman, grakel.VertexHistogram "><div class="figure" id="id2">
 <img alt="../_images/sphx_glr_plot_wl_subtree_MUTAG_thumb.png" src="../_images/sphx_glr_plot_wl_subtree_MUTAG_thumb.png" />
 <p class="caption"><span class="caption-text"><a class="reference internal" href="plot_wl_subtree_MUTAG.html#sphx-glr-auto-examples-plot-wl-subtree-mutag-py"><span class="std std-ref">Classification on the MUTAG dataset using the WL-subtree kernel.</span></a></span></p>
 </div>
@@ -194,21 +196,15 @@
 </div>
 </div><div class="toctree-wrapper compound">
 </div>
-<div class="sphx-glr-thumbcontainer" tooltip="An example plot of :class:`grakel.GraphKernel`, :class:`grakel.LovaszTheta`, :class:`grakel.Svm..."><div class="figure" id="id5">
+<div class="sphx-glr-thumbcontainer" tooltip="An example plot of grakel.GraphKernel, grakel.LovaszTheta, grakel.SvmTheta "><div class="figure" id="id5">
 <img alt="../_images/sphx_glr_lovasz_svm_theta_thumb.png" src="../_images/sphx_glr_lovasz_svm_theta_thumb.png" />
 <p class="caption"><span class="caption-text"><a class="reference internal" href="lovasz_svm_theta.html#sphx-glr-auto-examples-lovasz-svm-theta-py"><span class="std std-ref">Classification on MUTAG using the Lovasz theta and SVM-theta kernels.</span></a></span></p>
 </div>
 </div><div class="toctree-wrapper compound">
 </div>
-<div class="sphx-glr-thumbcontainer" tooltip="An example plot of :class:`grakel.GraphKernel` "><div class="figure" id="id6">
-<img alt="../_images/sphx_glr_classification_statistics_thumb.png" src="../_images/sphx_glr_classification_statistics_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="classification_statistics.html#sphx-glr-auto-examples-classification-statistics-py"><span class="std std-ref">Classification statistics on the MUTAG, ENZYMES datasets.</span></a></span></p>
-</div>
-</div><div class="toctree-wrapper compound">
-</div>
-<div class="sphx-glr-thumbcontainer" tooltip="An example plot of :class:`grakel.GraphKernel`, :class:`grakel.MultiscaleLaplacianFast` "><div class="figure" id="id7">
-<img alt="../_images/sphx_glr_plot_KFold_MLG_thumb.png" src="../_images/sphx_glr_plot_KFold_MLG_thumb.png" />
-<p class="caption"><span class="caption-text"><a class="reference internal" href="plot_KFold_MLG.html#sphx-glr-auto-examples-plot-kfold-mlg-py"><span class="std std-ref">K-Fold classification on the ENZYMES dataset using the approximate Multiscale Laplacian kernel.</span></a></span></p>
+<div class="sphx-glr-thumbcontainer" tooltip="An example plot of grakel.GraphKernel, grakel.MultiscaleLaplacianFast "><div class="figure" id="id6">
+<img alt="../_images/sphx_glr_KFold_MLG_thumb.png" src="../_images/sphx_glr_KFold_MLG_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="KFold_MLG.html#sphx-glr-auto-examples-kfold-mlg-py"><span class="std std-ref">K-Fold classification on the ENZYMES dataset using the approximate Multiscale Laplacian kernel.</span></a></span></p>
 </div>
 </div><div class="toctree-wrapper compound">
 </div>
@@ -218,7 +214,7 @@
 <div class="sphx-glr-download docutils container">
 <a class="reference download internal" download="" href="../_downloads/d34667f097c619f8afda4bc936e7af21/auto_examples_jupyter.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">all</span> <span class="pre">examples</span> <span class="pre">in</span> <span class="pre">Jupyter</span> <span class="pre">notebooks:</span> <span class="pre">auto_examples_jupyter.zip</span></code></a></div>
 </div>
-<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.readthedocs.io">Gallery generated by Sphinx-Gallery</a></p>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
 </div>
 
 
@@ -232,7 +228,7 @@
         <a href="plot_pipeline_shortest_path.html" class="btn btn-neutral float-right" title="Cross-Validation scikit-learn Pipeline example on the MUTAG dataset using the Shortest Path Kernel." accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../generated/grakel.graph_from_csv.html" class="btn btn-neutral" title="grakel.graph_from_csv" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../generated/grakel.graph_from_csv.html" class="btn btn-neutral float-left" title="grakel.graph_from_csv" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -258,26 +254,16 @@
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

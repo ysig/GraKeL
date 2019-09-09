@@ -4,7 +4,7 @@
 Write your own kernel
 =====================
 
-As mentioned before on the :ref:`longer_introduction`, each kernel imported from the :code:`GraphKernel` decorator
+As mentioned before on the :ref:`longer_introduction`, each kernel imported from the :code:`GraphKernel` generic wrapper
 and found inside :code:`grakel.kernels` sub-package, inherits the :code:`Kernel` class found there.
 In order to write any kernel that will be integrated (see :ref:`contributing`), in our package we would like the
 user to inherit that class. This may seem restricting but is not. We will try to demonstrate this in the

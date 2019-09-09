@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Contributing &mdash; GraKeL 0.1a5 documentation</title>
+  <title>Contributing &mdash; GraKeL 0.1a6 documentation</title>
   
 
   
@@ -17,13 +17,21 @@
   
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
@@ -32,21 +40,16 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="GraKeL" href="../api.html" />
     <link rel="prev" title="Write your own kernel" href="make_your_own_kernel.html" /> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -63,7 +66,7 @@
             
             
               <div class="version">
-                0.1a5
+                0.1a6
               </div>
             
           
@@ -97,6 +100,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#ways-you-can-contribute">Ways you can contribute</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#areas-you-can-contribute">Areas you can contribute</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#who-to-blame-for-the-grakel-project">Who to blame for the GraKeL project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#license">License</a></li>
 </ul>
 </li>
 </ul>
@@ -200,7 +204,7 @@ that supports both vertex-oriented and edge-oriented representations of graphs, 
 various types of inputs and finally a small group of important operations concerning graph objects, while being at the same
 time memory and computationally efficient. To achieve that goal the code of the <code class="code docutils literal notranslate"><span class="pre">Graph</span></code> should be optimized in python
 and if it is possible and seems more efficiently to be totally converted to a <em>Cython</em> extension (for the use of C++ as a back-end).</li>
-<li><strong>Redesigning the</strong> <code class="code docutils literal notranslate"><span class="pre">kernel</span></code> <strong>class</strong>: The <code class="code docutils literal notranslate"><span class="pre">kernel</span></code> class has been confined to the project constraints (namely sklearn compatibility)
+<li><strong>Redesigning the</strong> <code class="code docutils literal notranslate"><span class="pre">Kernel</span></code> <strong>class</strong>: The <code class="code docutils literal notranslate"><span class="pre">kernel</span></code> class has been confined to the project constraints (namely sklearn compatibility)
 to the most abstract way possible. Other features and methods can be added to the kernel class to support frameworks that are currently
 not supported, such as <em>deep-graph-kernels</em> or <em>valid-assignment-kernels</em> if this is considered important by the community.</li>
 <li><strong>Unit-Testing</strong>: As far as the kernel module is concerned we have not found a standard way of checking that the computations are valid
@@ -208,8 +212,8 @@ either than doing a kernel validation by-hand or using code-of-others to see tha
 the classification accuracy concerning kernel-matrix-computation in benchmark datasets. Either than checking that a kernel is positive-semi-definite
 through the use of <code class="code docutils literal notranslate"><span class="pre">fit_transform</span></code>, we would like to be able to apply a more thorough unit-testing, that will expose the kernels calculation
 validity in relation to the theoretical foundation.</li>
-<li><strong>Utilizing Parallel/Concurrent computation</strong>: It is important that the <code class="code docutils literal notranslate"><span class="pre">GraphKernel</span></code> decorator through the objects of the <code class="code docutils literal notranslate"><span class="pre">kernel</span></code>
-class supports a parallel computation scheme for executing procedures faster if the user wants so. This feature appears as currently implemented,
+<li><strong>Utilizing Parallel/Concurrent computation</strong>: It is important that the <code class="code docutils literal notranslate"><span class="pre">GraphKernel</span></code> generic-wrapper supports a parallel computation scheme,
+through the objects of the <code class="code docutils literal notranslate"><span class="pre">Kernel</span></code> class, for executing procedures faster if the user wants so. This feature appears as currently implemented,
 but actually its implementation is wrong. It is a major problem to tackle that on the other hand, should not be so difficult.</li>
 </ul>
 </div>
@@ -218,9 +222,14 @@ but actually its implementation is wrong. It is a major problem to tackle that o
 <p>The GraKeL project is currently developed by the editor [Ioannis Siglidis] inside a one year project founded from the <a class="reference external" href="https://digicosme.lri.fr/tiki-index.php">Labex DigiCosme</a>
 organization of the <em>Paris-Saclay</em> University at the <a class="reference external" href="http://www.lix.polytechnique.fr/dascim/">DaSciM</a> laboratory of LiX.</p>
 <p>The project is currently carried out under the administrative supervision of the DaSciM Team Leader, <a class="reference external" href="http://www.lix.polytechnique.fr/~mvazirg/">Michalis Vazirgiannis</a> as well as the scientific
-supervision of Giannis Nikolentzos a postdoctoral researcher.
-Other members of the lab aiding with the construction of this library are: Xristos Giatsidis, Stratis Limnios and Konstantinos Skianis.</p>
-<p>The project BSD license - a prerequisite of <em>sk-learn</em> compatibility - is accepted by the editor as it does not offend the virtues of the free-software community.</p>
+supervision of Giannis Nikolentzos, a postdoctoral researcher.
+Other members of the lab aiding with the construction of this library are: Christos Giatsidis, Stratis Limnios and Konstantinos Skianis.</p>
+</div>
+<div class="section" id="license">
+<h2>License<a class="headerlink" href="#license" title="Permalink to this headline">¶</a></h2>
+<p>The project __BSD <a href="#id2"><span class="problematic" id="id3">3-clause__</span></a> - a prerequisite of <em>sk-learn</em> compatibility - is accepted by the editor as it does not offend the virtues of the free-software community.
+It contains the C++ source code of [BLISS](<a class="reference external" href="http://www.tcs.hut.fi/Software/bliss">http://www.tcs.hut.fi/Software/bliss</a>) (a library for graph isomorphism) which is __LGPL__ licensed.
+Futhermore its optional dependency in the package of [cvxopt](<a class="reference external" href="https://cvxopt.org/">https://cvxopt.org/</a>) (a tool for solving convex-optimization problems) comes with a __GPL__ license.</p>
 </div>
 </div>
 
@@ -235,7 +244,7 @@ Other members of the lab aiding with the construction of this library are: Xrist
         <a href="../api.html" class="btn btn-neutral float-right" title="GraKeL" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="make_your_own_kernel.html" class="btn btn-neutral" title="Write your own kernel" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="make_your_own_kernel.html" class="btn btn-neutral float-left" title="Write your own kernel" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -261,26 +270,16 @@ Other members of the lab aiding with the construction of this library are: Xrist
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

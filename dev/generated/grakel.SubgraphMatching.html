@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>grakel.SubgraphMatching &mdash; GraKeL 0.1a5 documentation</title>
+  <title>grakel.SubgraphMatching &mdash; GraKeL 0.1a6 documentation</title>
   
 
   
@@ -17,13 +17,21 @@
   
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
@@ -32,21 +40,16 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="grakel.WeisfeilerLehman" href="grakel.WeisfeilerLehman.html" />
     <link rel="prev" title="grakel.GraphletSampling" href="grakel.GraphletSampling.html" /> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -63,7 +66,7 @@
             
             
               <div class="version">
-                0.1a5
+                0.1a6
               </div>
             
           
@@ -200,7 +203,7 @@
 <h1><a class="reference internal" href="../api.html#module-grakel" title="grakel"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code></a>.SubgraphMatching<a class="headerlink" href="#grakel-subgraphmatching" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="grakel.SubgraphMatching">
-<em class="property">class </em><code class="descclassname">grakel.</code><code class="descname">SubgraphMatching</code><span class="sig-paren">(</span><em>n_jobs=None</em>, <em>verbose=False</em>, <em>normalize=False</em>, <em>k=5</em>, <em>kv=&lt;function k_default&gt;</em>, <em>ke=&lt;function k_default&gt;</em>, <em>lw='uniform'</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f7b9aaf/grakel/kernels/subgraph_matching.py#L22"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/subgraph_matching.html#SubgraphMatching"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SubgraphMatching" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">grakel.</code><code class="descname">SubgraphMatching</code><span class="sig-paren">(</span><em>n_jobs=None</em>, <em>verbose=False</em>, <em>normalize=False</em>, <em>k=5</em>, <em>kv=&lt;function _dirac&gt;</em>, <em>ke=&lt;function _dirac&gt;</em>, <em>lw='uniform'</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/089b65a/grakel/kernels/subgraph_matching.py#L22"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/subgraph_matching.html#SubgraphMatching"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SubgraphMatching" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the subgraph matching kernel.</p>
 <p>See <a class="reference internal" href="../kernels/subgraph_matching.html#kriege2012subgraph" id="id1">[KM12]</a>.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -211,9 +214,9 @@
 <dt><strong>k</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int, default=5</span></dt>
 <dd><p class="first last">The upper bound for the maximum size of subgraphs.</p>
 </dd>
-<dt><strong>lw</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str, valid_values={“uniform”, “increasing”</span></dt>
+<dt><strong>lw</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str, valid_values={“uniform”, “increasing”, “decreasing”, “strong_decreasing”},</span></dt>
 <dd></dd>
-<dt><strong>“decreasing”, “strong_decreasing”}, default=”uniform” | iterable, size=k+1,</strong></dt>
+<dt><strong>default=”uniform” | iterable, size=k+1,</strong></dt>
 <dd></dd>
 <dt><strong>| callable, num_of_arguments=1, argument_type=int</strong></dt>
 <dd><p class="first last">The lambda weights applied to the clique sizes.</p>
@@ -234,16 +237,7 @@ If no function is provided, this is equivalent with not taking into account edge
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>kv</strong> <span class="classifier-delimiter">:</span> <span class="classifier">function (<cite>vertex_label, `vertex_label</cite>, -&gt; number),</span></dt>
-<dd><p class="first last">The kernel function between two edge_labels.</p>
-</dd>
-<dt><strong>ke</strong> <span class="classifier-delimiter">:</span> <span class="classifier">function (<cite>edge_label</cite>, <cite>edge_label</cite> -&gt; number),</span></dt>
-<dd><p class="first last">The kernel function between two edge_labels.</p>
-</dd>
-<dt><strong>k</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd><p class="first last">The kernel function between two edge_labels.</p>
-</dd>
-<dt><strong>_lambdas</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.array, shape=(1, k+1)</span></dt>
+<dt><strong>lambdas_</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.array, shape=(1, k+1)</span></dt>
 <dd><p class="first last">All the lambdas corresponding to all the valid sizes of subgraphs.</p>
 </dd>
 </dl>
@@ -258,31 +252,31 @@ If no function is provided, this is equivalent with not taking into account edge
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.SubgraphMatching.diagonal" title="grakel.SubgraphMatching.diagonal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">diagonal</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.SubgraphMatching.diagonal" title="grakel.SubgraphMatching.diagonal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">diagonal</span></code></a>(self)</td>
 <td>Calculate the kernel matrix diagonal of the fit/transformed data.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.SubgraphMatching.fit" title="grakel.SubgraphMatching.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(X[,&nbsp;y])</td>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.SubgraphMatching.fit" title="grakel.SubgraphMatching.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(self,&nbsp;X[,&nbsp;y])</td>
 <td>Fit a dataset, for a transformer.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.SubgraphMatching.fit_transform" title="grakel.SubgraphMatching.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code></a>(X)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.SubgraphMatching.fit_transform" title="grakel.SubgraphMatching.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code></a>(self,&nbsp;X)</td>
 <td>Fit and transform, on the same dataset.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.SubgraphMatching.get_params" title="grakel.SubgraphMatching.get_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code></a>([deep])</td>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.SubgraphMatching.get_params" title="grakel.SubgraphMatching.get_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code></a>(self[,&nbsp;deep])</td>
 <td>Get parameters for this estimator.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.SubgraphMatching.initialize_" title="grakel.SubgraphMatching.initialize_"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize_</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.SubgraphMatching.initialize" title="grakel.SubgraphMatching.initialize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize</span></code></a>(self)</td>
 <td>Initialize all transformer arguments, needing initialization.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.SubgraphMatching.pairwise_operation" title="grakel.SubgraphMatching.pairwise_operation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pairwise_operation</span></code></a>(x,&nbsp;y)</td>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.SubgraphMatching.pairwise_operation" title="grakel.SubgraphMatching.pairwise_operation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pairwise_operation</span></code></a>(self,&nbsp;x,&nbsp;y)</td>
 <td>Calculate the <cite>subgraph_matching</cite> kernel.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.SubgraphMatching.parse_input" title="grakel.SubgraphMatching.parse_input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_input</span></code></a>(X)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.SubgraphMatching.parse_input" title="grakel.SubgraphMatching.parse_input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_input</span></code></a>(self,&nbsp;X)</td>
 <td>Parse and create features for the <cite>subgraph_matching</cite> kernel.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.SubgraphMatching.set_params" title="grakel.SubgraphMatching.set_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code></a>(**params)</td>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.SubgraphMatching.set_params" title="grakel.SubgraphMatching.set_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code></a>(self,&nbsp;\*\*params)</td>
 <td>Call the parent method.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.SubgraphMatching.transform" title="grakel.SubgraphMatching.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(X)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.SubgraphMatching.transform" title="grakel.SubgraphMatching.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(self,&nbsp;X)</td>
 <td>Calculate the kernel matrix, between given and fitted dataset.</td>
 </tr>
 </tbody>
@@ -307,44 +301,44 @@ If no function is provided, this is equivalent with not taking into account edge
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.SubgraphMatching.diagonal" title="grakel.SubgraphMatching.diagonal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">diagonal</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.SubgraphMatching.diagonal" title="grakel.SubgraphMatching.diagonal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">diagonal</span></code></a>(self)</td>
 <td>Calculate the kernel matrix diagonal of the fit/transformed data.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.SubgraphMatching.fit" title="grakel.SubgraphMatching.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(X[,&nbsp;y])</td>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.SubgraphMatching.fit" title="grakel.SubgraphMatching.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(self,&nbsp;X[,&nbsp;y])</td>
 <td>Fit a dataset, for a transformer.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.SubgraphMatching.fit_transform" title="grakel.SubgraphMatching.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code></a>(X)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.SubgraphMatching.fit_transform" title="grakel.SubgraphMatching.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code></a>(self,&nbsp;X)</td>
 <td>Fit and transform, on the same dataset.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.SubgraphMatching.get_params" title="grakel.SubgraphMatching.get_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code></a>([deep])</td>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.SubgraphMatching.get_params" title="grakel.SubgraphMatching.get_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code></a>(self[,&nbsp;deep])</td>
 <td>Get parameters for this estimator.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.SubgraphMatching.initialize_" title="grakel.SubgraphMatching.initialize_"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize_</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.SubgraphMatching.initialize" title="grakel.SubgraphMatching.initialize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize</span></code></a>(self)</td>
 <td>Initialize all transformer arguments, needing initialization.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.SubgraphMatching.pairwise_operation" title="grakel.SubgraphMatching.pairwise_operation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pairwise_operation</span></code></a>(x,&nbsp;y)</td>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.SubgraphMatching.pairwise_operation" title="grakel.SubgraphMatching.pairwise_operation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pairwise_operation</span></code></a>(self,&nbsp;x,&nbsp;y)</td>
 <td>Calculate the <cite>subgraph_matching</cite> kernel.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.SubgraphMatching.parse_input" title="grakel.SubgraphMatching.parse_input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_input</span></code></a>(X)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.SubgraphMatching.parse_input" title="grakel.SubgraphMatching.parse_input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_input</span></code></a>(self,&nbsp;X)</td>
 <td>Parse and create features for the <cite>subgraph_matching</cite> kernel.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.SubgraphMatching.set_params" title="grakel.SubgraphMatching.set_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code></a>(**params)</td>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.SubgraphMatching.set_params" title="grakel.SubgraphMatching.set_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code></a>(self,&nbsp;\*\*params)</td>
 <td>Call the parent method.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.SubgraphMatching.transform" title="grakel.SubgraphMatching.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(X)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.SubgraphMatching.transform" title="grakel.SubgraphMatching.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(self,&nbsp;X)</td>
 <td>Calculate the kernel matrix, between given and fitted dataset.</td>
 </tr>
 </tbody>
 </table>
 <dl class="method">
 <dt id="grakel.SubgraphMatching.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>n_jobs=None</em>, <em>verbose=False</em>, <em>normalize=False</em>, <em>k=5</em>, <em>kv=&lt;function k_default&gt;</em>, <em>ke=&lt;function k_default&gt;</em>, <em>lw='uniform'</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f7b9aaf/grakel/kernels/subgraph_matching.py#L65"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/subgraph_matching.html#SubgraphMatching.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SubgraphMatching.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>self</em>, <em>n_jobs=None</em>, <em>verbose=False</em>, <em>normalize=False</em>, <em>k=5</em>, <em>kv=&lt;function _dirac at 0x7f96d68b8500&gt;</em>, <em>ke=&lt;function _dirac at 0x7f96d68b8500&gt;</em>, <em>lw='uniform'</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/089b65a/grakel/kernels/subgraph_matching.py#L56"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/subgraph_matching.html#SubgraphMatching.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SubgraphMatching.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialise a <cite>subgraph_matching</cite> kernel.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="grakel.SubgraphMatching.diagonal">
-<code class="descname">diagonal</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f7b9aaf/grakel/kernels/kernel.py#L267"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SubgraphMatching.diagonal" title="Permalink to this definition">¶</a></dt>
+<code class="descname">diagonal</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/089b65a/grakel/kernels/kernel.py#L267"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SubgraphMatching.diagonal" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the kernel matrix diagonal of the fit/transformed data.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -374,7 +368,7 @@ This consists of each element calculated with itself.</p>
 
 <dl class="method">
 <dt id="grakel.SubgraphMatching.fit">
-<code class="descname">fit</code><span class="sig-paren">(</span><em>X</em>, <em>y=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f7b9aaf/grakel/kernels/kernel.py#L91"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SubgraphMatching.fit" title="Permalink to this definition">¶</a></dt>
+<code class="descname">fit</code><span class="sig-paren">(</span><em>self</em>, <em>X</em>, <em>y=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/089b65a/grakel/kernels/kernel.py#L91"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SubgraphMatching.fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fit a dataset, for a transformer.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -398,7 +392,7 @@ requires this parameter.</p>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
 <dt><strong>self</strong> <span class="classifier-delimiter">:</span> <span class="classifier">object</span></dt>
 <dd></dd>
-<dt><strong>Returns self.</strong></dt>
+<dt>Returns self.</dt>
 <dd></dd>
 </dl>
 </td>
@@ -409,7 +403,7 @@ requires this parameter.</p>
 
 <dl class="method">
 <dt id="grakel.SubgraphMatching.fit_transform">
-<code class="descname">fit_transform</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f7b9aaf/grakel/kernels/kernel.py#L169"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SubgraphMatching.fit_transform" title="Permalink to this definition">¶</a></dt>
+<code class="descname">fit_transform</code><span class="sig-paren">(</span><em>self</em>, <em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/089b65a/grakel/kernels/kernel.py#L169"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SubgraphMatching.fit_transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fit and transform, on the same dataset.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -445,7 +439,7 @@ all pairs of graphs between target an features</p>
 
 <dl class="method">
 <dt id="grakel.SubgraphMatching.get_params">
-<code class="descname">get_params</code><span class="sig-paren">(</span><em>deep=True</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f7b9aaf/grakel/../venv/lib/python2.7/site-packages/sklearn/base.py#L166"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SubgraphMatching.get_params" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_params</code><span class="sig-paren">(</span><em>self</em>, <em>deep=True</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/089b65a/grakel/../venv/lib/python2.7/site-packages/sklearn/base.py#L168"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SubgraphMatching.get_params" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get parameters for this estimator.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -471,14 +465,14 @@ contained subobjects that are estimators.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="grakel.SubgraphMatching.initialize_">
-<code class="descname">initialize_</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f7b9aaf/grakel/kernels/subgraph_matching.py#L78"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/subgraph_matching.html#SubgraphMatching.initialize_"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SubgraphMatching.initialize_" title="Permalink to this definition">¶</a></dt>
+<dt id="grakel.SubgraphMatching.initialize">
+<code class="descname">initialize</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/089b65a/grakel/kernels/subgraph_matching.py#L69"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/subgraph_matching.html#SubgraphMatching.initialize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SubgraphMatching.initialize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize all transformer arguments, needing initialization.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="grakel.SubgraphMatching.pairwise_operation">
-<code class="descname">pairwise_operation</code><span class="sig-paren">(</span><em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f7b9aaf/grakel/kernels/subgraph_matching.py#L133"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/subgraph_matching.html#SubgraphMatching.pairwise_operation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SubgraphMatching.pairwise_operation" title="Permalink to this definition">¶</a></dt>
+<code class="descname">pairwise_operation</code><span class="sig-paren">(</span><em>self</em>, <em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/089b65a/grakel/kernels/subgraph_matching.py#L124"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/subgraph_matching.html#SubgraphMatching.pairwise_operation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SubgraphMatching.pairwise_operation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the <cite>subgraph_matching</cite> kernel.</p>
 <p>See <a class="reference internal" href="../kernels/subgraph_matching.html#kriege2012subgraph" id="id2">[KM12]</a>.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -506,7 +500,7 @@ contained subobjects that are estimators.</p>
 
 <dl class="method">
 <dt id="grakel.SubgraphMatching.parse_input">
-<code class="descname">parse_input</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f7b9aaf/grakel/kernels/subgraph_matching.py#L153"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/subgraph_matching.html#SubgraphMatching.parse_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SubgraphMatching.parse_input" title="Permalink to this definition">¶</a></dt>
+<code class="descname">parse_input</code><span class="sig-paren">(</span><em>self</em>, <em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/089b65a/grakel/kernels/subgraph_matching.py#L144"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/subgraph_matching.html#SubgraphMatching.parse_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SubgraphMatching.parse_input" title="Permalink to this definition">¶</a></dt>
 <dd><p>Parse and create features for the <cite>subgraph_matching</cite> kernel.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -537,13 +531,13 @@ graph format). A valid input also consists of graph type objects.</p>
 
 <dl class="method">
 <dt id="grakel.SubgraphMatching.set_params">
-<code class="descname">set_params</code><span class="sig-paren">(</span><em>**params</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f7b9aaf/grakel/kernels/kernel.py#L386"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SubgraphMatching.set_params" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_params</code><span class="sig-paren">(</span><em>self</em>, <em>**params</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/089b65a/grakel/kernels/kernel.py#L386"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SubgraphMatching.set_params" title="Permalink to this definition">¶</a></dt>
 <dd><p>Call the parent method.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="grakel.SubgraphMatching.transform">
-<code class="descname">transform</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f7b9aaf/grakel/kernels/kernel.py#L128"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SubgraphMatching.transform" title="Permalink to this definition">¶</a></dt>
+<code class="descname">transform</code><span class="sig-paren">(</span><em>self</em>, <em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/089b65a/grakel/kernels/kernel.py#L128"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SubgraphMatching.transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the kernel matrix, between given and fitted dataset.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -598,7 +592,7 @@ all pairs of graphs between target an features</p>
         <a href="grakel.WeisfeilerLehman.html" class="btn btn-neutral float-right" title="grakel.WeisfeilerLehman" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="grakel.GraphletSampling.html" class="btn btn-neutral" title="grakel.GraphletSampling" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="grakel.GraphletSampling.html" class="btn btn-neutral float-left" title="grakel.GraphletSampling" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -624,26 +618,16 @@ all pairs of graphs between target an features</p>
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

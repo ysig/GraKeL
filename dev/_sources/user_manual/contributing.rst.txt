@@ -32,7 +32,7 @@ A list of areas where contribution seems important are the following:
   time memory and computationally efficient. To achieve that goal the code of the :code:`Graph` should be optimized in python
   and if it is possible and seems more efficiently to be totally converted to a *Cython* extension (for the use of C++ as a back-end).
 
-* **Redesigning the** :code:`kernel` **class**: The :code:`kernel` class has been confined to the project constraints (namely sklearn compatibility)
+* **Redesigning the** :code:`Kernel` **class**: The :code:`kernel` class has been confined to the project constraints (namely sklearn compatibility)
   to the most abstract way possible. Other features and methods can be added to the kernel class to support frameworks that are currently
   not supported, such as *deep-graph-kernels* or *valid-assignment-kernels* if this is considered important by the community.
 
@@ -42,8 +42,8 @@ A list of areas where contribution seems important are the following:
   through the use of :code:`fit_transform`, we would like to be able to apply a more thorough unit-testing, that will expose the kernels calculation
   validity in relation to the theoretical foundation.
 
-* **Utilizing Parallel/Concurrent computation**: It is important that the :code:`GraphKernel` decorator through the objects of the :code:`kernel`
-  class supports a parallel computation scheme for executing procedures faster if the user wants so. This feature appears as currently implemented,
+* **Utilizing Parallel/Concurrent computation**: It is important that the :code:`GraphKernel` generic-wrapper supports a parallel computation scheme,
+  through the objects of the :code:`Kernel` class, for executing procedures faster if the user wants so. This feature appears as currently implemented,
   but actually its implementation is wrong. It is a major problem to tackle that on the other hand, should not be so difficult.
 
 .. _master: https://github.com/ysig/GraKeL
@@ -56,10 +56,14 @@ The GraKeL project is currently developed by the editor [Ioannis Siglidis] insid
 organization of the *Paris-Saclay* University at the `DaSciM`_ laboratory of LiX.
 
 The project is currently carried out under the administrative supervision of the DaSciM Team Leader, `Michalis Vazirgiannis`_ as well as the scientific
-supervision of Giannis Nikolentzos a postdoctoral researcher.
-Other members of the lab aiding with the construction of this library are: Xristos Giatsidis, Stratis Limnios and Konstantinos Skianis.
+supervision of Giannis Nikolentzos, a postdoctoral researcher.
+Other members of the lab aiding with the construction of this library are: Christos Giatsidis, Stratis Limnios and Konstantinos Skianis.
 
-The project BSD license - a prerequisite of *sk-learn* compatibility - is accepted by the editor as it does not offend the virtues of the free-software community.
+License
+-------
+The project __BSD 3-clause__ - a prerequisite of *sk-learn* compatibility - is accepted by the editor as it does not offend the virtues of the free-software community.
+It contains the C++ source code of [BLISS](http://www.tcs.hut.fi/Software/bliss) (a library for graph isomorphism) which is __LGPL__ licensed.
+Futhermore its optional dependency in the package of [cvxopt](https://cvxopt.org/) (a tool for solving convex-optimization problems) comes with a __GPL__ license.
 
 .. _DaSciM: http://www.lix.polytechnique.fr/dascim/
 .. _Michalis Vazirgiannis: http://www.lix.polytechnique.fr/~mvazirg/

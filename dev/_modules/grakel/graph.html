@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>grakel.graph &mdash; GraKeL 0.1a5 documentation</title>
+  <title>grakel.graph &mdash; GraKeL 0.1a6 documentation</title>
   
 
   
@@ -17,34 +17,37 @@
   
 
   
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/_static/css/supplementary.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
-
-  
-  <script src="../../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -61,7 +64,7 @@
             
             
               <div class="version">
-                0.1a5
+                0.1a6
               </div>
             
           
@@ -157,6 +160,7 @@
   <h1>Source code for grakel.graph</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;A python file that implements a class and functions for graphs.&quot;&quot;&quot;</span>
 
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">absolute_import</span>
 <span class="kn">import</span> <span class="nn">collections</span>
 <span class="kn">import</span> <span class="nn">numbers</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
@@ -166,9 +170,9 @@
 <span class="kn">from</span> <span class="nn">scipy.sparse</span> <span class="k">import</span> <span class="n">isspmatrix</span>
 <span class="kn">from</span> <span class="nn">scipy.sparse.csgraph</span> <span class="k">import</span> <span class="n">laplacian</span>
 
-<span class="kn">from</span> <span class="nn">grakel.tools</span> <span class="k">import</span> <span class="n">inv_dict</span>
-<span class="kn">from</span> <span class="nn">grakel.tools</span> <span class="k">import</span> <span class="n">nested_dict_add</span>
-<span class="kn">from</span> <span class="nn">grakel.tools</span> <span class="k">import</span> <span class="n">priority_dict</span>
+<span class="kn">from</span> <span class="nn">.tools</span> <span class="k">import</span> <span class="n">inv_dict</span>
+<span class="kn">from</span> <span class="nn">.tools</span> <span class="k">import</span> <span class="n">nested_dict_add</span>
+<span class="kn">from</span> <span class="nn">.tools</span> <span class="k">import</span> <span class="n">priority_dict</span>
 
 <span class="c1"># Python 2/3 cross-compatibility import</span>
 <span class="kn">from</span> <span class="nn">six</span> <span class="k">import</span> <span class="n">iteritems</span>
@@ -188,6 +192,7 @@
 <span class="sd">        The initialisation object for the graph (*valid-graph-format*).</span>
 
 <span class="sd">            - If given a dictionary the input can be as follows:</span>
+
 <span class="sd">                + 2-level nested dictionaries from edge symbols to weights</span>
 
 <span class="sd">                + Dictionary of symbols to list of symbols (unweighted)</span>
@@ -199,6 +204,7 @@
 <span class="sd">                + Iterable of tuples of len 3 (vertex, vertex, weight)</span>
 
 <span class="sd">            - If given an array the input can be as follows:</span>
+
 <span class="sd">                + array-like lists of lists</span>
 
 <span class="sd">                + np.array</span>
@@ -207,6 +213,7 @@
 
 <span class="sd">    node_labels : dict, default=None</span>
 <span class="sd">        A label dictionary corresponding to all vertices of the graph:</span>
+
 <span class="sd">            + for adjacency matrix labels should be given to numbers starting</span>
 <span class="sd">              from 0 and ending in N-1, where the matrix has size N by N</span>
 
@@ -219,6 +226,7 @@
 <span class="sd">    graph_format : str, valid_values={&quot;dictionary&quot;, &quot;adjacency&quot;, &quot;all&quot;, &quot;auto&quot;}, default=None</span>
 <span class="sd">        Defines the internal representation of the graph object which can be</span>
 <span class="sd">        a dictionary as a matrix, or both:</span>
+
 <span class="sd">            + for dictionary: &quot;dictionary&quot;</span>
 
 <span class="sd">            + for adjacency_matrix: &quot;adjacency&quot;</span>
@@ -312,7 +320,7 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">build_graph</span><span class="p">(</span><span class="n">initialization_object</span><span class="p">,</span>
                                  <span class="n">node_labels</span><span class="p">,</span>
                                  <span class="n">edge_labels</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="n">graph_format</span> <span class="ow">is</span> <span class="s2">&quot;auto&quot;</span><span class="p">:</span>
+            <span class="k">elif</span> <span class="n">graph_format</span> <span class="o">==</span> <span class="s2">&quot;auto&quot;</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;no initialization object &#39;</span> <span class="o">+</span>
                                  <span class="s1">&#39;- format must not be auto&#39;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
@@ -351,7 +359,7 @@
                 <span class="c1"># Assign labels for edges</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">index_edge_labels</span> <span class="o">=</span> <span class="n">edge_labels</span>
 
-                <span class="k">if</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_format</span> <span class="ow">is</span> <span class="s2">&quot;auto&quot;</span><span class="p">):</span>
+                <span class="k">if</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_format</span> <span class="o">==</span> <span class="s2">&quot;auto&quot;</span><span class="p">):</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">_format</span> <span class="o">=</span> <span class="s2">&quot;adjacency&quot;</span>
             <span class="k">elif</span> <span class="n">is_edge_dictionary</span><span class="p">(</span><span class="n">g</span><span class="p">):</span>
                 <span class="c1"># Input is considered as an edge dictionary</span>
@@ -363,7 +371,7 @@
                 <span class="c1"># Assign labels for edges</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">edge_labels</span> <span class="o">=</span> <span class="n">edge_labels</span>
 
-                <span class="k">if</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_format</span> <span class="ow">is</span> <span class="s2">&quot;auto&quot;</span><span class="p">):</span>
+                <span class="k">if</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_format</span> <span class="o">==</span> <span class="s2">&quot;auto&quot;</span><span class="p">):</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">_format</span> <span class="o">=</span> <span class="s2">&quot;dictionary&quot;</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
@@ -372,10 +380,10 @@
                     <span class="s1">&#39;types for graph type object.&#39;</span><span class="p">)</span>
 
         <span class="c1"># If graph is of one type prune the other</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format</span> <span class="ow">is</span> <span class="s2">&quot;adjacency&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format</span> <span class="o">==</span> <span class="s2">&quot;adjacency&quot;</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">edge_dictionary</span> <span class="o">=</span> <span class="kc">None</span>
 
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format</span> <span class="ow">is</span> <span class="s2">&quot;dictionary&quot;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format</span> <span class="o">==</span> <span class="s2">&quot;dictionary&quot;</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">adjacency_matrix</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="c1"># Import the given input properly</span>
@@ -392,6 +400,7 @@
 <span class="sd">        graph_format : str, valid_values={&quot;dictionary&quot;, &quot;adjacency&quot;, &quot;all&quot;}</span>
 <span class="sd">            Defines the internal representation of the graph object which can</span>
 <span class="sd">            be a dictionary as a matrix, or both:</span>
+
 <span class="sd">                + for dictionary: &quot;dictionary&quot;</span>
 
 <span class="sd">                + for adjacency_matrix: &quot;adjacency&quot;</span>
@@ -411,12 +420,12 @@
             <span class="k">if</span> <span class="p">(</span><span class="n">graph_format</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format</span><span class="p">):</span>
                 <span class="n">past_format</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_format</span> <span class="o">=</span> <span class="n">graph_format</span>
-                <span class="k">if</span> <span class="n">past_format</span> <span class="ow">is</span> <span class="s2">&quot;adjacency&quot;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">past_format</span> <span class="o">==</span> <span class="s2">&quot;adjacency&quot;</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">_import_adjacency</span><span class="p">()</span>
-                <span class="k">elif</span> <span class="n">past_format</span> <span class="ow">is</span> <span class="s2">&quot;dictionary&quot;</span><span class="p">:</span>
+                <span class="k">elif</span> <span class="n">past_format</span> <span class="o">==</span> <span class="s2">&quot;dictionary&quot;</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">_import_dictionary</span><span class="p">()</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format</span> <span class="ow">is</span> <span class="s2">&quot;dictionary&quot;</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format</span> <span class="o">==</span> <span class="s2">&quot;dictionary&quot;</span><span class="p">:</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">adjacency_matrix</span> <span class="o">=</span> <span class="kc">None</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">edsamic</span> <span class="o">=</span> <span class="kc">None</span>
@@ -436,6 +445,7 @@
 <span class="sd">        graph_format : str, valid_values={&quot;dictionary&quot;, &quot;adjacency&quot;, &quot;all&quot;}</span>
 <span class="sd">            Defines the internal representation of the graph object which</span>
 <span class="sd">            can be a dictionary as a matrix, or both:</span>
+
 <span class="sd">                + for dictionary: &quot;dictionary&quot;</span>
 
 <span class="sd">                + for adjacency_matrix: &quot;adjacency&quot;</span>
@@ -450,14 +460,14 @@
 <span class="sd">        None.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">graph_format</span> <span class="ow">is</span> <span class="s2">&quot;all&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">graph_format</span> <span class="o">==</span> <span class="s2">&quot;all&quot;</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">change_format</span><span class="p">(</span><span class="n">graph_format</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">graph_format</span> <span class="ow">is</span> <span class="s2">&quot;dictionary&quot;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">graph_format</span> <span class="o">==</span> <span class="s2">&quot;dictionary&quot;</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;all&quot;</span><span class="p">,</span> <span class="s2">&quot;dictionary&quot;</span><span class="p">]:</span>
                 <span class="k">if</span> <span class="n">warn</span><span class="p">:</span>
                     <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;changing format from &quot;dictionary&quot; to &quot;all&quot;&#39;</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">change_format</span><span class="p">(</span><span class="s2">&quot;all&quot;</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">graph_format</span> <span class="ow">is</span> <span class="s2">&quot;adjacency&quot;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">graph_format</span> <span class="o">==</span> <span class="s2">&quot;adjacency&quot;</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;all&quot;</span><span class="p">,</span> <span class="s2">&quot;adjacency&quot;</span><span class="p">]:</span>
                 <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;changing format from &quot;adjacency&quot; to &quot;all&quot;&#39;</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">change_format</span><span class="p">(</span><span class="s2">&quot;all&quot;</span><span class="p">)</span></div>
@@ -678,7 +688,7 @@
         <span class="k">if</span> <span class="n">new_labels</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">bool</span><span class="p">(</span><span class="n">new_labels</span><span class="p">):</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;user must provide new labels, input is None&#39;</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">label_type</span> <span class="o">==</span> <span class="s2">&quot;vertex&quot;</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">purpose</span> <span class="ow">is</span> <span class="s2">&quot;dictionary&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">purpose</span> <span class="o">==</span> <span class="s2">&quot;dictionary&quot;</span><span class="p">:</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;dictionary&quot;</span><span class="p">,</span> <span class="s2">&quot;all&quot;</span><span class="p">]:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">node_labels</span> <span class="o">=</span> <span class="n">new_labels</span>
                 <span class="k">else</span><span class="p">:</span>
@@ -686,19 +696,19 @@
                                      <span class="s1">&#39;labels for dictionary symbols&#39;</span><span class="p">)</span>
 
                 <span class="c1"># Transform to a valid format</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format</span> <span class="ow">is</span> <span class="s2">&quot;all&quot;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format</span> <span class="o">==</span> <span class="s2">&quot;all&quot;</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">convert_labels</span><span class="p">(</span><span class="s2">&quot;adjacency&quot;</span><span class="p">,</span> <span class="s2">&quot;vertex&quot;</span><span class="p">)</span>
                 <span class="k">if</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label_group</span><span class="p">)</span> <span class="ow">and</span> \
                         <span class="p">((</span><span class="n">label_type</span><span class="p">,</span> <span class="n">purpose</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">label_group</span><span class="p">):</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">label_group</span><span class="p">[(</span><span class="n">label_type</span><span class="p">,</span> <span class="n">purpose</span><span class="p">)]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-            <span class="k">elif</span> <span class="n">purpose</span> <span class="ow">is</span> <span class="s2">&quot;adjacency&quot;</span><span class="p">:</span>
+            <span class="k">elif</span> <span class="n">purpose</span> <span class="o">==</span> <span class="s2">&quot;adjacency&quot;</span><span class="p">:</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;all&quot;</span><span class="p">,</span> <span class="s2">&quot;adjacency&quot;</span><span class="p">]:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">index_node_labels</span> <span class="o">=</span> <span class="n">new_labels</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;graph is in a format that supports &#39;</span> <span class="o">+</span>
                                      <span class="s1">&#39;labels for indexes&#39;</span><span class="p">)</span>
 
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format</span> <span class="ow">is</span> <span class="s2">&quot;all&quot;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format</span> <span class="o">==</span> <span class="s2">&quot;all&quot;</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">convert_labels</span><span class="p">(</span><span class="s2">&quot;dictionary&quot;</span><span class="p">,</span> <span class="s2">&quot;vertex&quot;</span><span class="p">)</span>
                 <span class="k">if</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label_group</span><span class="p">)</span> <span class="ow">and</span> \
                    <span class="p">(</span><span class="n">label_type</span><span class="p">,</span> <span class="n">purpose</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">label_group</span><span class="p">:</span>
@@ -707,7 +717,7 @@
                 <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;no labels to convert from, &#39;</span> <span class="o">+</span>
                               <span class="s1">&#39;for the given purpose&#39;</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">label_type</span> <span class="o">==</span> <span class="s2">&quot;edge&quot;</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">purpose</span> <span class="ow">is</span> <span class="s2">&quot;dictionary&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">purpose</span> <span class="o">==</span> <span class="s2">&quot;dictionary&quot;</span><span class="p">:</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;dictionary&quot;</span><span class="p">,</span> <span class="s2">&quot;all&quot;</span><span class="p">]:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">edge_labels</span> <span class="o">=</span> <span class="n">new_labels</span>
                 <span class="k">else</span><span class="p">:</span>
@@ -715,19 +725,19 @@
                                      <span class="s1">&#39;supports labels for dictionary symbols&#39;</span><span class="p">)</span>
 
                 <span class="c1"># Transform to a valid format</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format</span> <span class="ow">is</span> <span class="s2">&quot;all&quot;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format</span> <span class="o">==</span> <span class="s2">&quot;all&quot;</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">convert_labels</span><span class="p">(</span><span class="s2">&quot;adjacency&quot;</span><span class="p">,</span> <span class="s2">&quot;edge&quot;</span><span class="p">)</span>
                 <span class="k">if</span> <span class="p">(</span><span class="n">label_type</span><span class="p">,</span> <span class="n">purpose</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">label_group</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">label_group</span><span class="p">[(</span><span class="n">label_type</span><span class="p">,</span> <span class="n">purpose</span><span class="p">)]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
 
-            <span class="k">elif</span> <span class="n">purpose</span> <span class="ow">is</span> <span class="s2">&quot;adjacency&quot;</span><span class="p">:</span>
+            <span class="k">elif</span> <span class="n">purpose</span> <span class="o">==</span> <span class="s2">&quot;adjacency&quot;</span><span class="p">:</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;all&quot;</span><span class="p">,</span> <span class="s2">&quot;adjacency&quot;</span><span class="p">]:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">index_edge_labels</span> <span class="o">=</span> <span class="n">new_labels</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;graph is in a format that supports &#39;</span> <span class="o">+</span>
                                      <span class="s1">&#39;labels for indexes&#39;</span><span class="p">)</span>
 
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format</span> <span class="ow">is</span> <span class="s2">&quot;all&quot;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format</span> <span class="o">==</span> <span class="s2">&quot;all&quot;</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">convert_labels</span><span class="p">(</span><span class="s2">&quot;dictionary&quot;</span><span class="p">,</span> <span class="s2">&quot;edge&quot;</span><span class="p">)</span>
                 <span class="k">if</span> <span class="p">(</span><span class="n">label_type</span><span class="p">,</span> <span class="n">purpose</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">label_group</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">label_group</span><span class="p">[(</span><span class="n">label_type</span><span class="p">,</span> <span class="n">purpose</span><span class="p">)]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
@@ -750,6 +760,7 @@
 <span class="sd">        algorithm_type : str, valid_values={&quot;auto&quot;, &quot;adjacency&quot;, &quot;dictionary&quot;}, default=&quot;auto&quot;</span>
 <span class="sd">            Defines which shortest-path algorithm will be used for building the</span>
 <span class="sd">            shortest path matrix:</span>
+
 <span class="sd">                + &quot;dijkstra&quot; : choses the dijkstra algorithm (Matrix</span>
 <span class="sd">                  computation complexity: :math:`O(|V|(|E|+|V|)log(|V|))`</span>
 
@@ -792,13 +803,13 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">shortest_path_mat</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">index_node_labels</span>
 
         <span class="c1"># Assign the desired algorithm</span>
-        <span class="k">if</span> <span class="n">algorithm_type</span> <span class="ow">is</span> <span class="s2">&quot;auto&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">algorithm_type</span> <span class="o">==</span> <span class="s2">&quot;auto&quot;</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;all&quot;</span><span class="p">,</span> <span class="s2">&quot;dictionary&quot;</span><span class="p">]:</span>
                 <span class="n">algorithm_type</span> <span class="o">=</span> <span class="s2">&quot;dijkstra&quot;</span>
-            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format</span> <span class="ow">is</span> <span class="s2">&quot;adjacency&quot;</span><span class="p">:</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format</span> <span class="o">==</span> <span class="s2">&quot;adjacency&quot;</span><span class="p">:</span>
                 <span class="n">algorithm_type</span> <span class="o">=</span> <span class="s2">&quot;floyd_warshall&quot;</span>
 
-        <span class="k">if</span> <span class="n">algorithm_type</span> <span class="ow">is</span> <span class="s2">&quot;dijkstra&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">algorithm_type</span> <span class="o">==</span> <span class="s2">&quot;dijkstra&quot;</span><span class="p">:</span>
             <span class="c1"># all format required</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">desired_format</span><span class="p">(</span><span class="s2">&quot;all&quot;</span><span class="p">,</span> <span class="n">warn</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
             <span class="k">if</span> <span class="p">(</span><span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">edsamic</span><span class="p">)):</span>
@@ -813,18 +824,18 @@
                 <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">dict_fd</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
                     <span class="n">shortest_path_mat</span><span class="p">[</span><span class="n">indexes</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">indexes</span><span class="p">[</span><span class="n">s</span><span class="p">]]</span> <span class="o">=</span> <span class="n">dict_fd</span><span class="p">[</span><span class="n">s</span><span class="p">]</span>
 
-        <span class="k">elif</span> <span class="n">algorithm_type</span> <span class="ow">is</span> <span class="s2">&quot;floyd_warshall&quot;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">algorithm_type</span> <span class="o">==</span> <span class="s2">&quot;floyd_warshall&quot;</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">desired_format</span><span class="p">(</span><span class="s2">&quot;adjacency&quot;</span><span class="p">,</span> <span class="n">warn</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
             <span class="n">shortest_path_mat</span> <span class="o">=</span> <span class="n">floyd_warshall</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">adjacency_matrix</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">shortest_path_mat</span> <span class="o">=</span> <span class="n">shortest_path_mat</span>
-        <span class="k">if</span> <span class="n">labels</span> <span class="ow">is</span> <span class="s2">&quot;all&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">labels</span> <span class="o">==</span> <span class="s2">&quot;all&quot;</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">shortest_path_mat</span><span class="p">,</span>\
                 <span class="bp">self</span><span class="o">.</span><span class="n">get_labels</span><span class="p">(),</span>\
                 <span class="bp">self</span><span class="o">.</span><span class="n">get_labels</span><span class="p">(</span><span class="s2">&quot;edge&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">labels</span> <span class="ow">is</span> <span class="s2">&quot;edge&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">labels</span> <span class="o">==</span> <span class="s2">&quot;edge&quot;</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">shortest_path_mat</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_labels</span><span class="p">(</span><span class="s2">&quot;edge&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">labels</span> <span class="ow">is</span> <span class="s2">&quot;vertex&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">labels</span> <span class="o">==</span> <span class="s2">&quot;vertex&quot;</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">shortest_path_mat</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_labels</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">shortest_path_mat</span></div>
@@ -1090,7 +1101,7 @@
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;input matrix must be squared&#39;</span><span class="p">)</span>
 
             <span class="c1"># import_adjacency</span>
-            <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_format</span> <span class="ow">is</span> <span class="s2">&quot;all&quot;</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format</span> <span class="ow">is</span> <span class="s2">&quot;adjacency&quot;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_format</span> <span class="o">==</span> <span class="s2">&quot;all&quot;</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format</span> <span class="o">==</span> <span class="s2">&quot;adjacency&quot;</span><span class="p">):</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">adjacency_matrix</span> <span class="o">=</span> <span class="n">adjacency_matrix</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="n">n</span>
         <span class="k">else</span><span class="p">:</span>
@@ -1114,7 +1125,7 @@
                                 <span class="n">init</span><span class="o">=</span><span class="n">init</span><span class="p">)</span>
 
             <span class="c1"># Prune not interesting format</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format</span> <span class="ow">is</span> <span class="s2">&quot;dictionary&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format</span> <span class="o">==</span> <span class="s2">&quot;dictionary&quot;</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">adjacency_matrix</span> <span class="o">=</span> <span class="kc">None</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">edsamic</span> <span class="o">=</span> <span class="kc">None</span>
@@ -1304,7 +1315,7 @@
 <span class="sd">            Returns the adjacency matrix of the current graph.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format</span> <span class="ow">is</span> <span class="s2">&quot;dictionary&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format</span> <span class="o">==</span> <span class="s2">&quot;dictionary&quot;</span><span class="p">:</span>
             <span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">)))</span>
             <span class="n">v_map</span> <span class="o">=</span> <span class="p">{</span><span class="n">v</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">)))}</span>
             <span class="k">for</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="ow">in</span> <span class="n">iteritems</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">edge_dictionary</span><span class="p">):</span>
@@ -1909,26 +1920,16 @@
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../_static/doctools.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="../../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

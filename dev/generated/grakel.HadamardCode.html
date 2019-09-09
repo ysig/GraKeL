@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>grakel.HadamardCode &mdash; GraKeL 0.1a5 documentation</title>
+  <title>grakel.HadamardCode &mdash; GraKeL 0.1a6 documentation</title>
   
 
   
@@ -17,13 +17,21 @@
   
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
@@ -32,21 +40,16 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="grakel.NeighborhoodSubgraphPairwiseDistance" href="grakel.NeighborhoodSubgraphPairwiseDistance.html" />
     <link rel="prev" title="grakel.WeisfeilerLehman" href="grakel.WeisfeilerLehman.html" /> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -63,7 +66,7 @@
             
             
               <div class="version">
-                0.1a5
+                0.1a6
               </div>
             
           
@@ -200,18 +203,19 @@
 <h1><a class="reference internal" href="../api.html#module-grakel" title="grakel"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code></a>.HadamardCode<a class="headerlink" href="#grakel-hadamardcode" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="grakel.HadamardCode">
-<em class="property">class </em><code class="descclassname">grakel.</code><code class="descname">HadamardCode</code><span class="sig-paren">(</span><em>n_jobs=None</em>, <em>verbose=False</em>, <em>normalize=False</em>, <em>niter=5</em>, <em>base_kernel=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f7b9aaf/grakel/kernels/hadamard_code.py#L26"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/hadamard_code.html#HadamardCode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.HadamardCode" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">grakel.</code><code class="descname">HadamardCode</code><span class="sig-paren">(</span><em>n_jobs=None</em>, <em>verbose=False</em>, <em>normalize=False</em>, <em>n_iter=5</em>, <em>base_kernel=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/089b65a/grakel/kernels/hadamard_code.py#L27"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/hadamard_code.html#HadamardCode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.HadamardCode" title="Permalink to this definition">¶</a></dt>
 <dd><p>The simple Hadamard code kernel, as proposed in <a class="reference internal" href="../kernels/hadamard_code.html#icpram16" id="id1">[KI16]</a>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>base_kernel</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><cite>grakel.kernels.kernel</cite> or tuple</span></dt>
+<dt><strong>base_kernel</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><cite>grakel.kernels.Kernel</cite> or tuple, default=None</span></dt>
 <dd><p class="first last">If tuple it must consist of a valid kernel object and a
 dictionary of parameters. General parameters concerning
 normalization, concurrency, .. will be ignored, and the
-ones of given on <cite>__init__</cite> will be passed in case it is needed.</p>
+ones of given on <cite>__init__</cite> will be passed in case it is needed.
+Default <cite>base_kernel</cite> is <cite>VertexHistogram</cite>.</p>
 </dd>
 <dt><strong>rho</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int, condition_of_appearance: hc_type==”shortened”, default=-1</span></dt>
 <dd><p class="first last">The size of each single bit arrays. If -1 is chosen r is calculated as
@@ -220,22 +224,14 @@ the biggest possible that satisfies an equal division.</p>
 <dt><strong>L</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int, condition_of_appearance: hc_type==”shortened”, default=4</span></dt>
 <dd><p class="first last">The number of bytes to store the bitarray of each label.</p>
 </dd>
-<dt><strong>niter</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int, default=5</span></dt>
+<dt><strong>n_iter</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int, default=5</span></dt>
 <dd><p class="first last">The number of iterations.</p>
 </dd>
 </dl>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>_add</strong> <span class="classifier-delimiter">:</span> <span class="classifier">function</span></dt>
-<dd><p class="first last">A function setted relevant to the version of the algorithm
-for adding hashed labels.</p>
-</dd>
-<dt><strong>_get</strong> <span class="classifier-delimiter">:</span> <span class="classifier">function</span></dt>
-<dd><p class="first last">A function setted relevant to the version of the algorithm
-for getting a label element.</p>
-</dd>
-<dt><strong>_base_kernel</strong> <span class="classifier-delimiter">:</span> <span class="classifier">function</span></dt>
+<dt><strong>base_kernel_</strong> <span class="classifier-delimiter">:</span> <span class="classifier">function</span></dt>
 <dd><p class="first last">A void function that initializes a base kernel object.</p>
 </dd>
 </dl>
@@ -250,31 +246,31 @@ for getting a label element.</p>
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.HadamardCode.diagonal" title="grakel.HadamardCode.diagonal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">diagonal</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.HadamardCode.diagonal" title="grakel.HadamardCode.diagonal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">diagonal</span></code></a>(self)</td>
 <td>Calculate the kernel matrix diagonal for fitted data.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.HadamardCode.fit" title="grakel.HadamardCode.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(X[,&nbsp;y])</td>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.HadamardCode.fit" title="grakel.HadamardCode.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(self,&nbsp;X[,&nbsp;y])</td>
 <td>Fit a dataset, for a transformer.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.HadamardCode.fit_transform" title="grakel.HadamardCode.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code></a>(X[,&nbsp;y])</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.HadamardCode.fit_transform" title="grakel.HadamardCode.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code></a>(self,&nbsp;X[,&nbsp;y])</td>
 <td>Fit and transform, on the same dataset.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.HadamardCode.get_params" title="grakel.HadamardCode.get_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code></a>([deep])</td>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.HadamardCode.get_params" title="grakel.HadamardCode.get_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code></a>(self[,&nbsp;deep])</td>
 <td>Get parameters for this estimator.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.HadamardCode.initialize_" title="grakel.HadamardCode.initialize_"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize_</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.HadamardCode.initialize" title="grakel.HadamardCode.initialize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize</span></code></a>(self)</td>
 <td>Initialize all transformer arguments, needing initialization.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.HadamardCode.pairwise_operation" title="grakel.HadamardCode.pairwise_operation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pairwise_operation</span></code></a>(x,&nbsp;y)</td>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.HadamardCode.pairwise_operation" title="grakel.HadamardCode.pairwise_operation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pairwise_operation</span></code></a>(self,&nbsp;x,&nbsp;y)</td>
 <td>Calculate a pairwise kernel between two elements.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.HadamardCode.parse_input" title="grakel.HadamardCode.parse_input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_input</span></code></a>(X)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.HadamardCode.parse_input" title="grakel.HadamardCode.parse_input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_input</span></code></a>(self,&nbsp;X)</td>
 <td>Parse input and create features, while initializing and/or calculating sub-kernels.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.HadamardCode.set_params" title="grakel.HadamardCode.set_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code></a>(**params)</td>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.HadamardCode.set_params" title="grakel.HadamardCode.set_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code></a>(self,&nbsp;\*\*params)</td>
 <td>Call the parent method.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.HadamardCode.transform" title="grakel.HadamardCode.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(X)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.HadamardCode.transform" title="grakel.HadamardCode.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(self,&nbsp;X)</td>
 <td>Calculate the kernel matrix, between given and fitted dataset.</td>
 </tr>
 </tbody>
@@ -299,44 +295,44 @@ for getting a label element.</p>
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.HadamardCode.diagonal" title="grakel.HadamardCode.diagonal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">diagonal</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.HadamardCode.diagonal" title="grakel.HadamardCode.diagonal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">diagonal</span></code></a>(self)</td>
 <td>Calculate the kernel matrix diagonal for fitted data.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.HadamardCode.fit" title="grakel.HadamardCode.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(X[,&nbsp;y])</td>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.HadamardCode.fit" title="grakel.HadamardCode.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(self,&nbsp;X[,&nbsp;y])</td>
 <td>Fit a dataset, for a transformer.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.HadamardCode.fit_transform" title="grakel.HadamardCode.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code></a>(X[,&nbsp;y])</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.HadamardCode.fit_transform" title="grakel.HadamardCode.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code></a>(self,&nbsp;X[,&nbsp;y])</td>
 <td>Fit and transform, on the same dataset.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.HadamardCode.get_params" title="grakel.HadamardCode.get_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code></a>([deep])</td>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.HadamardCode.get_params" title="grakel.HadamardCode.get_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code></a>(self[,&nbsp;deep])</td>
 <td>Get parameters for this estimator.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.HadamardCode.initialize_" title="grakel.HadamardCode.initialize_"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize_</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.HadamardCode.initialize" title="grakel.HadamardCode.initialize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize</span></code></a>(self)</td>
 <td>Initialize all transformer arguments, needing initialization.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.HadamardCode.pairwise_operation" title="grakel.HadamardCode.pairwise_operation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pairwise_operation</span></code></a>(x,&nbsp;y)</td>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.HadamardCode.pairwise_operation" title="grakel.HadamardCode.pairwise_operation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pairwise_operation</span></code></a>(self,&nbsp;x,&nbsp;y)</td>
 <td>Calculate a pairwise kernel between two elements.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.HadamardCode.parse_input" title="grakel.HadamardCode.parse_input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_input</span></code></a>(X)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.HadamardCode.parse_input" title="grakel.HadamardCode.parse_input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_input</span></code></a>(self,&nbsp;X)</td>
 <td>Parse input and create features, while initializing and/or calculating sub-kernels.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.HadamardCode.set_params" title="grakel.HadamardCode.set_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code></a>(**params)</td>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.HadamardCode.set_params" title="grakel.HadamardCode.set_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code></a>(self,&nbsp;\*\*params)</td>
 <td>Call the parent method.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.HadamardCode.transform" title="grakel.HadamardCode.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(X)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.HadamardCode.transform" title="grakel.HadamardCode.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(self,&nbsp;X)</td>
 <td>Calculate the kernel matrix, between given and fitted dataset.</td>
 </tr>
 </tbody>
 </table>
 <dl class="method">
 <dt id="grakel.HadamardCode.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>n_jobs=None</em>, <em>verbose=False</em>, <em>normalize=False</em>, <em>niter=5</em>, <em>base_kernel=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f7b9aaf/grakel/kernels/hadamard_code.py#L64"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/hadamard_code.html#HadamardCode.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.HadamardCode.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>self</em>, <em>n_jobs=None</em>, <em>verbose=False</em>, <em>normalize=False</em>, <em>n_iter=5</em>, <em>base_kernel=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/089b65a/grakel/kernels/hadamard_code.py#L58"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/hadamard_code.html#HadamardCode.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.HadamardCode.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialise a <cite>hadamard_code</cite> kernel.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="grakel.HadamardCode.diagonal">
-<code class="descname">diagonal</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f7b9aaf/grakel/kernels/hadamard_code.py#L346"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/hadamard_code.html#HadamardCode.diagonal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.HadamardCode.diagonal" title="Permalink to this definition">¶</a></dt>
+<code class="descname">diagonal</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/089b65a/grakel/kernels/hadamard_code.py#L337"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/hadamard_code.html#HadamardCode.diagonal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.HadamardCode.diagonal" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the kernel matrix diagonal for fitted data.</p>
 <p>A funtion called on transform on a seperate dataset to apply
 normalization on the exterior.</p>
@@ -368,7 +364,7 @@ This consists of kernel calculation for each element with itself.</p>
 
 <dl class="method">
 <dt id="grakel.HadamardCode.fit">
-<code class="descname">fit</code><span class="sig-paren">(</span><em>X</em>, <em>y=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f7b9aaf/grakel/kernels/kernel.py#L91"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.HadamardCode.fit" title="Permalink to this definition">¶</a></dt>
+<code class="descname">fit</code><span class="sig-paren">(</span><em>self</em>, <em>X</em>, <em>y=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/089b65a/grakel/kernels/kernel.py#L91"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.HadamardCode.fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fit a dataset, for a transformer.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -392,7 +388,7 @@ requires this parameter.</p>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
 <dt><strong>self</strong> <span class="classifier-delimiter">:</span> <span class="classifier">object</span></dt>
 <dd></dd>
-<dt><strong>Returns self.</strong></dt>
+<dt>Returns self.</dt>
 <dd></dd>
 </dl>
 </td>
@@ -403,7 +399,7 @@ requires this parameter.</p>
 
 <dl class="method">
 <dt id="grakel.HadamardCode.fit_transform">
-<code class="descname">fit_transform</code><span class="sig-paren">(</span><em>X</em>, <em>y=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f7b9aaf/grakel/kernels/hadamard_code.py#L307"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/hadamard_code.html#HadamardCode.fit_transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.HadamardCode.fit_transform" title="Permalink to this definition">¶</a></dt>
+<code class="descname">fit_transform</code><span class="sig-paren">(</span><em>self</em>, <em>X</em>, <em>y=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/089b65a/grakel/kernels/hadamard_code.py#L298"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/hadamard_code.html#HadamardCode.fit_transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.HadamardCode.fit_transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fit and transform, on the same dataset.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -439,7 +435,7 @@ all pairs of graphs between target an features</p>
 
 <dl class="method">
 <dt id="grakel.HadamardCode.get_params">
-<code class="descname">get_params</code><span class="sig-paren">(</span><em>deep=True</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f7b9aaf/grakel/../venv/lib/python2.7/site-packages/sklearn/base.py#L166"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.HadamardCode.get_params" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_params</code><span class="sig-paren">(</span><em>self</em>, <em>deep=True</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/089b65a/grakel/../venv/lib/python2.7/site-packages/sklearn/base.py#L168"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.HadamardCode.get_params" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get parameters for this estimator.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -465,14 +461,14 @@ contained subobjects that are estimators.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="grakel.HadamardCode.initialize_">
-<code class="descname">initialize_</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f7b9aaf/grakel/kernels/hadamard_code.py#L74"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/hadamard_code.html#HadamardCode.initialize_"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.HadamardCode.initialize_" title="Permalink to this definition">¶</a></dt>
+<dt id="grakel.HadamardCode.initialize">
+<code class="descname">initialize</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/089b65a/grakel/kernels/hadamard_code.py#L68"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/hadamard_code.html#HadamardCode.initialize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.HadamardCode.initialize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize all transformer arguments, needing initialization.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="grakel.HadamardCode.pairwise_operation">
-<code class="descname">pairwise_operation</code><span class="sig-paren">(</span><em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f7b9aaf/grakel/kernels/kernel.py#L370"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.HadamardCode.pairwise_operation" title="Permalink to this definition">¶</a></dt>
+<code class="descname">pairwise_operation</code><span class="sig-paren">(</span><em>self</em>, <em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/089b65a/grakel/kernels/kernel.py#L370"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.HadamardCode.pairwise_operation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate a pairwise kernel between two elements.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -498,7 +494,7 @@ contained subobjects that are estimators.</p>
 
 <dl class="method">
 <dt id="grakel.HadamardCode.parse_input">
-<code class="descname">parse_input</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f7b9aaf/grakel/kernels/hadamard_code.py#L116"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/hadamard_code.html#HadamardCode.parse_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.HadamardCode.parse_input" title="Permalink to this definition">¶</a></dt>
+<code class="descname">parse_input</code><span class="sig-paren">(</span><em>self</em>, <em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/089b65a/grakel/kernels/hadamard_code.py#L107"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/hadamard_code.html#HadamardCode.parse_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.HadamardCode.parse_input" title="Permalink to this definition">¶</a></dt>
 <dd><p>Parse input and create features, while initializing and/or calculating sub-kernels.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -533,13 +529,13 @@ graph format). A valid input also consists of graph type objects.</p>
 
 <dl class="method">
 <dt id="grakel.HadamardCode.set_params">
-<code class="descname">set_params</code><span class="sig-paren">(</span><em>**params</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f7b9aaf/grakel/kernels/kernel.py#L386"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.HadamardCode.set_params" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_params</code><span class="sig-paren">(</span><em>self</em>, <em>**params</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/089b65a/grakel/kernels/kernel.py#L386"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.HadamardCode.set_params" title="Permalink to this definition">¶</a></dt>
 <dd><p>Call the parent method.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="grakel.HadamardCode.transform">
-<code class="descname">transform</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f7b9aaf/grakel/kernels/hadamard_code.py#L267"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/hadamard_code.html#HadamardCode.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.HadamardCode.transform" title="Permalink to this definition">¶</a></dt>
+<code class="descname">transform</code><span class="sig-paren">(</span><em>self</em>, <em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/089b65a/grakel/kernels/hadamard_code.py#L258"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/hadamard_code.html#HadamardCode.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.HadamardCode.transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the kernel matrix, between given and fitted dataset.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -594,7 +590,7 @@ all pairs of graphs between target an features</p>
         <a href="grakel.NeighborhoodSubgraphPairwiseDistance.html" class="btn btn-neutral float-right" title="grakel.NeighborhoodSubgraphPairwiseDistance" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="grakel.WeisfeilerLehman.html" class="btn btn-neutral" title="grakel.WeisfeilerLehman" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="grakel.WeisfeilerLehman.html" class="btn btn-neutral float-left" title="grakel.WeisfeilerLehman" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -620,26 +616,16 @@ all pairs of graphs between target an features</p>
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

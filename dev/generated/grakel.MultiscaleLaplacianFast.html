@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>grakel.MultiscaleLaplacianFast &mdash; GraKeL 0.1a5 documentation</title>
+  <title>grakel.MultiscaleLaplacianFast &mdash; GraKeL 0.1a6 documentation</title>
   
 
   
@@ -17,13 +17,21 @@
   
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
@@ -32,21 +40,16 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="grakel.VertexHistogram" href="grakel.VertexHistogram.html" />
     <link rel="prev" title="grakel.MultiscaleLaplacian" href="grakel.MultiscaleLaplacian.html" /> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -63,7 +66,7 @@
             
             
               <div class="version">
-                0.1a5
+                0.1a6
               </div>
             
           
@@ -200,13 +203,16 @@
 <h1><a class="reference internal" href="../api.html#module-grakel" title="grakel"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code></a>.MultiscaleLaplacianFast<a class="headerlink" href="#grakel-multiscalelaplacianfast" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="grakel.MultiscaleLaplacianFast">
-<em class="property">class </em><code class="descclassname">grakel.</code><code class="descname">MultiscaleLaplacianFast</code><span class="sig-paren">(</span><em>n_jobs=None</em>, <em>normalize=False</em>, <em>verbose=False</em>, <em>random_seed=42</em>, <em>L=3</em>, <em>P=10</em>, <em>gamma=0.01</em>, <em>heta=0.01</em>, <em>N=50</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f7b9aaf/grakel/kernels/multiscale_laplacian.py#L31"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/multiscale_laplacian.html#MultiscaleLaplacianFast"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.MultiscaleLaplacianFast" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">grakel.</code><code class="descname">MultiscaleLaplacianFast</code><span class="sig-paren">(</span><em>n_jobs=None</em>, <em>normalize=False</em>, <em>verbose=False</em>, <em>random_state=None</em>, <em>L=3</em>, <em>P=10</em>, <em>gamma=0.01</em>, <em>heta=0.01</em>, <em>n_samples=50</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/089b65a/grakel/kernels/multiscale_laplacian.py#L33"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/multiscale_laplacian.html#MultiscaleLaplacianFast"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.MultiscaleLaplacianFast" title="Permalink to this definition">¶</a></dt>
 <dd><p>Laplacian Graph Kernel as proposed in <a class="reference internal" href="../kernels/multiscale_laplacian.html#kondor2016multiscale" id="id1">[KP16]</a>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>random_state</strong> <span class="classifier-delimiter">:</span> <span class="classifier">RandomState or int, default=None</span></dt>
+<dd><p class="first last">A random number generator instance or an int to initialize a RandomState as a seed.</p>
+</dd>
 <dt><strong>L</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int, default=3</span></dt>
 <dd><p class="first last">The number of neighborhoods.</p>
 </dd>
@@ -219,30 +225,19 @@
 <dt><strong>P</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int, default=10</span></dt>
 <dd><p class="first last">Restrict the maximum number of eigenvalues, taken on eigenvalue decomposition.</p>
 </dd>
-<dt><strong>N</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int, default=50</span></dt>
+<dt><strong>n_samples</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int, default=50</span></dt>
 <dd><p class="first last">The number of vertex samples.</p>
 </dd>
 </dl>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>L</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd><p class="first last">The number of neihborhoods.</p>
+<dt><strong>random_state_</strong> <span class="classifier-delimiter">:</span> <span class="classifier">RandomState</span></dt>
+<dd><p class="first last">A RandomState object handling all randomness of the class.</p>
 </dd>
-<dt><strong>gamma</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Real</span></dt>
-<dd><p class="first last">A smoothing parameter for calculation of S matrices.</p>
-</dd>
-<dt><strong>heta</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd><p class="first last">A smoothing parameter for calculation of S matrices.</p>
-</dd>
-<dt><strong>P</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd><p class="first last">The maximum number of eigenvalues, taken on eigenvalue decomposition.</p>
-</dd>
-<dt><strong>N</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd><p class="first last">The number of vertex samples.</p>
-</dd>
-<dt><strong>ksi</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.array, len(shape)=2</span></dt>
-<dd><p class="first last">The total ksi transformation of phi’s as produced on fit.</p>
+<dt><strong>_data_level</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd><p class="first last">A dictionary containing the feature basis information needed
+for each level calculation on transform.</p>
 </dd>
 </dl>
 </td>
@@ -256,31 +251,31 @@
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.MultiscaleLaplacianFast.diagonal" title="grakel.MultiscaleLaplacianFast.diagonal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">diagonal</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.MultiscaleLaplacianFast.diagonal" title="grakel.MultiscaleLaplacianFast.diagonal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">diagonal</span></code></a>(self)</td>
 <td>Calculate the kernel matrix diagonal of the fit/transformed data.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.MultiscaleLaplacianFast.fit" title="grakel.MultiscaleLaplacianFast.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(X[,&nbsp;y])</td>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.MultiscaleLaplacianFast.fit" title="grakel.MultiscaleLaplacianFast.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(self,&nbsp;X[,&nbsp;y])</td>
 <td>Fit a dataset, for a transformer.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.MultiscaleLaplacianFast.fit_transform" title="grakel.MultiscaleLaplacianFast.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code></a>(X)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.MultiscaleLaplacianFast.fit_transform" title="grakel.MultiscaleLaplacianFast.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code></a>(self,&nbsp;X)</td>
 <td>Fit and transform, on the same dataset.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.MultiscaleLaplacianFast.get_params" title="grakel.MultiscaleLaplacianFast.get_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code></a>([deep])</td>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.MultiscaleLaplacianFast.get_params" title="grakel.MultiscaleLaplacianFast.get_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code></a>(self[,&nbsp;deep])</td>
 <td>Get parameters for this estimator.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.MultiscaleLaplacianFast.initialize_" title="grakel.MultiscaleLaplacianFast.initialize_"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize_</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.MultiscaleLaplacianFast.initialize" title="grakel.MultiscaleLaplacianFast.initialize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize</span></code></a>(self)</td>
 <td>Initialize all transformer arguments, needing initialization.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.MultiscaleLaplacianFast.pairwise_operation" title="grakel.MultiscaleLaplacianFast.pairwise_operation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pairwise_operation</span></code></a>(x,&nbsp;y)</td>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.MultiscaleLaplacianFast.pairwise_operation" title="grakel.MultiscaleLaplacianFast.pairwise_operation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pairwise_operation</span></code></a>(self,&nbsp;x,&nbsp;y)</td>
 <td>FLG calculation for the fast multiscale laplacian.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.MultiscaleLaplacianFast.parse_input" title="grakel.MultiscaleLaplacianFast.parse_input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_input</span></code></a>(X)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.MultiscaleLaplacianFast.parse_input" title="grakel.MultiscaleLaplacianFast.parse_input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_input</span></code></a>(self,&nbsp;X)</td>
 <td>Fast ML Graph Kernel.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.MultiscaleLaplacianFast.set_params" title="grakel.MultiscaleLaplacianFast.set_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code></a>(**params)</td>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.MultiscaleLaplacianFast.set_params" title="grakel.MultiscaleLaplacianFast.set_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code></a>(self,&nbsp;\*\*params)</td>
 <td>Call the parent method.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.MultiscaleLaplacianFast.transform" title="grakel.MultiscaleLaplacianFast.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(X)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.MultiscaleLaplacianFast.transform" title="grakel.MultiscaleLaplacianFast.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(self,&nbsp;X)</td>
 <td>Calculate the kernel matrix, between given and fitted dataset.</td>
 </tr>
 </tbody>
@@ -305,44 +300,44 @@
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.MultiscaleLaplacianFast.diagonal" title="grakel.MultiscaleLaplacianFast.diagonal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">diagonal</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.MultiscaleLaplacianFast.diagonal" title="grakel.MultiscaleLaplacianFast.diagonal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">diagonal</span></code></a>(self)</td>
 <td>Calculate the kernel matrix diagonal of the fit/transformed data.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.MultiscaleLaplacianFast.fit" title="grakel.MultiscaleLaplacianFast.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(X[,&nbsp;y])</td>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.MultiscaleLaplacianFast.fit" title="grakel.MultiscaleLaplacianFast.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(self,&nbsp;X[,&nbsp;y])</td>
 <td>Fit a dataset, for a transformer.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.MultiscaleLaplacianFast.fit_transform" title="grakel.MultiscaleLaplacianFast.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code></a>(X)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.MultiscaleLaplacianFast.fit_transform" title="grakel.MultiscaleLaplacianFast.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code></a>(self,&nbsp;X)</td>
 <td>Fit and transform, on the same dataset.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.MultiscaleLaplacianFast.get_params" title="grakel.MultiscaleLaplacianFast.get_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code></a>([deep])</td>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.MultiscaleLaplacianFast.get_params" title="grakel.MultiscaleLaplacianFast.get_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code></a>(self[,&nbsp;deep])</td>
 <td>Get parameters for this estimator.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.MultiscaleLaplacianFast.initialize_" title="grakel.MultiscaleLaplacianFast.initialize_"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize_</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.MultiscaleLaplacianFast.initialize" title="grakel.MultiscaleLaplacianFast.initialize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize</span></code></a>(self)</td>
 <td>Initialize all transformer arguments, needing initialization.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.MultiscaleLaplacianFast.pairwise_operation" title="grakel.MultiscaleLaplacianFast.pairwise_operation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pairwise_operation</span></code></a>(x,&nbsp;y)</td>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.MultiscaleLaplacianFast.pairwise_operation" title="grakel.MultiscaleLaplacianFast.pairwise_operation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pairwise_operation</span></code></a>(self,&nbsp;x,&nbsp;y)</td>
 <td>FLG calculation for the fast multiscale laplacian.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.MultiscaleLaplacianFast.parse_input" title="grakel.MultiscaleLaplacianFast.parse_input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_input</span></code></a>(X)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.MultiscaleLaplacianFast.parse_input" title="grakel.MultiscaleLaplacianFast.parse_input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_input</span></code></a>(self,&nbsp;X)</td>
 <td>Fast ML Graph Kernel.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.MultiscaleLaplacianFast.set_params" title="grakel.MultiscaleLaplacianFast.set_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code></a>(**params)</td>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.MultiscaleLaplacianFast.set_params" title="grakel.MultiscaleLaplacianFast.set_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code></a>(self,&nbsp;\*\*params)</td>
 <td>Call the parent method.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.MultiscaleLaplacianFast.transform" title="grakel.MultiscaleLaplacianFast.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(X)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.MultiscaleLaplacianFast.transform" title="grakel.MultiscaleLaplacianFast.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(self,&nbsp;X)</td>
 <td>Calculate the kernel matrix, between given and fitted dataset.</td>
 </tr>
 </tbody>
 </table>
 <dl class="method">
 <dt id="grakel.MultiscaleLaplacianFast.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>n_jobs=None</em>, <em>normalize=False</em>, <em>verbose=False</em>, <em>random_seed=42</em>, <em>L=3</em>, <em>P=10</em>, <em>gamma=0.01</em>, <em>heta=0.01</em>, <em>N=50</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f7b9aaf/grakel/kernels/multiscale_laplacian.py#L75"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/multiscale_laplacian.html#MultiscaleLaplacianFast.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.MultiscaleLaplacianFast.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>self</em>, <em>n_jobs=None</em>, <em>normalize=False</em>, <em>verbose=False</em>, <em>random_state=None</em>, <em>L=3</em>, <em>P=10</em>, <em>gamma=0.01</em>, <em>heta=0.01</em>, <em>n_samples=50</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/089b65a/grakel/kernels/multiscale_laplacian.py#L69"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/multiscale_laplacian.html#MultiscaleLaplacianFast.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.MultiscaleLaplacianFast.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialise a <cite>multiscale_laplacian</cite> kernel.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="grakel.MultiscaleLaplacianFast.diagonal">
-<code class="descname">diagonal</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f7b9aaf/grakel/kernels/kernel.py#L267"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.MultiscaleLaplacianFast.diagonal" title="Permalink to this definition">¶</a></dt>
+<code class="descname">diagonal</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/089b65a/grakel/kernels/kernel.py#L267"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.MultiscaleLaplacianFast.diagonal" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the kernel matrix diagonal of the fit/transformed data.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -372,7 +367,7 @@ This consists of each element calculated with itself.</p>
 
 <dl class="method">
 <dt id="grakel.MultiscaleLaplacianFast.fit">
-<code class="descname">fit</code><span class="sig-paren">(</span><em>X</em>, <em>y=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f7b9aaf/grakel/kernels/kernel.py#L91"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.MultiscaleLaplacianFast.fit" title="Permalink to this definition">¶</a></dt>
+<code class="descname">fit</code><span class="sig-paren">(</span><em>self</em>, <em>X</em>, <em>y=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/089b65a/grakel/kernels/kernel.py#L91"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.MultiscaleLaplacianFast.fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fit a dataset, for a transformer.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -396,7 +391,7 @@ requires this parameter.</p>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
 <dt><strong>self</strong> <span class="classifier-delimiter">:</span> <span class="classifier">object</span></dt>
 <dd></dd>
-<dt><strong>Returns self.</strong></dt>
+<dt>Returns self.</dt>
 <dd></dd>
 </dl>
 </td>
@@ -407,7 +402,7 @@ requires this parameter.</p>
 
 <dl class="method">
 <dt id="grakel.MultiscaleLaplacianFast.fit_transform">
-<code class="descname">fit_transform</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f7b9aaf/grakel/kernels/kernel.py#L169"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.MultiscaleLaplacianFast.fit_transform" title="Permalink to this definition">¶</a></dt>
+<code class="descname">fit_transform</code><span class="sig-paren">(</span><em>self</em>, <em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/089b65a/grakel/kernels/kernel.py#L169"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.MultiscaleLaplacianFast.fit_transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fit and transform, on the same dataset.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -443,7 +438,7 @@ all pairs of graphs between target an features</p>
 
 <dl class="method">
 <dt id="grakel.MultiscaleLaplacianFast.get_params">
-<code class="descname">get_params</code><span class="sig-paren">(</span><em>deep=True</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f7b9aaf/grakel/../venv/lib/python2.7/site-packages/sklearn/base.py#L166"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.MultiscaleLaplacianFast.get_params" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_params</code><span class="sig-paren">(</span><em>self</em>, <em>deep=True</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/089b65a/grakel/../venv/lib/python2.7/site-packages/sklearn/base.py#L168"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.MultiscaleLaplacianFast.get_params" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get parameters for this estimator.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -469,14 +464,14 @@ contained subobjects that are estimators.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="grakel.MultiscaleLaplacianFast.initialize_">
-<code class="descname">initialize_</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f7b9aaf/grakel/kernels/multiscale_laplacian.py#L99"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/multiscale_laplacian.html#MultiscaleLaplacianFast.initialize_"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.MultiscaleLaplacianFast.initialize_" title="Permalink to this definition">¶</a></dt>
+<dt id="grakel.MultiscaleLaplacianFast.initialize">
+<code class="descname">initialize</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/089b65a/grakel/kernels/multiscale_laplacian.py#L93"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/multiscale_laplacian.html#MultiscaleLaplacianFast.initialize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.MultiscaleLaplacianFast.initialize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize all transformer arguments, needing initialization.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="grakel.MultiscaleLaplacianFast.pairwise_operation">
-<code class="descname">pairwise_operation</code><span class="sig-paren">(</span><em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f7b9aaf/grakel/kernels/multiscale_laplacian.py#L310"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/multiscale_laplacian.html#MultiscaleLaplacianFast.pairwise_operation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.MultiscaleLaplacianFast.pairwise_operation" title="Permalink to this definition">¶</a></dt>
+<code class="descname">pairwise_operation</code><span class="sig-paren">(</span><em>self</em>, <em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/089b65a/grakel/kernels/multiscale_laplacian.py#L304"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/multiscale_laplacian.html#MultiscaleLaplacianFast.pairwise_operation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.MultiscaleLaplacianFast.pairwise_operation" title="Permalink to this definition">¶</a></dt>
 <dd><p>FLG calculation for the fast multiscale laplacian.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -506,7 +501,7 @@ contained subobjects that are estimators.</p>
 
 <dl class="method">
 <dt id="grakel.MultiscaleLaplacianFast.parse_input">
-<code class="descname">parse_input</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f7b9aaf/grakel/kernels/multiscale_laplacian.py#L142"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/multiscale_laplacian.html#MultiscaleLaplacianFast.parse_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.MultiscaleLaplacianFast.parse_input" title="Permalink to this definition">¶</a></dt>
+<code class="descname">parse_input</code><span class="sig-paren">(</span><em>self</em>, <em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/089b65a/grakel/kernels/multiscale_laplacian.py#L136"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/multiscale_laplacian.html#MultiscaleLaplacianFast.parse_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.MultiscaleLaplacianFast.parse_input" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fast ML Graph Kernel.</p>
 <p>See supplementary material <a class="reference internal" href="../kernels/multiscale_laplacian.html#kondor2016multiscale" id="id2">[KP16]</a>, algorithm 1.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -539,13 +534,13 @@ and their 4th-root determinants.</p>
 
 <dl class="method">
 <dt id="grakel.MultiscaleLaplacianFast.set_params">
-<code class="descname">set_params</code><span class="sig-paren">(</span><em>**params</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f7b9aaf/grakel/kernels/kernel.py#L386"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.MultiscaleLaplacianFast.set_params" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_params</code><span class="sig-paren">(</span><em>self</em>, <em>**params</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/089b65a/grakel/kernels/kernel.py#L386"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.MultiscaleLaplacianFast.set_params" title="Permalink to this definition">¶</a></dt>
 <dd><p>Call the parent method.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="grakel.MultiscaleLaplacianFast.transform">
-<code class="descname">transform</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f7b9aaf/grakel/kernels/kernel.py#L128"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.MultiscaleLaplacianFast.transform" title="Permalink to this definition">¶</a></dt>
+<code class="descname">transform</code><span class="sig-paren">(</span><em>self</em>, <em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/089b65a/grakel/kernels/kernel.py#L128"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.MultiscaleLaplacianFast.transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the kernel matrix, between given and fitted dataset.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -586,7 +581,14 @@ all pairs of graphs between target an features</p>
 </tbody>
 </table>
 </p>
-<div class="clearer"></div></div>
+<div class="section" id="examples-using-grakel-multiscalelaplacianfast">
+<h3>Examples using <code class="docutils literal notranslate"><span class="pre">grakel.MultiscaleLaplacianFast</span></code><a class="headerlink" href="#examples-using-grakel-multiscalelaplacianfast" title="Permalink to this headline">¶</a></h3>
+<div class="sphx-glr-thumbcontainer" tooltip="An example plot of grakel.GraphKernel, grakel.MultiscaleLaplacianFast "><div class="figure" id="id3">
+<img alt="../_images/sphx_glr_KFold_MLG_thumb.png" src="../_images/sphx_glr_KFold_MLG_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/KFold_MLG.html#sphx-glr-auto-examples-kfold-mlg-py"><span class="std std-ref">K-Fold classification on the ENZYMES dataset using the approximate Multiscale Laplacian kernel.</span></a></span></p>
+</div>
+</div><div class="clearer"></div></div>
+</div>
 </div>
 
 
@@ -600,7 +602,7 @@ all pairs of graphs between target an features</p>
         <a href="grakel.VertexHistogram.html" class="btn btn-neutral float-right" title="grakel.VertexHistogram" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="grakel.MultiscaleLaplacian.html" class="btn btn-neutral" title="grakel.MultiscaleLaplacian" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="grakel.MultiscaleLaplacian.html" class="btn btn-neutral float-left" title="grakel.MultiscaleLaplacian" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -626,26 +628,16 @@ all pairs of graphs between target an features</p>
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>grakel.WeisfeilerLehman &mdash; GraKeL 0.1a5 documentation</title>
+  <title>grakel.WeisfeilerLehman &mdash; GraKeL 0.1a6 documentation</title>
   
 
   
@@ -17,13 +17,21 @@
   
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
@@ -32,21 +40,16 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="grakel.HadamardCode" href="grakel.HadamardCode.html" />
     <link rel="prev" title="grakel.SubgraphMatching" href="grakel.SubgraphMatching.html" /> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -63,7 +66,7 @@
             
             
               <div class="version">
-                0.1a5
+                0.1a6
               </div>
             
           
@@ -200,7 +203,7 @@
 <h1><a class="reference internal" href="../api.html#module-grakel" title="grakel"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code></a>.WeisfeilerLehman<a class="headerlink" href="#grakel-weisfeilerlehman" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="grakel.WeisfeilerLehman">
-<em class="property">class </em><code class="descclassname">grakel.</code><code class="descname">WeisfeilerLehman</code><span class="sig-paren">(</span><em>n_jobs=None</em>, <em>verbose=False</em>, <em>normalize=False</em>, <em>niter=5</em>, <em>base_kernel=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f7b9aaf/grakel/kernels/weisfeiler_lehman.py#L21"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/weisfeiler_lehman.html#WeisfeilerLehman"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.WeisfeilerLehman" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">grakel.</code><code class="descname">WeisfeilerLehman</code><span class="sig-paren">(</span><em>n_jobs=None</em>, <em>verbose=False</em>, <em>normalize=False</em>, <em>n_iter=5</em>, <em>base_kernel=&lt;class 'grakel.kernels.vertex_histogram.VertexHistogram'&gt;</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/089b65a/grakel/kernels/weisfeiler_lehman.py#L22"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/weisfeiler_lehman.html#WeisfeilerLehman"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.WeisfeilerLehman" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the Weisfeiler Lehman Kernel.</p>
 <blockquote>
 <div>See <a class="reference internal" href="../kernels/weisfeiler_lehman.html#shervashidze2011weisfeiler" id="id1">[SSVL+11]</a>.</div></blockquote>
@@ -209,14 +212,15 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>base_kernel</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><cite>grakel.kernels.kernel</cite> or tuple</span></dt>
+<dt><strong>n_iter</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int, default=5</span></dt>
+<dd><p class="first last">The number of iterations.</p>
+</dd>
+<dt><strong>base_kernel</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><cite>grakel.kernels.Kernel</cite> or tuple, default=None</span></dt>
 <dd><p class="first last">If tuple it must consist of a valid kernel object and a
 dictionary of parameters. General parameters concerning
 normalization, concurrency, .. will be ignored, and the
-ones of given on <cite>__init__</cite> will be passed in case it is needed.</p>
-</dd>
-<dt><strong>niter</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int, default=5</span></dt>
-<dd><p class="first last">The number of iterations.</p>
+ones of given on <cite>__init__</cite> will be passed in case it is needed.
+Default <cite>base_kernel</cite> is <cite>VertexHistogram</cite>.</p>
 </dd>
 </dl>
 </td>
@@ -228,7 +232,7 @@ ones of given on <cite>__init__</cite> will be passed in case it is needed.</p>
 <dt><strong>_nx</strong> <span class="classifier-delimiter">:</span> <span class="classifier">number</span></dt>
 <dd><p class="first last">Holds the number of inputs.</p>
 </dd>
-<dt><strong>_niter</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dt><strong>_n_iter</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
 <dd><p class="first last">Holds the number, of iterations.</p>
 </dd>
 <dt><strong>_base_kernel</strong> <span class="classifier-delimiter">:</span> <span class="classifier">function</span></dt>
@@ -249,31 +253,31 @@ ones of given on <cite>__init__</cite> will be passed in case it is needed.</p>
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.WeisfeilerLehman.diagonal" title="grakel.WeisfeilerLehman.diagonal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">diagonal</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.WeisfeilerLehman.diagonal" title="grakel.WeisfeilerLehman.diagonal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">diagonal</span></code></a>(self)</td>
 <td>Calculate the kernel matrix diagonal for fitted data.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.WeisfeilerLehman.fit" title="grakel.WeisfeilerLehman.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(X[,&nbsp;y])</td>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.WeisfeilerLehman.fit" title="grakel.WeisfeilerLehman.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(self,&nbsp;X[,&nbsp;y])</td>
 <td>Fit a dataset, for a transformer.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.WeisfeilerLehman.fit_transform" title="grakel.WeisfeilerLehman.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code></a>(X[,&nbsp;y])</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.WeisfeilerLehman.fit_transform" title="grakel.WeisfeilerLehman.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code></a>(self,&nbsp;X[,&nbsp;y])</td>
 <td>Fit and transform, on the same dataset.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.WeisfeilerLehman.get_params" title="grakel.WeisfeilerLehman.get_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code></a>([deep])</td>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.WeisfeilerLehman.get_params" title="grakel.WeisfeilerLehman.get_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code></a>(self[,&nbsp;deep])</td>
 <td>Get parameters for this estimator.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.WeisfeilerLehman.initialize_" title="grakel.WeisfeilerLehman.initialize_"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize_</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.WeisfeilerLehman.initialize" title="grakel.WeisfeilerLehman.initialize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize</span></code></a>(self)</td>
 <td>Initialize all transformer arguments, needing initialization.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.WeisfeilerLehman.pairwise_operation" title="grakel.WeisfeilerLehman.pairwise_operation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pairwise_operation</span></code></a>(x,&nbsp;y)</td>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.WeisfeilerLehman.pairwise_operation" title="grakel.WeisfeilerLehman.pairwise_operation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pairwise_operation</span></code></a>(self,&nbsp;x,&nbsp;y)</td>
 <td>Calculate a pairwise kernel between two elements.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.WeisfeilerLehman.parse_input" title="grakel.WeisfeilerLehman.parse_input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_input</span></code></a>(X)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.WeisfeilerLehman.parse_input" title="grakel.WeisfeilerLehman.parse_input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_input</span></code></a>(self,&nbsp;X)</td>
 <td>Parse input for weisfeiler lehman.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.WeisfeilerLehman.set_params" title="grakel.WeisfeilerLehman.set_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code></a>(**params)</td>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.WeisfeilerLehman.set_params" title="grakel.WeisfeilerLehman.set_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code></a>(self,&nbsp;\*\*params)</td>
 <td>Call the parent method.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.WeisfeilerLehman.transform" title="grakel.WeisfeilerLehman.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(X)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.WeisfeilerLehman.transform" title="grakel.WeisfeilerLehman.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(self,&nbsp;X)</td>
 <td>Calculate the kernel matrix, between given and fitted dataset.</td>
 </tr>
 </tbody>
@@ -298,44 +302,44 @@ ones of given on <cite>__init__</cite> will be passed in case it is needed.</p>
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.WeisfeilerLehman.diagonal" title="grakel.WeisfeilerLehman.diagonal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">diagonal</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.WeisfeilerLehman.diagonal" title="grakel.WeisfeilerLehman.diagonal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">diagonal</span></code></a>(self)</td>
 <td>Calculate the kernel matrix diagonal for fitted data.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.WeisfeilerLehman.fit" title="grakel.WeisfeilerLehman.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(X[,&nbsp;y])</td>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.WeisfeilerLehman.fit" title="grakel.WeisfeilerLehman.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(self,&nbsp;X[,&nbsp;y])</td>
 <td>Fit a dataset, for a transformer.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.WeisfeilerLehman.fit_transform" title="grakel.WeisfeilerLehman.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code></a>(X[,&nbsp;y])</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.WeisfeilerLehman.fit_transform" title="grakel.WeisfeilerLehman.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code></a>(self,&nbsp;X[,&nbsp;y])</td>
 <td>Fit and transform, on the same dataset.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.WeisfeilerLehman.get_params" title="grakel.WeisfeilerLehman.get_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code></a>([deep])</td>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.WeisfeilerLehman.get_params" title="grakel.WeisfeilerLehman.get_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code></a>(self[,&nbsp;deep])</td>
 <td>Get parameters for this estimator.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.WeisfeilerLehman.initialize_" title="grakel.WeisfeilerLehman.initialize_"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize_</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.WeisfeilerLehman.initialize" title="grakel.WeisfeilerLehman.initialize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize</span></code></a>(self)</td>
 <td>Initialize all transformer arguments, needing initialization.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.WeisfeilerLehman.pairwise_operation" title="grakel.WeisfeilerLehman.pairwise_operation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pairwise_operation</span></code></a>(x,&nbsp;y)</td>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.WeisfeilerLehman.pairwise_operation" title="grakel.WeisfeilerLehman.pairwise_operation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pairwise_operation</span></code></a>(self,&nbsp;x,&nbsp;y)</td>
 <td>Calculate a pairwise kernel between two elements.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.WeisfeilerLehman.parse_input" title="grakel.WeisfeilerLehman.parse_input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_input</span></code></a>(X)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.WeisfeilerLehman.parse_input" title="grakel.WeisfeilerLehman.parse_input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_input</span></code></a>(self,&nbsp;X)</td>
 <td>Parse input for weisfeiler lehman.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.WeisfeilerLehman.set_params" title="grakel.WeisfeilerLehman.set_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code></a>(**params)</td>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.WeisfeilerLehman.set_params" title="grakel.WeisfeilerLehman.set_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code></a>(self,&nbsp;\*\*params)</td>
 <td>Call the parent method.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.WeisfeilerLehman.transform" title="grakel.WeisfeilerLehman.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(X)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.WeisfeilerLehman.transform" title="grakel.WeisfeilerLehman.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(self,&nbsp;X)</td>
 <td>Calculate the kernel matrix, between given and fitted dataset.</td>
 </tr>
 </tbody>
 </table>
 <dl class="method">
 <dt id="grakel.WeisfeilerLehman.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>n_jobs=None</em>, <em>verbose=False</em>, <em>normalize=False</em>, <em>niter=5</em>, <em>base_kernel=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f7b9aaf/grakel/kernels/weisfeiler_lehman.py#L58"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/weisfeiler_lehman.html#WeisfeilerLehman.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.WeisfeilerLehman.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>self</em>, <em>n_jobs=None</em>, <em>verbose=False</em>, <em>normalize=False</em>, <em>n_iter=5</em>, <em>base_kernel=&lt;class 'grakel.kernels.vertex_histogram.VertexHistogram'&gt;</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/089b65a/grakel/kernels/weisfeiler_lehman.py#L60"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/weisfeiler_lehman.html#WeisfeilerLehman.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.WeisfeilerLehman.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialise a <cite>weisfeiler_lehman</cite> kernel.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="grakel.WeisfeilerLehman.diagonal">
-<code class="descname">diagonal</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f7b9aaf/grakel/kernels/weisfeiler_lehman.py#L437"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/weisfeiler_lehman.html#WeisfeilerLehman.diagonal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.WeisfeilerLehman.diagonal" title="Permalink to this definition">¶</a></dt>
+<code class="descname">diagonal</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/089b65a/grakel/kernels/weisfeiler_lehman.py#L440"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/weisfeiler_lehman.html#WeisfeilerLehman.diagonal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.WeisfeilerLehman.diagonal" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the kernel matrix diagonal for fitted data.</p>
 <p>A funtion called on transform on a seperate dataset to apply
 normalization on the exterior.</p>
@@ -367,7 +371,7 @@ This consists of kernel calculation for each element with itself.</p>
 
 <dl class="method">
 <dt id="grakel.WeisfeilerLehman.fit">
-<code class="descname">fit</code><span class="sig-paren">(</span><em>X</em>, <em>y=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f7b9aaf/grakel/kernels/kernel.py#L91"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.WeisfeilerLehman.fit" title="Permalink to this definition">¶</a></dt>
+<code class="descname">fit</code><span class="sig-paren">(</span><em>self</em>, <em>X</em>, <em>y=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/089b65a/grakel/kernels/kernel.py#L91"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.WeisfeilerLehman.fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fit a dataset, for a transformer.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -391,7 +395,7 @@ requires this parameter.</p>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
 <dt><strong>self</strong> <span class="classifier-delimiter">:</span> <span class="classifier">object</span></dt>
 <dd></dd>
-<dt><strong>Returns self.</strong></dt>
+<dt>Returns self.</dt>
 <dd></dd>
 </dl>
 </td>
@@ -402,7 +406,7 @@ requires this parameter.</p>
 
 <dl class="method">
 <dt id="grakel.WeisfeilerLehman.fit_transform">
-<code class="descname">fit_transform</code><span class="sig-paren">(</span><em>X</em>, <em>y=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f7b9aaf/grakel/kernels/weisfeiler_lehman.py#L262"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/weisfeiler_lehman.html#WeisfeilerLehman.fit_transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.WeisfeilerLehman.fit_transform" title="Permalink to this definition">¶</a></dt>
+<code class="descname">fit_transform</code><span class="sig-paren">(</span><em>self</em>, <em>X</em>, <em>y=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/089b65a/grakel/kernels/weisfeiler_lehman.py#L266"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/weisfeiler_lehman.html#WeisfeilerLehman.fit_transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.WeisfeilerLehman.fit_transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fit and transform, on the same dataset.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -437,7 +441,7 @@ all pairs of graphs between target an features</p>
 
 <dl class="method">
 <dt id="grakel.WeisfeilerLehman.get_params">
-<code class="descname">get_params</code><span class="sig-paren">(</span><em>deep=True</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f7b9aaf/grakel/../venv/lib/python2.7/site-packages/sklearn/base.py#L166"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.WeisfeilerLehman.get_params" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_params</code><span class="sig-paren">(</span><em>self</em>, <em>deep=True</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/089b65a/grakel/../venv/lib/python2.7/site-packages/sklearn/base.py#L168"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.WeisfeilerLehman.get_params" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get parameters for this estimator.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -463,14 +467,14 @@ contained subobjects that are estimators.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="grakel.WeisfeilerLehman.initialize_">
-<code class="descname">initialize_</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f7b9aaf/grakel/kernels/weisfeiler_lehman.py#L69"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/weisfeiler_lehman.html#WeisfeilerLehman.initialize_"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.WeisfeilerLehman.initialize_" title="Permalink to this definition">¶</a></dt>
+<dt id="grakel.WeisfeilerLehman.initialize">
+<code class="descname">initialize</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/089b65a/grakel/kernels/weisfeiler_lehman.py#L71"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/weisfeiler_lehman.html#WeisfeilerLehman.initialize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.WeisfeilerLehman.initialize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize all transformer arguments, needing initialization.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="grakel.WeisfeilerLehman.pairwise_operation">
-<code class="descname">pairwise_operation</code><span class="sig-paren">(</span><em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f7b9aaf/grakel/kernels/kernel.py#L370"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.WeisfeilerLehman.pairwise_operation" title="Permalink to this definition">¶</a></dt>
+<code class="descname">pairwise_operation</code><span class="sig-paren">(</span><em>self</em>, <em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/089b65a/grakel/kernels/kernel.py#L370"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.WeisfeilerLehman.pairwise_operation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate a pairwise kernel between two elements.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -496,7 +500,7 @@ contained subobjects that are estimators.</p>
 
 <dl class="method">
 <dt id="grakel.WeisfeilerLehman.parse_input">
-<code class="descname">parse_input</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f7b9aaf/grakel/kernels/weisfeiler_lehman.py#L112"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/weisfeiler_lehman.html#WeisfeilerLehman.parse_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.WeisfeilerLehman.parse_input" title="Permalink to this definition">¶</a></dt>
+<code class="descname">parse_input</code><span class="sig-paren">(</span><em>self</em>, <em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/089b65a/grakel/kernels/weisfeiler_lehman.py#L112"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/weisfeiler_lehman.html#WeisfeilerLehman.parse_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.WeisfeilerLehman.parse_input" title="Permalink to this definition">¶</a></dt>
 <dd><p>Parse input for weisfeiler lehman.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -517,7 +521,7 @@ graph format). A valid input also consists of graph type objects.</p>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
 <dt><strong>base_kernel</strong> <span class="classifier-delimiter">:</span> <span class="classifier">object</span></dt>
 <dd></dd>
-<dt><strong>Returns base_kernel.</strong></dt>
+<dt>Returns base_kernel.</dt>
 <dd></dd>
 </dl>
 </td>
@@ -528,13 +532,13 @@ graph format). A valid input also consists of graph type objects.</p>
 
 <dl class="method">
 <dt id="grakel.WeisfeilerLehman.set_params">
-<code class="descname">set_params</code><span class="sig-paren">(</span><em>**params</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f7b9aaf/grakel/kernels/kernel.py#L386"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.WeisfeilerLehman.set_params" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_params</code><span class="sig-paren">(</span><em>self</em>, <em>**params</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/089b65a/grakel/kernels/kernel.py#L386"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.WeisfeilerLehman.set_params" title="Permalink to this definition">¶</a></dt>
 <dd><p>Call the parent method.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="grakel.WeisfeilerLehman.transform">
-<code class="descname">transform</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/f7b9aaf/grakel/kernels/weisfeiler_lehman.py#L300"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/weisfeiler_lehman.html#WeisfeilerLehman.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.WeisfeilerLehman.transform" title="Permalink to this definition">¶</a></dt>
+<code class="descname">transform</code><span class="sig-paren">(</span><em>self</em>, <em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/089b65a/grakel/kernels/weisfeiler_lehman.py#L304"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/weisfeiler_lehman.html#WeisfeilerLehman.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.WeisfeilerLehman.transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the kernel matrix, between given and fitted dataset.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -577,7 +581,11 @@ all pairs of graphs between target an features</p>
 </p>
 <div class="section" id="examples-using-grakel-weisfeilerlehman">
 <h3>Examples using <code class="docutils literal notranslate"><span class="pre">grakel.WeisfeilerLehman</span></code><a class="headerlink" href="#examples-using-grakel-weisfeilerlehman" title="Permalink to this headline">¶</a></h3>
-<div class="sphx-glr-thumbcontainer" tooltip="Retrieval of most similar document using the Weisfeiler"><div class="figure" id="id2">
+<div class="sphx-glr-thumbcontainer" tooltip="An example plot of grakel.GraphKernel, grakel.WeisfeilerLehman, grakel.VertexHistogram "><div class="figure" id="id2">
+<img alt="../_images/sphx_glr_plot_wl_subtree_MUTAG_thumb.png" src="../_images/sphx_glr_plot_wl_subtree_MUTAG_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/plot_wl_subtree_MUTAG.html#sphx-glr-auto-examples-plot-wl-subtree-mutag-py"><span class="std std-ref">Classification on the MUTAG dataset using the WL-subtree kernel.</span></a></span></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Retrieval of most similar document using the Weisfeiler"><div class="figure" id="id3">
 <img alt="../_images/sphx_glr_document_retrieval_example_thumb.png" src="../_images/sphx_glr_document_retrieval_example_thumb.png" />
 <p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/document_retrieval_example.html#sphx-glr-auto-examples-document-retrieval-example-py"><span class="std std-ref">Retrieval of most similar document using the Weisfeiler-Lehman subtree kernel.</span></a></span></p>
 </div>
@@ -596,7 +604,7 @@ all pairs of graphs between target an features</p>
         <a href="grakel.HadamardCode.html" class="btn btn-neutral float-right" title="grakel.HadamardCode" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="grakel.SubgraphMatching.html" class="btn btn-neutral" title="grakel.SubgraphMatching" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="grakel.SubgraphMatching.html" class="btn btn-neutral float-left" title="grakel.SubgraphMatching" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -622,26 +630,16 @@ all pairs of graphs between target an features</p>
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

@@ -1,7 +1,7 @@
 """
-=============================================================
+================================================================
 Classification on the MUTAG dataset using the WL-subtree kernel.
-=============================================================
+================================================================
 
 An example plot of :class:`grakel.GraphKernel`, :class:`grakel.WeisfeilerLehman`, :class:`grakel.VertexHistogram`
 """
@@ -30,8 +30,7 @@ G_train, G_test, y_train, y_test = train_test_split(G, y, test_size=0.1, random_
 
 start = time()
 # Initialise a weifeiler kernel, with a dirac base_kernel.
-gk = GraphKernel(kernel=[{"name": "weisfeiler_lehman", "niter": 5},
-                         {"name": "subtree_wl"}], normalize=True)
+gk = GraphKernel(kernel=[{"name": "WL", "n_iter": 5}, "ST-WL"], normalize=True)
 
 # Calculate the kernel matrix.
 K_train = gk.fit_transform(G_train)

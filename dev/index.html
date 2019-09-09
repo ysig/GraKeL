@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Overview &mdash; GraKeL 0.1a5 documentation</title>
+  <title>Overview &mdash; GraKeL 0.1a6 documentation</title>
   
 
   
@@ -17,13 +17,21 @@
   
 
   
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="_static/gallery.css" type="text/css" />
@@ -31,21 +39,16 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="User Manual" href="user_manual.html" /> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -62,7 +65,7 @@
             
             
               <div class="version">
-                0.1a5
+                0.1a6
               </div>
             
           
@@ -196,6 +199,23 @@ for the use and understanding of the <strong>GraKeL</strong> package.</p>
 <div class="section" id="what-s-new">
 <h1>What’s New<a class="headerlink" href="#what-s-new" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
+<li>Version <strong>0.1a6</strong><ul>
+<li>More scikit-learn compatibility:<ol class="arabic">
+<li>Initialise kernels by name and alias on GraphKernel (as GraphKernel(kernel=”shortest_path”).</li>
+<li>Fit and instantion by default parameters.</li>
+<li>Random number generator standardized <cite>check_random_state</cite>. <cite>random_seed</cite> are now <cite>random_state</cite> arguments.</li>
+<li>Doctests.</li>
+</ol>
+</li>
+<li>Miscelanous:<ol class="arabic">
+<li>Detailed unsupported kernel output.</li>
+<li>More detailed licensing information considering <strong>cvxopt</strong> and <strong>BLISS</strong></li>
+<li>Small bugfix inside the (Count Sensitive) Neighborhood Hash Kernel.</li>
+<li>Added sparse-compatibility for VertexHistogram and for EdgeHistogram.</li>
+</ol>
+</li>
+</ul>
+</li>
 <li>Version <strong>0.1a5</strong><ul>
 <li>Various bugfixes in kernel implementations.</li>
 <li>Added a bunch of <code class="code docutils literal notranslate"><span class="pre">utils</span></code> functions for external operations: transforming existing <em>graph formats</em> (csv, pandas, networkx) to the grakel native, <em>k-fold cross validation</em> with an SVM and <em>kernel matrix transformer</em> for manipulating precomputed kernel matrices in an <code class="code docutils literal notranslate"><span class="pre">Transformer</span></code> fashion.</li>
@@ -248,26 +268,16 @@ for the use and understanding of the <strong>GraKeL</strong> package.</p>
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>
