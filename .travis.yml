@@ -31,7 +31,7 @@ matrix:
         - PYTHON=python
         - CIBW_BUILD="cp35-*"
         - FLAKE="true"
-        - DEPLOY_SDIST="false"
+        - DEPLOY_SDIST="True"
     - sudo: required
       services:
         - docker
