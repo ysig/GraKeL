@@ -50,7 +50,7 @@ cp -R $HOME/tmp/* ./$DOC_URL/
 git config --global user.email $EMAIL
 git config --global user.name $USERNAME
 git add -f ./$DOC_URL/ index.html .nojekyll
-git commit -m "$MSG"
+git commit -m "$MSG [ci skip]"
 git push -f origin gh-pages
 if [ $? -ne 0 ]; then
     echo "Pushing docs failed"
