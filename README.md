@@ -47,7 +47,42 @@ $ pip install grakel-dev
 
 Getting Started
 ===============
-Two pointers to get you started:
+To learn how to use the GraKeL api **as a user**, please read the [documentation][doc] on sections *Introduction* and *A longer introduction* (in case your are full of curiosity).
+
+Initialise a Kernel
+-------------------
+
+```python
+from grakel import GraphKernel
+wl_subtree = GraphKernel(kernel=['WL', 'ST-WL'], normalize=True)
+```
+
+Provide Input
+-------------
+
+- Custom Input
+
+  ```python
+  H2O = [[(0, 1), (0, 2), (2, 0), (1, 0)], # Directed Graph
+         {0: 'O', 1: 'H', 2: 'H'}] # Node Labels
+  H3O = [[(0, 1), (0, 2), (0, 3), (3, 0), (2, 0), (1, 0)], # Directed Graph
+         {0: 'O', 1: 'H', 2: 'H', 3:'H'}]] # Node Labels
+  X = [H2O, H3O] # List of Graph-Like Objects
+  ```
+
+- Download a Dataset
+
+  ```python
+  from grakel.datasets import fetch_dataset
+  MUTAG = fetch_dataset("MUTAG")
+  X = MUTAG.data # MUTAG.target contains class labels
+  ```
+
+Calculate Kernel Matrix
+-----------------------
+```python
+   K = wl_subtree.fit_transform(X) # len(X) x len(X): symmetric
+```
 
 
 Testing
