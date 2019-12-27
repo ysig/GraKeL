@@ -44,7 +44,7 @@ jobs:
       - DOC_REPO: GraKeL
 
       # The base URL for the Github page where the documentation will be hosted
-      - DOC_URL: dev
+      - DOC_URL: 0.1a6
 
       # The email is to be used for commits in the Github Page
       - EMAIL: y.siglidis@gmail.com
@@ -68,7 +68,7 @@ workflows:
           requires:
             - python3
             - python2
-          filters:
-            branches:
-              only: develop
+#          filters:
+#            branches:
+#              only: develop
 
