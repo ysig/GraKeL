@@ -29,12 +29,12 @@ class HadamardCode(Kernel):
 
     Parameters
     ----------
-    base_kernel : `grakel.kernels.Kernel` or tuple, default=None
+    base_graph_kernel : `grakel.kernels.Kernel` or tuple, default=None
         If tuple it must consist of a valid kernel object and a
         dictionary of parameters. General parameters concerning
         normalization, concurrency, .. will be ignored, and the
         ones of given on `__init__` will be passed in case it is needed.
-        Default `base_kernel` is `VertexHistogram`.
+        Default `base_graph_kernel` is `VertexHistogram`.
 
     rho : int, condition_of_appearance: hc_type=="shortened", default=-1
         The size of each single bit arrays. If -1 is chosen r is calculated as
@@ -48,7 +48,7 @@ class HadamardCode(Kernel):
 
     Attributes
     ----------
-    base_kernel_ : function
+    base_graph_kernel_ : function
         A void function that initializes a base kernel object.
 
     """
@@ -56,34 +56,34 @@ class HadamardCode(Kernel):
     _graph_format = "auto"
 
     def __init__(self, n_jobs=None, verbose=False,
-                 normalize=False, n_iter=5, base_kernel=None):
+                 normalize=False, n_iter=5, base_graph_kernel=None):
         """Initialise a `hadamard_code` kernel."""
         super(HadamardCode, self).__init__(
             n_jobs=n_jobs, verbose=verbose, normalize=normalize)
 
         self.n_iter = n_iter
-        self.base_kernel = base_kernel
-        self._initialized.update({"n_iter": False, "base_kernel": False})
+        self.base_graph_kernel = base_graph_kernel
+        self._initialized.update({"n_iter": False, "base_graph_kernel": False})
 
     def initialize(self):
         """Initialize all transformer arguments, needing initialization."""
         super(HadamardCode, self).initialize()
-        if not self._initialized["base_kernel"]:
-            base_kernel = self.base_kernel
-            if base_kernel is None:
-                base_kernel, params = VertexHistogram, dict()
-            elif type(base_kernel) is type and issubclass(base_kernel, Kernel):
+        if not self._initialized["base_graph_kernel"]:
+            base_graph_kernel = self.base_graph_kernel
+            if base_graph_kernel is None:
+                base_graph_kernel, params = VertexHistogram, dict()
+            elif type(base_graph_kernel) is type and issubclass(base_graph_kernel, Kernel):
                 params = dict()
             else:
                 try:
-                    base_kernel, params = base_kernel
+                    base_graph_kernel, params = base_graph_kernel
                 except Exception:
                     raise TypeError('Base kernel was not formulated in '
                                     'the correct way. '
                                     'Check documentation.')
 
-                if not (type(base_kernel) is type and
-                        issubclass(base_kernel, Kernel)):
+                if not (type(base_graph_kernel) is type and
+                        issubclass(base_graph_kernel, Kernel)):
                     raise TypeError('The first argument must be a valid '
                                     'grakel.kernel.kernel Object')
                 if type(params) is not dict:
@@ -96,8 +96,8 @@ class HadamardCode(Kernel):
             params["normalize"] = False
             params["verbose"] = self.verbose
             params["n_jobs"] = None
-            self.base_kernel_ = (base_kernel, params)
-            self._initialized["base_kernel"] = True
+            self.base_graph_kernel_ = (base_graph_kernel, params)
+            self._initialized["base_graph_kernel"] = True
 
         if not self._initialized["n_iter"]:
             if type(self.n_iter) is not int or self.n_iter <= 0:
@@ -119,27 +119,27 @@ class HadamardCode(Kernel):
 
         Returns
         -------
-        base_kernel : object
-            Returns base_kernel. Only if called from `fit` or `fit_transform`.
+        base_graph_kernel : object
+            Returns base_graph_kernel. Only if called from `fit` or `fit_transform`.
 
         K : np.array
             Returns the kernel matrix. Only if called from `transform` or
             `fit_transform`.
 
         """
-        if self.base_kernel_ is None:
-            raise ValueError('User must provide a base_kernel')
+        if self.base_graph_kernel_ is None:
+            raise ValueError('User must provide a base_graph_kernel')
         # Input validation and parsing
         if not isinstance(X, collections.Iterable):
             raise TypeError('input must be an iterable\n')
         else:
             nx, labels = 0, list()
             if self._method_calling in [1, 2]:
-                nl, labels_enum, base_kernel = 0, dict(), dict()
+                nl, labels_enum, base_graph_kernel = 0, dict(), dict()
                 for kidx in range(self.n_iter):
-                    base_kernel[kidx] = self.base_kernel_[0](**self.base_kernel_[1])
+                    base_graph_kernel[kidx] = self.base_graph_kernel_[0](**self.base_graph_kernel_[1])
             elif self._method_calling == 3:
-                nl, labels_enum, base_kernel = len(self._labels_enum), dict(self._labels_enum), self.X
+                nl, labels_enum, base_graph_kernel = len(self._labels_enum), dict(self._labels_enum), self.X
             inp = list()
             neighbors = list()
             for (idx, x) in enumerate(iter(X)):
@@ -218,15 +218,15 @@ class HadamardCode(Kernel):
                 yield new_graphs
 
         if self._method_calling in [1, 2]:
-            base_kernel = {i: self.base_kernel_[0](**self.base_kernel_[1]) for i in range(self.n_iter)}
+            base_graph_kernel = {i: self.base_graph_kernel_[0](**self.base_graph_kernel_[1]) for i in range(self.n_iter)}
 
         if self._parallel is None:
             # Add the zero iteration element
             if self._method_calling == 1:
                 for (i, g) in enumerate(generate_graphs(labels)):
-                    base_kernel[i].fit(g)
+                    base_graph_kernel[i].fit(g)
             elif self._method_calling == 2:
-                K = np.sum((base_kernel[i].fit_transform(g) for (i, g)
+                K = np.sum((base_graph_kernel[i].fit_transform(g) for (i, g)
                            in enumerate(generate_graphs(labels))), axis=0)
             elif self._method_calling == 3:
                 # Calculate the kernel matrix without parallelization
@@ -235,11 +235,11 @@ class HadamardCode(Kernel):
 
         else:
             if self._method_calling == 1:
-                self._parallel(joblib.delayed(efit)(base_kernel[i], g)
+                self._parallel(joblib.delayed(efit)(base_graph_kernel[i], g)
                                for (i, g) in enumerate(generate_graphs(labels)))
             elif self._method_calling == 2:
                 # Calculate the kernel marix with parallelization
-                K = np.sum(self._parallel(joblib.delayed(efit_transform)(base_kernel[i], g) for (i, g)
+                K = np.sum(self._parallel(joblib.delayed(efit_transform)(base_graph_kernel[i], g) for (i, g)
                            in enumerate(generate_graphs(labels))), axis=0)
             elif self._method_calling == 3:
                 # Calculate the kernel marix with parallelization
@@ -248,10 +248,10 @@ class HadamardCode(Kernel):
 
         if self._method_calling == 1:
             self._labels_enum = labels_enum
-            return base_kernel
+            return base_graph_kernel
         elif self._method_calling == 2:
             self._labels_enum = labels_enum
-            return K, base_kernel
+            return K, base_graph_kernel
         elif self._method_calling == 3:
             return K
 

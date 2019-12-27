@@ -38,6 +38,11 @@ GrakeL provides
 What's New
 ==========
 
+- Version **0.1a7**
+
+  + Detailed installation instructions for c++ extensions in windows.
+  + Changed `base_kernel` alias in frameworks with `base_graph_kernel` to disambiguate with vectorial kernels.
+
 - Version **0.1a6**
 
   + More scikit-learn compatibility:

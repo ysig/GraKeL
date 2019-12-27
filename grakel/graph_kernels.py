@@ -96,7 +96,7 @@ class GraphKernel(BaseEstimator, TransformerMixin):
         or of :code:`str`, designating a kernel name.
 
         available "name" or "name-alias" / "parametres" are:
-            1. base_kernels (the structure must always reach a base kernel)
+            1. base_graph_kernels (the structure must always reach a base kernel)
 
                 - "vertex_histogram" or "subtree_wl" or "VH" or "ST-WL"
                     + (**o**) "sparse" : bool or 'auto'
@@ -544,7 +544,7 @@ class GraphKernel(BaseEstimator, TransformerMixin):
 
         elif kernel_name in sfs:
             if len(kernel_list):
-                kernel["base_kernel"] = self.make_kernel_(kernel_list, {})
+                kernel["base_graph_kernel"] = self.make_kernel_(kernel_list, {})
             if kernel_name in sf[0]:
                 return (WeisfeilerLehman, kernel)
             elif kernel_name in sf[1]:

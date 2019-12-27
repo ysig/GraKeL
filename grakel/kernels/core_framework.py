@@ -22,19 +22,19 @@ class CoreFramework(Kernel):
 
     Parameters
     ----------
-    base_kernel : `grakel.kernels.kernel` or tuple, default=None
+    base_graph_kernel : `grakel.kernels.kernel` or tuple, default=None
         If tuple it must consist of a valid kernel object and a
         dictionary of parameters. General parameters concerning
         normalization, concurrency, .. will be ignored, and the
         ones of given on `__init__` will be passed in case it is needed.
-        Default `base_kernel` is `VertexHistogram`.
+        Default `base_graph_kernel` is `VertexHistogram`.
 
     min_core : int, default=-1
         Core numbers bigger than min_core will only be considered.
 
     Attributes
     ----------
-    base_kernel_ : function
+    base_graph_kernel_ : function
         A void function that initializes a base kernel object.
 
     """
@@ -42,14 +42,14 @@ class CoreFramework(Kernel):
     _graph_format = "dictionary"
 
     def __init__(self, n_jobs=None, verbose=False,
-                 normalize=False, min_core=-1, base_kernel=None):
+                 normalize=False, min_core=-1, base_graph_kernel=None):
         """Initialise a `hadamard_code` kernel."""
         super(CoreFramework, self).__init__(
             n_jobs=n_jobs, verbose=verbose, normalize=normalize)
 
         self.min_core = -1
-        self.base_kernel = base_kernel
-        self._initialized.update({"min_core": False, "base_kernel": False})
+        self.base_graph_kernel = base_graph_kernel
+        self._initialized.update({"min_core": False, "base_graph_kernel": False})
 
     def initialize(self):
         """Initialize all transformer arguments, needing initialization."""
@@ -58,22 +58,22 @@ class CoreFramework(Kernel):
                 warnings.warn('no implemented parallelization for CoreFramework')
             self._initialized["n_jobs"] = True
 
-        if not self._initialized["base_kernel"]:
-            base_kernel = self.base_kernel
-            if base_kernel is not None:
-                base_kernel, params = ShortestPath, dict()
-            elif type(base_kernel) is type and issubclass(base_kernel, Kernel):
+        if not self._initialized["base_graph_kernel"]:
+            base_graph_kernel = self.base_graph_kernel
+            if base_graph_kernel is not None:
+                base_graph_kernel, params = ShortestPath, dict()
+            elif type(base_graph_kernel) is type and issubclass(base_graph_kernel, Kernel):
                 params = dict()
             else:
                 try:
-                    base_kernel, params = base_kernel
+                    base_graph_kernel, params = base_graph_kernel
                 except Exception:
                     raise TypeError('Base kernel was not formulated in '
                                     'the correct way. '
                                     'Check documentation.')
 
-                if not (type(base_kernel) is type and
-                        issubclass(base_kernel, Kernel)):
+                if not (type(base_graph_kernel) is type and
+                        issubclass(base_graph_kernel, Kernel)):
                     raise TypeError('The first argument must be a valid '
                                     'grakel.kernel.kernel Object')
                 if type(params) is not dict:
@@ -86,9 +86,9 @@ class CoreFramework(Kernel):
             params["normalize"] = False
             params["verbose"] = self.verbose
             params["n_jobs"] = None
-            self.base_kernel_ = base_kernel
+            self.base_graph_kernel_ = base_graph_kernel
             self.params_ = params
-            self._initialized["base_kernel"] = True
+            self._initialized["base_graph_kernel"] = True
 
         if not self._initialized["min_core"]:
             if type(self.min_core) is not int or self.min_core < -1:
@@ -110,8 +110,8 @@ class CoreFramework(Kernel):
 
         Returns
         -------
-        base_kernel : object
-            Returns base_kernel. Only if called from `fit` or `fit_transform`.
+        base_graph_kernel : object
+            Returns base_graph_kernel. Only if called from `fit` or `fit_transform`.
 
         K : np.array
             Returns the kernel matrix. Only if called from `transform` or
@@ -173,7 +173,7 @@ class CoreFramework(Kernel):
             K = np.zeros(shape=(nx, self._nx))
 
         # Main
-        base_kernel, indexes_list = dict(), dict()
+        base_graph_kernel, indexes_list = dict(), dict()
         for i in range(max_core_number, self.min_core, -1):
             subgraphs, indexes = list(), list()
             for (idx, (cn, (g, extra))) in enumerate(zip(core_numbers, graphs)):
@@ -199,18 +199,18 @@ class CoreFramework(Kernel):
 
             # calculate kernel
             if self._method_calling == 1 and indexes.shape[0] > 0:
-                base_kernel[i] = self.base_kernel_(**self.params_)
-                base_kernel[i].fit(subgraphs)
+                base_graph_kernel[i] = self.base_graph_kernel_(**self.params_)
+                base_graph_kernel[i].fit(subgraphs)
             elif self._method_calling == 2 and indexes.shape[0] > 0:
-                base_kernel[i] = self.base_kernel_(**self.params_)
-                ft_subgraph_mat = base_kernel[i].fit_transform(subgraphs)
+                base_graph_kernel[i] = self.base_graph_kernel_(**self.params_)
+                ft_subgraph_mat = base_graph_kernel[i].fit_transform(subgraphs)
                 for j in range(indexes.shape[0]):
                     K[indexes[j], indexes] += ft_subgraph_mat[j, :]
             elif self._method_calling == 3:
                 if self._max_core_number < i or self._fit_indexes[i].shape[0] == 0:
                     if len(indexes) > 0:
                         # add a dummy kernel for calculating the diagonal
-                        self._dummy_kernel[i] = self.base_kernel_(**self.params_)
+                        self._dummy_kernel[i] = self.base_graph_kernel_(**self.params_)
                         self._dummy_kernel[i].fit(subgraphs)
                 else:
                     if indexes.shape[0] > 0:
@@ -222,12 +222,12 @@ class CoreFramework(Kernel):
             self._nx = nx
             self._max_core_number = max_core_number
             self._fit_indexes = indexes_list
-            return base_kernel
+            return base_graph_kernel
         elif self._method_calling == 2:
             self._nx = nx
             self._max_core_number = max_core_number
             self._fit_indexes = indexes_list
-            return K, base_kernel
+            return K, base_graph_kernel
         elif self._method_calling == 3:
             self._t_nx = nx
             self._max_core_number_trans = max_core_number
@@ -520,10 +520,10 @@ if __name__ == '__main__':
                 tei.pop(0)
 
         start = time()
-        bk = (WeisfeilerLehman, dict(base_kernel=VertexHistogram))
+        bk = (WeisfeilerLehman, dict(base_graph_kernel=VertexHistogram))
         # bk = (ShortestPath, dict(with_labels=False))
-        # gk = WeisfeilerLehman(normalize=True, base_kernel=VertexHistogram)
-        gk = CoreFramework(normalize=True, base_kernel=bk, min_core=mc)
+        # gk = WeisfeilerLehman(normalize=True, base_graph_kernel=VertexHistogram)
+        gk = CoreFramework(normalize=True, base_graph_kernel=bk, min_core=mc)
 
         # Calculate the kernel matrix.
         if full:

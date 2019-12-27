@@ -11,10 +11,27 @@ The grakel library requires:
 * Cython [>= 0.27.3]
 * cvxopt [>= 1.2.0] [optional: lovasz]
 
-The project can be easily installed by running :code:`pip install .` or :code:`python setup.py install` on the parent folder. 
 
-Periodically each new version is uploaded at `pypi`_ as well as `anaconda`_.
-To install the development-version with cvxopt, one can run :code:`pip install grakel-dev[lovasz]` (you can ommit :code:`[lovasz]` otherwise).
+Periodically each new version is uploaded at `pypi`_ as well as `anaconda`_.  
+To install the latest version with cvxopt, you can run :code:`pip install grakel[lovasz]` (you can ommit :code:`[lovasz]` otherwise).
+
+===============
+Building GraKeL
+===============
+
+In order to build your own version of `grakel`, you need a C++, as the package relies on some C++ extensions.
+Build and installing a local `grakel` can be done by executing :code:`pip install .` or :code:`python setup.py install` on the parent folder.
+Additionally if you want to build your extensions locally, you can run :code:`python setup.py build_ext`.
+
+In order for the C++ extensions to compile a system-specific building environment should be setup.
+
+
+Linux Environment
+-----------------
+
+
+Windows Environment
+-------------------
 
 
 ---------------------
