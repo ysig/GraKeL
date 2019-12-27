@@ -42,7 +42,6 @@ for name in $(ls -A $HOME/$DOC_REPO); do
 done
 
 # Copy the new build docs
-echo '<meta http-equiv="refresh" content="0; dev" />' > index.html
 mkdir $DOC_URL
 touch .nojekyll
 cp -R $HOME/tmp/* ./$DOC_URL/
