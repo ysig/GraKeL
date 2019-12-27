@@ -1,0 +1,705 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>grakel.kernels.shortest_path &mdash; GraKeL 0.1a6 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/_static/css/supplementary.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> GraKeL
+          
+
+          
+            
+            <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1a6
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../user_manual.html">User Manual</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">GraKeL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../classes.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html">Examples</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">GraKeL</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>grakel.kernels.shortest_path</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for grakel.kernels.shortest_path</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Shortest path kernel as defined in :cite:`borgwardt2005shortest`.&quot;&quot;&quot;</span>
+<span class="c1"># Author: Ioannis Siglidis &lt;y.siglidis@gmail.com&gt;</span>
+<span class="c1"># License: BSD 3 clause</span>
+<span class="kn">import</span> <span class="nn">collections</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.exceptions</span> <span class="kn">import</span> <span class="n">NotFittedError</span>
+<span class="kn">from</span> <span class="nn">sklearn.utils.validation</span> <span class="kn">import</span> <span class="n">check_is_fitted</span>
+
+<span class="kn">from</span> <span class="nn">grakel.graph</span> <span class="kn">import</span> <span class="n">Graph</span>
+<span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="kn">import</span> <span class="n">Kernel</span>
+
+
+<div class="viewcode-block" id="ShortestPathAttr"><a class="viewcode-back" href="../../../generated/grakel.ShortestPathAttr.html#grakel.ShortestPathAttr">[docs]</a><span class="k">class</span> <span class="nc">ShortestPathAttr</span><span class="p">(</span><span class="n">Kernel</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;The shortest path kernel for attributes.</span>
+
+<span class="sd">    The Graph labels are considered as attributes.</span>
+<span class="sd">    The computational efficiency is decreased to :math:`O(|V|^4)`</span>
+<span class="sd">    See :cite:`borgwardt2005shortest`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    algorithm_type : str, default={&quot;dijkstra&quot;, &quot;floyd_warshall&quot;, &quot;auto&quot;}</span>
+<span class="sd">        Apply the dijkstra or floyd_warshall algorithm for calculating</span>
+<span class="sd">        shortest path, or chose automatically (&quot;auto&quot;) based on the</span>
+<span class="sd">        current graph format (&quot;auto&quot;).</span>
+
+<span class="sd">    metric : function, default=:math:`f(x,y)=\sum_{i}x_{i}*y_{i}`,</span>
+<span class="sd">        The metric applied between attributes of the graph labels.</span>
+<span class="sd">        The user must provide a metric based on the format of the provided</span>
+<span class="sd">        labels (considered as attributes).</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    X : list</span>
+<span class="sd">        A list of tuples, consisting of shortest path matrices</span>
+<span class="sd">        and their feature vectors.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="ShortestPathAttr.__init__"><a class="viewcode-back" href="../../../generated/grakel.ShortestPathAttr.html#grakel.ShortestPathAttr.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">algorithm_type</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span>
+                 <span class="n">metric</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialise a `shortest_path_attr` kernel.&quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ShortestPathAttr</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">n_jobs</span><span class="o">=</span><span class="n">n_jobs</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="n">normalize</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">algorithm_type</span> <span class="o">=</span> <span class="n">algorithm_type</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">metric</span> <span class="o">=</span> <span class="n">metric</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;algorithm_type&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;metric&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">})</span></div>
+
+<div class="viewcode-block" id="ShortestPathAttr.initialize"><a class="viewcode-back" href="../../../generated/grakel.ShortestPathAttr.html#grakel.ShortestPathAttr.initialize">[docs]</a>    <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize all transformer arguments, needing initialization.&quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ShortestPathAttr</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">initialize</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="p">[</span><span class="s2">&quot;algorithm_type&quot;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">algorithm_type</span> <span class="o">==</span> <span class="s2">&quot;auto&quot;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_graph_format</span> <span class="o">=</span> <span class="s2">&quot;auto&quot;</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">algorithm_type</span> <span class="o">==</span> <span class="s2">&quot;floyd_warshall&quot;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_graph_format</span> <span class="o">=</span> <span class="s2">&quot;adjacency&quot;</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">algorithm_type</span> <span class="o">==</span> <span class="s2">&quot;dijkstra&quot;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_graph_format</span> <span class="o">=</span> <span class="s2">&quot;dictionary&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Unsupported value &#39;</span> <span class="o">+</span>
+                                 <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">algorithm_type</span><span class="p">)</span> <span class="o">+</span>
+                                 <span class="s1">&#39; for &quot;algorithm_type&quot;&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="p">[</span><span class="s2">&quot;algorithm_type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="p">[</span><span class="s2">&quot;metric&quot;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">callable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">metric</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;&quot;metric&quot; must be callable&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="p">[</span><span class="s2">&quot;metric&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="ShortestPathAttr.parse_input"><a class="viewcode-back" href="../../../generated/grakel.ShortestPathAttr.html#grakel.ShortestPathAttr.parse_input">[docs]</a>    <span class="k">def</span> <span class="nf">parse_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Parse and create features for the `shortest_path` kernel.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : iterable</span>
+<span class="sd">            For the input to pass the test, we must have:</span>
+<span class="sd">            Each element must be an iterable with at most three features and at</span>
+<span class="sd">            least one. The first that is obligatory is a valid graph structure</span>
+<span class="sd">            (adjacency matrix or edge_dictionary) while the second is</span>
+<span class="sd">            node_labels and the third edge_labels (that correspond to the given</span>
+<span class="sd">            graph format). A valid input also consists of graph type objects.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        sp_attr_tup : list</span>
+<span class="sd">            A list of tuples of shortest path matrices and tehir attributes.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">collections</span><span class="o">.</span><span class="n">Iterable</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;input must be an iterable</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">sp_attr_tup</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+            <span class="n">ni</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">X</span><span class="p">)):</span>
+                <span class="n">is_iter</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">collections</span><span class="o">.</span><span class="n">Iterable</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">is_iter</span><span class="p">:</span>
+                    <span class="n">x</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">is_iter</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;Ignoring empty element&#39;</span> <span class="o">+</span>
+                                      <span class="s1">&#39; on index: &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+                        <span class="k">continue</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">S</span><span class="p">,</span> <span class="n">L</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">(</span>
+                            <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="p">{},</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">_graph_format</span><span class="p">)</span><span class="o">.</span><span class="n">build_shortest_path_matrix</span><span class="p">(</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">algorithm_type</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">is</span> <span class="n">Graph</span><span class="p">:</span>
+                    <span class="n">S</span><span class="p">,</span> <span class="n">L</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">build_shortest_path_matrix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">algorithm_type</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;each element of X must be either a &#39;</span> <span class="o">+</span>
+                                    <span class="s1">&#39;graph or an iterable with at least 2 &#39;</span> <span class="o">+</span>
+                                    <span class="s1">&#39;and at most 3 elements</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+                <span class="n">sp_attr_tup</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">S</span><span class="p">,</span> <span class="n">L</span><span class="p">))</span>
+                <span class="n">ni</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="k">if</span> <span class="n">ni</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;parsed input is empty&#39;</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">sp_attr_tup</span></div>
+
+<div class="viewcode-block" id="ShortestPathAttr.pairwise_operation"><a class="viewcode-back" href="../../../generated/grakel.ShortestPathAttr.html#grakel.ShortestPathAttr.pairwise_operation">[docs]</a>    <span class="k">def</span> <span class="nf">pairwise_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Calculate shortests paths on attributes.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        x, y : tuple</span>
+<span class="sd">            Tuples of shortest path matrices and their attribute</span>
+<span class="sd">            dictionaries.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        kernel : number</span>
+<span class="sd">            The kernel value.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Initialise</span>
+        <span class="n">Sx</span><span class="p">,</span> <span class="n">phi_x</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="n">Sy</span><span class="p">,</span> <span class="n">phi_y</span> <span class="o">=</span> <span class="n">y</span>
+        <span class="n">kernel</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">dimx</span> <span class="o">=</span> <span class="n">Sx</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">dimy</span> <span class="o">=</span> <span class="n">Sy</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">dimx</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">dimx</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">j</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">dimy</span><span class="p">):</span>
+                    <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">dimy</span><span class="p">):</span>
+                        <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="n">m</span><span class="p">:</span>
+                            <span class="k">continue</span>
+                        <span class="k">if</span> <span class="p">(</span><span class="n">Sx</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="n">Sy</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="n">m</span><span class="p">]</span> <span class="ow">and</span>
+                                <span class="n">Sx</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">!=</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;Inf&#39;</span><span class="p">)):</span>
+                            <span class="n">kernel</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">metric</span><span class="p">(</span><span class="n">phi_x</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">phi_y</span><span class="p">[</span><span class="n">k</span><span class="p">])</span> <span class="o">*</span>\
+                                <span class="bp">self</span><span class="o">.</span><span class="n">metric</span><span class="p">(</span><span class="n">phi_x</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">phi_y</span><span class="p">[</span><span class="n">m</span><span class="p">])</span>
+
+        <span class="k">return</span> <span class="n">kernel</span></div></div>
+
+
+<div class="viewcode-block" id="ShortestPath"><a class="viewcode-back" href="../../../generated/grakel.ShortestPath.html#grakel.ShortestPath">[docs]</a><span class="k">class</span> <span class="nc">ShortestPath</span><span class="p">(</span><span class="n">Kernel</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;The shortest path kernel class.</span>
+
+<span class="sd">    See :cite:`borgwardt2005shortest`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    algorithm_type : str, default={&quot;dijkstra&quot;, &quot;floyd_warshall&quot;, &quot;auto&quot;}</span>
+<span class="sd">        Apply the dijkstra or floyd_warshall algorithm for calculating</span>
+<span class="sd">        shortest path, or chose automatically (&quot;auto&quot;) based on the</span>
+<span class="sd">        current graph format (&quot;auto&quot;).</span>
+
+<span class="sd">    with_labels : bool, default=True, case_of_existence=(as_attributes==True)</span>
+<span class="sd">        Calculate shortest path using graph labels.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    X : dict</span>
+<span class="sd">        A dictionary of pairs between each input graph and a bins where the</span>
+<span class="sd">        sampled graphlets have fallen.</span>
+
+<span class="sd">    _with_labels : bool</span>
+<span class="sd">        Defines if the shortest path kernel considers also labels.</span>
+
+<span class="sd">    _enum : dict</span>
+<span class="sd">        A dictionary of graph bins holding pynauty objects</span>
+
+<span class="sd">    _lt : str</span>
+<span class="sd">        A label type needed for build shortest path function.</span>
+
+<span class="sd">    _lhash : str</span>
+<span class="sd">        A function for hashing labels, shortest paths.</span>
+
+<span class="sd">    _nx : int</span>
+<span class="sd">        Holds the number of sampled X graphs.</span>
+
+<span class="sd">    _ny : int</span>
+<span class="sd">        Holds the number of sampled Y graphs.</span>
+
+<span class="sd">    _X_diag : np.array, shape=(_nx, 1)</span>
+<span class="sd">        Holds the diagonal of X kernel matrix in a numpy array, if calculated</span>
+<span class="sd">        (`fit_transform`).</span>
+
+<span class="sd">    _phi_X : np.array, shape=(_nx, len(_graph_bins))</span>
+<span class="sd">        Holds the features of X in a numpy array, if calculated.</span>
+<span class="sd">        (`fit_transform`).</span>
+
+<span class="sd">    Complexity</span>
+<span class="sd">    ----------</span>
+<span class="sd">    :math:`O(n*N*|\cup_{i}L_{i}|^{2})`, where :math:`n` the number of graph,</span>
+<span class="sd">    :math:`N` the number of vertices of the **biggest** Graph and</span>
+<span class="sd">    :math:`|\cup_{i}L_{i}|` the number of all distinct labels.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_graph_bins</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+
+<div class="viewcode-block" id="ShortestPath.__init__"><a class="viewcode-back" href="../../../generated/grakel.ShortestPath.html#grakel.ShortestPath.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">with_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                 <span class="n">algorithm_type</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize a `shortest_path` kernel.&quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ShortestPath</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">n_jobs</span><span class="o">=</span><span class="n">n_jobs</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="n">normalize</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">with_labels</span> <span class="o">=</span> <span class="n">with_labels</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">algorithm_type</span> <span class="o">=</span> <span class="n">algorithm_type</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;with_labels&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;algorithm_type&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">})</span></div>
+
+<div class="viewcode-block" id="ShortestPath.initialize"><a class="viewcode-back" href="../../../generated/grakel.ShortestPath.html#grakel.ShortestPath.initialize">[docs]</a>    <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize all transformer arguments, needing initialization.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="p">[</span><span class="s2">&quot;n_jobs&quot;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;no implemented parallelization for ShortestPath&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="p">[</span><span class="s2">&quot;n_jobs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="p">[</span><span class="s2">&quot;algorithm_type&quot;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">algorithm_type</span> <span class="o">==</span> <span class="s2">&quot;auto&quot;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_graph_format</span> <span class="o">=</span> <span class="s2">&quot;auto&quot;</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">algorithm_type</span> <span class="o">==</span> <span class="s2">&quot;floyd_warshall&quot;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_graph_format</span> <span class="o">=</span> <span class="s2">&quot;adjacency&quot;</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">algorithm_type</span> <span class="o">==</span> <span class="s2">&quot;dijkstra&quot;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_graph_format</span> <span class="o">=</span> <span class="s2">&quot;dictionary&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Unsupported &quot;algorithm_type&quot;&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="p">[</span><span class="s2">&quot;with_labels&quot;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">with_labels</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_lt</span> <span class="o">=</span> <span class="s2">&quot;vertex&quot;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_lhash</span> <span class="o">=</span> <span class="n">lhash_labels</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_decompose_input</span> <span class="o">=</span> <span class="n">decompose_input_labels</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_lt</span> <span class="o">=</span> <span class="s2">&quot;none&quot;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_lhash</span> <span class="o">=</span> <span class="n">lhash</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_decompose_input</span> <span class="o">=</span> <span class="n">decompose_input</span></div>
+
+<div class="viewcode-block" id="ShortestPath.transform"><a class="viewcode-back" href="../../../generated/grakel.ShortestPath.html#grakel.ShortestPath.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Calculate the kernel matrix, between given and fitted dataset.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : iterable</span>
+<span class="sd">            Each element must be an iterable with at most three features and at</span>
+<span class="sd">            least one. The first that is obligatory is a valid graph structure</span>
+<span class="sd">            (adjacency matrix or edge_dictionary) while the second is</span>
+<span class="sd">            node_labels and the third edge_labels (that fitting the given graph</span>
+<span class="sd">            format). If None the kernel matrix is calculated upon fit data.</span>
+<span class="sd">            The test samples.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        K : numpy array, shape = [n_targets, n_input_graphs]</span>
+<span class="sd">            corresponding to the kernel matrix, a calculation between</span>
+<span class="sd">            all pairs of graphs between target an features</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_method_calling</span> <span class="o">=</span> <span class="mi">3</span>
+        <span class="c1"># Check is fit had been called</span>
+        <span class="n">check_is_fitted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="s1">&#39;_nx&#39;</span><span class="p">,</span> <span class="s1">&#39;_enum&#39;</span><span class="p">])</span>
+
+        <span class="c1"># Input validation and parsing</span>
+        <span class="k">if</span> <span class="n">X</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;transform input cannot be None&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">Y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parse_input</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+        <span class="c1"># Transform - calculate kernel matrix</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">check_is_fitted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;phi_X&#39;</span><span class="p">])</span>
+            <span class="n">phi_x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_phi_X</span>
+        <span class="k">except</span> <span class="n">NotFittedError</span><span class="p">:</span>
+            <span class="n">phi_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_nx</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_enum</span><span class="p">)))</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                    <span class="n">phi_x</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">phi_X</span> <span class="o">=</span> <span class="n">phi_x</span>
+
+        <span class="n">phi_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ny</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_enum</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_Y_enum</span><span class="p">)))</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">Y</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">phi_y</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span>
+
+        <span class="c1"># store _phi_Y for independent (of normalization arg diagonal-calls)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_phi_Y</span> <span class="o">=</span> <span class="n">phi_y</span>
+        <span class="n">km</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">phi_y</span><span class="p">[:,</span> <span class="p">:</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_enum</span><span class="p">)],</span> <span class="n">phi_x</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_is_transformed</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalize</span><span class="p">:</span>
+            <span class="n">X_diag</span><span class="p">,</span> <span class="n">Y_diag</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">diagonal</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">km</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">Y_diag</span><span class="p">,</span> <span class="n">X_diag</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">km</span></div>
+
+<div class="viewcode-block" id="ShortestPath.diagonal"><a class="viewcode-back" href="../../../generated/grakel.ShortestPath.html#grakel.ShortestPath.diagonal">[docs]</a>    <span class="k">def</span> <span class="nf">diagonal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Calculate the kernel matrix diagonal for fitted data.</span>
+
+<span class="sd">        A funtion called on transform on a seperate dataset to apply</span>
+<span class="sd">        normalization on the exterior.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        X_diag : np.array</span>
+<span class="sd">            The diagonal of the kernel matrix, of the fitted data.</span>
+<span class="sd">            This consists of kernel calculation for each element with itself.</span>
+
+<span class="sd">        Y_diag : np.array</span>
+<span class="sd">            The diagonal of the kernel matrix, of the transformed data.</span>
+<span class="sd">            This consists of kernel calculation for each element with itself.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Check is fit and transform had been called</span>
+        <span class="n">check_is_fitted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;phi_X&#39;</span><span class="p">])</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">check_is_fitted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;X_diag&#39;</span><span class="p">])</span>
+        <span class="k">except</span> <span class="n">NotFittedError</span><span class="p">:</span>
+            <span class="c1"># Calculate diagonal of X</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_X_diag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">phi_X</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_X_diag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_X_diag</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_X_diag</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">check_is_fitted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;_phi_Y&#39;</span><span class="p">])</span>
+            <span class="c1"># Calculate diagonal of Y</span>
+            <span class="n">Y_diag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_phi_Y</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_X_diag</span><span class="p">,</span> <span class="n">Y_diag</span>
+        <span class="k">except</span> <span class="n">NotFittedError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_X_diag</span></div>
+
+<div class="viewcode-block" id="ShortestPath.fit_transform"><a class="viewcode-back" href="../../../generated/grakel.ShortestPath.html#grakel.ShortestPath.fit_transform">[docs]</a>    <span class="k">def</span> <span class="nf">fit_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Fit and transform, on the same dataset.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : iterable</span>
+<span class="sd">            Each element must be an iterable with at most three features and at</span>
+<span class="sd">            least one. The first that is obligatory is a valid graph structure</span>
+<span class="sd">            (adjacency matrix or edge_dictionary) while the second is</span>
+<span class="sd">            node_labels and the third edge_labels (that fitting the given graph</span>
+<span class="sd">            format).</span>
+
+<span class="sd">        y : Object, default=None</span>
+<span class="sd">            Ignored argument, added for the pipeline.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        K : numpy array, shape = [n_targets, n_input_graphs]</span>
+<span class="sd">            corresponding to the kernel matrix, a calculation between</span>
+<span class="sd">            all pairs of graphs between target an features</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_method_calling</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+        <span class="c1"># calculate feature matrices.</span>
+        <span class="n">phi_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_nx</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_enum</span><span class="p">)))</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">phi_x</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span>
+
+        <span class="c1"># Transform - calculate kernel matrix</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_phi_X</span> <span class="o">=</span> <span class="n">phi_x</span>
+        <span class="n">km</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">phi_x</span><span class="p">,</span> <span class="n">phi_x</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_X_diag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diagonal</span><span class="p">(</span><span class="n">km</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalize</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">km</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_X_diag</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_X_diag</span><span class="p">)))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">km</span></div>
+
+<div class="viewcode-block" id="ShortestPath.parse_input"><a class="viewcode-back" href="../../../generated/grakel.ShortestPath.html#grakel.ShortestPath.parse_input">[docs]</a>    <span class="k">def</span> <span class="nf">parse_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Parse and create features for &quot;shortest path&quot; kernel.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : iterable</span>
+<span class="sd">            For the input to pass the test, we must have:</span>
+<span class="sd">            Each element must be an iterable with at most three features and at</span>
+<span class="sd">            least one. The first that is obligatory is a valid graph structure</span>
+<span class="sd">            (adjacency matrix or edge_dictionary) while the second is</span>
+<span class="sd">            node_labels and the third edge_labels (that correspond to the given</span>
+<span class="sd">            graph format). A valid input also consists of graph type objects.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        sp_counts : dict</span>
+<span class="sd">            A dictionary that for each vertex holds the counts of shortest path</span>
+<span class="sd">            tuples.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">collections</span><span class="o">.</span><span class="n">Iterable</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;input must be an iterable</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="c1"># Not a dictionary</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+            <span class="n">sp_counts</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_method_calling</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_enum</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_method_calling</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_Y_enum</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+            <span class="k">for</span> <span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">X</span><span class="p">)):</span>
+                <span class="n">is_iter</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">collections</span><span class="o">.</span><span class="n">Iterable</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">is_iter</span><span class="p">:</span>
+                    <span class="n">x</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">is_iter</span> <span class="ow">and</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span>
+                                <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">with_labels</span><span class="p">)</span> <span class="ow">or</span>
+                                <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]):</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;Ignoring empty element on index: &#39;</span>
+                                      <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">idx</span><span class="p">))</span>
+                        <span class="k">continue</span>
+                    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                        <span class="n">spm_data</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">{},</span> <span class="p">{},</span> <span class="bp">self</span><span class="o">.</span><span class="n">_graph_format</span>
+                                         <span class="p">)</span><span class="o">.</span><span class="n">build_shortest_path_matrix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">algorithm_type</span><span class="p">,</span>
+                                                                      <span class="n">labels</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_lt</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">spm_data</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="p">{},</span> <span class="bp">self</span><span class="o">.</span><span class="n">_graph_format</span>
+                                         <span class="p">)</span><span class="o">.</span><span class="n">build_shortest_path_matrix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">algorithm_type</span><span class="p">,</span>
+                                                                      <span class="n">labels</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_lt</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">is</span> <span class="n">Graph</span><span class="p">:</span>
+                    <span class="n">spm_data</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">build_shortest_path_matrix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">algorithm_type</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_lt</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;each element of X must have at least&#39;</span> <span class="o">+</span>
+                                    <span class="s1">&#39; one and at most 3 elements</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+
+                <span class="n">S</span><span class="p">,</span> <span class="n">L</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_decompose_input</span><span class="p">(</span><span class="n">spm_data</span><span class="p">)</span>
+                <span class="n">sp_counts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+                <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+                    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+                        <span class="k">if</span> <span class="n">u</span> <span class="o">==</span> <span class="n">v</span> <span class="ow">or</span> <span class="n">S</span><span class="p">[</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">]</span> <span class="o">==</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;Inf&quot;</span><span class="p">):</span>
+                            <span class="k">continue</span>
+                        <span class="n">label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lhash</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="o">*</span><span class="n">L</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">label</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_enum</span><span class="p">:</span>
+                            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_method_calling</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                                <span class="n">idx</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_enum</span><span class="p">)</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">_enum</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="n">idx</span>
+                            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_method_calling</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+                                <span class="k">if</span> <span class="n">label</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_Y_enum</span><span class="p">:</span>
+                                    <span class="n">idx</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_enum</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_Y_enum</span><span class="p">)</span>
+                                    <span class="bp">self</span><span class="o">.</span><span class="n">_Y_enum</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="n">idx</span>
+                                <span class="k">else</span><span class="p">:</span>
+                                    <span class="n">idx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_Y_enum</span><span class="p">[</span><span class="n">label</span><span class="p">]</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">idx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_enum</span><span class="p">[</span><span class="n">label</span><span class="p">]</span>
+                        <span class="k">if</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">sp_counts</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
+                            <span class="n">sp_counts</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">idx</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">sp_counts</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;parsed input is empty&#39;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_method_calling</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_nx</span> <span class="o">=</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_method_calling</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_ny</span> <span class="o">=</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span>
+            <span class="k">return</span> <span class="n">sp_counts</span></div></div>
+
+
+<span class="k">def</span> <span class="nf">lhash</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">S</span><span class="p">[</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">decompose_input</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="p">[])</span>
+
+
+<span class="k">def</span> <span class="nf">lhash_labels</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">u</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">v</span><span class="p">],</span> <span class="n">S</span><span class="p">[</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">])</span>
+
+
+<span class="k">def</span> <span class="nf">decompose_input_labels</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, DaSciM (BSD License)
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,746 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>grakel.datasets.base &mdash; GraKeL 0.1a6 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/_static/css/supplementary.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> GraKeL
+          
+
+          
+            
+            <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1a6
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../user_manual.html">User Manual</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">GraKeL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../classes.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html">Examples</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">GraKeL</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>grakel.datasets.base</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for grakel.datasets.base</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;The base file for loading default datasets.&quot;&quot;&quot;</span>
+<span class="c1"># Python 2/3 cross-compatibility import</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
+<span class="kn">import</span> <span class="nn">zipfile</span>
+<span class="kn">import</span> <span class="nn">ssl</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="c1"># Python 2</span>
+    <span class="kn">from</span> <span class="nn">urllib2</span> <span class="kn">import</span> <span class="n">HTTPError</span>
+    <span class="kn">from</span> <span class="nn">urllib2</span> <span class="kn">import</span> <span class="n">urlopen</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="c1"># Python 3+</span>
+    <span class="kn">from</span> <span class="nn">urllib.error</span> <span class="kn">import</span> <span class="n">HTTPError</span>
+    <span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">urlopen</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">shutil</span> <span class="kn">import</span> <span class="n">copyfileobj</span>
+
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.utils</span> <span class="kn">import</span> <span class="n">Bunch</span>
+
+<span class="kn">from</span> <span class="nn">grakel.graph</span> <span class="kn">import</span> <span class="n">Graph</span>
+
+<span class="k">global</span> <span class="n">datasets_metadata</span><span class="p">,</span> <span class="n">symmetric_dataset</span>
+
+<span class="n">dataset_metadata</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;AIDS&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;nl&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;el&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;na&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;ea&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+             <span class="s2">&quot;link&quot;</span><span class="p">:</span> <span class="s2">&quot;https://ls11-www.cs.uni-dortmund.de/people/&quot;</span> <span class="o">+</span>
+             <span class="s2">&quot;morris/graphkerneldatasets/AIDS.zip&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;BZR&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;nl&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;el&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;na&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;ea&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s2">&quot;link&quot;</span><span class="p">:</span> <span class="s2">&quot;https://ls11-www.cs.uni-dortmund.de/people/&quot;</span> <span class="o">+</span>
+            <span class="s2">&quot;morris/graphkerneldatasets/BZR.zip&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;BZR_MD&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;nl&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;el&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;na&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;ea&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+               <span class="s2">&quot;link&quot;</span><span class="p">:</span> <span class="s2">&quot;https://ls11-www.cs.uni-dortmund.de/people/&quot;</span> <span class="o">+</span>
+               <span class="s2">&quot;morris/graphkerneldatasets/BZR_MD.zip&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;COIL-DEL&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;nl&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;el&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;na&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;ea&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                 <span class="s2">&quot;link&quot;</span><span class="p">:</span> <span class="s2">&quot;https://ls11-www.cs.uni-dortmund.de/people/morris/&quot;</span> <span class="o">+</span>
+                 <span class="s2">&quot;graphkerneldatasets/COIL-DEL.zip&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;COIL-RAG&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;nl&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;el&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;na&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;ea&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                 <span class="s2">&quot;link&quot;</span><span class="p">:</span> <span class="s2">&quot;https://ls11-www.cs.uni-dortmund.de/people/morris/&quot;</span> <span class="o">+</span>
+                 <span class="s2">&quot;graphkerneldatasets/COIL-RAG.zip&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;COLLAB&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;nl&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;el&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;na&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;ea&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+               <span class="s2">&quot;link&quot;</span><span class="p">:</span> <span class="s2">&quot;https://ls11-www.cs.uni-dortmund.de/people/morris/&quot;</span> <span class="o">+</span>
+               <span class="s2">&quot;graphkerneldatasets/COLLAB.zip&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;COX2&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;nl&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;el&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;na&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;ea&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+             <span class="s2">&quot;link&quot;</span><span class="p">:</span> <span class="s2">&quot;https://ls11-www.cs.uni-dortmund.de/people/morris/&quot;</span> <span class="o">+</span>
+             <span class="s2">&quot;graphkerneldatasets/COX2.zip&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;COX2_MD&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;nl&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;el&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;na&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;ea&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                <span class="s2">&quot;link&quot;</span><span class="p">:</span> <span class="s2">&quot;https://ls11-www.cs.uni-dortmund.de/people/morris/&quot;</span> <span class="o">+</span>
+                <span class="s2">&quot;graphkerneldatasets/COX2_MD.zip&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;DHFR&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;nl&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;el&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;na&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;ea&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+             <span class="s2">&quot;link&quot;</span><span class="p">:</span> <span class="s2">&quot;https://ls11-www.cs.uni-dortmund.de/people/morris/&quot;</span> <span class="o">+</span>
+             <span class="s2">&quot;graphkerneldatasets/DHFR.zip&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;DHFR_MD&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;nl&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;el&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;na&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;ea&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                <span class="s2">&quot;link&quot;</span><span class="p">:</span> <span class="s2">&quot;https://ls11-www.cs.uni-dortmund.de/people/morris/&quot;</span> <span class="o">+</span>
+                <span class="s2">&quot;graphkerneldatasets/DHFR_MD.zip&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;ER_MD&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;nl&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;el&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;na&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;ea&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+              <span class="s2">&quot;link&quot;</span><span class="p">:</span> <span class="s2">&quot;https://ls11-www.cs.uni-dortmund.de/people/morris/&quot;</span> <span class="o">+</span>
+              <span class="s2">&quot;graphkerneldatasets/ER_MD.zip&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;DD&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;nl&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;el&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;na&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;ea&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+           <span class="s2">&quot;link&quot;</span><span class="p">:</span> <span class="s2">&quot;https://ls11-www.cs.uni-dortmund.de/people/morris/&quot;</span> <span class="o">+</span>
+           <span class="s2">&quot;graphkerneldatasets/DD.zip&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;ENZYMES&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;nl&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;el&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;na&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;ea&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                <span class="s2">&quot;link&quot;</span><span class="p">:</span> <span class="s2">&quot;https://ls11-www.cs.uni-dortmund.de/people/morris/&quot;</span> <span class="o">+</span>
+                <span class="s2">&quot;graphkerneldatasets/ENZYMES.zip&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;Cuneiform&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;nl&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;el&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;na&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;ea&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                  <span class="s2">&quot;link&quot;</span><span class="p">:</span> <span class="s2">&quot;https://ls11-www.cs.uni-dortmund.de/people/morris/&quot;</span>
+                          <span class="s2">&quot;graphkerneldatasets/Cuneiform.zip&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;FINGERPRINT&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;nl&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;el&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;na&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;ea&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                    <span class="s2">&quot;link&quot;</span><span class="p">:</span> <span class="s2">&quot;https://ls11-www.cs.uni-dortmund.de/people/&quot;</span> <span class="o">+</span>
+                    <span class="s2">&quot;morris/graphkerneldatasets/Fingerprint.zip&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;FIRSTMM_DB&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;nl&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;el&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;na&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;ea&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                   <span class="s2">&quot;link&quot;</span><span class="p">:</span> <span class="s2">&quot;https://ls11-www.cs.uni-dortmund.de/people/&quot;</span> <span class="o">+</span>
+                   <span class="s2">&quot;morris/graphkerneldatasets/FIRSTMM_DB.zip&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;FRANKENSTEIN&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;nl&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;el&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;na&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;ea&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                     <span class="s2">&quot;link&quot;</span><span class="p">:</span> <span class="s2">&quot;https://ls11-www.cs.uni-dortmund.de/people/mor&quot;</span> <span class="o">+</span>
+                     <span class="s2">&quot;ris/graphkerneldatasets/FRANKENSTEIN.zip&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;IMDB-BINARY&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;nl&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;el&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;na&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;ea&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                    <span class="s2">&quot;link&quot;</span><span class="p">:</span> <span class="s2">&quot;https://ls11-www.cs.uni-dortmund.de/people/mor&quot;</span> <span class="o">+</span>
+                    <span class="s2">&quot;ris/graphkerneldatasets/IMDB-BINARY.zip&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;IMDB-MULTI&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;nl&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;el&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;na&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;ea&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                   <span class="s2">&quot;link&quot;</span><span class="p">:</span> <span class="s2">&quot;https://ls11-www.cs.uni-dortmund.de/people/&quot;</span> <span class="o">+</span>
+                   <span class="s2">&quot;morris/graphkerneldatasets/IMDB-MULTI.zip&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;Letter-high&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;nl&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;el&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;na&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;ea&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                    <span class="s2">&quot;link&quot;</span><span class="p">:</span> <span class="s2">&quot;https://ls11-www.cs.uni-dortmund.de/people/mor&quot;</span> <span class="o">+</span>
+                    <span class="s2">&quot;ris/graphkerneldatasets/Letter-high.zip&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;Letter-low&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;nl&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;el&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;na&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;ea&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                   <span class="s2">&quot;link&quot;</span><span class="p">:</span> <span class="s2">&quot;https://ls11-www.cs.uni-dortmund.de/people/mor&quot;</span> <span class="o">+</span>
+                   <span class="s2">&quot;ris/graphkerneldatasets/Letter-low.zip&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;Letter-med&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;nl&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;el&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;na&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;ea&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                   <span class="s2">&quot;link&quot;</span><span class="p">:</span> <span class="s2">&quot;https://ls11-www.cs.uni-dortmund.de/people/mor&quot;</span> <span class="o">+</span>
+                   <span class="s2">&quot;ris/graphkerneldatasets/Letter-med.zip&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;Mutagenicity&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;nl&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;el&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;na&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;ea&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                     <span class="s2">&quot;link&quot;</span><span class="p">:</span> <span class="s2">&quot;https://ls11-www.cs.uni-dortmund.de/peo&quot;</span> <span class="o">+</span>
+                     <span class="s2">&quot;ple/morris/graphkerneldatasets/Mutagenicity.zip&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;MSRC_9&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;nl&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;el&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;na&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;ea&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+               <span class="s2">&quot;link&quot;</span><span class="p">:</span> <span class="s2">&quot;https://ls11-www.cs.uni-dortmund.de/people/morris/&quot;</span> <span class="o">+</span>
+               <span class="s2">&quot;graphkerneldatasets/MSRC_9.zip&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;MSRC_21&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;nl&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;el&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;na&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;ea&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                <span class="s2">&quot;link&quot;</span><span class="p">:</span> <span class="s2">&quot;https://ls11-www.cs.uni-dortmund.de/people/mor&quot;</span> <span class="o">+</span>
+                <span class="s2">&quot;ris/graphkerneldatasets/MSRC_21.zip&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;MSRC_21C&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;nl&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;el&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;na&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;ea&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                 <span class="s2">&quot;link&quot;</span><span class="p">:</span> <span class="s2">&quot;https://ls11-www.cs.uni-dortmund.de/people/mor&quot;</span> <span class="o">+</span>
+                 <span class="s2">&quot;ris/graphkerneldatasets/MSRC_21C.zip&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;MUTAG&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;nl&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;el&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;na&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;ea&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+              <span class="s2">&quot;link&quot;</span><span class="p">:</span> <span class="s2">&quot;https://ls11-www.cs.uni-dortmund.de/people/mor&quot;</span> <span class="o">+</span>
+              <span class="s2">&quot;ris/graphkerneldatasets/MUTAG.zip&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;NCI1&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;nl&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;el&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;na&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;ea&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+             <span class="s2">&quot;link&quot;</span><span class="p">:</span> <span class="s2">&quot;https://ls11-www.cs.uni-dortmund.de/people/mor&quot;</span> <span class="o">+</span>
+             <span class="s2">&quot;ris/graphkerneldatasets/NCI1.zip&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;NCI109&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;nl&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;el&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;na&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;ea&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+               <span class="s2">&quot;link&quot;</span><span class="p">:</span> <span class="s2">&quot;https://ls11-www.cs.uni-dortmund.de/people/mor&quot;</span> <span class="o">+</span>
+               <span class="s2">&quot;ris/graphkerneldatasets/NCI109.zip&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;PTC_FM&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;nl&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;el&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;na&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;ea&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+               <span class="s2">&quot;link&quot;</span><span class="p">:</span> <span class="s2">&quot;https://ls11-www.cs.uni-dortmund.de/people/mor&quot;</span> <span class="o">+</span>
+               <span class="s2">&quot;ris/graphkerneldatasets/PTC_FM.zip&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;PTC_FR&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;nl&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;el&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;na&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;ea&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+               <span class="s2">&quot;link&quot;</span><span class="p">:</span> <span class="s2">&quot;https://ls11-www.cs.uni-dortmund.de/people/mor&quot;</span> <span class="o">+</span>
+               <span class="s2">&quot;ris/graphkerneldatasets/PTC_FR.zip&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;PTC_MM&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;nl&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;el&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;na&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;ea&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+               <span class="s2">&quot;link&quot;</span><span class="p">:</span> <span class="s2">&quot;https://ls11-www.cs.uni-dortmund.de/people/mor&quot;</span> <span class="o">+</span>
+               <span class="s2">&quot;ris/graphkerneldatasets/PTC_MM.zip&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;PTC_MR&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;nl&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;el&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;na&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;ea&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+               <span class="s2">&quot;link&quot;</span><span class="p">:</span> <span class="s2">&quot;https://ls11-www.cs.uni-dortmund.de/people/mor&quot;</span> <span class="o">+</span>
+               <span class="s2">&quot;ris/graphkerneldatasets/PTC_MR.zip&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;PROTEINS&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;nl&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;el&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;na&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;ea&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                 <span class="s2">&quot;link&quot;</span><span class="p">:</span> <span class="s2">&quot;https://ls11-www.cs.uni-dortmund.de/people/mor&quot;</span> <span class="o">+</span>
+                 <span class="s2">&quot;ris/graphkerneldatasets/PROTEINS.zip&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;PROTEINS_full&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;nl&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;el&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;na&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;ea&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                      <span class="s2">&quot;link&quot;</span><span class="p">:</span> <span class="s2">&quot;https://ls11-www.cs.uni-dortmund.de/people&quot;</span> <span class="o">+</span>
+                      <span class="s2">&quot;/morris/graphkerneldatasets/PROTEINS_full.zip&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;REDDIT-BINARY&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;nl&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;el&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;na&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;ea&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                      <span class="s2">&quot;link&quot;</span><span class="p">:</span> <span class="s2">&quot;https://ls11-www.cs.uni-dortmund.de/people&quot;</span> <span class="o">+</span>
+                      <span class="s2">&quot;/morris/graphkerneldatasets/REDDIT-BINARY.zip&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;REDDIT-MULTI-5K&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;nl&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;el&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;na&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;ea&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                        <span class="s2">&quot;link&quot;</span><span class="p">:</span> <span class="s2">&quot;https://ls11-www.cs.uni-dortmund.de/people/&quot;</span> <span class="o">+</span>
+                        <span class="s2">&quot;morris/graphkerneldatasets/REDDIT-MULTI-5K.zip&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;REDDIT-MULTI-12K&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;nl&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;el&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;na&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;ea&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                         <span class="s2">&quot;link&quot;</span><span class="p">:</span> <span class="s2">&quot;https://ls11-www.cs.uni-dortmund.de/peop&quot;</span> <span class="o">+</span>
+                         <span class="s2">&quot;le/morris/graphkerneldatasets/REDDIT-MULTI-12K.zip&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;SYNTHETIC&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;nl&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;el&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;na&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;ea&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                  <span class="s2">&quot;link&quot;</span><span class="p">:</span> <span class="s2">&quot;https://ls11-www.cs.uni-dortmund.de/people&quot;</span> <span class="o">+</span>
+                  <span class="s2">&quot;/morris/graphkerneldatasets/SYNTHETIC.zip&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;SYNTHETICnew&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;nl&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;el&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;na&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;ea&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                     <span class="s2">&quot;link&quot;</span><span class="p">:</span> <span class="s2">&quot;https://ls11-www.cs.uni-dortmund.de/people/&quot;</span> <span class="o">+</span>
+                     <span class="s2">&quot;morris/graphkerneldatasets/SYNTHETICnew.zip&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;Synthie&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;nl&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;el&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;na&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;ea&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                <span class="s2">&quot;link&quot;</span><span class="p">:</span> <span class="s2">&quot;https://ls11-www.cs.uni-dortmund.de/people/&quot;</span> <span class="o">+</span>
+                <span class="s2">&quot;morris/graphkerneldatasets/Synthie.zip&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;Tox21_AHR&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;nl&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;el&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;na&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;ea&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                  <span class="s2">&quot;link&quot;</span><span class="p">:</span> <span class="s2">&quot;https://ls11-www.cs.uni-dortmund.de/people/&quot;</span> <span class="o">+</span>
+                  <span class="s2">&quot;morris/graphkerneldatasets/Tox21_AHR.zip&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;Tox21_AR&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;nl&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;el&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;na&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;ea&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                 <span class="s2">&quot;link&quot;</span><span class="p">:</span> <span class="s2">&quot;https://ls11-www.cs.uni-dortmund.de/people/morris/&quot;</span> <span class="o">+</span>
+                 <span class="s2">&quot;graphkerneldatasets/COX2_MD.zip&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;Tox21_AR-LBD&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;nl&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;el&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;na&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;ea&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                     <span class="s2">&quot;link&quot;</span><span class="p">:</span> <span class="s2">&quot;https://ls11-www.cs.uni-dortmund.de/people/&quot;</span> <span class="o">+</span>
+                     <span class="s2">&quot;morris/graphkerneldatasets/Tox21_AR-LBD.zip&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;Tox21_ARE&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;nl&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;el&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;na&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;ea&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                  <span class="s2">&quot;link&quot;</span><span class="p">:</span> <span class="s2">&quot;https://ls11-www.cs.uni-dortmund.de/people/&quot;</span> <span class="o">+</span>
+                  <span class="s2">&quot;morris/graphkerneldatasets/Tox21_ARE.zip&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;Tox21_aromatase&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;nl&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;el&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;na&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;ea&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                        <span class="s2">&quot;link&quot;</span><span class="p">:</span> <span class="s2">&quot;https://ls11-www.cs.uni-dortmund.de/people/&quot;</span> <span class="o">+</span>
+                        <span class="s2">&quot;morris/graphkerneldatasets/Tox21_aromatase.zip&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;Tox21_ATAD5&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;nl&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;el&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;na&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;ea&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                    <span class="s2">&quot;link&quot;</span><span class="p">:</span> <span class="s2">&quot;https://ls11-www.cs.uni-dortmund.de/people/&quot;</span> <span class="o">+</span>
+                    <span class="s2">&quot;morris/graphkerneldatasets/Tox21_ATAD5.zip&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;Tox21_ER&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;nl&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;el&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;na&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;ea&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                 <span class="s2">&quot;link&quot;</span><span class="p">:</span> <span class="s2">&quot;https://ls11-www.cs.uni-dortmund.de/people/&quot;</span> <span class="o">+</span>
+                 <span class="s2">&quot;morris/graphkerneldatasets/Tox21_ER.zip&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;Tox21_ER_LBD&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;nl&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;el&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;na&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;ea&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                     <span class="s2">&quot;link&quot;</span><span class="p">:</span> <span class="s2">&quot;https://ls11-www.cs.uni-dortmund.de/people/&quot;</span> <span class="o">+</span>
+                     <span class="s2">&quot;morris/graphkerneldatasets/Tox21_ER_LBD.zipp&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;Tox21_HSE&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;nl&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;el&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;na&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;ea&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                  <span class="s2">&quot;link&quot;</span><span class="p">:</span> <span class="s2">&quot;https://ls11-www.cs.uni-dortmund.de/people/&quot;</span> <span class="o">+</span>
+                  <span class="s2">&quot;morris/graphkerneldatasets/Tox21_HSE.zip&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;Tox21_MMP&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;nl&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;el&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;na&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;ea&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                  <span class="s2">&quot;link&quot;</span><span class="p">:</span> <span class="s2">&quot;https://ls11-www.cs.uni-dortmund.de/people/&quot;</span> <span class="o">+</span>
+                  <span class="s2">&quot;morris/graphkerneldatasets/Tox21_MMP.zip&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;Tox21_p53&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;nl&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;el&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;na&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;ea&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                  <span class="s2">&quot;link&quot;</span><span class="p">:</span> <span class="s2">&quot;https://ls11-www.cs.uni-dortmund.de/people/&quot;</span> <span class="o">+</span>
+                  <span class="s2">&quot;morris/graphkerneldatasets/Tox21_p53.zip&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;Tox21_PPAR-gamma&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;nl&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;el&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;na&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;ea&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                         <span class="s2">&quot;link&quot;</span><span class="p">:</span> <span class="s2">&quot;https://ls11-www.cs.uni-dortmund.de/peop&quot;</span> <span class="o">+</span>
+                         <span class="s2">&quot;le/morris/graphkerneldatasets/Tox21_PPAR-gamma.zip&quot;</span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">symmetric_dataset</span> <span class="o">=</span> <span class="kc">False</span>
+
+
+<span class="k">def</span> <span class="nf">read_data</span><span class="p">(</span>
+        <span class="n">name</span><span class="p">,</span>
+        <span class="n">with_classes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">prefer_attr_nodes</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">prefer_attr_edges</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">produce_labels_nodes</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">as_graphs</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">is_symmetric</span><span class="o">=</span><span class="n">symmetric_dataset</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create a dataset iterable for GraphKernel.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    name : str</span>
+<span class="sd">        The dataset name.</span>
+
+<span class="sd">    with_classes : bool, default=False</span>
+<span class="sd">        Return an iterable of class labels based on the enumeration.</span>
+
+<span class="sd">    produce_labels_nodes : bool, default=False</span>
+<span class="sd">        Produce labels for nodes if not found.</span>
+<span class="sd">        Currently this means labeling its node by its degree inside the Graph.</span>
+<span class="sd">        This operation is applied only if node labels are non existent.</span>
+
+<span class="sd">    prefer_attr_nodes : bool, default=False</span>
+<span class="sd">        If a dataset has both *node* labels and *node* attributes</span>
+<span class="sd">        set as labels for the graph object for *nodes* the attributes.</span>
+
+<span class="sd">    prefer_attr_edges : bool, default=False</span>
+<span class="sd">        If a dataset has both *edge* labels and *edge* attributes</span>
+<span class="sd">        set as labels for the graph object for *edge* the attributes.</span>
+
+<span class="sd">    as_graphs : bool, default=False</span>
+<span class="sd">        Return data as a list of Graph Objects.</span>
+
+<span class="sd">    is_symmetric : bool, default=False</span>
+<span class="sd">        Defines if the graph data describe a symmetric graph.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Gs : iterable</span>
+<span class="sd">        An iterable of graphs consisting of a dictionary, node</span>
+<span class="sd">        labels and edge labels for each graph.</span>
+
+<span class="sd">    classes : np.array, case_of_appearance=with_classes==True</span>
+<span class="sd">        An one dimensional array of graph classes aligned with the lines</span>
+<span class="sd">        of the `Gs` iterable. Useful for classification.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">indicator_path</span> <span class="o">=</span> <span class="s2">&quot;./&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;/&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;_graph_indicator.txt&quot;</span>
+    <span class="n">edges_path</span> <span class="o">=</span> <span class="s2">&quot;./&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;_A.txt&quot;</span>
+    <span class="n">node_labels_path</span> <span class="o">=</span> <span class="s2">&quot;./&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;_node_labels.txt&quot;</span>
+    <span class="n">node_attributes_path</span> <span class="o">=</span> <span class="s2">&quot;./&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;/&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;_node_attributes.txt&quot;</span>
+    <span class="n">edge_labels_path</span> <span class="o">=</span> <span class="s2">&quot;./&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;_edge_labels.txt&quot;</span>
+    <span class="n">edge_attributes_path</span> <span class="o">=</span> \
+        <span class="s2">&quot;./&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;_edge_attributes.txt&quot;</span>
+    <span class="n">graph_classes_path</span> <span class="o">=</span> \
+        <span class="s2">&quot;./&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;_graph_labels.txt&quot;</span>
+
+    <span class="c1"># node graph correspondence</span>
+    <span class="n">ngc</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="c1"># edge line correspondence</span>
+    <span class="n">elc</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="c1"># dictionary that keeps sets of edges</span>
+    <span class="n">Graphs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="c1"># dictionary of labels for nodes</span>
+    <span class="n">node_labels</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="c1"># dictionary of labels for edges</span>
+    <span class="n">edge_labels</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+
+    <span class="c1"># Associate graphs nodes with indexes</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">indicator_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">ngc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">line</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+            <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">line</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">Graphs</span><span class="p">:</span>
+                <span class="n">Graphs</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">line</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+            <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">line</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">node_labels</span><span class="p">:</span>
+                <span class="n">node_labels</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">line</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+            <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">line</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">edge_labels</span><span class="p">:</span>
+                <span class="n">edge_labels</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">line</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+
+    <span class="c1"># Extract graph edges</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">edges_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">edge</span> <span class="o">=</span> <span class="n">line</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
+            <span class="n">elc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">edge</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">int</span><span class="p">(</span><span class="n">edge</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+            <span class="n">Graphs</span><span class="p">[</span><span class="n">ngc</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">edge</span><span class="p">[</span><span class="mi">0</span><span class="p">])]]</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span class="nb">int</span><span class="p">(</span><span class="n">edge</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">int</span><span class="p">(</span><span class="n">edge</span><span class="p">[</span><span class="mi">1</span><span class="p">])))</span>
+            <span class="k">if</span> <span class="n">is_symmetric</span><span class="p">:</span>
+                <span class="n">Graphs</span><span class="p">[</span><span class="n">ngc</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">edge</span><span class="p">[</span><span class="mi">1</span><span class="p">])]]</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span class="nb">int</span><span class="p">(</span><span class="n">edge</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="nb">int</span><span class="p">(</span><span class="n">edge</span><span class="p">[</span><span class="mi">0</span><span class="p">])))</span>
+
+    <span class="c1"># Extract node attributes</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">prefer_attr_nodes</span> <span class="ow">and</span>
+        <span class="n">dataset_metadata</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                <span class="s2">&quot;na&quot;</span><span class="p">,</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">node_attributes_path</span><span class="p">)</span>
+                <span class="p">)):</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">node_attributes_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">node_labels</span><span class="p">[</span><span class="n">ngc</span><span class="p">[</span><span class="n">i</span><span class="p">]][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> \
+                    <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">num</span><span class="p">)</span> <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span>
+                     <span class="n">line</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)]</span>
+    <span class="c1"># Extract node labels</span>
+    <span class="k">elif</span> <span class="n">dataset_metadata</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="s2">&quot;nl&quot;</span><span class="p">,</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">node_labels_path</span><span class="p">)</span>
+            <span class="p">):</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">node_labels_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">node_labels</span><span class="p">[</span><span class="n">ngc</span><span class="p">[</span><span class="n">i</span><span class="p">]][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">line</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">elif</span> <span class="n">produce_labels_nodes</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">Graphs</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">node_labels</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">Counter</span><span class="p">(</span><span class="n">s</span> <span class="k">for</span> <span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="ow">in</span> <span class="n">Graphs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">if</span> <span class="n">s</span> <span class="o">!=</span> <span class="n">d</span><span class="p">))</span>
+
+    <span class="c1"># Extract edge attributes</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">prefer_attr_edges</span> <span class="ow">and</span>
+        <span class="n">dataset_metadata</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="s2">&quot;ea&quot;</span><span class="p">,</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">edge_attributes_path</span><span class="p">)</span>
+            <span class="p">)):</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">edge_attributes_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">attrs</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
+                         <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="n">line</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)]</span>
+                <span class="n">edge_labels</span><span class="p">[</span><span class="n">ngc</span><span class="p">[</span><span class="n">elc</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]]][</span><span class="n">elc</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="n">attrs</span>
+                <span class="k">if</span> <span class="n">is_symmetric</span><span class="p">:</span>
+                    <span class="n">edge_labels</span><span class="p">[</span><span class="n">ngc</span><span class="p">[</span><span class="n">elc</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]]][(</span><span class="n">elc</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">elc</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">])]</span> <span class="o">=</span> <span class="n">attrs</span>
+
+    <span class="c1"># Extract edge labels</span>
+    <span class="k">elif</span> <span class="n">dataset_metadata</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="s2">&quot;el&quot;</span><span class="p">,</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">edge_labels_path</span><span class="p">)</span>
+            <span class="p">):</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">edge_labels_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">edge_labels</span><span class="p">[</span><span class="n">ngc</span><span class="p">[</span><span class="n">elc</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]]][</span><span class="n">elc</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">line</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+                <span class="k">if</span> <span class="n">is_symmetric</span><span class="p">:</span>
+                    <span class="n">edge_labels</span><span class="p">[</span><span class="n">ngc</span><span class="p">[</span><span class="n">elc</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]]][(</span><span class="n">elc</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">elc</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">])]</span> <span class="o">=</span> \
+                        <span class="nb">int</span><span class="p">(</span><span class="n">line</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="n">Gs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">as_graphs</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">Graphs</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">Gs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Graph</span><span class="p">(</span><span class="n">Graphs</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">node_labels</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">edge_labels</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">Graphs</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">Gs</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">Graphs</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">node_labels</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">edge_labels</span><span class="p">[</span><span class="n">i</span><span class="p">]])</span>
+
+    <span class="k">if</span> <span class="n">with_classes</span><span class="p">:</span>
+        <span class="n">classes</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">graph_classes_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">classes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">line</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+
+        <span class="n">classes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">classes</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Bunch</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">Gs</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="n">classes</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Bunch</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">Gs</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_download_zip</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">output_name</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Download a file from a requested url and store locally.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    url : str</span>
+<span class="sd">        The url from where the file will be downloaded.</span>
+
+<span class="sd">    output_name : str</span>
+<span class="sd">        The name of the file in the local directory.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ctx</span> <span class="o">=</span> <span class="n">ssl</span><span class="o">.</span><span class="n">create_default_context</span><span class="p">(</span><span class="n">ssl</span><span class="o">.</span><span class="n">Purpose</span><span class="o">.</span><span class="n">CLIENT_AUTH</span><span class="p">)</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">output_name</span> <span class="o">+</span> <span class="s2">&quot;.zip&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">data_url</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="n">ctx</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">HTTPError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">code</span> <span class="o">==</span> <span class="mi">404</span><span class="p">:</span>
+            <span class="n">e</span><span class="o">.</span><span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Dataset &#39;</span><span class="si">%s</span><span class="s2">&#39; not found on mldata.org.&quot;</span> <span class="o">%</span> <span class="n">output_name</span>
+        <span class="k">raise</span>
+
+    <span class="c1"># Store Zip File</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;w+b&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">zip_file</span><span class="p">:</span>
+            <span class="n">copyfileobj</span><span class="p">(</span><span class="n">data_url</span><span class="p">,</span> <span class="n">zip_file</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="k">raise</span>
+    <span class="n">data_url</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="fetch_dataset"><a class="viewcode-back" href="../../../generated/grakel.datasets.fetch_dataset.html#grakel.datasets.fetch_dataset">[docs]</a><span class="k">def</span> <span class="nf">fetch_dataset</span><span class="p">(</span>
+        <span class="n">name</span><span class="p">,</span>
+        <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">data_home</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">download_if_missing</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">with_classes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">produce_labels_nodes</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">prefer_attr_nodes</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">prefer_attr_edges</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">as_graphs</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Load a dataset from a huge collection of benchmark datasets :cite:`KKMMN2016`.</span>
+
+<span class="sd">    For more info visit: :xref:`gd`</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    name : str</span>
+<span class="sd">        The name of the dataset (as found in :xref:`gd`).</span>
+
+<span class="sd">    verbose : bool, default=True</span>
+<span class="sd">        Print messages, throughout execution.</span>
+
+<span class="sd">    data_home : string, default=None</span>
+<span class="sd">        Specify another download and cache folder for the datasets.</span>
+<span class="sd">        By default all grakel data is stored in &#39;~/grakel_data&#39; subfolders.</span>
+
+<span class="sd">    download_if_missing : boolean, default=True</span>
+<span class="sd">        If False, raise a IOError if the data is not locally available instead</span>
+<span class="sd">        of trying to download the data from the source site.</span>
+
+<span class="sd">    with_classes : bool, default=False</span>
+<span class="sd">        Return an iterable of class labels based on the enumeration.</span>
+
+<span class="sd">    produce_labels_nodes : bool, default=False</span>
+<span class="sd">        Produce labels for nodes if not found.</span>
+<span class="sd">        Currently this means labeling its node by its degree inside the Graph.</span>
+<span class="sd">        This operation is applied only if node labels are non existent.</span>
+
+<span class="sd">    prefer_attr_nodes : bool, default=False</span>
+<span class="sd">        If a dataset has both *node* labels and *node* attributes</span>
+<span class="sd">        set as labels for the graph object for *nodes* the attributes.</span>
+
+<span class="sd">    prefer_attr_edges : bool, default=False</span>
+<span class="sd">        If a dataset has both *edge* labels and *edge* attributes</span>
+<span class="sd">        set as labels for the graph object for *edge* the attributes.</span>
+
+<span class="sd">    as_graphs : bool, default=False</span>
+<span class="sd">        Return data as a list of Graph Objects.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    graphs : iterable</span>
+<span class="sd">        Returns an iterable of the produced *valid-graph-format*</span>
+<span class="sd">        and labels for each node.</span>
+
+<span class="sd">    classes : list</span>
+<span class="sd">        Returns a list of all the classes corresponding to each graph by</span>
+<span class="sd">        order of input.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">dataset_metadata</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">data_home</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">data_home</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">),</span> <span class="s1">&#39;grakel_data&#39;</span><span class="p">)</span>
+
+        <span class="n">exists</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">data_home</span><span class="p">)</span>
+        <span class="n">missing</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_home</span><span class="p">,</span> <span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;.zip&quot;</span><span class="p">))</span>
+        <span class="n">cwd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">missing</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">download_if_missing</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">exists</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Initializing folder at&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">data_home</span><span class="p">))</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">data_home</span><span class="p">)</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">data_home</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Downloading dataset for&quot;</span><span class="p">,</span> <span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;..&quot;</span><span class="p">)</span>
+                <span class="n">_download_zip</span><span class="p">(</span><span class="n">dataset_metadata</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="s2">&quot;link&quot;</span><span class="p">],</span> <span class="n">name</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s1">&#39;Dataset &#39;</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span>
+                              <span class="s1">&#39; was not found on &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">data_home</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># move to the general data directory</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">data_home</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.zip&#39;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">zip_ref</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Extracting dataset &quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;..&quot;</span><span class="p">)</span>
+            <span class="n">zip_ref</span><span class="o">.</span><span class="n">extractall</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Parsing dataset &quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;..&quot;</span><span class="p">)</span>
+
+        <span class="n">data</span> <span class="o">=</span> <span class="n">read_data</span><span class="p">(</span><span class="n">name</span><span class="p">,</span>
+                         <span class="n">with_classes</span><span class="o">=</span><span class="n">with_classes</span><span class="p">,</span>
+                         <span class="n">prefer_attr_nodes</span><span class="o">=</span><span class="n">prefer_attr_nodes</span><span class="p">,</span>
+                         <span class="n">prefer_attr_edges</span><span class="o">=</span><span class="n">prefer_attr_edges</span><span class="p">,</span>
+                         <span class="n">produce_labels_nodes</span><span class="o">=</span><span class="n">produce_labels_nodes</span><span class="p">,</span>
+                         <span class="n">is_symmetric</span><span class="o">=</span><span class="n">symmetric_dataset</span><span class="p">,</span>
+                         <span class="n">as_graphs</span><span class="o">=</span><span class="n">as_graphs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Parse was succesful..&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Deleting unzipped dataset files..&quot;</span><span class="p">)</span>
+        <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Going back to the original directory..&quot;</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">cwd</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">data</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Dataset: &quot;&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;&quot; is currently unsupported.&#39;</span> <span class="o">+</span>
+                         <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Supported datasets come from &#39;</span>
+                         <span class="s1">&#39;https://ls11-www.cs.tu-dortmund.de/staff/morris/&#39;</span> <span class="o">+</span>
+                         <span class="s1">&#39;graphkerneldatasets. If your dataset name appears&#39;</span> <span class="o">+</span>
+                         <span class="s1">&#39; them send us a pm, to explain you either why we &#39;</span> <span class="o">+</span>
+                         <span class="s1">&#39;don</span><span class="se">\&#39;</span><span class="s1">t support it, or to update our dataset &#39;</span> <span class="o">+</span>
+                         <span class="s1">&#39;database.&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_dataset_info"><a class="viewcode-back" href="../../../generated/grakel.datasets.get_dataset_info.html#grakel.datasets.get_dataset_info">[docs]</a><span class="k">def</span> <span class="nf">get_dataset_info</span><span class="p">(</span><span class="n">dataset_name</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return the info concerning the existence of a certain dataset.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dataset_name : str</span>
+<span class="sd">        The name of the dataset.</span>
+
+<span class="sd">    default : Object, default=None</span>
+<span class="sd">        The default return value if the dataset is not found.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dictionary_get : default or dictionary_entry</span>
+<span class="sd">        The info of a dataset as a dictionary with</span>
+<span class="sd">        fields:</span>
+
+<span class="sd">            - **nl** : A boolean flag indicating if the</span>
+<span class="sd">              dataset has node labels.</span>
+
+<span class="sd">            - **el** : A boolean flag indicating if the</span>
+<span class="sd">              dataset has edge labels.</span>
+
+<span class="sd">            - **na** : A boolean flag indicating if the</span>
+<span class="sd">              dataset has node attributes.</span>
+
+<span class="sd">            - **ea** : A boolean flag indicating if the</span>
+<span class="sd">              dataset has edge attributes.</span>
+
+<span class="sd">            - **link** : A str corresponding to the</span>
+<span class="sd">              download link of the dataset.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">dataset_metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">dataset_name</span><span class="p">,</span> <span class="n">default</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, DaSciM (BSD License)
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

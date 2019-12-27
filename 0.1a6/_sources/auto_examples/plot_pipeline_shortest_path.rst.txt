@@ -1,0 +1,118 @@
+.. note::
+    :class: sphx-glr-download-link-note
+
+    Click :ref:`here <sphx_glr_download_auto_examples_plot_pipeline_shortest_path.py>` to download the full example code
+.. rst-class:: sphx-glr-example-title
+
+.. _sphx_glr_auto_examples_plot_pipeline_shortest_path.py:
+
+
+===================================================================================================
+Cross-Validation scikit-learn Pipeline example on the MUTAG dataset using the Shortest Path Kernel.
+===================================================================================================
+
+An example plot of :class:`grakel.GraphKernel`, :class:`grakel.ShortestPath`
+
+
+
+
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+
+    /home/circleci/project/venv/lib/python2.7/site-packages/sklearn/model_selection/_split.py:2052: FutureWarning: You should specify a value for 'cv' instead of relying on the default value. The default value will change from 3 to 5 in version 0.22.
+      warnings.warn(CV_WARNING, FutureWarning)
+    /home/circleci/project/venv/lib/python2.7/site-packages/sklearn/model_selection/_search.py:842: DeprecationWarning: The default of the `iid` parameter will change from True to False in version 0.22 and will be removed in 0.24. This will change numeric results when test-set sizes are unequal.
+      DeprecationWarning)
+    /home/circleci/project/venv/lib/python2.7/site-packages/sklearn/model_selection/_search.py:842: DeprecationWarning: The default of the `iid` parameter will change from True to False in version 0.22 and will be removed in 0.24. This will change numeric results when test-set sizes are unequal.
+      DeprecationWarning)
+    /home/circleci/project/venv/lib/python2.7/site-packages/sklearn/model_selection/_search.py:842: DeprecationWarning: The default of the `iid` parameter will change from True to False in version 0.22 and will be removed in 0.24. This will change numeric results when test-set sizes are unequal.
+      DeprecationWarning)
+    /home/circleci/project/venv/lib/python2.7/site-packages/sklearn/model_selection/_search.py:842: DeprecationWarning: The default of the `iid` parameter will change from True to False in version 0.22 and will be removed in 0.24. This will change numeric results when test-set sizes are unequal.
+      DeprecationWarning)
+    /home/circleci/project/venv/lib/python2.7/site-packages/sklearn/model_selection/_search.py:842: DeprecationWarning: The default of the `iid` parameter will change from True to False in version 0.22 and will be removed in 0.24. This will change numeric results when test-set sizes are unequal.
+      DeprecationWarning)
+    /home/circleci/project/venv/lib/python2.7/site-packages/sklearn/model_selection/_search.py:842: DeprecationWarning: The default of the `iid` parameter will change from True to False in version 0.22 and will be removed in 0.24. This will change numeric results when test-set sizes are unequal.
+      DeprecationWarning)
+    /home/circleci/project/venv/lib/python2.7/site-packages/sklearn/model_selection/_search.py:842: DeprecationWarning: The default of the `iid` parameter will change from True to False in version 0.22 and will be removed in 0.24. This will change numeric results when test-set sizes are unequal.
+      DeprecationWarning)
+    /home/circleci/project/venv/lib/python2.7/site-packages/sklearn/model_selection/_search.py:842: DeprecationWarning: The default of the `iid` parameter will change from True to False in version 0.22 and will be removed in 0.24. This will change numeric results when test-set sizes are unequal.
+      DeprecationWarning)
+    Accuracy: 78.19%
+
+
+
+
+
+|
+
+
+.. code-block:: default
+
+    from __future__ import print_function
+    print(__doc__)
+
+    import numpy as np
+
+    from time import time
+
+    from sklearn import svm
+    from sklearn.model_selection import GridSearchCV
+    from sklearn.model_selection import cross_val_predict
+    from sklearn.pipeline import make_pipeline
+    from sklearn.metrics import accuracy_score
+
+    from grakel import datasets
+    from grakel import GraphKernel
+
+    # Loads the Mutag dataset from:
+    # https://ls11-www.cs.tu-dortmund.de/staff/morris/graphkerneldatasets
+    # the biggest collection of benchmark datasets for graph_kernels.
+    mutag = datasets.fetch_dataset("MUTAG", verbose=False)
+    G, y = mutag.data, mutag.target
+    C_grid = (10. ** np.arange(1,10,1) / len(G)).tolist()
+    n_folds = 10
+
+    estimator = make_pipeline(
+        GraphKernel(kernel=dict(name="shortest_path"), normalize=True),
+        GridSearchCV(svm.SVC(kernel='precomputed'), dict(C=C_grid),
+                     scoring='accuracy'))
+
+    acc = accuracy_score(y, cross_val_predict(estimator, G, y, cv=n_folds))
+    print("Accuracy:", str(round(acc*100, 2)) + "%")
+
+
+.. rst-class:: sphx-glr-timing
+
+   **Total running time of the script:** ( 0 minutes  5.746 seconds)
+
+
+.. _sphx_glr_download_auto_examples_plot_pipeline_shortest_path.py:
+
+
+.. only :: html
+
+ .. container:: sphx-glr-footer
+    :class: sphx-glr-footer-example
+
+
+
+  .. container:: sphx-glr-download
+
+     :download:`Download Python source code: plot_pipeline_shortest_path.py <plot_pipeline_shortest_path.py>`
+
+
+
+  .. container:: sphx-glr-download
+
+     :download:`Download Jupyter notebook: plot_pipeline_shortest_path.ipynb <plot_pipeline_shortest_path.ipynb>`
+
+
+.. only:: html
+
+ .. rst-class:: sphx-glr-signature
+
+    `Gallery generated by Sphinx-Gallery <https://sphinx-gallery.github.io>`_
