@@ -1,0 +1,296 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Retrieval of most similar document using the Weisfeiler-Lehman subtree kernel. &mdash; GraKeL 0.1a7 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/_static/css/supplementary.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Classifying handwritten digits using the neighborhood subgraph pairwise distance kernel." href="digit_classification_example.html" />
+    <link rel="prev" title="Classification on the MUTAG dataset using the WL-subtree kernel." href="plot_wl_subtree_MUTAG.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> GraKeL
+          
+
+          
+            
+            <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1a7
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../user_manual.html">User Manual</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../api.html">GraKeL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../classes.html">API Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="plot_pipeline_shortest_path.html">Cross-Validation scikit-learn Pipeline example on the MUTAG dataset using the Shortest Path Kernel.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_wl_subtree_MUTAG.html">Classification on the MUTAG dataset using the WL-subtree kernel.</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Retrieval of most similar document using the Weisfeiler-Lehman subtree kernel.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="digit_classification_example.html">Classifying handwritten digits using the neighborhood subgraph pairwise distance kernel.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lovasz_svm_theta.html">Classification on MUTAG using the Lovasz theta and SVM-theta kernels.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="KFold_MLG.html">K-Fold classification on the ENZYMES dataset using the approximate Multiscale Laplacian kernel.</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">GraKeL</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">Examples</a> &raquo;</li>
+        
+      <li>Retrieval of most similar document using the Weisfeiler-Lehman subtree kernel.</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/auto_examples/document_retrieval_example.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Click <a class="reference internal" href="#sphx-glr-download-auto-examples-document-retrieval-example-py"><span class="std std-ref">here</span></a> to download the full example code</p>
+</div>
+<div class="sphx-glr-example-title section" id="retrieval-of-most-similar-document-using-the-weisfeiler-lehman-subtree-kernel">
+<span id="sphx-glr-auto-examples-document-retrieval-example-py"></span><h1>Retrieval of most similar document using the Weisfeiler-Lehman subtree kernel.<a class="headerlink" href="#retrieval-of-most-similar-document-using-the-weisfeiler-lehman-subtree-kernel" title="Permalink to this headline">¶</a></h1>
+<p>Script makes use of <a class="reference internal" href="../generated/grakel.WeisfeilerLehman.html#grakel.WeisfeilerLehman" title="grakel.WeisfeilerLehman"><code class="xref py py-class docutils literal notranslate"><span class="pre">grakel.WeisfeilerLehman</span></code></a>, <a class="reference internal" href="../generated/grakel.VertexHistogram.html#grakel.VertexHistogram" title="grakel.VertexHistogram"><code class="xref py py-class docutils literal notranslate"><span class="pre">grakel.VertexHistogram</span></code></a></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+<span class="nb">print</span><span class="p">(</span><span class="vm">__doc__</span><span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="kn">from</span> <span class="nn">nltk</span> <span class="kn">import</span> <span class="n">word_tokenize</span>
+<span class="kn">from</span> <span class="nn">nltk.corpus</span> <span class="kn">import</span> <span class="n">sentence_polarity</span>
+
+<span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="kn">import</span> <a href="../generated/grakel.WeisfeilerLehman.html#grakel.WeisfeilerLehman" title="View documentation for grakel.kernels.WeisfeilerLehman"><span class="n">WeisfeilerLehman</span></a><span class="p">,</span> <a href="../generated/grakel.VertexHistogram.html#grakel.VertexHistogram" title="View documentation for grakel.kernels.VertexHistogram"><span class="n">VertexHistogram</span></a>
+<span class="kn">from</span> <span class="nn">grakel</span> <span class="kn">import</span> <a href="../generated/grakel.Graph.html#grakel.Graph" title="View documentation for grakel.Graph"><span class="n">Graph</span></a>
+
+<span class="n">sents</span> <span class="o">=</span> <span class="n">sentence_polarity</span><span class="o">.</span><span class="n">sents</span><span class="p">()</span>
+<span class="n">sents</span> <span class="o">=</span> <span class="p">[</span><span class="n">sent</span> <span class="k">for</span> <span class="n">sent</span> <span class="ow">in</span> <span class="n">sents</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sent</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">n_sents</span> <span class="o">=</span> <span class="mi">3000</span>
+<span class="n">sents</span> <span class="o">=</span> <span class="n">sents</span><span class="p">[:</span><span class="n">n_sents</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Loaded </span><span class="si">%d</span><span class="s2"> sentences</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">n_sents</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Creating word co-occurrence networks</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">word_networks</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">sent</span> <span class="ow">in</span> <span class="n">sents</span><span class="p">:</span>
+
+    <span class="n">node_labels</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="n">tokens_to_ids</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">sent</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">token</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">tokens_to_ids</span><span class="p">:</span>
+            <span class="n">tokens_to_ids</span><span class="p">[</span><span class="n">token</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tokens_to_ids</span><span class="p">)</span>
+            <span class="n">node_labels</span><span class="p">[</span><span class="n">tokens_to_ids</span><span class="p">[</span><span class="n">token</span><span class="p">]]</span> <span class="o">=</span> <span class="n">token</span>
+
+    <span class="n">edges</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sent</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">edges</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">tokens_to_ids</span><span class="p">[</span><span class="n">sent</span><span class="p">[</span><span class="n">i</span><span class="p">]],</span> <span class="n">tokens_to_ids</span><span class="p">[</span><span class="n">sent</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]]))</span>
+
+    <span class="n">word_networks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><a href="../generated/grakel.Graph.html#grakel.Graph" title="View documentation for grakel.Graph"><span class="n">Graph</span></a><span class="p">(</span><span class="n">edges</span><span class="p">,</span> <span class="n">node_labels</span><span class="o">=</span><span class="n">node_labels</span><span class="p">))</span>
+
+<span class="n">query_sent_id</span> <span class="o">=</span> <span class="mi">54</span>
+<span class="n">query_sent</span> <span class="o">=</span> <span class="p">[</span><span class="n">word_networks</span><span class="p">[</span><span class="n">query_sent_id</span><span class="p">]]</span>
+
+<span class="c1"># Initialize Weisfeiler-Lehman subtree kernel</span>
+<span class="n">gk</span> <span class="o">=</span> <a href="../generated/grakel.WeisfeilerLehman.html#grakel.WeisfeilerLehman" title="View documentation for grakel.kernels.WeisfeilerLehman"><span class="n">WeisfeilerLehman</span></a><span class="p">(</span><span class="n">niter</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">base_kernel</span><span class="o">=</span><a href="../generated/grakel.VertexHistogram.html#grakel.VertexHistogram" title="View documentation for grakel.kernels.VertexHistogram"><span class="n">VertexHistogram</span></a><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Computing similarities</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">t0</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">gk</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">query_sent</span><span class="p">)</span>
+<span class="n">K</span> <span class="o">=</span> <span class="n">gk</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">word_networks</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;done in </span><span class="si">%0.3f</span><span class="s2">s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">t0</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Query sentence&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--------------&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sents</span><span class="p">[</span><span class="n">query_sent_id</span><span class="p">]))</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Most similar sentence&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;---------------------&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sents</span><span class="p">[</span><a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.argsort.html#numpy.argsort" title="View documentation for numpy.argsort"><span class="n">np</span><span class="o">.</span><span class="n">argsort</span></a><span class="p">(</span><span class="n">K</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])[</span><span class="o">-</span><span class="mi">2</span><span class="p">]]))</span>
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.000 seconds)</p>
+<div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-document-retrieval-example-py">
+<div class="sphx-glr-download docutils container">
+<a class="reference download internal" download="" href="../_downloads/2bbf1ddbd69b5dbf4a9363e6374aa5d6/document_retrieval_example.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">document_retrieval_example.py</span></code></a></div>
+<div class="sphx-glr-download docutils container">
+<a class="reference download internal" download="" href="../_downloads/d80219e20e55d967e22b9492c7fa20bd/document_retrieval_example.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">document_retrieval_example.ipynb</span></code></a></div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="digit_classification_example.html" class="btn btn-neutral float-right" title="Classifying handwritten digits using the neighborhood subgraph pairwise distance kernel." accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="plot_wl_subtree_MUTAG.html" class="btn btn-neutral float-left" title="Classification on the MUTAG dataset using the WL-subtree kernel." accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, DaSciM (BSD License)
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

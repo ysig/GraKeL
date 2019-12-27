@@ -1,0 +1,280 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>grakel.graph_from_networkx &mdash; GraKeL 0.1a7 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/_static/css/supplementary.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="grakel.graph_from_pandas" href="grakel.graph_from_pandas.html" />
+    <link rel="prev" title="grakel.cross_validate_Kfold_SVM" href="grakel.cross_validate_Kfold_SVM.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> GraKeL
+          
+
+          
+            
+            <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1a7
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../user_manual.html">User Manual</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../api.html">GraKeL</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../classes.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-graph-graph-class-with-its-utility-functions"><code class="docutils literal notranslate"><span class="pre">grakel.graph</span></code>: Graph class with its utility functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-graph-kernels-a-kernel-decorator"><code class="docutils literal notranslate"><span class="pre">grakel.graph_kernels</span></code>: A kernel decorator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-kernels-a-collection-of-graph-kernels"><code class="docutils literal notranslate"><span class="pre">grakel.kernels</span></code>: A collection of graph kernels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-datasets-datasets"><code class="docutils literal notranslate"><span class="pre">grakel.datasets</span></code>: Datasets</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../classes.html#grakel-utils"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>: Utils</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../classes.html#use-a-kernel-matrix-as-a-transformer">Use a kernel matrix as a transformer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes.html#cross-validation">Cross Validation</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../classes.html#load-from-other-file-formats">Load from other file formats</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.graph_from_networkx</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.graph_from_pandas.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.graph_from_pandas</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.graph_from_csv.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.graph_from_csv</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">Examples</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">GraKeL</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../classes.html">API Reference</a> &raquo;</li>
+        
+      <li><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.graph_from_networkx</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/generated/grakel.graph_from_networkx.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="grakel-graph-from-networkx">
+<h1><a class="reference internal" href="../api.html#module-grakel" title="grakel"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code></a>.graph_from_networkx<a class="headerlink" href="#grakel-graph-from-networkx" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="grakel.graph_from_networkx">
+<code class="descclassname">grakel.</code><code class="descname">graph_from_networkx</code><span class="sig-paren">(</span><em>X</em>, <em>node_labels_tag=None</em>, <em>edge_labels_tag=None</em>, <em>edge_weight_tag=None</em>, <em>as_Graph=False</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/a26b29a/grakel/utils.py#L228"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/utils.html#graph_from_networkx"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.graph_from_networkx" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform an iterable of networkx objects to an iterable of Graphs.</p>
+<p>A function for helping a user that has a collection of graphs in networkx to use grakel.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>node_labels_tag</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str or None</span></dt>
+<dd><blockquote class="first">
+<div><p>Define where to search for labels of nodes, inside the <cite>node</cite> attribute of each graph.
+If None no labels are assigned.</p>
+</div></blockquote>
+<dl class="last docutils">
+<dt>edge_labels_tag <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
+<dd><p class="first last">Define where to search for labels of edges, inside the <cite>edge</cite> attribute of each graph.
+If None no labels are assigned.</p>
+</dd>
+<dt>edge_weight_tag <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Define where to search for weights inside the <cite>edge</cite> attribute of each graph.
+If None 1.0 weights are assigned.</p>
+</dd>
+<dt>as_Graph <span class="classifier-delimiter">:</span> <span class="classifier">bool, default=False</span></dt>
+<dd><p class="first last">Return each output as a grakel.Graph object.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>grakel_graphs</strong> <span class="classifier-delimiter">:</span> <span class="classifier">generator</span></dt>
+<dd><p class="first last">Returns a generator containing the same collections to be given as an input for
+any grakel kernel.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<div class="clearer"></div></div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="grakel.graph_from_pandas.html" class="btn btn-neutral float-right" title="grakel.graph_from_pandas" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="grakel.cross_validate_Kfold_SVM.html" class="btn btn-neutral float-left" title="grakel.cross_validate_Kfold_SVM" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, DaSciM (BSD License)
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
