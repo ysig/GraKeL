@@ -29,20 +29,10 @@ git checkout -f gh-pages
 git reset --hard origin/gh-pages
 git clean -dfx
 
-for name in $(ls -A $HOME/$DOC_REPO); do
-    case $name in
-        .nojekyll) # So that github does not build this as a Jekyll website.
-        ;;
-        circle.yml) # Config so that build gh-pages branch.
-        ;;
-        *)
-        git rm -rf $name
-        ;;
-    esac
-done
-
 # Copy the new build docs
+rm -rf $DOC_URL
 mkdir $DOC_URL
+rm -f .nojekyll
 touch .nojekyll
 cp -R $HOME/tmp/* ./$DOC_URL/
 
