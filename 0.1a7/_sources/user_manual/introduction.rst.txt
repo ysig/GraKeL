@@ -3,256 +3,265 @@
 .. include:: ../.special.rst
 
 ====================
-A short Introduction
+A Short Introduction
 ====================
 
-What is grakel?
+What is GraKeL?
 ---------------
-GraKeL is a library for the study, use and integration of an upcoming collection
-of techniques, inside the field of Machine Learning known as graph kernels. These
-techniques utilize information derived from a conceived structure of the data, in
-order to apply conventional machine learning techniques for achieving tasks as
-classification, ranking, etc. Graph Kernels have been widely used in fields such
-as chemistry, bio-informatics, social networks and malware detection and are starting
-to be considered as the state-of-the-art solution for various problems inside the field of ML.
+The problem of accurately measuring the similarity between graphs is at the core of many applications in a variety of disciplines. Graph kernels have recently emerged as a promising approach to this problem. GraKeL is a library that provides implementations of several well-established graph kernels, unifying them into a common framework. The library is written in Python following scikit-learn's philosophy. GraKeL makes it easy to build a complete machine learning pipeline for tasks such as graph classification and clustering.
 
 What is a Graph Kernel?
 -----------------------
-A graph kernel is a measure of similarity between two graphs, that obeys a certain
-mathematical constraint, which is *that the calculation of each similarity measure between two graphs implies a representation of this two graphs in a* `hilbert space`_, where those to graphs are represented as vectors. This can be notated as the 
-following:
+A graph kernel is a symmetric, positive semidefinite function on the set of graphs $\mathcal{G}$.
+Once we define such a function :math:`k : \mathcal{G} \times \mathcal{G} \rightarrow \mathbb{R}` on the set :math:`\mathcal{G}`, it is known that there exists a map :math:`\phi : \mathcal{G} \rightarrow \mathcal{H}` into a `Hilbert space`_ $\mathcal{H}$, such that:
 
-    .. math:: 
-        k \; : \; \mathcal{G} \times \mathcal{G} \rightarrow \mathbb{R} \text{ is a 
-        valid kernel, if there exists a map } \phi \; :\; \mathcal{G} \rightarrow 
-        \mathbb{H}, \\\text{for a Hilbert space } \mathbb{H} \text{ where each kernel 
-        value can be computed as }\\ k(G_{i}, G_{j}) = \langle G_{i}, G_{j} \rangle
-        \text{ where } \langle \;.\; ,\; .\;\rangle \text{ signifies an inner product inside this space}.
+.. math::
+  k(G_{i}, G_{j}) = \langle G_{i}, G_{j} \rangle_{\mathcal{H}}
 
-The above definition is satisfied in the literature, by proving that the produced kernel matrix from any collection of graphs :math:`\{G_{i}, \text{for } i\in [N]\}`, where :math:`[K]_{ij} = k(G_{i}, G_{j})`, is `Positive Semi Definite`_.
+for all :math:`G, G' \in \mathcal{G}` where :math:`\langle\cdot, \cdot\rangle_{\mathcal{H}}` is the inner product in :math:`\mathcal{H}`. Roughly speaking, a graph kernel is a function that measures the similarity of two graphs.
 
 .. _hilbert space: https://en.wikipedia.org/wiki/Hilbert_space
-.. _Positive Semi Definite: https://en.wikipedia.org/wiki/Positive-definite_matrix
 
-Initializing a graph kernel
+Creating a Graph
+----------------
+A graph is used to model a set of objects (i.e., nodes) and the relationships between them (i.e., edges). A single graph in GraKeL is described by an instance of :class:`grakel.Graph`. Traditionally, the two main structures used to represent a graph are the *adjacency matrix* and the *list of edges*. Both these representations can give rise to valid graph objects. The following Figure illustrates an unweighted, undirected graph with three nodes and two edges, and we show how we can generate graph objects that correspond to this example graph using the two representations mentioned above. Note that the graph has only two edges, however, we need to define four edges to account for both directions of a edge.
+
+.. image:: ../_figures/example_graph.pdf
+  :align: center
+  :width: 300px
+
+* Edgelist representation:
+  - | A dictionary keyed by node to the list of its neighbors.
+    | Example: :code:`g = {1: [2, 3], 2: [1], 3: [1]}`
+
+  - | Iterable of tuples of lenght 2. Each tuple corresponds to an edge.
+    | Example: :code:`g = [(1, 2), (1, 3), (2, 1), (3, 1)]`
+
+* Adjacency matrix representation:
+  - | Array-like lists of lists`  
+    | Example: :code:`g = [[0, 1, 1], [1, 0, 0], [1, 0, 0]]`
+
+  - | NumPy array  
+    | Example: :code:`g = numpy.array([[0, 1, 1], [1, 0, 0], [1, 0, 0]])`
+
+  - | Scipy sparse matrix
+    | Example: :code:`g = scipy.sparse.csr_matrix(([1, 1, 1, 1], ([0, 0, 1, 2], [1, 2, 0, 0])), shape=(3, 3))`
+
+A graph is directed if its edges have a direction associated with them. The Figure below shows an directed, unweighted graph with three nodes and three directed edges.
+
+.. image:: ../_figures/example_graph_directed.pdf
+  :align: center
+  :width: 300px
+
+* Edgelist representation:
+  - | A dictionary keyed by node to the list of its neighbors.
+    | Example: :code:`g = {1: [3], 2: [1], 3: [1]}`
+
+  - | Iterable of tuples of lenght 2. Each tuple corresponds to an edge.
+    | Example: :code:`g = [(1, 3), (2, 1), (3, 1)]`
+
+* Adjacency matrix representation:
+  - | Array-like lists of lists`  
+    | Example: :code:`g = [[0, 0, 1], [1, 0, 0], [1, 0, 0]]`
+
+  - | NumPy array  
+    | Example: :code:`g = numpy.array([[0, 0, 1], [1, 0, 0], [1, 0, 0]])`
+
+  - | Scipy sparse matrix
+    | Example: :code:`g = scipy.sparse.csr_matrix(([1, 1, 1], ([0, 1, 2], [2, 0, 0])), shape=(3, 3))`
+
+A graph is weighted if its edges have weights. The Figure below shows a weighted, undirected graph with three nodes and two edges.
+
+.. image:: ../_figures/example_graph_weighted.pdf
+  :align: center
+  :width: 300px
+
+* Edgelist representation:
+  - | A dictionary keyed by nodes to a dictionary keyed by neighbors to edge weights. 
+    | Example: :code:`g = {1: {2: 0.5, 3: 0.2}, 2: {1: 0.5}, 3: {1: 0.2}}`
+
+  - | A dictionary keyed by edges to their weights. 
+    | Example: :code:`g = {(1, 2): 0.5, (1, 3): 0.2, (2, 1): 0.5, (3, 1): 0.2}`
+
+  - | Iterable of tuples of length 3. Each tuple corresponds to an edge and its weight
+    | Example: :code:`g = [(1, 2, 0.5), (1, 3, 0.2), (2, 1, 0.5), (3, 1, 0.2)]`
+
+* Adjacency matrix representation:
+  - | Array-like lists of lists`  
+    | Example: :code:`g = [[0, 0.5, 0.2], [0.5, 0, 0], [0.2, 0, 0]]`
+
+  - | NumPy array  
+    | Example: :code:`g = numpy.array([[0, 0.5, 0.2], [0.5, 0, 0], [0.2, 0, 0]])`
+
+  - | Scipy sparse matrix
+    | Example: :code:`g = scipy.sparse.csr_matrix(([0.5, 0.2, 0.5, 0.2], ([0, 0, 1, 2], [1, 2, 0, 0])), shape=(3, 3))`
+
+
+Assigning Labels/Attributes to Nodes
+------------------------------------
+A graph may contain node labels or node attributes. There is an *optional* attribute of :class:`grakel.Graph` which allows us to assign labels or attributes to the nodes.
+
+A node-labeled graph is a graph endowed with a function :math:`\ell : V \rightarrow \mathcal{L}` that assigns labels to the vertices of the graph from a label set :math:`\mathcal{L}`. Note that :math:`V` is the set of nodes of the graph. The Figure below shows a node-labeled graph with three nodes and two edges. The nodes are labeled with symbols from :math:`\mathcal{L} = \{ a, b \}`.
+
+.. image:: ../_figures/example_graph_labeled.pdf
+  :align: center
+  :width: 300px
+
+* | A dictionary keyed by nodes to their labels.  
+  | Example: :code:`node_labels = {1: 'a', 2: 'b', 3: 'a'}`
+    
+* | A dictionary keyed by node indices (i.e., :math:`0,\ldots,(|V|-1)`) to their labels. 
+  | Example: :code:`node_labels = {0: 'a', 'b': 'H', 2: 'a'}`
+
+A node-attributed graph is a graph endowed with a function :math:`f : V \rightarrow \mathbb{R}^d` that assigns real-valued vectors to the vertices of the graph. The following Figure illustrates a node-attributed graph with three nodes and two edges.
+
+.. image:: ../_figures/example_graph_attributed.pdf
+  :align: center
+  :width: 300px
+
+* | A dictionary keyed by nodes to their attributes.  
+  | Example: :code:`node_attributes = {1: [1.2, 0.5], 2: [2.8, −0.6], 3: [0.7, 1.1]}`
+    
+* | A dictionary keyed by node indices (i.e., :math:`0,\ldots,(|V|-1)`) to their attributes. 
+  | Example: :code:`node_attributes = {0: [1.2, 0.5], 'b': [2.8, −0.6], 2: [0.7, 1.1]}`
+
+
+Assigning Labels/Attributes to Edges
+------------------------------------
+A graph may contain edge labels or edge attributes. There is an *optional* attribute of :class:`grakel.Graph` which allows us to assign labels or attributes to the edges.
+
+An edge-labeled graph is a graph endowed with a function :math:`\ell : E \rightarrow \mathcal{L}` that assigns labels to the edges of the graph from a label set :math:`\mathcal{L}`. Note that :math:`E` is the set of edges of the graph. The Figure below shows an edge-labeled graph with three nodes and two edges. The edges are labeled with symbols from :math:`\mathcal{L} = \{ a, b \}`.
+
+.. image:: ../_figures/example_graph_edge_labeled.pdf
+  :align: center
+  :width: 300px
+
+* | A dictionary keyed by edges to their labels.  
+  | Example: :code:`edge_labels = {1: 'a', 2: 'b', 3: 'a'}`
+    
+* | A dictionary keyed by edge indices (i.e., :math:`0,\ldots,(|E|-1)`) to their labels. 
+  | Example: :code:`edge_labels = {0: 'a', 'b': 'H', 2: 'a'}`
+
+An edge-attributed graph is a graph endowed with a function :math:`f : E \rightarrow \mathbb{R}^d` that assigns real-valued vectors to the edges of the graph. The following Figure illustrates an edge-attributed graph with three nodes and two edges.
+
+.. image:: ../_figures/example_graph_edge_attributed.pdf
+  :align: center
+  :width: 300px
+
+* | A dictionary keyed by edges to their attributes.  
+  | Example: :code:`edge_attributes = {1: [1.2, 0.5], 2: [2.8, −0.6], 3: [0.7, 1.1]}`
+    
+* | A dictionary keyed by edge indices (i.e., :math:`0,\ldots,(|E|-1)`) to their attributes. 
+  | Example: :code:`edge_attributes = {0: [1.2, 0.5], 'b': [2.8, −0.6], 2: [0.7, 1.1]}`
+
+
+Initializing a Graph Kernel
 ---------------------------
-A very well known graph kernel found in literature is the Shortest Path Kernel first introduced by Karsten M. Borgwardt
-and Hans-Peter Kriegel on a 2005 article [see :cite:`Borgwardt2005ShortestpathKO`] titled **"Shortest-Path Kernels on Graphs"**,
-really essential as an origin of the Graph Kernel field.
+One of the most popular graph kernels is the *shortest path kernel* which counts the number of shortest paths of equal length in two graphs :cite:`Borgwardt2005ShortestpathKO`.
 
-After following the instructions found on :ref:`installation`, in order to initialize a *Shortest Path* kernel
-using the **grakel** library, you just need to do the following:
+After installing the library (see :ref:`installation`), we can initialize an instance of the shortest path kernel as follows:
 
-.. doctest::
-
+.. code-block:: python
    >>> from grakel import GraphKernel
    >>> sp_kernel = GraphKernel(kernel="shortest_path")
 
+Alternatively, we can directly create an instance of :class:`grakel.kernels.ShortestPath` object as follows:
 
-Kernels as the above are considered as *base kernels*, meaning that they can be computed onto the sets
-of Graphs needed only a minor parametrization. A second type of kernels appear in the literature which
-we will call *meta-kernels*, which apply transformation operations upon graph objects in order to apply
-kernel calculations on certain steps using a *base kernel*, aggregating their result in a certain way.
-A kernel like *Weisfeiler-Lehman* introduced by Nino Shervashidze at 2011, published on a journal with the title
-"Weisfeiler Lehman Kernels" [see :cite:`Shervashidze2011WeisfeilerLehmanGK`], used a method for approximating a
-solution to the graph isomorphism problem, in order to generate a graph refinement scheme that would imply
-bigger expressiveness to the base_kernel calculations (an interesting `post`_ explaining the intuition of this kernel).
+.. code-block:: python
+   >>> from grakel.kernels import ShortestPath
+   >>> sp_kernel = ShortestPath()
 
-.. _post: http://blog.smola.org/post/33412570425/the-weisfeiler-lehman-algorithm-and-estimation-on
+Initializing a Framework
+------------------------
+Research in the field of graph kernels has not only focused on designing new kernels between graphs, but also on frameworks and approaches that can be applied to existing graph kernels and increase their performance. The most popular of all frameworks is perhaps the *Weisfeiler-Lehman framework* :cite:`Shervashidze2011WeisfeilerLehmanGK`. The Weisfeiler-Lehman framework works on top of some graph kernel, known as the *base kernel*. We can initialize the well-known Weisfeiler-Lehman subtree kernel (Weisfeiler-Lehman framework on top of the *vertex histogram* kernel) as follows:
 
-To initialize such a kernel, using the default subtree kernel, found originally on the paper's
-page 9, eq. 2, you can do the following:
+.. code-block:: python
+    >>> from grakel.kernels import WeisfeilerLehman, VertexHistogram
+    >>> wl_kernel = WeisfeilerLehman(base_kernel=VertexHistogram)    
 
-.. doctest::
 
-    >>> from grakel import GraphKernel
-    >>> wl_kernel = GraphKernel(kernel=["weisfeiler_lehman", "subtree_wl"])
+Computing the Kernel Between Two Graphs
+---------------------------------------
+Let us consider a toy example, where we compute some graph kernel between two molecules: (1) water :math:`\mathbf{H}_{2}\mathbf{O}` and (2) hydronium :math:`\mathbf{H}_{3}\mathbf{O}^{+}`, an ion of water produced by protonation.
 
-Calculate a kernel
-------------------
-Let's consider a toy example, comparing water :math:`\mathbf{H}_{2}\mathbf{O}` with hydronium
-:math:`\mathbf{H}_{3}\mathbf{O}^{+}`, an ion of water produced by protonation.
+We first create the graph representations of the two molecules:
 
-For start we would calculate the kernel value of water with itself:
+.. code-block:: python
+   >>> from grakel import Graph
+   >>>
+   >>> H2O_adjacency = [[0, 1, 1], [1, 0, 0], [1, 0, 0]]
+   >>> H2O_node_labels = {0: 'O', 1: 'H', 2: 'H'}
+   >>> H2O = Graph(initialization_object=H2O_adjacency, node_labels=H2O_node_labels)
+   >>>
+   >>> H3O_adjacency = [[0, 1, 1, 1], [1, 0, 0, 0], [1, 0, 0, 0], [1, 0, 0, 0]]
+   >>> H3O_node_labels = {0: 'O', 1: 'H', 2: 'H', 3:'H'}
+   >>> H3O = Graph(initialization_object=H3O_adjacency, node_labels=H3O_node_labels)
 
-.. doctest::
+We employ the shortest path kernel and we first compute the kernel value between the graph representation of water and itself:
 
-    >>> H2O = [[[[0, 1, 1], [1, 0, 0], [1, 0, 0]], {0: 'O', 1: 'H', 2: 'H'}]]
+.. code-block:: python
     >>> sp_kernel.fit_transform(H2O)
     array([[12.]])
 
-Now to calculate the graph similarity to hydronium based on the shortest path
-graph kernel
+Next, we calculate the kernel value between the graph representation of water and that of hydronium:
 
-.. doctest::
-
-    >>> H3O = [[[[0, 1, 1, 1], [1, 0, 0, 0], [1, 0, 0, 0], [1, 0, 0, 0]], {0: 'O', 1: 'H', 2: 'H', 3:'H'}]]
+.. code-block:: python
     >>> sp_kernel.transform(H3O)
     array([[24.]])
 
-This result seems like the water molecule is more similar to hydronium, than with itself.
-This is a false assumption derived from the fact that the kernel calculation is not normalized.
+The above result suggests that the water molecule is more similar to hydronium than to itself. This is because the kernel values are not normalized. To apply normalization, we can set the corresponding attribute to :code:`True` when initializing the graph kernel:
 
-To apply normalization we add such an argument on the GraphKernel method
-initialization and continue
-
-.. doctest::
-
-    >>> sp_kernel = GraphKernel(kernel="shortest_path", normalize=True)
+.. code-block:: python
+    >>> sp_kernel = ShortestPath(normalize=True)
     >>> sp_kernel.fit_transform(H2O)
     array([[1.]])
     >>> sp_kernel.transform(H3O)
     array([[0.94280904]])
 
 
-The input type
---------------
-On the above example concerning water and hydronium, we provided a very strange input object
-without saying anything about it. The input concerns the user mostly when dealing with an
-API, so we will examine it in detail although this is a small introduction.
+Performing Graph Classification
+-------------------------------
+The last part of this short introduction demonstrates how graph kernels can be used to perform graph classification.
 
-The input of any kernel - either on the stage of fit or of transform - (to learn more about the
-kernel design see :ref:`longer_introduction`) is an iterable, where each element
-contains in following order, the next 3 basic elements:
+We will experiment with the MUTAG dataset, one of the most popular graph classification datasets. The dataset contains 188 mutagenic aromatic and heteroaromatic nitro compounds, and the task is to predict whether or not each chemical compound has mutagenic effect on the Gram-negative bacterium Salmonella typhimurium.
 
-1. The first element is a valid graph object. Valid graph objects can be separated in two major categories (both :red:`weighted` and :blue:`un-weighted`):
-    
-    * Dictionary representations: This is an *edge* oriented approach, where the input can have one of the following formats:
-        - | :red:`2-level nested dictionaries from edge symbols to weights.`  
-          | Example: :code:`H2O = {'a': {'b': 1., 'c': 1.}, 'b': {'a': 1}, 'c': {'a': 1.}}`
-    
-        - | :blue:`Dictionary of symbols to list of symbols.`  
-          | Example: :code:`H2O = {'a': ['b', 'c'], 'b': ['a'], 'c': ['b']}`
-    
-        - | :red:`Dictionary of tuples to weights.`  
-          | Example: :code:`H2O = {('a', 'b'): 1., ('a', 'c'): 1., ('c', 'a'): 1., ('b', 'a'): 1.}`
-    
-        - | :blue:`Iterable of tuples of lenght 2.`  
-          | Example: :code:`H2O = [('a', 'b'), ('a', 'c'), ('b', 'a'), ('c', 'a')]`
-    
-        - | :blue:`Iterable of tuples of length 3.`  
-          | Example: :code:`H2O = [('a', 'b', 1.), ('a', 'c', 1.), ('b', 'a', 1.), ('c', 'a', 1.)]`
-    
-      As seen above all the graph objects are considered **directed** graphs.
+We can use the :code:`fetch_dataset` function of GraKeL to load MUTAG or any other graph classification dataset from `http://graphkernels.cs.tu-dortmund.de/ <http://graphkernels.cs.tu-dortmund.de/>`_. The function automatically downloads the raw files of the dataset and returns an instance of :class:`sklearn.utils.Bunch` whose attribute :code:`data` contains the graphs and its attribute :code:`target` the classification labels.
 
-    * Array representations: This is a *vertex* oriented approach, where the input can have on of the following formats:
-    
-        - | :red:`array-like lists of lists`  
-          | Example: :code:`H2O = [[0, 1, 1], [1, 0, 0], [1, 0, 0]]`
-    
-        - | :red:`np.array`  
-          | Example: :code:`H2O = numpy.array([[0, 1, 1], [1, 0, 0], [1, 0, 0]])`
-    
-        - | :red:`sparse matrix (scipy.sparse)`  
-          | Example: :code:`H2O = scipy.sparse.csr_matrix(([1, 1, 1, 1], ([0, 0, 1, 2], [1, 2, 0, 0])), shape=(3, 3))`
+ We can load the MUTAG dataset as follows:
 
-2. The second *optional* element is a graph labeling of vertices (or nodes):
-    
-    * | Dictionary representations: Dictionary between vertex symbols and label symbols.  
-      | Example: :code:`H2O_labels = {'a': 'O', 'b': 'H', 'c': 'H'}`
-    
-    * | Array representations: Dictionary between numbers with int keys from :math:`0 \cdots |V|-1` to label symbols.  
-      | Example: :code:`H2O_labels = {0: 'O', 1: 'H', 2:'H'}`
-    
-    .. note::
-      Normally in the literature *labels* correspond to scalars or single symbols and not to vector-like objects, which are defined as *attributes*.
-      As far as the input representation is concerned the second object is either labels or attributes for graph **vertices** and the distinction
-      between attributed kernels or labeled once is specified for each kernel. Here we have made the assumption that never a kernel uses both labels
-      or attributes for *vertices* and if it does so, a label representation can be applied such that the kernel can use only the one kind of labels.
-
-3. The third *optional* element is a graph labeling of edges:
-    
-    * | Dictionary representations: Dictionary between tuples of vertex symbols for all edges and label symbols.  
-      | Example: :code:`H2O_edge_labels = {('a', 'b'): 'pcb', ('b', 'a'): 'pcb', ('a', 'c'): 'pcb', ('c', 'a'): 'pcb'}`
-    
-    * | Array representations: Dictionary between numbers tuples of int keys from :math:`0 \cdots |V|-1` for all matrix entries considered as edges and label symbols.  
-      | Example: :code:`H2O_edge_labels = {(0, 1): 'pcb', (1, 0): 'pcb', (0, 2): 'pcb', (2, 0): 'pcb'}`
-    
-    .. note::
-      As soon as the same unification of node labels and attributes is valid, a second distinction should be made here.
-      Labels between edges are not weight values. This means that if the user wants to apply such approach to a kernel, that uses weight values in such a way as the
-      Random Walk Kernel, she/he should enrich the graph-type input with weights between all edges that correspond to the edge-labels he/she is intended to use.
-
-As defined above the input should be an iterable of any iterable producing at most one and at least three (or more for certain kernels elements).
-To signify absence of node labels if the elements produced by each iterable are more than 2 or edge labels if the labels produced are more than 3
-the user can provide the empty list or a None Object.
-
-Fitting on a dataset
---------------------
-The next important step and final for our short introduction is to see how to apply a kernel on dataset of graphs and labels.
-
-To do so we will utilize the :code:`fetch_dataset` function found on :ref:`datasets`.
-Firstly download the dataset:
-
-.. doctest::
-
-    >>> from grakel import GraphKernel, datasets
-    >>> MUTAG = datasets.fetch_dataset("MUTAG", verbose=False)
-    >>> MUTAG_data = MUTAG.data
-
-Note that the :code:`fetch_dataset` function returns a sklearn.utils.Bunch object, where
-the graph-data can be found in the data class member of the result.
-    
-Now let's initialize a Weisfeiler-Lehman Kernel with 5 iterations:
-
-.. doctest::
-
-    >>> wl_kernel = GraphKernel(kernel = [{"name": "weisfeiler_lehman", "n_iter": 5}, "subtree_wl"], normalize=True)
-
-Now let's split the dataset in a train/test manner and calculate fit on the train set.
-
-.. doctest::
-
-    >>> split_point = int(len(MUTAG_data) * 0.9)
-    >>> X_train, X_test = MUTAG_data[:split_point], MUTAG_data[split_point:]
-    >>> wl_kernel = GraphKernel(kernel=[{"name": "weisfeiler_lehman", "n_iter": 5}, "subtree_wl"], normalize=True)
-
-In order to apply classification on a dataset based on the calculation of a kernel matrix, one generally needs 
-the matrix between all the training data. Namely given :math:`\mathcal{G}^{\text{train}}` a collection of graphs, calculate
-the kernel values with a function :math:`\mathcal{K}: \mathcal{G}^{\text{train}} \rightarrow \mathbb{R}^{n_{\text{train}}} \times \mathbb{R}^{n_{\text{train}}}`,
-where :math:`n_{\text{train}}` is the number of graphs inside the training set. This function that simply outputs the kernel
-matrix between all graphs of the graphs of the training set is equivalent with
-
-.. doctest::
-
-    >>> K_train = wl_kernel.fit_transform(X_train)
-
-The :code:`wl_kernel` is now fitted with the train data and we would like given a collection of graphs :math:`\mathcal{G}^{\text{test}}`
-to calculate all the kernel values with a function :math:`\mathcal{K}: \mathcal{G}^{\text{train}} \times \mathcal{G}^{\text{test}} \rightarrow \mathbb{R}^{n_{\text{test}}} \times \mathbb{R}^{n_{\text{train}}}` where :math:`n_{\text{test}}` is the number of graphs inside the test set. This function can be calculated as:
-
-.. doctest::
-
-    >>> K_test = wl_kernel.transform(X_test)
-
-which is equivalent to calculating:
-
-.. doctest::
-
-    >>> K_test = wl_kernel.fit(X_train).transform(X_test)
-
-except the case where the kernel is not deterministic and aside the fact that fitting in the most
-cases takes the majority of the overall kernel computation time.
-
-Finally to demonstrate a classification task using a standard SVM, with a precomputed kernel
-(a very well known process in the field's literature) we first take the targets (which are the
-class labels) as follows:
-
-.. doctest::
-
+.. code-block:: python
+    >>> from grakel.datasets import fetch_dataset
+    >>> MUTAG = fetch_dataset("MUTAG", verbose=False)
+    >>> G = MUTAG.data
     >>> y = MUTAG.target
-    >>> y_train, y_test = y[:split_point], y[split_point:]
+    
+Next, we will initialize a Weisfeiler-Lehman subtree kernel:
 
-:code:`import` and initialize a sk-learn :code:`SVC`
+.. code-block:: python
+    >>> from grakel.kernels import WeisfeilerLehman, VertexHistogram
+    >>> wl_kernel = WeisfeilerLehman(n_iter=5, normalize=True, base_kernel=VertexHistogram)
 
-.. doctest::
+To perform classification, it is necessary to split the dataset into a training and a test set. We can use the :code:`train_test_split` function of scikit-learn as follows:
 
+.. code-block:: python
+    >>> from sklearn.model_selection import train_test_split
+    >>> G_train, G_test, y_train, y_test = train_test_split(G, y, test_size=0.1)
+
+In order to perform classification, one generally needs to generate two matrices: A symmetric matrix :math:`\mathbf{K}_{train}` which contains the kernel values for all pairs of training graphs, and a second matrix :math:`\mathbf{K}_{test}` which stores the kernel values between the graphs of the test set and those of the training set. The first matrix can be generated as follows:
+
+.. code-block:: python
+    >>> K_train = wl_kernel.fit_transform(G_train)
+
+Then, we can generate the second matrix using the following code:
+
+.. code-block:: python
+    >>> K_test = wl_kernel.transform(G_test)
+
+Next, we employ the SVM classifier and use it to perform classification. We train the classifier on the training set and then, make predictions for the graphs of the test set.
+
+.. code-block:: python
     >>> from sklearn.svm import SVC
     >>> clf = SVC(kernel='precomputed')
-
-classify
-
-.. doctest:: 
-
     >>> clf.fit(K_train, y_train)
     SVC(C=1.0, cache_size=200, class_weight=None, coef0=0.0,
       decision_function_shape='ovr', degree=3, gamma='auto',
@@ -261,10 +270,9 @@ classify
 
     >>> y_pred = clf.predict(K_test)
 
-and print the accuracy score
+Finally, we can print the classification accuracy as follows:
 
-.. doctest::
-
+.. code-block:: python
     >>> from sklearn.metrics import accuracy_score
     >>> print("%2.2f %%" %(round(accuracy_score(y_test, y_pred)*100)))
     79.00 %
