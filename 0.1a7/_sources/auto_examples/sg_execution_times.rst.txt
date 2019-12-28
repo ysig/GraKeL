@@ -5,14 +5,16 @@
 
 Computation times
 =================
-**00:05.958** total execution time for **auto_examples** files:
+**00:05.941** total execution time for **auto_examples** files:
 
-- **00:05.653**: :ref:`sphx_glr_auto_examples_plot_pipeline_shortest_path.py` (``plot_pipeline_shortest_path.py``)
-- **00:00.306**: :ref:`sphx_glr_auto_examples_plot_wl_subtree_MUTAG.py` (``plot_wl_subtree_MUTAG.py``)
+- **00:05.658**: :ref:`sphx_glr_auto_examples_plot_pipeline_shortest_path.py` (``plot_pipeline_shortest_path.py``)
+- **00:00.283**: :ref:`sphx_glr_auto_examples_plot_wl_subtree_MUTAG.py` (``plot_wl_subtree_MUTAG.py``)
 - **00:00.000**: :ref:`sphx_glr_auto_examples_KFold_MLG.py` (``KFold_MLG.py``)
 - **00:00.000**: :ref:`sphx_glr_auto_examples_digit_classification_example.py` (``digit_classification_example.py``)
 - **00:00.000**: :ref:`sphx_glr_auto_examples_document_retrieval_example.py` (``document_retrieval_example.py``)
 - **00:00.000**: :ref:`sphx_glr_auto_examples_lovasz_svm_theta.py` (``lovasz_svm_theta.py``)
+- **00:00.000**: :ref:`sphx_glr_auto_examples_nx_to_grakel.py` (``nx_to_grakel.py``)
+- **00:00.000**: :ref:`sphx_glr_auto_examples_optimizing_hyperparameters.py` (``optimizing_hyperparameters.py``)
 - **00:00.000**: :ref:`sphx_glr_auto_examples_pipeline_example.py` (``pipeline_example.py``)
 - **00:00.000**: :ref:`sphx_glr_auto_examples_shortest_path.py` (``shortest_path.py``)
 - **00:00.000**: :ref:`sphx_glr_auto_examples_weisfeiler_lehman_subtree.py` (``weisfeiler_lehman_subtree.py``)
