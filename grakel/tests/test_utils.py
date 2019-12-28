@@ -176,8 +176,8 @@ def test_KM_Kfold():
     # Input
     X, y = load_mutag()
     K = [ShortestPath(normalize=True).fit_transform(X),
-         [WeisfeilerLehman(base_kernel=VertexHistogram, n_iter=3, normalize=True).fit_transform(X),
-          WeisfeilerLehman(base_kernel=VertexHistogram, n_iter=5, normalize=True).fit_transform(X)]]
+         [WeisfeilerLehman(base_graph_kernel=VertexHistogram, n_iter=3, normalize=True).fit_transform(X),
+          WeisfeilerLehman(base_graph_kernel=VertexHistogram, n_iter=5, normalize=True).fit_transform(X)]]
 
     # Parametrization
     n_splits = 10
