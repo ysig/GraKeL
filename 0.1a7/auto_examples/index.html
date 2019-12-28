@@ -38,7 +38,7 @@
   <link rel="stylesheet" href="../_static/_static/css/supplementary.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Cross-Validation scikit-learn Pipeline example on the MUTAG dataset using the Shortest Path Kernel." href="plot_pipeline_shortest_path.html" />
+    <link rel="next" title="Example of building a graph classification pipeline." href="pipeline_example.html" />
     <link rel="prev" title="grakel.graph_from_csv" href="../generated/grakel.graph_from_csv.html" /> 
 </head>
 
@@ -97,7 +97,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../api.html">GraKeL</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../classes.html">API Reference</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pipeline_example.html">Example of building a graph classification pipeline.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="shortest_path.html">Graph classification on MUTAG using the shortest path kernel.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_pipeline_shortest_path.html">Cross-Validation scikit-learn Pipeline example on the MUTAG dataset using the Shortest Path Kernel.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="weisfeiler_lehman_subtree.html">Graph classification on MUTAG using the Weisfeiler-Lehman subtree kernel.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_wl_subtree_MUTAG.html">Classification on the MUTAG dataset using the WL-subtree kernel.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="document_retrieval_example.html">Retrieval of most similar document using the Weisfeiler-Lehman subtree kernel.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="digit_classification_example.html">Classifying handwritten digits using the neighborhood subgraph pairwise distance kernel.</a></li>
@@ -172,37 +175,55 @@
   <div class="section" id="examples">
 <span id="general-examples"></span><span id="sphx-glr-auto-examples"></span><h1>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h1>
 <p>Examples that use graph kernels to perform various tasks (e.g., graph classification, retrieval of most similar document, etc).</p>
-<div class="sphx-glr-thumbcontainer" tooltip="An example plot of grakel.GraphKernel, grakel.ShortestPath "><div class="figure" id="id1">
+<div class="sphx-glr-thumbcontainer" tooltip="Script makes use of grakel.ShortestPath "><div class="figure" id="id1">
+<img alt="../_images/sphx_glr_pipeline_example_thumb.png" src="../_images/sphx_glr_pipeline_example_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="pipeline_example.html#sphx-glr-auto-examples-pipeline-example-py"><span class="std std-ref">Example of building a graph classification pipeline.</span></a></span></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="Script makes use of grakel.ShortestPath "><div class="figure" id="id2">
+<img alt="../_images/sphx_glr_shortest_path_thumb.png" src="../_images/sphx_glr_shortest_path_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="shortest_path.html#sphx-glr-auto-examples-shortest-path-py"><span class="std std-ref">Graph classification on MUTAG using the shortest path kernel.</span></a></span></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="An example plot of grakel.GraphKernel, grakel.ShortestPath "><div class="figure" id="id3">
 <img alt="../_images/sphx_glr_plot_pipeline_shortest_path_thumb.png" src="../_images/sphx_glr_plot_pipeline_shortest_path_thumb.png" />
 <p class="caption"><span class="caption-text"><a class="reference internal" href="plot_pipeline_shortest_path.html#sphx-glr-auto-examples-plot-pipeline-shortest-path-py"><span class="std std-ref">Cross-Validation scikit-learn Pipeline example on the MUTAG dataset using the Shortest Path Kernel.</span></a></span></p>
 </div>
 </div><div class="toctree-wrapper compound">
 </div>
-<div class="sphx-glr-thumbcontainer" tooltip="An example plot of grakel.GraphKernel, grakel.WeisfeilerLehman, grakel.VertexHistogram "><div class="figure" id="id2">
+<div class="sphx-glr-thumbcontainer" tooltip="Script makes use of grakel.WeisfeilerLehman, grakel.VertexHistogram "><div class="figure" id="id4">
+<img alt="../_images/sphx_glr_weisfeiler_lehman_subtree_thumb.png" src="../_images/sphx_glr_weisfeiler_lehman_subtree_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="weisfeiler_lehman_subtree.html#sphx-glr-auto-examples-weisfeiler-lehman-subtree-py"><span class="std std-ref">Graph classification on MUTAG using the Weisfeiler-Lehman subtree kernel.</span></a></span></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="An example plot of grakel.GraphKernel, grakel.WeisfeilerLehman, grakel.VertexHistogram "><div class="figure" id="id5">
 <img alt="../_images/sphx_glr_plot_wl_subtree_MUTAG_thumb.png" src="../_images/sphx_glr_plot_wl_subtree_MUTAG_thumb.png" />
 <p class="caption"><span class="caption-text"><a class="reference internal" href="plot_wl_subtree_MUTAG.html#sphx-glr-auto-examples-plot-wl-subtree-mutag-py"><span class="std std-ref">Classification on the MUTAG dataset using the WL-subtree kernel.</span></a></span></p>
 </div>
 </div><div class="toctree-wrapper compound">
 </div>
-<div class="sphx-glr-thumbcontainer" tooltip="Retrieval of most similar document using the Weisfeiler"><div class="figure" id="id3">
+<div class="sphx-glr-thumbcontainer" tooltip="Retrieval of most similar document using the Weisfeiler"><div class="figure" id="id6">
 <img alt="../_images/sphx_glr_document_retrieval_example_thumb.png" src="../_images/sphx_glr_document_retrieval_example_thumb.png" />
 <p class="caption"><span class="caption-text"><a class="reference internal" href="document_retrieval_example.html#sphx-glr-auto-examples-document-retrieval-example-py"><span class="std std-ref">Retrieval of most similar document using the Weisfeiler-Lehman subtree kernel.</span></a></span></p>
 </div>
 </div><div class="toctree-wrapper compound">
 </div>
-<div class="sphx-glr-thumbcontainer" tooltip="Classifying handwritten digits using the neighborhood subgraph pairwise distance kernel"><div class="figure" id="id4">
+<div class="sphx-glr-thumbcontainer" tooltip="Classifying handwritten digits using the neighborhood subgraph pairwise distance kernel"><div class="figure" id="id7">
 <img alt="../_images/sphx_glr_digit_classification_example_thumb.png" src="../_images/sphx_glr_digit_classification_example_thumb.png" />
 <p class="caption"><span class="caption-text"><a class="reference internal" href="digit_classification_example.html#sphx-glr-auto-examples-digit-classification-example-py"><span class="std std-ref">Classifying handwritten digits using the neighborhood subgraph pairwise distance kernel.</span></a></span></p>
 </div>
 </div><div class="toctree-wrapper compound">
 </div>
-<div class="sphx-glr-thumbcontainer" tooltip="An example plot of grakel.GraphKernel, grakel.LovaszTheta, grakel.SvmTheta "><div class="figure" id="id5">
+<div class="sphx-glr-thumbcontainer" tooltip="An example plot of grakel.GraphKernel, grakel.LovaszTheta, grakel.SvmTheta "><div class="figure" id="id8">
 <img alt="../_images/sphx_glr_lovasz_svm_theta_thumb.png" src="../_images/sphx_glr_lovasz_svm_theta_thumb.png" />
 <p class="caption"><span class="caption-text"><a class="reference internal" href="lovasz_svm_theta.html#sphx-glr-auto-examples-lovasz-svm-theta-py"><span class="std std-ref">Classification on MUTAG using the Lovasz theta and SVM-theta kernels.</span></a></span></p>
 </div>
 </div><div class="toctree-wrapper compound">
 </div>
-<div class="sphx-glr-thumbcontainer" tooltip="An example plot of grakel.GraphKernel, grakel.MultiscaleLaplacianFast "><div class="figure" id="id6">
+<div class="sphx-glr-thumbcontainer" tooltip="An example plot of grakel.GraphKernel, grakel.MultiscaleLaplacianFast "><div class="figure" id="id9">
 <img alt="../_images/sphx_glr_KFold_MLG_thumb.png" src="../_images/sphx_glr_KFold_MLG_thumb.png" />
 <p class="caption"><span class="caption-text"><a class="reference internal" href="KFold_MLG.html#sphx-glr-auto-examples-kfold-mlg-py"><span class="std std-ref">K-Fold classification on the ENZYMES dataset using the approximate Multiscale Laplacian kernel.</span></a></span></p>
 </div>
@@ -225,7 +246,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="plot_pipeline_shortest_path.html" class="btn btn-neutral float-right" title="Cross-Validation scikit-learn Pipeline example on the MUTAG dataset using the Shortest Path Kernel." accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="pipeline_example.html" class="btn btn-neutral float-right" title="Example of building a graph classification pipeline." accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="../generated/grakel.graph_from_csv.html" class="btn btn-neutral float-left" title="grakel.graph_from_csv" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

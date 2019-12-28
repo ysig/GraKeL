@@ -15,6 +15,46 @@ Examples that use graph kernels to perform various tasks (e.g., graph classifica
 
 .. raw:: html
 
+    <div class="sphx-glr-thumbcontainer" tooltip="Script makes use of grakel.ShortestPath ">
+
+.. only:: html
+
+    .. figure:: /auto_examples/images/thumb/sphx_glr_pipeline_example_thumb.png
+
+        :ref:`sphx_glr_auto_examples_pipeline_example.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/pipeline_example
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Script makes use of grakel.ShortestPath ">
+
+.. only:: html
+
+    .. figure:: /auto_examples/images/thumb/sphx_glr_shortest_path_thumb.png
+
+        :ref:`sphx_glr_auto_examples_shortest_path.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/shortest_path
+
+.. raw:: html
+
     <div class="sphx-glr-thumbcontainer" tooltip="An example plot of grakel.GraphKernel, grakel.ShortestPath ">
 
 .. only:: html
@@ -32,6 +72,26 @@ Examples that use graph kernels to perform various tasks (e.g., graph classifica
    :hidden:
 
    /auto_examples/plot_pipeline_shortest_path
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Script makes use of grakel.WeisfeilerLehman, grakel.VertexHistogram ">
+
+.. only:: html
+
+    .. figure:: /auto_examples/images/thumb/sphx_glr_weisfeiler_lehman_subtree_thumb.png
+
+        :ref:`sphx_glr_auto_examples_weisfeiler_lehman_subtree.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/weisfeiler_lehman_subtree
 
 .. raw:: html
 
