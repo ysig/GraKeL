@@ -135,6 +135,26 @@ Examples that use graph kernels to perform various tasks (e.g., graph classifica
 
 .. raw:: html
 
+    <div class="sphx-glr-thumbcontainer" tooltip="Script makes use of grakel.Graph and grakel.ShortestPath ">
+
+.. only:: html
+
+    .. figure:: /auto_examples/images/thumb/sphx_glr_erdos_renyi_thumb.png
+
+        :ref:`sphx_glr_auto_examples_erdos_renyi.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/erdos_renyi
+
+.. raw:: html
+
     <div class="sphx-glr-thumbcontainer" tooltip="Retrieval of most similar document using the Weisfeiler">
 
 .. only:: html
