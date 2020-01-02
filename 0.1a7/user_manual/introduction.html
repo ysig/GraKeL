@@ -206,7 +206,7 @@
 <ul>
 <li><div class="first line-block">
 <div class="line">A dictionary keyed by node to the list of its neighbors.</div>
-<div class="line">Example: <code class="code docutils literal notranslate"><span class="pre">edges</span> <span class="pre">=</span> <span class="pre">{1:</span> <span class="pre">[2,</span> <span class="pre">3],</span> <span class="pre">2:</span> <span class="pre">[1],</span> <span class="pre">3:</span> <span class="pre">[1]}</span></code></div>
+<div class="line">Example:</div>
 </div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">edges</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="mi">2</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">3</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">]}</span>
 <span class="n">G</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">(</span><span class="n">edges</span><span class="p">)</span>
@@ -215,7 +215,11 @@
 </li>
 <li><div class="first line-block">
 <div class="line">Iterable of tuples of lenght 2. Each tuple corresponds to an edge.</div>
-<div class="line">Example: <code class="code docutils literal notranslate"><span class="pre">edges</span> <span class="pre">=</span> <span class="pre">[(1,</span> <span class="pre">2),</span> <span class="pre">(1,</span> <span class="pre">3),</span> <span class="pre">(2,</span> <span class="pre">1),</span> <span class="pre">(3,</span> <span class="pre">1)]</span></code></div>
+<div class="line">Example:</div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">edges</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span>
+<span class="n">G</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">(</span><span class="n">edges</span><span class="p">)</span>
+</pre></div>
 </div>
 </li>
 </ul>
@@ -224,17 +228,29 @@
 <ul>
 <li><div class="first line-block">
 <div class="line">Array-like lists of lists`</div>
-<div class="line">Example: <code class="code docutils literal notranslate"><span class="pre">g</span> <span class="pre">=</span> <span class="pre">[[0,</span> <span class="pre">1,</span> <span class="pre">1],</span> <span class="pre">[1,</span> <span class="pre">0,</span> <span class="pre">0],</span> <span class="pre">[1,</span> <span class="pre">0,</span> <span class="pre">0]]</span></code></div>
+<div class="line">Example:</div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">adj</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]</span>
+<span class="n">G</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">(</span><span class="n">adj</span><span class="p">)</span>
+</pre></div>
 </div>
 </li>
 <li><div class="first line-block">
 <div class="line">NumPy array</div>
-<div class="line">Example: <code class="code docutils literal notranslate"><span class="pre">g</span> <span class="pre">=</span> <span class="pre">numpy.array([[0,</span> <span class="pre">1,</span> <span class="pre">1],</span> <span class="pre">[1,</span> <span class="pre">0,</span> <span class="pre">0],</span> <span class="pre">[1,</span> <span class="pre">0,</span> <span class="pre">0]])</span></code></div>
+<div class="line">Example:</div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">adj</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
+<span class="n">G</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">(</span><span class="n">adj</span><span class="p">)</span>
+</pre></div>
 </div>
 </li>
 <li><div class="first line-block">
 <div class="line">Scipy sparse matrix</div>
-<div class="line">Example: <code class="code docutils literal notranslate"><span class="pre">g</span> <span class="pre">=</span> <span class="pre">scipy.sparse.csr_matrix(([1,</span> <span class="pre">1,</span> <span class="pre">1,</span> <span class="pre">1],</span> <span class="pre">([0,</span> <span class="pre">0,</span> <span class="pre">1,</span> <span class="pre">2],</span> <span class="pre">[1,</span> <span class="pre">2,</span> <span class="pre">0,</span> <span class="pre">0])),</span> <span class="pre">shape=(3,</span> <span class="pre">3))</span></code></div>
+<div class="line">Example:</div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">adj</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">csr_matrix</span><span class="p">(([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])),</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">G</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">(</span><span class="n">adj</span><span class="p">)</span>
+</pre></div>
 </div>
 </li>
 </ul>
@@ -249,12 +265,20 @@
 <ul>
 <li><div class="first line-block">
 <div class="line">A dictionary keyed by node to the list of its neighbors.</div>
-<div class="line">Example: <code class="code docutils literal notranslate"><span class="pre">edges</span> <span class="pre">=</span> <span class="pre">{1:</span> <span class="pre">[3],</span> <span class="pre">2:</span> <span class="pre">[1],</span> <span class="pre">3:</span> <span class="pre">[1]}</span></code></div>
+<div class="line">Example:</div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">edges</span> <span class="o">=</span> <span class="n">edges</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="mi">2</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">3</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">]}</span>
+<span class="n">G</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">(</span><span class="n">edges</span><span class="p">)</span>
+</pre></div>
 </div>
 </li>
 <li><div class="first line-block">
 <div class="line">Iterable of tuples of lenght 2. Each tuple corresponds to an edge.</div>
-<div class="line">Example: <code class="code docutils literal notranslate"><span class="pre">edges</span> <span class="pre">=</span> <span class="pre">[(1,</span> <span class="pre">3),</span> <span class="pre">(2,</span> <span class="pre">1),</span> <span class="pre">(3,</span> <span class="pre">1)]</span></code></div>
+<div class="line">Example:</div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">edges</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span>
+<span class="n">G</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">(</span><span class="n">edges</span><span class="p">)</span>
+</pre></div>
 </div>
 </li>
 </ul>
@@ -263,17 +287,29 @@
 <ul>
 <li><div class="first line-block">
 <div class="line">Array-like lists of lists`</div>
-<div class="line">Example: <code class="code docutils literal notranslate"><span class="pre">g</span> <span class="pre">=</span> <span class="pre">[[0,</span> <span class="pre">0,</span> <span class="pre">1],</span> <span class="pre">[1,</span> <span class="pre">0,</span> <span class="pre">0],</span> <span class="pre">[1,</span> <span class="pre">0,</span> <span class="pre">0]]</span></code></div>
+<div class="line">Example:</div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">adj</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]</span>
+<span class="n">G</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">(</span><span class="n">adj</span><span class="p">)</span>
+</pre></div>
 </div>
 </li>
 <li><div class="first line-block">
 <div class="line">NumPy array</div>
-<div class="line">Example: <code class="code docutils literal notranslate"><span class="pre">g</span> <span class="pre">=</span> <span class="pre">numpy.array([[0,</span> <span class="pre">0,</span> <span class="pre">1],</span> <span class="pre">[1,</span> <span class="pre">0,</span> <span class="pre">0],</span> <span class="pre">[1,</span> <span class="pre">0,</span> <span class="pre">0]])</span></code></div>
+<div class="line">Example:</div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">adj</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
+<span class="n">G</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">(</span><span class="n">adj</span><span class="p">)</span>
+</pre></div>
 </div>
 </li>
 <li><div class="first line-block">
 <div class="line">Scipy sparse matrix</div>
-<div class="line">Example: <code class="code docutils literal notranslate"><span class="pre">g</span> <span class="pre">=</span> <span class="pre">scipy.sparse.csr_matrix(([1,</span> <span class="pre">1,</span> <span class="pre">1],</span> <span class="pre">([0,</span> <span class="pre">1,</span> <span class="pre">2],</span> <span class="pre">[2,</span> <span class="pre">0,</span> <span class="pre">0])),</span> <span class="pre">shape=(3,</span> <span class="pre">3))</span></code></div>
+<div class="line">Example:</div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">adj</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">csr_matrix</span><span class="p">(([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])),</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">G</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">(</span><span class="n">adj</span><span class="p">)</span>
+</pre></div>
 </div>
 </li>
 </ul>
@@ -288,17 +324,29 @@
 <ul>
 <li><div class="first line-block">
 <div class="line">A dictionary keyed by nodes to a dictionary keyed by neighbors to edge weights.</div>
-<div class="line">Example: <code class="code docutils literal notranslate"><span class="pre">g</span> <span class="pre">=</span> <span class="pre">{1:</span> <span class="pre">{2:</span> <span class="pre">0.5,</span> <span class="pre">3:</span> <span class="pre">0.2},</span> <span class="pre">2:</span> <span class="pre">{1:</span> <span class="pre">0.5},</span> <span class="pre">3:</span> <span class="pre">{1:</span> <span class="pre">0.2}}</span></code></div>
+<div class="line">Example:</div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">edges</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="p">{</span><span class="mi">2</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span> <span class="mf">0.2</span><span class="p">},</span> <span class="mi">2</span><span class="p">:</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">},</span> <span class="mi">3</span><span class="p">:</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="mf">0.2</span><span class="p">}}</span>
+<span class="n">G</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">(</span><span class="n">edges</span><span class="p">)</span>
+</pre></div>
 </div>
 </li>
 <li><div class="first line-block">
 <div class="line">A dictionary keyed by edges to their weights.</div>
-<div class="line">Example: <code class="code docutils literal notranslate"><span class="pre">g</span> <span class="pre">=</span> <span class="pre">{(1,</span> <span class="pre">2):</span> <span class="pre">0.5,</span> <span class="pre">(1,</span> <span class="pre">3):</span> <span class="pre">0.2,</span> <span class="pre">(2,</span> <span class="pre">1):</span> <span class="pre">0.5,</span> <span class="pre">(3,</span> <span class="pre">1):</span> <span class="pre">0.2}</span></code></div>
+<div class="line">Example:</div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">edges</span> <span class="o">=</span> <span class="p">{(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span> <span class="mf">0.5</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">):</span> <span class="mf">0.2</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span> <span class="mf">0.5</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span> <span class="mf">0.2</span><span class="p">}</span>
+<span class="n">G</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">(</span><span class="n">edges</span><span class="p">)</span>
+</pre></div>
 </div>
 </li>
 <li><div class="first line-block">
 <div class="line">Iterable of tuples of length 3. Each tuple corresponds to an edge and its weight</div>
-<div class="line">Example: <code class="code docutils literal notranslate"><span class="pre">g</span> <span class="pre">=</span> <span class="pre">[(1,</span> <span class="pre">2,</span> <span class="pre">0.5),</span> <span class="pre">(1,</span> <span class="pre">3,</span> <span class="pre">0.2),</span> <span class="pre">(2,</span> <span class="pre">1,</span> <span class="pre">0.5),</span> <span class="pre">(3,</span> <span class="pre">1,</span> <span class="pre">0.2)]</span></code></div>
+<div class="line">Example:</div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">edges</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">)]</span>
+<span class="n">G</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">(</span><span class="n">edges</span><span class="p">)</span>
+</pre></div>
 </div>
 </li>
 </ul>
@@ -307,17 +355,29 @@
 <ul>
 <li><div class="first line-block">
 <div class="line">Array-like lists of lists`</div>
-<div class="line">Example: <code class="code docutils literal notranslate"><span class="pre">g</span> <span class="pre">=</span> <span class="pre">[[0,</span> <span class="pre">0.5,</span> <span class="pre">0.2],</span> <span class="pre">[0.5,</span> <span class="pre">0,</span> <span class="pre">0],</span> <span class="pre">[0.2,</span> <span class="pre">0,</span> <span class="pre">0]]</span></code></div>
+<div class="line">Example:</div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">adj</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]</span>
+<span class="n">G</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">(</span><span class="n">adj</span><span class="p">)</span>
+</pre></div>
 </div>
 </li>
 <li><div class="first line-block">
 <div class="line">NumPy array</div>
-<div class="line">Example: <code class="code docutils literal notranslate"><span class="pre">g</span> <span class="pre">=</span> <span class="pre">numpy.array([[0,</span> <span class="pre">0.5,</span> <span class="pre">0.2],</span> <span class="pre">[0.5,</span> <span class="pre">0,</span> <span class="pre">0],</span> <span class="pre">[0.2,</span> <span class="pre">0,</span> <span class="pre">0]])</span></code></div>
+<div class="line">Example:</div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">adj</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
+<span class="n">G</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">(</span><span class="n">adj</span><span class="p">)</span>
+</pre></div>
 </div>
 </li>
 <li><div class="first line-block">
 <div class="line">Scipy sparse matrix</div>
-<div class="line">Example: <code class="code docutils literal notranslate"><span class="pre">g</span> <span class="pre">=</span> <span class="pre">scipy.sparse.csr_matrix(([0.5,</span> <span class="pre">0.2,</span> <span class="pre">0.5,</span> <span class="pre">0.2],</span> <span class="pre">([0,</span> <span class="pre">0,</span> <span class="pre">1,</span> <span class="pre">2],</span> <span class="pre">[1,</span> <span class="pre">2,</span> <span class="pre">0,</span> <span class="pre">0])),</span> <span class="pre">shape=(3,</span> <span class="pre">3))</span></code></div>
+<div class="line">Example:</div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">adj</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">csr_matrix</span><span class="p">(([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">],</span> <span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])),</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">G</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">(</span><span class="n">adj</span><span class="p">)</span>
+</pre></div>
 </div>
 </li>
 </ul>
