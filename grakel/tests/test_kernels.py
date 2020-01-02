@@ -389,7 +389,7 @@ def test_graph_hopper():
 def test_core_framework():
     """Eigenvalue test for the Core kernel Framework."""
     base_graph_kernel = (WeisfeilerLehman, dict(base_graph_kernel=VertexHistogram))
-    core_framework = CoreFramework(verbose=verbose, normalize=normalize, base_graph_kernel=base_kernel)
+    core_framework = CoreFramework(verbose=verbose, normalize=normalize, base_graph_kernel=base_graph_kernel)
     if verbose:
         print_kernel("Core Framework", core_framework, dataset_tr, dataset_te)
     else:
