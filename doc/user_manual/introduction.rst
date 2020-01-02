@@ -26,7 +26,7 @@ Creating a Graph
 A graph is used to model a set of objects (i.e., nodes) and the relationships between them (i.e., edges). A single graph in GraKeL is described by an instance of :class:`grakel.Graph`. Traditionally, the two main structures used to represent a graph are the *adjacency matrix* and the *list of edges*. Both these representations can give rise to valid graph objects. The following Figure illustrates an unweighted, undirected graph with three nodes and two edges, and we show how we can generate graph objects that correspond to this example graph using the two representations mentioned above. Note that the graph has only two edges, however, we need to define four edges to account for both directions of each edge.
 
 .. figure:: ../_figures/example_graph.png
-  :scale: 150 %
+  :width: 100%
   :align: center
 
 * Edgelist representation:
