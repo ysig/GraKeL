@@ -198,7 +198,9 @@
 <div class="section" id="creating-a-graph">
 <h2>Creating a Graph<a class="headerlink" href="#creating-a-graph" title="Permalink to this headline">¶</a></h2>
 <p>A graph is used to model a set of objects (i.e., nodes) and the relationships between them (i.e., edges). A single graph in GraKeL is described by an instance of <a class="reference internal" href="../generated/grakel.Graph.html#grakel.Graph" title="grakel.Graph"><code class="xref py py-class docutils literal notranslate"><span class="pre">grakel.Graph</span></code></a>. Traditionally, the two main structures used to represent a graph are the <em>adjacency matrix</em> and the <em>list of edges</em>. Both these representations can give rise to valid graph objects. The following Figure illustrates an unweighted, undirected graph with three nodes and two edges, and we show how we can generate graph objects that correspond to this example graph using the two representations mentioned above. Note that the graph has only two edges, however, we need to define four edges to account for both directions of a edge.</p>
-<a class="reference internal image-reference" href="../_images/example_graph.pdf"><img alt="../_images/example_graph.pdf" class="align-center" src="../_images/example_graph.pdf" style="width: 300px;" /></a>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="../_images/example_graph.png"><img alt="../_images/example_graph.png" src="../_images/example_graph.png" style="width: 300px;" /></a>
+</div>
 <ul>
 <li><p class="first">Edgelist representation:</p>
 <ul>
@@ -232,7 +234,9 @@
 </li>
 </ul>
 <p>A graph is directed if its edges have a direction associated with them. The Figure below shows an directed, unweighted graph with three nodes and three directed edges.</p>
-<a class="reference internal image-reference" href="../_images/example_graph_directed.pdf"><img alt="../_images/example_graph_directed.pdf" class="align-center" src="../_images/example_graph_directed.pdf" style="width: 300px;" /></a>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="../_images/example_graph_directed.png"><img alt="../_images/example_graph_directed.png" src="../_images/example_graph_directed.png" style="width: 300px;" /></a>
+</div>
 <ul>
 <li><p class="first">Edgelist representation:</p>
 <ul>
@@ -269,7 +273,9 @@
 </li>
 </ul>
 <p>A graph is weighted if its edges have weights. The Figure below shows a weighted, undirected graph with three nodes and two edges.</p>
-<a class="reference internal image-reference" href="../_images/example_graph_weighted.pdf"><img alt="../_images/example_graph_weighted.pdf" class="align-center" src="../_images/example_graph_weighted.pdf" style="width: 300px;" /></a>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="../_images/example_graph_weighted.png"><img alt="../_images/example_graph_weighted.png" src="../_images/example_graph_weighted.png" style="width: 300px;" /></a>
+</div>
 <ul>
 <li><p class="first">Edgelist representation:</p>
 <ul>
@@ -315,7 +321,9 @@
 <h2>Assigning Labels/Attributes to Nodes<a class="headerlink" href="#assigning-labels-attributes-to-nodes" title="Permalink to this headline">¶</a></h2>
 <p>A graph may contain node labels or node attributes. There is an <em>optional</em> attribute of <a class="reference internal" href="../generated/grakel.Graph.html#grakel.Graph" title="grakel.Graph"><code class="xref py py-class docutils literal notranslate"><span class="pre">grakel.Graph</span></code></a> which allows us to assign labels or attributes to the nodes.</p>
 <p>A node-labeled graph is a graph endowed with a function <span class="math notranslate nohighlight">\(\ell : V \rightarrow \mathcal{L}\)</span> that assigns labels to the vertices of the graph from a label set <span class="math notranslate nohighlight">\(\mathcal{L}\)</span>. Note that <span class="math notranslate nohighlight">\(V\)</span> is the set of nodes of the graph. The Figure below shows a node-labeled graph with three nodes and two edges. The nodes are labeled with symbols from <span class="math notranslate nohighlight">\(\mathcal{L} = \{ a, b \}\)</span>.</p>
-<a class="reference internal image-reference" href="../_images/example_graph_labeled.pdf"><img alt="../_images/example_graph_labeled.pdf" class="align-center" src="../_images/example_graph_labeled.pdf" style="width: 300px;" /></a>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="../_images/example_graph_labeled.png"><img alt="../_images/example_graph_labeled.png" src="../_images/example_graph_labeled.png" style="width: 300px;" /></a>
+</div>
 <ul>
 <li><div class="first line-block">
 <div class="line">A dictionary keyed by nodes to their labels.</div>
@@ -329,7 +337,9 @@
 </li>
 </ul>
 <p>A node-attributed graph is a graph endowed with a function <span class="math notranslate nohighlight">\(f : V \rightarrow \mathbb{R}^d\)</span> that assigns real-valued vectors to the vertices of the graph. The following Figure illustrates a node-attributed graph with three nodes and two edges.</p>
-<a class="reference internal image-reference" href="../_images/example_graph_attributed.pdf"><img alt="../_images/example_graph_attributed.pdf" class="align-center" src="../_images/example_graph_attributed.pdf" style="width: 300px;" /></a>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="../_images/example_graph_attributed.png"><img alt="../_images/example_graph_attributed.png" src="../_images/example_graph_attributed.png" style="width: 300px;" /></a>
+</div>
 <ul>
 <li><div class="first line-block">
 <div class="line">A dictionary keyed by nodes to their attributes.</div>
@@ -347,7 +357,9 @@
 <h2>Assigning Labels/Attributes to Edges<a class="headerlink" href="#assigning-labels-attributes-to-edges" title="Permalink to this headline">¶</a></h2>
 <p>A graph may contain edge labels or edge attributes. There is an <em>optional</em> attribute of <a class="reference internal" href="../generated/grakel.Graph.html#grakel.Graph" title="grakel.Graph"><code class="xref py py-class docutils literal notranslate"><span class="pre">grakel.Graph</span></code></a> which allows us to assign labels or attributes to the edges.</p>
 <p>An edge-labeled graph is a graph endowed with a function <span class="math notranslate nohighlight">\(\ell : E \rightarrow \mathcal{L}\)</span> that assigns labels to the edges of the graph from a label set <span class="math notranslate nohighlight">\(\mathcal{L}\)</span>. Note that <span class="math notranslate nohighlight">\(E\)</span> is the set of edges of the graph. The Figure below shows an edge-labeled graph with three nodes and two edges. The edges are labeled with symbols from <span class="math notranslate nohighlight">\(\mathcal{L} = \{ a, b \}\)</span>.</p>
-<a class="reference internal image-reference" href="../_images/example_graph_edge_labeled.pdf"><img alt="../_images/example_graph_edge_labeled.pdf" class="align-center" src="../_images/example_graph_edge_labeled.pdf" style="width: 300px;" /></a>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="../_images/example_graph_edge_labeled.png"><img alt="../_images/example_graph_edge_labeled.png" src="../_images/example_graph_edge_labeled.png" style="width: 300px;" /></a>
+</div>
 <ul>
 <li><div class="first line-block">
 <div class="line">A dictionary keyed by edges to their labels.</div>
@@ -361,7 +373,9 @@
 </li>
 </ul>
 <p>An edge-attributed graph is a graph endowed with a function <span class="math notranslate nohighlight">\(f : E \rightarrow \mathbb{R}^d\)</span> that assigns real-valued vectors to the edges of the graph. The following Figure illustrates an edge-attributed graph with three nodes and two edges.</p>
-<a class="reference internal image-reference" href="../_images/example_graph_edge_attributed.pdf"><img alt="../_images/example_graph_edge_attributed.pdf" class="align-center" src="../_images/example_graph_edge_attributed.pdf" style="width: 300px;" /></a>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="../_images/example_graph_edge_attributed.png"><img alt="../_images/example_graph_edge_attributed.png" src="../_images/example_graph_edge_attributed.png" style="width: 300px;" /></a>
+</div>
 <ul>
 <li><div class="first line-block">
 <div class="line">A dictionary keyed by edges to their attributes.</div>
