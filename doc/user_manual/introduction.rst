@@ -67,7 +67,7 @@ A graph is used to model a set of objects (i.e., nodes) and the relationships be
 A graph is *directed* if its edges have a direction associated with them. The Figure below shows an directed, unweighted graph with three nodes and three directed edges.
 
 .. figure:: ../_figures/example_graph_directed.png
-  :scale: 150 %
+  :width: 100%
   :align: center
 
 * Edgelist representation:
@@ -107,8 +107,8 @@ A graph is *directed* if its edges have a direction associated with them. The Fi
 A graph is *weighted* if its edges have weights. The Figure below shows a weighted, undirected graph with three nodes and two edges.
 
 .. figure:: ../_figures/example_graph_weighted.png
+  :width: 100%
   :align: center
-  :width: 300px
 
 * Edgelist representation:
 
@@ -157,8 +157,8 @@ A graph may contain node labels or node attributes. There is an *optional* attri
 A node-labeled graph is a graph endowed with a function :math:`\ell : V \rightarrow \mathcal{L}` that assigns labels to the vertices of the graph from a label set :math:`\mathcal{L}`. Note that :math:`V` is the set of nodes of the graph. The Figure below shows a node-labeled graph with three nodes and two edges. The nodes are labeled with symbols from :math:`\mathcal{L} = \{ a, b \}`.
 
 .. figure:: ../_figures/example_graph_labeled.png
+  :width: 100%
   :align: center
-  :width: 300px
 
 * | A dictionary keyed by nodes to their labels.
   .. code-block:: python
@@ -177,8 +177,8 @@ A node-labeled graph is a graph endowed with a function :math:`\ell : V \rightar
 A node-attributed graph is a graph endowed with a function :math:`f : V \rightarrow \mathbb{R}^d` that assigns real-valued vectors to the vertices of the graph. The following Figure illustrates a node-attributed graph with three nodes and two edges.
 
 .. figure:: ../_figures/example_graph_attributed.png
+  :width: 100%
   :align: center
-  :width: 300px
 
 * | A dictionary keyed by nodes to their attributes.
   .. code-block:: python
@@ -202,8 +202,8 @@ A graph may contain edge labels or edge attributes. There is an *optional* attri
 An edge-labeled graph is a graph endowed with a function :math:`\ell : E \rightarrow \mathcal{L}` that assigns labels to the edges of the graph from a label set :math:`\mathcal{L}`. Note that :math:`E` is the set of edges of the graph. The Figure below shows an edge-labeled graph with three nodes and two edges. The edges are labeled with symbols from :math:`\mathcal{L} = \{ a, b \}`.
 
 .. figure:: ../_figures/example_graph_edge_labeled.png
+  :width: 100%
   :align: center
-  :width: 300px
 
 * | A dictionary keyed by edges to their labels.
   .. code-block:: python
@@ -222,8 +222,8 @@ An edge-labeled graph is a graph endowed with a function :math:`\ell : E \righta
 An edge-attributed graph is a graph endowed with a function :math:`f : E \rightarrow \mathbb{R}^d` that assigns real-valued vectors to the edges of the graph. The following Figure illustrates an edge-attributed graph with three nodes and two edges.
 
 .. figure:: ../_figures/example_graph_edge_attributed.png
+  :width: 100%
   :align: center
-  :width: 300px
 
 * | A dictionary keyed by edges to their attributes.
   .. code-block:: python
