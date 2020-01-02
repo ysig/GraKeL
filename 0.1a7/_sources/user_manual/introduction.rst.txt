@@ -34,9 +34,11 @@ A graph is used to model a set of objects (i.e., nodes) and the relationships be
   - | A dictionary keyed by node to the list of its neighbors.
     | Example: :code:`edges = {1: [2, 3], 2: [1], 3: [1]}`
 
-.. code-block:: python
-    edges = {1: [2, 3], 2: [1], 3: [1]}
-    G = Graph(edges)
+    .. code-block:: python
+      
+      edges = {1: [2, 3], 2: [1], 3: [1]}
+      G = Graph(edges)
+
 
   - | Iterable of tuples of lenght 2. Each tuple corresponds to an edge.
     | Example: :code:`edges = [(1, 2), (1, 3), (2, 1), (3, 1)]`

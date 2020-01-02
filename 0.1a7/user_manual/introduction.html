@@ -208,11 +208,18 @@
 <div class="line">A dictionary keyed by node to the list of its neighbors.</div>
 <div class="line">Example: <code class="code docutils literal notranslate"><span class="pre">edges</span> <span class="pre">=</span> <span class="pre">{1:</span> <span class="pre">[2,</span> <span class="pre">3],</span> <span class="pre">2:</span> <span class="pre">[1],</span> <span class="pre">3:</span> <span class="pre">[1]}</span></code></div>
 </div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">edges</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="mi">2</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">3</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">]}</span>
+<span class="n">G</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">(</span><span class="n">edges</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line">Iterable of tuples of lenght 2. Each tuple corresponds to an edge.</div>
+<div class="line">Example: <code class="code docutils literal notranslate"><span class="pre">edges</span> <span class="pre">=</span> <span class="pre">[(1,</span> <span class="pre">2),</span> <span class="pre">(1,</span> <span class="pre">3),</span> <span class="pre">(2,</span> <span class="pre">1),</span> <span class="pre">(3,</span> <span class="pre">1)]</span></code></div>
+</div>
 </li>
 </ul>
 </li>
-</ul>
-<ul>
 <li><p class="first">Adjacency matrix representation:</p>
 <ul>
 <li><div class="first line-block">
