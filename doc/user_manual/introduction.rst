@@ -66,7 +66,8 @@ A graph is used to model a set of objects (i.e., nodes) and the relationships be
 
 A graph is *directed* if its edges have a direction associated with them. The Figure below shows an directed, unweighted graph with three nodes and three directed edges.
 
-.. image:: ../_figures/example_graph_directed.png
+.. figure:: ../_figures/example_graph_directed.png
+
   :align: center
   :width: 800px
 
@@ -233,11 +234,11 @@ An edge-attributed graph is a graph endowed with a function :math:`f : E \righta
     G = Graph(edges, edge_labels=edge_attributes)
     
 * | A dictionary keyed by edge indices (i.e., :math:`0,\ldots,(|E|-1)`) to their attributes.
-    .. code-block:: python
+  .. code-block:: python
 
-      adj = [[0, 1, 1], [1, 0, 0], [1, 0, 0]]
-      edge_attributes = {0: [1.2, 0.5], 'b': [2.8, −0.6], 2: [0.7, 1.1]}
-      G = Graph(adj, edge_labels=edge_attributes)
+    adj = [[0, 1, 1], [1, 0, 0], [1, 0, 0]]
+    edge_attributes = {0: [1.2, 0.5], 'b': [2.8, −0.6], 2: [0.7, 1.1]}
+    G = Graph(adj, edge_labels=edge_attributes)
 
 
 Initializing a Graph Kernel
@@ -253,7 +254,8 @@ After installing the library (see :ref:`installation`), we can initialize an ins
 
 Alternatively, we can directly create an instance of :class:`grakel.kernels.ShortestPath` object as follows:
 
-.. doctest::
+.. code-block:: python
+
    >>> from grakel.kernels import ShortestPath
    >>> sp_kernel = ShortestPath()
 
@@ -261,7 +263,8 @@ Initializing a Framework
 ------------------------
 Research in the field of graph kernels has not only focused on designing new kernels between graphs, but also on frameworks and approaches that can be applied to existing graph kernels and increase their performance. The most popular of all frameworks is perhaps the *Weisfeiler-Lehman framework* :cite:`Shervashidze2011WeisfeilerLehmanGK`. The Weisfeiler-Lehman framework works on top of some graph kernel, known as the *base kernel*. We can initialize the well-known Weisfeiler-Lehman subtree kernel (Weisfeiler-Lehman framework on top of the *vertex histogram* kernel) as follows:
 
-.. doctest::
+.. code-block:: python
+
     >>> from grakel.kernels import WeisfeilerLehman, VertexHistogram
     >>> wl_kernel = WeisfeilerLehman(base_kernel=VertexHistogram)    
 
@@ -272,7 +275,8 @@ Let us consider a toy example, where we compute some graph kernel between two mo
 
 We first create the graph representations of the two molecules:
 
-.. doctest::
+.. code-block:: python
+
    >>> from grakel import Graph
    >>>
    >>> H2O_adjacency = [[0, 1, 1], [1, 0, 0], [1, 0, 0]]
@@ -285,19 +289,22 @@ We first create the graph representations of the two molecules:
 
 We employ the shortest path kernel and we first compute the kernel value between the graph representation of water and itself:
 
-.. doctest::
+.. code-block:: python
+
     >>> sp_kernel.fit_transform(H2O)
     array([[12.]])
 
 Next, we calculate the kernel value between the graph representation of water and that of hydronium:
 
-.. doctest::
+.. code-block:: python
+
     >>> sp_kernel.transform(H3O)
     array([[24.]])
 
 The above result suggests that the water molecule is more similar to hydronium than to itself. This is because the kernel values are not normalized. To apply normalization, we can set the corresponding attribute to :code:`True` when initializing the graph kernel:
 
-.. doctest::
+.. code-block:: python
+
     >>> sp_kernel = ShortestPath(normalize=True)
     >>> sp_kernel.fit_transform(H2O)
     array([[1.]])
@@ -315,7 +322,8 @@ We can use the :code:`fetch_dataset` function of GraKeL to load MUTAG or any oth
 
 We can load the MUTAG dataset as follows:
 
-.. doctest::
+.. code-block:: python
+
     >>> from grakel.datasets import fetch_dataset
     >>> MUTAG = fetch_dataset("MUTAG", verbose=False)
     >>> G = MUTAG.data
@@ -323,29 +331,34 @@ We can load the MUTAG dataset as follows:
     
 Next, we will initialize a Weisfeiler-Lehman subtree kernel:
 
-.. doctest::
+.. code-block:: python
+
     >>> from grakel.kernels import WeisfeilerLehman, VertexHistogram
     >>> wl_kernel = WeisfeilerLehman(n_iter=5, normalize=True, base_kernel=VertexHistogram)
 
 To perform classification, it is necessary to split the dataset into a training and a test set. We can use the :code:`train_test_split` function of scikit-learn as follows:
 
-.. doctest::
+.. code-block:: python
+
     >>> from sklearn.model_selection import train_test_split
     >>> G_train, G_test, y_train, y_test = train_test_split(G, y, test_size=0.1)
 
 In order to perform classification, one generally needs to generate two matrices: A symmetric matrix :math:`\mathbf{K}_{train}` which contains the kernel values for all pairs of training graphs, and a second matrix :math:`\mathbf{K}_{test}` which stores the kernel values between the graphs of the test set and those of the training set. The first matrix can be generated as follows:
 
-.. doctest::
+.. code-block:: python
+
     >>> K_train = wl_kernel.fit_transform(G_train)
 
 Then, we can generate the second matrix using the following code:
 
-.. doctest::
+.. code-block:: python
+
     >>> K_test = wl_kernel.transform(G_test)
 
 Next, we employ the SVM classifier and use it to perform classification. We train the classifier on the training set and then, make predictions for the graphs of the test set.
 
-.. doctest::
+.. code-block:: python
+
     >>> from sklearn.svm import SVC
     >>> clf = SVC(kernel='precomputed')
     >>> clf.fit(K_train, y_train)
@@ -358,7 +371,8 @@ Next, we employ the SVM classifier and use it to perform classification. We trai
 
 Finally, we can print the classification accuracy as follows:
 
-.. doctest::
+.. code-block:: python
+
     >>> from sklearn.metrics import accuracy_score
     >>> print("%2.2f %%" %(round(accuracy_score(y_test, y_pred)*100)))
     79.00 %
