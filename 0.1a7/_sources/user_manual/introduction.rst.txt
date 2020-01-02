@@ -15,9 +15,9 @@ What is a Graph Kernel?
 A graph kernel is a symmetric, positive semidefinite function on the set of graphs :math:`\mathcal{G}`. Once we define such a function :math:`k : \mathcal{G} \times \mathcal{G} \rightarrow \mathbb{R}` on the set :math:`\mathcal{G}`, it is known that there exists a map :math:`\phi : \mathcal{G} \rightarrow \mathcal{H}` into a `Hilbert space`_ :math:`\mathcal{H}`, such that:
 
 .. math::
-  k(G_{i}, G_{j}) = \langle G_{i}, G_{j} \rangle_{\mathcal{H}}
+  k(G_i, G_j) = \langle \phi(G_i), \phi(G_j) \rangle_{\mathcal{H}}
 
-for all :math:`G, G' \in \mathcal{G}` where :math:`\langle\cdot, \cdot\rangle_{\mathcal{H}}` is the inner product in :math:`\mathcal{H}`. Roughly speaking, a graph kernel is a function that measures the similarity of two graphs.
+for all :math:`G_i, G_j \in \mathcal{G}` where :math:`\langle\cdot, \cdot\rangle_{\mathcal{H}}` is the inner product in :math:`\mathcal{H}`. Roughly speaking, a graph kernel is a function that measures the similarity of two graphs.
 
 .. _hilbert space: https://en.wikipedia.org/wiki/Hilbert_space
 

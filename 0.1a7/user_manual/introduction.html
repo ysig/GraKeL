@@ -192,8 +192,8 @@
 <h2>What is a Graph Kernel?<a class="headerlink" href="#what-is-a-graph-kernel" title="Permalink to this headline">¶</a></h2>
 <p>A graph kernel is a symmetric, positive semidefinite function on the set of graphs <span class="math notranslate nohighlight">\(\mathcal{G}\)</span>. Once we define such a function <span class="math notranslate nohighlight">\(k : \mathcal{G} \times \mathcal{G} \rightarrow \mathbb{R}\)</span> on the set <span class="math notranslate nohighlight">\(\mathcal{G}\)</span>, it is known that there exists a map <span class="math notranslate nohighlight">\(\phi : \mathcal{G} \rightarrow \mathcal{H}\)</span> into a <a class="reference external" href="https://en.wikipedia.org/wiki/Hilbert_space">Hilbert space</a> <span class="math notranslate nohighlight">\(\mathcal{H}\)</span>, such that:</p>
 <div class="math notranslate nohighlight">
-\[k(G_{i}, G_{j}) = \langle G_{i}, G_{j} \rangle_{\mathcal{H}}\]</div>
-<p>for all <span class="math notranslate nohighlight">\(G, G' \in \mathcal{G}\)</span> where <span class="math notranslate nohighlight">\(\langle\cdot, \cdot\rangle_{\mathcal{H}}\)</span> is the inner product in <span class="math notranslate nohighlight">\(\mathcal{H}\)</span>. Roughly speaking, a graph kernel is a function that measures the similarity of two graphs.</p>
+\[k(G_i, G_j) = \langle \phi(G_i), \phi(G_j) \rangle_{\mathcal{H}}\]</div>
+<p>for all <span class="math notranslate nohighlight">\(G_i, G_j \in \mathcal{G}\)</span> where <span class="math notranslate nohighlight">\(\langle\cdot, \cdot\rangle_{\mathcal{H}}\)</span> is the inner product in <span class="math notranslate nohighlight">\(\mathcal{H}\)</span>. Roughly speaking, a graph kernel is a function that measures the similarity of two graphs.</p>
 </div>
 <div class="section" id="creating-a-graph">
 <h2>Creating a Graph<a class="headerlink" href="#creating-a-graph" title="Permalink to this headline">¶</a></h2>
