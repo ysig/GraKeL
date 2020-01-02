@@ -64,25 +64,21 @@ A graph is used to model a set of objects (i.e., nodes) and the relationships be
       adj = scipy.sparse.csr_matrix(([1, 1, 1, 1], ([0, 0, 1, 2], [1, 2, 0, 0])), shape=(3, 3))
       G = Graph(adj)
 
-A graph is directed if its edges have a direction associated with them. The Figure below shows an directed, unweighted graph with three nodes and three directed edges.
+A graph is *directed* if its edges have a direction associated with them. The Figure below shows an directed, unweighted graph with three nodes and three directed edges.
 
 .. figure:: ../_figures/example_graph_directed.png
   :align: center
-  :width: 300px
+  :width: 800px
 
 * Edgelist representation:
 
   - | A dictionary keyed by node to the list of its neighbors.
-    | Example:
-    
     .. code-block:: python
       
       edges = edges = {1: [3], 2: [1], 3: [1]}
       G = Graph(edges)
 
   - | Iterable of tuples of lenght 2. Each tuple corresponds to an edge.
-    | Example:
-    
     .. code-block:: python
       
       edges = [(1, 3), (2, 1), (3, 1)]
@@ -91,30 +87,24 @@ A graph is directed if its edges have a direction associated with them. The Figu
 * Adjacency matrix representation:
 
   - | Array-like lists of lists.
-    | Example:
-    
     .. code-block:: python
       
       adj = [[0, 0, 1], [1, 0, 0], [1, 0, 0]]
       G = Graph(adj)
 
-  - | NumPy array  
-    | Example:
-    
+  - | NumPy array.
     .. code-block:: python
       
       adj = numpy.array([[0, 0, 1], [1, 0, 0], [1, 0, 0]])
       G = Graph(adj)
 
   - | Scipy sparse matrix.
-    | Example:
-    
     .. code-block:: python
       
       adj = scipy.sparse.csr_matrix(([1, 1, 1], ([0, 1, 2], [2, 0, 0])), shape=(3, 3))
       G = Graph(adj)
 
-A graph is weighted if its edges have weights. The Figure below shows a weighted, undirected graph with three nodes and two edges.
+A graph is *weighted* if its edges have weights. The Figure below shows a weighted, undirected graph with three nodes and two edges.
 
 .. figure:: ../_figures/example_graph_weighted.png
   :align: center
@@ -123,24 +113,18 @@ A graph is weighted if its edges have weights. The Figure below shows a weighted
 * Edgelist representation:
 
   - | A dictionary keyed by nodes to a dictionary keyed by neighbors to edge weights. 
-    | Example:
-    
     .. code-block:: python
       
       edges = {1: {2: 0.5, 3: 0.2}, 2: {1: 0.5}, 3: {1: 0.2}}
       G = Graph(edges)
 
   - | A dictionary keyed by edges to their weights. 
-    | Example:
-    
     .. code-block:: python
       
       edges = {(1, 2): 0.5, (1, 3): 0.2, (2, 1): 0.5, (3, 1): 0.2}
       G = Graph(edges)
 
-  - | Iterable of tuples of length 3. Each tuple corresponds to an edge and its weight
-    | Example:
-    
+  - | Iterable of tuples of length 3. Each tuple corresponds to an edge and its weight.
     .. code-block:: python
       
       edges = [(1, 2, 0.5), (1, 3, 0.2), (2, 1, 0.5), (3, 1, 0.2)]
@@ -148,25 +132,19 @@ A graph is weighted if its edges have weights. The Figure below shows a weighted
 
 * Adjacency matrix representation:
 
-  - | Array-like lists of lists`  
-    | Example:
-    
+  - | Array-like lists of lists.
     .. code-block:: python
       
       adj = [[0, 0.5, 0.2], [0.5, 0, 0], [0.2, 0, 0]]
       G = Graph(adj)    
 
-  - | NumPy array  
-    | Example:
-    
+  - | NumPy array.  
     .. code-block:: python
       
       adj = numpy.array([[0, 0.5, 0.2], [0.5, 0, 0], [0.2, 0, 0]])
       G = Graph(adj)
 
-  - | Scipy sparse matrix
-    | Example:
-
+  - | Scipy sparse matrix.
     .. code-block:: python
       
       adj = scipy.sparse.csr_matrix(([0.5, 0.2, 0.5, 0.2], ([0, 0, 1, 2], [1, 2, 0, 0])), shape=(3, 3))
