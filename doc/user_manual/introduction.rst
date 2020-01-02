@@ -23,7 +23,7 @@ for all :math:`G, G' \in \mathcal{G}` where :math:`\langle\cdot, \cdot\rangle_{\
 
 Creating a Graph
 ----------------
-A graph is used to model a set of objects (i.e., nodes) and the relationships between them (i.e., edges). A single graph in GraKeL is described by an instance of :class:`grakel.Graph`. Traditionally, the two main structures used to represent a graph are the *adjacency matrix* and the *list of edges*. Both these representations can give rise to valid graph objects. The following Figure illustrates an unweighted, undirected graph with three nodes and two edges, and we show how we can generate graph objects that correspond to this example graph using the two representations mentioned above. Note that the graph has only two edges, however, we need to define four edges to account for both directions of a edge.
+A graph is used to model a set of objects (i.e., nodes) and the relationships between them (i.e., edges). A single graph in GraKeL is described by an instance of :class:`grakel.Graph`. Traditionally, the two main structures used to represent a graph are the *adjacency matrix* and the *list of edges*. Both these representations can give rise to valid graph objects. The following Figure illustrates an unweighted, undirected graph with three nodes and two edges, and we show how we can generate graph objects that correspond to this example graph using the two representations mentioned above. Note that the graph has only two edges, however, we need to define four edges to account for both directions of each edge.
 
 .. figure:: ../_figures/example_graph.png
   :align: center
@@ -160,11 +160,19 @@ A node-labeled graph is a graph endowed with a function :math:`\ell : V \rightar
   :align: center
   :width: 300px
 
-* | A dictionary keyed by nodes to their labels.  
-  | Example: :code:`node_labels = {1: 'a', 2: 'b', 3: 'a'}`
+* | A dictionary keyed by nodes to their labels.
+  .. code-block:: python
+      
+    edges = {1: [2, 3], 2: [1], 3: [1]}
+    node_labels = {1: 'a', 2: 'b', 3: 'a'}
+    G = Graph(edges, node_labels=node_labels)
     
-* | A dictionary keyed by node indices (i.e., :math:`0,\ldots,(|V|-1)`) to their labels. 
-  | Example: :code:`node_labels = {0: 'a', 'b': 'H', 2: 'a'}`
+* | A dictionary keyed by node indices (i.e., :math:`0,\ldots,(|V|-1)`) to their labels.
+  .. code-block:: python
+
+      adj = [[0, 1, 1], [1, 0, 0], [1, 0, 0]]
+      node_labels = {0: 'a', 'b': 'H', 2: 'a'}
+      G = Graph(adj, node_labels=node_labels)
 
 A node-attributed graph is a graph endowed with a function :math:`f : V \rightarrow \mathbb{R}^d` that assigns real-valued vectors to the vertices of the graph. The following Figure illustrates a node-attributed graph with three nodes and two edges.
 
@@ -172,11 +180,19 @@ A node-attributed graph is a graph endowed with a function :math:`f : V \rightar
   :align: center
   :width: 300px
 
-* | A dictionary keyed by nodes to their attributes.  
-  | Example: :code:`node_attributes = {1: [1.2, 0.5], 2: [2.8, −0.6], 3: [0.7, 1.1]}`
+* | A dictionary keyed by nodes to their attributes.
+  .. code-block:: python
+      
+    edges = {1: [2, 3], 2: [1], 3: [1]}
+    node_attributes = {1: [1.2, 0.5], 2: [2.8, −0.6], 3: [0.7, 1.1]}
+    G = Graph(edges, node_labels=node_attributes)
     
-* | A dictionary keyed by node indices (i.e., :math:`0,\ldots,(|V|-1)`) to their attributes. 
-  | Example: :code:`node_attributes = {0: [1.2, 0.5], 'b': [2.8, −0.6], 2: [0.7, 1.1]}`
+* | A dictionary keyed by node indices (i.e., :math:`0,\ldots,(|V|-1)`) to their attributes.
+  .. code-block:: python
+
+    adj = [[0, 1, 1], [1, 0, 0], [1, 0, 0]]
+    node_attributes = {0: [1.2, 0.5], 'b': [2.8, −0.6], 2: [0.7, 1.1]}
+    G = Graph(adj, node_labels=node_attributes)
 
 
 Assigning Labels/Attributes to Edges
