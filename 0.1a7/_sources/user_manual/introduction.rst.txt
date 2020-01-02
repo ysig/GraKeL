@@ -12,8 +12,7 @@ The problem of accurately measuring the similarity between graphs is at the core
 
 What is a Graph Kernel?
 -----------------------
-A graph kernel is a symmetric, positive semidefinite function on the set of graphs $\mathcal{G}$.
-Once we define such a function :math:`k : \mathcal{G} \times \mathcal{G} \rightarrow \mathbb{R}` on the set :math:`\mathcal{G}`, it is known that there exists a map :math:`\phi : \mathcal{G} \rightarrow \mathcal{H}` into a `Hilbert space`_ $\mathcal{H}$, such that:
+A graph kernel is a symmetric, positive semidefinite function on the set of graphs :math:`\mathcal{G}`. Once we define such a function :math:`k : \mathcal{G} \times \mathcal{G} \rightarrow \mathbb{R}` on the set :math:`\mathcal{G}`, it is known that there exists a map :math:`\phi : \mathcal{G} \rightarrow \mathcal{H}` into a `Hilbert space`_ :math:`\mathcal{H}`, such that:
 
 .. math::
   k(G_{i}, G_{j}) = \langle G_{i}, G_{j} \rangle_{\mathcal{H}}
@@ -31,13 +30,19 @@ A graph is used to model a set of objects (i.e., nodes) and the relationships be
   :width: 300px
 
 * Edgelist representation:
+
   - | A dictionary keyed by node to the list of its neighbors.
-    | Example: :code:`g = {1: [2, 3], 2: [1], 3: [1]}`
+    | Example: :code:`edges = {1: [2, 3], 2: [1], 3: [1]}`
+
+.. code-block:: python
+    edges = {1: [2, 3], 2: [1], 3: [1]}
+    G = Graph(edges)
 
   - | Iterable of tuples of lenght 2. Each tuple corresponds to an edge.
-    | Example: :code:`g = [(1, 2), (1, 3), (2, 1), (3, 1)]`
+    | Example: :code:`edges = [(1, 2), (1, 3), (2, 1), (3, 1)]`
 
 * Adjacency matrix representation:
+
   - | Array-like lists of lists`  
     | Example: :code:`g = [[0, 1, 1], [1, 0, 0], [1, 0, 0]]`
 
@@ -54,13 +59,15 @@ A graph is directed if its edges have a direction associated with them. The Figu
   :width: 300px
 
 * Edgelist representation:
+
   - | A dictionary keyed by node to the list of its neighbors.
-    | Example: :code:`g = {1: [3], 2: [1], 3: [1]}`
+    | Example: :code:`edges = {1: [3], 2: [1], 3: [1]}`
 
   - | Iterable of tuples of lenght 2. Each tuple corresponds to an edge.
-    | Example: :code:`g = [(1, 3), (2, 1), (3, 1)]`
+    | Example: :code:`edges = [(1, 3), (2, 1), (3, 1)]`
 
 * Adjacency matrix representation:
+
   - | Array-like lists of lists`  
     | Example: :code:`g = [[0, 0, 1], [1, 0, 0], [1, 0, 0]]`
 
@@ -77,6 +84,7 @@ A graph is weighted if its edges have weights. The Figure below shows a weighted
   :width: 300px
 
 * Edgelist representation:
+
   - | A dictionary keyed by nodes to a dictionary keyed by neighbors to edge weights. 
     | Example: :code:`g = {1: {2: 0.5, 3: 0.2}, 2: {1: 0.5}, 3: {1: 0.2}}`
 
@@ -87,6 +95,7 @@ A graph is weighted if its edges have weights. The Figure below shows a weighted
     | Example: :code:`g = [(1, 2, 0.5), (1, 3, 0.2), (2, 1, 0.5), (3, 1, 0.2)]`
 
 * Adjacency matrix representation:
+
   - | Array-like lists of lists`  
     | Example: :code:`g = [[0, 0.5, 0.2], [0.5, 0, 0], [0.2, 0, 0]]`
 
@@ -161,13 +170,13 @@ One of the most popular graph kernels is the *shortest path kernel* which counts
 
 After installing the library (see :ref:`installation`), we can initialize an instance of the shortest path kernel as follows:
 
-.. code-block:: python
+.. doctest::
    >>> from grakel import GraphKernel
    >>> sp_kernel = GraphKernel(kernel="shortest_path")
 
 Alternatively, we can directly create an instance of :class:`grakel.kernels.ShortestPath` object as follows:
 
-.. code-block:: python
+.. doctest::
    >>> from grakel.kernels import ShortestPath
    >>> sp_kernel = ShortestPath()
 
@@ -175,7 +184,7 @@ Initializing a Framework
 ------------------------
 Research in the field of graph kernels has not only focused on designing new kernels between graphs, but also on frameworks and approaches that can be applied to existing graph kernels and increase their performance. The most popular of all frameworks is perhaps the *Weisfeiler-Lehman framework* :cite:`Shervashidze2011WeisfeilerLehmanGK`. The Weisfeiler-Lehman framework works on top of some graph kernel, known as the *base kernel*. We can initialize the well-known Weisfeiler-Lehman subtree kernel (Weisfeiler-Lehman framework on top of the *vertex histogram* kernel) as follows:
 
-.. code-block:: python
+.. doctest::
     >>> from grakel.kernels import WeisfeilerLehman, VertexHistogram
     >>> wl_kernel = WeisfeilerLehman(base_kernel=VertexHistogram)    
 
@@ -186,7 +195,7 @@ Let us consider a toy example, where we compute some graph kernel between two mo
 
 We first create the graph representations of the two molecules:
 
-.. code-block:: python
+.. doctest::
    >>> from grakel import Graph
    >>>
    >>> H2O_adjacency = [[0, 1, 1], [1, 0, 0], [1, 0, 0]]
@@ -199,19 +208,19 @@ We first create the graph representations of the two molecules:
 
 We employ the shortest path kernel and we first compute the kernel value between the graph representation of water and itself:
 
-.. code-block:: python
+.. doctest::
     >>> sp_kernel.fit_transform(H2O)
     array([[12.]])
 
 Next, we calculate the kernel value between the graph representation of water and that of hydronium:
 
-.. code-block:: python
+.. doctest::
     >>> sp_kernel.transform(H3O)
     array([[24.]])
 
 The above result suggests that the water molecule is more similar to hydronium than to itself. This is because the kernel values are not normalized. To apply normalization, we can set the corresponding attribute to :code:`True` when initializing the graph kernel:
 
-.. code-block:: python
+.. doctest::
     >>> sp_kernel = ShortestPath(normalize=True)
     >>> sp_kernel.fit_transform(H2O)
     array([[1.]])
@@ -227,9 +236,9 @@ We will experiment with the MUTAG dataset, one of the most popular graph classif
 
 We can use the :code:`fetch_dataset` function of GraKeL to load MUTAG or any other graph classification dataset from `http://graphkernels.cs.tu-dortmund.de/ <http://graphkernels.cs.tu-dortmund.de/>`_. The function automatically downloads the raw files of the dataset and returns an instance of :class:`sklearn.utils.Bunch` whose attribute :code:`data` contains the graphs and its attribute :code:`target` the classification labels.
 
- We can load the MUTAG dataset as follows:
+We can load the MUTAG dataset as follows:
 
-.. code-block:: python
+.. doctest::
     >>> from grakel.datasets import fetch_dataset
     >>> MUTAG = fetch_dataset("MUTAG", verbose=False)
     >>> G = MUTAG.data
@@ -237,29 +246,29 @@ We can use the :code:`fetch_dataset` function of GraKeL to load MUTAG or any oth
     
 Next, we will initialize a Weisfeiler-Lehman subtree kernel:
 
-.. code-block:: python
+.. doctest::
     >>> from grakel.kernels import WeisfeilerLehman, VertexHistogram
     >>> wl_kernel = WeisfeilerLehman(n_iter=5, normalize=True, base_kernel=VertexHistogram)
 
 To perform classification, it is necessary to split the dataset into a training and a test set. We can use the :code:`train_test_split` function of scikit-learn as follows:
 
-.. code-block:: python
+.. doctest::
     >>> from sklearn.model_selection import train_test_split
     >>> G_train, G_test, y_train, y_test = train_test_split(G, y, test_size=0.1)
 
 In order to perform classification, one generally needs to generate two matrices: A symmetric matrix :math:`\mathbf{K}_{train}` which contains the kernel values for all pairs of training graphs, and a second matrix :math:`\mathbf{K}_{test}` which stores the kernel values between the graphs of the test set and those of the training set. The first matrix can be generated as follows:
 
-.. code-block:: python
+.. doctest::
     >>> K_train = wl_kernel.fit_transform(G_train)
 
 Then, we can generate the second matrix using the following code:
 
-.. code-block:: python
+.. doctest::
     >>> K_test = wl_kernel.transform(G_test)
 
 Next, we employ the SVM classifier and use it to perform classification. We train the classifier on the training set and then, make predictions for the graphs of the test set.
 
-.. code-block:: python
+.. doctest::
     >>> from sklearn.svm import SVC
     >>> clf = SVC(kernel='precomputed')
     >>> clf.fit(K_train, y_train)
@@ -272,7 +281,7 @@ Next, we employ the SVM classifier and use it to perform classification. We trai
 
 Finally, we can print the classification accuracy as follows:
 
-.. code-block:: python
+.. doctest::
     >>> from sklearn.metrics import accuracy_score
     >>> print("%2.2f %%" %(round(accuracy_score(y_test, y_pred)*100)))
     79.00 %

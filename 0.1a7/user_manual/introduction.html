@@ -190,8 +190,7 @@
 </div>
 <div class="section" id="what-is-a-graph-kernel">
 <h2>What is a Graph Kernel?<a class="headerlink" href="#what-is-a-graph-kernel" title="Permalink to this headline">¶</a></h2>
-<p>A graph kernel is a symmetric, positive semidefinite function on the set of graphs $mathcal{G}$.
-Once we define such a function <span class="math notranslate nohighlight">\(k : \mathcal{G} \times \mathcal{G} \rightarrow \mathbb{R}\)</span> on the set <span class="math notranslate nohighlight">\(\mathcal{G}\)</span>, it is known that there exists a map <span class="math notranslate nohighlight">\(\phi : \mathcal{G} \rightarrow \mathcal{H}\)</span> into a <a class="reference external" href="https://en.wikipedia.org/wiki/Hilbert_space">Hilbert space</a> $mathcal{H}$, such that:</p>
+<p>A graph kernel is a symmetric, positive semidefinite function on the set of graphs <span class="math notranslate nohighlight">\(\mathcal{G}\)</span>. Once we define such a function <span class="math notranslate nohighlight">\(k : \mathcal{G} \times \mathcal{G} \rightarrow \mathbb{R}\)</span> on the set <span class="math notranslate nohighlight">\(\mathcal{G}\)</span>, it is known that there exists a map <span class="math notranslate nohighlight">\(\phi : \mathcal{G} \rightarrow \mathcal{H}\)</span> into a <a class="reference external" href="https://en.wikipedia.org/wiki/Hilbert_space">Hilbert space</a> <span class="math notranslate nohighlight">\(\mathcal{H}\)</span>, such that:</p>
 <div class="math notranslate nohighlight">
 \[k(G_{i}, G_{j}) = \langle G_{i}, G_{j} \rangle_{\mathcal{H}}\]</div>
 <p>for all <span class="math notranslate nohighlight">\(G, G' \in \mathcal{G}\)</span> where <span class="math notranslate nohighlight">\(\langle\cdot, \cdot\rangle_{\mathcal{H}}\)</span> is the inner product in <span class="math notranslate nohighlight">\(\mathcal{H}\)</span>. Roughly speaking, a graph kernel is a function that measures the similarity of two graphs.</p>
@@ -201,29 +200,24 @@ Once we define such a function <span class="math notranslate nohighlight">\(k : 
 <p>A graph is used to model a set of objects (i.e., nodes) and the relationships between them (i.e., edges). A single graph in GraKeL is described by an instance of <a class="reference internal" href="../generated/grakel.Graph.html#grakel.Graph" title="grakel.Graph"><code class="xref py py-class docutils literal notranslate"><span class="pre">grakel.Graph</span></code></a>. Traditionally, the two main structures used to represent a graph are the <em>adjacency matrix</em> and the <em>list of edges</em>. Both these representations can give rise to valid graph objects. The following Figure illustrates an unweighted, undirected graph with three nodes and two edges, and we show how we can generate graph objects that correspond to this example graph using the two representations mentioned above. Note that the graph has only two edges, however, we need to define four edges to account for both directions of a edge.</p>
 <a class="reference internal image-reference" href="../_images/example_graph.pdf"><img alt="../_images/example_graph.pdf" class="align-center" src="../_images/example_graph.pdf" style="width: 300px;" /></a>
 <ul>
-<li><p class="first">Edgelist representation:
-- | A dictionary keyed by node to the list of its neighbors.</p>
-<blockquote>
-<div><div class="line-block">
-<div class="line">Example: <code class="code docutils literal notranslate"><span class="pre">g</span> <span class="pre">=</span> <span class="pre">{1:</span> <span class="pre">[2,</span> <span class="pre">3],</span> <span class="pre">2:</span> <span class="pre">[1],</span> <span class="pre">3:</span> <span class="pre">[1]}</span></code></div>
-</div>
-</div></blockquote>
+<li><p class="first">Edgelist representation:</p>
 <ul>
 <li><div class="first line-block">
-<div class="line">Iterable of tuples of lenght 2. Each tuple corresponds to an edge.</div>
-<div class="line">Example: <code class="code docutils literal notranslate"><span class="pre">g</span> <span class="pre">=</span> <span class="pre">[(1,</span> <span class="pre">2),</span> <span class="pre">(1,</span> <span class="pre">3),</span> <span class="pre">(2,</span> <span class="pre">1),</span> <span class="pre">(3,</span> <span class="pre">1)]</span></code></div>
+<div class="line">A dictionary keyed by node to the list of its neighbors.</div>
+<div class="line">Example: <code class="code docutils literal notranslate"><span class="pre">edges</span> <span class="pre">=</span> <span class="pre">{1:</span> <span class="pre">[2,</span> <span class="pre">3],</span> <span class="pre">2:</span> <span class="pre">[1],</span> <span class="pre">3:</span> <span class="pre">[1]}</span></code></div>
 </div>
 </li>
 </ul>
 </li>
-<li><p class="first">Adjacency matrix representation:
-- | Array-like lists of lists`</p>
-<blockquote>
-<div><div class="line-block">
+</ul>
+<ul>
+<li><p class="first">Adjacency matrix representation:</p>
+<ul>
+<li><div class="first line-block">
+<div class="line">Array-like lists of lists`</div>
 <div class="line">Example: <code class="code docutils literal notranslate"><span class="pre">g</span> <span class="pre">=</span> <span class="pre">[[0,</span> <span class="pre">1,</span> <span class="pre">1],</span> <span class="pre">[1,</span> <span class="pre">0,</span> <span class="pre">0],</span> <span class="pre">[1,</span> <span class="pre">0,</span> <span class="pre">0]]</span></code></div>
 </div>
-</div></blockquote>
-<ul>
+</li>
 <li><div class="first line-block">
 <div class="line">NumPy array</div>
 <div class="line">Example: <code class="code docutils literal notranslate"><span class="pre">g</span> <span class="pre">=</span> <span class="pre">numpy.array([[0,</span> <span class="pre">1,</span> <span class="pre">1],</span> <span class="pre">[1,</span> <span class="pre">0,</span> <span class="pre">0],</span> <span class="pre">[1,</span> <span class="pre">0,</span> <span class="pre">0]])</span></code></div>
@@ -240,29 +234,27 @@ Once we define such a function <span class="math notranslate nohighlight">\(k : 
 <p>A graph is directed if its edges have a direction associated with them. The Figure below shows an directed, unweighted graph with three nodes and three directed edges.</p>
 <a class="reference internal image-reference" href="../_images/example_graph_directed.pdf"><img alt="../_images/example_graph_directed.pdf" class="align-center" src="../_images/example_graph_directed.pdf" style="width: 300px;" /></a>
 <ul>
-<li><p class="first">Edgelist representation:
-- | A dictionary keyed by node to the list of its neighbors.</p>
-<blockquote>
-<div><div class="line-block">
-<div class="line">Example: <code class="code docutils literal notranslate"><span class="pre">g</span> <span class="pre">=</span> <span class="pre">{1:</span> <span class="pre">[3],</span> <span class="pre">2:</span> <span class="pre">[1],</span> <span class="pre">3:</span> <span class="pre">[1]}</span></code></div>
-</div>
-</div></blockquote>
+<li><p class="first">Edgelist representation:</p>
 <ul>
 <li><div class="first line-block">
+<div class="line">A dictionary keyed by node to the list of its neighbors.</div>
+<div class="line">Example: <code class="code docutils literal notranslate"><span class="pre">edges</span> <span class="pre">=</span> <span class="pre">{1:</span> <span class="pre">[3],</span> <span class="pre">2:</span> <span class="pre">[1],</span> <span class="pre">3:</span> <span class="pre">[1]}</span></code></div>
+</div>
+</li>
+<li><div class="first line-block">
 <div class="line">Iterable of tuples of lenght 2. Each tuple corresponds to an edge.</div>
-<div class="line">Example: <code class="code docutils literal notranslate"><span class="pre">g</span> <span class="pre">=</span> <span class="pre">[(1,</span> <span class="pre">3),</span> <span class="pre">(2,</span> <span class="pre">1),</span> <span class="pre">(3,</span> <span class="pre">1)]</span></code></div>
+<div class="line">Example: <code class="code docutils literal notranslate"><span class="pre">edges</span> <span class="pre">=</span> <span class="pre">[(1,</span> <span class="pre">3),</span> <span class="pre">(2,</span> <span class="pre">1),</span> <span class="pre">(3,</span> <span class="pre">1)]</span></code></div>
 </div>
 </li>
 </ul>
 </li>
-<li><p class="first">Adjacency matrix representation:
-- | Array-like lists of lists`</p>
-<blockquote>
-<div><div class="line-block">
+<li><p class="first">Adjacency matrix representation:</p>
+<ul>
+<li><div class="first line-block">
+<div class="line">Array-like lists of lists`</div>
 <div class="line">Example: <code class="code docutils literal notranslate"><span class="pre">g</span> <span class="pre">=</span> <span class="pre">[[0,</span> <span class="pre">0,</span> <span class="pre">1],</span> <span class="pre">[1,</span> <span class="pre">0,</span> <span class="pre">0],</span> <span class="pre">[1,</span> <span class="pre">0,</span> <span class="pre">0]]</span></code></div>
 </div>
-</div></blockquote>
-<ul>
+</li>
 <li><div class="first line-block">
 <div class="line">NumPy array</div>
 <div class="line">Example: <code class="code docutils literal notranslate"><span class="pre">g</span> <span class="pre">=</span> <span class="pre">numpy.array([[0,</span> <span class="pre">0,</span> <span class="pre">1],</span> <span class="pre">[1,</span> <span class="pre">0,</span> <span class="pre">0],</span> <span class="pre">[1,</span> <span class="pre">0,</span> <span class="pre">0]])</span></code></div>
@@ -279,14 +271,13 @@ Once we define such a function <span class="math notranslate nohighlight">\(k : 
 <p>A graph is weighted if its edges have weights. The Figure below shows a weighted, undirected graph with three nodes and two edges.</p>
 <a class="reference internal image-reference" href="../_images/example_graph_weighted.pdf"><img alt="../_images/example_graph_weighted.pdf" class="align-center" src="../_images/example_graph_weighted.pdf" style="width: 300px;" /></a>
 <ul>
-<li><p class="first">Edgelist representation:
-- | A dictionary keyed by nodes to a dictionary keyed by neighbors to edge weights.</p>
-<blockquote>
-<div><div class="line-block">
+<li><p class="first">Edgelist representation:</p>
+<ul>
+<li><div class="first line-block">
+<div class="line">A dictionary keyed by nodes to a dictionary keyed by neighbors to edge weights.</div>
 <div class="line">Example: <code class="code docutils literal notranslate"><span class="pre">g</span> <span class="pre">=</span> <span class="pre">{1:</span> <span class="pre">{2:</span> <span class="pre">0.5,</span> <span class="pre">3:</span> <span class="pre">0.2},</span> <span class="pre">2:</span> <span class="pre">{1:</span> <span class="pre">0.5},</span> <span class="pre">3:</span> <span class="pre">{1:</span> <span class="pre">0.2}}</span></code></div>
 </div>
-</div></blockquote>
-<ul>
+</li>
 <li><div class="first line-block">
 <div class="line">A dictionary keyed by edges to their weights.</div>
 <div class="line">Example: <code class="code docutils literal notranslate"><span class="pre">g</span> <span class="pre">=</span> <span class="pre">{(1,</span> <span class="pre">2):</span> <span class="pre">0.5,</span> <span class="pre">(1,</span> <span class="pre">3):</span> <span class="pre">0.2,</span> <span class="pre">(2,</span> <span class="pre">1):</span> <span class="pre">0.5,</span> <span class="pre">(3,</span> <span class="pre">1):</span> <span class="pre">0.2}</span></code></div>
@@ -299,14 +290,13 @@ Once we define such a function <span class="math notranslate nohighlight">\(k : 
 </li>
 </ul>
 </li>
-<li><p class="first">Adjacency matrix representation:
-- | Array-like lists of lists`</p>
-<blockquote>
-<div><div class="line-block">
+<li><p class="first">Adjacency matrix representation:</p>
+<ul>
+<li><div class="first line-block">
+<div class="line">Array-like lists of lists`</div>
 <div class="line">Example: <code class="code docutils literal notranslate"><span class="pre">g</span> <span class="pre">=</span> <span class="pre">[[0,</span> <span class="pre">0.5,</span> <span class="pre">0.2],</span> <span class="pre">[0.5,</span> <span class="pre">0,</span> <span class="pre">0],</span> <span class="pre">[0.2,</span> <span class="pre">0,</span> <span class="pre">0]]</span></code></div>
 </div>
-</div></blockquote>
-<ul>
+</li>
 <li><div class="first line-block">
 <div class="line">NumPy array</div>
 <div class="line">Example: <code class="code docutils literal notranslate"><span class="pre">g</span> <span class="pre">=</span> <span class="pre">numpy.array([[0,</span> <span class="pre">0.5,</span> <span class="pre">0.2],</span> <span class="pre">[0.5,</span> <span class="pre">0,</span> <span class="pre">0],</span> <span class="pre">[0.2,</span> <span class="pre">0,</span> <span class="pre">0]])</span></code></div>
@@ -389,33 +379,74 @@ Once we define such a function <span class="math notranslate nohighlight">\(k : 
 <h2>Initializing a Graph Kernel<a class="headerlink" href="#initializing-a-graph-kernel" title="Permalink to this headline">¶</a></h2>
 <p>One of the most popular graph kernels is the <em>shortest path kernel</em> which counts the number of shortest paths of equal length in two graphs [Borgwardt2005ShortestpathKO].</p>
 <p>After installing the library (see <a class="reference internal" href="installation.html#installation"><span class="std std-ref">Installing grakel</span></a>), we can initialize an instance of the shortest path kernel as follows:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
 <p>Alternatively, we can directly create an instance of <code class="xref py py-class docutils literal notranslate"><span class="pre">grakel.kernels.ShortestPath</span></code> object as follows:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="initializing-a-framework">
 <h2>Initializing a Framework<a class="headerlink" href="#initializing-a-framework" title="Permalink to this headline">¶</a></h2>
 <p>Research in the field of graph kernels has not only focused on designing new kernels between graphs, but also on frameworks and approaches that can be applied to existing graph kernels and increase their performance. The most popular of all frameworks is perhaps the <em>Weisfeiler-Lehman framework</em> [Shervashidze2011WeisfeilerLehmanGK]. The Weisfeiler-Lehman framework works on top of some graph kernel, known as the <em>base kernel</em>. We can initialize the well-known Weisfeiler-Lehman subtree kernel (Weisfeiler-Lehman framework on top of the <em>vertex histogram</em> kernel) as follows:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="computing-the-kernel-between-two-graphs">
 <h2>Computing the Kernel Between Two Graphs<a class="headerlink" href="#computing-the-kernel-between-two-graphs" title="Permalink to this headline">¶</a></h2>
 <p>Let us consider a toy example, where we compute some graph kernel between two molecules: (1) water <span class="math notranslate nohighlight">\(\mathbf{H}_{2}\mathbf{O}\)</span> and (2) hydronium <span class="math notranslate nohighlight">\(\mathbf{H}_{3}\mathbf{O}^{+}\)</span>, an ion of water produced by protonation.</p>
 <p>We first create the graph representations of the two molecules:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
 <p>We employ the shortest path kernel and we first compute the kernel value between the graph representation of water and itself:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
 <p>Next, we calculate the kernel value between the graph representation of water and that of hydronium:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
 <p>The above result suggests that the water molecule is more similar to hydronium than to itself. This is because the kernel values are not normalized. To apply normalization, we can set the corresponding attribute to <code class="code docutils literal notranslate"><span class="pre">True</span></code> when initializing the graph kernel:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="performing-graph-classification">
 <h2>Performing Graph Classification<a class="headerlink" href="#performing-graph-classification" title="Permalink to this headline">¶</a></h2>
 <p>The last part of this short introduction demonstrates how graph kernels can be used to perform graph classification.</p>
 <p>We will experiment with the MUTAG dataset, one of the most popular graph classification datasets. The dataset contains 188 mutagenic aromatic and heteroaromatic nitro compounds, and the task is to predict whether or not each chemical compound has mutagenic effect on the Gram-negative bacterium Salmonella typhimurium.</p>
 <p>We can use the <code class="code docutils literal notranslate"><span class="pre">fetch_dataset</span></code> function of GraKeL to load MUTAG or any other graph classification dataset from <a class="reference external" href="http://graphkernels.cs.tu-dortmund.de/">http://graphkernels.cs.tu-dortmund.de/</a>. The function automatically downloads the raw files of the dataset and returns an instance of <code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.utils.Bunch</span></code> whose attribute <code class="code docutils literal notranslate"><span class="pre">data</span></code> contains the graphs and its attribute <code class="code docutils literal notranslate"><span class="pre">target</span></code> the classification labels.</p>
-<blockquote>
-<div>We can load the MUTAG dataset as follows:</div></blockquote>
+<p>We can load the MUTAG dataset as follows:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
 <p>Next, we will initialize a Weisfeiler-Lehman subtree kernel:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
 <p>To perform classification, it is necessary to split the dataset into a training and a test set. We can use the <code class="code docutils literal notranslate"><span class="pre">train_test_split</span></code> function of scikit-learn as follows:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
 <p>In order to perform classification, one generally needs to generate two matrices: A symmetric matrix <span class="math notranslate nohighlight">\(\mathbf{K}_{train}\)</span> which contains the kernel values for all pairs of training graphs, and a second matrix <span class="math notranslate nohighlight">\(\mathbf{K}_{test}\)</span> which stores the kernel values between the graphs of the test set and those of the training set. The first matrix can be generated as follows:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
 <p>Then, we can generate the second matrix using the following code:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
 <p>Next, we employ the SVM classifier and use it to perform classification. We train the classifier on the training set and then, make predictions for the graphs of the test set.</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y_pred</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">K_test</span><span class="p">)</span>
+</pre></div>
+</div>
 <p>Finally, we can print the classification accuracy as follows:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
 </div>
 </div>
 
