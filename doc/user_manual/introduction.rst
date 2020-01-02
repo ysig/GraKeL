@@ -66,7 +66,7 @@ A graph is used to model a set of objects (i.e., nodes) and the relationships be
 
 A graph is *directed* if its edges have a direction associated with them. The Figure below shows an directed, unweighted graph with three nodes and three directed edges.
 
-.. figure:: ../_figures/example_graph_directed.png
+.. image:: ../_figures/example_graph_directed.png
   :align: center
   :width: 800px
 
@@ -205,11 +205,19 @@ An edge-labeled graph is a graph endowed with a function :math:`\ell : E \righta
   :align: center
   :width: 300px
 
-* | A dictionary keyed by edges to their labels.  
-  | Example: :code:`edge_labels = {1: 'a', 2: 'b', 3: 'a'}`
+* | A dictionary keyed by edges to their labels.
+  .. code-block:: python
+      
+    edges = {1: [2, 3], 2: [1], 3: [1]}
+    edge_labels = {1: 'a', 2: 'b', 3: 'a'}
+    G = Graph(edges, edge_labels=edge_attributes)
     
-* | A dictionary keyed by edge indices (i.e., :math:`0,\ldots,(|E|-1)`) to their labels. 
-  | Example: :code:`edge_labels = {0: 'a', 'b': 'H', 2: 'a'}`
+* | A dictionary keyed by edge indices (i.e., :math:`0,\ldots,(|E|-1)`) to their labels.
+  .. code-block:: python
+
+      adj = [[0, 1, 1], [1, 0, 0], [1, 0, 0]]
+      edge_labels = {0: 'a', 'b': 'H', 2: 'a'}
+      G = Graph(adj, edge_labels=edge_labels)
 
 An edge-attributed graph is a graph endowed with a function :math:`f : E \rightarrow \mathbb{R}^d` that assigns real-valued vectors to the edges of the graph. The following Figure illustrates an edge-attributed graph with three nodes and two edges.
 
@@ -217,11 +225,19 @@ An edge-attributed graph is a graph endowed with a function :math:`f : E \righta
   :align: center
   :width: 300px
 
-* | A dictionary keyed by edges to their attributes.  
-  | Example: :code:`edge_attributes = {1: [1.2, 0.5], 2: [2.8, −0.6], 3: [0.7, 1.1]}`
+* | A dictionary keyed by edges to their attributes.
+  .. code-block:: python
+      
+    edges = {1: [2, 3], 2: [1], 3: [1]}
+    edge_attributes = {1: [1.2, 0.5], 2: [2.8, −0.6], 3: [0.7, 1.1]}
+    G = Graph(edges, edge_labels=edge_attributes)
     
-* | A dictionary keyed by edge indices (i.e., :math:`0,\ldots,(|E|-1)`) to their attributes. 
-  | Example: :code:`edge_attributes = {0: [1.2, 0.5], 'b': [2.8, −0.6], 2: [0.7, 1.1]}`
+* | A dictionary keyed by edge indices (i.e., :math:`0,\ldots,(|E|-1)`) to their attributes.
+    .. code-block:: python
+
+      adj = [[0, 1, 1], [1, 0, 0], [1, 0, 0]]
+      edge_attributes = {0: [1.2, 0.5], 'b': [2.8, −0.6], 2: [0.7, 1.1]}
+      G = Graph(adj, edge_labels=edge_attributes)
 
 
 Initializing a Graph Kernel
@@ -230,7 +246,8 @@ One of the most popular graph kernels is the *shortest path kernel* which counts
 
 After installing the library (see :ref:`installation`), we can initialize an instance of the shortest path kernel as follows:
 
-.. doctest::
+.. code-block:: python
+
    >>> from grakel import GraphKernel
    >>> sp_kernel = GraphKernel(kernel="shortest_path")
 
