@@ -32,8 +32,6 @@ A graph is used to model a set of objects (i.e., nodes) and the relationships be
 * Edgelist representation:
 
   - | A dictionary keyed by node to the list of its neighbors.
-    | Example:
-
     .. code-block:: python
       
       edges = {1: [2, 3], 2: [1], 3: [1]}
@@ -41,8 +39,6 @@ A graph is used to model a set of objects (i.e., nodes) and the relationships be
 
 
   - | Iterable of tuples of lenght 2. Each tuple corresponds to an edge.
-    | Example:
-    
     .. code-block:: python
       
       edges = [(1, 2), (1, 3), (2, 1), (3, 1)]
@@ -50,25 +46,19 @@ A graph is used to model a set of objects (i.e., nodes) and the relationships be
 
 * Adjacency matrix representation:
 
-  - | Array-like lists of lists`  
-    | Example:
-    
+  - | Array-like lists of lists.
     .. code-block:: python
       
       adj = [[0, 1, 1], [1, 0, 0], [1, 0, 0]]
       G = Graph(adj)
 
-  - | NumPy array  
-    | Example:
-    
+  - | NumPy array.
     .. code-block:: python
       
       adj = numpy.array([[0, 1, 1], [1, 0, 0], [1, 0, 0]])
       G = Graph(adj)
 
-  - | Scipy sparse matrix
-    | Example:
-    
+  - | Scipy sparse matrix.
     .. code-block:: python
       
       adj = scipy.sparse.csr_matrix(([1, 1, 1, 1], ([0, 0, 1, 2], [1, 2, 0, 0])), shape=(3, 3))
@@ -100,7 +90,7 @@ A graph is directed if its edges have a direction associated with them. The Figu
 
 * Adjacency matrix representation:
 
-  - | Array-like lists of lists`  
+  - | Array-like lists of lists.
     | Example:
     
     .. code-block:: python
@@ -116,7 +106,7 @@ A graph is directed if its edges have a direction associated with them. The Figu
       adj = numpy.array([[0, 0, 1], [1, 0, 0], [1, 0, 0]])
       G = Graph(adj)
 
-  - | Scipy sparse matrix
+  - | Scipy sparse matrix.
     | Example:
     
     .. code-block:: python
