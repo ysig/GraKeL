@@ -26,7 +26,7 @@ Creating a Graph
 A graph is used to model a set of objects (i.e., nodes) and the relationships between them (i.e., edges). A single graph in GraKeL is described by an instance of :class:`grakel.Graph`. Traditionally, the two main structures used to represent a graph are the *adjacency matrix* and the *list of edges*. Both these representations can give rise to valid graph objects. The following Figure illustrates an unweighted, undirected graph with three nodes and two edges, and we show how we can generate graph objects that correspond to this example graph using the two representations mentioned above. Note that the graph has only two edges, however, we need to define four edges to account for both directions of each edge.
 
 .. figure:: ../_figures/example_graph.png
-  :width: 100%
+  :width: 50%
   :align: center
 
 * Edgelist representation:
@@ -67,7 +67,7 @@ A graph is used to model a set of objects (i.e., nodes) and the relationships be
 A graph is *directed* if its edges have a direction associated with them. The Figure below shows an directed, unweighted graph with three nodes and three directed edges.
 
 .. figure:: ../_figures/example_graph_directed.png
-  :width: 100%
+  :width: 50%
   :align: center
 
 * Edgelist representation:
@@ -107,7 +107,7 @@ A graph is *directed* if its edges have a direction associated with them. The Fi
 A graph is *weighted* if its edges have weights. The Figure below shows a weighted, undirected graph with three nodes and two edges.
 
 .. figure:: ../_figures/example_graph_weighted.png
-  :width: 100%
+  :width: 50%
   :align: center
 
 * Edgelist representation:
@@ -157,7 +157,7 @@ A graph may contain node labels or node attributes. There is an *optional* attri
 A node-labeled graph is a graph endowed with a function :math:`\ell : V \rightarrow \mathcal{L}` that assigns labels to the vertices of the graph from a label set :math:`\mathcal{L}`. Note that :math:`V` is the set of nodes of the graph. The Figure below shows a node-labeled graph with three nodes and two edges. The nodes are labeled with symbols from :math:`\mathcal{L} = \{ a, b \}`.
 
 .. figure:: ../_figures/example_graph_labeled.png
-  :width: 100%
+  :width: 50%
   :align: center
 
 * | A dictionary keyed by nodes to their labels.
@@ -177,7 +177,7 @@ A node-labeled graph is a graph endowed with a function :math:`\ell : V \rightar
 A node-attributed graph is a graph endowed with a function :math:`f : V \rightarrow \mathbb{R}^d` that assigns real-valued vectors to the vertices of the graph. The following Figure illustrates a node-attributed graph with three nodes and two edges.
 
 .. figure:: ../_figures/example_graph_attributed.png
-  :width: 100%
+  :width: 50%
   :align: center
 
 * | A dictionary keyed by nodes to their attributes.
@@ -202,7 +202,7 @@ A graph may contain edge labels or edge attributes. There is an *optional* attri
 An edge-labeled graph is a graph endowed with a function :math:`\ell : E \rightarrow \mathcal{L}` that assigns labels to the edges of the graph from a label set :math:`\mathcal{L}`. Note that :math:`E` is the set of edges of the graph. The Figure below shows an edge-labeled graph with three nodes and two edges. The edges are labeled with symbols from :math:`\mathcal{L} = \{ a, b \}`.
 
 .. figure:: ../_figures/example_graph_edge_labeled.png
-  :width: 100%
+  :width: 50%
   :align: center
 
 * | A dictionary keyed by edges to their labels.
@@ -222,7 +222,7 @@ An edge-labeled graph is a graph endowed with a function :math:`\ell : E \righta
 An edge-attributed graph is a graph endowed with a function :math:`f : E \rightarrow \mathbb{R}^d` that assigns real-valued vectors to the edges of the graph. The following Figure illustrates an edge-attributed graph with three nodes and two edges.
 
 .. figure:: ../_figures/example_graph_edge_attributed.png
-  :width: 100%
+  :width: 50%
   :align: center
 
 * | A dictionary keyed by edges to their attributes.
