@@ -12,18 +12,18 @@ What is the `GraphKernel` class
 
 These features can be listed as follows:
 
-* :code:`kernel` : The kernel can be either a :code:`base_kernel` or a list of :code:`general_kernels` that end in a :code:`base_kernel`.
+* :code:`kernel` : The kernel can be either a :code:`base_graph_kernel` or a list of :code:`general_kernels` that end in a :code:`base_graph_kernel`.
 
-    - :code:`base_kernel` : 
-        To initialize a :code:`base_kernel` kernel the procedure is simple. Any :code:`base_kernel` is a dictionary containing its name under the :code:`'name'` field and its parameterization on separate fields that signify kernel parameters and their values. The :code:`shortest_path` kernel we show on the introduction is such a kernel.
+    - :code:`base_graph_kernel` : 
+        To initialize a :code:`base_graph_kernel` kernel the procedure is simple. Any :code:`base_graph_kernel` is a dictionary containing its name under the :code:`'name'` field and its parameterization on separate fields that signify kernel parameters and their values. The :code:`shortest_path` kernel we show on the introduction is such a kernel.
 
         .. note::
             The generic wrapper sometimes wraps two kernels in one (as in the :code:`MultiscaleLaplacian` and :code:`MultiscaleLaplacianFast`) and in order to learn
             the meaning of each parameter the user is suggested to read the documentation found on :ref:`kernels`.
 
     - :code:`frameworks` : 
-        This type of kernels takes as a :code:`base_kernel` another kernel object. This kernel is also a dictionary containing its name under the :code:`'name'` field and its 
-        parameterization on separate fields that signify kernel parameters and their values. The kernel produced from all the rest kernels in the list is considered as a :code:`base_kernel` and its parametrization, can be applied on the list consecutive elements. The :code:`weisfeiler_lehman` we show on the introduction is such a kernel.
+        This type of kernels takes as a :code:`base_graph_kernel` another kernel object. This kernel is also a dictionary containing its name under the :code:`'name'` field and its 
+        parameterization on separate fields that signify kernel parameters and their values. The kernel produced from all the rest kernels in the list is considered as a :code:`base_graph_kernel` and its parametrization, can be applied on the list consecutive elements. The :code:`weisfeiler_lehman` we show on the introduction is such a kernel.
 
     If no parameters are given at parametrization, default values are assigned.
 
@@ -247,17 +247,17 @@ with the :code:`subtree_kernel`) kernels as
     >>> from grakel import WeisfeilerLehman
     >>> from grakel import VertexHistogram
 
-If we see the documentation of :ref:`weisfeiler_lehman`, we can see that it accepts two arguments upon initialization: a :code:`niter` and a :code:`base_kernel`. The :code:`base_kernel` is a tuple consisting of a :code:`kernel` type object and a dictionary of arguments. To initialize a Weisfeiler-Lehman with 5 iterations and a subtree base-kernel.
+If we see the documentation of :ref:`weisfeiler_lehman`, we can see that it accepts two arguments upon initialization: a :code:`niter` and a :code:`base_graph_kernel`. The :code:`base_graph_kernel` is a tuple consisting of a :code:`kernel` type object and a dictionary of arguments. To initialize a Weisfeiler-Lehman with 5 iterations and a subtree base-kernel.
 
 .. code-block:: python
 
-    >>> wl_kernel = WeisfeilerLehman(niter=5, base_kernel=(VertexHistogram, {}))
+    >>> wl_kernel = WeisfeilerLehman(niter=5, base_graph_kernel=(VertexHistogram, {}))
 
 This is also equivalent with doing (as long as we have no arguments)
 
 .. code-block:: python
 
-    >>> wl_kernel = WeisfeilerLehman(niter=5, base_kernel=VertexHistogram)
+    >>> wl_kernel = WeisfeilerLehman(niter=5, base_graph_kernel=VertexHistogram)
 
 Now let's go back again to our favorite MUTAG problem.
 

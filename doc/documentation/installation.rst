@@ -18,7 +18,7 @@ The GraKeL library requires the following packages to be installed:
 
    $ pip install grakel
 
-To also install the cvxopt package, which is a requirement of the Lov{\'a}sz-:math:`\vartheta` kernel, you can use the following command:
+To also install the cvxopt package, which is a requirement of the Lovász-:math:`\vartheta` kernel, you can use the following command:
 
 .. code-block:: bash
 
@@ -45,10 +45,11 @@ Windows Environment
 -------------------
 
 
----------------------
+=====================
 Why so many packages?
----------------------
-Graph kernels deal with the problem of graph comparison, a very challenging problem which has been studied for decades. Due to the complex nature of the problem, different types of approaches have been developed so far. Some approaches employ combinatorial algorithms, others formulate the graph comparison algorithm as a continuous optimization problem, while there are also other approaches that apply heuristics. The field of graph kernels is also characterized by such a large diversity of methods. For instance, the *graphlet kernel* solves the graph isomorphism problem to determine the identity of each graphet, while the *Lov{\'a}sz*-:math:`\vartheta` kernel solves a semidefinite programming problem to compute the Lov{\'a}sz number of each graph and the associated orthonormal representations. To solve such problems, *GraKeL* relies on well-established external libraries that provide optimized software that has been developed to address these problems. For example, *GraKeL* uses [bliss]_ to test graph isomorphism and the cvxopt_ library to optimize semidefinite programs.
+=====================
+
+Graph kernels deal with the problem of graph comparison, a very challenging problem which has been studied for decades. Due to the complex nature of the problem, different types of approaches have been developed so far. Some approaches employ combinatorial algorithms, others formulate the graph comparison algorithm as a continuous optimization problem, while there are also other approaches that apply heuristics. The field of graph kernels is also characterized by such a large diversity of methods. For instance, the *graphlet kernel* solves the graph isomorphism problem to determine the identity of each graphet, while the *Lovász*-:math:`\vartheta` kernel solves a semidefinite programming problem to compute the Lovász number of each graph and the associated orthonormal representations. To solve such problems, *GraKeL* relies on well-established external libraries that provide optimized software that has been developed to address these problems. For example, *GraKeL* uses [bliss]_ to test graph isomorphism and the cvxopt_ library to optimize semidefinite programs.
 
 .. _cvxopt: https://cvxopt.org/
 
