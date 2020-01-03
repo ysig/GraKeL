@@ -11,6 +11,6 @@ In this section, we cover the core concepts in *GraKeL* and show how to use it.
 
     documentation/installation
     documentation/introduction
-    documentation/longer_introduction
-    documentation/make_your_own_kernel
+    documentation/core_concepts
+    documentation/creating_kernels
     documentation/contributing

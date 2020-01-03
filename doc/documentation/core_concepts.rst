@@ -1,8 +1,8 @@
-.. _longer_introduction:
+.. _core_concepts:
 
-=====================
-A longer Introduction
-=====================
+=============
+Core Concepts
+=============
 
 What is the `GraphKernel` class
 -------------------------------

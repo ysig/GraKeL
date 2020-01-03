@@ -1,8 +1,8 @@
 .. _myok:
 
-=====================
-Write your own kernel
-=====================
+========================
+Creating your Own Kernel
+========================
 
 As mentioned before on the :ref:`longer_introduction`, each kernel imported from the :code:`GraphKernel` generic wrapper
 and found inside :code:`grakel.kernels` sub-package, inherits the :code:`Kernel` class found there.
