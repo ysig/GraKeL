@@ -1,4 +1,8 @@
-# GraKeL: A library for graph kernels
+<p align="center">
+  <img width="50%" src="https://raw.githubusercontent.com/ysig/GraKeL/0.1a7/doc/_figures/logo.svg?sanitize=true" />
+</p>
+
+--------------------------------------------------------------------------------
 
 [![Pypi Versions](https://img.shields.io/pypi/pyversions/grakel.svg)](https://pypi.org/pypi/grakel/)
 [![Coverage Status](https://codecov.io/gh/ysig/GraKeL/branch/0.1a7/graph/badge.svg)](https://codecov.io/gh/ysig/GraKeL)
