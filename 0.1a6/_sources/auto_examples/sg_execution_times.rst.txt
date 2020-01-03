@@ -5,11 +5,11 @@
 
 Computation times
 =================
-**06:29.287** total execution time for **auto_examples** files:
+**08:59.423** total execution time for **auto_examples** files:
 
-- **06:23.358**: :ref:`sphx_glr_auto_examples_plot_KFold_MLG.py` (``plot_KFold_MLG.py``)
-- **00:05.633**: :ref:`sphx_glr_auto_examples_plot_pipeline_shortest_path.py` (``plot_pipeline_shortest_path.py``)
-- **00:00.296**: :ref:`sphx_glr_auto_examples_plot_wl_subtree_MUTAG.py` (``plot_wl_subtree_MUTAG.py``)
+- **08:53.443**: :ref:`sphx_glr_auto_examples_plot_KFold_MLG.py` (``plot_KFold_MLG.py``)
+- **00:05.684**: :ref:`sphx_glr_auto_examples_plot_pipeline_shortest_path.py` (``plot_pipeline_shortest_path.py``)
+- **00:00.297**: :ref:`sphx_glr_auto_examples_plot_wl_subtree_MUTAG.py` (``plot_wl_subtree_MUTAG.py``)
 - **00:00.000**: :ref:`sphx_glr_auto_examples_digit_classification_example.py` (``digit_classification_example.py``)
 - **00:00.000**: :ref:`sphx_glr_auto_examples_document_retrieval_example.py` (``document_retrieval_example.py``)
 - **00:00.000**: :ref:`sphx_glr_auto_examples_lovasz_svm_theta.py` (``lovasz_svm_theta.py``)
