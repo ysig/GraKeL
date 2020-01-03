@@ -53,12 +53,12 @@ These features can be listed as follows:
     train and test datasets, producing a different result in some kernels by unifying intuitively
     train and test data when creating features, which may be desired (e.g. on the :code:`MultiscaleLaplacianFast`).
 
-* :code:`Nystroem` : The Nyström method is a well-established method for approximating kernel matrices on large datasets.
-    If :math:`n` is the number of samples, computing and storing the kernel matrix requires :math:`\mathcal{O}(n^2)` time and memory, respectively. Therefore, applying kernel methods will become unfeasible when :math:`n` is large. The Nyström approximation can allow a significant speed-up of the computations by computing an approximation :math:`\tilde{\mathbf{K}}` of rank :math:`q` of the kernel matrix. The method uses a subset of the training data as basis and reduces the storage and complexity requirements to :math:`\mathcal{O}(n q)`. The value of :math:`q` is specified by the user by setting :code:`Nystroem` equal to an integer value. An example demonstrating the power of the Nyström method is given below:
+* :code:`Nystroem` : The Nyström method is a well-established approach for approximating kernel matrices on large datasets.
+    If :math:`n` is the number of samples, computing and storing the kernel matrix requires :math:`\mathcal{O}(n^2)` time and memory, respectively. Therefore, applying kernel methods will become unfeasible when :math:`n` is large. The Nyström approximation can allow a significant speed-up of the calculations by computing an approximation :math:`\tilde{\mathbf{K}}` of rank :math:`q` of the kernel matrix. The method uses a subset of the training data as basis and reduces the storage and complexity requirements to :math:`\mathcal{O}(n q)`. The value of :math:`q` is specified by the user by setting :code:`Nystroem` equal to an integer value. An example demonstrating the power of the Nyström method is given below.
 
-    | Example: We will perform a simple classification task.
+    | **Example**: We will classify the graphs of a standard benchmark dataset.
 
-    Download the MUTAG dataset and split it into a training and a test set.
+    We first download the MUTAG dataset and split it into a training and a test set.
 
     .. doctest:: 
 
@@ -69,12 +69,12 @@ These features can be listed as follows:
         >>> y = MUTAG.target
         >>> G_train, G_test, y_train, y_test = train_test_split(G, y, test_size=0.1)
 
-    Initialize a :code:`GraphKernel`, and use :code:`Nystroem` with :math:`q=20` to approximate the kernel matrix.
+    We next initialize a Weisfeiler-Lehman subtree kernel using :code:`GraphKernel`, and we also make use of :code:`Nystroem` with :math:`q=20` to approximate the kernel matrix.
 
     .. doctest:: 
 
         >>> from grakel import GraphKernel
-        >>> gk = GraphKernel(kernel = [{"name": "weisfeiler_lehman", "n_iter": 5}, "subtree_wl"], Nystroem=20)
+        >>> gk = GraphKernel(kernel=[{"name": "weisfeiler_lehman", "n_iter": 5}, "subtree_wl"], Nystroem=20)
         >>> K_train = gk.fit_transform(G_train)
         >>> K_test = gk.transform(G_test)
         >>> print(K_train.shape)
@@ -83,7 +83,7 @@ These features can be listed as follows:
         (19, 20)
 
 
-    Train a standard SVM classifier with linear kernel, and use the classifier to make predictions.
+    Then, we train a standard SVM classifier with linear kernel, and use the classifier to make predictions.
 
     .. doctest:: 
 
@@ -96,7 +96,7 @@ These features can be listed as follows:
             tol=0.001, verbose=False)
         >>> y_pred = clf.predict(K_test)
 
-    Finally, calculate the classification accuracy.
+    Finally, we calculate the classification accuracy.
 
     .. doctest::
 
@@ -105,7 +105,7 @@ These features can be listed as follows:
         78.95 %
 
     .. note::
-        | To compute the full kernel matrices, we needed to perform :math:`~ 169 * (169-1) /2 + 19 * 169 = 17,407` kernel computations. Instead, we performed :math:`~ 20 * (20-1)/ 2 + 20 * 169 + 20* 19 = 3,950` kernel computations. As we can see, the approximation did not result into a decrease in performance.
+        | To compute the full kernel matrices, we needed to perform :math:`~ 169 * (169-1) /2 + 19 * 169 = 17,407` kernel computations. Instead, we performed :math:`~ 20 * (20-1)/ 2 + 20 * 169 + 20* 19 = 3,950` kernel computations. As we can see, the approximation led only to a slight decrease in performance.
 
 * :code:`n_jobs` : Some kernels have operations that can be executed concurrently, making computation faster 
     when user uses a significant amount of data, to overcome the parallelization overhead. :code:`n_jobs` follows
