@@ -191,7 +191,7 @@ def test_KM_Kfold():
                              n_iter=n_iter, n_splits=n_splits, C_grid=C_grid,
                              random_state=rs, scoring=scoring, fold_reduce=None)
 
-Ki
+
 if __name__ == '__main__':
     test_pandas()
     test_networkx()
