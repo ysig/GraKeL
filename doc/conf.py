@@ -125,7 +125,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'GraKeL'
-copyright = u'2018, DaSciM (BSD License)'
+copyright = u'2019, DaSciM (BSD License)'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
