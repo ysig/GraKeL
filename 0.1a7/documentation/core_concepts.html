@@ -94,6 +94,7 @@
 <li class="toctree-l1 current"><a class="reference internal" href="../documentation.html">Documentation</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="installation.html">Installing GraKeL</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installation.html#building-grakel">Building GraKeL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#why-so-many-packages">Why so many packages?</a></li>
 <li class="toctree-l2"><a class="reference internal" href="introduction.html">A Short Introduction</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Core Concepts</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#what-is-the-graphkernel-class">What is the <cite>GraphKernel</cite> class</a></li>
@@ -185,12 +186,12 @@
 <p><cite>GraphKernel</cite> is a class <em>generic wrapper</em>, which means that it takes a collection of classes, in our case Graph-Kernels and creates a uniform interface for all them, while providing the user with a way of adding various features.</p>
 <p>These features can be listed as follows:</p>
 <ul>
-<li><p class="first"><code class="code docutils literal notranslate"><span class="pre">kernel</span></code> : The kernel can be either a <code class="code docutils literal notranslate"><span class="pre">base_kernel</span></code> or a list of <code class="code docutils literal notranslate"><span class="pre">general_kernels</span></code> that end in a <code class="code docutils literal notranslate"><span class="pre">base_kernel</span></code>.</p>
+<li><p class="first"><code class="code docutils literal notranslate"><span class="pre">kernel</span></code> : The kernel can be either a <code class="code docutils literal notranslate"><span class="pre">base_graph_kernel</span></code> or a list of <code class="code docutils literal notranslate"><span class="pre">general_kernels</span></code> that end in a <code class="code docutils literal notranslate"><span class="pre">base_graph_kernel</span></code>.</p>
 <blockquote>
 <div><ul>
 <li><dl class="first docutils">
-<dt><code class="code docutils literal notranslate"><span class="pre">base_kernel</span></code> :</dt>
-<dd><p class="first">To initialize a <code class="code docutils literal notranslate"><span class="pre">base_kernel</span></code> kernel the procedure is simple. Any <code class="code docutils literal notranslate"><span class="pre">base_kernel</span></code> is a dictionary containing its name under the <code class="code docutils literal notranslate"><span class="pre">'name'</span></code> field and its parameterization on separate fields that signify kernel parameters and their values. The <code class="code docutils literal notranslate"><span class="pre">shortest_path</span></code> kernel we show on the introduction is such a kernel.</p>
+<dt><code class="code docutils literal notranslate"><span class="pre">base_graph_kernel</span></code> :</dt>
+<dd><p class="first">To initialize a <code class="code docutils literal notranslate"><span class="pre">base_graph_kernel</span></code> kernel the procedure is simple. Any <code class="code docutils literal notranslate"><span class="pre">base_graph_kernel</span></code> is a dictionary containing its name under the <code class="code docutils literal notranslate"><span class="pre">'name'</span></code> field and its parameterization on separate fields that signify kernel parameters and their values. The <code class="code docutils literal notranslate"><span class="pre">shortest_path</span></code> kernel we show on the introduction is such a kernel.</p>
 <div class="last admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">The generic wrapper sometimes wraps two kernels in one (as in the <code class="code docutils literal notranslate"><span class="pre">MultiscaleLaplacian</span></code> and <code class="code docutils literal notranslate"><span class="pre">MultiscaleLaplacianFast</span></code>) and in order to learn
@@ -201,8 +202,8 @@ the meaning of each parameter the user is suggested to read the documentation fo
 </li>
 <li><dl class="first docutils">
 <dt><code class="code docutils literal notranslate"><span class="pre">frameworks</span></code> :</dt>
-<dd><p class="first last">This type of kernels takes as a <code class="code docutils literal notranslate"><span class="pre">base_kernel</span></code> another kernel object. This kernel is also a dictionary containing its name under the <code class="code docutils literal notranslate"><span class="pre">'name'</span></code> field and its
-parameterization on separate fields that signify kernel parameters and their values. The kernel produced from all the rest kernels in the list is considered as a <code class="code docutils literal notranslate"><span class="pre">base_kernel</span></code> and its parametrization, can be applied on the list consecutive elements. The <code class="code docutils literal notranslate"><span class="pre">weisfeiler_lehman</span></code> we show on the introduction is such a kernel.</p>
+<dd><p class="first last">This type of kernels takes as a <code class="code docutils literal notranslate"><span class="pre">base_graph_kernel</span></code> another kernel object. This kernel is also a dictionary containing its name under the <code class="code docutils literal notranslate"><span class="pre">'name'</span></code> field and its
+parameterization on separate fields that signify kernel parameters and their values. The kernel produced from all the rest kernels in the list is considered as a <code class="code docutils literal notranslate"><span class="pre">base_graph_kernel</span></code> and its parametrization, can be applied on the list consecutive elements. The <code class="code docutils literal notranslate"><span class="pre">weisfeiler_lehman</span></code> we show on the introduction is such a kernel.</p>
 </dd>
 </dl>
 </li>
@@ -418,12 +419,12 @@ with the <code class="code docutils literal notranslate"><span class="pre">subtr
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">grakel</span> <span class="kn">import</span> <span class="n">VertexHistogram</span>
 </pre></div>
 </div>
-<p>If we see the documentation of <a class="reference internal" href="../kernels/weisfeiler_lehman.html#weisfeiler-lehman"><span class="std std-ref">Weisfeiler Lehman Framework</span></a>, we can see that it accepts two arguments upon initialization: a <code class="code docutils literal notranslate"><span class="pre">niter</span></code> and a <code class="code docutils literal notranslate"><span class="pre">base_kernel</span></code>. The <code class="code docutils literal notranslate"><span class="pre">base_kernel</span></code> is a tuple consisting of a <code class="code docutils literal notranslate"><span class="pre">kernel</span></code> type object and a dictionary of arguments. To initialize a Weisfeiler-Lehman with 5 iterations and a subtree base-kernel.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">wl_kernel</span> <span class="o">=</span> <span class="n">WeisfeilerLehman</span><span class="p">(</span><span class="n">niter</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">base_kernel</span><span class="o">=</span><span class="p">(</span><span class="n">VertexHistogram</span><span class="p">,</span> <span class="p">{}))</span>
+<p>If we see the documentation of <a class="reference internal" href="../kernels/weisfeiler_lehman.html#weisfeiler-lehman"><span class="std std-ref">Weisfeiler Lehman Framework</span></a>, we can see that it accepts two arguments upon initialization: a <code class="code docutils literal notranslate"><span class="pre">niter</span></code> and a <code class="code docutils literal notranslate"><span class="pre">base_graph_kernel</span></code>. The <code class="code docutils literal notranslate"><span class="pre">base_graph_kernel</span></code> is a tuple consisting of a <code class="code docutils literal notranslate"><span class="pre">kernel</span></code> type object and a dictionary of arguments. To initialize a Weisfeiler-Lehman with 5 iterations and a subtree base-kernel.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">wl_kernel</span> <span class="o">=</span> <span class="n">WeisfeilerLehman</span><span class="p">(</span><span class="n">niter</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">base_graph_kernel</span><span class="o">=</span><span class="p">(</span><span class="n">VertexHistogram</span><span class="p">,</span> <span class="p">{}))</span>
 </pre></div>
 </div>
 <p>This is also equivalent with doing (as long as we have no arguments)</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">wl_kernel</span> <span class="o">=</span> <span class="n">WeisfeilerLehman</span><span class="p">(</span><span class="n">niter</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">base_kernel</span><span class="o">=</span><span class="n">VertexHistogram</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">wl_kernel</span> <span class="o">=</span> <span class="n">WeisfeilerLehman</span><span class="p">(</span><span class="n">niter</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">base_graph_kernel</span><span class="o">=</span><span class="n">VertexHistogram</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Now let’s go back again to our favorite MUTAG problem.</p>
@@ -587,7 +588,7 @@ First initialize those objects:</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, DaSciM (BSD License)
+        &copy; Copyright 2019, DaSciM (BSD License)
 
     </p>
   </div>

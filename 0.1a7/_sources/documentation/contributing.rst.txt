@@ -4,8 +4,8 @@
 Contributing
 ============
 
-Ways you can contribute
------------------------
+How you can contribute
+----------------------
 The project currently is on it's first circle of development and as so its form should not be considered static.
 The most simple way a user can contribute is by proposing a new kernel that should be implemented or by implementing
 it his own and send as the kernel by e-mail on :code:`ioannis.siglidis ~ inria.fr` or - if he knows how to use **git**
