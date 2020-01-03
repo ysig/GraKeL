@@ -23,7 +23,7 @@ import sphinx_rtd_theme
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #sys.path.insert(0, os.path.abspath('.'))
 
-sys.path.insert(0, os.path.abspath('user_manual'))
+sys.path.insert(0, os.path.abspath('documentation'))
 sys.path.insert(0, os.path.abspath('kernels'))
 sys.path.insert(0, os.path.abspath('generated'))
 sys.path.insert(0, os.path.abspath('sphinxext'))

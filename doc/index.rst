@@ -5,24 +5,23 @@
 Overview
 ========
 
-GraKeL is a Python package extension, for the study and use of an upcoming
-area in data-mining and machine learning, known as graph kernels.
+*GraKeL* is a Python package extension which provides implementations of several graph kernels, a family of powerful methods which allow kernel-based learning approaches such as SVMs to work
+directly on graphs.
 
 Getting Started
 
   .. toctree::
     :maxdepth: 2
 
-    user_manual
+    documentation
 
 For seeing this version of the **GraKeL** project on the relevant **GitHub** repository you can have a look on the `README <https://github.com/ysig/GraKeL/blob/develop/README.md>`_.
 
-=============
-Documentation
-=============
+=================
+Package Reference
+=================
 
-A collection of all classes and functions important
-for the use and understanding of the **GraKeL** package.
+A collection of all classes and functions important for the use and understanding of the **GraKeL** package.
 
 GrakeL provides
 
