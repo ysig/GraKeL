@@ -179,6 +179,7 @@
             
   <div class="section" id="core-concepts">
 <span id="id1"></span><h1>Core Concepts<a class="headerlink" href="#core-concepts" title="Permalink to this headline">¶</a></h1>
+<p>We next present some core concepts in <em>GraKeL</em>.</p>
 <div class="section" id="what-is-the-graphkernel-class">
 <h2>What is the <cite>GraphKernel</cite> class<a class="headerlink" href="#what-is-the-graphkernel-class" title="Permalink to this headline">¶</a></h2>
 <p><cite>GraphKernel</cite> is a class <em>generic wrapper</em>, which means that it takes a collection of classes, in our case Graph-Kernels and creates a uniform interface for all them, while providing the user with a way of adding various features.</p>
@@ -235,45 +236,43 @@ train and test data when creating features, which may be desired (e.g. on the <c
 </dl>
 </li>
 <li><dl class="first docutils">
-<dt><code class="code docutils literal notranslate"><span class="pre">Nystroem</span></code> <span class="classifier-delimiter">:</span> <span class="classifier">Nystroem is very well known method, for approximating kernel matrices on huge datasets.</span></dt>
-<dd><p class="first">The kernel matrix is calculated only in random drown subsets of graphs, whose size can be defined by the user
-by setting an int value inside the <code class="code docutils literal notranslate"><span class="pre">Nystroem</span></code> parameter. After that, all the kernel values are calculated
-in the sample space. An example indicating the power of nystroem can be indicated below:</p>
+<dt><code class="code docutils literal notranslate"><span class="pre">Nystroem</span></code> <span class="classifier-delimiter">:</span> <span class="classifier">The Nyström method is a well-established method for approximating kernel matrices on large datasets.</span></dt>
+<dd><p class="first">If <span class="math notranslate nohighlight">\(n\)</span> is the number of samples, computing and storing the kernel matrix requires <span class="math notranslate nohighlight">\(\mathcal{O}(n^2)\)</span> time and memory, respectively. Therefore, applying kernel methods will become unfeasible when <span class="math notranslate nohighlight">\(n\)</span> is large. The Nyström approximation can allow a significant speed-up of the computations by computing an approximation <span class="math notranslate nohighlight">\(\tilde{\mathbf{K}}\)</span> of rank <span class="math notranslate nohighlight">\(q\)</span> of the kernel matrix. The method uses a subset of the training data as basis and reduces the storage and complexity requirements to <span class="math notranslate nohighlight">\(\mathcal{O}(n q)\)</span>. The value of <span class="math notranslate nohighlight">\(q\)</span> is specified by the user by setting <code class="code docutils literal notranslate"><span class="pre">Nystroem</span></code> equal to an integer value. An example demonstrating the power of the Nyström method is given below:</p>
 <div class="line-block">
 <div class="line">Example: We will perform a simple classification task.</div>
 </div>
-<p>Download the dataset and split to train and test</p>
-<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">grakel</span> <span class="kn">import</span> <span class="n">datasets</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">MUTAG</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">fetch_dataset</span><span class="p">(</span><span class="s2">&quot;MUTAG&quot;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">MUTAG_data</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">MUTAG</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">MUTAG</span><span class="o">.</span><span class="n">target</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">split_point</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">MUTAG_data</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.9</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">MUTAG_data</span><span class="p">[:</span><span class="n">split_point</span><span class="p">],</span> <span class="n">MUTAG_data</span><span class="p">[</span><span class="n">split_point</span><span class="p">:]</span>
+<p>Download the MUTAG dataset and split it into a training and a test set.</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">grakel.datasets</span> <span class="kn">import</span> <span class="n">fetch_dataset</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">MUTAG</span> <span class="o">=</span> <span class="n">fetch_dataset</span><span class="p">(</span><span class="s2">&quot;MUTAG&quot;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">G</span> <span class="o">=</span> <span class="n">MUTAG</span><span class="o">.</span><span class="n">data</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="n">MUTAG</span><span class="o">.</span><span class="n">target</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">G_train</span><span class="p">,</span> <span class="n">G_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Initialise a <code class="code docutils literal notranslate"><span class="pre">GraphKernel</span></code>, using <code class="code docutils literal notranslate"><span class="pre">Nystroem</span></code> of 20 samples</p>
+<p>Initialize a <code class="code docutils literal notranslate"><span class="pre">GraphKernel</span></code>, and use <code class="code docutils literal notranslate"><span class="pre">Nystroem</span></code> with <span class="math notranslate nohighlight">\(q=20\)</span> to approximate the kernel matrix.</p>
 <div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">grakel</span> <span class="kn">import</span> <span class="n">GraphKernel</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">wl_kernel</span> <span class="o">=</span> <span class="n">GraphKernel</span><span class="p">(</span><span class="n">kernel</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;weisfeiler_lehman&quot;</span><span class="p">,</span> <span class="s2">&quot;n_iter&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">},</span> <span class="s2">&quot;subtree_wl&quot;</span><span class="p">],</span> <span class="n">Nystroem</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">K_train</span> <span class="o">=</span> <span class="n">wl_kernel</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">K_test</span> <span class="o">=</span> <span class="n">wl_kernel</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gk</span> <span class="o">=</span> <span class="n">GraphKernel</span><span class="p">(</span><span class="n">kernel</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;weisfeiler_lehman&quot;</span><span class="p">,</span> <span class="s2">&quot;n_iter&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">},</span> <span class="s2">&quot;subtree_wl&quot;</span><span class="p">],</span> <span class="n">Nystroem</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">K_train</span> <span class="o">=</span> <span class="n">gk</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">G_train</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">K_test</span> <span class="o">=</span> <span class="n">gk</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">G_test</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">K_train</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 <span class="go">(169, 20)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">K_test</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 <span class="go">(19, 20)</span>
 </pre></div>
 </div>
-<p>Classify using a standard SVC</p>
-<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">y</span><span class="p">[:</span><span class="n">split_point</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">split_point</span><span class="p">:]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">svm</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">clf</span> <span class="o">=</span> <span class="n">svm</span><span class="o">.</span><span class="n">SVC</span><span class="p">()</span>
+<p>Train a standard SVM classifier with linear kernel, and use the classifier to make predictions.</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="kn">import</span> <span class="n">SVC</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">clf</span> <span class="o">=</span> <span class="n">SVC</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">K_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
-<span class="go">SVC(C=1.0, cache_size=200, class_weight=None, coef0=0.0,</span>
-<span class="go">  decision_function_shape=&#39;ovr&#39;, degree=3, gamma=&#39;auto&#39;, kernel=&#39;rbf&#39;,</span>
-<span class="go">  max_iter=-1, probability=False, random_state=None, shrinking=True,</span>
-<span class="go">  tol=0.001, verbose=False)</span>
+<span class="go">SVC(C=1.0, break_ties=False, cache_size=200, class_weight=None, coef0=0.0,</span>
+<span class="go">    decision_function_shape=&#39;ovr&#39;, degree=3, gamma=&#39;scale&#39;, kernel=&#39;linear&#39;,</span>
+<span class="go">    max_iter=-1, probability=False, random_state=None, shrinking=True,</span>
+<span class="go">    tol=0.001, verbose=False)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">y_pred</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">K_test</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>finnaly calculate accuracy score</p>
+<p>Finally, calculate the classification accuracy.</p>
 <div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span> <span class="mi">2</span><span class="p">)),</span> <span class="s2">&quot;%&quot;</span><span class="p">)</span>
 <span class="go">78.95 %</span>
@@ -282,9 +281,7 @@ in the sample space. An example indicating the power of nystroem can be indicate
 <div class="last admonition note">
 <p class="first admonition-title">Note</p>
 <div class="last line-block">
-<div class="line">As we see the accuracy of the classification is the same, allthough instead of doing</div>
-<div class="line">~ 169 * (169-1) /2 + 19 * 169 = 17,407 computations we did</div>
-<div class="line">~ 20 * (20-1)/ 2 + 20 * 169 + 20* 19 = 3,950 computations.</div>
+<div class="line">To compute the full kernel matrices, we needed to perform <span class="math notranslate nohighlight">\(~ 169 * (169-1) /2 + 19 * 169 = 17,407\)</span> kernel computations. Instead, we performed <span class="math notranslate nohighlight">\(~ 20 * (20-1)/ 2 + 20 * 169 + 20* 19 = 3,950\)</span> kernel computations. As we can see, the approximation did not result into a decrease in performance.</div>
 </div>
 </div>
 </dd>

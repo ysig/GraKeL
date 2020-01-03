@@ -4,6 +4,8 @@
 Core Concepts
 =============
 
+We next present some core concepts in *GraKeL*.
+
 What is the `GraphKernel` class
 -------------------------------
 `GraphKernel` is a class *generic wrapper*, which means that it takes a collection of classes, in our case Graph-Kernels and creates a uniform interface for all them, while providing the user with a way of adding various features.
@@ -51,52 +53,50 @@ These features can be listed as follows:
     train and test datasets, producing a different result in some kernels by unifying intuitively
     train and test data when creating features, which may be desired (e.g. on the :code:`MultiscaleLaplacianFast`).
 
-* :code:`Nystroem` : Nystroem is very well known method, for approximating kernel matrices on huge datasets.
-    The kernel matrix is calculated only in random drown subsets of graphs, whose size can be defined by the user 
-    by setting an int value inside the :code:`Nystroem` parameter. After that, all the kernel values are calculated
-    in the sample space. An example indicating the power of nystroem can be indicated below:
+* :code:`Nystroem` : The Nyström method is a well-established method for approximating kernel matrices on large datasets.
+    If :math:`n` is the number of samples, computing and storing the kernel matrix requires :math:`\mathcal{O}(n^2)` time and memory, respectively. Therefore, applying kernel methods will become unfeasible when :math:`n` is large. The Nyström approximation can allow a significant speed-up of the computations by computing an approximation :math:`\tilde{\mathbf{K}}` of rank :math:`q` of the kernel matrix. The method uses a subset of the training data as basis and reduces the storage and complexity requirements to :math:`\mathcal{O}(n q)`. The value of :math:`q` is specified by the user by setting :code:`Nystroem` equal to an integer value. An example demonstrating the power of the Nyström method is given below:
 
     | Example: We will perform a simple classification task.
 
-    Download the dataset and split to train and test
+    Download the MUTAG dataset and split it into a training and a test set.
 
     .. doctest:: 
 
-        >>> from grakel import datasets
-        >>> MUTAG = datasets.fetch_dataset("MUTAG", verbose=False)
-        >>> MUTAG_data, y = MUTAG.data, MUTAG.target
-        >>> split_point = int(len(MUTAG_data) * 0.9)
-        >>> X, Y = MUTAG_data[:split_point], MUTAG_data[split_point:]
+        >>> from grakel.datasets import fetch_dataset
+        >>> from sklearn.model_selection import train_test_split
+        >>> MUTAG = fetch_dataset("MUTAG", verbose=False)
+        >>> G = MUTAG.data
+        >>> y = MUTAG.target
+        >>> G_train, G_test, y_train, y_test = train_test_split(G, y, test_size=0.1)
 
-    Initialise a :code:`GraphKernel`, using :code:`Nystroem` of 20 samples
+    Initialize a :code:`GraphKernel`, and use :code:`Nystroem` with :math:`q=20` to approximate the kernel matrix.
 
     .. doctest:: 
 
         >>> from grakel import GraphKernel
-        >>> wl_kernel = GraphKernel(kernel = [{"name": "weisfeiler_lehman", "n_iter": 5}, "subtree_wl"], Nystroem=20)
-        >>> K_train = wl_kernel.fit_transform(X)
-        >>> K_test = wl_kernel.transform(Y)
+        >>> gk = GraphKernel(kernel = [{"name": "weisfeiler_lehman", "n_iter": 5}, "subtree_wl"], Nystroem=20)
+        >>> K_train = gk.fit_transform(G_train)
+        >>> K_test = gk.transform(G_test)
         >>> print(K_train.shape)
         (169, 20)
         >>> print(K_test.shape)
         (19, 20)
 
 
-    Classify using a standard SVC
+    Train a standard SVM classifier with linear kernel, and use the classifier to make predictions.
 
     .. doctest:: 
 
-        >>> y_train, y_test = y[:split_point], y[split_point:]
-        >>> from sklearn import svm
-        >>> clf = svm.SVC()
+        >>> from sklearn.svm import SVC
+        >>> clf = SVC(kernel='linear')
         >>> clf.fit(K_train, y_train)
-        SVC(C=1.0, cache_size=200, class_weight=None, coef0=0.0,
-          decision_function_shape='ovr', degree=3, gamma='auto', kernel='rbf',
-          max_iter=-1, probability=False, random_state=None, shrinking=True,
-          tol=0.001, verbose=False)
+        SVC(C=1.0, break_ties=False, cache_size=200, class_weight=None, coef0=0.0,
+            decision_function_shape='ovr', degree=3, gamma='scale', kernel='linear',
+            max_iter=-1, probability=False, random_state=None, shrinking=True,
+            tol=0.001, verbose=False)
         >>> y_pred = clf.predict(K_test)
 
-    finnaly calculate accuracy score
+    Finally, calculate the classification accuracy.
 
     .. doctest::
 
@@ -105,9 +105,7 @@ These features can be listed as follows:
         78.95 %
 
     .. note::
-        | As we see the accuracy of the classification is the same, allthough instead of doing
-        | ~ 169 * (169-1) /2 + 19 * 169 = 17,407 computations we did
-        | ~ 20 * (20-1)/ 2 + 20 * 169 + 20* 19 = 3,950 computations.
+        | To compute the full kernel matrices, we needed to perform :math:`~ 169 * (169-1) /2 + 19 * 169 = 17,407` kernel computations. Instead, we performed :math:`~ 20 * (20-1)/ 2 + 20 * 169 + 20* 19 = 3,950` kernel computations. As we can see, the approximation did not result into a decrease in performance.
 
 * :code:`n_jobs` : Some kernels have operations that can be executed concurrently, making computation faster 
     when user uses a significant amount of data, to overcome the parallelization overhead. :code:`n_jobs` follows
