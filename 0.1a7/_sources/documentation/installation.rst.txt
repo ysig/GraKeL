@@ -1,25 +1,36 @@
 .. _installation:
 
 =================
-Installing grakel
+Installing GraKeL
 =================
-The grakel library requires:
+The GraKeL library requires the following packages to be installed:
 
-* Python [>=2.7 or >= 3.5]
-* NumPy [>= 1.8.2]
-* SciPy [>= 0.13.3]
-* Cython [>= 0.27.3]
-* cvxopt [>= 1.2.0] [optional: lovasz]
+* Python (>=2.7, >=3.5)
+* NumPy (>=1.8.2)
+* SciPy (>=0.13.3)
+* Cython (>=0.27.3)
+* cvxopt (>=1.2.0) [optional]
+* future (>=0.16.0) (for python 2.7)
 
+*GraKeL* is available via `PyPI`_ . You can install the latest release of *GraKeL* using the following command:
 
-Periodically each new version is uploaded at `pypi`_ as well as `anaconda`_.  
-To install the latest version with cvxopt, you can run :code:`pip install grakel[lovasz]` (you can ommit :code:`[lovasz]` otherwise).
+.. code-block:: bash
+
+   $ pip install grakel
+
+To also install the cvxopt package, which is a requirement of the Lov{\'a}sz-:math:`\vartheta` kernel, you can use the following command:
+
+.. code-block:: bash
+
+   $ pip install grakel[lovasz]
+
+*GraKeL* is also available via `anaconda`_.
 
 ===============
 Building GraKeL
 ===============
 
-In order to build your own version of `grakel`, you need a C++, as the package relies on some C++ extensions.
+In order to build your own version of *GraKeL*, you need a C++, as the package relies on some C++ extensions.
 Build and installing a local `grakel` can be done by executing :code:`pip install .` or :code:`python setup.py install` on the parent folder.
 Additionally if you want to build your extensions locally, you can run :code:`python setup.py build_ext`.
 
@@ -70,6 +81,6 @@ can be viable through the use of `free software`_.
 .. _nauty: http://users.cecs.anu.edu.au/~bdm/nauty/
 .. _networkx: https://networkx.github.io/
 .. _VF2: https://networkx.github.io/documentation/networkx-1.10/reference/algorithms.isomorphism.vf2.html
-.. _pypi: https://pypi.org/project/grakel-dev/
+.. _PyPI: https://pypi.org/project/grakel-dev/
 .. _anaconda: https://anaconda.org/ysig/grakel-dev
 

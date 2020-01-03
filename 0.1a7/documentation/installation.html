@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Installing grakel &mdash; GraKeL 0.1a7 documentation</title>
+  <title>Installing GraKeL &mdash; GraKeL 0.1a7 documentation</title>
   
 
   
@@ -92,7 +92,7 @@
             
               <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../documentation.html">Documentation</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Installing grakel</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Installing GraKeL</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#building-grakel">Building GraKeL</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#linux-environment">Linux Environment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#windows-environment">Windows Environment</a><ul>
@@ -159,7 +159,7 @@
         
           <li><a href="../documentation.html">Documentation</a> &raquo;</li>
         
-      <li>Installing grakel</li>
+      <li>Installing GraKeL</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -179,21 +179,29 @@
            <div itemprop="articleBody">
             
   <div class="section" id="installing-grakel">
-<span id="installation"></span><h1>Installing grakel<a class="headerlink" href="#installing-grakel" title="Permalink to this headline">¶</a></h1>
-<p>The grakel library requires:</p>
+<span id="installation"></span><h1>Installing GraKeL<a class="headerlink" href="#installing-grakel" title="Permalink to this headline">¶</a></h1>
+<p>The GraKeL library requires the following packages to be installed:</p>
 <ul class="simple">
-<li>Python [&gt;=2.7 or &gt;= 3.5]</li>
-<li>NumPy [&gt;= 1.8.2]</li>
-<li>SciPy [&gt;= 0.13.3]</li>
-<li>Cython [&gt;= 0.27.3]</li>
-<li>cvxopt [&gt;= 1.2.0] [optional: lovasz]</li>
+<li>Python (&gt;=2.7, &gt;=3.5)</li>
+<li>NumPy (&gt;=1.8.2)</li>
+<li>SciPy (&gt;=0.13.3)</li>
+<li>Cython (&gt;=0.27.3)</li>
+<li>cvxopt (&gt;=1.2.0) [optional]</li>
+<li>future (&gt;=0.16.0) (for python 2.7)</li>
 </ul>
-<p>Periodically each new version is uploaded at <a class="reference external" href="https://pypi.org/project/grakel-dev/">pypi</a> as well as <a class="reference external" href="https://anaconda.org/ysig/grakel-dev">anaconda</a>.
-To install the latest version with cvxopt, you can run <code class="code docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">grakel[lovasz]</span></code> (you can ommit <code class="code docutils literal notranslate"><span class="pre">[lovasz]</span></code> otherwise).</p>
+<p><em>GraKeL</em> is available via <a class="reference external" href="https://pypi.org/project/grakel-dev/">PyPI</a> . You can install the latest release of <em>GraKeL</em> using the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ pip install grakel
+</pre></div>
+</div>
+<p>To also install the cvxopt package, which is a requirement of the Lov{‘a}sz-<span class="math notranslate nohighlight">\(\vartheta\)</span> kernel, you can use the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ pip install grakel<span class="o">[</span>lovasz<span class="o">]</span>
+</pre></div>
+</div>
+<p><em>GraKeL</em> is also available via <a class="reference external" href="https://anaconda.org/ysig/grakel-dev">anaconda</a>.</p>
 </div>
 <div class="section" id="building-grakel">
 <h1>Building GraKeL<a class="headerlink" href="#building-grakel" title="Permalink to this headline">¶</a></h1>
-<p>In order to build your own version of <cite>grakel</cite>, you need a C++, as the package relies on some C++ extensions.
+<p>In order to build your own version of <em>GraKeL</em>, you need a C++, as the package relies on some C++ extensions.
 Build and installing a local <cite>grakel</cite> can be done by executing <code class="code docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">.</span></code> or <code class="code docutils literal notranslate"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">install</span></code> on the parent folder.
 Additionally if you want to build your extensions locally, you can run <code class="code docutils literal notranslate"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">build_ext</span></code>.</p>
 <p>In order for the C++ extensions to compile a system-specific building environment should be setup.</p>
