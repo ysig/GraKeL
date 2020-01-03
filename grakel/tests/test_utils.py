@@ -176,8 +176,8 @@ def test_KM_Kfold():
     # Input
     X, y = load_mutag()
     K = [ShortestPath(normalize=True).fit_transform(X),
-         [WeisfeilerLehman(base_kernel=VertexHistogram, n_iter=3, normalize=True).fit_transform(X),
-          WeisfeilerLehman(base_kernel=VertexHistogram, n_iter=5, normalize=True).fit_transform(X)]]
+         [WeisfeilerLehman(base_graph_kernel=VertexHistogram, n_iter=3, normalize=True).fit_transform(X),
+          WeisfeilerLehman(base_graph_kernel=VertexHistogram, n_iter=5, normalize=True).fit_transform(X)]]
 
     # Parametrization
     n_splits = 10
@@ -191,7 +191,7 @@ def test_KM_Kfold():
                              n_iter=n_iter, n_splits=n_splits, C_grid=C_grid,
                              random_state=rs, scoring=scoring, fold_reduce=None)
 
-
+Ki
 if __name__ == '__main__':
     test_pandas()
     test_networkx()
