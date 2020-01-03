@@ -29,6 +29,7 @@ GrakeL provides
     api
     classes
     auto_examples/index
+    tutorials
 
 
 ==========
