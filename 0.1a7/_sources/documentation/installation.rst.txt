@@ -48,33 +48,13 @@ Windows Environment
 ---------------------
 Why so many packages?
 ---------------------
-The field of computationally efficient `Graph Kernels`_ can be considered
-more as a collection of techniques calculating `PSD`_ similarity matrices, between
-graph objects, than a field (with the compact sense of the term). The big diversity
-of methods and ideas implied to extract a similarity score between to graphs, leads
-to the use of very precise and studied algorithms as graph isomorphism 
-(for determining *isomorphic-graphlets* on the graphlet-sampling kernel [bliss]_)
-or convex optimization (through the use of *semidefinite-programming* 
-for calculating *lovasz-theta* embeddings, in a *lovasz-theta* kernel)
-which on the other hand will **not** appear in any other kernel.
-As a result import of external libraries that have studied and optimized the solutions
-of such problems in detail, gives a complexity - implementation "standard" to refer to, 
-while follows the idea of standing on the shoulders of the scientific community, which
-can be viable through the use of `free software`_.
+Graph kernels deal with the problem of graph comparison, a very challenging problem which has been studied for decades. Due to the complex nature of the problem, different types of approaches have been developed so far. Some approaches employ combinatorial algorithms, others formulate the graph comparison algorithm as a continuous optimization problem, while there are also other approaches that apply heuristics. The field of graph kernels is also characterized by such a large diversity of methods. For instance, the *graphlet kernel* solves the graph isomorphism problem to determine the identity of each graphet, while the *Lov{\'a}sz*-:math:`\vartheta` kernel solves a semidefinite programming problem to compute the Lov{\'a}sz number of each graph and the associated orthonormal representations. To solve such problems, *GraKeL* relies on well-established external libraries that provide optimized software that has been developed to address these problems. For example, *GraKeL* uses [bliss]_ to test graph isomorphism and the cvxopt_ library to optimize semidefinite programs.
 
-.. _Graph Kernels: https://en.wikipedia.org/wiki/Graph_kernel
-.. _PSD: https://en.wikipedia.org/wiki/Positive-definite_matrix
-.. _free software: https://en.wikipedia.org/wiki/Free_software
+.. _cvxopt: https://cvxopt.org/
 
-.. [bliss] GraKeL extended `pybliss`_ in order to be compatible with Python2/3 and Windows installation
-    while achieving specifically the task of deciding graph isomorphism. This package was choosen thanks to
-    the information of `Tamás Nepusz`_ (developer of `iGraph`_), who pointed out the internal use of this
-    package by `iGraph`_, for calculating decisional isomorphism in small graphs which was the package with
-    the highest efficiency (both in time and memmory) inside experiments for this certain tasks. Other candidates
-    where the `pynauty`_ package (using `nauty`_ practical isomorphism library) and `networkx`_ (implementing
-    a `VF2`_ algorithm for graphs). Credits to the creators of this complex of useful tools!
+.. [bliss] To test graph isomorphism, *GraKeL* extended `PyBliss`_, a Python wrapper for bliss. This allowed *GraKeL* to remain compatible with Python 2/3 and its installation on Windows. Among all the candidate packages, PyBliss was chosen thanks to the information shared by `Tamás Nepusz`_ (developer of the `iGraph`_ library), who pointed out that this package was the most efficient (both in terms of time and memory) for deciding isomorphism between small graphs in experiments conducted using the iGraph library. Other candidate packages include `pynauty`_ (a Python extension of `nauty`_) and `networkx`_ (contains an implementation of the `VF2`_ algorithm).
 
-.. _pybliss: http://www.tcs.hut.fi/Software/bliss/
+.. _PyBliss: http://www.tcs.hut.fi/Software/bliss/
 .. _Tamás Nepusz: http://hal.elte.hu/~nepusz/
 .. _iGraph: http://igraph.org/
 .. _pynauty: https://web.cs.dal.ca/~peter/software/pynauty/html/

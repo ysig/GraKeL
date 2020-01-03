@@ -58,7 +58,7 @@
 
           
             
-            <img src="../_static/logo.png" class="logo" alt="Logo"/>
+            <img src="../_static/logo.svg" class="logo" alt="Logo"/>
           
           </a>
 
@@ -189,9 +189,9 @@
             
   <div class="section" id="write-your-own-kernel">
 <span id="myok"></span><h1>Write your own kernel<a class="headerlink" href="#write-your-own-kernel" title="Permalink to this headline">¶</a></h1>
-<p>As mentioned before on the <a class="reference internal" href="../user_manual/longer_introduction.html#longer-introduction"><span class="std std-ref">A longer Introduction</span></a>, each kernel imported from the <code class="code docutils literal notranslate"><span class="pre">GraphKernel</span></code> generic wrapper
+<p>As mentioned before on the <a class="reference internal" href="longer_introduction.html#longer-introduction"><span class="std std-ref">A longer Introduction</span></a>, each kernel imported from the <code class="code docutils literal notranslate"><span class="pre">GraphKernel</span></code> generic wrapper
 and found inside <code class="code docutils literal notranslate"><span class="pre">grakel.kernels</span></code> sub-package, inherits the <code class="code docutils literal notranslate"><span class="pre">Kernel</span></code> class found there.
-In order to write any kernel that will be integrated (see <a class="reference internal" href="../user_manual/contributing.html#contributing"><span class="std std-ref">Contributing</span></a>), in our package we would like the
+In order to write any kernel that will be integrated (see <a class="reference internal" href="contributing.html#contributing"><span class="std std-ref">Contributing</span></a>), in our package we would like the
 user to inherit that class. This may seem restricting but is not. We will try to demonstrate this in the
 following sections and we would like to mention the fact that the whole kernel package <strong>is not final</strong>, but must
 be always considered final when deploying a new package, because all the kernels should have a unified common interface.</p>
@@ -685,7 +685,7 @@ node labels and position <strong>2</strong> the edge labels.</li>
 <h2>Getting more advanced<a class="headerlink" href="#getting-more-advanced" title="Permalink to this headline">¶</a></h2>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">This documentation entry is a preamble to the <a class="reference internal" href="../user_manual/contributing.html#contributing"><span class="std std-ref">Contributing</span></a> section and will evolve much more as users contribute to this project.</p>
+<p class="last">This documentation entry is a preamble to the <a class="reference internal" href="contributing.html#contributing"><span class="std std-ref">Contributing</span></a> section and will evolve much more as users contribute to this project.</p>
 </div>
 <p>What if you do not want just to write your kernel, but fork the project in order to integrate an optimized version of your new kernel.</p>
 <div class="section" id="wrapping-c-functions-for-the-kernels-to-use">
@@ -719,7 +719,7 @@ library because it can give the opportunity to the user to increase the efficien
 the induced overhead in the most cases seems not to worth it</strong>. The developer can either follow our road and call the initialization
 of the father method creating a <code class="code docutils literal notranslate"><span class="pre">joblib.Parallel</span></code> object with a <code class="code docutils literal notranslate"><span class="pre">threading</span></code> <em>backend api</em> (stored in <code class="code docutils literal notranslate"><span class="pre">_parallel</span></code>) and use it inside
 her/his code anyway he wants or follow a different strategy that seems to have a computational advantage. In case someone wants to contribute
-in redisigning and extending the parallelization proccess he/she can see how in <a class="reference internal" href="../user_manual/contributing.html#contributing"><span class="std std-ref">Contributing</span></a>.</p>
+in redisigning and extending the parallelization proccess he/she can see how in <a class="reference internal" href="contributing.html#contributing"><span class="std std-ref">Contributing</span></a>.</p>
 </div>
 <div class="section" id="bibliography">
 <h3>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">¶</a></h3>
