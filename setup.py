@@ -98,7 +98,7 @@ with open('requirements.txt') as f:
 warnings.filterwarnings('ignore', category=UserWarning,
                         message="Unknown distribution option: 'long_description_content_type'",
                         module='distutils')
-setup(name='grakel-dev',
+setup(name='grakel',
       version='0.1a6',
       description='A scikit-learn compatible library for graph kernels',
       long_description=long_description,
