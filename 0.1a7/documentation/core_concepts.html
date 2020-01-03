@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>A longer Introduction &mdash; GraKeL 0.1a7 documentation</title>
+  <title>Core Concepts &mdash; GraKeL 0.1a7 documentation</title>
   
 
   
@@ -38,7 +38,7 @@
   <link rel="stylesheet" href="../_static/_static/css/supplementary.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Write your own kernel" href="make_your_own_kernel.html" />
+    <link rel="next" title="Creating your Own Kernel" href="creating_kernels.html" />
     <link rel="prev" title="A Short Introduction" href="introduction.html" /> 
 </head>
 
@@ -95,13 +95,13 @@
 <li class="toctree-l2"><a class="reference internal" href="installation.html">Installing GraKeL</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installation.html#building-grakel">Building GraKeL</a></li>
 <li class="toctree-l2"><a class="reference internal" href="introduction.html">A Short Introduction</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">A longer Introduction</a><ul>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Core Concepts</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#what-is-the-graphkernel-class">What is the <cite>GraphKernel</cite> class</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#the-kernel-class">The <cite>Kernel</cite> class</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#why-not-a-more-structured-input-for-graphs">Why not a more structured input for Graphs?</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="make_your_own_kernel.html">Write your own kernel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="creating_kernels.html">Creating your Own Kernel</a></li>
 <li class="toctree-l2"><a class="reference internal" href="contributing.html">Contributing</a></li>
 </ul>
 </li>
@@ -157,13 +157,13 @@
         
           <li><a href="../documentation.html">Documentation</a> &raquo;</li>
         
-      <li>A longer Introduction</li>
+      <li>Core Concepts</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/documentation/longer_introduction.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/documentation/core_concepts.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -176,8 +176,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="a-longer-introduction">
-<span id="longer-introduction"></span><h1>A longer Introduction<a class="headerlink" href="#a-longer-introduction" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="core-concepts">
+<span id="id1"></span><h1>Core Concepts<a class="headerlink" href="#core-concepts" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="what-is-the-graphkernel-class">
 <h2>What is the <cite>GraphKernel</cite> class<a class="headerlink" href="#what-is-the-graphkernel-class" title="Permalink to this headline">¶</a></h2>
 <p><cite>GraphKernel</cite> is a class <em>generic wrapper</em>, which means that it takes a collection of classes, in our case Graph-Kernels and creates a uniform interface for all them, while providing the user with a way of adding various features.</p>
@@ -412,7 +412,7 @@ before fit we advise him to use the <code class="code docutils literal notransla
 </div>
 <p>Using a <code class="code docutils literal notranslate"><span class="pre">Kernel</span></code> type object through the generic wrapper, should be equivalent with doing so without the generic wrapper, if the correct parametrization is given.
 The generic wrapper <strong>does not</strong> restrict any <em>user-oriented</em> interface of the kernels, except if the user wants to write a kernel of his own.
-If you want to know more about the kernel structure in order to write your own see <a class="reference internal" href="make_your_own_kernel.html#myok"><span class="std std-ref">Write your own kernel</span></a>.</p>
+If you want to know more about the kernel structure in order to write your own see <a class="reference internal" href="creating_kernels.html#myok"><span class="std std-ref">Creating your Own Kernel</span></a>.</p>
 <p>To demonstrate a small example of the above we will construct our own a WL-subtree kernel instead of using the generic wrapper.
 To do so first import the <code class="code docutils literal notranslate"><span class="pre">WeisfeilerLehman</span></code> and <code class="code docutils literal notranslate"><span class="pre">VertexHistogram</span></code> (where <code class="code docutils literal notranslate"><span class="pre">vertex_histogram</span></code> is equivalent
 with the <code class="code docutils literal notranslate"><span class="pre">subtree_kernel</span></code>) kernels as</p>
@@ -577,7 +577,7 @@ First initialize those objects:</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="make_your_own_kernel.html" class="btn btn-neutral float-right" title="Write your own kernel" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="creating_kernels.html" class="btn btn-neutral float-right" title="Creating your Own Kernel" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="introduction.html" class="btn btn-neutral float-left" title="A Short Introduction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

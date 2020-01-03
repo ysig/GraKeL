@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Write your own kernel &mdash; GraKeL 0.1a7 documentation</title>
+  <title>Creating your Own Kernel &mdash; GraKeL 0.1a7 documentation</title>
   
 
   
@@ -39,7 +39,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Contributing" href="contributing.html" />
-    <link rel="prev" title="A longer Introduction" href="longer_introduction.html" /> 
+    <link rel="prev" title="Core Concepts" href="core_concepts.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -95,8 +95,8 @@
 <li class="toctree-l2"><a class="reference internal" href="installation.html">Installing GraKeL</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installation.html#building-grakel">Building GraKeL</a></li>
 <li class="toctree-l2"><a class="reference internal" href="introduction.html">A Short Introduction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="longer_introduction.html">A longer Introduction</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Write your own kernel</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="core_concepts.html">Core Concepts</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Creating your Own Kernel</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#overriding-the-kernel-class-methods">Overriding the <code class="code docutils literal notranslate"><span class="pre">Kernel</span></code> class methods</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#which-methods-should-i-implement">Which methods should I implement</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#the-parse-input-pairwise-operation-methods">The <code class="code docutils literal notranslate"><span class="pre">parse_input</span></code>, <code class="code docutils literal notranslate"><span class="pre">pairwise_operation</span></code> methods</a></li>
@@ -168,13 +168,13 @@
         
           <li><a href="../documentation.html">Documentation</a> &raquo;</li>
         
-      <li>Write your own kernel</li>
+      <li>Creating your Own Kernel</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/documentation/make_your_own_kernel.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/documentation/creating_kernels.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -187,9 +187,9 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="write-your-own-kernel">
-<span id="myok"></span><h1>Write your own kernel<a class="headerlink" href="#write-your-own-kernel" title="Permalink to this headline">¶</a></h1>
-<p>As mentioned before on the <a class="reference internal" href="longer_introduction.html#longer-introduction"><span class="std std-ref">A longer Introduction</span></a>, each kernel imported from the <code class="code docutils literal notranslate"><span class="pre">GraphKernel</span></code> generic wrapper
+  <div class="section" id="creating-your-own-kernel">
+<span id="myok"></span><h1>Creating your Own Kernel<a class="headerlink" href="#creating-your-own-kernel" title="Permalink to this headline">¶</a></h1>
+<p>As mentioned before on the <span class="xref std std-ref">longer_introduction</span>, each kernel imported from the <code class="code docutils literal notranslate"><span class="pre">GraphKernel</span></code> generic wrapper
 and found inside <code class="code docutils literal notranslate"><span class="pre">grakel.kernels</span></code> sub-package, inherits the <code class="code docutils literal notranslate"><span class="pre">Kernel</span></code> class found there.
 In order to write any kernel that will be integrated (see <a class="reference internal" href="contributing.html#contributing"><span class="std std-ref">Contributing</span></a>), in our package we would like the
 user to inherit that class. This may seem restricting but is not. We will try to demonstrate this in the
@@ -723,7 +723,7 @@ in redisigning and extending the parallelization proccess he/she can see how in 
 </div>
 <div class="section" id="bibliography">
 <h3>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">¶</a></h3>
-<p id="bibtex-bibliography-documentation/make_your_own_kernel-0"></p>
+<p id="bibtex-bibliography-documentation/creating_kernels-0"></p>
 </div>
 </div>
 </div>
@@ -739,7 +739,7 @@ in redisigning and extending the parallelization proccess he/she can see how in 
         <a href="contributing.html" class="btn btn-neutral float-right" title="Contributing" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="longer_introduction.html" class="btn btn-neutral float-left" title="A longer Introduction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="core_concepts.html" class="btn btn-neutral float-left" title="Core Concepts" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
