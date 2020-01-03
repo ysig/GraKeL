@@ -37,9 +37,7 @@
   <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="../_static/_static/css/supplementary.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="A longer Introduction" href="longer_introduction.html" />
-    <link rel="prev" title="Installing grakel" href="installation.html" /> 
+    <link rel="search" title="Search" href="../search.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -90,27 +88,8 @@
               
             
             
-              <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="../user_manual.html">User Manual</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="installation.html">Installing grakel</a></li>
-<li class="toctree-l2"><a class="reference internal" href="installation.html#building-grakel">Building GraKeL</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">A Short Introduction</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#what-is-grakel">What is GraKeL?</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#what-is-a-graph-kernel">What is a Graph Kernel?</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#creating-a-graph">Creating a Graph</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#assigning-labels-attributes-to-nodes">Assigning Labels/Attributes to Nodes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#assigning-labels-attributes-to-edges">Assigning Labels/Attributes to Edges</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#initializing-a-graph-kernel">Initializing a Graph Kernel</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#initializing-a-framework">Initializing a Framework</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#computing-the-kernel-between-two-graphs">Computing the Kernel Between Two Graphs</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#performing-graph-classification">Performing Graph Classification</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="longer_introduction.html">A longer Introduction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="make_your_own_kernel.html">Write your own kernel</a></li>
-<li class="toctree-l2"><a class="reference internal" href="contributing.html">Contributing</a></li>
-</ul>
-</li>
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">Documentation</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../api.html">GraKeL</a></li>
@@ -161,8 +140,6 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-          <li><a href="../user_manual.html">User Manual</a> &raquo;</li>
-        
       <li>A Short Introduction</li>
     
     
@@ -199,7 +176,7 @@
 <h2>Creating a Graph<a class="headerlink" href="#creating-a-graph" title="Permalink to this headline">¶</a></h2>
 <p>A graph is used to model a set of objects (i.e., nodes) and the relationships between them (i.e., edges). A single graph in GraKeL is described by an instance of <a class="reference internal" href="../generated/grakel.Graph.html#grakel.Graph" title="grakel.Graph"><code class="xref py py-class docutils literal notranslate"><span class="pre">grakel.Graph</span></code></a>. Traditionally, the two main structures used to represent a graph are the <em>adjacency matrix</em> and the <em>list of edges</em>. Both these representations can give rise to valid graph objects. The following Figure illustrates an unweighted, undirected graph with three nodes and two edges, and we show how we can generate graph objects that correspond to this example graph using the two representations mentioned above. Note that the graph has only two edges, however, we need to define four edges to account for both directions of each edge.</p>
 <div class="figure align-center">
-<a class="reference internal image-reference" href="../_images/example_graph.png"><img alt="../_images/example_graph.png" src="../_images/example_graph.png" style="width: 179.0px; height: 119.0px;" /></a>
+<a class="reference internal image-reference" href="../_images/example_graph1.png"><img alt="../_images/example_graph1.png" src="../_images/example_graph1.png" style="width: 179.0px; height: 119.0px;" /></a>
 </div>
 <ul>
 <li><p class="first">Edgelist representation:</p>
@@ -253,7 +230,7 @@
 </ul>
 <p>A graph is <em>directed</em> if its edges have a direction associated with them. The Figure below shows an directed, unweighted graph with three nodes and three directed edges.</p>
 <div class="figure align-center">
-<a class="reference internal image-reference" href="../_images/example_graph_directed.png"><img alt="../_images/example_graph_directed.png" src="../_images/example_graph_directed.png" style="width: 179.0px; height: 119.0px;" /></a>
+<a class="reference internal image-reference" href="../_images/example_graph_directed1.png"><img alt="../_images/example_graph_directed1.png" src="../_images/example_graph_directed1.png" style="width: 179.0px; height: 119.0px;" /></a>
 </div>
 <ul>
 <li><p class="first">Edgelist representation:</p>
@@ -307,7 +284,7 @@
 </ul>
 <p>A graph is <em>weighted</em> if its edges have weights. The Figure below shows a weighted, undirected graph with three nodes and two edges.</p>
 <div class="figure align-center">
-<a class="reference internal image-reference" href="../_images/example_graph_weighted.png"><img alt="../_images/example_graph_weighted.png" src="../_images/example_graph_weighted.png" style="width: 179.0px; height: 119.0px;" /></a>
+<a class="reference internal image-reference" href="../_images/example_graph_weighted1.png"><img alt="../_images/example_graph_weighted1.png" src="../_images/example_graph_weighted1.png" style="width: 179.0px; height: 119.0px;" /></a>
 </div>
 <ul>
 <li><p class="first">Edgelist representation:</p>
@@ -373,7 +350,7 @@
 <p>A graph may contain node labels or node attributes. There is an <em>optional</em> attribute of <a class="reference internal" href="../generated/grakel.Graph.html#grakel.Graph" title="grakel.Graph"><code class="xref py py-class docutils literal notranslate"><span class="pre">grakel.Graph</span></code></a> which allows us to assign labels or attributes to the nodes.</p>
 <p>A node-labeled graph is a graph endowed with a function <span class="math notranslate nohighlight">\(\ell : V \rightarrow \mathcal{L}\)</span> that assigns labels to the vertices of the graph from a label set <span class="math notranslate nohighlight">\(\mathcal{L}\)</span>. Note that <span class="math notranslate nohighlight">\(V\)</span> is the set of nodes of the graph. The Figure below shows a node-labeled graph with three nodes and two edges. The nodes are labeled with symbols from <span class="math notranslate nohighlight">\(\mathcal{L} = \{ a, b \}\)</span>.</p>
 <div class="figure align-center">
-<a class="reference internal image-reference" href="../_images/example_graph_labeled.png"><img alt="../_images/example_graph_labeled.png" src="../_images/example_graph_labeled.png" style="width: 216.0px; height: 183.0px;" /></a>
+<a class="reference internal image-reference" href="../_images/example_graph_labeled1.png"><img alt="../_images/example_graph_labeled1.png" src="../_images/example_graph_labeled1.png" style="width: 216.0px; height: 183.0px;" /></a>
 </div>
 <ul>
 <li><div class="first line-block">
@@ -397,7 +374,7 @@
 </ul>
 <p>A node-attributed graph is a graph endowed with a function <span class="math notranslate nohighlight">\(f : V \rightarrow \mathbb{R}^d\)</span> that assigns real-valued vectors to the vertices of the graph. The following Figure illustrates a node-attributed graph with three nodes and two edges.</p>
 <div class="figure align-center">
-<a class="reference internal image-reference" href="../_images/example_graph_attributed.png"><img alt="../_images/example_graph_attributed.png" src="../_images/example_graph_attributed.png" style="width: 301.0px; height: 181.0px;" /></a>
+<a class="reference internal image-reference" href="../_images/example_graph_attributed1.png"><img alt="../_images/example_graph_attributed1.png" src="../_images/example_graph_attributed1.png" style="width: 301.0px; height: 181.0px;" /></a>
 </div>
 <ul>
 <li><div class="first line-block">
@@ -425,7 +402,7 @@ G = Graph(adj, node_labels=node_attributes)
 <p>A graph may contain edge labels or edge attributes. There is an <em>optional</em> attribute of <a class="reference internal" href="../generated/grakel.Graph.html#grakel.Graph" title="grakel.Graph"><code class="xref py py-class docutils literal notranslate"><span class="pre">grakel.Graph</span></code></a> which allows us to assign labels or attributes to the edges.</p>
 <p>An edge-labeled graph is a graph endowed with a function <span class="math notranslate nohighlight">\(\ell : E \rightarrow \mathcal{L}\)</span> that assigns labels to the edges of the graph from a label set <span class="math notranslate nohighlight">\(\mathcal{L}\)</span>. Note that <span class="math notranslate nohighlight">\(E\)</span> is the set of edges of the graph. The Figure below shows an edge-labeled graph with three nodes and two edges. The edges are labeled with symbols from <span class="math notranslate nohighlight">\(\mathcal{L} = \{ a, b \}\)</span>.</p>
 <div class="figure align-center">
-<a class="reference internal image-reference" href="../_images/example_graph_edge_labeled.png"><img alt="../_images/example_graph_edge_labeled.png" src="../_images/example_graph_edge_labeled.png" style="width: 179.0px; height: 119.0px;" /></a>
+<a class="reference internal image-reference" href="../_images/example_graph_edge_labeled1.png"><img alt="../_images/example_graph_edge_labeled1.png" src="../_images/example_graph_edge_labeled1.png" style="width: 179.0px; height: 119.0px;" /></a>
 </div>
 <ul>
 <li><div class="first line-block">
@@ -449,7 +426,7 @@ G = Graph(adj, node_labels=node_attributes)
 </ul>
 <p>An edge-attributed graph is a graph endowed with a function <span class="math notranslate nohighlight">\(f : E \rightarrow \mathbb{R}^d\)</span> that assigns real-valued vectors to the edges of the graph. The following Figure illustrates an edge-attributed graph with three nodes and two edges.</p>
 <div class="figure align-center">
-<a class="reference internal image-reference" href="../_images/example_graph_edge_attributed.png"><img alt="../_images/example_graph_edge_attributed.png" src="../_images/example_graph_edge_attributed.png" style="width: 306.0px; height: 119.0px;" /></a>
+<a class="reference internal image-reference" href="../_images/example_graph_edge_attributed1.png"><img alt="../_images/example_graph_edge_attributed1.png" src="../_images/example_graph_edge_attributed1.png" style="width: 306.0px; height: 119.0px;" /></a>
 </div>
 <ul>
 <li><div class="first line-block">
@@ -584,15 +561,6 @@ G = Graph(adj, edge_labels=edge_attributes)
            
           </div>
           <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="longer_introduction.html" class="btn btn-neutral float-right" title="A longer Introduction" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="installation.html" class="btn btn-neutral float-left" title="Installing grakel" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
   
 
   <hr/>
