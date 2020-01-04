@@ -6,26 +6,25 @@ Core Concepts
 
 We next present some core concepts in *GraKeL*.
 
-What is the `GraphKernel` class
--------------------------------
-`GraphKernel` is a class *generic wrapper*, which means that it takes a collection of classes, in our case Graph-Kernels and creates a uniform interface for all them, while providing the user with a way of adding various features.
+What is the `GraphKernel` Class?
+--------------------------------
+The `GraphKernel` class is a *generic wrapper class*. This class provides a uniform interface for all the implemented graph kernels and frameworks. A graph kernel can be described by an instance of this class, and it holds the attributes listed below:
 
-These features can be listed as follows:
+* :code:`kernel` : Specifies the graph kernel to be computed. It can be either a :code:`base_graph_kernel` or a list that contains one or more :code:`framework` along with exactly one :code:`base_graph_kernel`. The :code:`base_graph_kernel` needs to be the last element in the list.
 
-* :code:`kernel` : The kernel can be either a :code:`base_graph_kernel` or a list of :code:`general_kernels` that end in a :code:`base_graph_kernel`.
+    - :code:`base_graph_kernel` : Α :code:`base_graph_kernel` is a kernel that compares graphs to each other. It is represented by a dictionary which contains a key :code:`'name'` whose value  corresponds to the name of the kernel. The dictionary can also contain other keys that specify the parameters of the kernel and their values. For instance, we can initialize a shortest path kernel as follows.
 
-    - :code:`base_graph_kernel` : 
-        To initialize a :code:`base_graph_kernel` kernel the procedure is simple. Any :code:`base_graph_kernel` is a dictionary containing its name under the :code:`'name'` field and its parameterization on separate fields that signify kernel parameters and their values. The :code:`shortest_path` kernel we show on the introduction is such a kernel.
+    .. code-block:: python
 
-        .. note::
-            The generic wrapper sometimes wraps two kernels in one (as in the :code:`MultiscaleLaplacian` and :code:`MultiscaleLaplacianFast`) and in order to learn
-            the meaning of each parameter the user is suggested to read the documentation found on :ref:`kernels`.
+        >>> from grakel import GraphKernel
+        >>> gk = GraphKernel(kernel={"name": "shortest_path", "with_labels": False})
 
-    - :code:`frameworks` : 
-        This type of kernels takes as a :code:`base_graph_kernel` another kernel object. This kernel is also a dictionary containing its name under the :code:`'name'` field and its 
-        parameterization on separate fields that signify kernel parameters and their values. The kernel produced from all the rest kernels in the list is considered as a :code:`base_graph_kernel` and its parametrization, can be applied on the list consecutive elements. The :code:`weisfeiler_lehman` we show on the introduction is such a kernel.
+    - :code:`framework` : A :code:`framework` works on top of graph kernels. It takes a :code:`base_graph_kernel` as input. Frameworks correspond to dictionaries that contain their name as the value of the key :code:`'name'`, and their parameters. A :code:`framework` combined with a :code:`base_graph_kernel` corresponds to a :code:`base_graph_kernel` and can be passed on to another :code:`framework`. For example, a kernel that applies the Weisfeiler-Lehman framework on top of the shortest path kernel is initialized as follows.
 
-    If no parameters are given at parametrization, default values are assigned.
+    .. code-block:: python
+
+        >>> from grakel import GraphKernel
+        >>> gk = GraphKernel(kernel=[{"name": "weisfeiler_lehman", "n_iter": 5}, {"name": "shortest_path"}])
 
 * :code:`normalize` : A kernel can provide either an unnormalized or a normalized output.
     The normalized kernel value between two graphs :math:`G_1` and :math:`G_2` is computed as follows: :math:`k(G_1, G_2)/\sqrt{k(G_1, G_1) k(G_2, G_2)}`. This normalization ensures that the kernel value between a graph and itself is equal to 1, while the kernel value between a graph and any other graph takes values between 0 and 1.
@@ -58,7 +57,7 @@ These features can be listed as follows:
 * :code:`Nystroem` : The Nyström method is a well-established approach for approximating kernel matrices on large datasets.
     If :math:`n` is the number of samples, computing and storing the kernel matrix requires :math:`\mathcal{O}(n^2)` time and memory, respectively. Therefore, applying kernel methods will become unfeasible when :math:`n` is large. The Nyström approximation can allow a significant speed-up of the calculations by computing an approximation :math:`\tilde{\mathbf{K}}` of rank :math:`q` of the kernel matrix. The method uses a subset of the training data as basis and reduces the storage and complexity requirements to :math:`\mathcal{O}(n q)`. The value of :math:`q` is specified by the user by setting :code:`Nystroem` equal to an integer value. An example demonstrating the power of the Nyström method is given below.
 
-    | **Example**: We will classify the graphs of a standard benchmark dataset.
+    | **Example**
 
     We first download the MUTAG dataset and split it into a training and a test set.
 
