@@ -28,7 +28,7 @@ These features can be listed as follows:
     If no parameters are given at parametrization, default values are assigned.
 
 * :code:`normalize` : A kernel can provide either an unnormalized or a normalized output.
-    The normalized kernel value between two graphs :math:`G_1` and :math:`G_2` is computed as follows: :math:`k(G_1, G_2)/\sqrt{k(G_1, G_1) k(G_2, G_2)}`. This normalization ensures that the kernel value between a graph and itself will be equal to 1, while the kernel value between a graph and any other graph will take values between 0 and 1.
+    The normalized kernel value between two graphs :math:`G_1` and :math:`G_2` is computed as follows: :math:`k(G_1, G_2)/\sqrt{k(G_1, G_1) k(G_2, G_2)}`. This normalization ensures that the kernel value between a graph and itself is equal to 1, while the kernel value between a graph and any other graph takes values between 0 and 1.
 
     | **Example**
     
@@ -37,7 +37,7 @@ These features can be listed as follows:
     .. code-block:: python
 
         >>> gk = GraphKernel(kernel=[{"name": "weisfeiler_lehman", "n_iter": 5}, {"name": "subtree_wl"}], normalize=True)
-        >>> # Calculate the kernel matrix
+        >>> # Calculate the normalized kernel matrices
         >>> K_train = gk.fit_transform(G_train)
         >>> K_test = gk.transform(G_test)
 
@@ -46,10 +46,10 @@ These features can be listed as follows:
     .. code-block:: python
 
         >>> gk = GraphKernel(kernel=[{"name": "weisfeiler_lehman", "n_iter": 5}, {"name": "subtree_wl"}], normalize=False)
-        >>> # Calculate the kernel matrix
         >>> K = gk.fit_transform(G)
         >>> K_diag = K.diagonal()
         >>> K_train_diag, K_test_diag = K_diag[idx_train], K_diag[idx_test]
+        >>> # Calculate the normalized kernel matrices
         >>> K_train = K[idx_train, :][:, idx_train] / np.sqrt(np.outer(K_train_diag, K_train_diag))
         >>> K_test = K[idx_test, :][:, idx_train] / np.sqrt(np.outer(K_test_diag, K_train_diag))
 
@@ -109,19 +109,10 @@ These features can be listed as follows:
     .. note::
         | To compute the full kernel matrices, we needed to perform :math:`~ 169 * (169-1) /2 + 19 * 169 = 17,407` kernel computations. Instead, we performed :math:`~ 20 * (20-1)/ 2 + 20 * 169 + 20* 19 = 3,950` kernel computations. As we can see, the approximation led only to a slight decrease in performance.
 
-* :code:`n_jobs` : Some kernels have operations that can be executed concurrently, making computation faster 
-    when user uses a significant amount of data, to overcome the parallelization overhead. :code:`n_jobs` follows
-    the same formulation as in scikit-learn where giving as input 0 or -1 :code:`n_jobs` signifies initializing all the
-    possible workers and if given a positive number, initializes that amount of workers if possible. There are kernels
-    where this feature is not implemented either from already using low level parallelization from other libraries (such as numpy)
-    or there was not a way that applying parallelization seemed to *worth it*. In such case the kernel pops a specified warning.
+* :code:`n_jobs` : Some kernels consist of operations that can be executed in parallel, leading to a reduction in the running time.
+    The :code:`n_jobs` attribute has the same functionality as that of scikit-learn. It determines the number of jobs that will run in parallel. If :code:`n_jobs` is set equal to -1, all the processors will be utilized. Note that this attribute will not have an impact on the computation of some kernels whose code is not parallelized. These kernels either take advantage of the parallelization inherent in other libraries (e.g., NumPy) or their code is only partially parallelizable or not parallelizable at all. In such scenarios, a warning is issued.
 
-    .. note::
-        The efficiency of parallelization is generally revealed when doing kernel computation on large datasets where the
-        final operation that calculates the kernel value (generally between features extracted from graphs) is the one of the
-        computation bottlenecks of the whole operation.
-
-    To extend these feature to more kernels or to propose new computational strategies see how you canc **contribute** in :ref:`contributing`.
+    If you are interested in parallelizing any of the implemented kernels, you can *contribute* to the *GraKeL* project. To find out how you can contribute, please have a look at :ref:`contributing`.
 
 * :code:`random_state` : We would generally need to provide to the user the ability to initialize a graph kernel by her/his own :code:`random_state`.
     This would have an application either to kernels that are probabilistic, or to procedures of the generic wrapper :code:`GraphKernel` that require randomization such as :code:`Nystroem`, where a number of components is drawn randomly from the set of fitted samples. A :code:`random_state` can either be a seed or a :code:`np.RandomState` object, as this follows the `the specifications of scikit-learn <https://scikit-learn.org/stable/developers/contributing.html#random-numbers>`_.

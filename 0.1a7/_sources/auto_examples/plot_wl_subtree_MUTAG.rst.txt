@@ -26,7 +26,7 @@ An example plot of :class:`grakel.GraphKernel`, :class:`grakel.WeisfeilerLehman`
  .. code-block:: none
 
 
-    Accuracy: 84.21 % | Took: 0.08 s
+    Accuracy: 84.21 % | Took: 0.11 s
 
 
 

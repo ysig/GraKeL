@@ -213,23 +213,23 @@ parameterization on separate fields that signify kernel parameters and their val
 </li>
 <li><dl class="first docutils">
 <dt><code class="code docutils literal notranslate"><span class="pre">normalize</span></code> <span class="classifier-delimiter">:</span> <span class="classifier">A kernel can provide either an unnormalized or a normalized output.</span></dt>
-<dd><p class="first">The normalized kernel value between two graphs <span class="math notranslate nohighlight">\(G_1\)</span> and <span class="math notranslate nohighlight">\(G_2\)</span> is computed as follows: <span class="math notranslate nohighlight">\(k(G_1, G_2)/\sqrt{k(G_1, G_1) k(G_2, G_2)}\)</span>. This normalization ensures that the kernel value between a graph and itself will be equal to 1, while the kernel value between a graph and any other graph will take values between 0 and 1.</p>
+<dd><p class="first">The normalized kernel value between two graphs <span class="math notranslate nohighlight">\(G_1\)</span> and <span class="math notranslate nohighlight">\(G_2\)</span> is computed as follows: <span class="math notranslate nohighlight">\(k(G_1, G_2)/\sqrt{k(G_1, G_1) k(G_2, G_2)}\)</span>. This normalization ensures that the kernel value between a graph and itself is equal to 1, while the kernel value between a graph and any other graph takes values between 0 and 1.</p>
 <div class="line-block">
 <div class="line"><strong>Example</strong></div>
 </div>
 <p>Suppose we have a set of training graphs <code class="code docutils literal notranslate"><span class="pre">G_train</span></code>, and a set of test graphs <code class="code docutils literal notranslate"><span class="pre">G_test</span></code>. We compute the normalized kernel matrices using the Weisfeiler-Lehman subtree kernel as follows.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">gk</span> <span class="o">=</span> <span class="n">GraphKernel</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="p">[{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;weisfeiler_lehman&quot;</span><span class="p">,</span> <span class="s2">&quot;n_iter&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">},</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;subtree_wl&quot;</span><span class="p">}],</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Calculate the kernel matrix</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Calculate the normalized kernel matrices</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">K_train</span> <span class="o">=</span> <span class="n">gk</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">G_train</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">K_test</span> <span class="o">=</span> <span class="n">gk</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">G_test</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>The above is equivalent (for deterministic kernels) to the code below.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">gk</span> <span class="o">=</span> <span class="n">GraphKernel</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="p">[{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;weisfeiler_lehman&quot;</span><span class="p">,</span> <span class="s2">&quot;n_iter&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">},</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;subtree_wl&quot;</span><span class="p">}],</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Calculate the kernel matrix</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">K</span> <span class="o">=</span> <span class="n">gk</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">K_diag</span> <span class="o">=</span> <span class="n">K</span><span class="o">.</span><span class="n">diagonal</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">K_train_diag</span><span class="p">,</span> <span class="n">K_test_diag</span> <span class="o">=</span> <span class="n">K_diag</span><span class="p">[</span><span class="n">idx_train</span><span class="p">],</span> <span class="n">K_diag</span><span class="p">[</span><span class="n">idx_test</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Calculate the normalized kernel matrices</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">K_train</span> <span class="o">=</span> <span class="n">K</span><span class="p">[</span><span class="n">idx_train</span><span class="p">,</span> <span class="p">:][:,</span> <span class="n">idx_train</span><span class="p">]</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">K_train_diag</span><span class="p">,</span> <span class="n">K_train_diag</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">K_test</span> <span class="o">=</span> <span class="n">K</span><span class="p">[</span><span class="n">idx_test</span><span class="p">,</span> <span class="p">:][:,</span> <span class="n">idx_train</span><span class="p">]</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">K_test_diag</span><span class="p">,</span> <span class="n">K_train_diag</span><span class="p">))</span>
 </pre></div>
@@ -291,19 +291,9 @@ parameterization on separate fields that signify kernel parameters and their val
 </dl>
 </li>
 <li><dl class="first docutils">
-<dt><code class="code docutils literal notranslate"><span class="pre">n_jobs</span></code> <span class="classifier-delimiter">:</span> <span class="classifier">Some kernels have operations that can be executed concurrently, making computation faster</span></dt>
-<dd><p class="first">when user uses a significant amount of data, to overcome the parallelization overhead. <code class="code docutils literal notranslate"><span class="pre">n_jobs</span></code> follows
-the same formulation as in scikit-learn where giving as input 0 or -1 <code class="code docutils literal notranslate"><span class="pre">n_jobs</span></code> signifies initializing all the
-possible workers and if given a positive number, initializes that amount of workers if possible. There are kernels
-where this feature is not implemented either from already using low level parallelization from other libraries (such as numpy)
-or there was not a way that applying parallelization seemed to <em>worth it</em>. In such case the kernel pops a specified warning.</p>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">The efficiency of parallelization is generally revealed when doing kernel computation on large datasets where the
-final operation that calculates the kernel value (generally between features extracted from graphs) is the one of the
-computation bottlenecks of the whole operation.</p>
-</div>
-<p class="last">To extend these feature to more kernels or to propose new computational strategies see how you canc <strong>contribute</strong> in <a class="reference internal" href="contributing.html#contributing"><span class="std std-ref">Contributing</span></a>.</p>
+<dt><code class="code docutils literal notranslate"><span class="pre">n_jobs</span></code> <span class="classifier-delimiter">:</span> <span class="classifier">Some kernels consist of operations that can be executed in parallel, leading to a reduction in the running time.</span></dt>
+<dd><p class="first">The <code class="code docutils literal notranslate"><span class="pre">n_jobs</span></code> attribute has the same functionality as that of scikit-learn. It determines the number of jobs that will run in parallel. If <code class="code docutils literal notranslate"><span class="pre">n_jobs</span></code> is set equal to -1, all the processors will be utilized. Note that this attribute will not have an impact on the computation of some kernels whose code is not parallelized. These kernels either take advantage of the parallelization inherent in other libraries (e.g., NumPy) or their code is only partially parallelizable or not parallelizable at all. In such scenarios, a warning is issued.</p>
+<p class="last">If you are interested in parallelizing any of the implemented kernels, you can <em>contribute</em> to the <em>GraKeL</em> project. To find out how you can contribute, please have a look at <a class="reference internal" href="contributing.html#contributing"><span class="std std-ref">Contributing</span></a>.</p>
 </dd>
 </dl>
 </li>
