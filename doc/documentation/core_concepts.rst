@@ -27,31 +27,33 @@ These features can be listed as follows:
 
     If no parameters are given at parametrization, default values are assigned.
 
-* :code:`normalize` : Any kernel has the ability to provide a normalized output. This is important because otherwise the user should calculate the whole kernel matrix at the :code:`fit_transform` stage in order to make a valid normalize representation of the kernel matrix. Code example:
-    Say we have a :code:`G_train`, :code:`G_test`. This
+* :code:`normalize` : A kernel can provide either an unnormalized or a normalized output.
+    The normalized kernel value between two graphs :math:`G_1` and :math:`G_2` is computed as follows: :math:`k(G_1, G_2)/\sqrt{k(G_1, G_1) k(G_2, G_2)}`. This normalization ensures that the kernel value between a graph and itself will be equal to 1, while the kernel value between a graph and any other graph will take values between 0 and 1.
+
+    | **Example**
+    
+    Suppose we have a set of training graphs :code:`G_train`, and a set of test graphs :code:`G_test`. We compute the normalized kernel matrices using the Weisfeiler-Lehman subtree kernel as follows.
 
     .. code-block:: python
 
-        >>> gk = GraphKernel(kernel=[{"name": "weisfeiler_lehman", "niter": 5}, {"name": "subtree_wl"}], normalize=True)
-        >>> # Calculate the kernel matrix.
+        >>> gk = GraphKernel(kernel=[{"name": "weisfeiler_lehman", "n_iter": 5}, {"name": "subtree_wl"}], normalize=True)
+        >>> # Calculate the kernel matrix
         >>> K_train = gk.fit_transform(G_train)
         >>> K_test = gk.transform(G_test)
 
-    should be equivalent as process (set aside a non-deterministic kernel or split), with this
+    The above is equivalent (for deterministic kernels) to the code below.
 
     .. code-block:: python
 
-        >>> gk = GraphKernel(kernel=[{"name": "weisfeiler_lehman", "niter": 5}, {"name": "subtree_wl"}], normalize=False)
-        >>> # Calculate the kernel matrix.
+        >>> gk = GraphKernel(kernel=[{"name": "weisfeiler_lehman", "n_iter": 5}, {"name": "subtree_wl"}], normalize=False)
+        >>> # Calculate the kernel matrix
         >>> K = gk.fit_transform(G)
         >>> K_diag = K.diagonal()
-        >>> K_train_diag, K_test_diag = K_diag[train_diag], K_diag[test_diag]
-        >>> K_train = K[train_indices, :][:, train_indices] / np.sqrt(np.outer(K_train_diag, K_train_diag))
-        >>> K_test = K[test_indices, :][:, train_indices] / np.sqrt(np.outer(K_test_diag, K_train_diag))
+        >>> K_train_diag, K_test_diag = K_diag[idx_train], K_diag[idx_test]
+        >>> K_train = K[idx_train, :][:, idx_train] / np.sqrt(np.outer(K_train_diag, K_train_diag))
+        >>> K_test = K[idx_test, :][:, idx_train] / np.sqrt(np.outer(K_test_diag, K_train_diag))
 
-    but in the second case we make some more computations, in reward that fit samples are drown from both
-    train and test datasets, producing a different result in some kernels by unifying intuitively
-    train and test data when creating features, which may be desired (e.g. on the :code:`MultiscaleLaplacianFast`).
+    Note that in the second case, we perform more computations since we also compare the graphs of the test set to each other.
 
 * :code:`Nystroem` : The Nyström method is a well-established approach for approximating kernel matrices on large datasets.
     If :math:`n` is the number of samples, computing and storing the kernel matrix requires :math:`\mathcal{O}(n^2)` time and memory, respectively. Therefore, applying kernel methods will become unfeasible when :math:`n` is large. The Nyström approximation can allow a significant speed-up of the calculations by computing an approximation :math:`\tilde{\mathbf{K}}` of rank :math:`q` of the kernel matrix. The method uses a subset of the training data as basis and reduces the storage and complexity requirements to :math:`\mathcal{O}(n q)`. The value of :math:`q` is specified by the user by setting :code:`Nystroem` equal to an integer value. An example demonstrating the power of the Nyström method is given below.
