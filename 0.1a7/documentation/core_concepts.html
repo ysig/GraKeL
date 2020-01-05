@@ -183,9 +183,9 @@
 <h2>What is the <cite>GraphKernel</cite> Class?<a class="headerlink" href="#what-is-the-graphkernel-class" title="Permalink to this headline">¶</a></h2>
 <p>The <cite>GraphKernel</cite> class is a <em>generic wrapper class</em>. This class provides a uniform interface for all the implemented graph kernels and frameworks. A graph kernel can be described by an instance of this class, and it holds the attributes listed below:</p>
 <ul>
-<li><p class="first"><code class="code docutils literal notranslate"><span class="pre">kernel</span></code> : Specifies the graph kernel to be computed. It can be either a <code class="code docutils literal notranslate"><span class="pre">base_graph_kernel</span></code> or a list that contains one or more <code class="code docutils literal notranslate"><span class="pre">framework</span></code> along with exactly one <code class="code docutils literal notranslate"><span class="pre">base_graph_kernel</span></code>. The <code class="code docutils literal notranslate"><span class="pre">base_graph_kernel</span></code> needs to be the last element in the list.</p>
-<blockquote>
-<div><ul class="simple">
+<li><dl class="first docutils">
+<dt><code class="code docutils literal notranslate"><span class="pre">kernel</span></code> <span class="classifier-delimiter">:</span> <span class="classifier">Specifies the graph kernel to be computed. It can be either a <code class="code docutils literal notranslate"><span class="pre">base_graph_kernel</span></code> or a list that contains one or more <code class="code docutils literal notranslate"><span class="pre">framework</span></code> along with exactly one <code class="code docutils literal notranslate"><span class="pre">base_graph_kernel</span></code>. The <code class="code docutils literal notranslate"><span class="pre">base_graph_kernel</span></code> needs to be the last element in the list.</span></dt>
+<dd><ul class="first simple">
 <li><code class="code docutils literal notranslate"><span class="pre">base_graph_kernel</span></code> : Α <code class="code docutils literal notranslate"><span class="pre">base_graph_kernel</span></code> is a kernel that compares graphs to each other. It is represented by a dictionary which contains a key <code class="code docutils literal notranslate"><span class="pre">'name'</span></code> whose value  corresponds to the name of the kernel. The dictionary can also contain other keys that specify the parameters of the kernel and their values. For instance, we can initialize a shortest path kernel as follows.</li>
 </ul>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">grakel</span> <span class="kn">import</span> <span class="n">GraphKernel</span>
@@ -195,11 +195,12 @@
 <ul class="simple">
 <li><code class="code docutils literal notranslate"><span class="pre">framework</span></code> : A <code class="code docutils literal notranslate"><span class="pre">framework</span></code> works on top of graph kernels. It takes a <code class="code docutils literal notranslate"><span class="pre">base_graph_kernel</span></code> as input. Frameworks correspond to dictionaries that contain their name as the value of the key <code class="code docutils literal notranslate"><span class="pre">'name'</span></code>, and their parameters. A <code class="code docutils literal notranslate"><span class="pre">framework</span></code> combined with a <code class="code docutils literal notranslate"><span class="pre">base_graph_kernel</span></code> corresponds to a <code class="code docutils literal notranslate"><span class="pre">base_graph_kernel</span></code> and can be passed on to another <code class="code docutils literal notranslate"><span class="pre">framework</span></code>. For example, a kernel that applies the Weisfeiler-Lehman framework on top of the shortest path kernel is initialized as follows.</li>
 </ul>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">grakel</span> <span class="kn">import</span> <span class="n">GraphKernel</span>
+<div class="last highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">grakel</span> <span class="kn">import</span> <span class="n">GraphKernel</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">gk</span> <span class="o">=</span> <span class="n">GraphKernel</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="p">[{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;weisfeiler_lehman&quot;</span><span class="p">,</span> <span class="s2">&quot;n_iter&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">},</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;shortest_path&quot;</span><span class="p">}])</span>
 </pre></div>
 </div>
-</div></blockquote>
+</dd>
+</dl>
 </li>
 <li><dl class="first docutils">
 <dt><code class="code docutils literal notranslate"><span class="pre">normalize</span></code> <span class="classifier-delimiter">:</span> <span class="classifier">A kernel can provide either an unnormalized or a normalized output.</span></dt>
