@@ -82,7 +82,6 @@ The `GraphKernel` class is a *generic wrapper class*. This class provides a unif
         >>> print(K_test.shape)
         (19, 20)
 
-
     Then, we train a standard SVM classifier with linear kernel, and use the classifier to make predictions.
 
     .. doctest:: 
@@ -112,89 +111,91 @@ The `GraphKernel` class is a *generic wrapper class*. This class provides a unif
 
     If you are interested in parallelizing any of the implemented kernels, you can *contribute* to the *GraKeL* project. To find out how you can contribute, please have a look at :ref:`contributing`.
 
-* :code:`random_state` : We would generally need to provide to the user the ability to initialize a graph kernel by her/his own :code:`random_state`.
-    This would have an application either to kernels that are probabilistic, or to procedures of the generic wrapper :code:`GraphKernel` that require randomization such as :code:`Nystroem`, where a number of components is drawn randomly from the set of fitted samples. A :code:`random_state` can either be a seed or a :code:`np.RandomState` object, as this follows the `the specifications of scikit-learn <https://scikit-learn.org/stable/developers/contributing.html#random-numbers>`_.
+* :code:`random_state` : This attribute is used for initializing the internal random number generator.
+    It has no effect on deterministic graph kernels, but only on kernels that involve some random process (e.g., those that perform sampling). It also applies to the :code:`Nystroem` function of the :code:`GraphKernel` class which also performs sampling. If int, :code:`random_state` is the seed used by the random number generator. Otherwise, it can be a :code:`RandomState` instance. If :code:`None`, the random number generator is the :code:`RandomState` instance used by :code:`np.random`. The use of :code:`random_state` is illustrated in the following example.
 
-    Let's apply our old water example to a probabilistic kernel. We will use the well known *Graphlet-Sampling*, where we will sample 5 graphlets (i.e. small subgraphs) from each graph.
+    | **Example**
 
-    After initializing the input
+    We first create the graph representations of the following two molecules: (1) water :math:`\mathbf{H}_{2}\mathbf{O}` and (2) hydronium :math:`\mathbf{H}_{3}\mathbf{O}^{+}`, an ion of water produced by protonation.
+
+    .. code-block:: python
+
+       >>> from grakel import Graph
+       >>>
+       >>> H2O_adjacency = [[0, 1, 1], [1, 0, 0], [1, 0, 0]]
+       >>> H2O_node_labels = {0: 'O', 1: 'H', 2: 'H'}
+       >>> H2O = Graph(initialization_object=H2O_adjacency, node_labels=H2O_node_labels)
+       >>>
+       >>> H3O_adjacency = [[0, 1, 1, 1], [1, 0, 0, 0], [1, 0, 0, 0], [1, 0, 0, 0]]
+       >>> H3O_node_labels = {0: 'O', 1: 'H', 2: 'H', 3:'H'}
+       >>> H3O = Graph(initialization_object=H3O_adjacency, node_labels=H3O_node_labels)
+
+    We will then compute the *graphlet kernel* between the two molecules. The graphlet kernel counts the number of common graphlets (i.e., small subgraphs) in two graphs. Instead of exaustively enumerating all the graphlets, it usually samples a number of them. In this example, we will sample 5 graphlets from each graph.
 
     .. doctest::
 
-        >>> from grakel import GraphKernel
-        >>> H2O = [[[[0, 1, 1], [1, 0, 0], [1, 0, 0]], {0: 'O', 1: 'H', 2: 'H'}]]
-        >>> H3O = [[[[0, 1, 1, 1], [1, 0, 0, 0], [1, 0, 0, 0], [1, 0, 0, 0]], {0: 'O', 1: 'H', 2: 'H', 3:'H'}]]
-
-    let's calculate a default kernel value
-
-    .. doctest::
-
-        >>> gs_kernel = GraphKernel(kernel=dict(name="graphlet_sampling", sampling=dict(n_samples=5)))
-        >>> gs_kernel.fit(H2O)
+        >>> gk = GraphKernel(kernel=dict(name="graphlet_sampling", sampling=dict(n_samples=5)))
+        >>> gk.fit(H2O)
         GraphKernel(Nystroem=False,
               kernel={'name': 'graphlet_sampling', 'sampling': {'n_samples': 5}},
               n_jobs=None, normalize=False, random_state=None, verbose=False)
     
-        >>> gs_kernel.transform(H3O) # doctest: +SKIP
+        >>> gk.transform(H3O)
         array([[10.]])
 
-    Note that if a random state is not given as an argument either to the :code:`GraphKernel` or to the kernel parameters
-    a default one will be used, initialized as a None random_state. This is connected to the current time, and its value will probably change throughout executions (other resulting values will be 10.0, 15.0, 20.0).
-    Now let's try to give one as the parameter of the kernel (say 42).
+    Note that we did not set :code:`random_state` to some value, and therefore it took its default :code:`None` value. We will now set :code:`random_state` equal to 42.
 
     .. doctest:: 
 
-        >>> gs_kernel = GraphKernel(kernel=dict(name="graphlet_sampling", sampling=dict(n_samples=5), random_state=42))
-        >>> gs_kernel.fit(H2O)
+        >>> gk = GraphKernel(kernel=dict(name="graphlet_sampling", sampling=dict(n_samples=5), random_state=42))
+        >>> gk.fit(H2O)
         GraphKernel(Nystroem=False,
               kernel={'name': 'graphlet_sampling', 'sampling': {'n_samples': 5}, 'random_state': 42},
               n_jobs=None, normalize=False, random_state=None, verbose=False)
-        >>> gs_kernel.transform(H3O)
+
+        >>> gk.transform(H3O)
         array([[15.]])
 
-    As we see a new value has been calculated, which is deterministically related to the value 42.
-    The same can be done if :code:`random_state` is initialized inside for the generic wrapper and no parameter is given for a :code:`random_state` to the :code:`kernel`
-    argument.
+    As you can see, the new kernel value is not equal to the previous one. If we re-run the above code, we will obtain the same kernel value since the algorithm will sample exactly the same graphlets from both graphs. As shown below, we can also obtain the same kernel value if :code:`random_state` is initialized as an attribute of :code:`GraphKernel` instead of the graphlet kernel itself.
 
     .. doctest::
 
-        >>> gs_kernel = GraphKernel(kernel=dict(name="graphlet_sampling", sampling=dict(n_samples=5)), random_state=42)
-        >>> gs_kernel.fit(H2O)
+        >>> gk = GraphKernel(kernel=dict(name="graphlet_sampling", sampling=dict(n_samples=5)), random_state=42)
+        >>> gk.fit(H2O)
         GraphKernel(Nystroem=False,
               kernel={'name': 'graphlet_sampling', 'sampling': {'n_samples': 5}},
               n_jobs=None, normalize=False, random_state=42, verbose=False)
     
-        >>> gs_kernel.transform(H3O)
+        >>> gk.transform(H3O)
         array([[15.]])
 
-    where we get the same result. Now if both a :code:`GraphKernel` has a :code:`random_state` and the :code:`kernel` is provided
-    with one as an argument, the second will be used inside the :code:`kernel` and the first for the generic wrapper, as expected
+    If we provide a :code:`random_state` value to both :code:`GraphKernel` and :code:`kernel`, then each one will have an effect only on the corresponding instances.
 
     .. doctest::
 
-        >>> gs_kernel = GraphKernel(kernel=dict(name="graphlet_sampling", sampling=dict(n_samples=5, random_state=0)), random_state=42)
-        >>> gs_kernel.fit(H2O)
+        >>> gk = GraphKernel(kernel=dict(name="graphlet_sampling", sampling=dict(n_samples=5, random_state=0)), random_state=42)
+        >>> gk.fit(H2O)
         GraphKernel(Nystroem=False,
               kernel={'name': 'graphlet_sampling', 'sampling': {'n_samples': 5, 'random_state': 0}},
               n_jobs=None, normalize=False, random_state=42, verbose=False)
     
-        >>> gs_kernel.transform(H3O)
+        >>> gk.transform(H3O)
         array([[15.]])
 
-    where
+    while
 
     .. doctest::
 
-        >>> gs_kernel = GraphKernel(kernel=dict(name="graphlet_sampling", sampling=dict(n_samples=5)), random_state=0)
-        >>> gs_kernel.fit(H2O).transform(H3O)
+        >>> gk = GraphKernel(kernel=dict(name="graphlet_sampling", sampling=dict(n_samples=5)), random_state=0)
+        >>> gk.fit(H2O).transform(H3O)
         array([[10.]])
 
 
-* :code:`verbose` : 
+* :code:`verbose` : Currently not supported.
     .. note::
-        Verbose is an argument that is currently unsupported (has no impact), but is set for future implementation of some output messages.
+        :code:`verbose` is an attribute that is currently not supported, but may be supported in the future for printing progress messages.
 
-To understand what the :code:`GraphKernel` object is doing, we must see inherently what objects it wraps.
+We will next focus on the :code:`Kernel` class. Instances of this class are wrapped in an instance of the :code:`GraphKernel` class.
 
 The `Kernel` class
 ------------------
