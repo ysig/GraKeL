@@ -111,7 +111,10 @@
 <li class="toctree-l3"><a class="reference internal" href="neighborhood_hash.html">Neighborhood Hash Kernel</a></li>
 <li class="toctree-l3"><a class="reference internal" href="neighborhood_subgraph_pairwise_distance.html">Neighborhood Subgraph Pairwise Distance Kernel</a></li>
 <li class="toctree-l3"><a class="reference internal" href="odd_sth.html">ODD-STh Kernel</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Propagation Kernel</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Propagation Kernel</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#bibliography">Bibliography</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="pyramid_match.html">Pyramid Match Kernel</a></li>
 <li class="toctree-l3"><a class="reference internal" href="random_walk.html">Random Walk Kernel</a></li>
 <li class="toctree-l3"><a class="reference internal" href="shortest_path.html">Shortest Path Kernel</a></li>
@@ -199,7 +202,7 @@
             
   <div class="section" id="propagation-kernel">
 <span id="propagation"></span><h1>Propagation Kernel<a class="headerlink" href="#propagation-kernel" title="Permalink to this headline">¶</a></h1>
-<p>Propagation kernels where introduced as a general framework in <a class="reference internal" href="../generated/grakel.PropagationAttr.html#neumann2015propagation" id="id1">[neumann2015propagation]</a>. They are based in the idea of propagating label information between nodes of the graph, based on the graph structure.
+<p>Propagation kernels where introduced as a general framework in <a class="reference internal" href="#neumann2015propagation" id="id1">[neumann2015propagation]</a>. They are based in the idea of propagating label information between nodes of the graph, based on the graph structure.
 A graph is considered to have <strong>attributes</strong> on nodes, where in the case of labels they correspond to One-Hot-Vectors of the full dictionary of labels.
 The totality of nodes for each graph, can be seen as a probability distribution <span class="math notranslate nohighlight">\(P\)</span> of size <span class="math notranslate nohighlight">\(n \times d\)</span> where <span class="math notranslate nohighlight">\(n\)</span> corresponds to the number of nodes and <span class="math notranslate nohighlight">\(d\)</span> to the size of attributes.
 After the idea of diffusion is applied in order to construct the algorithmic framework of propagation kernels.
@@ -248,6 +251,16 @@ A simple hashing function was considered a bad idea as it would separate values 
 </tr>
 </tbody>
 </table>
+<div class="section" id="bibliography">
+<h2>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">¶</a></h2>
+<p id="bibtex-bibliography-kernels/propagation-0"><table class="bibtex docutils citation" frame="void" id="neumann2015propagation" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[NGBK15]</a></td><td>Marion Neumann, Roman Garnett, Christian Bauckhage, and Kristian Kersting. Propagation kernels: efficient graph kernels from propagated information. <em>Machine Learning</em>, 102:209–245, 2015.</td></tr>
+</tbody>
+</table>
+</p>
+</div>
 </div>
 
 

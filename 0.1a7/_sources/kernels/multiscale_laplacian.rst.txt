@@ -174,5 +174,5 @@ The approximate multiscale Laplacian graph kernel can be found below
 
 Bibliography
 ------------
-.. bibliography:: ./graph_kernels.bib
+.. bibliography:: ../biblio.bib
    :filter: docname in docnames

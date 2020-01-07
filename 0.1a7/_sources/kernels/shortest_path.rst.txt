@@ -63,5 +63,5 @@ Two versions of this kernel can be found implemented below. The first takes as i
 
 Bibliography
 ------------
-.. bibliography:: ./graph_kernels.bib
+.. bibliography:: ../biblio.bib
    :filter: docname in docnames

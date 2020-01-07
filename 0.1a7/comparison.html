@@ -97,7 +97,10 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Comparison with Other Packages</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#experimental-setup">Experimental Setup</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#real-world-datasets">Real-World Datasets</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#synthetic-datasets">Synthetic Datasets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#synthetic-datasets">Synthetic Datasets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#bibliography">Bibliography</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="evaluation.html">Evaluation Study</a></li>
@@ -173,8 +176,8 @@
             
   <div class="section" id="comparison-with-other-packages">
 <span id="comparison"></span><h1>Comparison with Other Packages<a class="headerlink" href="#comparison-with-other-packages" title="Permalink to this headline">¶</a></h1>
-<p>We next compare the running times of <em>GraKeL</em> and the <em>graphkernels</em> library .</p>
-<p>There are 6 common kernels in the two libraries: (1) the vertex histogram kernel (VH), (2) the edge histogram kernel (EH), (3) the geometric random walk kernel (GRW), (4) the shortest path kernel (SP), (5) the Weisfeiler-Lehman subtree kernel (WL), and (6) the graphlet kernel (GL). We compare the running time of the implementations of those kernels included in the two libraries on several real-world and synthetic datasets. It should be mentioned that the implementation of the graphlet kernel that is included in the texttt{graphkernels} library crashed on all datasets (real-world and synthetic) except MUTAG. Hence, we report the running times of only the first 5 kernels.</p>
+<p>We next compare the running times of <em>GraKeL</em> and the <em>graphkernels</em> library <a class="reference internal" href="#sugiyama2017graphkernels" id="id1">[sugiyama2017graphkernels]</a>.</p>
+<p>There are 6 common kernels in the two libraries: (1) the vertex histogram kernel (VH), (2) the edge histogram kernel (EH), (3) the geometric random walk kernel (GRW), (4) the shortest path kernel (SP), (5) the Weisfeiler-Lehman subtree kernel (WL), and (6) the graphlet kernel (GL). We compare the running time of the implementations of those kernels included in the two libraries on several real-world and synthetic datasets. It should be mentioned that the implementation of the graphlet kernel that is included in the <em>graphkernels</em> library crashed on all datasets (real-world and synthetic) except MUTAG. Hence, we report the running times of only the first 5 kernels.</p>
 <div class="section" id="experimental-setup">
 <h2>Experimental Setup<a class="headerlink" href="#experimental-setup" title="Permalink to this headline">¶</a></h2>
 <p>We use the two libraries to compute the kernel matrix of each dataset and we report CPU running times (in seconds). Hence, for a dataset that contains <span class="math notranslate nohighlight">\(N\)</span> graphs and a kernel <span class="math notranslate nohighlight">\(k\)</span>, we report the running time for constructing the <span class="math notranslate nohighlight">\(N \times N\)</span> gram matrix using kernel <span class="math notranslate nohighlight">\(k\)</span>. All experiments are conducted on a workstation running Linux with an Intel Xeon W-2123 CPU clocked at 3.60GHz and 64GB of RAM.</p>
@@ -283,17 +286,27 @@
 </div>
 <div class="section" id="synthetic-datasets">
 <h2>Synthetic Datasets<a class="headerlink" href="#synthetic-datasets" title="Permalink to this headline">¶</a></h2>
-<p>We next evaluate how the two libraries scale as the size of the input graphs increases. More specifically, we generate random Erd{H{o}}s-R{‘e}nyi graph instances of increasing size. We increase the number of vertices from 20 to 160 in steps of 20. The average degree of all generated graphs is equal to 4. For each unique size (i.e., 20,30,…,160), we generate 100 random graphs. The Figure below illustrates the running time of the kernels of the GraKeL and the <em>graphkernels</em> libraries as a function of the number of vertices in the graphs.</p>
+<p>We next evaluate how the two libraries scale as the size of the input graphs increases. More specifically, we generate random Erdős‐Rényi graph instances of increasing size. We increase the number of vertices from 20 to 160 in steps of 20. The average degree of all generated graphs is equal to 4. For each unique size (i.e., 20,30,…,160), we generate 100 random graphs. The Figure below illustrates the running time of the kernels of the GraKeL and the <em>graphkernels</em> libraries as a function of the number of vertices in the graphs.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/number_of_nodes.svg"><img alt="_images/number_of_nodes.svg" src="_images/number_of_nodes.svg" /></a>
 </div>
 <p>In general, we observe that the VH, EH and WL implementations in GraKeL are slower than the corresponding implementations in <em>graphkernels</em>. However, the difference in running time is in all cases very low (less than 0.5 seconds). On the other hand, the SP and GRW implementations in <em>GraKeL</em> are much faster than the corresponding implementations in <em>graphkernels</em>, and the difference in running time increase a lot as the size of the graphs increases.</p>
-<p>We also measure the running time of the kernels of the two libraries as a function of the size of the dataset (i.e., number of graphs). Once again, we generate random Erd{H{o}}s-R{‘e}nyi graph instances consisting of 50 nodes and 100 vertices (i.e., average degree equal to 4). We increase the number of graphs from 100 to 500 in steps of 100. The Figure below compares the running times of the kernels of the two libraries with respect to the number of graphs contained in the dataset.</p>
+<p>We also measure the running time of the kernels of the two libraries as a function of the size of the dataset (i.e., number of graphs). Once again, we generate random Erdős‐Rényi graph instances consisting of 50 nodes and 100 vertices (i.e., average degree equal to 4). We increase the number of graphs from 100 to 500 in steps of 100. The Figure below compares the running times of the kernels of the two libraries with respect to the number of graphs contained in the dataset.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/number_of_graphs.svg"><img alt="_images/number_of_graphs.svg" src="_images/number_of_graphs.svg" /></a>
 </div>
 <p>We can see that the WL kernel in <em>graphkernels</em> is faster than its corresponding implementation in <em>GraKeL</em>. The computation times of the implementations of VH in the two libraries are comparable to each other. Interestingly, the implementation of EH in <em>graphkernels</em> is faster than its implementation in <em>GraKeL</em> on small datasets. However, the difference in running time between the two implementations decreases as the size of the dataset increases, and the implementation of EH in <em>GraKeL</em> becomes more efficient when the dataset contains more tahn 400 graphs. Finally, the implementations of SP and GRW that are included in <em>GraKeL</em> are again much faster than the corresponding implementations in <em>graphkernels</em>.</p>
 <p>Overall, the WL kernel in the <em>graphkernels</em> library is faster than that in <em>GraKeL</em>. However, the difference in running time is very small and therefore, the running time of the <em>GraKeL</em> implementation is by no means prohibitive. The implementations of the VH and EH kernels in the two libraries perform comparably in terms of running time, while <em>GraKeL</em> contains much more efficient implementations of the SP and GRW kernels compared to <em>graphkernels</em>.</p>
+<div class="section" id="bibliography">
+<h3>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">¶</a></h3>
+<p id="bibtex-bibliography-comparison-0"><table class="bibtex docutils citation" frame="void" id="sugiyama2017graphkernels" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[SGLLopezB17]</a></td><td>Mahito Sugiyama, M&nbsp;Elisabetta Ghisu, Felipe Llinares-López, and Karsten Borgwardt. Graphkernels: r and python packages for graph comparison. <em>Bioinformatics</em>, 34(3):530–532, 2017.</td></tr>
+</tbody>
+</table>
+</p>
+</div>
 </div>
 </div>
 

@@ -103,6 +103,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#initializing-a-framework">Initializing a Framework</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#computing-the-kernel-between-two-graphs">Computing the Kernel Between Two Graphs</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#performing-graph-classification">Performing Graph Classification</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bibliography">Bibliography</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="core_concepts.html">Core Concepts</a></li>
@@ -478,7 +479,7 @@ G = Graph(adj, edge_labels=edge_attributes)
 </div>
 <div class="section" id="initializing-a-graph-kernel">
 <h2>Initializing a Graph Kernel<a class="headerlink" href="#initializing-a-graph-kernel" title="Permalink to this headline">¶</a></h2>
-<p>One of the most popular graph kernels is the <em>shortest path kernel</em> which counts the number of shortest paths of equal length in two graphs [Borgwardt2005ShortestpathKO].</p>
+<p>One of the most popular graph kernels is the <em>shortest path kernel</em> which counts the number of shortest paths of equal length in two graphs <a class="reference internal" href="../kernels/shortest_path.html#borgwardt2005shortest" id="id1">[borgwardt2005shortest]</a>.</p>
 <p>After installing the library (see <a class="reference internal" href="installation.html#installation"><span class="std std-ref">Installing GraKeL</span></a>), we can initialize an instance of the shortest path kernel as follows:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">grakel</span> <span class="kn">import</span> <span class="n">GraphKernel</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sp_kernel</span> <span class="o">=</span> <span class="n">GraphKernel</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s2">&quot;shortest_path&quot;</span><span class="p">)</span>
@@ -492,7 +493,7 @@ G = Graph(adj, edge_labels=edge_attributes)
 </div>
 <div class="section" id="initializing-a-framework">
 <h2>Initializing a Framework<a class="headerlink" href="#initializing-a-framework" title="Permalink to this headline">¶</a></h2>
-<p>Research in the field of graph kernels has not only focused on designing new kernels between graphs, but also on frameworks and approaches that can be applied to existing graph kernels and increase their performance. The most popular of all frameworks is perhaps the <em>Weisfeiler-Lehman framework</em> [Shervashidze2011WeisfeilerLehmanGK]. The Weisfeiler-Lehman framework works on top of some graph kernel, known as the <em>base kernel</em>. We can initialize the well-known Weisfeiler-Lehman subtree kernel (Weisfeiler-Lehman framework on top of the <em>vertex histogram</em> kernel) as follows:</p>
+<p>Research in the field of graph kernels has not only focused on designing new kernels between graphs, but also on frameworks and approaches that can be applied to existing graph kernels and increase their performance. The most popular of all frameworks is perhaps the <em>Weisfeiler-Lehman framework</em> <a class="reference internal" href="../kernels/weisfeiler_lehman.html#shervashidze2011weisfeiler" id="id2">[shervashidze2011weisfeiler]</a>. The Weisfeiler-Lehman framework works on top of some graph kernel, known as the <em>base kernel</em>. We can initialize the well-known Weisfeiler-Lehman subtree kernel (Weisfeiler-Lehman framework on top of the <em>vertex histogram</em> kernel) as follows:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="kn">import</span> <span class="n">WeisfeilerLehman</span><span class="p">,</span> <span class="n">VertexHistogram</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">wl_kernel</span> <span class="o">=</span> <span class="n">WeisfeilerLehman</span><span class="p">(</span><span class="n">base_kernel</span><span class="o">=</span><span class="n">VertexHistogram</span><span class="p">)</span>
 </pre></div>
@@ -580,6 +581,22 @@ G = Graph(adj, edge_labels=edge_attributes)
 <span class="go">79.00 %</span>
 </pre></div>
 </div>
+</div>
+<div class="section" id="bibliography">
+<h2>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">¶</a></h2>
+<p id="bibtex-bibliography-documentation/introduction-0"><table class="bibtex docutils citation" frame="void" id="borgwardt2005shortest" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[BK05]</a></td><td>Karsten&nbsp;M. Borgwardt and Hans-Peter Kriegel. Shortest-path kernels on graphs. In <em>Proceedings of the 5th International Conference on Data Mining</em>, 74–81. 2005.</td></tr>
+</tbody>
+</table>
+<table class="bibtex docutils citation" frame="void" id="shervashidze2011weisfeiler" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[SSVL+11]</a></td><td>Nino Shervashidze, Pascal Schweitzer, Erik Jan&nbsp;van Van&nbsp;Leeuwen, Kurt Mehlhorn, and Karsten&nbsp;M. Borgwardt. Weisfeiler-Lehman Graph Kernels. <em>Journal of Machine Learning Research</em>, 12:2539–2561, 2011.</td></tr>
+</tbody>
+</table>
+</p>
 </div>
 </div>
 

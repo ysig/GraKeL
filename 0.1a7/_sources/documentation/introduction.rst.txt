@@ -242,7 +242,7 @@ An edge-attributed graph is a graph endowed with a function :math:`f : E \righta
 
 Initializing a Graph Kernel
 ---------------------------
-One of the most popular graph kernels is the *shortest path kernel* which counts the number of shortest paths of equal length in two graphs :cite:`Borgwardt2005ShortestpathKO`.
+One of the most popular graph kernels is the *shortest path kernel* which counts the number of shortest paths of equal length in two graphs :cite:`borgwardt2005shortest`.
 
 After installing the library (see :ref:`installation`), we can initialize an instance of the shortest path kernel as follows:
 
@@ -260,7 +260,7 @@ Alternatively, we can directly create an instance of :class:`grakel.kernels.Shor
 
 Initializing a Framework
 ------------------------
-Research in the field of graph kernels has not only focused on designing new kernels between graphs, but also on frameworks and approaches that can be applied to existing graph kernels and increase their performance. The most popular of all frameworks is perhaps the *Weisfeiler-Lehman framework* :cite:`Shervashidze2011WeisfeilerLehmanGK`. The Weisfeiler-Lehman framework works on top of some graph kernel, known as the *base kernel*. We can initialize the well-known Weisfeiler-Lehman subtree kernel (Weisfeiler-Lehman framework on top of the *vertex histogram* kernel) as follows:
+Research in the field of graph kernels has not only focused on designing new kernels between graphs, but also on frameworks and approaches that can be applied to existing graph kernels and increase their performance. The most popular of all frameworks is perhaps the *Weisfeiler-Lehman framework* :cite:`shervashidze2011weisfeiler`. The Weisfeiler-Lehman framework works on top of some graph kernel, known as the *base kernel*. We can initialize the well-known Weisfeiler-Lehman subtree kernel (Weisfeiler-Lehman framework on top of the *vertex histogram* kernel) as follows:
 
 .. code-block:: python
 
@@ -375,3 +375,8 @@ Finally, we can print the classification accuracy as follows:
     >>> from sklearn.metrics import accuracy_score
     >>> print("%2.2f %%" %(round(accuracy_score(y_test, y_pred)*100)))
     79.00 %
+
+Bibliography
+------------
+.. bibliography:: ../biblio.bib
+   :filter: docname in docnames
