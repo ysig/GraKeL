@@ -50,19 +50,15 @@ A list of areas where contribution seems important are the following:
 .. _develop: https://github.com/ysig/GraKeL/tree/develop
 
 
-Who to blame for the GraKeL project
+Who to Blame for the GraKeL Project
 -----------------------------------
-The GraKeL project is currently developed by the editor [Ioannis Siglidis] inside a one year project founded from the `Labex DigiCosme`_
-organization of the *Paris-Saclay* University at the `DaSciM`_ laboratory of LiX.
-
-The project is currently carried out under the administrative supervision of the DaSciM Team Leader, `Michalis Vazirgiannis`_ as well as the scientific
-supervision of Giannis Nikolentzos, a postdoctoral researcher.
-Other members of the lab aiding with the construction of this library are: Christos Giatsidis, Stratis Limnios and Konstantinos Skianis.
+The *GraKeL* project started in 2018 as part of a one year project funded by `Labex DigiCosme`_. The main contributor to *GraKeL*'s development is Ioannis Siglidis. Ioannis is also responsible for its maintenance. Giannis Nikolentzos is also an active contributor. The project was carried out under the supervision of Professor `Michalis Vazirgiannis`_ at the LIX laboratory of École Polytechnique. The following people have also contributed to the project: Christos Giatsidis, Stratis Limnios and Konstantinos Skianis.
 
 License
 -------
-GraKeL is distributed under the __BSD 3-clause__ license. The library makes use of the C++ source code of [BLISS](http://www.tcs.hut.fi/Software/bliss) (a tool for computing automorphism groups and canonical labelings of graphs) which is __LGPL__ licensed. Futhermore, the [cvxopt](https://cvxopt.org/) package (a software package for convex optimization) which is an optional dependency of GraKeL is __GPL__ licensed.
+GraKeL is distributed under the __BSD 3-clause__ license. The library makes use of the C++ source code of BLISS_ (a tool for computing automorphism groups and canonical labelings of graphs) which is __LGPL__ licensed. Futhermore, the cvxopt_ package (a software package for convex optimization) which is an optional dependency of GraKeL is __GPL__ licensed.
 
-.. _DaSciM: http://www.lix.polytechnique.fr/dascim/
-.. _Michalis Vazirgiannis: http://www.lix.polytechnique.fr/~mvazirg/
 .. _Labex DigiCosme: https://digicosme.lri.fr/tiki-index.php
+.. _Michalis Vazirgiannis: http://www.lix.polytechnique.fr/~mvazirg/
+.. _BLISS: http://www.tcs.hut.fi/Software/bliss
+.. _cvxopt: https://cvxopt.org/

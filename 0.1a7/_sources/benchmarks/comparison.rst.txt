@@ -40,7 +40,7 @@ We first evaluate the two libraries on standard graph classification datasets de
 
 The Table above shows statistics of the 6 datasets, while the following Figure shows the running times of the implementations of the 5 kernels contained in the two libraries.
 
-.. figure:: _figures/datasets.svg
+.. figure:: ../_figures/datasets.svg
   :scale: 100%
   :align: center
 
@@ -50,7 +50,7 @@ Synthetic Datasets
 ^^^^^^^^^^^^^^^^^^
 We next evaluate how the two libraries scale as the size of the input graphs increases. More specifically, we generate random Erdős‐Rényi graph instances of increasing size. We increase the number of vertices from 20 to 160 in steps of 20. The average degree of all generated graphs is equal to 4. For each unique size (i.e., 20,30,...,160), we generate 100 random graphs. The Figure below illustrates the running time of the kernels of the GraKeL and the *graphkernels* libraries as a function of the number of vertices in the graphs.
 
-.. figure:: _figures/number_of_nodes.svg
+.. figure:: ../_figures/number_of_nodes.svg
   :scale: 100%
   :align: center
 
@@ -58,7 +58,7 @@ In general, we observe that the VH, EH and WL implementations in GraKeL are slow
 
 We also measure the running time of the kernels of the two libraries as a function of the size of the dataset (i.e., number of graphs). Once again, we generate random Erdős‐Rényi graph instances consisting of 50 nodes and 100 vertices (i.e., average degree equal to 4). We increase the number of graphs from 100 to 500 in steps of 100. The Figure below compares the running times of the kernels of the two libraries with respect to the number of graphs contained in the dataset.
 
-.. figure:: _figures/number_of_graphs.svg
+.. figure:: ../_figures/number_of_graphs.svg
   :scale: 100%
   :align: center
 
