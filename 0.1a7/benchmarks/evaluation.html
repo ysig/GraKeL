@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Computation times &mdash; GraKeL 0.1a7 documentation</title>
+  <title>Evaluation Study &mdash; GraKeL 0.1a7 documentation</title>
   
 
   
@@ -37,7 +37,9 @@
   <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="../_static/_static/css/supplementary.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" /> 
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="GraKeL" href="../api.html" />
+    <link rel="prev" title="Comparison with Other Packages" href="comparison.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -91,13 +93,17 @@
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../documentation.html">Documentation</a></li>
 </ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../benchmarks.html">Benchmarks</a></li>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../benchmarks.html">Benchmarks</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="comparison.html">Comparison with Other Packages</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Evaluation Study</a></li>
+</ul>
+</li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../api.html">GraKeL</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../classes.html">API Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorials.html">Tutorials</a></li>
 </ul>
 
@@ -144,13 +150,15 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>Computation times</li>
+          <li><a href="../benchmarks.html">Benchmarks</a> &raquo;</li>
+        
+      <li>Evaluation Study</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/auto_examples/sg_execution_times.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/benchmarks/evaluation.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -163,21 +171,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="computation-times">
-<span id="sphx-glr-auto-examples-sg-execution-times"></span><h1>Computation times<a class="headerlink" href="#computation-times" title="Permalink to this headline">¶</a></h1>
-<p><strong>00:01.937</strong> total execution time for <strong>auto_examples</strong> files:</p>
-<ul class="simple">
-<li><strong>00:01.937</strong>: <a class="reference internal" href="plot_wl_subtree_MUTAG.html#sphx-glr-auto-examples-plot-wl-subtree-mutag-py"><span class="std std-ref">Classification on the MUTAG dataset using the WL-subtree kernel.</span></a> (<code class="docutils literal notranslate"><span class="pre">plot_wl_subtree_MUTAG.py</span></code>)</li>
-<li><strong>00:00.000</strong>: <a class="reference internal" href="KFold_MLG.html#sphx-glr-auto-examples-kfold-mlg-py"><span class="std std-ref">K-Fold classification on the ENZYMES dataset using the approximate Multiscale Laplacian kernel.</span></a> (<code class="docutils literal notranslate"><span class="pre">KFold_MLG.py</span></code>)</li>
-<li><strong>00:00.000</strong>: <a class="reference internal" href="document_retrieval_example.html#sphx-glr-auto-examples-document-retrieval-example-py"><span class="std std-ref">Retrieval of most similar document using the Weisfeiler-Lehman subtree kernel.</span></a> (<code class="docutils literal notranslate"><span class="pre">document_retrieval_example.py</span></code>)</li>
-<li><strong>00:00.000</strong>: <a class="reference internal" href="erdos_renyi.html#sphx-glr-auto-examples-erdos-renyi-py"><span class="std std-ref">Graph classification on a randomly generated dataset of Erdos-Renyi graphs.</span></a> (<code class="docutils literal notranslate"><span class="pre">erdos_renyi.py</span></code>)</li>
-<li><strong>00:00.000</strong>: <a class="reference internal" href="lovasz_svm_theta.html#sphx-glr-auto-examples-lovasz-svm-theta-py"><span class="std std-ref">Classification on MUTAG using the Lovasz theta and SVM-theta kernels.</span></a> (<code class="docutils literal notranslate"><span class="pre">lovasz_svm_theta.py</span></code>)</li>
-<li><strong>00:00.000</strong>: <a class="reference internal" href="nx_to_grakel.html#sphx-glr-auto-examples-nx-to-grakel-py"><span class="std std-ref">Example of transforming NetworkX graphs to GraKeL graphs.</span></a> (<code class="docutils literal notranslate"><span class="pre">nx_to_grakel.py</span></code>)</li>
-<li><strong>00:00.000</strong>: <a class="reference internal" href="optimizing_hyperparameters.html#sphx-glr-auto-examples-optimizing-hyperparameters-py"><span class="std std-ref">Performing cross-validation n times, optimizing SVM’s and kernel’s hyperparameters.</span></a> (<code class="docutils literal notranslate"><span class="pre">optimizing_hyperparameters.py</span></code>)</li>
-<li><strong>00:00.000</strong>: <a class="reference internal" href="pipeline_example.html#sphx-glr-auto-examples-pipeline-example-py"><span class="std std-ref">Example of building a graph classification pipeline.</span></a> (<code class="docutils literal notranslate"><span class="pre">pipeline_example.py</span></code>)</li>
-<li><strong>00:00.000</strong>: <a class="reference internal" href="shortest_path.html#sphx-glr-auto-examples-shortest-path-py"><span class="std std-ref">Graph classification on MUTAG using the shortest path kernel.</span></a> (<code class="docutils literal notranslate"><span class="pre">shortest_path.py</span></code>)</li>
-<li><strong>00:00.000</strong>: <a class="reference internal" href="weisfeiler_lehman_subtree.html#sphx-glr-auto-examples-weisfeiler-lehman-subtree-py"><span class="std std-ref">Graph classification on MUTAG using the Weisfeiler-Lehman subtree kernel.</span></a> (<code class="docutils literal notranslate"><span class="pre">weisfeiler_lehman_subtree.py</span></code>)</li>
-</ul>
+  <div class="section" id="evaluation-study">
+<span id="evaluation"></span><h1>Evaluation Study<a class="headerlink" href="#evaluation-study" title="Permalink to this headline">¶</a></h1>
 </div>
 
 
@@ -185,6 +180,15 @@
            
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../api.html" class="btn btn-neutral float-right" title="GraKeL" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="comparison.html" class="btn btn-neutral float-left" title="Comparison with Other Packages" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>
