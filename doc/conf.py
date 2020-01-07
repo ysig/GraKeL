@@ -376,8 +376,3 @@ linkcode_resolve = make_linkcode_resolve('grakel',
                                          u'https://github.com/ysig/GraKeL'
                                          '/blob/{revision}/'
                                          '{package}/{path}#L{lineno}')
-
-
-# Use numerical citation style
-.. bibliography:: ./biblio.bib
-    :style: plain
