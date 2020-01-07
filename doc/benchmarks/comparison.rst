@@ -68,5 +68,5 @@ Overall, the WL kernel in the *graphkernels* library is faster than that in *Gra
 
 Bibliography
 ------------
-.. bibliography:: ./biblio.bib
+.. bibliography:: ../biblio.bib
    :filter: docname in docnames
