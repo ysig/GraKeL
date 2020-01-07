@@ -379,4 +379,5 @@ Finally, we can print the classification accuracy as follows:
 Bibliography
 ------------
 .. bibliography:: ../biblio.bib
+   :style: plain
    :filter: docname in docnames
