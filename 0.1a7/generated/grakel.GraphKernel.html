@@ -1,0 +1,758 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>grakel.GraphKernel &mdash; GraKeL 0.1a7 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/_static/css/supplementary.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Graph (class)" href="../graph.html" />
+    <link rel="prev" title="GraphKernel (class)" href="../graph_kernel.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> GraKeL
+          
+
+          
+            
+            <img src="../_static/logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1a7
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">Documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../benchmarks.html">Benchmarks</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../api.html">GraKeL</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../classes.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-graph-graph-class-with-its-utility-functions"><code class="docutils literal notranslate"><span class="pre">grakel.graph</span></code>: Graph class with its utility functions</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../classes.html#grakel-graph-kernels-a-kernel-decorator"><code class="docutils literal notranslate"><span class="pre">grakel.graph_kernels</span></code>: A kernel decorator</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../classes.html#graph-kernel-decorator">Graph Kernel (decorator)</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.GraphKernel</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-kernels-a-collection-of-graph-kernels"><code class="docutils literal notranslate"><span class="pre">grakel.kernels</span></code>: A collection of graph kernels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-datasets-datasets"><code class="docutils literal notranslate"><span class="pre">grakel.datasets</span></code>: Datasets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-utils"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>: Utils</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials.html">Tutorials</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">GraKeL</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../api.html">GraKeL</a> &raquo;</li>
+        
+          <li><a href="../graph_kernel.html">GraphKernel (class)</a> &raquo;</li>
+        
+      <li><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.GraphKernel</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/generated/grakel.GraphKernel.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="grakel-graphkernel">
+<h1><a class="reference internal" href="../api.html#module-grakel" title="grakel"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code></a>.GraphKernel<a class="headerlink" href="#grakel-graphkernel" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="grakel.GraphKernel">
+<em class="property">class </em><code class="descclassname">grakel.</code><code class="descname">GraphKernel</code><span class="sig-paren">(</span><em>kernel='shortest_path'</em>, <em>normalize=False</em>, <em>verbose=False</em>, <em>n_jobs=None</em>, <em>random_state=None</em>, <em>Nystroem=False</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/502c1897/grakel/graph_kernels.py#L78"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/graph_kernels.html#GraphKernel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphKernel" title="Permalink to this definition">¶</a></dt>
+<dd><p>A generic wrapper for graph kernels.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>kernel</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list*(dict or str)</span></dt>
+<dd><p class="first">A single element or a list of <code class="code docutils literal notranslate"><span class="pre">dict</span></code> with:</p>
+<blockquote>
+<div><ul class="simple">
+<li>“name” : [str] - with the kernel name</li>
+<li>“name_of_parameter_1” : value</li>
+<li>“name_of_parameter_2” : value</li>
+<li><span class="math notranslate nohighlight">\(\;\cdots\;\)</span></li>
+<li>“name_of_parameter_k” : value</li>
+</ul>
+</div></blockquote>
+<p>or of <code class="code docutils literal notranslate"><span class="pre">str</span></code>, designating a kernel name.</p>
+<dl class="docutils">
+<dt>available “name” or “name-alias” / “parametres” are:</dt>
+<dd><ol class="first last arabic">
+<li><p class="first">base_graph_kernels (the structure must always reach a base kernel)</p>
+<blockquote>
+<div><ul class="simple">
+<li><dl class="first docutils">
+<dt>“vertex_histogram” or “subtree_wl” or “VH” or “ST-WL”</dt>
+<dd><ul class="first last">
+<li>(<strong>o</strong>) “sparse” : bool or ‘auto’</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>“edge_histogram” or “EH”</dt>
+<dd><ul class="first last">
+<li>(<strong>o</strong>) “sparse” : bool or ‘auto’</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>“random_walk” or “RW”</dt>
+<dd><ul class="first last">
+<li>(<strong>o</strong>) “with_labels” : bool</li>
+<li>(<strong>o</strong>) “lamda” : float</li>
+<li>(<strong>o</strong>) “method_type” : [str], “baseline”, “fast”</li>
+<li>(<strong>o</strong>) “kernel_type” : [str], “geometric”, “exponential”</li>
+<li>(<strong>o</strong>) “p” : [int] &gt; 0</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>“shortest_path” or “SP”</dt>
+<dd><ul class="first last">
+<li>(<strong>o</strong>) “algorithm_type” : [str] “dijkstra”, “floyd_warshall”</li>
+<li>(<strong>o</strong>) “as_attributes” : [bool]</li>
+<li>(<strong>o</strong>) “metric” : [function] : (attribute_x, attribute_y) -&gt; number</li>
+<li>(<strong>o</strong>) “with_labels” : [bool]</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>“graphlet_sampling” or “GR”</dt>
+<dd><ul class="first last">
+<li>(<strong>o</strong>) “k” : [int]</li>
+<li>(<strong>o</strong>) “sampling” : [dict] or <strong>None</strong></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>“multiscale_laplacian” or “ML”</dt>
+<dd><ul class="first last">
+<li>(<strong>o</strong>) “which” : [str] “slow”, “fast”</li>
+<li>(<strong>o</strong>) “L” : [int] &gt; 0</li>
+<li>(<strong>o</strong>) “gamma” : [float] &gt; .0</li>
+<li>(<strong>o</strong>) “heta” : [float] &gt; .0</li>
+<li>(<strong>o</strong>) “n_samples” : [int] &gt; 0, if “which”: “fast”</li>
+<li>(<strong>o</strong>) “P” : [int] &gt; 0, if “which”: “fast”</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>“subgraph_matching” or “SM”</dt>
+<dd><ul class="first last">
+<li>(<strong>o</strong>) “kv” : [function] : (node_x, node_y, Lx, Ly) -&gt; number</li>
+<li>(<strong>o</strong>) “ke” : [function] : (edge_x, edge_y, Lx, Ly) -&gt; number</li>
+<li>(<strong>o</strong>) “lw” : a lambda weight function for cliques: set -&gt; number</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>“lovasz_theta” or “LOVT”</dt>
+<dd><ul class="first last">
+<li>(<strong>o</strong>) “n_samples” : [int] &gt; 1</li>
+<li>(<strong>o</strong>) “subsets_size_range” : [tuple] of two [int]</li>
+<li>(<strong>o</strong>) “metric” : [function] (number, number) -&gt; number</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>“svm_theta” or “SVMT”</dt>
+<dd><ul class="first last">
+<li>(<strong>o</strong>) “n_samples” : [int] &gt; 1</li>
+<li>(<strong>o</strong>) “subsets_size_range” : [tuple] with 2 [int] elements</li>
+<li>(<strong>o</strong>) “metric” : [function] (number, number) -&gt; number</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>“neighborhood_hash” or “NH”</dt>
+<dd><ul class="first last">
+<li>(<strong>o</strong>) “nh_type” : [str] “simple” or “count-sensitive”</li>
+<li>(<strong>o</strong>) “R” : [int] &gt; 0</li>
+<li>(<strong>o</strong>) “bits” : [int] &gt; 0</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>“neighborhood_subgraph_pairwise_distance” or “NSPD”</dt>
+<dd><ul class="first last">
+<li>(<strong>o</strong>) “r” : (int) positive integer</li>
+<li>(<strong>o</strong>) “d” : (int) positive integer</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>“odd_sth” or “ODD”</dt>
+<dd><ul class="first last">
+<li>(<strong>o</strong>) “h” : [int] &gt; 0</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>“propagation” or “PR”</dt>
+<dd><ul class="first last">
+<li>(<strong>o</strong>) t_max: [int] &gt; 0</li>
+<li>(<strong>o</strong>) T: [dict] [int]: [np.arrays]</li>
+<li>(<strong>o</strong>) with_attributes: [bool], default=False</li>
+<li>(<strong>o</strong>) M: [str] {“H”, “TV”} if <cite>with_attributes=True</cite> else {“L1”, “L2”}</li>
+<li>(<strong>o</strong>) w: [int] &gt; 0</li>
+<li>(<strong>o</strong>) metric: [function] x:[Counter] , y:[Counter] -&gt; [number]</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>“pyramid_match” or “PM”</dt>
+<dd><ul class="first last">
+<li>(<strong>o</strong>) with_labels: [bool]</li>
+<li>(<strong>o</strong>) d: [int] &gt; 0</li>
+<li>(<strong>o</strong>) L: [int] &gt;= 0</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>“graph_hopper” or “GH”</dt>
+<dd><ul class="first last">
+<li>(<strong>o</strong>) kernel_type: [str: {‘linear’, ‘gaussian’}] or [tuple: {(‘gaussian’, mu)}]
+or [function] x:[(np.array, np.array)] , y:[(np.array, np.array)] -&gt; [number]</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+</li>
+<li><dl class="first docutils">
+<dt>frameworks (if a next kernel in the list it asssigned as a base-kernel, else see default)</dt>
+<dd><ul class="first last simple">
+<li><dl class="first docutils">
+<dt>“weisfeiler_lehman” or “WL” / default=”VH”</dt>
+<dd><ul class="first last">
+<li>(<strong>o</strong>) “n_iter” : [int] &gt;= 0</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>“hadamard_code” or “HC” / default=”VH”</dt>
+<dd><ul class="first last">
+<li>(<strong>o</strong>) “n_iter” : [int] &gt; 0</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>“core_framework” or “CORE” / default=”SP”</dt>
+<dd><ul class="first last">
+<li>(<strong>o</strong>) “min_core” : [int] &gt;= -1</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ol>
+</dd>
+</dl>
+<p class="last">where (<strong>o</strong>): stands for optional parameters</p>
+</dd>
+<dt><strong>Nystroem</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int or bool, optional</span></dt>
+<dd><p class="first last">Defines the number of nystroem components.
+To initialize the default (100 components), set -1 or 0.</p>
+</dd>
+<dt><strong>n_jobs</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int or None, optional</span></dt>
+<dd><p class="first last">Defines the number of jobs of a joblib.Parallel objects needed for parallelization
+or None for direct execution. The use or not of this function depends on each kernel.</p>
+</dd>
+<dt><strong>normalize</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional</span></dt>
+<dd><p class="first last">Normalize the output of the graph kernel.
+Ignored when Nystroem GraphKernel object is instanciated.</p>
+</dd>
+<dt><strong>verbose</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional</span></dt>
+<dd><p class="first last">Define if messages will be printed on stdout.</p>
+</dd>
+<dt><strong>random_state</strong> <span class="classifier-delimiter">:</span> <span class="classifier">RandomState or int, default=None</span></dt>
+<dd><p class="first last">A random number generator instance or an int to initialize a RandomState as a seed.</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>_initialized</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd><p class="first last">Monitors which parameter derived object should be _initialized.</p>
+</dd>
+<dt><strong>kernel_</strong> <span class="classifier-delimiter">:</span> <span class="classifier">function</span></dt>
+<dd><p class="first last">The full kernel applied between graph objects.</p>
+</dd>
+<dt><strong>nystroem_</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Holds the nystroem, number of components.
+If not _initialized, it stands as a False
+boolean variable.</p>
+</dd>
+<dt><strong>components_</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array, shape=(n_components, n_features)</span></dt>
+<dd><p class="first last">Subset of training graphs used to construct the feature map.</p>
+</dd>
+<dt><strong>nystroem_normalization_</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array, shape=(n_components, n_components)</span></dt>
+<dd><p class="first last">Normalization matrix needed for embedding.
+Square root of the kernel matrix on <code class="docutils literal notranslate"><span class="pre">components_</span></code>.</p>
+</dd>
+<dt><strong>component_indices_</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array, shape=(n_components)</span></dt>
+<dd><p class="first last">Indices of <code class="docutils literal notranslate"><span class="pre">components_</span></code> in the training set.</p>
+</dd>
+<dt><strong>random_state_</strong> <span class="classifier-delimiter">:</span> <span class="classifier">RandomState</span></dt>
+<dd><p class="first last">A RandomState object handling all randomness of the class.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.GraphKernel.fit" title="grakel.GraphKernel.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(self,&nbsp;X[,&nbsp;y])</td>
+<td>Fit a dataset, for a transformer.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.GraphKernel.fit_transform" title="grakel.GraphKernel.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code></a>(self,&nbsp;X[,&nbsp;y])</td>
+<td>Fit and transform, on the same dataset.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.GraphKernel.get_params" title="grakel.GraphKernel.get_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code></a>(self[,&nbsp;deep])</td>
+<td>Get parameters for this estimator.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.GraphKernel.initialize" title="grakel.GraphKernel.initialize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize</span></code></a>(self)</td>
+<td>Initialize all transformer arguments, needing initialisation.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.GraphKernel.make_kernel_" title="grakel.GraphKernel.make_kernel_"><code class="xref py py-obj docutils literal notranslate"><span class="pre">make_kernel_</span></code></a>(self,&nbsp;kernel_list,&nbsp;hidden_args)</td>
+<td>Produce the desired kernel function.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.GraphKernel.set_params" title="grakel.GraphKernel.set_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code></a>(self,&nbsp;\*\*params)</td>
+<td>Call the parent method.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.GraphKernel.transform" title="grakel.GraphKernel.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(self,&nbsp;X)</td>
+<td>Calculate the kernel matrix, between given and fitted dataset.</td>
+</tr>
+</tbody>
+</table>
+<p><cite>__init__</cite> for <cite>GraphKernel</cite> object.</p>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.GraphKernel.fit" title="grakel.GraphKernel.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(self,&nbsp;X[,&nbsp;y])</td>
+<td>Fit a dataset, for a transformer.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.GraphKernel.fit_transform" title="grakel.GraphKernel.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code></a>(self,&nbsp;X[,&nbsp;y])</td>
+<td>Fit and transform, on the same dataset.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.GraphKernel.get_params" title="grakel.GraphKernel.get_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code></a>(self[,&nbsp;deep])</td>
+<td>Get parameters for this estimator.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.GraphKernel.initialize" title="grakel.GraphKernel.initialize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize</span></code></a>(self)</td>
+<td>Initialize all transformer arguments, needing initialisation.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.GraphKernel.make_kernel_" title="grakel.GraphKernel.make_kernel_"><code class="xref py py-obj docutils literal notranslate"><span class="pre">make_kernel_</span></code></a>(self,&nbsp;kernel_list,&nbsp;hidden_args)</td>
+<td>Produce the desired kernel function.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#grakel.GraphKernel.set_params" title="grakel.GraphKernel.set_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code></a>(self,&nbsp;\*\*params)</td>
+<td>Call the parent method.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#grakel.GraphKernel.transform" title="grakel.GraphKernel.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(self,&nbsp;X)</td>
+<td>Calculate the kernel matrix, between given and fitted dataset.</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="grakel.GraphKernel.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>self</em>, <em>kernel='shortest_path'</em>, <em>normalize=False</em>, <em>verbose=False</em>, <em>n_jobs=None</em>, <em>random_state=None</em>, <em>Nystroem=False</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/502c1897/grakel/graph_kernels.py#L264"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/graph_kernels.html#GraphKernel.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphKernel.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p><cite>__init__</cite> for <cite>GraphKernel</cite> object.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="grakel.GraphKernel.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>self</em>, <em>X</em>, <em>y=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/502c1897/grakel/graph_kernels.py#L285"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/graph_kernels.html#GraphKernel.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphKernel.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit a dataset, for a transformer.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>X</strong> <span class="classifier-delimiter">:</span> <span class="classifier">iterable</span></dt>
+<dd><p class="first last">Each element must be an iterable with at most three features and at
+least one. The first that is obligatory is a valid graph structure
+(adjacency matrix or edge_dictionary) while the second is
+node_labels and the third edge_labels (that fitting the given grap
+format). The train samples.</p>
+</dd>
+<dt><strong>y</strong> <span class="classifier-delimiter">:</span> <span class="classifier">None</span></dt>
+<dd><p class="first last">There is no need of a target in a transformer, yet the pipeline API
+requires this parameter.</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>self</strong> <span class="classifier-delimiter">:</span> <span class="classifier">object</span></dt>
+<dd><p class="first last">Returns self.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="grakel.GraphKernel.fit_transform">
+<code class="descname">fit_transform</code><span class="sig-paren">(</span><em>self</em>, <em>X</em>, <em>y=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/502c1897/grakel/graph_kernels.py#L373"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/graph_kernels.html#GraphKernel.fit_transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphKernel.fit_transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit and transform, on the same dataset.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>X</strong> <span class="classifier-delimiter">:</span> <span class="classifier">iterable</span></dt>
+<dd><p class="first last">Each element must be an iterable with at most three features and at
+least one. The first that is obligatory is a valid graph structure
+(adjacency matrix or edge_dictionary) while the second is
+node_labels and the third edge_labels (that fitting the given graph
+format). If None the kernel matrix is calculated upon fit data.
+The test samples.</p>
+</dd>
+<dt><strong>y</strong> <span class="classifier-delimiter">:</span> <span class="classifier">None</span></dt>
+<dd><p class="first last">There is no need of a target in a transformer, yet the pipeline API
+requires this parameter.</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>K</strong> <span class="classifier-delimiter">:</span> <span class="classifier">numpy array, shape = [n_targets, n_input_graphs]</span></dt>
+<dd><p class="first last">corresponding to the kernel matrix, a calculation between
+all pairs of graphs between target an features</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="grakel.GraphKernel.get_params">
+<code class="descname">get_params</code><span class="sig-paren">(</span><em>self</em>, <em>deep=True</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/502c1897/grakel/../venv/lib/python2.7/site-packages/sklearn/base.py#L168"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphKernel.get_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get parameters for this estimator.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>deep</strong> <span class="classifier-delimiter">:</span> <span class="classifier">boolean, optional</span></dt>
+<dd><p class="first last">If True, will return the parameters for this estimator and
+contained subobjects that are estimators.</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>params</strong> <span class="classifier-delimiter">:</span> <span class="classifier">mapping of string to any</span></dt>
+<dd><p class="first last">Parameter names mapped to their values.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="grakel.GraphKernel.initialize">
+<code class="descname">initialize</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/502c1897/grakel/graph_kernels.py#L409"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/graph_kernels.html#GraphKernel.initialize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphKernel.initialize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize all transformer arguments, needing initialisation.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="grakel.GraphKernel.make_kernel_">
+<code class="descname">make_kernel_</code><span class="sig-paren">(</span><em>self</em>, <em>kernel_list</em>, <em>hidden_args</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/502c1897/grakel/graph_kernels.py#L452"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/graph_kernels.html#GraphKernel.make_kernel_"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphKernel.make_kernel_" title="Permalink to this definition">¶</a></dt>
+<dd><p>Produce the desired kernel function.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>kernel_list</strong> <span class="classifier-delimiter">:</span> <span class="classifier">(list)</span></dt>
+<dd><p class="first last">List of kernel dictionaries as defined at the documentation
+of class parameters.</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>kernel</strong> <span class="classifier-delimiter">:</span> <span class="classifier">kernel (class).</span></dt>
+<dd><p class="first last">Returns an instance of a kernel type object corresponding to the
+certain kernel.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="grakel.GraphKernel.set_params">
+<code class="descname">set_params</code><span class="sig-paren">(</span><em>self</em>, <em>**params</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/502c1897/grakel/graph_kernels.py#L558"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/graph_kernels.html#GraphKernel.set_params"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphKernel.set_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call the parent method.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="grakel.GraphKernel.transform">
+<code class="descname">transform</code><span class="sig-paren">(</span><em>self</em>, <em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/502c1897/grakel/graph_kernels.py#L342"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/graph_kernels.html#GraphKernel.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphKernel.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the kernel matrix, between given and fitted dataset.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>X</strong> <span class="classifier-delimiter">:</span> <span class="classifier">iterable</span></dt>
+<dd><p class="first last">Each element must be an iterable with at most three features and at
+least one. The first that is obligatory is a valid graph structure
+(adjacency matrix or edge_dictionary) while the second is
+node_labels and the third edge_labels (that fitting the given graph
+format). If None the kernel matrix is calculated upon fit data.
+The test samples.</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>K</strong> <span class="classifier-delimiter">:</span> <span class="classifier">numpy array, shape = [n_targets, n_input_graphs]</span></dt>
+<dd><p class="first last">corresponding to the kernel matrix, a calculation between
+all pairs of graphs between target an features</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<div class="section" id="examples-using-grakel-graphkernel">
+<h2>Examples using <code class="docutils literal notranslate"><span class="pre">grakel.GraphKernel</span></code><a class="headerlink" href="#examples-using-grakel-graphkernel" title="Permalink to this headline">¶</a></h2>
+<div class="sphx-glr-thumbcontainer" tooltip="An example plot of grakel.GraphKernel, grakel.WeisfeilerLehman, grakel.VertexHistogram "><div class="figure" id="id1">
+<img alt="../_images/sphx_glr_plot_wl_subtree_MUTAG_thumb.png" src="../_images/sphx_glr_plot_wl_subtree_MUTAG_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/plot_wl_subtree_MUTAG.html#sphx-glr-auto-examples-plot-wl-subtree-mutag-py"><span class="std std-ref">Classification on the MUTAG dataset using the WL-subtree kernel.</span></a></span></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="An example plot of grakel.GraphKernel, grakel.LovaszTheta, grakel.SvmTheta "><div class="figure" id="id2">
+<img alt="../_images/sphx_glr_lovasz_svm_theta_thumb.png" src="../_images/sphx_glr_lovasz_svm_theta_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/lovasz_svm_theta.html#sphx-glr-auto-examples-lovasz-svm-theta-py"><span class="std std-ref">Classification on MUTAG using the Lovasz theta and SVM-theta kernels.</span></a></span></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="An example plot of grakel.GraphKernel, grakel.MultiscaleLaplacianFast "><div class="figure" id="id3">
+<img alt="../_images/sphx_glr_KFold_MLG_thumb.png" src="../_images/sphx_glr_KFold_MLG_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/KFold_MLG.html#sphx-glr-auto-examples-kfold-mlg-py"><span class="std std-ref">K-Fold classification on the ENZYMES dataset using the approximate Multiscale Laplacian kernel.</span></a></span></p>
+</div>
+</div><div class="clearer"></div></div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../graph.html" class="btn btn-neutral float-right" title="Graph (class)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../graph_kernel.html" class="btn btn-neutral float-left" title="GraphKernel (class)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, DaSciM (BSD License)
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
