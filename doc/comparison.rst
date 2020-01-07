@@ -4,9 +4,9 @@
 Comparison with Other Packages
 ==============================
 
-We next compare the running times of *GraKeL* and the *graphkernels* library .
+We next compare the running times of *GraKeL* and the *graphkernels* library :cite:`sugiyama2017graphkernels`.
 
-There are 6 common kernels in the two libraries: (1) the vertex histogram kernel (VH), (2) the edge histogram kernel (EH), (3) the geometric random walk kernel (GRW), (4) the shortest path kernel (SP), (5) the Weisfeiler-Lehman subtree kernel (WL), and (6) the graphlet kernel (GL). We compare the running time of the implementations of those kernels included in the two libraries on several real-world and synthetic datasets. It should be mentioned that the implementation of the graphlet kernel that is included in the \texttt{graphkernels} library crashed on all datasets (real-world and synthetic) except MUTAG. Hence, we report the running times of only the first 5 kernels.
+There are 6 common kernels in the two libraries: (1) the vertex histogram kernel (VH), (2) the edge histogram kernel (EH), (3) the geometric random walk kernel (GRW), (4) the shortest path kernel (SP), (5) the Weisfeiler-Lehman subtree kernel (WL), and (6) the graphlet kernel (GL). We compare the running time of the implementations of those kernels included in the two libraries on several real-world and synthetic datasets. It should be mentioned that the implementation of the graphlet kernel that is included in the *graphkernels* library crashed on all datasets (real-world and synthetic) except MUTAG. Hence, we report the running times of only the first 5 kernels.
 
 Experimental Setup
 ^^^^^^^^^^^^^^^^^^
@@ -48,7 +48,7 @@ We observe that the kernels of the *GraKeL* library are in general faster than t
 
 Synthetic Datasets
 ^^^^^^^^^^^^^^^^^^
-We next evaluate how the two libraries scale as the size of the input graphs increases. More specifically, we generate random Erd{\H{o}}s-R{\'e}nyi graph instances of increasing size. We increase the number of vertices from 20 to 160 in steps of 20. The average degree of all generated graphs is equal to 4. For each unique size (i.e., 20,30,...,160), we generate 100 random graphs. The Figure below illustrates the running time of the kernels of the GraKeL and the *graphkernels* libraries as a function of the number of vertices in the graphs.
+We next evaluate how the two libraries scale as the size of the input graphs increases. More specifically, we generate random Erdős‐Rényi graph instances of increasing size. We increase the number of vertices from 20 to 160 in steps of 20. The average degree of all generated graphs is equal to 4. For each unique size (i.e., 20,30,...,160), we generate 100 random graphs. The Figure below illustrates the running time of the kernels of the GraKeL and the *graphkernels* libraries as a function of the number of vertices in the graphs.
 
 .. figure:: _figures/number_of_nodes.svg
   :scale: 100%
@@ -56,7 +56,7 @@ We next evaluate how the two libraries scale as the size of the input graphs inc
 
 In general, we observe that the VH, EH and WL implementations in GraKeL are slower than the corresponding implementations in *graphkernels*. However, the difference in running time is in all cases very low (less than 0.5 seconds). On the other hand, the SP and GRW implementations in *GraKeL* are much faster than the corresponding implementations in *graphkernels*, and the difference in running time increase a lot as the size of the graphs increases.
 
-We also measure the running time of the kernels of the two libraries as a function of the size of the dataset (i.e., number of graphs). Once again, we generate random Erd{\H{o}}s-R{\'e}nyi graph instances consisting of 50 nodes and 100 vertices (i.e., average degree equal to 4). We increase the number of graphs from 100 to 500 in steps of 100. The Figure below compares the running times of the kernels of the two libraries with respect to the number of graphs contained in the dataset.
+We also measure the running time of the kernels of the two libraries as a function of the size of the dataset (i.e., number of graphs). Once again, we generate random Erdős‐Rényi graph instances consisting of 50 nodes and 100 vertices (i.e., average degree equal to 4). We increase the number of graphs from 100 to 500 in steps of 100. The Figure below compares the running times of the kernels of the two libraries with respect to the number of graphs contained in the dataset.
 
 .. figure:: _figures/number_of_graphs.svg
   :scale: 100%
@@ -65,3 +65,8 @@ We also measure the running time of the kernels of the two libraries as a functi
 We can see that the WL kernel in *graphkernels* is faster than its corresponding implementation in *GraKeL*. The computation times of the implementations of VH in the two libraries are comparable to each other. Interestingly, the implementation of EH in *graphkernels* is faster than its implementation in *GraKeL* on small datasets. However, the difference in running time between the two implementations decreases as the size of the dataset increases, and the implementation of EH in *GraKeL* becomes more efficient when the dataset contains more tahn 400 graphs. Finally, the implementations of SP and GRW that are included in *GraKeL* are again much faster than the corresponding implementations in *graphkernels*.
 
 Overall, the WL kernel in the *graphkernels* library is faster than that in *GraKeL*. However, the difference in running time is very small and therefore, the running time of the *GraKeL* implementation is by no means prohibitive. The implementations of the VH and EH kernels in the two libraries perform comparably in terms of running time, while *GraKeL* contains much more efficient implementations of the SP and GRW kernels compared to *graphkernels*.
+
+Bibliography
+------------
+.. bibliography:: ./biblio.bib
+   :filter: docname in docnames

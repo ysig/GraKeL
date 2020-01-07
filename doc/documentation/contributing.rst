@@ -61,9 +61,7 @@ Other members of the lab aiding with the construction of this library are: Chris
 
 License
 -------
-The project __BSD 3-clause__ - a prerequisite of *sk-learn* compatibility - is accepted by the editor as it does not offend the virtues of the free-software community.
-It contains the C++ source code of [BLISS](http://www.tcs.hut.fi/Software/bliss) (a library for graph isomorphism) which is __LGPL__ licensed.
-Futhermore its optional dependency in the package of [cvxopt](https://cvxopt.org/) (a tool for solving convex-optimization problems) comes with a __GPL__ license.
+GraKeL is distributed under the __BSD 3-clause__ license. The library makes use of the C++ source code of [BLISS](http://www.tcs.hut.fi/Software/bliss) (a tool for computing automorphism groups and canonical labelings of graphs) which is __LGPL__ licensed. Futhermore, the [cvxopt](https://cvxopt.org/) package (a software package for convex optimization) which is an optional dependency of GraKeL is __GPL__ licensed.
 
 .. _DaSciM: http://www.lix.polytechnique.fr/dascim/
 .. _Michalis Vazirgiannis: http://www.lix.polytechnique.fr/~mvazirg/

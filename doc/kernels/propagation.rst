@@ -56,3 +56,8 @@ Both for attributed and for labeled graphs, implementations of the propagation c
 
    Propagation
    PropagationAttr
+
+Bibliography
+------------
+.. bibliography:: ../biblio.bib
+   :filter: docname in docnames

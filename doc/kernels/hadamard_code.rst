@@ -51,5 +51,5 @@ The implementation of the hadamard code kernel framework can be found below. Not
    
 Bibliography
 ------------
-.. bibliography:: ./graph_kernels.bib
+.. bibliography:: ../biblio.bib
    :filter: docname in docnames
