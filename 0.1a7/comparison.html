@@ -1,0 +1,349 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Comparison with Other Packages &mdash; GraKeL 0.1a7 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="_static/_static/css/supplementary.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Evaluation Study" href="evaluation.html" />
+    <link rel="prev" title="Contributing" href="documentation/contributing.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> GraKeL
+          
+
+          
+            
+            <img src="_static/logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1a7
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="documentation.html">Documentation</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Comparison with Other Packages</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#experimental-setup">Experimental Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#real-world-datasets">Real-World Datasets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#synthetic-datasets">Synthetic Datasets</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="evaluation.html">Evaluation Study</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api.html">GraKeL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="classes.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">GraKeL</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Comparison with Other Packages</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/comparison.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="comparison-with-other-packages">
+<span id="comparison"></span><h1>Comparison with Other Packages<a class="headerlink" href="#comparison-with-other-packages" title="Permalink to this headline">¶</a></h1>
+<p>We next compare the running times of <em>GraKeL</em> and the <em>graphkernels</em> library .</p>
+<p>There are 6 common kernels in the two libraries: (1) the vertex histogram kernel (VH), (2) the edge histogram kernel (EH), (3) the geometric random walk kernel (GRW), (4) the shortest path kernel (SP), (5) the Weisfeiler-Lehman subtree kernel (WL), and (6) the graphlet kernel (GL). We compare the running time of the implementations of those kernels included in the two libraries on several real-world and synthetic datasets. It should be mentioned that the implementation of the graphlet kernel that is included in the texttt{graphkernels} library crashed on all datasets (real-world and synthetic) except MUTAG. Hence, we report the running times of only the first 5 kernels.</p>
+<div class="section" id="experimental-setup">
+<h2>Experimental Setup<a class="headerlink" href="#experimental-setup" title="Permalink to this headline">¶</a></h2>
+<p>We use the two libraries to compute the kernel matrix of each dataset and we report CPU running times (in seconds). Hence, for a dataset that contains <span class="math notranslate nohighlight">\(N\)</span> graphs and a kernel <span class="math notranslate nohighlight">\(k\)</span>, we report the running time for constructing the <span class="math notranslate nohighlight">\(N \times N\)</span> gram matrix using kernel <span class="math notranslate nohighlight">\(k\)</span>. All experiments are conducted on a workstation running Linux with an Intel Xeon W-2123 CPU clocked at 3.60GHz and 64GB of RAM.</p>
+</div>
+<div class="section" id="real-world-datasets">
+<h2>Real-World Datasets<a class="headerlink" href="#real-world-datasets" title="Permalink to this headline">¶</a></h2>
+<p>We first evaluate the two libraries on standard graph classification datasets derived from bioinformatics and chemoinformatics (MUTAG, ENZYMES, NCI1, PTC-MR), and from social networks (IMDB-BINARY, IMDB-MULTI). Note that the social network graphs are unlabeled, while all other graph datasets come with vertex labels. All considered kernels can handle discrete vertex labels, and we utilize those labels when they are available.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="26%" />
+<col width="9%" />
+<col width="12%" />
+<col width="9%" />
+<col width="11%" />
+<col width="17%" />
+<col width="16%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">&#160;</th>
+<th class="head">MUTAG</th>
+<th class="head">ENZYMES</th>
+<th class="head">NCI1</th>
+<th class="head">PTC-MR</th>
+<th class="head">IMDB-BINARY</th>
+<th class="head">IMDB-MULTI</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Max # vertices</td>
+<td>28</td>
+<td>126</td>
+<td>111</td>
+<td>109</td>
+<td>136</td>
+<td>89</td>
+</tr>
+<tr class="row-odd"><td>Min # vertices</td>
+<td>10</td>
+<td>2</td>
+<td>3</td>
+<td>2</td>
+<td>12</td>
+<td>7</td>
+</tr>
+<tr class="row-even"><td>Average # vertices</td>
+<td>17.93</td>
+<td>32.63s</td>
+<td>29.87</td>
+<td>25.56</td>
+<td>19.77</td>
+<td>13.00</td>
+</tr>
+<tr class="row-odd"><td>Max # edges</td>
+<td>33</td>
+<td>149</td>
+<td>119</td>
+<td>108</td>
+<td>1,249</td>
+<td>1,467</td>
+</tr>
+<tr class="row-even"><td>Min # edges</td>
+<td>10</td>
+<td>1</td>
+<td>2</td>
+<td>1</td>
+<td>26</td>
+<td>12</td>
+</tr>
+<tr class="row-odd"><td>Average # edges</td>
+<td>19.79</td>
+<td>62.14</td>
+<td>32.30</td>
+<td>25.96</td>
+<td>96.53</td>
+<td>65.93</td>
+</tr>
+<tr class="row-even"><td># labels</td>
+<td>7</td>
+<td>3</td>
+<td>37</td>
+<td>19</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td># graphs</td>
+<td>188</td>
+<td>600</td>
+<td>4,110</td>
+<td>344</td>
+<td>1,000</td>
+<td>1,500</td>
+</tr>
+</tbody>
+</table>
+<p>The Table above shows statistics of the 6 datasets, while the following Figure shows the running times of the implementations of the 5 kernels contained in the two libraries.</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/datasets.svg"><img alt="_images/datasets.svg" src="_images/datasets.svg" /></a>
+</div>
+<p>We observe that the kernels of the <em>GraKeL</em> library are in general faster than those of the <em>graphkernels</em> library. The only exception is the WL kernel. Specifically, the implementation of WL in <em>GraKeL</em> is slower than that in <em>graphkernels</em> on all datasets. It is interesting to note that on some dataset the difference in running time between corresponding kernels of the two libraries is very large. For instance, computing the SP kernel on NCI1 took less than 20 seconds using the <em>GraKeL</em> library, and more than 45 hours using the <em>graphkernels</em> library. Furthermore, computing the GRW kernel on the same dataset using <em>GraKeL</em> and <em>graphkernels</em> takes less than 4 and more than 11 hours, respectively.</p>
+</div>
+<div class="section" id="synthetic-datasets">
+<h2>Synthetic Datasets<a class="headerlink" href="#synthetic-datasets" title="Permalink to this headline">¶</a></h2>
+<p>We next evaluate how the two libraries scale as the size of the input graphs increases. More specifically, we generate random Erd{H{o}}s-R{‘e}nyi graph instances of increasing size. We increase the number of vertices from 20 to 160 in steps of 20. The average degree of all generated graphs is equal to 4. For each unique size (i.e., 20,30,…,160), we generate 100 random graphs. The Figure below illustrates the running time of the kernels of the GraKeL and the <em>graphkernels</em> libraries as a function of the number of vertices in the graphs.</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/number_of_nodes.svg"><img alt="_images/number_of_nodes.svg" src="_images/number_of_nodes.svg" /></a>
+</div>
+<p>In general, we observe that the VH, EH and WL implementations in GraKeL are slower than the corresponding implementations in <em>graphkernels</em>. However, the difference in running time is in all cases very low (less than 0.5 seconds). On the other hand, the SP and GRW implementations in <em>GraKeL</em> are much faster than the corresponding implementations in <em>graphkernels</em>, and the difference in running time increase a lot as the size of the graphs increases.</p>
+<p>We also measure the running time of the kernels of the two libraries as a function of the size of the dataset (i.e., number of graphs). Once again, we generate random Erd{H{o}}s-R{‘e}nyi graph instances consisting of 50 nodes and 100 vertices (i.e., average degree equal to 4). We increase the number of graphs from 100 to 500 in steps of 100. The Figure below compares the running times of the kernels of the two libraries with respect to the number of graphs contained in the dataset.</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/number_of_graphs.svg"><img alt="_images/number_of_graphs.svg" src="_images/number_of_graphs.svg" /></a>
+</div>
+<p>We can see that the WL kernel in <em>graphkernels</em> is faster than its corresponding implementation in <em>GraKeL</em>. The computation times of the implementations of VH in the two libraries are comparable to each other. Interestingly, the implementation of EH in <em>graphkernels</em> is faster than its implementation in <em>GraKeL</em> on small datasets. However, the difference in running time between the two implementations decreases as the size of the dataset increases, and the implementation of EH in <em>GraKeL</em> becomes more efficient when the dataset contains more tahn 400 graphs. Finally, the implementations of SP and GRW that are included in <em>GraKeL</em> are again much faster than the corresponding implementations in <em>graphkernels</em>.</p>
+<p>Overall, the WL kernel in the <em>graphkernels</em> library is faster than that in <em>GraKeL</em>. However, the difference in running time is very small and therefore, the running time of the <em>GraKeL</em> implementation is by no means prohibitive. The implementations of the VH and EH kernels in the two libraries perform comparably in terms of running time, while <em>GraKeL</em> contains much more efficient implementations of the SP and GRW kernels compared to <em>graphkernels</em>.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="evaluation.html" class="btn btn-neutral float-right" title="Evaluation Study" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="documentation/contributing.html" class="btn btn-neutral float-left" title="Contributing" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, DaSciM (BSD License)
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

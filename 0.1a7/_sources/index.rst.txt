@@ -5,8 +5,7 @@
 Overview
 ========
 
-*GraKeL* is a Python package which provides implementations of several graph kernels, a family of powerful methods which allow kernel-based learning approaches such as SVMs to work
-directly on graphs.
+*GraKeL* is a Python package which provides implementations of several graph kernels, a family of powerful methods which allow kernel-based learning approaches such as SVMs to work directly on graphs.
 
 Getting Started
 
@@ -15,13 +14,25 @@ Getting Started
 
     documentation
 
+==========
+Benchmarks
+==========
+
+To demonstrate the efficiency of the algorithms implemented in *GraKeL*, we present a comparison of the running times of the implementations of some graph kernels from *GraKeL* and from other packages. We also compare the running times of the different kernels to each other.
+
+  .. toctree::
+    :maxdepth: 1
+
+    comparison
+    evaluation
+
 =================
 Package Reference
 =================
 
 A collection of all classes and functions important for the use and understanding of the *GraKeL* package.
 
-GrakeL provides
+GraKeL provides
 
   .. toctree::
     :maxdepth: 1
