@@ -21,10 +21,9 @@ Benchmarks
 To demonstrate the efficiency of the algorithms implemented in *GraKeL*, we present a comparison of the running times of the implementations of some graph kernels from *GraKeL* and from other packages. We also compare the running times of the different kernels to each other.
 
   .. toctree::
-    :maxdepth: 1
+    :maxdepth: 2
 
-    comparison
-    evaluation
+    benchmarks
 
 =================
 Package Reference
