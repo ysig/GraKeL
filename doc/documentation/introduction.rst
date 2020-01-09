@@ -239,6 +239,8 @@ An edge-attributed graph is a graph endowed with a function :math:`f : E \righta
     edge_attributes = {0: [1.2, 0.5], 'b': [2.8, −0.6], 2: [0.7, 1.1]}
     G = Graph(adj, edge_labels=edge_attributes)
 
+Note that not all kernels can take into account node/edge labels and node/edge attributes. To find the type of graphs that each kernel expects as input, see :ref:`graph_kernel`.
+
 
 Initializing a Graph Kernel
 ---------------------------
