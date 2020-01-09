@@ -214,53 +214,43 @@ The *GraKeL* package had also to be compatible with *scikit-learn*. From the dif
 .. note::
     The very idea that lies before fitting concerns holding a reference dataset. This means a collections of features should be stored into memory and **not** get corrupted throughout various applications of :code:`transform`. This however - the need of copying and protecting the reference data - produces a computational overhead in kernels such as the :code:`odd_sth` where the user will may prefer the computational advantages of applying a sole :code:`fit_transform`.
 
-A kernel initialized as an instance of the :class:`grakel.Kernel` class is equivalent to an instance of the :class:`grakel.GraphKernel` generic wrapper corresponding to the same kernel if the attributes of the two kernels are identical to each other.
-The generic wrapper **does not** restrict any *user-oriented* interface of the kernels, except if the user wants to write a kernel of his own.
-If you want to know more about the kernel structure in order to write your own see :ref:`myok`.
+A kernel initialized as an instance of the :class:`grakel.Kernel` class is equivalent to an instance of the :class:`grakel.GraphKernel` generic wrapper corresponding to the same kernel if the attributes of the two kernels are identical to each other. To illustrate this, we will employ a deterministic graph kernel (the Wesfeiler-Lehman subtree kernel) and we will investigate if the kernel values produced by the two instances of the kernel are equal to each other.
 
-To demonstrate a small example of the above we will construct our own a WL-subtree kernel instead of using the generic wrapper.
-To do so first import the :code:`WeisfeilerLehman` and :code:`VertexHistogram` (where :code:`vertex_histogram` is equivalent
-with the :code:`subtree_kernel`) kernels as
+We first initialize the instance of the :class:`grakel.Kernel` class. This corresponds to the Weisfeiler-Lehman framework on top of the vertex histogram kernel.
 
 .. code-block:: python
 
-    >>> from grakel import WeisfeilerLehman
-    >>> from grakel import VertexHistogram
+    >>> from grakel import WeisfeilerLehman, VertexHistogram
+    >>> gk_1 = WeisfeilerLehman(n_iter=5, base_graph_kernel=VertexHistogram)
 
-If we see the documentation of :ref:`weisfeiler_lehman`, we can see that it accepts two arguments upon initialization: a :code:`niter` and a :code:`base_graph_kernel`. The :code:`base_graph_kernel` is a tuple consisting of a :code:`kernel` type object and a dictionary of arguments. To initialize a Weisfeiler-Lehman with 5 iterations and a subtree base-kernel.
-
-.. code-block:: python
-
-    >>> wl_kernel = WeisfeilerLehman(niter=5, base_graph_kernel=(VertexHistogram, {}))
-
-This is also equivalent with doing (as long as we have no arguments)
+We have set the :code:`base_graph_kernel` attribute equal to the :class:`grakel.kernels.VertexHistogram` class. Note that the :code:`base_graph_kernel` attribute can also be set equal to a tuple consisting of a :class:`grakel.kernel` class and a dictionary containing the attributes of the corresponding kernel and their values. Above, we have set the attributes of the vertex histogram kernel to their default values. Therefore, the above code is equivalent to the following.
 
 .. code-block:: python
 
-    >>> wl_kernel = WeisfeilerLehman(niter=5, base_graph_kernel=VertexHistogram)
+    >>> gk_1 = WeisfeilerLehman(n_iter=5, base_graph_kernel=(VertexHistogram, {}))
 
-We will again experiment with the MUTAG dataset.
+We will perform our experiment on the MUTAG dataset.
 
 .. code-block:: python
 
-    >>> from grakel import datasets
-    >>> MUTAG = datasets.fetch_dataset("MUTAG", verbose=False)
-    >>> G, y = MUTAG.data, MUTAG.target
-    >>> split_point = int(len(MUTAG_data) * 0.9)
-    >>> X, Y = MUTAG_data[:split_point], MUTAG_data[split_point:]
+    >>> from grakel.datasets import fetch_dataset
+    >>> MUTAG = fetch_dataset("MUTAG", verbose=False)
+    >>> G = MUTAG.data
+    >>> y = MUTAG.target
+    >>> K_1 = gk_1.fit_transform(G)
 
-If what we said till now is correct, the :code:`GraphKernel` object should produce the same kernel matrix output on the MUTAG train/test data split.
+We will now test if the kernel matrix produced by the instance of the :class:`grakel.GraphKernel` class is equal to the one produced by the instance of the :class:`grakel.Kernel` class.
 
 .. code-block:: python
 
     >>> from grakel import GraphKernel
-    >>> wl_graph_kernel = GraphKernel(kernel = [{"name": "weisfeiler_lehman", "niter": 5}, {"name": "subtree_wl"}])
-    >>> # The alias "subtree_wl" is supported inside the generic wrapper
     >>> from numpy import array_equal
-    >>> array_equal(wl_graph_kernel.fit_transform(X), wl_kernel.fit_transform(X))
+    >>> gk_2 = GraphKernel(kernel = [{"name": "weisfeiler_lehman", "n_iter": 5}, {"name": "subtree_wl"}]) # The alias "subtree_wl" is supported inside the generic wrapper
+    >>> K_2 = gk_2.fit_transform(G)
+    >>> array_equal(K_1, K_2)
     True
-    >>> array_equal(wl_graph_kernel.transform(Y), wl_kernel.transform(Y))
-    True
+
+As we can see, the two matrices are equal to each other.
 
 Why not a more structured input for Graphs?
 -------------------------------------------

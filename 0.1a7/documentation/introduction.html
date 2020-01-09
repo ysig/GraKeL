@@ -495,7 +495,7 @@ G = Graph(adj, edge_labels=edge_attributes)
 <h2>Initializing a Framework<a class="headerlink" href="#initializing-a-framework" title="Permalink to this headline">¶</a></h2>
 <p>Research in the field of graph kernels has not only focused on designing new kernels between graphs, but also on frameworks and approaches that can be applied to existing graph kernels and increase their performance. The most popular of all frameworks is perhaps the <em>Weisfeiler-Lehman framework</em> <a class="reference internal" href="../kernels/weisfeiler_lehman.html#shervashidze2011weisfeiler" id="id2">[shervashidze2011weisfeiler]</a>. The Weisfeiler-Lehman framework works on top of some graph kernel, known as the <em>base kernel</em>. We can initialize the well-known Weisfeiler-Lehman subtree kernel (Weisfeiler-Lehman framework on top of the <em>vertex histogram</em> kernel) as follows:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="kn">import</span> <span class="n">WeisfeilerLehman</span><span class="p">,</span> <span class="n">VertexHistogram</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">wl_kernel</span> <span class="o">=</span> <span class="n">WeisfeilerLehman</span><span class="p">(</span><span class="n">base_kernel</span><span class="o">=</span><span class="n">VertexHistogram</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">wl_kernel</span> <span class="o">=</span> <span class="n">WeisfeilerLehman</span><span class="p">(</span><span class="n">base_graph_kernel</span><span class="o">=</span><span class="n">VertexHistogram</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -547,7 +547,7 @@ G = Graph(adj, edge_labels=edge_attributes)
 </div>
 <p>Next, we will initialize a Weisfeiler-Lehman subtree kernel:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="kn">import</span> <span class="n">WeisfeilerLehman</span><span class="p">,</span> <span class="n">VertexHistogram</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">wl_kernel</span> <span class="o">=</span> <span class="n">WeisfeilerLehman</span><span class="p">(</span><span class="n">n_iter</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">base_kernel</span><span class="o">=</span><span class="n">VertexHistogram</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">wl_kernel</span> <span class="o">=</span> <span class="n">WeisfeilerLehman</span><span class="p">(</span><span class="n">n_iter</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">base_graph_kernel</span><span class="o">=</span><span class="n">VertexHistogram</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>To perform classification, it is necessary to split the dataset into a training and a test set. We can use the <code class="code docutils literal notranslate"><span class="pre">train_test_split</span></code> function of scikit-learn as follows:</p>
