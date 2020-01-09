@@ -386,7 +386,7 @@
 </ul>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">The very idea that lies before fitting concerns holding a reference dataset. This means a collections of features should be stored into memory and <strong>not</strong> get corrupted throughout various applications of <code class="code docutils literal notranslate"><span class="pre">transform</span></code>. This however - the need of copying and protecting the reference data - produces a computational overhead in kernels such as the <code class="code docutils literal notranslate"><span class="pre">odd_sth</span></code> where the user will may prefer the computational advantages of applying a sole <code class="code docutils literal notranslate"><span class="pre">fit_transform</span></code>.</p>
+<p class="last">The <code class="code docutils literal notranslate"><span class="pre">fit</span></code> and <code class="code docutils literal notranslate"><span class="pre">fit_transform</span></code> methods usually extract some features from the set of graphs that is given as input. These features are stored into memory and are not modified by the applications of the <code class="code docutils literal notranslate"><span class="pre">transform</span></code> method. This (the need to copy and protect the extracted data) however adds some overhead to the computation of some kernels such as the ODD-STh kernel. In such cases, the user may prefer to use the <code class="code docutils literal notranslate"><span class="pre">fit_transform</span></code> method once and then manually retrieve the two kernel matrices.</p>
 </div>
 <p>A kernel initialized as an instance of the <a class="reference internal" href="../generated/grakel.Kernel.html#grakel.Kernel" title="grakel.Kernel"><code class="xref py py-class docutils literal notranslate"><span class="pre">grakel.Kernel</span></code></a> class is equivalent to an instance of the <a class="reference internal" href="../generated/grakel.GraphKernel.html#grakel.GraphKernel" title="grakel.GraphKernel"><code class="xref py py-class docutils literal notranslate"><span class="pre">grakel.GraphKernel</span></code></a> generic wrapper corresponding to the same kernel if the attributes of the two kernels are identical to each other. To illustrate this, we will employ a deterministic graph kernel (the Wesfeiler-Lehman subtree kernel) and we will investigate if the kernel values produced by the two instances of the kernel are equal to each other.</p>
 <p>We first initialize the instance of the <a class="reference internal" href="../generated/grakel.Kernel.html#grakel.Kernel" title="grakel.Kernel"><code class="xref py py-class docutils literal notranslate"><span class="pre">grakel.Kernel</span></code></a> class. This corresponds to the Weisfeiler-Lehman framework on top of the vertex histogram kernel.</p>
@@ -415,7 +415,7 @@
 <span class="go">True</span>
 </pre></div>
 </div>
-<p>As we can see, the two matrices are equal to each other.</p>
+<p>As we can see, the two matrices are indeed equal to each other.</p>
 </div>
 <div class="section" id="why-not-a-more-structured-input-for-graphs">
 <h2>Why not a more structured input for Graphs?<a class="headerlink" href="#why-not-a-more-structured-input-for-graphs" title="Permalink to this headline">¶</a></h2>

@@ -212,7 +212,7 @@ The *GraKeL* package had also to be compatible with *scikit-learn*. From the dif
 - The :code:`transform` method calculates the kernel matrix between a new collection of graphs and the one given as input to :code:`fit` or to :code:`fit_transform`.
 
 .. note::
-    The very idea that lies before fitting concerns holding a reference dataset. This means a collections of features should be stored into memory and **not** get corrupted throughout various applications of :code:`transform`. This however - the need of copying and protecting the reference data - produces a computational overhead in kernels such as the :code:`odd_sth` where the user will may prefer the computational advantages of applying a sole :code:`fit_transform`.
+    The :code:`fit` and :code:`fit_transform` methods usually extract some features from the set of graphs that is given as input. These features are stored into memory and are not modified by the applications of the :code:`transform` method. This (the need to copy and protect the extracted data) however adds some overhead to the computation of some kernels such as the ODD-STh kernel. In such cases, the user may prefer to use the :code:`fit_transform` method once and then manually retrieve the two kernel matrices.
 
 A kernel initialized as an instance of the :class:`grakel.Kernel` class is equivalent to an instance of the :class:`grakel.GraphKernel` generic wrapper corresponding to the same kernel if the attributes of the two kernels are identical to each other. To illustrate this, we will employ a deterministic graph kernel (the Wesfeiler-Lehman subtree kernel) and we will investigate if the kernel values produced by the two instances of the kernel are equal to each other.
 
@@ -250,7 +250,7 @@ We will now test if the kernel matrix produced by the instance of the :class:`gr
     >>> array_equal(K_1, K_2)
     True
 
-As we can see, the two matrices are equal to each other.
+As we can see, the two matrices are indeed equal to each other.
 
 Why not a more structured input for Graphs?
 -------------------------------------------
