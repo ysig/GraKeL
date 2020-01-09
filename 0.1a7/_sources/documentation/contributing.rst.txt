@@ -4,17 +4,13 @@
 Contributing
 ============
 
-How you can contribute
-----------------------
-The project currently is on it's first circle of development and as so its form should not be considered static.
-The most simple way a user can contribute is by proposing a new kernel that should be implemented or by implementing
-it his own and send as the kernel by e-mail on :code:`ioannis.siglidis ~ inria.fr` or - if he knows how to use **git**
-- to *fork* the `master`_ or the `develop`_ page and make a pull-request on the `develop`_ page. Integrating a kernel
-takes a certain amount of time, because of unit-test, documentation and decoration is needed, as well as theoretical validation.
+All contributions are welcome! If you are not sure about how you can contribute, please contact the authors of the library.
 
 Areas you can contribute
 ------------------------
-A list of areas where contribution seems important are the following:
+Curious about how you can contribute to *GraKeL*? Here are a few ideas!
+
+* **Implementing a kernel**: The number of graph kernels that have been proposed in the past years is very large. *GraKeL* contains implementations of several of these kernels, but still, there are many kernels that are not contained in the library. You can help making *GraKeL* more complete by implementing new graph kernels.
 
 * **Optimizing kernel computation**: A lot of kernels are implemented in this library, which will increase in the future
   if users get interested contributing to this project. Python is a language that has balanced high-level and good-looking
@@ -26,25 +22,23 @@ A list of areas where contribution seems important are the following:
   existing kernel functions using wrapped C++ packages, that we either write ourselves or import from existing libraries
   like numpy, scipy, sklearn etc.
 
-* **Optimization of the Graph class**: As discussed at :ref:`longer_introduction`, :code:`Graph` solves as a uniform representation
+* **Improving the Graph class**: As discussed at :ref:`core_concepts`, :code:`Graph` solves as a uniform representation
   that supports both vertex-oriented and edge-oriented representations of graphs, while resolving conversions, importing of
   various types of inputs and finally a small group of important operations concerning graph objects, while being at the same
   time memory and computationally efficient. To achieve that goal the code of the :code:`Graph` should be optimized in python
   and if it is possible and seems more efficiently to be totally converted to a *Cython* extension (for the use of C++ as a back-end).
 
-* **Redesigning the** :code:`Kernel` **class**: The :code:`kernel` class has been confined to the project constraints (namely sklearn compatibility)
+* **Redesigning the** :code:`Kernel` **class**: The :code:`Kernel` class has been confined to the project constraints (namely sklearn compatibility)
   to the most abstract way possible. Other features and methods can be added to the kernel class to support frameworks that are currently
   not supported, such as *deep-graph-kernels* or *valid-assignment-kernels* if this is considered important by the community.
 
-* **Unit-Testing**: As far as the kernel module is concerned we have not found a standard way of checking that the computations are valid
-  either than doing a kernel validation by-hand or using code-of-others to see that we get similar results in computation, while controlling
-  the classification accuracy concerning kernel-matrix-computation in benchmark datasets. Either than checking that a kernel is positive-semi-definite
-  through the use of :code:`fit_transform`, we would like to be able to apply a more thorough unit-testing, that will expose the kernels calculation
-  validity in relation to the theoretical foundation.
+* **Unit-Testing**: As far as the kernel module is concerned, we have not managed to come up with any methodology for testing if the kernels are correctly implemented. We could use some "reference" code to check if our kernels produce identical results on some datasets, however, in most cases, this is not practical. Our tests check if the kernel matrices produced by the kernels are positive semidefinite, however, this can be true even if a kernel is not correctly implemented. We would like to design new tests that can verify the validity of implemeted kernels.
 
 * **Utilizing Parallel/Concurrent computation**: It is important that the :code:`GraphKernel` generic-wrapper supports a parallel computation scheme,
   through the objects of the :code:`Kernel` class, for executing procedures faster if the user wants so. This feature appears as currently implemented,
   but actually its implementation is wrong. It is a major problem to tackle that on the other hand, should not be so difficult.
+
+* **Examples and tutorials**: Have you created an example or tutorial that makes use of the *GraKeL* library? Please let us know. We would be more than happy to include it in our list of examples or tutorials.
 
 .. _master: https://github.com/ysig/GraKeL
 .. _develop: https://github.com/ysig/GraKeL/tree/develop
@@ -56,7 +50,7 @@ The *GraKeL* project started in 2018 as part of a one year project funded by `La
 
 License
 -------
-GraKeL is distributed under the __BSD 3-clause__ license. The library makes use of the C++ source code of BLISS_ (a tool for computing automorphism groups and canonical labelings of graphs) which is __LGPL__ licensed. Futhermore, the cvxopt_ package (a software package for convex optimization) which is an optional dependency of GraKeL is __GPL__ licensed.
+GraKeL is distributed under the **BSD 3-clause** license. The library makes use of the C++ source code of BLISS_ (a tool for computing automorphism groups and canonical labelings of graphs) which is **LGPL** licensed. Futhermore, the cvxopt_ package (a software package for convex optimization) which is an optional dependency of GraKeL is **GPL**s licensed.
 
 .. _Labex DigiCosme: https://digicosme.lri.fr/tiki-index.php
 .. _Michalis Vazirgiannis: http://www.lix.polytechnique.fr/~mvazirg/
