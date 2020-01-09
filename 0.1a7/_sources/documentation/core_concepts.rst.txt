@@ -197,36 +197,24 @@ The :class:`grakel.GraphKernel` class is a *generic wrapper class*. This class p
 
 We will next focus on the :class:`grakel.Kernel` class. Instances of this class are wrapped in an instance of the :class:`grakel.GraphKernel` class that was presented above.
 
-The `Kernel` class
-------------------
-This :code:`Object` is any object inherited from the :ref:`kernel` (which can be imported from :code:`grakel`).
+The :class:`grakel.Kernel` class
+--------------------------------
+All graph kernels inherit from this class.
 
-Normally a kernel function, between graphs should be considered as a function with to arguments,
-such as :math:`k \; : \; \mathcal{G} \times \mathcal{G} \rightarrow \mathbb{R}`.
-This raises two issues, namely one of efficiency and one of compatibility:
+A graph kernel is a function :math:`k` between two graphs. That is, :math:`k \; : \; \mathcal{G} \times \mathcal{G} \rightarrow \mathbb{R}` where :math:`\mathcal{G}` is the space of graphs. We usually do not have just two graphs, but a large set of graphs, and we are interested to compare these graphs to each other using some kernel. In almost all cases, it is more computationally efficient to compute all the kernel values in one step than computing the kernel value for each pair individaully. Therefore, we designed our kernels to take sets of graphs as input instead of just two graphs.
 
-1. The first one has to do with the fact, that there are major computational advantages if instead of calculating the kernel pairwise, we calculate the whole kernel matrix.
+The *GraKeL* package had also to be compatible with *scikit-learn*. From the different scikit-learn structures, the one that fitted best to our setting was the :code:`TransformerMixin` class, which consists of the following three methods: :code:`fit`, :code:`fit_transform` and :code:`transform`. The three methods are designed to perform the following tasks in our package:
 
-2. The second has to do with the fact, that we wanted our project to be integrable inside the `sk learn template`_. From this template the most relevant structure was the sci-kit transformer, which consists of three inherent methods: :code:`fit`, :code:`fit_transform`, :code:`transform`.
+- The :code:`fit` method extracts kernel dependent features from an input graph collection.
 
-So the way we conceptually attached the kernel definition to that design pattern was:
+- The :code:`fit_transform` method does the same job as :code:`fit`, but also computes the kernel matrix emerging from the input graph collection.
 
-- The :code:`fit` part should fix a graph dataset as the base of comparison calculating necessary features.
-
-- The :code:`fit_transform` should fit and calculate the kernel matrix on the fitted dataset.
-
-- The :code:`transform` should calculate the matrix produced between a new dataset (namely the *test*) and the fitted dataset.
-
-The deconstruction of the kernel matrix calculation from a function :math:`\mathcal{K}: \mathcal{G}^{\text{train}} \times \mathcal{G}^{\text{test}} \rightarrow \mathbb{R}^{n_{\text{test}}} \times \mathbb{R}^{n_{\text{train}}}`
-to a `currying`_ scheme :math:`\mathcal{K}: \mathcal{G}^{\text{train}} \rightarrow \mathcal{G}^{\text{test}} \rightarrow \mathbb{R}^{n_{\text{test}}} \times \mathbb{R}^{n_{\text{train}}}` is not always equivalent in the
-result, if some of the data of :math:`\mathcal{G}^{\text{train}}`, must be combined with data of :math:`\mathcal{G}^{\text{test}}` to produce the fit reference-features. In such cases
-as mentioned above, namely in the case of :code:`multiscale_laplacian`, if the user wants :math:`\mathcal{G}^{\text{train}} \rightarrow \mathcal{G}^{\text{test}}` to be concerned
-before fit we advise him to use the :code:`fit_transform`, function in the whole of the train and test data and separate the kernel matrices on the result.
+- The :code:`transform` method calculates the kernel matrix between a new collection of graphs and the one given as input to :code:`fit` or to :code:`fit_transform`.
 
 .. note::
     The very idea that lies before fitting concerns holding a reference dataset. This means a collections of features should be stored into memory and **not** get corrupted throughout various applications of :code:`transform`. This however - the need of copying and protecting the reference data - produces a computational overhead in kernels such as the :code:`odd_sth` where the user will may prefer the computational advantages of applying a sole :code:`fit_transform`.
 
-Using a :code:`Kernel` type object through the generic wrapper, should be equivalent with doing so without the generic wrapper, if the correct parametrization is given.
+A kernel initialized as an instance of the :class:`grakel.Kernel` class is equivalent to an instance of the :class:`grakel.GraphKernel` generic wrapper corresponding to the same kernel if the attributes of the two kernels are identical to each other.
 The generic wrapper **does not** restrict any *user-oriented* interface of the kernels, except if the user wants to write a kernel of his own.
 If you want to know more about the kernel structure in order to write your own see :ref:`myok`.
 
@@ -251,13 +239,13 @@ This is also equivalent with doing (as long as we have no arguments)
 
     >>> wl_kernel = WeisfeilerLehman(niter=5, base_graph_kernel=VertexHistogram)
 
-Now let's go back again to our favorite MUTAG problem.
+We will again experiment with the MUTAG dataset.
 
 .. code-block:: python
 
     >>> from grakel import datasets
     >>> MUTAG = datasets.fetch_dataset("MUTAG", verbose=False)
-    >>> MUTAG_data, y = MUTAG.data, MUTAG.target
+    >>> G, y = MUTAG.data, MUTAG.target
     >>> split_point = int(len(MUTAG_data) * 0.9)
     >>> X, Y = MUTAG_data[:split_point], MUTAG_data[split_point:]
 
@@ -273,9 +261,6 @@ If what we said till now is correct, the :code:`GraphKernel` object should produ
     True
     >>> array_equal(wl_graph_kernel.transform(Y), wl_kernel.transform(Y))
     True
-
-.. _currying: https://en.wikipedia.org/wiki/Currying
-.. _sk learn template: https://github.com/scikit-learn-contrib/project-template
 
 Why not a more structured input for Graphs?
 -------------------------------------------
