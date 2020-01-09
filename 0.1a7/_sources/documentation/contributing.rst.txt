@@ -12,25 +12,15 @@ Curious about how you can contribute to *GraKeL*? Here are a few ideas!
 
 * **Implementing a kernel**: The number of graph kernels that have been proposed in the past years is very large. *GraKeL* contains implementations of several of these kernels, but still, there are many kernels that are not contained in the library. You can help making *GraKeL* more complete by implementing new graph kernels.
 
-* **Optimizing kernel computation**: A lot of kernels are implemented in this library, which will increase in the future
-  if users get interested contributing to this project. Python is a language that has balanced high-level and good-looking
-  code of an imperative and object-oriented manner with computational efficiency. Although this is true, usually it cannot
-  achieve the same computational achievements of other low-level languages, such as C and C++ or either VM optimizations
-  such as those done in Java, being restricted to the script/interpreter execution scheme, which in some cases is outperformed
-  by the pre-referenced programming languages. So except than computationally optimizing kernels through algorithm analysis
-  which is generally done by the users or through the scientific community in time, it can be important to either re-implement
-  existing kernel functions using wrapped C++ packages, that we either write ourselves or import from existing libraries
-  like numpy, scipy, sklearn etc.
+* **Optimizing kernel computation**: We have done our best to write maintainable and efficient Python code. However, this does not mean that the code cannot be further optimized. For even higher efficiency, some graph kernels can be re-implemented using wrapped C++ packages. Furthermore, most kernels solve combinatorial problems for which more efficient algorithms (than the employed ones) may exist. 
 
-* **Improving the** :code:`Graph` **class**: As discussed in the :ref:`core_concepts` section, the :code:`Graph` class supports both adjacency matrix and edgelist representations of graphs. There are also methods that allow *GraKeL* to read graphs in various formats (e.g., NetworkX graphs). Furthermore, there are methods that implement graph algorithm (e.g., computation of shortest paths). These operations have to be efficient, both in terms of time and space complexity. Therefore, the :code:`Graph` class needs to be optimized. Altenatively, the project may benefit a lot from a *Cython* implementation.
+* **Improving the** :code:`Graph` **class**: As discussed in the :ref:`core_concepts` section, the :code:`Graph` class supports both adjacency matrix and edgelist representations of graphs. There are also methods that allow *GraKeL* to read graphs in various formats (e.g., NetworkX graphs). Furthermore, there are methods that implement graph algorithms (e.g., shortest path distances). These operations have to be efficient, both in terms of time and space complexity. Therefore, the :code:`Graph` class needs to be optimized. The project may benefit a lot from a *Cython* implementation of the class.
 
-* **Redesigning the** :code:`Kernel` **class**: The :code:`Kernel` class was designed in such a way that it satisfies some constraints (e.g., compatibility with *scikit-learn*) and is as simple as possible. This class can be extended to support families of methods that are not currently  *deep graph kernels*.
+* **Redesigning the** :code:`Kernel` **class**: The :code:`Kernel` class was designed to satisfy some constraints (e.g., compatibility with *scikit-learn*) and to be as simple as possible. This class can be extended to support families of kernels or frameworks that are not currently developed such as *deep graph kernels*.
 
 * **Unit-Testing**: As far as the kernel module is concerned, we have not managed to come up with any methodology for testing if the kernels are correctly implemented. We could use some "reference" code to check if our kernels produce identical results on some datasets, however, in most cases, this is not practical. Our tests check if the kernel matrices produced by the kernels are positive semidefinite, however, this can be true even if a kernel is not correctly implemented. We would like to design new tests that can verify the validity of implemeted kernels.
 
-* **Utilizing Parallel/Concurrent computation**: It is important that the :code:`GraphKernel` generic-wrapper supports a parallel computation scheme,
-  through the objects of the :code:`Kernel` class, for executing procedures faster if the user wants so. This feature appears as currently implemented,
-  but actually its implementation is wrong. It is a major problem to tackle that on the other hand, should not be so difficult.
+* **Parallel/Concurrent execution**: The :code:`GraphKernel` class supports a parallel computation scheme (i.e., using the :code:`n_jobs` attribute), but this has not been implemented for all the kernels or the current implementation is not optimal. Implementations that allow parallel computation of the kernels are of high importance since they can lead to significant speed-ups of kernel computations.
 
 * **Examples and tutorials**: Have you created an example or tutorial that makes use of the *GraKeL* library? Please let us know. We would be more than happy to include it in our list of examples or tutorials.
 
