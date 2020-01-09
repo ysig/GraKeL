@@ -319,7 +319,7 @@ The last part of this short introduction demonstrates how graph kernels can be u
 
 We will experiment with the MUTAG dataset, one of the most popular graph classification datasets. The dataset contains 188 mutagenic aromatic and heteroaromatic nitro compounds, and the task is to predict whether or not each chemical compound has mutagenic effect on the Gram-negative bacterium Salmonella typhimurium.
 
-We can use the :code:`fetch_dataset` function of GraKeL to load MUTAG or any other graph classification dataset from `http://graphkernels.cs.tu-dortmund.de/ <http://graphkernels.cs.tu-dortmund.de/>`_. The function automatically downloads the raw files of the dataset and returns an instance of :class:`sklearn.utils.Bunch` whose attribute :code:`data` contains the graphs and its attribute :code:`target` the classification labels.
+We can use the :class:`grakel.datasets.fetch_dataset` function of GraKeL to load MUTAG or any other graph classification dataset from `http://graphkernels.cs.tu-dortmund.de/ <http://graphkernels.cs.tu-dortmund.de/>`_. The function automatically downloads the raw files of the dataset and returns an instance of :class:`sklearn.utils.Bunch` whose attribute :code:`data` contains the graphs and its attribute :code:`target` the classification labels.
 
 We can load the MUTAG dataset as follows:
 

@@ -6,9 +6,9 @@ Core Concepts
 
 We next present some core concepts in *GraKeL*.
 
-What is the `GraphKernel` Class?
---------------------------------
-The `GraphKernel` class is a *generic wrapper class*. This class provides a uniform interface for all the implemented graph kernels and frameworks. A graph kernel can be described by an instance of this class, and it holds the attributes listed below:
+What is the :class:`grakel.GraphKernel` Class?
+---------------------------------------
+The :class:`grakel.GraphKernel` class is a *generic wrapper class*. This class provides a uniform interface for all the implemented graph kernels and frameworks. A graph kernel can be described by an instance of this class, and it holds the attributes listed below:
 
 * :code:`kernel` : Specifies the graph kernel to be computed. It can be either a :code:`base_graph_kernel` or a list that contains one or more :code:`framework` along with exactly one :code:`base_graph_kernel`. The :code:`base_graph_kernel` needs to be the last element in the list.
     - :code:`base_graph_kernel` : Α :code:`base_graph_kernel` is a kernel that compares graphs to each other. It is represented by a dictionary which contains a key :code:`'name'` whose value  corresponds to the name of the kernel. The dictionary can also contain other keys that specify the parameters of the kernel and their values. For instance, we can initialize a shortest path kernel as follows.
@@ -195,7 +195,7 @@ The `GraphKernel` class is a *generic wrapper class*. This class provides a unif
     .. note::
         :code:`verbose` is an attribute that is currently not supported, but may be supported in the future for printing progress messages.
 
-We will next focus on the :code:`Kernel` class. Instances of this class are wrapped in an instance of the :code:`GraphKernel` class.
+We will next focus on the :class:`grakel.Kernel` class. Instances of this class are wrapped in an instance of the :class:`grakel.GraphKernel` class that was presented above.
 
 The `Kernel` class
 ------------------
