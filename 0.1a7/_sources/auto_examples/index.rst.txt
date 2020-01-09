@@ -55,6 +55,26 @@ Examples that use graph kernels to perform various tasks (e.g., graph classifica
 
 .. raw:: html
 
+    <div class="sphx-glr-thumbcontainer" tooltip="Script makes use of grakel.PropagationAttr ">
+
+.. only:: html
+
+    .. figure:: /auto_examples/images/thumb/sphx_glr_node_attributed_dataset_thumb.png
+
+        :ref:`sphx_glr_auto_examples_node_attributed_dataset.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/node_attributed_dataset
+
+.. raw:: html
+
     <div class="sphx-glr-thumbcontainer" tooltip="Script makes use of grakel.WeisfeilerLehman, grakel.VertexHistogram ">
 
 .. only:: html
@@ -92,26 +112,6 @@ Examples that use graph kernels to perform various tasks (e.g., graph classifica
    :hidden:
 
    /auto_examples/weisfeiler_lehman_subtree
-
-.. raw:: html
-
-    <div class="sphx-glr-thumbcontainer" tooltip="An example plot of grakel.GraphKernel, grakel.WeisfeilerLehman, grakel.VertexHistogram ">
-
-.. only:: html
-
-    .. figure:: /auto_examples/images/thumb/sphx_glr_plot_wl_subtree_MUTAG_thumb.png
-
-        :ref:`sphx_glr_auto_examples_plot_wl_subtree_MUTAG.py`
-
-.. raw:: html
-
-    </div>
-
-
-.. toctree::
-   :hidden:
-
-   /auto_examples/plot_wl_subtree_MUTAG
 
 .. raw:: html
 
@@ -192,26 +192,6 @@ Examples that use graph kernels to perform various tasks (e.g., graph classifica
    :hidden:
 
    /auto_examples/lovasz_svm_theta
-
-.. raw:: html
-
-    <div class="sphx-glr-thumbcontainer" tooltip="An example plot of grakel.GraphKernel, grakel.MultiscaleLaplacianFast ">
-
-.. only:: html
-
-    .. figure:: /auto_examples/images/thumb/sphx_glr_KFold_MLG_thumb.png
-
-        :ref:`sphx_glr_auto_examples_KFold_MLG.py`
-
-.. raw:: html
-
-    </div>
-
-
-.. toctree::
-   :hidden:
-
-   /auto_examples/KFold_MLG
 .. raw:: html
 
     <div style='clear:both'></div>
