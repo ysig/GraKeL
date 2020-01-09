@@ -22,15 +22,9 @@ Curious about how you can contribute to *GraKeL*? Here are a few ideas!
   existing kernel functions using wrapped C++ packages, that we either write ourselves or import from existing libraries
   like numpy, scipy, sklearn etc.
 
-* **Improving the Graph class**: As discussed at :ref:`core_concepts`, :code:`Graph` solves as a uniform representation
-  that supports both vertex-oriented and edge-oriented representations of graphs, while resolving conversions, importing of
-  various types of inputs and finally a small group of important operations concerning graph objects, while being at the same
-  time memory and computationally efficient. To achieve that goal the code of the :code:`Graph` should be optimized in python
-  and if it is possible and seems more efficiently to be totally converted to a *Cython* extension (for the use of C++ as a back-end).
+* **Improving the** :code:`Graph` **class**: As discussed in the :ref:`core_concepts` section, the :code:`Graph` class supports both adjacency matrix and edgelist representations of graphs. There are also methods that allow *GraKeL* to read graphs in various formats (e.g., NetworkX graphs). Furthermore, there are methods that implement graph algorithm (e.g., computation of shortest paths). These operations have to be efficient, both in terms of time and space complexity. Therefore, the :code:`Graph` class needs to be optimized. Altenatively, the project may benefit a lot from a *Cython* implementation.
 
-* **Redesigning the** :code:`Kernel` **class**: The :code:`Kernel` class has been confined to the project constraints (namely sklearn compatibility)
-  to the most abstract way possible. Other features and methods can be added to the kernel class to support frameworks that are currently
-  not supported, such as *deep-graph-kernels* or *valid-assignment-kernels* if this is considered important by the community.
+* **Redesigning the** :code:`Kernel` **class**: The :code:`Kernel` class was designed in such a way that it satisfies some constraints (e.g., compatibility with *scikit-learn*) and is as simple as possible. This class can be extended to support families of methods that are not currently  *deep graph kernels*.
 
 * **Unit-Testing**: As far as the kernel module is concerned, we have not managed to come up with any methodology for testing if the kernels are correctly implemented. We could use some "reference" code to check if our kernels produce identical results on some datasets, however, in most cases, this is not practical. Our tests check if the kernel matrices produced by the kernels are positive semidefinite, however, this can be true even if a kernel is not correctly implemented. We would like to design new tests that can verify the validity of implemeted kernels.
 
@@ -50,7 +44,7 @@ The *GraKeL* project started in 2018 as part of a one year project funded by `La
 
 License
 -------
-GraKeL is distributed under the **BSD 3-clause** license. The library makes use of the C++ source code of BLISS_ (a tool for computing automorphism groups and canonical labelings of graphs) which is **LGPL** licensed. Futhermore, the cvxopt_ package (a software package for convex optimization) which is an optional dependency of GraKeL is **GPL**s licensed.
+GraKeL is distributed under the **BSD 3-clause** license. The library makes use of the C++ source code of BLISS_ (a tool for computing automorphism groups and canonical labelings of graphs) which is **LGPL** licensed. Futhermore, the cvxopt_ package (a software package for convex optimization) which is an optional dependency of GraKeL is **GPL** licensed.
 
 .. _Labex DigiCosme: https://digicosme.lri.fr/tiki-index.php
 .. _Michalis Vazirgiannis: http://www.lix.polytechnique.fr/~mvazirg/
