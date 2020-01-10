@@ -252,91 +252,71 @@ We will now test if the kernel matrix produced by the instance of the :class:`gr
 
 As we can see, the two matrices are indeed equal to each other.
 
-Why not a more structured input for Graphs?
--------------------------------------------
-The flattened input type provided for all kernels (graph-dictionary/adjacency, node-labels, edge-labels) may raise the question,
-why does not this library, accept a well known type of Graph input as the one constructed from `networkx`_ or `igraph`_.
-Networkx library is known for producing a very big memory overhead, which seems unimportant when the user wants to use
-very basic graph methods such calculating shortest paths or getting a vertex neighbor. Because what we wanted to wrap
-around a graph class was really simple: conversion between dictionary and adjacency formats, format agnostic - format imposing
-methods and very basic graph oriented supplementary methods, such as *Shortest-Path matrix* calculation, we designed
-a Graph class of our own, used inside most of our kernels, in order to resolve to a common object - graph format reference.
-This specificity of kernel format, as well as the absence of a need for complex calculations concerning the field of graphs
-lead us to the creation of :ref:`Graph`.
+Why Not a More Advanced Graph Representation?
+---------------------------------------------
+As already discussed, the graph objects in *GraKeL* are instances of the :class:`grakel.Graph` class. The :class:`grakel.Graph` class is very simple, and this may raise the question why *GraKeL* does not utilize the graph structures of well-established graph libraries such as `networkx`_ and `igraph`_. The answer is that the operations that most kernels perform on graphs are relatively simple and easily implementable. For instance, a kernel may need to retrieve the neighbors of a vertex or to compute the shortest paths between all pairs of nodes. Standard graph libraries provide many more functions, and they are specially designed such that all these functions are computed efficiently. Since *GraKeL* would only utilize a small fraction of these functions, introducing an extra dependency to some large library seemed not to be a good idea.
 
-Let's go back to the H2O example:
-First we will import the :code:`Graph` object from :code:`Grakel`
+We will again experiment with the two molecules: (1) water :math:`\mathbf{H}_{2}\mathbf{O}` and (2) hydronium :math:`\mathbf{H}_{3}\mathbf{O}^{+}`.
+
+We will first initialize five water molecules using the different edgelist representations and show that they are equivalent to each other.
 
 .. code-block:: python
 
     >>> from grakel import Graph
+    >>> H2Od = list()
+    >>> H2Od.append(Graph({'a': {'b': 1., 'c': 1.}, 'b': {'a': 1}, 'c': {'a': 1}}))
+    >>> H2Od.append(Graph({'a': ['b', 'c'], 'b': ['a'], 'c':['b']}))
+    >>> H2Od.append(Graph({('a', 'b'): 1., ('a', 'c'): 1., ('c', 'a'): 1., ('b', 'a'): 1.}))
+    >>> H2Od.append(Graph([('a', 'b'), ('a', 'c'), ('b', 'a'), ('c', 'a')]))
+    >>> H2Od.append(Graph([('a', 'b', 1.), ('a', 'c', 1.), ('b', 'a', 1.), ('c', 'a', 1.)]))
 
-Firstly let's collect all the dictionary formats and show that they are equivalent.
-We start by calculating a graph object for the native format of graph dictionary which corresponds to the following:
-
-.. code-block:: python
-
-    >>> H2Od = dict()
-    >>> H2Od[0] = {'a': {'b': 1., 'c': 1.}, 'b': {'a': 1}, 'c': {'a': 1}}
-
-Now let's initialize all the other
+Then, we compare the first representation against all the other.
 
 .. code-block:: python
 
-    >>> H2Od[1] = {'a': ['b', 'c'], 'b': ['a'], 'c':['b']}
-    >>> H2Od[2] = {('a', 'b'): 1., ('a', 'c'): 1., ('c', 'a'): 1., ('b', 'a'): 1.}
-    >>> H2Od[3] = [('a', 'b'), ('a', 'c'), ('b', 'a'), ('c', 'a')]
-    >>> H2Od[4] = [('a', 'b', 1.), ('a', 'c', 1.), ('b', 'a', 1.), ('c', 'a', 1.)]
-
-and compute the result
-
-.. code-block:: python
-
-    >>> any(Graph(H2Od[i]).get_edge_dictionary() == H2Od[0] for i in range(1, 5))
+    >>> any(H2Od[i].get_edge_dictionary() == H2Od[0].get_edge_dictionary() for i in range(1, 5))
     True
 
-Now let's do the same for adjacency matrix type formats. The numpy array is the native adjacency-matrix format:
+Now, we will do the same for the case of the adjacency matrix representations.
 
 .. code-block:: python
 
-    >>> from numpy import array
-    >>> H2O = dict()
-    >>> H2O[0] = array([[0, 1, 1], [1, 0, 0], [1, 0, 0]])
-
-and with the conversion of other input type formats
-
-.. code-block:: python
-
-    >>> H2O[1] = [[0, 1, 1], [1, 0, 0], [1, 0, 0]]
+    >>> import numpy as np
     >>> from scipy.sparse import csr_matrix
-    >>> H2O[2] = csr_matrix(([1, 1, 1, 1], ([0, 0, 1, 2], [1, 2, 0, 0])), shape=(3, 3))
+    >>> H2O = list()
+    >>> H2O.append(Graph(np.array([[0, 1, 1], [1, 0, 0], [1, 0, 0]])))
+    >>> H2O.append(Graph([[0, 1, 1], [1, 0, 0], [1, 0, 0]]))
+    >>> H2O.append(Graph(csr_matrix(([1, 1, 1, 1], ([0, 0, 1, 2], [1, 2, 0, 0])), shape=(3, 3))))
 
-we can demonstrate equality as
+Then, we again compare the first representation against all the other.
 
 .. code-block:: python
 
     >>> from numpy import array_equal
-    >>> all(array_equal(Graph(H2O[i]).get_adjacency_matrix(), H2O[0]) for i in range(1, 3))
+    >>> all(array_equal(H2O[i].get_adjacency_matrix(), H2O[0].get_adjacency_matrix()) for i in range(1, 3))
     True
 
-Now we would like to initialize two :code:`Graph` type objects one for adjacency_matrix and one for edge_dictionary and show that they are equivalent (using also labels).
-First initialize the graph object, created from an adjacency matrix:
+Next, we will create two instances of the :code:`grakel.Graph` class, the first using the adjacency_matrix representation and the second using the edgelist representation. We will also assign labels to the nodes and edges of the two graphs. Then, we will show that the two representations are equivalent to each other.
+
+We create the adjacency matrix and use this matrix to create the first object.
 
 .. code-block:: python
 
+    >>> H2O_adj = np.array([[0, 1, 1], [1, 0, 0], [1, 0, 0]])
     >>> H2O_labels = {0: 'O', 1: 'H', 2: 'H'}
     >>> H2O_edge_labels = {(0, 1): 'pcb', (1, 0): 'pcb', (0, 2): 'pcb', (2, 0): 'pcb'}
-    >>> adj_graph = Graph(H2O[0], H2O_labels, H2O_edge_labels, "all")
+    >>> adj_graph = Graph(H2O_adj, H2O_labels, H2O_edge_labels, "all")
 
-and one from an edge dictionary:
+We then create the second graph object.
 
 .. code-block:: python
 
+    >>> H2Od_edg = {'a': {'b': 1., 'c': 1.}, 'b': {'a': 1}, 'c': {'a': 1}}
     >>> H2Od_labels = {'a': 'O', 'b': 'H', 'c': 'H'}
     >>> H2Od_edge_labels = {('a', 'b'): 'pcb', ('b', 'a'): 'pcb', ('a', 'c'): 'pcb', ('c', 'a'): 'pcb'}
-    >>> edge_dict_graph = Graph(H2Od[0], H2Od_labels, H2Od_edge_labels, "all")
+    >>> edge_dict_graph = Graph(H2Od_edg, H2Od_labels, H2Od_edge_labels, "all")
 
-Firstly we will demonstrate equality of graph type formats:
+We test if the adjacency matrices of the two objects are equal to each other.
 
 .. code-block:: python
 
@@ -350,31 +330,28 @@ and
     >>> adj_graph.get_edge_dictionary() == edge_dict_graph.get_edge_dictionary()
     True
 
-and afterwards between labels for :code:`"adjacency"` object formats, defined by the :code:`purpose` argument of the :code:`get_labels` method from the :code:`Graph` type object and for both vertices or edges defined by the :code:`label_type` format of the same method, as
+Finally, we also compare the labels of the nodes and the edges of the two objects.
 
 .. code-block:: python
 
     >>> all((adj_graph.get_labels(purpose="adjacency", label_type=lt), edge_dict_graph.get_labels(purpose="adjacency", label_type=lt)) for lt in ["vertex", "edge"])
     True
 
-Checking equality of the inverse ("edge_dictionary") want hold, because the adjacency matrix, when initialized does not have information about the vertex symbols.
-Here we should emphasize that **vertex symbols should be a :code:`sortable` in order for an indexing to be possible**.
+Above, we showed that the adjacency matrices of the two objects are equal to each other. The same does not hold for their edge dictionaries (i.e., :code:`edge_dictionary`) since the adjacency matrix contains no information about the names of the nodes. Note that these names have to be instances of some **sortable** datatype such that indexing can be performed.
 
 .. note::
-    When initializing a :code:`Graph` object the 4th argument (named :code:`graph_format`), corresponds to the format the :code:`Graph` will be stored to. The default value of this argument is :code:`"auto"`, which stores the graph in the given format, if it is valid. Explicit format "choices" such as :code:`"adjacency"` or :code:`"dictionary"`, will (covert if needed and) store the :code:`Graph` in this format type. By initializing the :code:`Graph` format as all in the above example, we simply make sure that the :code:`Graph` instance will contain both adjacency and dictionary graph representations and their corresponding edge and adjacency labels for both nodes and edges. Although the methods :code:`get_adjacency_matrix` and `get_edge_dictionary`, construct and return such a graph representation if non existent, the :code:`get_labels` method will change the graph format if the requested labels are not in the desired format and pop a certain warning. If the user wants to avoid doing so he can either set the explicit format afterwards by executing
+    The fourth attribute of the constructor of the :code:`grakel.Graph` class (i.e., :code:`graph_format`) corresponds to the format into which the graph object will be stored. The default value of this attribute is :code:`"auto"` which maintains the format that is passed on to the constructor. This attribute can also take the values :code:`"adjacency"`, :code:`"dictionary"`, and :code:`all`. The last value ensures that the :code:`grakel.Graph` instance will contain both representations and their corresponding node and edge labels. Note that the :code:`get_adjacency_matrix` and :code:`get_edge_dictionary` methods create and return the corresponding graph representation if it does not exist. On the other hand, the :code:`get_labels` method will modify the graph format if the labels are not in the proper format and a warning will also be issued. Note that the user can set the :code:`graph_format` attribute to some value later on as follows.
 
     .. code-block:: python
 
-        >>> adj_graph = Graph(H2O[0], H2O_labels, H2O_edge_labels)
-        >>> adj_graph.set_format("all")
+        >>> adj_graph = Graph(H2O_adj, H2O_labels, H2O_edge_labels)
+        >>> adj_graph.change_format("all")
 
-    or declare which is the desired format format he wants the graph to support and it will be included automatically by executing
+    Alternatively, the user can specify which is his/her desired format, and it will be created if it does not exist.
 
     .. code-block:: python
 
         >>> adj_graph.desired_format("dictionary")
-
-    which in that case will set the :code:`Graph` instance format from :code:`"adjacency"` to :code:`"all"`, in order to include the specified format.
 
 After this long introduction of what the :code:`Graph` Object is, the way this can interest the user is by utilizing as input for :code:`GraphKernel`.
 Because this Object will act as a mutable-object, any necessary format conversion inside a dataset will happen only ones and the user can execute
