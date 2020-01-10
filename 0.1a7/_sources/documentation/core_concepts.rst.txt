@@ -353,36 +353,7 @@ Above, we showed that the adjacency matrices of the two objects are equal to eac
 
         >>> adj_graph.desired_format("dictionary")
 
-After this long introduction of what the :code:`Graph` Object is, the way this can interest the user is by utilizing as input for :code:`GraphKernel`.
-Because this Object will act as a mutable-object, any necessary format conversion inside a dataset will happen only ones and the user can execute
-multiple kernels on a single dataset with repeating conversions again and again. An important thing to mention here is that a kernel Object **should
-not** cause information loss concerning a the :code:`Graph` data Object given as input.
-
-Now let's demonstrate the simple water example on a Shortest-Path kernel, using :code:`Graph` type objects.
-First initialize those objects:
-
-.. code-block:: python
-
-    >>> H2O = Graph([[0, 1, 1], [1, 0, 0], [1, 0, 0]], {0: 'O', 1: 'H', 2: 'H'})
-    >>> H3O = Graph([[0, 1, 1, 1], [1, 0, 0, 0], [1, 0, 0, 0], [1, 0, 0, 0]], {0: 'O', 1: 'H', 2: 'H', 3:'H'})
-
-And calculate fit transform
-
-.. code-block:: python
-
-    >>> from grakel import GraphKernel
-    >>> sp_kernel = GraphKernel(kernel = {"name": "shortest_path"}, normalize=True)
-    >>> sp_kernel.fit_transform([H2O])
-    1.0
-
-and finally the normalized kernel value, between :math:`\mathbf{H}_{2}\mathbf{O}` and :math:`\mathbf{H}_{3}\mathbf{O}^{+}`
-
-.. code-block:: python
-
-    >>> sp_kernel.transform([H3O])
-    0.9428090415820634
-
-which is equivalent with the originally computation, we did on introduction.
+The methods of the graph kernels take lists of :class:`grakel.Graph` objects as input, extract the necessary features and may return some matrices. It should be mentioned that the :class:`grakel.Kernel` objects are not allowed to modify the graphs that they take as input.
 
 .. _networkx: https://networkx.github.io/
 .. _igraph: http://igraph.org/python/

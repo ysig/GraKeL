@@ -494,29 +494,7 @@
 </pre></div>
 </div>
 </div>
-<p>After this long introduction of what the <code class="code docutils literal notranslate"><span class="pre">Graph</span></code> Object is, the way this can interest the user is by utilizing as input for <code class="code docutils literal notranslate"><span class="pre">GraphKernel</span></code>.
-Because this Object will act as a mutable-object, any necessary format conversion inside a dataset will happen only ones and the user can execute
-multiple kernels on a single dataset with repeating conversions again and again. An important thing to mention here is that a kernel Object <strong>should
-not</strong> cause information loss concerning a the <code class="code docutils literal notranslate"><span class="pre">Graph</span></code> data Object given as input.</p>
-<p>Now let’s demonstrate the simple water example on a Shortest-Path kernel, using <code class="code docutils literal notranslate"><span class="pre">Graph</span></code> type objects.
-First initialize those objects:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">H2O</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s1">&#39;O&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="s1">&#39;H&#39;</span><span class="p">})</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">H3O</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s1">&#39;O&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span><span class="s1">&#39;H&#39;</span><span class="p">})</span>
-</pre></div>
-</div>
-<p>And calculate fit transform</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">grakel</span> <span class="kn">import</span> <span class="n">GraphKernel</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">sp_kernel</span> <span class="o">=</span> <span class="n">GraphKernel</span><span class="p">(</span><span class="n">kernel</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;shortest_path&quot;</span><span class="p">},</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">sp_kernel</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">([</span><span class="n">H2O</span><span class="p">])</span>
-<span class="go">1.0</span>
-</pre></div>
-</div>
-<p>and finally the normalized kernel value, between <span class="math notranslate nohighlight">\(\mathbf{H}_{2}\mathbf{O}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{H}_{3}\mathbf{O}^{+}\)</span></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sp_kernel</span><span class="o">.</span><span class="n">transform</span><span class="p">([</span><span class="n">H3O</span><span class="p">])</span>
-<span class="go">0.9428090415820634</span>
-</pre></div>
-</div>
-<p>which is equivalent with the originally computation, we did on introduction.</p>
+<p>The methods of the graph kernels take lists of <a class="reference internal" href="../generated/grakel.Graph.html#grakel.Graph" title="grakel.Graph"><code class="xref py py-class docutils literal notranslate"><span class="pre">grakel.Graph</span></code></a> objects as input, extract the necessary features and may return some matrices. It should be mentioned that the <a class="reference internal" href="../generated/grakel.Kernel.html#grakel.Kernel" title="grakel.Kernel"><code class="xref py py-class docutils literal notranslate"><span class="pre">grakel.Kernel</span></code></a> objects are not allowed to modify the graphs that they take as input.</p>
 </div>
 </div>
 

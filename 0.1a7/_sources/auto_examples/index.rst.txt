@@ -172,26 +172,6 @@ Examples that use graph kernels to perform various tasks (e.g., graph classifica
    :hidden:
 
    /auto_examples/nx_to_grakel
-
-.. raw:: html
-
-    <div class="sphx-glr-thumbcontainer" tooltip="An example plot of grakel.GraphKernel, grakel.LovaszTheta, grakel.SvmTheta ">
-
-.. only:: html
-
-    .. figure:: /auto_examples/images/thumb/sphx_glr_lovasz_svm_theta_thumb.png
-
-        :ref:`sphx_glr_auto_examples_lovasz_svm_theta.py`
-
-.. raw:: html
-
-    </div>
-
-
-.. toctree::
-   :hidden:
-
-   /auto_examples/lovasz_svm_theta
 .. raw:: html
 
     <div style='clear:both'></div>
