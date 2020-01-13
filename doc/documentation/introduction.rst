@@ -7,7 +7,6 @@ A Short Introduction
 ====================
 
 What is GraKeL?
-
 ---------------
 The problem of accurately measuring the similarity between graphs is at the core of many applications in a variety of disciplines. Graph kernels have recently emerged as a promising approach to this problem. GraKeL is a library that provides implementations of several well-established graph kernels, unifying them into a common framework. The library is written in Python following scikit-learn's philosophy. GraKeL makes it easy to build a complete machine learning pipeline for tasks such as graph classification and clustering.
 
