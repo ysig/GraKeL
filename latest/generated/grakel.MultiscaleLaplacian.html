@@ -203,7 +203,7 @@
 <h1><a class="reference internal" href="../api.html#module-grakel" title="grakel"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code></a>.MultiscaleLaplacian<a class="headerlink" href="#grakel-multiscalelaplacian" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="grakel.MultiscaleLaplacian">
-<em class="property">class </em><code class="descclassname">grakel.</code><code class="descname">MultiscaleLaplacian</code><span class="sig-paren">(</span><em>n_jobs=None</em>, <em>normalize=False</em>, <em>verbose=False</em>, <em>L=3</em>, <em>gamma=0.01</em>, <em>heta=0.01</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/8de11c2d/grakel/kernels/multiscale_laplacian.py#L333"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/multiscale_laplacian.html#MultiscaleLaplacian"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.MultiscaleLaplacian" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">grakel.</code><code class="descname">MultiscaleLaplacian</code><span class="sig-paren">(</span><em>n_jobs=None</em>, <em>normalize=False</em>, <em>verbose=False</em>, <em>L=3</em>, <em>gamma=0.01</em>, <em>heta=0.01</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/dcf0c65e/grakel/kernels/multiscale_laplacian.py#L333"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/multiscale_laplacian.html#MultiscaleLaplacian"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.MultiscaleLaplacian" title="Permalink to this definition">¶</a></dt>
 <dd><p>Laplacian Graph Kernel as proposed in <a class="reference internal" href="../kernels/multiscale_laplacian.html#kondor2016multiscale" id="id1">[kondor2016multiscale]</a>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -324,13 +324,13 @@
 </table>
 <dl class="method">
 <dt id="grakel.MultiscaleLaplacian.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>self</em>, <em>n_jobs=None</em>, <em>normalize=False</em>, <em>verbose=False</em>, <em>L=3</em>, <em>gamma=0.01</em>, <em>heta=0.01</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/8de11c2d/grakel/kernels/multiscale_laplacian.py#L362"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/multiscale_laplacian.html#MultiscaleLaplacian.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.MultiscaleLaplacian.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>self</em>, <em>n_jobs=None</em>, <em>normalize=False</em>, <em>verbose=False</em>, <em>L=3</em>, <em>gamma=0.01</em>, <em>heta=0.01</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/dcf0c65e/grakel/kernels/multiscale_laplacian.py#L362"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/multiscale_laplacian.html#MultiscaleLaplacian.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.MultiscaleLaplacian.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialise a <cite>multiscale_laplacian</cite> kernel.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="grakel.MultiscaleLaplacian.diagonal">
-<code class="descname">diagonal</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/8de11c2d/grakel/kernels/kernel.py#L267"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.MultiscaleLaplacian.diagonal" title="Permalink to this definition">¶</a></dt>
+<code class="descname">diagonal</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/dcf0c65e/grakel/kernels/kernel.py#L267"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.MultiscaleLaplacian.diagonal" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the kernel matrix diagonal of the fit/transformed data.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -360,7 +360,7 @@ This consists of each element calculated with itself.</p>
 
 <dl class="method">
 <dt id="grakel.MultiscaleLaplacian.fit">
-<code class="descname">fit</code><span class="sig-paren">(</span><em>self</em>, <em>X</em>, <em>y=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/8de11c2d/grakel/kernels/kernel.py#L91"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.MultiscaleLaplacian.fit" title="Permalink to this definition">¶</a></dt>
+<code class="descname">fit</code><span class="sig-paren">(</span><em>self</em>, <em>X</em>, <em>y=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/dcf0c65e/grakel/kernels/kernel.py#L91"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.MultiscaleLaplacian.fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fit a dataset, for a transformer.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -395,7 +395,7 @@ requires this parameter.</p>
 
 <dl class="method">
 <dt id="grakel.MultiscaleLaplacian.fit_transform">
-<code class="descname">fit_transform</code><span class="sig-paren">(</span><em>self</em>, <em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/8de11c2d/grakel/kernels/kernel.py#L169"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.MultiscaleLaplacian.fit_transform" title="Permalink to this definition">¶</a></dt>
+<code class="descname">fit_transform</code><span class="sig-paren">(</span><em>self</em>, <em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/dcf0c65e/grakel/kernels/kernel.py#L169"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.MultiscaleLaplacian.fit_transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fit and transform, on the same dataset.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -431,7 +431,7 @@ all pairs of graphs between target an features</p>
 
 <dl class="method">
 <dt id="grakel.MultiscaleLaplacian.get_params">
-<code class="descname">get_params</code><span class="sig-paren">(</span><em>self</em>, <em>deep=True</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/8de11c2d/grakel/../venv/lib/python2.7/site-packages/sklearn/base.py#L168"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.MultiscaleLaplacian.get_params" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_params</code><span class="sig-paren">(</span><em>self</em>, <em>deep=True</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/dcf0c65e/grakel/../venv/lib/python2.7/site-packages/sklearn/base.py#L168"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.MultiscaleLaplacian.get_params" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get parameters for this estimator.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -458,13 +458,13 @@ contained subobjects that are estimators.</p>
 
 <dl class="method">
 <dt id="grakel.MultiscaleLaplacian.initialize">
-<code class="descname">initialize</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/8de11c2d/grakel/kernels/multiscale_laplacian.py#L379"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/multiscale_laplacian.html#MultiscaleLaplacian.initialize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.MultiscaleLaplacian.initialize" title="Permalink to this definition">¶</a></dt>
+<code class="descname">initialize</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/dcf0c65e/grakel/kernels/multiscale_laplacian.py#L379"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/multiscale_laplacian.html#MultiscaleLaplacian.initialize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.MultiscaleLaplacian.initialize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize all transformer arguments, needing initialization.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="grakel.MultiscaleLaplacian.pairwise_operation">
-<code class="descname">pairwise_operation</code><span class="sig-paren">(</span><em>self</em>, <em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/8de11c2d/grakel/kernels/multiscale_laplacian.py#L491"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/multiscale_laplacian.html#MultiscaleLaplacian.pairwise_operation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.MultiscaleLaplacian.pairwise_operation" title="Permalink to this definition">¶</a></dt>
+<code class="descname">pairwise_operation</code><span class="sig-paren">(</span><em>self</em>, <em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/dcf0c65e/grakel/kernels/multiscale_laplacian.py#L491"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/multiscale_laplacian.html#MultiscaleLaplacian.pairwise_operation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.MultiscaleLaplacian.pairwise_operation" title="Permalink to this definition">¶</a></dt>
 <dd><p>ML kernel as proposed in <a class="reference internal" href="../kernels/multiscale_laplacian.html#kondor2016multiscale" id="id4">[kondor2016multiscale]</a>..</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -491,7 +491,7 @@ laplacian of A.</p>
 
 <dl class="method">
 <dt id="grakel.MultiscaleLaplacian.parse_input">
-<code class="descname">parse_input</code><span class="sig-paren">(</span><em>self</em>, <em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/8de11c2d/grakel/kernels/multiscale_laplacian.py#L409"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/multiscale_laplacian.html#MultiscaleLaplacian.parse_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.MultiscaleLaplacian.parse_input" title="Permalink to this definition">¶</a></dt>
+<code class="descname">parse_input</code><span class="sig-paren">(</span><em>self</em>, <em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/dcf0c65e/grakel/kernels/multiscale_laplacian.py#L409"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/multiscale_laplacian.html#MultiscaleLaplacian.parse_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.MultiscaleLaplacian.parse_input" title="Permalink to this definition">¶</a></dt>
 <dd><p>Parse and create features for multiscale_laplacian kernel.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -524,13 +524,13 @@ up to level self.L and the inverse Laplacian of A.</p>
 
 <dl class="method">
 <dt id="grakel.MultiscaleLaplacian.set_params">
-<code class="descname">set_params</code><span class="sig-paren">(</span><em>self</em>, <em>**params</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/8de11c2d/grakel/kernels/kernel.py#L386"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.MultiscaleLaplacian.set_params" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_params</code><span class="sig-paren">(</span><em>self</em>, <em>**params</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/dcf0c65e/grakel/kernels/kernel.py#L386"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.MultiscaleLaplacian.set_params" title="Permalink to this definition">¶</a></dt>
 <dd><p>Call the parent method.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="grakel.MultiscaleLaplacian.transform">
-<code class="descname">transform</code><span class="sig-paren">(</span><em>self</em>, <em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/8de11c2d/grakel/kernels/kernel.py#L128"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.MultiscaleLaplacian.transform" title="Permalink to this definition">¶</a></dt>
+<code class="descname">transform</code><span class="sig-paren">(</span><em>self</em>, <em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/dcf0c65e/grakel/kernels/kernel.py#L128"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.MultiscaleLaplacian.transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the kernel matrix, between given and fitted dataset.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />

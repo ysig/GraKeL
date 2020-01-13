@@ -420,7 +420,7 @@
 
         <span class="c1"># Transform - calculate kernel matrix</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">check_is_fitted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;phi_X&#39;</span><span class="p">])</span>
+            <span class="n">check_is_fitted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;_phi_X&#39;</span><span class="p">])</span>
             <span class="n">phi_x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_phi_X</span>
         <span class="k">except</span> <span class="n">NotFittedError</span><span class="p">:</span>
             <span class="n">phi_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_nx</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_graph_bins</span><span class="p">)))</span>
