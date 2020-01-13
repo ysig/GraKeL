@@ -59,5 +59,5 @@ Both for attributed and for labeled graphs, implementations of the propagation c
 
 Bibliography
 ------------
-.. bibliography:: ../biblio.bib
+.. bibliography:: graph_kernels.bib
    :filter: docname in docnames
