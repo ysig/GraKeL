@@ -260,7 +260,7 @@ class GraphletSampling(Kernel):
 
         # Transform - calculate kernel matrix
         try:
-            check_is_fitted(self, ['phi_X'])
+            check_is_fitted(self, ['_phi_X'])
             phi_x = self._phi_X
         except NotFittedError:
             phi_x = np.zeros(shape=(self._nx, len(self._graph_bins)))
