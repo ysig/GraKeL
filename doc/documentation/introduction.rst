@@ -7,6 +7,7 @@ A Short Introduction
 ====================
 
 What is GraKeL?
+
 ---------------
 The problem of accurately measuring the similarity between graphs is at the core of many applications in a variety of disciplines. Graph kernels have recently emerged as a promising approach to this problem. GraKeL is a library that provides implementations of several well-established graph kernels, unifying them into a common framework. The library is written in Python following scikit-learn's philosophy. GraKeL makes it easy to build a complete machine learning pipeline for tasks such as graph classification and clustering.
 
@@ -248,14 +249,14 @@ One of the most popular graph kernels is the *shortest path kernel* which counts
 
 After installing the library (see :ref:`installation`), we can initialize an instance of the shortest path kernel as follows:
 
-.. code-block:: python
+.. doctest::
 
    >>> from grakel import GraphKernel
    >>> sp_kernel = GraphKernel(kernel="shortest_path")
 
 Alternatively, we can directly create an instance of :class:`grakel.kernels.ShortestPath` object as follows:
 
-.. code-block:: python
+.. doctest::
 
    >>> from grakel.kernels import ShortestPath
    >>> sp_kernel = ShortestPath()
@@ -264,7 +265,7 @@ Initializing a Framework
 ------------------------
 Research in the field of graph kernels has not only focused on designing new kernels between graphs, but also on frameworks and approaches that can be applied to existing graph kernels and increase their performance. The most popular of all frameworks is perhaps the *Weisfeiler-Lehman framework* :cite:`shervashidze2011weisfeiler`. The Weisfeiler-Lehman framework works on top of some graph kernel, known as the *base kernel*. We can initialize the well-known Weisfeiler-Lehman subtree kernel (Weisfeiler-Lehman framework on top of the *vertex histogram* kernel) as follows:
 
-.. code-block:: python
+.. doctest::
 
     >>> from grakel.kernels import WeisfeilerLehman, VertexHistogram
     >>> wl_kernel = WeisfeilerLehman(base_graph_kernel=VertexHistogram)    
@@ -276,7 +277,7 @@ Let us consider a toy example, where we compute some graph kernel between two mo
 
 We first create the graph representations of the two molecules:
 
-.. code-block:: python
+.. doctest::
 
    >>> from grakel import Graph
    >>>
@@ -290,21 +291,21 @@ We first create the graph representations of the two molecules:
 
 We employ the shortest path kernel and we first compute the kernel value between the graph representation of water and itself:
 
-.. code-block:: python
+.. doctest::
 
     >>> sp_kernel.fit_transform(H2O)
     array([[12.]])
 
 Next, we calculate the kernel value between the graph representation of water and that of hydronium:
 
-.. code-block:: python
+.. doctest::
 
     >>> sp_kernel.transform(H3O)
     array([[24.]])
 
 The above result suggests that the water molecule is more similar to hydronium than to itself. This is because the kernel values are not normalized. To apply normalization, we can set the corresponding attribute to :code:`True` when initializing the graph kernel:
 
-.. code-block:: python
+.. doctest::
 
     >>> sp_kernel = ShortestPath(normalize=True)
     >>> sp_kernel.fit_transform(H2O)
@@ -323,7 +324,7 @@ We can use the :class:`grakel.datasets.fetch_dataset` function of GraKeL to load
 
 We can load the MUTAG dataset as follows:
 
-.. code-block:: python
+.. doctest::
 
     >>> from grakel.datasets import fetch_dataset
     >>> MUTAG = fetch_dataset("MUTAG", verbose=False)
@@ -332,33 +333,33 @@ We can load the MUTAG dataset as follows:
     
 Next, we will initialize a Weisfeiler-Lehman subtree kernel:
 
-.. code-block:: python
+.. doctest::
 
     >>> from grakel.kernels import WeisfeilerLehman, VertexHistogram
     >>> wl_kernel = WeisfeilerLehman(n_iter=5, normalize=True, base_graph_kernel=VertexHistogram)
 
 To perform classification, it is necessary to split the dataset into a training and a test set. We can use the :code:`train_test_split` function of scikit-learn as follows:
 
-.. code-block:: python
+.. doctest::
 
     >>> from sklearn.model_selection import train_test_split
     >>> G_train, G_test, y_train, y_test = train_test_split(G, y, test_size=0.1)
 
 In order to perform classification, one generally needs to generate two matrices: A symmetric matrix :math:`\mathbf{K}_{train}` which contains the kernel values for all pairs of training graphs, and a second matrix :math:`\mathbf{K}_{test}` which stores the kernel values between the graphs of the test set and those of the training set. The first matrix can be generated as follows:
 
-.. code-block:: python
+.. doctest::
 
     >>> K_train = wl_kernel.fit_transform(G_train)
 
 Then, we can generate the second matrix using the following code:
 
-.. code-block:: python
+.. doctest::
 
     >>> K_test = wl_kernel.transform(G_test)
 
 Next, we employ the SVM classifier and use it to perform classification. We train the classifier on the training set and then, make predictions for the graphs of the test set.
 
-.. code-block:: python
+.. doctest::
 
     >>> from sklearn.svm import SVC
     >>> clf = SVC(kernel='precomputed')
@@ -372,7 +373,7 @@ Next, we employ the SVM classifier and use it to perform classification. We trai
 
 Finally, we can print the classification accuracy as follows:
 
-.. code-block:: python
+.. doctest::
 
     >>> from sklearn.metrics import accuracy_score
     >>> print("%2.2f %%" %(round(accuracy_score(y_test, y_pred)*100)))
@@ -381,5 +382,4 @@ Finally, we can print the classification accuracy as follows:
 Bibliography
 ------------
 .. bibliography:: ../biblio.bib
-   :style: plain
    :filter: docname in docnames
