@@ -118,7 +118,7 @@ The :class:`grakel.GraphKernel` class is a *generic wrapper class*. This class p
 
     We first create the graph representations of the following two molecules: (1) water :math:`\mathbf{H}_{2}\mathbf{O}` and (2) hydronium :math:`\mathbf{H}_{3}\mathbf{O}^{+}`, an ion of water produced by protonation.
 
-    .. code-block:: python
+    .. doctest::
 
        >>> from grakel import Graph
        >>>
@@ -134,13 +134,14 @@ The :class:`grakel.GraphKernel` class is a *generic wrapper class*. This class p
 
     .. doctest::
 
+        >>> from grakel import GraphKernel
         >>> gk = GraphKernel(kernel=dict(name="graphlet_sampling", sampling=dict(n_samples=5)))
-        >>> gk.fit(H2O)
+        >>> gk.fit([H2O])
         GraphKernel(Nystroem=False,
-              kernel={'name': 'graphlet_sampling', 'sampling': {'n_samples': 5}},
-              n_jobs=None, normalize=False, random_state=None, verbose=False)
+                kernel={'name': 'graphlet_sampling', 'sampling': {'n_samples': 5}},
+                n_jobs=None, normalize=False, random_state=None, verbose=False)
     
-        >>> gk.transform(H3O)
+        >>> gk.transform([H3O])
         array([[10.]])
 
     Note that we did not set :code:`random_state` to some value, and therefore it took its default :code:`None` value. We will now set :code:`random_state` equal to 42.
@@ -148,12 +149,13 @@ The :class:`grakel.GraphKernel` class is a *generic wrapper class*. This class p
     .. doctest:: 
 
         >>> gk = GraphKernel(kernel=dict(name="graphlet_sampling", sampling=dict(n_samples=5), random_state=42))
-        >>> gk.fit(H2O)
+        >>> gk.fit([H2O])
         GraphKernel(Nystroem=False,
-              kernel={'name': 'graphlet_sampling', 'sampling': {'n_samples': 5}, 'random_state': 42},
-              n_jobs=None, normalize=False, random_state=None, verbose=False)
+                kernel={'name': 'graphlet_sampling', 'random_state': 42,
+                        'sampling': {'n_samples': 5}},
+                n_jobs=None, normalize=False, random_state=None, verbose=False)
 
-        >>> gk.transform(H3O)
+        >>> gk.transform([H3O])
         array([[15.]])
 
     As you can see, the new kernel value is not equal to the previous one. If we re-run the above code, we will obtain the same kernel value since the algorithm will sample exactly the same graphlets from both graphs. As shown below, we can also obtain the same kernel value if :code:`random_state` is initialized as an attribute of :code:`GraphKernel` instead of the graphlet kernel itself.
@@ -161,12 +163,12 @@ The :class:`grakel.GraphKernel` class is a *generic wrapper class*. This class p
     .. doctest::
 
         >>> gk = GraphKernel(kernel=dict(name="graphlet_sampling", sampling=dict(n_samples=5)), random_state=42)
-        >>> gk.fit(H2O)
+        >>> gk.fit([H2O])
         GraphKernel(Nystroem=False,
-              kernel={'name': 'graphlet_sampling', 'sampling': {'n_samples': 5}},
-              n_jobs=None, normalize=False, random_state=42, verbose=False)
+                kernel={'name': 'graphlet_sampling', 'sampling': {'n_samples': 5}},
+                n_jobs=None, normalize=False, random_state=42, verbose=False)
     
-        >>> gk.transform(H3O)
+        >>> gk.transform([H3O])
         array([[15.]])
 
     If we provide a :code:`random_state` value to both :code:`GraphKernel` and :code:`kernel`, then each one will have an effect only on the corresponding instances.
@@ -174,12 +176,13 @@ The :class:`grakel.GraphKernel` class is a *generic wrapper class*. This class p
     .. doctest::
 
         >>> gk = GraphKernel(kernel=dict(name="graphlet_sampling", sampling=dict(n_samples=5, random_state=0)), random_state=42)
-        >>> gk.fit(H2O)
+        >>> gk.fit([H2O])
         GraphKernel(Nystroem=False,
-              kernel={'name': 'graphlet_sampling', 'sampling': {'n_samples': 5, 'random_state': 0}},
-              n_jobs=None, normalize=False, random_state=42, verbose=False)
+                kernel={'name': 'graphlet_sampling',
+                        'sampling': {'n_samples': 5, 'random_state': 0}},
+                n_jobs=None, normalize=False, random_state=42, verbose=False)
     
-        >>> gk.transform(H3O)
+        >>> gk.transform([H3O])
         array([[15.]])
 
     while
@@ -187,7 +190,7 @@ The :class:`grakel.GraphKernel` class is a *generic wrapper class*. This class p
     .. doctest::
 
         >>> gk = GraphKernel(kernel=dict(name="graphlet_sampling", sampling=dict(n_samples=5)), random_state=0)
-        >>> gk.fit(H2O).transform(H3O)
+        >>> gk.fit([H2O]).transform([H3O])
         array([[10.]])
 
 

@@ -33,6 +33,7 @@ A graph is used to model a set of objects (i.e., nodes) and the relationships be
 * Edgelist representation:
 
   - | A dictionary keyed by node to the list of its neighbors.
+
     .. code-block:: python
       
       edges = {1: [2, 3], 2: [1], 3: [1]}
@@ -40,6 +41,7 @@ A graph is used to model a set of objects (i.e., nodes) and the relationships be
 
 
   - | Iterable of tuples of lenght 2. Each tuple corresponds to an edge.
+
     .. code-block:: python
       
       edges = [(1, 2), (1, 3), (2, 1), (3, 1)]
@@ -48,18 +50,21 @@ A graph is used to model a set of objects (i.e., nodes) and the relationships be
 * Adjacency matrix representation:
 
   - | Array-like lists of lists.
+
     .. code-block:: python
       
       adj = [[0, 1, 1], [1, 0, 0], [1, 0, 0]]
       G = Graph(adj)
 
   - | NumPy array.
+
     .. code-block:: python
       
       adj = numpy.array([[0, 1, 1], [1, 0, 0], [1, 0, 0]])
       G = Graph(adj)
 
   - | Scipy sparse matrix.
+
     .. code-block:: python
       
       adj = scipy.sparse.csr_matrix(([1, 1, 1, 1], ([0, 0, 1, 2], [1, 2, 0, 0])), shape=(3, 3))
@@ -74,12 +79,14 @@ A graph is *directed* if its edges have a direction associated with them. The Fi
 * Edgelist representation:
 
   - | A dictionary keyed by node to the list of its neighbors.
+
     .. code-block:: python
       
       edges = edges = {1: [3], 2: [1], 3: [1]}
       G = Graph(edges)
 
   - | Iterable of tuples of lenght 2. Each tuple corresponds to an edge.
+
     .. code-block:: python
       
       edges = [(1, 3), (2, 1), (3, 1)]
@@ -88,18 +95,21 @@ A graph is *directed* if its edges have a direction associated with them. The Fi
 * Adjacency matrix representation:
 
   - | Array-like lists of lists.
+
     .. code-block:: python
       
       adj = [[0, 0, 1], [1, 0, 0], [1, 0, 0]]
       G = Graph(adj)
 
   - | NumPy array.
+
     .. code-block:: python
       
       adj = numpy.array([[0, 0, 1], [1, 0, 0], [1, 0, 0]])
       G = Graph(adj)
 
   - | Scipy sparse matrix.
+
     .. code-block:: python
       
       adj = scipy.sparse.csr_matrix(([1, 1, 1], ([0, 1, 2], [2, 0, 0])), shape=(3, 3))
@@ -113,19 +123,22 @@ A graph is *weighted* if its edges have weights. The Figure below shows a weight
 
 * Edgelist representation:
 
-  - | A dictionary keyed by nodes to a dictionary keyed by neighbors to edge weights. 
+  - | A dictionary keyed by nodes to a dictionary keyed by neighbors to edge weights.
+
     .. code-block:: python
       
       edges = {1: {2: 0.5, 3: 0.2}, 2: {1: 0.5}, 3: {1: 0.2}}
       G = Graph(edges)
 
-  - | A dictionary keyed by edges to their weights. 
+  - | A dictionary keyed by edges to their weights.
+
     .. code-block:: python
       
       edges = {(1, 2): 0.5, (1, 3): 0.2, (2, 1): 0.5, (3, 1): 0.2}
       G = Graph(edges)
 
   - | Iterable of tuples of length 3. Each tuple corresponds to an edge and its weight.
+
     .. code-block:: python
       
       edges = [(1, 2, 0.5), (1, 3, 0.2), (2, 1, 0.5), (3, 1, 0.2)]
@@ -134,18 +147,21 @@ A graph is *weighted* if its edges have weights. The Figure below shows a weight
 * Adjacency matrix representation:
 
   - | Array-like lists of lists.
+
     .. code-block:: python
       
       adj = [[0, 0.5, 0.2], [0.5, 0, 0], [0.2, 0, 0]]
       G = Graph(adj)    
 
-  - | NumPy array.  
+  - | NumPy array.
+
     .. code-block:: python
       
       adj = numpy.array([[0, 0.5, 0.2], [0.5, 0, 0], [0.2, 0, 0]])
       G = Graph(adj)
 
   - | Scipy sparse matrix.
+
     .. code-block:: python
       
       adj = scipy.sparse.csr_matrix(([0.5, 0.2, 0.5, 0.2], ([0, 0, 1, 2], [1, 2, 0, 0])), shape=(3, 3))
@@ -162,6 +178,7 @@ A node-labeled graph is a graph endowed with a function :math:`\ell : V \rightar
   :align: center
 
 * | A dictionary keyed by nodes to their labels.
+
   .. code-block:: python
       
     edges = {1: [2, 3], 2: [1], 3: [1]}
@@ -169,6 +186,7 @@ A node-labeled graph is a graph endowed with a function :math:`\ell : V \rightar
     G = Graph(edges, node_labels=node_labels)
     
 * | A dictionary keyed by node indices (i.e., :math:`0,\ldots,(|V|-1)`) to their labels.
+
   .. code-block:: python
 
       adj = [[0, 1, 1], [1, 0, 0], [1, 0, 0]]
@@ -182,6 +200,7 @@ A node-attributed graph is a graph endowed with a function :math:`f : V \rightar
   :align: center
 
 * | A dictionary keyed by nodes to their attributes.
+
   .. code-block:: python
       
     edges = {1: [2, 3], 2: [1], 3: [1]}
@@ -189,6 +208,7 @@ A node-attributed graph is a graph endowed with a function :math:`f : V \rightar
     G = Graph(edges, node_labels=node_attributes)
     
 * | A dictionary keyed by node indices (i.e., :math:`0,\ldots,(|V|-1)`) to their attributes.
+
   .. code-block:: python
 
     adj = [[0, 1, 1], [1, 0, 0], [1, 0, 0]]
@@ -207,6 +227,7 @@ An edge-labeled graph is a graph endowed with a function :math:`\ell : E \righta
   :align: center
 
 * | A dictionary keyed by edges to their labels.
+
   .. code-block:: python
       
     edges = {1: [2, 3], 2: [1], 3: [1]}
@@ -214,6 +235,7 @@ An edge-labeled graph is a graph endowed with a function :math:`\ell : E \righta
     G = Graph(edges, edge_labels=edge_attributes)
     
 * | A dictionary keyed by edge indices (i.e., :math:`0,\ldots,(|E|-1)`) to their labels.
+
   .. code-block:: python
 
       adj = [[0, 1, 1], [1, 0, 0], [1, 0, 0]]
@@ -227,6 +249,7 @@ An edge-attributed graph is a graph endowed with a function :math:`f : E \righta
   :align: center
 
 * | A dictionary keyed by edges to their attributes.
+
   .. code-block:: python
       
     edges = {1: [2, 3], 2: [1], 3: [1]}
@@ -234,6 +257,7 @@ An edge-attributed graph is a graph endowed with a function :math:`f : E \righta
     G = Graph(edges, edge_labels=edge_attributes)
     
 * | A dictionary keyed by edge indices (i.e., :math:`0,\ldots,(|E|-1)`) to their attributes.
+
   .. code-block:: python
 
     adj = [[0, 1, 1], [1, 0, 0], [1, 0, 0]]
@@ -268,7 +292,7 @@ Research in the field of graph kernels has not only focused on designing new ker
 .. doctest::
 
     >>> from grakel.kernels import WeisfeilerLehman, VertexHistogram
-    >>> wl_kernel = WeisfeilerLehman(base_graph_kernel=VertexHistogram)    
+    >>> wl_kernel = WeisfeilerLehman(base_kernel=VertexHistogram)    
 
 
 Computing the Kernel Between Two Graphs
@@ -293,14 +317,14 @@ We employ the shortest path kernel and we first compute the kernel value between
 
 .. doctest::
 
-    >>> sp_kernel.fit_transform(H2O)
+    >>> sp_kernel.fit_transform([H2O])
     array([[12.]])
 
 Next, we calculate the kernel value between the graph representation of water and that of hydronium:
 
 .. doctest::
 
-    >>> sp_kernel.transform(H3O)
+    >>> sp_kernel.transform([H3O])
     array([[24.]])
 
 The above result suggests that the water molecule is more similar to hydronium than to itself. This is because the kernel values are not normalized. To apply normalization, we can set the corresponding attribute to :code:`True` when initializing the graph kernel:
@@ -308,9 +332,9 @@ The above result suggests that the water molecule is more similar to hydronium t
 .. doctest::
 
     >>> sp_kernel = ShortestPath(normalize=True)
-    >>> sp_kernel.fit_transform(H2O)
+    >>> sp_kernel.fit_transform([H2O])
     array([[1.]])
-    >>> sp_kernel.transform(H3O)
+    >>> sp_kernel.transform([H3O])
     array([[0.94280904]])
 
 
@@ -336,7 +360,7 @@ Next, we will initialize a Weisfeiler-Lehman subtree kernel:
 .. doctest::
 
     >>> from grakel.kernels import WeisfeilerLehman, VertexHistogram
-    >>> wl_kernel = WeisfeilerLehman(n_iter=5, normalize=True, base_graph_kernel=VertexHistogram)
+    >>> wl_kernel = WeisfeilerLehman(n_iter=5, normalize=True, base_kernel=VertexHistogram)
 
 To perform classification, it is necessary to split the dataset into a training and a test set. We can use the :code:`train_test_split` function of scikit-learn as follows:
 
@@ -364,10 +388,10 @@ Next, we employ the SVM classifier and use it to perform classification. We trai
     >>> from sklearn.svm import SVC
     >>> clf = SVC(kernel='precomputed')
     >>> clf.fit(K_train, y_train)
-    SVC(C=1.0, cache_size=200, class_weight=None, coef0=0.0,
-      decision_function_shape='ovr', degree=3, gamma='auto',
-      kernel='precomputed', max_iter=-1, probability=False, random_state=None,
-      shrinking=True, tol=0.001, verbose=False)
+    SVC(C=1.0, break_ties=False, cache_size=200, class_weight=None, coef0=0.0,
+        decision_function_shape='ovr', degree=3, gamma='scale',
+        kernel='precomputed', max_iter=-1, probability=False, random_state=None,
+        shrinking=True, tol=0.001, verbose=False)
 
     >>> y_pred = clf.predict(K_test)
 
