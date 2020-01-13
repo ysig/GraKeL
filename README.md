@@ -53,22 +53,17 @@ The GraKeL library requires the following packages to be installed:
 * cvxopt (>=1.2.0) [optional]
 * future (>=0.16.0) (for python 2.7)
 
-To install the dependencies, run:
-
-```sh
-$ pip install extension>=extension_version
-```
-
-or
-
-```sh
-$ pip install -r requirements.txt
-```
-
-To install GraKeL, run:
+To install the package, run:
 
 ```sh
 $ pip install grakel
+```
+
+## Running tests
+
+To test the package, execute:
+```sh
+$ nosetests grakel
 ```
 
 ## Running examples
@@ -94,16 +89,3 @@ If you use GraKeL in a scientific publication, please cite our paper (https://ar
 ## License
 
 GraKeL is distributed under the __BSD 3-clause__ license. The library makes use of the C++ source code of [BLISS](http://www.tcs.hut.fi/Software/bliss) (a tool for computing automorphism groups and canonical labelings of graphs) which is __LGPL__ licensed. Futhermore, the [cvxopt](https://cvxopt.org/) package (a software package for convex optimization) which is an optional dependency of GraKeL is __GPL__ licensed.
-
-## Running tests
-
-You first need to build the package's c++ extensions locally by executing:
-
-```sh
-$ python setup.py build_ext -i
-```
-
-To test the package, execute:
-```sh
-$ nosetests
-```
