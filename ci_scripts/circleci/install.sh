@@ -6,6 +6,8 @@
 
 # System dependencies
 sudo -E apt-get -yq remove texlive-binaries --purge > /dev/null
+sudo add-apt-repository universe /dev/null
+sudo add-apt-repository main > /dev/null
 sudo apt-get update > /dev/null
 sudo apt-get install libatlas-dev libatlas3gf-base > /dev/null
 sudo apt-get install build-essential python-dev python-setuptools > /dev/null

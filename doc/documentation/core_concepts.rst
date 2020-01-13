@@ -7,7 +7,7 @@ Core Concepts
 We next present some core concepts in *GraKeL*.
 
 What is the :class:`grakel.GraphKernel` Class?
----------------------------------------
+----------------------------------------------
 The :class:`grakel.GraphKernel` class is a *generic wrapper class*. This class provides a uniform interface for all the implemented graph kernels and frameworks. A graph kernel can be described by an instance of this class, and it holds the attributes listed below:
 
 * :code:`kernel` : Specifies the graph kernel to be computed. It can be either a :code:`base_graph_kernel` or a list that contains one or more :code:`framework` along with exactly one :code:`base_graph_kernel`. The :code:`base_graph_kernel` needs to be the last element in the list.

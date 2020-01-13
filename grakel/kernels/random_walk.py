@@ -1,4 +1,4 @@
-"""RW-ker. as in :cite:`kashima2003marginalized`, :cite:`gartner2003graph`."""
+"""RW-kernel. as in :cite:`kashima2003marginalized`, :cite:`gartner2003graph`."""
 # Author: Ioannis Siglidis <y.siglidis@gmail.com>
 # License: BSD 3 clause
 import collections
