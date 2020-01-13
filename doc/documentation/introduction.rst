@@ -371,7 +371,7 @@ Next, we employ the SVM classifier and use it to perform classification. We trai
 
     >>> y_pred = clf.predict(K_test)
 
-Finally, we can print the classification accuracy as follows:
+Finally, we compute and print the classification accuracy as follows:
 
 .. doctest::
 
