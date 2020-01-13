@@ -86,5 +86,5 @@ Next follow two implementations of this kernel (one for unlabeled graphs and one
 
 Bibliography
 ------------
-.. bibliography:: ../biblio.bib
+.. bibliography:: graph_kernels.bib
    :filter: docname in docnames

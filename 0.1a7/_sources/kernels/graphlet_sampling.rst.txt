@@ -47,5 +47,5 @@ either on the number of samples or the satisfaction of a certain probabilistic o
 
 Bibliography
 ------------
-.. bibliography:: ../biblio.bib
+.. bibliography:: graph_kernels.bib
    :filter: docname in docnames
