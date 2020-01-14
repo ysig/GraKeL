@@ -1,23 +1,6 @@
 version: 2
 
 jobs:
-  python2:
-    docker:
-      - image: circleci/python:2.7
-    steps:
-      - checkout
-      - run: pip install virtualenv && virtualenv ./venv
-      - run: bash ./ci_scripts/circleci/install.sh
-      - store_artifacts:
-          path: doc/_build/
-          destination: doc
-      - store_artifacts:
-          path: ~/log.txt
-          destination: log.txt
-      - persist_to_workspace:
-          root: .
-          paths: .
-
   python3:
     docker:
       - image: circleci/python:3.5
@@ -34,7 +17,7 @@ jobs:
 
   deploy:
     docker:
-      - image: circleci/python:2.7
+      - image: circleci/python:3.5
     environment:
       # The github organization or username of the repository which hosts the
       # project and documentation.
@@ -62,12 +45,10 @@ workflows:
   version: 2
   build-doc-and-deploy:
     jobs:
-      - python2
       - python3
       - deploy:
           requires:
             - python3
-            - python2
 #          filters:
 #            branches:
 #              only: develop
