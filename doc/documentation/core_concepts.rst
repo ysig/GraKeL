@@ -132,7 +132,7 @@ The :class:`grakel.GraphKernel` class is a *generic wrapper class*. This class p
 
     We will then compute the *graphlet kernel* between the two molecules. The graphlet kernel counts the number of common graphlets (i.e., small subgraphs) in two graphs. Instead of exaustively enumerating all the graphlets, it usually samples a number of them. In this example, we will sample 5 graphlets from each graph.
 
-    .. doctest:: +ELLIPSIS
+    .. doctest::
 
         >>> from grakel import GraphKernel
         >>> gk = GraphKernel(kernel=dict(name="graphlet_sampling", sampling=dict(n_samples=5)))
@@ -141,6 +141,8 @@ The :class:`grakel.GraphKernel` class is a *generic wrapper class*. This class p
                     kernel={'name': 'graphlet_sampling', 'sampling': {'n_samples': 5}},
                     n_jobs=None, normalize=False, random_state=None, verbose=False)
     
+    .. code-block:: python
+
         >>> gk.transform([H3O])
         array([[10.]])
 
