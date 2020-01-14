@@ -1,0 +1,278 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Installing GraKeL &mdash; GraKeL 0.1a7 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/_static/css/supplementary.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="A Short Introduction" href="introduction.html" />
+    <link rel="prev" title="Documentation" href="../documentation.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> GraKeL
+          
+
+          
+            
+            <img src="../_static/logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1a7
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../documentation.html">Documentation</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Installing GraKeL</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#building-grakel">Building GraKeL</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#linux-environment">Linux Environment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#windows-environment">Windows Environment</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#why-so-many-packages">Why so Many Packages?</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html">A Short Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="core_concepts.html">Core Concepts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="creating_kernels.html">Creating your Own Kernel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html">Contributing</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../benchmarks.html">Benchmarks</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">GraKeL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../classes.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials.html">Tutorials</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">GraKeL</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../documentation.html">Documentation</a> &raquo;</li>
+        
+      <li>Installing GraKeL</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/documentation/installation.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="installing-grakel">
+<span id="installation"></span><h1>Installing GraKeL<a class="headerlink" href="#installing-grakel" title="Permalink to this headline">¶</a></h1>
+<p>The GraKeL library requires the following packages to be installed:</p>
+<ul class="simple">
+<li><p>Python (&gt;=2.7, &gt;=3.5)</p></li>
+<li><p>NumPy (&gt;=1.8.2)</p></li>
+<li><p>SciPy (&gt;=0.13.3)</p></li>
+<li><p>Cython (&gt;=0.27.3)</p></li>
+<li><p>cvxopt (&gt;=1.2.0) [optional]</p></li>
+<li><p>future (&gt;=0.16.0) (for python 2.7)</p></li>
+</ul>
+<p><em>GraKeL</em> is available via <a class="reference external" href="https://pypi.org/project/grakel-dev/">PyPI</a> . You can install the latest release of <em>GraKeL</em> using the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ pip install grakel
+</pre></div>
+</div>
+<p>To also install the cvxopt package, which is a requirement of the Lovász-<span class="math notranslate nohighlight">\(\vartheta\)</span> kernel, you can use the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ pip install grakel<span class="o">[</span>lovasz<span class="o">]</span>
+</pre></div>
+</div>
+<p><em>GraKeL</em> is also available via <a class="reference external" href="https://anaconda.org/ysig/grakel-dev">anaconda</a>.</p>
+<div class="section" id="building-grakel">
+<h2>Building GraKeL<a class="headerlink" href="#building-grakel" title="Permalink to this headline">¶</a></h2>
+<p>In order to build your own version of <em>GraKeL</em>, you need a C++, as the package relies on some C++ extensions.
+Build and installing a local <cite>grakel</cite> can be done by executing <code class="code docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">.</span></code> or <code class="code docutils literal notranslate"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">install</span></code> on the parent folder.
+Additionally if you want to build your extensions locally, you can run <code class="code docutils literal notranslate"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">build_ext</span></code>.</p>
+<p>In order for the C++ extensions to compile a system-specific building environment should be setup.</p>
+<div class="section" id="linux-environment">
+<h3>Linux Environment<a class="headerlink" href="#linux-environment" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="windows-environment">
+<h3>Windows Environment<a class="headerlink" href="#windows-environment" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="why-so-many-packages">
+<h2>Why so Many Packages?<a class="headerlink" href="#why-so-many-packages" title="Permalink to this headline">¶</a></h2>
+<p>Graph kernels deal with the problem of graph comparison, a very challenging problem which has been studied for decades. Due to the complex nature of the problem, different types of approaches have been developed so far. Some approaches employ combinatorial algorithms, others formulate the graph comparison algorithm as a continuous optimization problem, while there are also other approaches that apply heuristics. The field of graph kernels is also characterized by such a large diversity of methods. For instance, the <em>graphlet kernel</em> solves the graph isomorphism problem to determine the identity of each graphet, while the <em>Lovász</em>-<span class="math notranslate nohighlight">\(\vartheta\)</span> kernel solves a semidefinite programming problem to compute the Lovász number of each graph and the associated orthonormal representations. To solve such problems, <em>GraKeL</em> relies on well-established external libraries that provide optimized software that has been developed to address these problems. For example, <em>GraKeL</em> uses <a class="reference internal" href="#bliss" id="id1"><span>[bliss]</span></a> to test graph isomorphism and the <a class="reference external" href="https://cvxopt.org/">cvxopt</a> library to optimize semidefinite programs.</p>
+<dl class="citation">
+<dt class="label" id="bliss"><span class="brackets"><a class="fn-backref" href="#id1">bliss</a></span></dt>
+<dd><p>To test graph isomorphism, <em>GraKeL</em> extended <a class="reference external" href="http://www.tcs.hut.fi/Software/bliss/">PyBliss</a>, a Python wrapper for bliss. This allowed <em>GraKeL</em> to remain compatible with Python 2/3 and its installation on Windows. Among all the candidate packages, PyBliss was chosen thanks to the information shared by <a class="reference external" href="http://hal.elte.hu/~nepusz/">Tamás Nepusz</a> (developer of the <a class="reference external" href="http://igraph.org/">iGraph</a> library), who pointed out that this package was the most efficient (both in terms of time and memory) for deciding isomorphism between small graphs in experiments conducted using the iGraph library. Other candidate packages include <a class="reference external" href="https://web.cs.dal.ca/~peter/software/pynauty/html/">pynauty</a> (a Python extension of <a class="reference external" href="http://users.cecs.anu.edu.au/~bdm/nauty/">nauty</a>) and <a class="reference external" href="https://networkx.github.io/">networkx</a> (contains an implementation of the <a class="reference external" href="https://networkx.github.io/documentation/networkx-1.10/reference/algorithms.isomorphism.vf2.html">VF2</a> algorithm).</p>
+</dd>
+</dl>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="introduction.html" class="btn btn-neutral float-right" title="A Short Introduction" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../documentation.html" class="btn btn-neutral float-left" title="Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, DaSciM (BSD License)
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
