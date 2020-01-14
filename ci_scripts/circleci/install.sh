@@ -6,6 +6,7 @@
 
 # System dependencies
 sudo -E apt-get -yq remove texlive-binaries --purge > /dev/null
+sudo apt-get install software-properties-common
 sudo add-apt-repository universe /dev/null
 sudo add-apt-repository main > /dev/null
 sudo apt-get update > /dev/null
@@ -15,7 +16,7 @@ sudo apt-get install build-essential python-dev python-setuptools > /dev/null
 # Setup a python venv and install basics
 source ./venv/bin/activate
 pip install --upgrade pip
-pip install --upgrade pandas networkx matplotlib setuptools nose coverage "sphinx>=2.0.0" pillow sphinx-gallery sphinx_rtd_theme sphinxcontrib-bibtex nb2plots numpydoc tqdm > /dev/null
+pip install --upgrade pandas networkx matplotlib setuptools nose coverage "Sphinx>=2.0.0" pillow sphinx-gallery sphinx_rtd_theme sphinxcontrib-bibtex nb2plots numpydoc tqdm > /dev/null
 pip install -r requirements.txt > /dev/null
 pip install "cvxopt==1.2.0" > /dev/null
 
