@@ -1,5 +1,0 @@
-.. _evaluation:
-
-================
-Evaluation Study
-================
