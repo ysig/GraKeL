@@ -142,7 +142,7 @@ The :class:`grakel.GraphKernel` class is a *generic wrapper class*. This class p
                     n_jobs=None, normalize=False, random_state=None, verbose=False)
     
         >>> gk.transform([H3O])
-        array([[15.]])
+        array([[10.]])
 
     Note that we did not set :code:`random_state` to some value, and therefore it took its default :code:`None` value. We will now set :code:`random_state` equal to 42.
 

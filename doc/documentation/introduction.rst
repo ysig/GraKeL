@@ -291,7 +291,7 @@ Research in the field of graph kernels has not only focused on designing new ker
 .. doctest::
 
     >>> from grakel.kernels import WeisfeilerLehman, VertexHistogram
-    >>> wl_kernel = WeisfeilerLehman(base_kernel=VertexHistogram)    
+    >>> wl_kernel = WeisfeilerLehman(base_graph_kernel=VertexHistogram)    
 
 
 Computing the Kernel Between Two Graphs
@@ -359,7 +359,7 @@ Next, we will initialize a Weisfeiler-Lehman subtree kernel:
 .. doctest::
 
     >>> from grakel.kernels import WeisfeilerLehman, VertexHistogram
-    >>> wl_kernel = WeisfeilerLehman(n_iter=5, normalize=True, base_kernel=VertexHistogram)
+    >>> wl_kernel = WeisfeilerLehman(n_iter=5, normalize=True, base_graph_kernel=VertexHistogram)
 
 To perform classification, it is necessary to split the dataset into a training and a test set. We can use the :code:`train_test_split` function of scikit-learn as follows:
 
