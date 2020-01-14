@@ -97,7 +97,7 @@ The :class:`grakel.GraphKernel` class is a *generic wrapper class*. This class p
 
     Finally, we calculate the classification accuracy.
 
-    .. doctest::
+    .. code-block:: python
 
         >>> from sklearn.metrics import accuracy_score
         >>> print(str(round(accuracy_score(y_test, y_pred)*100, 2)), "%")
