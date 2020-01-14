@@ -67,7 +67,7 @@ The :class:`grakel.GraphKernel` class is a *generic wrapper class*. This class p
         >>> MUTAG = fetch_dataset("MUTAG", verbose=False)
         >>> G = MUTAG.data
         >>> y = MUTAG.target
-        >>> G_train, G_test, y_train, y_test = train_test_split(G, y, test_size=0.1)
+        >>> G_train, G_test, y_train, y_test = train_test_split(G, y, test_size=0.1, random_state=42)
 
     We next initialize a Weisfeiler-Lehman subtree kernel using :code:`GraphKernel`, and we also make use of :code:`Nystroem` with :math:`q=20` to approximate the kernel matrix.
 
@@ -101,10 +101,10 @@ The :class:`grakel.GraphKernel` class is a *generic wrapper class*. This class p
 
         >>> from sklearn.metrics import accuracy_score
         >>> print(str(round(accuracy_score(y_test, y_pred)*100, 2)), "%")
-        78.95 %
+        94.74 %
 
     .. note::
-        | To compute the full kernel matrices, we needed to perform :math:`~ 169 * (169-1) /2 + 19 * 169 = 17,407` kernel computations. Instead, we performed :math:`~ 20 * (20-1)/ 2 + 20 * 169 + 20* 19 = 3,950` kernel computations. As we can see, the approximation led only to a slight decrease in performance.
+        | To compute the full kernel matrices, we needed to perform :math:`~ 169 * (169-1) /2 + 19 * 169 = 17,407` kernel computations. Instead, we performed :math:`~ 20 * (20-1)/ 2 + 20 * 169 + 20* 19 = 3,950` kernel computations. As we can see, the approximation also led to an increase in performance.
 
 * :code:`n_jobs` : Some kernels consist of operations that can be executed in parallel, leading to a reduction in the running time.
     The :code:`n_jobs` attribute has the same functionality as that of scikit-learn. It determines the number of jobs that will run in parallel. If :code:`n_jobs` is set equal to -1, all the processors will be utilized. Note that this attribute will not have an impact on the computation of some kernels whose code is not parallelized. These kernels either take advantage of the parallelization inherent in other libraries (e.g., NumPy) or their code is only partially parallelizable or not parallelizable at all. In such scenarios, a warning is issued.
@@ -138,52 +138,52 @@ The :class:`grakel.GraphKernel` class is a *generic wrapper class*. This class p
         >>> gk = GraphKernel(kernel=dict(name="graphlet_sampling", sampling=dict(n_samples=5)))
         >>> gk.fit([H2O])
         GraphKernel(Nystroem=False,
-                kernel={'name': 'graphlet_sampling', 'sampling': {'n_samples': 5}},
-                n_jobs=None, normalize=False, random_state=None, verbose=False)
+                    kernel={'name': 'graphlet_sampling', 'sampling': {'n_samples': 5}},
+                    n_jobs=None, normalize=False, random_state=None, verbose=False)
     
         >>> gk.transform([H3O])
-        array([[10.]])
+        array([[15.]])
 
     Note that we did not set :code:`random_state` to some value, and therefore it took its default :code:`None` value. We will now set :code:`random_state` equal to 42.
 
     .. doctest:: 
 
-        >>> gk = GraphKernel(kernel=dict(name="graphlet_sampling", sampling=dict(n_samples=5), random_state=42))
+        >>> gk = GraphKernel(kernel=dict(name="graphlet_sampling", sampling=dict(n_samples=5), random_state=20))
         >>> gk.fit([H2O])
         GraphKernel(Nystroem=False,
-                kernel={'name': 'graphlet_sampling', 'random_state': 42,
-                        'sampling': {'n_samples': 5}},
-                n_jobs=None, normalize=False, random_state=None, verbose=False)
+                    kernel={'name': 'graphlet_sampling', 'random_state': 20,
+                            'sampling': {'n_samples': 5}},
+                    n_jobs=None, normalize=False, random_state=None, verbose=False)
 
         >>> gk.transform([H3O])
-        array([[15.]])
+        array([[20.]])
 
     As you can see, the new kernel value is not equal to the previous one. If we re-run the above code, we will obtain the same kernel value since the algorithm will sample exactly the same graphlets from both graphs. As shown below, we can also obtain the same kernel value if :code:`random_state` is initialized as an attribute of :code:`GraphKernel` instead of the graphlet kernel itself.
 
     .. doctest::
 
-        >>> gk = GraphKernel(kernel=dict(name="graphlet_sampling", sampling=dict(n_samples=5)), random_state=42)
+        >>> gk = GraphKernel(kernel=dict(name="graphlet_sampling", sampling=dict(n_samples=5)), random_state=20)
         >>> gk.fit([H2O])
         GraphKernel(Nystroem=False,
-                kernel={'name': 'graphlet_sampling', 'sampling': {'n_samples': 5}},
-                n_jobs=None, normalize=False, random_state=42, verbose=False)
+                    kernel={'name': 'graphlet_sampling', 'sampling': {'n_samples': 5}},
+                    n_jobs=None, normalize=False, random_state=20, verbose=False)
     
         >>> gk.transform([H3O])
-        array([[15.]])
+        array([[20.]])
 
     If we provide a :code:`random_state` value to both :code:`GraphKernel` and :code:`kernel`, then each one will have an effect only on the corresponding instances.
 
     .. doctest::
 
-        >>> gk = GraphKernel(kernel=dict(name="graphlet_sampling", sampling=dict(n_samples=5, random_state=0)), random_state=42)
+        >>> gk = GraphKernel(kernel=dict(name="graphlet_sampling", sampling=dict(n_samples=5, random_state=0)), random_state=20)
         >>> gk.fit([H2O])
         GraphKernel(Nystroem=False,
-                kernel={'name': 'graphlet_sampling',
-                        'sampling': {'n_samples': 5, 'random_state': 0}},
-                n_jobs=None, normalize=False, random_state=42, verbose=False)
+                    kernel={'name': 'graphlet_sampling',
+                            'sampling': {'n_samples': 5, 'random_state': 0}},
+                    n_jobs=None, normalize=False, random_state=20, verbose=False)
     
         >>> gk.transform([H3O])
-        array([[15.]])
+        array([[20.]])
 
     while
 

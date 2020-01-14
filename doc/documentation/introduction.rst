@@ -366,7 +366,7 @@ To perform classification, it is necessary to split the dataset into a training 
 .. doctest::
 
     >>> from sklearn.model_selection import train_test_split
-    >>> G_train, G_test, y_train, y_test = train_test_split(G, y, test_size=0.1)
+    >>> G_train, G_test, y_train, y_test = train_test_split(G, y, test_size=0.1, random_state=42)
 
 In order to perform classification, one generally needs to generate two matrices: A symmetric matrix :math:`\mathbf{K}_{train}` which contains the kernel values for all pairs of training graphs, and a second matrix :math:`\mathbf{K}_{test}` which stores the kernel values between the graphs of the test set and those of the training set. The first matrix can be generated as follows:
 
@@ -400,7 +400,7 @@ Finally, we compute and print the classification accuracy as follows:
 
     >>> from sklearn.metrics import accuracy_score
     >>> print("%2.2f %%" %(round(accuracy_score(y_test, y_pred)*100)))
-    79.00 %
+    84.00 %
 
 Bibliography
 ------------
