@@ -96,7 +96,12 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../benchmarks.html">Benchmarks</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="comparison.html">Comparison with Other Packages</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Evaluation Study</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Evaluation Study</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#node-labeled-graphs">Node-Labeled Graphs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#unabeled-graphs">Unabeled Graphs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#node-attributed-graphs">Node-Attributed Graphs</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -173,6 +178,245 @@
             
   <div class="section" id="evaluation-study">
 <span id="evaluation"></span><h1>Evaluation Study<a class="headerlink" href="#evaluation-study" title="Permalink to this headline">¶</a></h1>
+<p>For each run, we compute running times as follows: for each fold of a 10-fold cross-validation experiment, the running time of the kernel corresponds to the running time for the computation of the kernel matrix that performed best on the validation experiment.</p>
+<p>We next present our experimental results.
+As mentioned above, we evaluate the graph kernels by performing graph classification on unlabeled, node-labeled and node-attributed benchmark datasets.</p>
+<div class="section" id="node-labeled-graphs">
+<h2>Node-Labeled Graphs<a class="headerlink" href="#node-labeled-graphs" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="unabeled-graphs">
+<h2>Unabeled Graphs<a class="headerlink" href="#unabeled-graphs" title="Permalink to this headline">¶</a></h2>
+<p>The following Table illustrates the average CPU running times of the compared kernels on the 6 datasets that contain unlabeled graphs.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 9%" />
+<col style="width: 15%" />
+<col style="width: 15%" />
+<col style="width: 15%" />
+<col style="width: 16%" />
+<col style="width: 15%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"><p>IMDB-B</p></th>
+<th class="head"><p>IMDB-M</p></th>
+<th class="head"><p>REDDIT-B</p></th>
+<th class="head"><p>REDDIT-M-5K</p></th>
+<th class="head"><p>REDDIT-M-12K</p></th>
+<th class="head"><p>COLLAB</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>VH</p></td>
+<td><p>0.07s</p></td>
+<td><p>0.15s</p></td>
+<td><p>0.67s</p></td>
+<td><p>2.20s</p></td>
+<td><p>6.37s</p></td>
+<td><p>1.12s</p></td>
+</tr>
+<tr class="row-odd"><td><p>RW</p></td>
+<td><p>7m 20.94s</p></td>
+<td><p>13m 40.75s</p></td>
+<td><p>TIMEOUT</p></td>
+<td><p>TIMEOUT</p></td>
+<td><p>TIMEOUT</p></td>
+<td><p>13h 38m 11.49s</p></td>
+</tr>
+<tr class="row-even"><td><p>SP</p></td>
+<td><p>11.51s</p></td>
+<td><p>7.92s</p></td>
+<td><p>4h 48m 11.19s</p></td>
+<td><p>12h 40m 19.50s</p></td>
+<td><p>TIMEOUT</p></td>
+<td><p>1h 9m 5.50s</p></td>
+</tr>
+<tr class="row-odd"><td><p>GR</p></td>
+<td><p>22m 45.89s</p></td>
+<td><p>21m 44.30s</p></td>
+<td><p>44m 45.42s</p></td>
+<td><p>44m 6.52s</p></td>
+<td><p>53m 14.22s</p></td>
+<td><p>2h 58m 1.14s</p></td>
+</tr>
+<tr class="row-even"><td><p>WL-VH</p></td>
+<td><p>4.49s</p></td>
+<td><p>6.16s</p></td>
+<td><p>16m 2.65s</p></td>
+<td><p>OUT-OF-MEM</p></td>
+<td><p>OUT-OF-MEM</p></td>
+<td><p>38m 42.24s</p></td>
+</tr>
+<tr class="row-odd"><td><p>WL-SP</p></td>
+<td><p>1m 32.66s</p></td>
+<td><p>1m 40.46s</p></td>
+<td><p>TIMEOUT</p></td>
+<td><p>TIMEOUT</p></td>
+<td><p>TIMEOUT</p></td>
+<td><p>10h 27m 41.97s</p></td>
+</tr>
+<tr class="row-even"><td><p>NH</p></td>
+<td><p>21.83s</p></td>
+<td><p>26.07s</p></td>
+<td><p>23m 3.42s</p></td>
+<td><p>2h 44m 44.66s</p></td>
+<td><p>9h 11m 23.67s</p></td>
+<td><p>35m 49.96s</p></td>
+</tr>
+<tr class="row-odd"><td><p>NSPDK</p></td>
+<td><p>4m 18.12s</p></td>
+<td><p>2m 49.45s</p></td>
+<td><p>TIMEOUT</p></td>
+<td><p>TIMEOUT</p></td>
+<td><p>TIMEOUT</p></td>
+<td><p>TIMEOUT</p></td>
+</tr>
+<tr class="row-even"><td><p>Lo-θ</p></td>
+<td><p>5h 19m 27.17s</p></td>
+<td><p>6h 33m 6.55s</p></td>
+<td><p>TIMEOUT</p></td>
+<td><p>TIMEOUT</p></td>
+<td><p>TIMEOUT</p></td>
+<td><p>TIMEOUT</p></td>
+</tr>
+<tr class="row-odd"><td><p>SVM-θ</p></td>
+<td><p>39.40s</p></td>
+<td><p>1m 0.57s</p></td>
+<td><p>19m 24.73s</p></td>
+<td><p>23m 14.31s</p></td>
+<td><p>52m 10.36s</p></td>
+<td><p>5m 57.31s</p></td>
+</tr>
+<tr class="row-even"><td><p>ODD-STh</p></td>
+<td><p>4.47s</p></td>
+<td><p>4.85s</p></td>
+<td><p>1m 53.50s</p></td>
+<td><p>4m 48.92s</p></td>
+<td><p>8m 20.66s</p></td>
+<td><p>2h 1m 9.55s</p></td>
+</tr>
+<tr class="row-odd"><td><p>PM</p></td>
+<td><p>1m 28.02s</p></td>
+<td><p>2m 13.01s</p></td>
+<td><p>10m 9.24s</p></td>
+<td><p>51m 45.10s</p></td>
+<td><p>3h 50m 38.60s</p></td>
+<td><p>36m 26.14s</p></td>
+</tr>
+<tr class="row-even"><td><p>GH</p></td>
+<td><p>2m 11.15s</p></td>
+<td><p>2m 3.71s</p></td>
+<td><p>TIMEOUT</p></td>
+<td><p>TIMEOUT</p></td>
+<td><p>TIMEOUT</p></td>
+<td><p>5h 51m 32.27s</p></td>
+</tr>
+<tr class="row-odd"><td><p>SM</p></td>
+<td><p>TIMEOUT</p></td>
+<td><p>TIMEOUT</p></td>
+<td><p>OUT-OF-MEM</p></td>
+<td><p>OUT-OF-MEM</p></td>
+<td><p>OUT-OF-MEM</p></td>
+<td><p>TIMEOUT</p></td>
+</tr>
+<tr class="row-even"><td><p>PK</p></td>
+<td><p>7.41s</p></td>
+<td><p>14.26s</p></td>
+<td><p>1m 23.42s</p></td>
+<td><p>5m 49.01s</p></td>
+<td><p>20m 41.73s</p></td>
+<td><p>4m 34.26s</p></td>
+</tr>
+<tr class="row-odd"><td><p>ML</p></td>
+<td><p>1h 22m 6.04s</p></td>
+<td><p>1h 41m 13.74s</p></td>
+<td><p>8h 21m 18.76s</p></td>
+<td><p>47m 51.91s</p></td>
+<td><p>OUT-OF-MEM</p></td>
+<td><p>9h 24m 15.22s</p></td>
+</tr>
+<tr class="row-even"><td><p>CORE-WL</p></td>
+<td><p>36.74s</p></td>
+<td><p>1m 1.82s</p></td>
+<td><p>45m 1.09s</p></td>
+<td><p>OUT-OF-MEM</p></td>
+<td><p>OUT-OF-MEM</p></td>
+<td><p>OUT-OF-MEM</p></td>
+</tr>
+<tr class="row-odd"><td><p>CORE-SP</p></td>
+<td><p>3m 58.29s</p></td>
+<td><p>4m 29.55s</p></td>
+<td><p>10h 37m 3.94s</p></td>
+<td><p>TIMEOUT</p></td>
+<td><p>OUT-OF-MEM</p></td>
+<td><p>TIMEOUT</p></td>
+</tr>
+</tbody>
+</table>
+<p>Similar to the labeled case, VH is again the fastest kernel on all datasets. The running time of PK, ODD-STh, and WL-VH is also low compared to the other kernels on most datasets. The SVM-θ, NH, PM, SP and CORE-WL kernels were also competitive in terms of running time. Besides achieving low accuracy levels, the Lo-$vartheta$ kernel is also very computationally expensive. The RW, NSPDK, CORE-SP, WL-SP and GH are also very expensive in terms of running time. The above $6$ kernels did not manage to calculate any kernel matrix on REDDIT-MULTI-5K and REDDIT-MULTI-12K within one day. The SM kernel failed to compute the kernel matrix on IMDB-BINARY, IMDB-MULTI and COLLAB within one day, while it exceeded the maximum available memory on the remaining three datasets. The WL-VH and CORE-WL kernels also exceeded the maximum available memory on REDDIT-MULTI-5K and REDDIT-MULTI-12K. It should be mentioned that these two datasets contain several thousands of graphs, while the size of the graphs is also large (ie several hundreds of vertices on average).</p>
+</div>
+<div class="section" id="node-attributed-graphs">
+<h2>Node-Attributed Graphs<a class="headerlink" href="#node-attributed-graphs" title="Permalink to this headline">¶</a></h2>
+<p>The Table below illustrates the average CPU running time for kernel matrix computation on the 5 classification datasets containing node-attributed graphs.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 6%" />
+<col style="width: 17%" />
+<col style="width: 21%" />
+<col style="width: 21%" />
+<col style="width: 17%" />
+<col style="width: 18%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"><p>ENZYMES</p></th>
+<th class="head"><p>PROTEINS_full</p></th>
+<th class="head"><p>SYNTHETICnew</p></th>
+<th class="head"><p>Synthie</p></th>
+<th class="head"><p>BZR</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>SP</p></td>
+<td><p>TIMEOUT</p></td>
+<td><p>TIMEOUT</p></td>
+<td><p>TIMEOUT</p></td>
+<td><p>TIMEOUT</p></td>
+<td><p>TIMEOUT</p></td>
+</tr>
+<tr class="row-odd"><td><p>SM</p></td>
+<td><p>TIMEOUT</p></td>
+<td><p>OUT-OF-MEM</p></td>
+<td><p>TIMEOUT</p></td>
+<td><p>TIMEOUT</p></td>
+<td><p>8h 2m 3.79s</p></td>
+</tr>
+<tr class="row-even"><td><p>GH</p></td>
+<td><p>16m 36.12s</p></td>
+<td><p>5h 16m 46.48s</p></td>
+<td><p>13m 54.36s</p></td>
+<td><p>24m 20.00s</p></td>
+<td><p>4m 24.79s</p></td>
+</tr>
+<tr class="row-odd"><td><p>PK</p></td>
+<td><p>15.85s</p></td>
+<td><p>1m 43.58s</p></td>
+<td><p>13.44s</p></td>
+<td><p>34.68s</p></td>
+<td><p>10.40s</p></td>
+</tr>
+<tr class="row-even"><td><p>ML</p></td>
+<td><p>26.05s</p></td>
+<td><p>4h 29m 35.69s</p></td>
+<td><p>2h 54m 31.22s</p></td>
+<td><p>15m 11.29s</p></td>
+<td><p>49m 33.60s</p></td>
+</tr>
+</tbody>
+</table>
+<p>In terms of running time, PK is the most efficient kernel since it handled all datasets in less than two minutes. GH and ML are much slower than PK on all datasets. For instance, the average computation time of ML and GH was greater than 4 hours and 5 hours on PROTEINS_full, respectively. The SP and SM kernels, as already discussed, are very expensive in terms of running time, and hence, their usefulness in real-world problems is limited.</p>
+</div>
 </div>
 
 
