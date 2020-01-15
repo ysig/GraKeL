@@ -34,15 +34,24 @@ Build and installing a local `grakel` can be done by executing :code:`pip instal
 Additionally if you want to build your extensions locally, you can run :code:`python setup.py build_ext`.
 
 In order for the C++ extensions to compile a system-specific building environment should be setup.
+What you generally need a C++ compiler and python header files.
 
-
-Linux Environment
+Unix Environment
 ^^^^^^^^^^^^^^^^^
 
+To do so in linux you will need to have installed:
+
+- A C++ compiler like `g++`
+- The package that contains `Python.h` like `python-dev`
 
 Windows Environment
 ^^^^^^^^^^^^^^^^^^^
 
+To build your own `grakel` in a Windows environment you will need to install parts of the Windows Virtual Studio SDK (for C++), which can be found accuratelly described [here](https://docs.microsoft.com/en-us/visualstudio/python/working-with-c-cpp-python-in-visual-studio?view=vs-2019#prerequisites).
+
+.. note::
+
+   If you have any problem building `grakel` please raise an [issue](https://github.com/ysig/GraKeL/issues) in order for us to tackle your problem and possibly enrich our installation instructions.
 
 Why so Many Packages?
 ---------------------
