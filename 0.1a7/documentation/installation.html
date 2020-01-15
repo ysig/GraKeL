@@ -94,7 +94,7 @@
 <li class="toctree-l1 current"><a class="reference internal" href="../documentation.html">Documentation</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Installing GraKeL</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#building-grakel">Building GraKeL</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#linux-environment">Linux Environment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unix-environment">Unix Environment</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#windows-environment">Windows Environment</a></li>
 </ul>
 </li>
@@ -207,12 +207,23 @@
 <p>In order to build your own version of <em>GraKeL</em>, you need a C++, as the package relies on some C++ extensions.
 Build and installing a local <cite>grakel</cite> can be done by executing <code class="code docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">.</span></code> or <code class="code docutils literal notranslate"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">install</span></code> on the parent folder.
 Additionally if you want to build your extensions locally, you can run <code class="code docutils literal notranslate"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">build_ext</span></code>.</p>
-<p>In order for the C++ extensions to compile a system-specific building environment should be setup.</p>
-<div class="section" id="linux-environment">
-<h3>Linux Environment<a class="headerlink" href="#linux-environment" title="Permalink to this headline">¶</a></h3>
+<p>In order for the C++ extensions to compile a system-specific building environment should be setup.
+What you generally need a C++ compiler and python header files.</p>
+<div class="section" id="unix-environment">
+<h3>Unix Environment<a class="headerlink" href="#unix-environment" title="Permalink to this headline">¶</a></h3>
+<p>To do so in linux you will need to have installed:</p>
+<ul class="simple">
+<li><p>A C++ compiler like <cite>g++</cite></p></li>
+<li><p>The package that contains <cite>Python.h</cite> like <cite>python-dev</cite></p></li>
+</ul>
 </div>
 <div class="section" id="windows-environment">
 <h3>Windows Environment<a class="headerlink" href="#windows-environment" title="Permalink to this headline">¶</a></h3>
+<p>To build your own <cite>grakel</cite> in a Windows environment you will need to install parts of the Windows Virtual Studio SDK (for C++), which can be found accuratelly described [here](<a class="reference external" href="https://docs.microsoft.com/en-us/visualstudio/python/working-with-c-cpp-python-in-visual-studio?view=vs-2019#prerequisites">https://docs.microsoft.com/en-us/visualstudio/python/working-with-c-cpp-python-in-visual-studio?view=vs-2019#prerequisites</a>).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you have any problem building <cite>grakel</cite> please raise an [issue](<a class="reference external" href="https://github.com/ysig/GraKeL/issues">https://github.com/ysig/GraKeL/issues</a>) in order for us to tackle your problem and possibly enrich our installation instructions.</p>
+</div>
 </div>
 </div>
 <div class="section" id="why-so-many-packages">

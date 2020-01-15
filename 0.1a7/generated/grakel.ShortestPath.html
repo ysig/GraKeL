@@ -207,7 +207,7 @@
 <h1><a class="reference internal" href="../api.html#module-grakel" title="grakel"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code></a>.ShortestPath<a class="headerlink" href="#grakel-shortestpath" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="grakel.ShortestPath">
-<em class="property">class </em><code class="sig-prename descclassname">grakel.</code><code class="sig-name descname">ShortestPath</code><span class="sig-paren">(</span><em class="sig-param">n_jobs=None</em>, <em class="sig-param">normalize=False</em>, <em class="sig-param">verbose=False</em>, <em class="sig-param">with_labels=True</em>, <em class="sig-param">algorithm_type='auto'</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/175bae4d/grakel/kernels/shortest_path.py#L167"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/shortest_path.html#ShortestPath"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.ShortestPath" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">grakel.</code><code class="sig-name descname">ShortestPath</code><span class="sig-paren">(</span><em class="sig-param">n_jobs=None</em>, <em class="sig-param">normalize=False</em>, <em class="sig-param">verbose=False</em>, <em class="sig-param">with_labels=True</em>, <em class="sig-param">algorithm_type='auto'</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/c07e8145/grakel/kernels/shortest_path.py#L167"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/shortest_path.html#ShortestPath"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.ShortestPath" title="Permalink to this definition">¶</a></dt>
 <dd><p>The shortest path kernel class.</p>
 <p>See <a class="bibtex reference internal" href="../kernels/shortest_path.html#borgwardt2005shortest" id="id1">[BK05]</a>.</p>
 <dl class="field-list simple">
@@ -329,13 +329,13 @@ sampled graphlets have fallen.</p>
 </table>
 <dl class="method">
 <dt id="grakel.ShortestPath.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">n_jobs=None</em>, <em class="sig-param">normalize=False</em>, <em class="sig-param">verbose=False</em>, <em class="sig-param">with_labels=True</em>, <em class="sig-param">algorithm_type='auto'</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/175bae4d/grakel/kernels/shortest_path.py#L224"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/shortest_path.html#ShortestPath.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.ShortestPath.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">n_jobs=None</em>, <em class="sig-param">normalize=False</em>, <em class="sig-param">verbose=False</em>, <em class="sig-param">with_labels=True</em>, <em class="sig-param">algorithm_type='auto'</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/c07e8145/grakel/kernels/shortest_path.py#L224"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/shortest_path.html#ShortestPath.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.ShortestPath.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize a <cite>shortest_path</cite> kernel.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="grakel.ShortestPath.diagonal">
-<code class="sig-name descname">diagonal</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/175bae4d/grakel/kernels/shortest_path.py#L320"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/shortest_path.html#ShortestPath.diagonal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.ShortestPath.diagonal" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">diagonal</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/c07e8145/grakel/kernels/shortest_path.py#L320"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/shortest_path.html#ShortestPath.diagonal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.ShortestPath.diagonal" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the kernel matrix diagonal for fitted data.</p>
 <p>A funtion called on transform on a seperate dataset to apply
 normalization on the exterior.</p>
@@ -360,7 +360,7 @@ This consists of kernel calculation for each element with itself.</p>
 
 <dl class="method">
 <dt id="grakel.ShortestPath.fit">
-<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">X</em>, <em class="sig-param">y=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/175bae4d/grakel/kernels/kernel.py#L91"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.ShortestPath.fit" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">X</em>, <em class="sig-param">y=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/c07e8145/grakel/kernels/kernel.py#L91"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.ShortestPath.fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fit a dataset, for a transformer.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -387,7 +387,7 @@ requires this parameter.</p>
 
 <dl class="method">
 <dt id="grakel.ShortestPath.fit_transform">
-<code class="sig-name descname">fit_transform</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">X</em>, <em class="sig-param">y=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/175bae4d/grakel/kernels/shortest_path.py#L358"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/shortest_path.html#ShortestPath.fit_transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.ShortestPath.fit_transform" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">fit_transform</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">X</em>, <em class="sig-param">y=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/c07e8145/grakel/kernels/shortest_path.py#L358"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/shortest_path.html#ShortestPath.fit_transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.ShortestPath.fit_transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fit and transform, on the same dataset.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -414,7 +414,7 @@ all pairs of graphs between target an features</p>
 
 <dl class="method">
 <dt id="grakel.ShortestPath.get_params">
-<code class="sig-name descname">get_params</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">deep=True</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/175bae4d/grakel/../venv/lib/python3.5/site-packages/sklearn/base.py#L173"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.ShortestPath.get_params" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_params</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">deep=True</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/c07e8145/grakel/../venv/lib/python3.5/site-packages/sklearn/base.py#L173"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.ShortestPath.get_params" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get parameters for this estimator.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -435,13 +435,13 @@ contained subobjects that are estimators.</p>
 
 <dl class="method">
 <dt id="grakel.ShortestPath.initialize">
-<code class="sig-name descname">initialize</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/175bae4d/grakel/kernels/shortest_path.py#L237"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/shortest_path.html#ShortestPath.initialize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.ShortestPath.initialize" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">initialize</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/c07e8145/grakel/kernels/shortest_path.py#L237"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/shortest_path.html#ShortestPath.initialize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.ShortestPath.initialize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize all transformer arguments, needing initialization.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="grakel.ShortestPath.pairwise_operation">
-<code class="sig-name descname">pairwise_operation</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">x</em>, <em class="sig-param">y</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/175bae4d/grakel/kernels/kernel.py#L370"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.ShortestPath.pairwise_operation" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">pairwise_operation</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">x</em>, <em class="sig-param">y</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/c07e8145/grakel/kernels/kernel.py#L370"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.ShortestPath.pairwise_operation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate a pairwise kernel between two elements.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -461,7 +461,7 @@ contained subobjects that are estimators.</p>
 
 <dl class="method">
 <dt id="grakel.ShortestPath.parse_input">
-<code class="sig-name descname">parse_input</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/175bae4d/grakel/kernels/shortest_path.py#L400"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/shortest_path.html#ShortestPath.parse_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.ShortestPath.parse_input" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">parse_input</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/c07e8145/grakel/kernels/shortest_path.py#L400"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/shortest_path.html#ShortestPath.parse_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.ShortestPath.parse_input" title="Permalink to this definition">¶</a></dt>
 <dd><p>Parse and create features for “shortest path” kernel.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -487,13 +487,13 @@ tuples.</p>
 
 <dl class="method">
 <dt id="grakel.ShortestPath.set_params">
-<code class="sig-name descname">set_params</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">**params</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/175bae4d/grakel/kernels/kernel.py#L386"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.ShortestPath.set_params" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">set_params</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">**params</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/c07e8145/grakel/kernels/kernel.py#L386"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.ShortestPath.set_params" title="Permalink to this definition">¶</a></dt>
 <dd><p>Call the parent method.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="grakel.ShortestPath.transform">
-<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/175bae4d/grakel/kernels/shortest_path.py#L264"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/shortest_path.html#ShortestPath.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.ShortestPath.transform" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/c07e8145/grakel/kernels/shortest_path.py#L264"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/shortest_path.html#ShortestPath.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.ShortestPath.transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the kernel matrix, between given and fitted dataset.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
