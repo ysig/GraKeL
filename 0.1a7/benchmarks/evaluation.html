@@ -184,6 +184,177 @@ We experimented with the following 16 kernels: (1) vertex histogram kernel (VH),
 <p>All experiments were performed on a cluster of 80 Intel Xeon CPU E7-4860 &#64; 2.27GHz with 1TB RAM. Each kernel was computed on a single thread of the cluster. We set a time limit of 24 hours for each kernel to compute the kernel matrix. Hence, we denote by TIMEOUT kernel computations that did not finish within one day. We also set a memory limit of 64GB, and we denote by OUT-OF-MEM computations that exceeded this limit. Given a kernel and a dataset, the running time of a single run is computed as follows: for each fold of a 10-fold cross-validation experiment, the running time of the kernel corresponds to the running time for the computation of the kernel matrix that performed best on the validation experiment. Then, we report the average running time of the 10 runs.</p>
 <div class="section" id="node-labeled-graphs">
 <h2>Node-Labeled Graphs<a class="headerlink" href="#node-labeled-graphs" title="Permalink to this headline">¶</a></h2>
+<p>The following Table illustrates the average CPU running times of the compared kernels on the 7 datasets that contain node-labeled graphs.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 8%" />
+<col style="width: 10%" />
+<col style="width: 14%" />
+<col style="width: 15%" />
+<col style="width: 11%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"><p>MUTAG</p></th>
+<th class="head"><p>ENZYMES</p></th>
+<th class="head"><p>NCI1</p></th>
+<th class="head"><p>PTC-MR</p></th>
+<th class="head"><p>D&amp;D</p></th>
+<th class="head"><p>PROTEINS</p></th>
+<th class="head"><p>AIDS</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>VH</p></td>
+<td><p>0.01s</p></td>
+<td><p>0.04s</p></td>
+<td><p>0.84s</p></td>
+<td><p>0.02s</p></td>
+<td><p>0.24s</p></td>
+<td><p>0.10s</p></td>
+<td><p>0.25s</p></td>
+</tr>
+<tr class="row-odd"><td><p>RW</p></td>
+<td><p>1m 46.86s</p></td>
+<td><p>4h 24m 16.26s</p></td>
+<td><p>TIMEOUT</p></td>
+<td><p>6m 41.20s</p></td>
+<td><p>OUT-OF-MEM</p></td>
+<td><p>51m 10.11s</p></td>
+<td><p>1h 51m 56.47s</p></td>
+</tr>
+<tr class="row-even"><td><p>SP</p></td>
+<td><p>0.92s</p></td>
+<td><p>11.03s</p></td>
+<td><p>1m 9.69s</p></td>
+<td><p>1.52s</p></td>
+<td><p>55m 58.79s</p></td>
+<td><p>1m 18.91s</p></td>
+<td><p>13.93s</p></td>
+</tr>
+<tr class="row-odd"><td><p>WL-VH</p></td>
+<td><p>0.21s</p></td>
+<td><p>3.81s</p></td>
+<td><p>7m 5.33s</p></td>
+<td><p>0.55s</p></td>
+<td><p>5m 52.96s</p></td>
+<td><p>32.48s</p></td>
+<td><p>40.49s</p></td>
+</tr>
+<tr class="row-even"><td><p>WL-SP</p></td>
+<td><p>7.02s</p></td>
+<td><p>1m 27.07s</p></td>
+<td><p>15m 29.50s</p></td>
+<td><p>12.55s</p></td>
+<td><p>7h 27m 21.90s</p></td>
+<td><p>8m 3.68s</p></td>
+<td><p>1m 33.46s</p></td>
+</tr>
+<tr class="row-odd"><td><p>WL-PM</p></td>
+<td><p>3m 42.07s</p></td>
+<td><p>1h 5m 37.26s</p></td>
+<td><p>13h 31m 34.36s</p></td>
+<td><p>11m 8.16s</p></td>
+<td><p>OUT-OF-MEM</p></td>
+<td><p>5h 37m 10.33s</p></td>
+<td><p>5h 55m 20.37s</p></td>
+</tr>
+<tr class="row-even"><td><p>NH</p></td>
+<td><p>0.40s</p></td>
+<td><p>11.17s</p></td>
+<td><p>7m 4.54s</p></td>
+<td><p>1.31s</p></td>
+<td><p>6m 17.21s</p></td>
+<td><p>41.81s</p></td>
+<td><p>33.30s</p></td>
+</tr>
+<tr class="row-odd"><td><p>NSPDK</p></td>
+<td><p>4.05s</p></td>
+<td><p>27.02s</p></td>
+<td><p>6m 9.81s</p></td>
+<td><p>7.66s</p></td>
+<td><p>4h 36m 28.97s</p></td>
+<td><p>9m 9.80s</p></td>
+<td><p>1m 12.31s</p></td>
+</tr>
+<tr class="row-even"><td><p>ODD-STh</p></td>
+<td><p>1.54s</p></td>
+<td><p>50.05s</p></td>
+<td><p>46m 2.13s</p></td>
+<td><p>4.03s</p></td>
+<td><p>27m 59.18s</p></td>
+<td><p>4m 7.81s</p></td>
+<td><p>2m 5.32s</p></td>
+</tr>
+<tr class="row-odd"><td><p>PM</p></td>
+<td><p>2.59s</p></td>
+<td><p>31.38s</p></td>
+<td><p>37m 37.50s</p></td>
+<td><p>11.35s</p></td>
+<td><p>5m 48.51s</p></td>
+<td><p>1m 26.82s</p></td>
+<td><p>2m 48.04s</p></td>
+</tr>
+<tr class="row-even"><td><p>GH</p></td>
+<td><p>24.70s</p></td>
+<td><p>15m 38.33s</p></td>
+<td><p>3h 45m 8.31s</p></td>
+<td><p>1m 33.90s</p></td>
+<td><p>TIMEOUT</p></td>
+<td><p>3h 43m 1.54s</p></td>
+<td><p>38m 51.78s</p></td>
+</tr>
+<tr class="row-odd"><td><p>SM</p></td>
+<td><p>1m 57.25s</p></td>
+<td><p>3h 25m 43.59s</p></td>
+<td><p>TIMEOUT</p></td>
+<td><p>4m 19.80s</p></td>
+<td><p>OUT-OF-MEM</p></td>
+<td><p>OUT-OF-MEM</p></td>
+<td><p>4h 26m 46.71s</p></td>
+</tr>
+<tr class="row-even"><td><p>PK</p></td>
+<td><p>0.48s</p></td>
+<td><p>12.05s</p></td>
+<td><p>10m 27.83s</p></td>
+<td><p>1.81s</p></td>
+<td><p>9m 34.30s</p></td>
+<td><p>51.20s</p></td>
+<td><p>1m 43.62s</p></td>
+</tr>
+<tr class="row-odd"><td><p>ML</p></td>
+<td><p>10m 3.15s</p></td>
+<td><p>56m 43.76s</p></td>
+<td><p>5h 30m 56.29s</p></td>
+<td><p>19m 22.43s</p></td>
+<td><p>3h 40m 30.72s</p></td>
+<td><p>2h 20m 39.57s</p></td>
+<td><p>1h 11m 58.23s</p></td>
+</tr>
+<tr class="row-even"><td><p>CORE-WL</p></td>
+<td><p>0.55s</p></td>
+<td><p>12.52s</p></td>
+<td><p>14m 30.56s</p></td>
+<td><p>17m 2.27s</p></td>
+<td><p>17m 2.27s</p></td>
+<td><p>1m 16.74s</p></td>
+<td><p>54.79s</p></td>
+</tr>
+<tr class="row-odd"><td><p>CORE-SP</p></td>
+<td><p>2.69s</p></td>
+<td><p>48.02s</p></td>
+<td><p>3m 16.54s</p></td>
+<td><p>3.97s</p></td>
+<td><p>5h 2m 39.71s</p></td>
+<td><p>3m 31.97s</p></td>
+<td><p>40.11s</p></td>
+</tr>
+</tbody>
+</table>
+<p>Αs expected, VH is the fastest kernel on all datasets. This kernel computes the dot product on vertex label histograms, hence, its complexity is linear to the number of vertices. The running time of WL-VH, NH, SP and PK is also low compared to the other kernels on most datasets. Hence, the effectiveness of WL-PM comes at a price, as computing the kernel requires a large amount of time. Note also that while the worst-case complexity of SP is very high, by employing an explicit computation scheme, the running time of the kernel in real scenarios is very attractive. We also observe that the ML, RW, SM and WL-PM kernels are very expensive in terms of runtime. Specifically, the SM kernel failed to compute the kernel matrix on NCI1 within one day, while it exceeded the maximum available memory on two other datasets (D&amp;D and PROTEINS). It should be mentioned that the size of the graphs (i.e., number of nodes) and the size of the dataset (i.e., number of graphs) have a different impact on the running time of the kernels. For instance, the average running time of the PM kernel is relatively high on datasets that contain small graphs. However, this kernel is much more competitive on datasets which contain large graphs such as the D&amp;D dataset on which it was the third fastest kernel.</p>
 </div>
 <div class="section" id="unabeled-graphs">
 <h2>Unabeled Graphs<a class="headerlink" href="#unabeled-graphs" title="Permalink to this headline">¶</a></h2>

@@ -29,29 +29,26 @@ To also install the cvxopt package, which is a requirement of the Lovász-:math:
 Building GraKeL
 ---------------
 
-In order to build your own version of *GraKeL*, you need a C++, as the package relies on some C++ extensions.
-Build and installing a local `grakel` can be done by executing :code:`pip install .` or :code:`python setup.py install` on the parent folder.
-Additionally if you want to build your extensions locally, you can run :code:`python setup.py build_ext`.
+In order to build your own version of *GraKeL*, you need a C++ compiler since the package contains some C++ extensions. To build and install a local version of `GraKeL`, you need to execute :code:`pip install .` or :code:`python setup.py install` on the root folder. Furthermore, in case you like to also build the extensions, you can run :code:`python setup.py build_ext`.
 
-In order for the C++ extensions to compile a system-specific building environment should be setup.
-What you generally need a C++ compiler and python header files.
+In order for the C++ extensions to compile, a system-specific building environment should be configured. What you generally need is a C++ compiler and some python header files.
 
 Unix Environment
 ^^^^^^^^^^^^^^^^^
 
-To do so in linux you will need to have installed:
+In the case of Unix environments, you need to have installed:
 
 - A C++ compiler like `g++`
-- The package that contains `Python.h` like `python-dev`
+- The package that contains the `Python.h`file such as `python-dev`
 
 Windows Environment
 ^^^^^^^^^^^^^^^^^^^
 
-To build your own `grakel` in a Windows environment you will need to install parts of the Windows Virtual Studio SDK (for C++), which can be found accuratelly described [here](https://docs.microsoft.com/en-us/visualstudio/python/working-with-c-cpp-python-in-visual-studio?view=vs-2019#prerequisites).
+In the case of a Windows environment, you need to install parts of the Windows Virtual Studio SDK (for C++) (for more details, please have a look here_).
 
 .. note::
 
-   If you have any problem building `grakel` please raise an [issue](https://github.com/ysig/GraKeL/issues) in order for us to tackle your problem and possibly enrich our installation instructions.
+   If you have trouble building `GraKeL`, please raise an issue_ such that we address the problem and we may also enrich our installation instructions.
 
 Why so Many Packages?
 ---------------------
@@ -71,4 +68,5 @@ Graph kernels deal with the problem of graph comparison, a very challenging prob
 .. _VF2: https://networkx.github.io/documentation/networkx-1.10/reference/algorithms.isomorphism.vf2.html
 .. _PyPI: https://pypi.org/project/grakel-dev/
 .. _anaconda: https://anaconda.org/ysig/grakel-dev
-
+.. _issue: https://github.com/ysig/GraKeL/issues
+.. _here: https://docs.microsoft.com/en-us/visualstudio/python/working-with-c-cpp-python-in-visual-studio?view=vs-2019#prerequisites

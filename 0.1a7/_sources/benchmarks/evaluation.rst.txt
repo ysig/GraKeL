@@ -12,9 +12,46 @@ All experiments were performed on a cluster of 80 Intel Xeon CPU E7-4860 @ 2.27G
 
 Node-Labeled Graphs
 ^^^^^^^^^^^^^^^^^^^
+The following Table illustrates the average CPU running times of the compared kernels on the 7 datasets that contain node-labeled graphs.
 
 
++---------+-----------+---------------+----------------+------------+---------------+---------------+---------------+
+|         | MUTAG     | ENZYMES       | NCI1           | PTC-MR     | D&D           | PROTEINS      | AIDS          |
++=========+===========+===============+================+============+===============+===============+===============+
+| VH      | 0.01s     | 0.04s         | 0.84s          | 0.02s      | 0.24s         | 0.10s         | 0.25s         |
++---------+-----------+---------------+----------------+------------+---------------+---------------+---------------+
+| RW      | 1m 46.86s | 4h 24m 16.26s | TIMEOUT        | 6m 41.20s  | OUT-OF-MEM    | 51m 10.11s    | 1h 51m 56.47s |
++---------+-----------+---------------+----------------+------------+---------------+---------------+---------------+
+| SP      | 0.92s     | 11.03s        | 1m 9.69s       | 1.52s      | 55m 58.79s    | 1m 18.91s     | 13.93s        |
++---------+-----------+---------------+----------------+------------+---------------+---------------+---------------+
+| WL-VH   | 0.21s     | 3.81s         | 7m 5.33s       | 0.55s      | 5m 52.96s     | 32.48s        | 40.49s        |
++---------+-----------+---------------+----------------+------------+---------------+---------------+---------------+
+| WL-SP   | 7.02s     | 1m 27.07s     | 15m 29.50s     | 12.55s     | 7h 27m 21.90s | 8m 3.68s      | 1m 33.46s     |
++---------+-----------+---------------+----------------+------------+---------------+---------------+---------------+
+| WL-PM   | 3m 42.07s | 1h 5m 37.26s  | 13h 31m 34.36s | 11m 8.16s  | OUT-OF-MEM    | 5h 37m 10.33s | 5h 55m 20.37s |
++---------+-----------+---------------+----------------+------------+---------------+---------------+---------------+
+| NH      | 0.40s     | 11.17s        | 7m 4.54s       | 1.31s      | 6m 17.21s     | 41.81s        | 33.30s        |
++---------+-----------+---------------+----------------+------------+---------------+---------------+---------------+
+| NSPDK   | 4.05s     | 27.02s        | 6m 9.81s       | 7.66s      | 4h 36m 28.97s | 9m 9.80s      | 1m 12.31s     |
++---------+-----------+---------------+----------------+------------+---------------+---------------+---------------+
+| ODD-STh | 1.54s     | 50.05s        | 46m 2.13s      | 4.03s      | 27m 59.18s    | 4m 7.81s      | 2m 5.32s      |
++---------+-----------+---------------+----------------+------------+---------------+---------------+---------------+
+| PM      | 2.59s     | 31.38s        | 37m 37.50s     | 11.35s     | 5m 48.51s     | 1m 26.82s     | 2m 48.04s     |
++---------+-----------+---------------+----------------+------------+---------------+---------------+---------------+
+| GH      | 24.70s    | 15m 38.33s    | 3h 45m 8.31s   | 1m 33.90s  | TIMEOUT       | 3h 43m 1.54s  | 38m 51.78s    |
++---------+-----------+---------------+----------------+------------+---------------+---------------+---------------+
+| SM      | 1m 57.25s | 3h 25m 43.59s | TIMEOUT        | 4m 19.80s  | OUT-OF-MEM    | OUT-OF-MEM    | 4h 26m 46.71s |
++---------+-----------+---------------+----------------+------------+---------------+---------------+---------------+
+| PK      | 0.48s     | 12.05s        | 10m 27.83s     | 1.81s      | 9m 34.30s     | 51.20s        | 1m 43.62s     |
++---------+-----------+---------------+----------------+------------+---------------+---------------+---------------+
+| ML      | 10m 3.15s | 56m 43.76s    | 5h 30m 56.29s  | 19m 22.43s | 3h 40m 30.72s | 2h 20m 39.57s | 1h 11m 58.23s |
++---------+-----------+---------------+----------------+------------+---------------+---------------+---------------+
+| CORE-WL | 0.55s     | 12.52s        | 14m 30.56s     | 17m 2.27s  | 17m 2.27s     | 1m 16.74s     | 54.79s        |
++---------+-----------+---------------+----------------+------------+---------------+---------------+---------------+
+| CORE-SP | 2.69s     | 48.02s        | 3m 16.54s      | 3.97s      | 5h 2m 39.71s  | 3m 31.97s     | 40.11s        |
++---------+-----------+---------------+----------------+------------+---------------+---------------+---------------+
 
+Αs expected, VH is the fastest kernel on all datasets. This kernel computes the dot product on vertex label histograms, hence, its complexity is linear to the number of vertices. The running time of WL-VH, NH, SP and PK is also low compared to the other kernels on most datasets. Hence, the effectiveness of WL-PM comes at a price, as computing the kernel requires a large amount of time. Note also that while the worst-case complexity of SP is very high, by employing an explicit computation scheme, the running time of the kernel in real scenarios is very attractive. We also observe that the ML, RW, SM and WL-PM kernels are very expensive in terms of runtime. Specifically, the SM kernel failed to compute the kernel matrix on NCI1 within one day, while it exceeded the maximum available memory on two other datasets (D&D and PROTEINS). It should be mentioned that the size of the graphs (i.e., number of nodes) and the size of the dataset (i.e., number of graphs) have a different impact on the running time of the kernels. For instance, the average running time of the PM kernel is relatively high on datasets that contain small graphs. However, this kernel is much more competitive on datasets which contain large graphs such as the D&D dataset on which it was the third fastest kernel.
 
 
 Unabeled Graphs
