@@ -9,7 +9,7 @@ environment:
     # See: http://stackoverflow.com/a/13751649/163740
     WHEELHOUSE_UPLOADER_USERNAME: ysig
     MODULE: grakel
-    PROJECT_NAME: grakel-dev
+    PROJECT_NAME: grakel
     TWINE_USERNAME: ysig 
 
   matrix:
@@ -26,6 +26,11 @@ environment:
     - PYTHON_VERSION: "3.6.4"
       PYTHON_ARCH: "64"
       MINICONDA: "C:\\Miniconda36-x64"
+      DEPLOY_WHEEL: "true"
+
+    - PYTHON_VERSION: "3.7.4"
+      PYTHON_ARCH: "64"
+      MINICONDA: "C:\\Miniconda37-x64"
       DEPLOY_WHEEL: "true"
 
 install:
