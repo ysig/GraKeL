@@ -24,14 +24,14 @@ To also install the cvxopt package, which is a requirement of the Lovász-:math:
 
    $ pip install grakel[lovasz]
 
-*GraKeL* is also available via `anaconda`_.
+.. *GraKeL* is also available via `anaconda`_.
 
 Building GraKeL
 ---------------
 
-In order to build your own version of *GraKeL*, you need a C++ compiler since the package contains some C++ extensions. To build and install a local version of `GraKeL`, you need to execute :code:`pip install .` or :code:`python setup.py install` on the root folder. Furthermore, in case you like to also build the extensions, you can run :code:`python setup.py build_ext`.
+In order to build your own version of *GraKeL*, you need a C++ compiler since the package contains some C++ extensions. To build and install a local version of `GraKeL`, you need to execute :code:`pip install .` or :code:`python setup.py install` on the root folder. Furthermore, in case you want to build the extensions locally, execute :code:`python setup.py build_ext`.
 
-In order for the C++ extensions to compile, a system-specific building environment should be configured. What you generally need is a C++ compiler and some python header files.
+In order for the C++ extensions to compile our extensions, a system-specific build environment should be configured. What you generally need is a C++ compiler and some python header files.
 
 Unix Environment
 ^^^^^^^^^^^^^^^^^
@@ -39,7 +39,7 @@ Unix Environment
 In the case of Unix environments, you need to have installed:
 
 - A C++ compiler like `g++`
-- The package that contains the `Python.h`file such as `python-dev`
+- The package that contains the `Python.h` file such as `python-dev`
 
 Windows Environment
 ^^^^^^^^^^^^^^^^^^^
@@ -48,7 +48,7 @@ In the case of a Windows environment, you need to install parts of the Windows V
 
 .. note::
 
-   If you have trouble building `GraKeL`, please raise an issue_ such that we address the problem and we may also enrich our installation instructions.
+   If you have trouble building `GraKeL`, please raise an issue_ so that we can enrich our installation instructions, as well as addressing the problem.
 
 Why so Many Packages?
 ---------------------
