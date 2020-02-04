@@ -157,7 +157,7 @@ class GraphletSampling(Kernel):
             k = self.k
             if sampling is None:
                 n_samples = None
-                def sample_graphlets(A):
+                def sample_graphlets(A, k, *args):
                     return sample_graphlets_all_connected(A, k)
             elif type(sampling) is dict:
                 if "n_samples" in sampling:
@@ -515,7 +515,7 @@ def sample_graphlets_probabilistic(A, k, n_samples, rs):
         yield bGraph(Q.shape[0], zip(*np.where(Q == 1)))
 
 
-def sample_graphlets_all_connected(A, k, *args):
+def sample_graphlets_all_connected(A, k):
     """All the connected graphlets of size k of a given graph.
 
     The implemented algorithm can be found in :cite:`Karakashian2013AnAF` as `ConSubg`.
