@@ -320,6 +320,7 @@
             <span class="n">sampling</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sampling</span>
             <span class="n">k</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">k</span>
             <span class="k">if</span> <span class="n">sampling</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">n_samples</span> <span class="o">=</span> <span class="kc">None</span>
                 <span class="k">def</span> <span class="nf">sample_graphlets</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
                     <span class="k">return</span> <span class="n">sample_graphlets_all_connected</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
             <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">sampling</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">dict</span><span class="p">:</span>
@@ -678,7 +679,7 @@
         <span class="k">yield</span> <span class="n">bGraph</span><span class="p">(</span><span class="n">Q</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">Q</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)))</span>
 
 
-<span class="k">def</span> <span class="nf">sample_graphlets_all_connected</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">sample_graphlets_all_connected</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;All the connected graphlets of size k of a given graph.</span>
 
 <span class="sd">    The implemented algorithm can be found in :cite:`Karakashian2013AnAF` as `ConSubg`.</span>
