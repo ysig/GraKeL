@@ -4,6 +4,7 @@ from __future__ import absolute_import
 import collections
 import numbers
 import warnings
+import copy
 
 import numpy as np
 
@@ -1714,14 +1715,9 @@ def floyd_warshall(adjacency_matrix):
 
     dist = np.empty((n, n))
     # Initialization
-    for i in range(0, n):
-        for j in range(0, n):
-            if (i == j):
-                dist[i, j] = 0.
-            elif (adjacency_matrix[i, j] == 0):
-                dist[i, j] = float("Inf")
-            else:
-                dist[i, j] = adjacency_matrix[i, j]
+    dist = copy.deepcopy(adjacency_matrix)
+    dist[dist == 0] = float("Inf")
+    np.fill_diagonal(dist, 0)
 
     # Calculation
     for k in range(0, n):
