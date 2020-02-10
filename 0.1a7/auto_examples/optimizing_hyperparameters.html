@@ -21,11 +21,11 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="../_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -189,12 +189,12 @@
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">grakel.datasets</span> <span class="kn">import</span> <a href="../generated/grakel.datasets.fetch_dataset.html#grakel.datasets.fetch_dataset" title="View documentation for grakel.datasets.fetch_dataset"><span class="n">fetch_dataset</span></a>
-<span class="kn">from</span> <span class="nn">grakel.utils</span> <span class="kn">import</span> <a href="../generated/grakel.cross_validate_Kfold_SVM.html#grakel.cross_validate_Kfold_SVM" title="View documentation for grakel.cross_validate_Kfold_SVM"><span class="n">cross_validate_Kfold_SVM</span></a>
-<span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="kn">import</span> <a href="../generated/grakel.WeisfeilerLehman.html#grakel.WeisfeilerLehman" title="View documentation for grakel.WeisfeilerLehman"><span class="n">WeisfeilerLehman</span></a><span class="p">,</span> <a href="../generated/grakel.VertexHistogram.html#grakel.VertexHistogram" title="View documentation for grakel.VertexHistogram"><span class="n">VertexHistogram</span></a>
+<span class="kn">from</span> <span class="nn">grakel.datasets</span> <span class="kn">import</span> <span class="n">fetch_dataset</span>
+<span class="kn">from</span> <span class="nn">grakel.utils</span> <span class="kn">import</span> <span class="n">cross_validate_Kfold_SVM</span>
+<span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="kn">import</span> <span class="n">WeisfeilerLehman</span><span class="p">,</span> <span class="n">VertexHistogram</span>
 
 <span class="c1"># Loads the MUTAG dataset</span>
-<span class="n">MUTAG</span> <span class="o">=</span> <a href="../generated/grakel.datasets.fetch_dataset.html#grakel.datasets.fetch_dataset" title="View documentation for grakel.datasets.fetch_dataset"><span class="n">fetch_dataset</span></a><span class="p">(</span><span class="s2">&quot;MUTAG&quot;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">MUTAG</span> <span class="o">=</span> <span class="n">fetch_dataset</span><span class="p">(</span><span class="s2">&quot;MUTAG&quot;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">G</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">MUTAG</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">MUTAG</span><span class="o">.</span><span class="n">target</span>
 
 <span class="c1"># Generates a list of kernel matrices using the Weisfeiler-Lehman subtree kernel</span>
@@ -202,16 +202,16 @@
 <span class="c1"># kernel to a different value (from 2 to 7)</span>
 <span class="n">Ks</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">):</span>
-    <span class="n">gk</span> <span class="o">=</span> <a href="../generated/grakel.WeisfeilerLehman.html#grakel.WeisfeilerLehman" title="View documentation for grakel.WeisfeilerLehman"><span class="n">WeisfeilerLehman</span></a><span class="p">(</span><span class="n">n_iter</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">base_kernel</span><span class="o">=</span><a href="../generated/grakel.VertexHistogram.html#grakel.VertexHistogram" title="View documentation for grakel.VertexHistogram"><span class="n">VertexHistogram</span></a><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">gk</span> <span class="o">=</span> <span class="n">WeisfeilerLehman</span><span class="p">(</span><span class="n">n_iter</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">base_kernel</span><span class="o">=</span><span class="n">VertexHistogram</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">K</span> <span class="o">=</span> <span class="n">gk</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
     <span class="n">Ks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">K</span><span class="p">)</span>
 
 
 <span class="c1"># Performs 10-fold cross-validation over different kernels and the parameter C of</span>
 <span class="c1"># SVM and repeats the experiment 10 times with different folds</span>
-<span class="n">accs</span> <span class="o">=</span> <a href="../generated/grakel.cross_validate_Kfold_SVM.html#grakel.cross_validate_Kfold_SVM" title="View documentation for grakel.cross_validate_Kfold_SVM"><span class="n">cross_validate_Kfold_SVM</span></a><span class="p">([</span><span class="n">Ks</span><span class="p">],</span> <span class="n">y</span><span class="p">,</span> <span class="n">n_iter</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Average accuracy:&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.mean.html#numpy.mean" title="View documentation for numpy.mean"><span class="n">np</span><span class="o">.</span><span class="n">mean</span></a><span class="p">(</span><span class="n">accs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot;%&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Standard deviation:&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.std.html#numpy.std" title="View documentation for numpy.std"><span class="n">np</span><span class="o">.</span><span class="n">std</span></a><span class="p">(</span><span class="n">accs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot;%&quot;</span><span class="p">)</span>
+<span class="n">accs</span> <span class="o">=</span> <span class="n">cross_validate_Kfold_SVM</span><span class="p">([</span><span class="n">Ks</span><span class="p">],</span> <span class="n">y</span><span class="p">,</span> <span class="n">n_iter</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Average accuracy:&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">accs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot;%&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Standard deviation:&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">accs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot;%&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.000 seconds)</p>
