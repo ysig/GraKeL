@@ -1713,17 +1713,14 @@ def floyd_warshall(adjacency_matrix):
     """
     n = adjacency_matrix.shape[0]
 
-    dist = np.empty((n, n))
     # Initialization
     dist = copy.deepcopy(adjacency_matrix)
     dist[dist == 0] = float("Inf")
     np.fill_diagonal(dist, 0)
 
     # Calculation
-    for k in range(0, n):
-        for i in range(0, n):
-            for j in range(0, n):
-                if (dist[i, j] > dist[i, k] + dist[k, j]):
-                    dist[i, j] = dist[i, k] + dist[k, j]
+    for k in range(n):
+        for i in range(n):
+            dist[i, :] = np.minimum(dist[i, :], dist[i, k] + dist[k, :])
 
     return dist
