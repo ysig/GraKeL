@@ -1714,7 +1714,7 @@ def floyd_warshall(adjacency_matrix):
     n = adjacency_matrix.shape[0]
 
     # Initialization
-    dist = copy.deepcopy(adjacency_matrix)
+    dist = np.array(adjacency_matrix, copy=True).astype(float)
     dist[dist == 0] = float("Inf")
     np.fill_diagonal(dist, 0)
 
