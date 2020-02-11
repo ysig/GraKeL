@@ -1720,10 +1720,8 @@ def floyd_warshall(adjacency_matrix):
     np.fill_diagonal(dist, 0)
 
     # Calculation
-    for k in range(0, n):
-        for i in range(0, n):
-            for j in range(0, n):
-                if (dist[i, j] > dist[i, k] + dist[k, j]):
-                    dist[i, j] = dist[i, k] + dist[k, j]
+    for k in range(adjacency_matrix.shape[0]):
+        for i in range(adjacency_matrix.shape[0]):
+            dist[i, :] = np.minimum(dist[i, :], dist[i, k] + dist[k, :])
 
     return dist
