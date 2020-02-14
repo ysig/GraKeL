@@ -1,0 +1,311 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Graph Hopper Kernel &mdash; GraKeL 0.1a7 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/_static/css/supplementary.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Graphlet Sampling Kernel" href="graphlet_sampling.html" />
+    <link rel="prev" title="Edge Histogram Kernel" href="edge_histogram.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> GraKeL
+          
+
+          
+            
+            <img src="../_static/logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1a7
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">Documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../benchmarks.html">Benchmarks</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">GraKeL</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../kernels.html">Kernels (between graphs)</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="core_framework.html">Core Kernel Framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="edge_histogram.html">Edge Histogram Kernel</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Graph Hopper Kernel</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#bibliography">Bibliography</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="graphlet_sampling.html">Graphlet Sampling Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hadamard_code.html">Hadamard Code Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kernel.html">Kernel (general class)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lovasz_theta.html">Lovasz Theta Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="multiscale_laplacian.html">Multiscale Laplacian Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="neighborhood_hash.html">Neighborhood Hash Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="neighborhood_subgraph_pairwise_distance.html">Neighborhood Subgraph Pairwise Distance Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="odd_sth.html">ODD-STh Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="propagation.html">Propagation Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyramid_match.html">Pyramid Match Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="random_walk.html">Random Walk Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="shortest_path.html">Shortest Path Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="subgraph_matching.html">Subgraph Matching Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="svm_theta.html">SVM Theta Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vertex_histogram.html">Vertex Histogram Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="weisfeiler_lehman.html">Weisfeiler Lehman Framework</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../graph_kernel.html">GraphKernel (class)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../graph.html">Graph (class)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../datasets.html">Dataset loading utilities</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../classes.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials.html">Tutorials</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">GraKeL</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../api.html">GraKeL</a> &raquo;</li>
+        
+          <li><a href="../kernels.html">Kernels (between graphs)</a> &raquo;</li>
+        
+      <li>Graph Hopper Kernel</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/kernels/graph_hopper.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="graph-hopper-kernel">
+<span id="graph-hopper"></span><h1>Graph Hopper Kernel<a class="headerlink" href="#graph-hopper-kernel" title="Permalink to this headline">¶</a></h1>
+<p>Given two graphs, the GraphHopper kernel compares shortest paths between pairs of vertices from the two graphs <a class="bibtex reference internal" href="#feragen2013scalable" id="id1">[FKP+13]</a>.
+The kernel takes into account both path lengths and the vertices encountered while <a href="#id2"><span class="problematic" id="id3">``</span></a>hopping’’ along shortest paths.
+The kernel is equivalent to a weighted sum of node kernels.</p>
+<p>Let <span class="math notranslate nohighlight">\(G=(V,E)\)</span> be a graph.
+The graph contains either discrete node labels or continuous node attributes.
+Let <span class="math notranslate nohighlight">\(\ell : \mathcal{V} \rightarrow \mathcal{L}\)</span> be a labeling function that assigns either discrete labels or continuous attributes to vertices.
+The kernel compares node labels/attributes using a kernel <span class="math notranslate nohighlight">\(k_n\)</span> (eg delta kernel in the case of node labels, and linear or gaussian kernel in the case of node attributes).
+Given two vertices <span class="math notranslate nohighlight">\(v,u \in V\)</span>, a path <span class="math notranslate nohighlight">\(\pi\)</span> from <span class="math notranslate nohighlight">\(v\)</span> to <span class="math notranslate nohighlight">\(u\)</span> in <span class="math notranslate nohighlight">\(G\)</span> is defined as a sequence of vertices</p>
+<div class="math notranslate nohighlight">
+\[\pi = [v_1, v_2, v_3, \ldots, v_l]\]</div>
+<p>where <span class="math notranslate nohighlight">\(v_1 = v\)</span>, <span class="math notranslate nohighlight">\(v_l = u\)</span> and <span class="math notranslate nohighlight">\((v_i, v_{i+1}) \in E\)</span> for all <span class="math notranslate nohighlight">\(i=1,\ldots,l-1\)</span>.
+Let <span class="math notranslate nohighlight">\(\pi(i) = v_i\)</span> denote the <span class="math notranslate nohighlight">\(i^{th}\)</span> vertex encountered when <a href="#id4"><span class="problematic" id="id5">``</span></a>hopping’’ along the path.
+Denote by <span class="math notranslate nohighlight">\(l(\pi)\)</span> the weighted length of <span class="math notranslate nohighlight">\(\pi\)</span> and by <span class="math notranslate nohighlight">\(|\pi|\)</span> its discrete length, defined as the number of vertices in <span class="math notranslate nohighlight">\(\pi\)</span>.
+The shortest path <span class="math notranslate nohighlight">\(\pi_{ij}\)</span> from <span class="math notranslate nohighlight">\(v_i\)</span> to <span class="math notranslate nohighlight">\(v_j\)</span> is defined in terms of weighted length.
+The diameter <span class="math notranslate nohighlight">\(\delta(G)\)</span> of <span class="math notranslate nohighlight">\(G\)</span> is the maximal number of nodes in a shortest path in <span class="math notranslate nohighlight">\(G\)</span>, with respect to weighted path length.</p>
+<p>The GraphHopper kernel is defined as a sum of path kernels <span class="math notranslate nohighlight">\(k_p\)</span> over the families <span class="math notranslate nohighlight">\(P, P'\)</span> of shortest
+paths in <span class="math notranslate nohighlight">\(G,G'\)</span></p>
+<div class="math notranslate nohighlight">
+\[k(G,G') = \sum_{\pi \in P} \sum_{\pi' \in P'} k_p(\pi, \pi')\]</div>
+<p>The path kernel <span class="math notranslate nohighlight">\(k_p(\pi, \pi')\)</span> is a sum of node kernels <span class="math notranslate nohighlight">\(k_n\)</span> on vertices simultaneously encountered while simultaneously hopping along paths <span class="math notranslate nohighlight">\(\pi\)</span> and <span class="math notranslate nohighlight">\(\pi'\)</span> of equal discrete length, that is</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}k_p(\pi, \pi') = \begin{cases}
+    \sum_{j=1}^{|\pi|} k_n(\pi(j), \pi'(j)), &amp; \text{if $|\pi| = |\pi'|$},\\
+    0, &amp; \text{otherwise.}
+    \end{cases}\end{split}\]</div>
+<p>The <span class="math notranslate nohighlight">\(k(G,G')\)</span> kernel can be decomposed into a weighted sum of node kernels</p>
+<div class="math notranslate nohighlight">
+\[k(G,G') = \sum_{v \in V} \sum_{v' \in V'} w(v,v') k_n(v, v')\]</div>
+<p>where <span class="math notranslate nohighlight">\(w(v,v')\)</span> counts the number of times <span class="math notranslate nohighlight">\(v\)</span> and <span class="math notranslate nohighlight">\(v'\)</span> appear at the same hop, or coordinate, <span class="math notranslate nohighlight">\(i\)</span> of shortest paths <span class="math notranslate nohighlight">\(\pi,\pi'\)</span> of equal discrete length <span class="math notranslate nohighlight">\(|\pi| = |\pi'|\)</span>.
+We can decompose the weight <span class="math notranslate nohighlight">\(w(v,v')\)</span> as</p>
+<div class="math notranslate nohighlight">
+\[w(v,v') = \sum_{j=1}^\delta \sum_{i=1}^\delta | \{ (\pi,\pi') : \pi(i)=v, \pi'(i)=v', |\pi|=|\pi'|=j \} | = \sum_{j=1}^\delta \sum_{i=1}^\delta [\mathbf{M_v}]_{ij} [\mathbf{M_{v'}}]_{ij}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mathbf{M_v}\)</span> is a <span class="math notranslate nohighlight">\(\delta \times \delta\)</span> matrix whose entry <span class="math notranslate nohighlight">\([\mathbf{M_v}]_{ij}\)</span> counts how many times <span class="math notranslate nohighlight">\(v\)</span> appears at the <span class="math notranslate nohighlight">\(i^{th}\)</span> coordinate of a shortest path in <span class="math notranslate nohighlight">\(G\)</span> of discrete length <span class="math notranslate nohighlight">\(j\)</span>, and <span class="math notranslate nohighlight">\(\delta = \max(\delta(G), \delta(G'))\)</span>.
+The components of these matrices can be computed efficiently using recursive message-passing algorithms.
+The total complexity of computing <span class="math notranslate nohighlight">\(k(G,G')\)</span> is <span class="math notranslate nohighlight">\(\mathcal{O}(n^2(m + \log n + d + \delta^2))\)</span> where <span class="math notranslate nohighlight">\(n\)</span> is the number of vertices, <span class="math notranslate nohighlight">\(m\)</span> is the number of edges and <span class="math notranslate nohighlight">\(d\)</span> is the dimensionality of the node attributes (<span class="math notranslate nohighlight">\(d=1\)</span> in the case of discrete node labels).</p>
+<p>The implementation of the neighborhood hash kernel can be found below</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/grakel.GraphHopper.html#grakel.GraphHopper" title="grakel.GraphHopper"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GraphHopper</span></code></a>([n_jobs, normalize, verbose, …])</p></td>
+<td><p>Graph Hopper Histogram kernel as found in <a class="bibtex reference internal" href="#feragen2013scalable" id="id6">[FKP+13]</a>.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="bibliography">
+<h2>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">¶</a></h2>
+<p id="bibtex-bibliography-kernels/graph_hopper-0"><dl class="citation">
+<dt class="bibtex label" id="feragen2013scalable"><span class="brackets">FKP+13</span><span class="fn-backref">(<a href="#id1">1</a>,<a href="#id6">2</a>)</span></dt>
+<dd><p>Aasa Feragen, Niklas Kasenburg, Jens Petersen, Marleen de Bruijne, and Karsten Borgwardt. Scalable kernels for graphs with continuous attributes. In <em>Advances in Neural Information Processing Systems</em>, 216–224. 2013.</p>
+</dd>
+</dl>
+</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="graphlet_sampling.html" class="btn btn-neutral float-right" title="Graphlet Sampling Kernel" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="edge_histogram.html" class="btn btn-neutral float-left" title="Edge Histogram Kernel" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, DaSciM (BSD License)
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

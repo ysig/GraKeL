@@ -1,0 +1,334 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ODD-STh Kernel &mdash; GraKeL 0.1a7 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/_static/css/supplementary.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Propagation Kernel" href="propagation.html" />
+    <link rel="prev" title="Neighborhood Subgraph Pairwise Distance Kernel" href="neighborhood_subgraph_pairwise_distance.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> GraKeL
+          
+
+          
+            
+            <img src="../_static/logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1a7
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">Documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../benchmarks.html">Benchmarks</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">GraKeL</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../kernels.html">Kernels (between graphs)</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="core_framework.html">Core Kernel Framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="edge_histogram.html">Edge Histogram Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="graph_hopper.html">Graph Hopper Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="graphlet_sampling.html">Graphlet Sampling Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hadamard_code.html">Hadamard Code Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kernel.html">Kernel (general class)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lovasz_theta.html">Lovasz Theta Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="multiscale_laplacian.html">Multiscale Laplacian Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="neighborhood_hash.html">Neighborhood Hash Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="neighborhood_subgraph_pairwise_distance.html">Neighborhood Subgraph Pairwise Distance Kernel</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">ODD-STh Kernel</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#bibliography">Bibliography</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="propagation.html">Propagation Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyramid_match.html">Pyramid Match Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="random_walk.html">Random Walk Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="shortest_path.html">Shortest Path Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="subgraph_matching.html">Subgraph Matching Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="svm_theta.html">SVM Theta Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vertex_histogram.html">Vertex Histogram Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="weisfeiler_lehman.html">Weisfeiler Lehman Framework</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../graph_kernel.html">GraphKernel (class)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../graph.html">Graph (class)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../datasets.html">Dataset loading utilities</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../classes.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials.html">Tutorials</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">GraKeL</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../api.html">GraKeL</a> &raquo;</li>
+        
+          <li><a href="../kernels.html">Kernels (between graphs)</a> &raquo;</li>
+        
+      <li>ODD-STh Kernel</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/kernels/odd_sth.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="odd-sth-kernel">
+<span id="odd-sth"></span><h1>ODD-STh Kernel<a class="headerlink" href="#odd-sth-kernel" title="Permalink to this headline">¶</a></h1>
+<p>The ODD-STh kernel is a kernel between labeled graphs. Its approach derives from the idea of utilizing tree-based kernels, i.e. kernels that take as input graphs that are trees. Such kernels are in general more computationally efficient as trees are constrained to interesting properties.
+The idea behind the ODD-STh kernel proposed in <a class="bibtex reference internal" href="#martino2012atk" id="id1">[DSMNS12]</a>, has to do with decomposition of two graph to ordered DAGs and adding the kernel values between all pairs of DAGs of the original graphs as:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}K_{K_{DAG}}(G_{1}, G_{2}) = \sum_{\substack{D_{1} \in DD(G_{1}) \\ D_{2} \in DD(G_{2})}} K_{DAG}(D1, D2)\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(DD(G_{i})\)</span> corresponds to a graph decomposition of this graph and <span class="math notranslate nohighlight">\(K_{DAG}\)</span> is a kernel between DAGs. As a DAG decomposition of each graph they considered the set of all directed BFS explorations starting from each node inside the graph, as follows in the picture:</p>
+<div class="figure align-default" id="id6">
+<a class="reference internal image-reference" href="../_images/odd_sth_1.png"><img alt="../_images/odd_sth_1.png" src="../_images/odd_sth_1.png" style="width: 641.0px; height: 403.0px;" /></a>
+<p class="caption"><span class="caption-text">A simple DAG decomposition of a single graph</span><a class="headerlink" href="#id6" title="Permalink to this image">¶</a></p>
+</div>
+<p>Now in order to move from DAGs to trees each <span class="math notranslate nohighlight">\(K_{DAG}\)</span> kernel was calculated as the sum of tree kernel between derived trees between each of the two DAGs:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}K_{DAG} = \sum_{\substack{v_{1} \in V(D_{1}) \\ v_{2} \in V(D_{2})}} C(root(T(v_{1})), root(T(v_{2})))\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(T()\)</span> corresponds to the tree-visits on DAGs (which preserve an essence of textit{ordering} as found in (<a class="bibtex reference internal" href="#martino2012atk" id="id2">[DSMNS12]</a>, section 5.2). An example of such tree visits follows:</p>
+<div class="figure align-default" id="id7">
+<a class="reference internal image-reference" href="../_images/odd_sth_2.png"><img alt="../_images/odd_sth_2.png" src="../_images/odd_sth_2.png" style="width: 724.0px; height: 419.0px;" /></a>
+<p class="caption"><span class="caption-text">Ordered tree visits on a DAG decomposed from a graph</span><a class="headerlink" href="#id7" title="Permalink to this image">¶</a></p>
+</div>
+<p><span class="math notranslate nohighlight">\(C()\)</span> is a kernel between trees, where in our case it will be the <strong>S</strong>ub-<strong>T</strong>ree Kernel (as found in <a class="bibtex reference internal" href="#stkernel" id="id3">[VS02]</a>).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Tree isomorphism can <a class="reference external" href="https://www.geeksforgeeks.org/tree-isomorphism-problem/">be decided in linear time on the sum of the number of nodes and the number of edges</a></p>
+</div>
+<p>For increasing the efficiency of this algorithm for the new set of DAG decomposition, known as ODD (<em>Ordered Dag Decomposition</em>), an aggregation of all the decomposition in a single DAG was proposed notated as <span class="math notranslate nohighlight">\(BigDAG\)</span>. This method introduced in (<a class="bibtex reference internal" href="#martino2006" id="id4">[ADSMSM06]</a>, MinimalDAG: Figure 2, p. 3), aggregates nodes having same labels with frequencies if they correspond to the same path on each DAG, while conserves the existence of nodes that cannot be aggregated.</p>
+<div class="figure align-default" id="id8">
+<a class="reference internal image-reference" href="../_images/odd_sth_3.png"><img alt="../_images/odd_sth_3.png" src="../_images/odd_sth_3.png" style="width: 557.0px; height: 419.0px;" /></a>
+<p class="caption"><span class="caption-text">Construction of a <span class="math notranslate nohighlight">\(BigDAG\)</span> from two DAGs</span><a class="headerlink" href="#id8" title="Permalink to this image">¶</a></p>
+</div>
+<p>Doing so allows as to replace the kernel computation:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}K_{K_{DAG}}(G_{1}, G_{2}) = \sum_{\substack{D_{1} \in DD(G_{1}) \\ D_{2} \in DD(G_{2})}} K_{DAG}(D1, D2)\end{split}\]</div>
+<p>with:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}K_{BigDAG}(G_{1}, G_{2}) = \sum_{\substack{u_{1} \in V(BigDAG(G_{1}))\\ u_{2} \in V(BigDAG(G_{2})}} f_{u_{1}}f_{u_{2}}C(u_{1}, u_{2})\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(f_{u}\)</span> is the frequency counter of the node <span class="math notranslate nohighlight">\(u\)</span> and <span class="math notranslate nohighlight">\(C(u, v)\)</span> is the number of matching proper subtrees from <span class="math notranslate nohighlight">\(u\)</span> and <span class="math notranslate nohighlight">\(v\)</span>. An even more abstract idea they followed was to created a <span class="math notranslate nohighlight">\(Big^{2}DAG\)</span> where all the <span class="math notranslate nohighlight">\(BigDAGs\)</span> created from each graph, would be aggregated to a single one, in the same way as in trees, but instead of incrementing frequencies on common nodes a frequency vector of appended frequencies for each DAG, was constructed.</p>
+<div class="figure align-default" id="id9">
+<a class="reference internal image-reference" href="../_images/odd_sth_4.png"><img alt="../_images/odd_sth_4.png" src="../_images/odd_sth_4.png" style="width: 778.0px; height: 456.0px;" /></a>
+<p class="caption"><span class="caption-text">Construction of a <span class="math notranslate nohighlight">\(Big^{2}DAG\)</span> from two <span class="math notranslate nohighlight">\(BigDAGs\)</span></span><a class="headerlink" href="#id9" title="Permalink to this image">¶</a></p>
+</div>
+<p>In the final <span class="math notranslate nohighlight">\(Big^{2}DAG\)</span> graph, the computation of the kernel matrix is all about calculating the following formula:</p>
+<div class="math notranslate nohighlight">
+\[K_{Big^{2}DAG}(G_{i}, G_{j}) = \sum_{u_{1}, u_{2} \in V(Big^{2}DAG)} F_{u_{1}}[i] * F_{u_{2}}[j] C(u_{1}, u_{2})\]</div>
+<p>which is equivalent to:</p>
+<div class="math notranslate nohighlight">
+\[K_{Big^{2}DAG}(G_{i}, G_{j}) = \sum_{u \in V(Big^{2}DAG)} F_{u}[i] * F_{u}[j] C(u, u)\]</div>
+<p>because the subtree kernel will have a match only between identical subtrees, that is:</p>
+<div class="math notranslate nohighlight">
+\[C(u_{1}, u_{2}) \not= 0 \leftrightarrow T(u_{1}) = T(u_{2})\]</div>
+<p>Finally in order to construct the <span class="math notranslate nohighlight">\(Big^{2}DAG\)</span> each vertex would be represented by a tuple containing a unique hash (whose uniqueness has to do with the ordering) a frequency vector and a depth, which where utilized for calculating the kernel value. In order to restrict the size of the produced graphs a parameter <span class="math notranslate nohighlight">\(h\)</span> was introduced which restricts the maximum depth of the BFS exploration when doing the graph decomposition.</p>
+<p>The Ordered Dag Decomposition - Sub-Tree <span class="math notranslate nohighlight">\(h\)</span> (ODD-STh) kernel can be found implemented below:</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/grakel.OddSth.html#grakel.OddSth" title="grakel.OddSth"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OddSth</span></code></a>([n_jobs, normalize, verbose, h])</p></td>
+<td><p>ODD-Sth kernel as proposed in <a class="bibtex reference internal" href="#martino2012atk" id="id5">[DSMNS12]</a>.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Because the <span class="math notranslate nohighlight">\(Big^{2}DAG\)</span> graph should be preserved through consequent transformations, the cost of copying it may make <code class="code docutils literal notranslate"><span class="pre">fit_transform</span></code> calculation between all the graphs of <em>train</em> and <em>test</em> faster than fitting on <em>train</em> graphs and transforming on <em>test</em> graphs.</p>
+</div>
+<div class="section" id="bibliography">
+<h2>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">¶</a></h2>
+<p id="bibtex-bibliography-kernels/odd_sth-0"><dl class="citation">
+<dt class="bibtex label" id="martino2006"><span class="brackets"><a class="fn-backref" href="#id4">ADSMSM06</a></span></dt>
+<dd><p>Fabio Aiolli, Giovanni Da San Martino, Alessandro Sperduti, and Alessandro Moschitti. Fast On-line Kernel Learning for Trees. In <em>Proceedings of the 6th International Conference on Data Mining</em>, 787–791. 2006.</p>
+</dd>
+<dt class="bibtex label" id="martino2012atk"><span class="brackets">DSMNS12</span><span class="fn-backref">(<a href="#id1">1</a>,<a href="#id2">2</a>,<a href="#id5">3</a>)</span></dt>
+<dd><p>Giovanni Da San Martino, Nicolo Navarin, and Alessandro Sperduti. A Tree-Based Kernel for Graphs. In <em>Proceedings of the 2012 SIAM International Conference on Data Mining</em>. 2012.</p>
+</dd>
+<dt class="bibtex label" id="stkernel"><span class="brackets"><a class="fn-backref" href="#id3">VS02</a></span></dt>
+<dd><p>S.V.N. Vishwanathan and Alexander J. Smola. Fast Kernels for String and Tree Matching. In <em>Proceedings of the 15th International Conference on Neural Information Processing Systems</em>, 585–592. 2002.</p>
+</dd>
+</dl>
+</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="propagation.html" class="btn btn-neutral float-right" title="Propagation Kernel" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="neighborhood_subgraph_pairwise_distance.html" class="btn btn-neutral float-left" title="Neighborhood Subgraph Pairwise Distance Kernel" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, DaSciM (BSD License)
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
