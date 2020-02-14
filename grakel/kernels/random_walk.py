@@ -125,7 +125,7 @@ class RandomWalk(Kernel):
             if self.lamda <= 0:
                 raise TypeError('lambda must be positive bigger than equal')
             elif self.lamda > 0.5 and self.p is None:
-                warnings.warn('ranodm-walk series may fail to converge')
+                warnings.warn('random-walk series may fail to converge')
             self._initialized["lamda"] = True
 
     def parse_input(self, X):
