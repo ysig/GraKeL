@@ -3,12 +3,9 @@ current_dir="$(pwd)"
 
 if [[ "$COVERAGE" == "true" ]]; then
     # Store artifacts
-    mkdir -p $TEST_DIR;
-    cd $TEST_DIR;
     pip install coverage
     pip install codecov
     nosetests $MODULE --with-coverage --cover-package=$MODULE;
-
     echo "Coverage";
     ls -la;
   
