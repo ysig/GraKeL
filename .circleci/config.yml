@@ -30,7 +30,7 @@ jobs:
       - DOC_REPO: GraKeL
 
       # The base URL for the Github page where the documentation will be hosted
-      - DOC_URL: 0.1a7
+      - DOC_URL: latest
 
       # The email is to be used for commits in the Github Page
       - EMAIL: y.siglidis@gmail.com
