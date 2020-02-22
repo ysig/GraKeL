@@ -15,7 +15,6 @@ if [[ "$COVERAGE" == "true" ]]; then
     # in the github UI just because the coverage report failed to
     # be published.
     python -m codecov;
-fi
 else
     # Ignore arifacts: just change folder
     mkdir -p $TEST_DIR;
