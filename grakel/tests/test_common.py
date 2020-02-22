@@ -143,7 +143,7 @@ def test_weisfeiler_lehman():
                                 features=('nl', 3))
 
     wl_st_kernel = WeisfeilerLehman(verbose=verbose, normalize=normalize,
-                                    base_kernel=VertexHistogram)
+                                    base_graph_kernel=VertexHistogram)
     wl_st_kernel.fit(train)
     assert is_picklable(wl_st_kernel)
 
@@ -366,7 +366,7 @@ def test_hadamard_code():
                                 features=('nl', 5))
 
     hadamard_code_kernel = HadamardCode(verbose=verbose, normalize=normalize,
-                                        base_kernel=VertexHistogram)
+                                        base_graph_kernel=VertexHistogram)
     hadamard_code_kernel.fit(train)
     assert is_picklable(hadamard_code_kernel)
 
@@ -469,8 +469,8 @@ def test_core_framework():
                                 random_state=rs,
                                 features=('nl', 4))
 
-    base_kernel = (WeisfeilerLehman, dict(base_kernel=VertexHistogram))
-    core_framework = CoreFramework(verbose=verbose, normalize=normalize, base_kernel=base_kernel)
+    base_graph_kernel = (WeisfeilerLehman, dict(base_graph_kernel=VertexHistogram))
+    core_framework = CoreFramework(verbose=verbose, normalize=normalize, base_graph_kernel=base_graph_kernel)
 
     kernel = [{"name": "core_framework"}, {"name": "weisfeiler_lehman"}, {"name": "vertex_histogram"}]
     gk = GraphKernel(kernel=kernel, verbose=verbose, normalize=normalize)

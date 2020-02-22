@@ -96,5 +96,5 @@ The Ordered Dag Decomposition - Sub-Tree :math:`h` (ODD-STh) kernel can be found
 
 Bibliography
 ------------
-.. bibliography:: ./graph_kernels.bib
+.. bibliography:: graph_kernels.bib
    :filter: docname in docnames

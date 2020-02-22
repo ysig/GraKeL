@@ -1,183 +1,81 @@
-# GraKeL: A library for graph kernels
+<p align="center">
+  <img width="50%" src="https://raw.githubusercontent.com/ysig/GraKeL/0.1a7/doc/_figures/logo.svg?sanitize=true" />
+</p>
 
-[![Pypi Versions](https://img.shields.io/pypi/pyversions/grakel-dev.svg)](https://pypi.org/pypi/grakel-dev/)
-[![Coverage Status](https://codecov.io/gh/ysig/GraKeL/branch/develop/graph/badge.svg)](https://codecov.io/gh/ysig/GraKeL)
-[![Travis Status](https://travis-ci.org/ysig/GraKeL.svg?branch=develop)](https://travis-ci.org/ysig/GraKeL)
-[![Appveyor status](https://ci.appveyor.com/api/projects/status/sss4lpfxwgejn6de/branch/develop?svg=true)](https://ci.appveyor.com/project/ysig/grakel)
-[![CircleCI Status](https://circleci.com/gh/ysig/GraKeL/tree/develop.svg?style=shield)](https://circleci.com/gh/ysig/GraKeL/tree/develop)
+--------------------------------------------------------------------------------
 
-**GraKeL** is a library compatible with the project of [scikit-learn](http://scikit-learn.org/)
+[![Pypi Versions](https://img.shields.io/pypi/pyversions/grakel.svg)](https://pypi.org/pypi/grakel/)
+[![Coverage Status](https://codecov.io/gh/ysig/GraKeL/branch/0.1a7/graph/badge.svg)](https://codecov.io/gh/ysig/GraKeL)
+[![Travis Status](https://travis-ci.org/ysig/GraKeL.svg?branch=0.1a7)](https://travis-ci.org/ysig/GraKeL)
+[![Appveyor status](https://ci.appveyor.com/api/projects/status/sss4lpfxwgejn6de/branch/0.1a7?svg=true)](https://ci.appveyor.com/project/ysig/grakel)
+[![CircleCI Status](https://circleci.com/gh/ysig/GraKeL/tree/develop.svg?style=shield)](https://circleci.com/gh/ysig/GraKeL/tree/0.1a7)
 
-Installation
-=================
+**[Documentation](https://ysig.github.io/GraKeL/)** | **[Paper](https://arxiv.org/pdf/1806.02193.pdf)**
 
-The GraKeL library requires:
+*GraKeL* is a library that provides implementations of several well-established graph kernels. The library unifies these kernels into a common framework. Furthermore, it provides implementations of some frameworks that work on top of graph kernels. Specifically, GraKeL contains 15 kernels and 2 frameworks. The library is compatible with the [scikit-learn](http://scikit-learn.org/) pipeline allowing easy and fast integration inside machine learning algorithms.
+
+--------------------------------------------------------------------------------
+
+In detail, the following kernels and frameworks are currently implemented:
+
+* **[Vertex histogram kernel](https://ysig.github.io/GraKeL/latest/generated/grakel.VertexHistogram.html)**
+* **[Edge histogram kernel](https://ysig.github.io/GraKeL/latest/generated/grakel.EdgeHistogram.html)**
+* **[Shortest path kernel](https://ysig.github.io/GraKeL/latest/generated/grakel.ShortestPath.html)** from Borgwardt and Kriegel: [Shortest-path kernels on graphs](https://www.dbs.ifi.lmu.de/~borgward/papers/BorKri05.pdf) (ICDM 2005)
+* **[Graphlet kernel](https://ysig.github.io/GraKeL/latest/generated/grakel.GraphletSampling.html)** from Shervashidze *et al.*: [Efficient graphlet kernels for large graph comparison](http://proceedings.mlr.press/v5/shervashidze09a/shervashidze09a.pdf) (AISTATS 2009)
+* **[Random walk kernel](https://ysig.github.io/GraKeL/latest/generated/grakel.RandomWalk.html)** from Vishwanathan *et al.*: [Graph Kernels](http://www.jmlr.org/papers/volume11/vishwanathan10a/vishwanathan10a.pdf) (JMLR 11(Apr))
+* **[Neighborhood hash graph kernel](https://ysig.github.io/GraKeL/latest/generated/grakel.NeighborhoodHash.html)** from Hido and Kashima: [A Linear-time Graph Kernel](https://ieeexplore.ieee.org/abstract/document/5360243) (ICDM 2009)
+* **[Weisfeiler-Lehman framework](https://ysig.github.io/GraKeL/latest/generated/grakel.WeisfeilerLehman.html)** from Shervashidze *et al.*: [Weisfeiler-Lehman Graph Kernels](http://www.jmlr.org/papers/volume12/shervashidze11a/shervashidze11a.pdf) (JMLR 12(Sep))
+* **[Neighborhood subgraph pairwise distance kernel](https://ysig.github.io/GraKeL/latest/generated/grakel.NeighborhoodSubgraphPairwiseDistance.html)** from Costa and De Grave: [Fast Neighborhood Subgraph Pairwise Distance Kernel](https://pdfs.semanticscholar.org/7a10/f6a406b664d1159e7c4fefbdd6ac275aee53.pdf) (ICML 2010)
+* **[Lovasz-theta kernel](https://ysig.github.io/GraKeL/latest/generated/grakel.LovaszTheta.html)** from Johansson *et al.*: [Global graph kernels using geometric embeddings](http://proceedings.mlr.press/v32/johansson14.pdf) (ICML 2014)
+* **[SVM-theta kernel](https://ysig.github.io/GraKeL/latest/generated/grakel.SvmTheta.html)** from Johansson *et al.*: [Global graph kernels using geometric embeddings](http://proceedings.mlr.press/v32/johansson14.pdf) (ICML 2014)
+* **[Ordered decompositional DAG kernel](https://ysig.github.io/GraKeL/latest/generated/grakel.OddSth.html)** from Da San Martino *et al.*: [A Tree-Based Kernel for Graphs](https://pdfs.semanticscholar.org/69ee/18dd7a214d4d656b5b95742212f050dabeac.pdf) (SDM 2012)
+* **[GraphHopper kernel](https://ysig.github.io/GraKeL/latest/generated/grakel.GraphHopper.html)** from Feragen *et al.*: [Scalable kernels for graphs with continuous attributes](https://papers.nips.cc/paper/5155-scalable-kernels-for-graphs-with-continuous-attributes.pdf) (NIPS 2013)
+* **[Propagation kernel](https://ysig.github.io/GraKeL/latest/generated/grakel.Propagation.html)** from Neumann *et al.*: [Propagation kernels: efficient graph kernels from propagated information](https://link.springer.com/content/pdf/10.1007/s10994-015-5517-9.pdf) (Machine Learning 102(2))
+* **[Pyramid match kernel](https://ysig.github.io/GraKeL/latest/generated/grakel.PyramidMatch.html)** from Nikolentzos *et al.*: [Matching Node Embeddings for Graph Similarity](https://www.aaai.org/ocs/index.php/AAAI/AAAI17/paper/view/14494/14426) (AAAI 2017)
+* **[Subgraph matching kernel](https://ysig.github.io/GraKeL/latest/generated/grakel.SubgraphMatching.html)** from Kriege and Mutzel: [Subgraph Matching Kernels for Attributed Graphs](https://arxiv.org/ftp/arxiv/papers/1206/1206.6483.pdf) (ICML 2012)
+* **[Multiscale Laplacian kernel](https://ysig.github.io/GraKeL/latest/generated/grakel.MultiscaleLaplacian.html)** from Kondor and Pan: [The Multiscale Laplacian Graph Kernel](https://papers.nips.cc/paper/6135-the-multiscale-laplacian-graph-kernel.pdf) (NIPS 2016)
+* **[Core framework](https://ysig.github.io/GraKeL/latest/generated/grakel.CoreFramework.html)** from Nikolentzos *et al.*: [A Degeneracy Framework for Graph Similarity](https://www.ijcai.org/proceedings/2018/0360.pdf) (IJCAI 2018)
+
+--------------------------------------------------------------------------------
+
+To learn how to install and use GraKeL, and to find out more about the implemented kernels and frameworks, please read our [documentation](https://ysig.github.io/GraKeL/). To learn about the functionality of the library and about example applications, check out our [examples](https://github.com/ysig/GraKeL/tree/0.1a7/examples) in the `examples/` directory and our [tutorials](https://github.com/ysig/GraKeL/tree/0.1a7/tutorials) in the `tutorials/` directory.
+
+In case you find a bug, please open an [issue](https://github.com/ysig/GraKeL/issues). To propose a new kernel, you can open a [feature request](https://github.com/ysig/GraKeL/issues).
+
+## Installation
+
+The GraKeL library requires the following packages to be installed:
 
 * Python (>=2.7, >=3.5)
 * NumPy (>=1.8.2)
 * SciPy (>=0.13.3)
 * Cython (>=0.27.3)
-* cvxopt (>=1.2.0) [optional: lovasz]
+* cvxopt (>=1.2.0) [optional]
 * future (>=0.16.0) (for python 2.7)
 
+To install the package, run:
 
-Installing Dependencies
------------------------
-
-You can install the dependencies as follows:
-
-```shell
-$ pip install extension>=extension_version
+```sh
+$ pip install grakel
 ```
 
-or
-
-```shell
-$ pip install -r requirements.txt
-```
-
-Installing the *development-version*
-------------------------------------
-
-To install the *development-version* using [**pip**](https://pypi.org/project/grakel-dev) execute:
-
-```shell
-$ pip install grakel-dev
-```
-
-Getting Started
-===============
-To learn how to use the GraKeL api **as a user**, please read the [documentation][doc] on sections *Introduction* and *A longer introduction* (in case your are full of curiosity).
-
-Initialise a Kernel
--------------------
-
-```python
-from grakel import GraphKernel
-wl_subtree = GraphKernel(kernel=['WL', 'ST-WL'], normalize=True)
-```
-
-Provide Input
--------------
-
-- Custom Input
-
-  ```python
-  H2O = [[(0, 1), (0, 2), (2, 0), (1, 0)], # Directed Graph
-         {0: 'O', 1: 'H', 2: 'H'}] # Node Labels
-  H3O = [[(0, 1), (0, 2), (0, 3), (3, 0), (2, 0), (1, 0)], # Directed Graph
-         {0: 'O', 1: 'H', 2: 'H', 3:'H'}]] # Node Labels
-  X = [H2O, H3O] # List of Graph-Like Objects
-  ```
-
-- Download a Dataset
-
-  ```python
-  from grakel.datasets import fetch_dataset
-  MUTAG = fetch_dataset("MUTAG")
-  X = MUTAG.data # MUTAG.target contains class labels
-  ```
-
-Calculate Kernel Matrix
------------------------
-```python
-   K = wl_subtree.fit_transform(X) # len(X) x len(X): symmetric
-```
-
-
-Testing
-=======
-You first need to build the package's c++ extensions
-locally by executing:
-```shell
-$ python setup.py build_ext -i
-```
+## Running tests
 
 To test the package, execute:
-```shell
-$ nosetests
+```sh
+$ nosetests grakel
 ```
 
-For executing unit_tests or use a testing-interface for testing the `kernel` module:
-```shell
-$ python  grakel/tests/test_kernels.py --help
-usage: test_kernels.py [-h] [--verbose] [--problematic] [--slow]
-                       [--ignore_warnings] [--dataset DATASET] [--normalize]
-                       [--develop | --all | --main]
-
-A test file for all kernels
-
-optional arguments:
-  -h, --help         show this help message and exit
-  --verbose          print kernels with their outputs on stdout
-  --problematic      allow execution of problematic test cases in development
-  --slow             allow execution of slow test cases in development
-  --ignore_warnings  ignore warnings produced by kernel executions
-  --dataset DATASET  chose the datset you want the tests to be executed
-  --normalize        normalize the kernel output
-  --develop          execute only tests connected with current development
-  --all              execute all tests
-  --main             execute the main tests [default]
+## Running examples
 
 ```
-
-For testing `graph_kernels`:
-```shell
-$ python grakel/tests/test_graph_kernel.py --help
-usage: test_graph_kernels.py [-h] [--verbose] [--problematic] [--slow]
-                             [--normalize] [--ignore_warnings]
-                             [--dataset DATASET] [--develop | --all | --main]
-
-A test file for all kernels
-
-optional arguments:
-  -h, --help         show this help message and exit
-  --verbose          print kernels with their outputs on stdout
-  --problematic      allow execution of problematic test cases in development
-  --slow             allow execution of slow test cases in development
-  --normalize        normalize the kernel output
-  --ignore_warnings  ignore warnings produced by kernel executions
-  --dataset DATASET  chose the datset you want the tests to be executed
-  --develop          execute only tests connected with current development
-  --all              execute all tests
-  --main             execute the main tests [default]
-
+$ cd examples
+$ python shortest_path.py
 ```
 
-And for testing the `Graph` class:
-```shell
-$ python grakel/tests/test_graph.py --help
-usage: test_graph.py [-h] [--verbose] [--ignore_warnings]
+## Cite
 
-A test file for all `Graph` type objects
-
-optional arguments:
-  -h, --help         show this help message and exit
-  --verbose          verbose outputs on stdout
-  --ignore_warnings  ignore warnings produced by kernel executions
-```
-You can also execute the kernel test locally through a *test-main-function* as
-
-```shell
-$ python -m grakel.tests
-```
-
-Contributing
-============
-To learn how to integrate your own kernel and how to contribute to the GraKeL project, please read the sections *Write your own kernel* and *Contributing* in the [Documentation][doc], respectively.
-
-[doc]: https://ysig.github.io/GraKeL/dev/
-[examples]: https://ysig.github.io/GraKeL/dev/auto_examples/index.html
-
-License
-=======
-GraKeL comes with a __BSD 3-clause__ license (as with scikit-learn).
-It contains the C++ source code of [BLISS](http://www.tcs.hut.fi/Software/bliss) (a library for graph isomorphism) which is __LGPL__ licensed.
-Futhermore its optional dependency in the package of [cvxopt](https://cvxopt.org/) (a tool for solving convex-optimization problems) comes with a __GPL__ license.
-
-Citation
-========
-If you use GraKeL in a scientific publication, please cite our paper:
+If you use GraKeL in a scientific publication, please cite our paper (https://arxiv.org/pdf/1806.02193.pdf):
 
 ```
 @article{siglidis2018grakel,
@@ -187,3 +85,7 @@ If you use GraKeL in a scientific publication, please cite our paper:
   year={2018}
 }
 ```
+
+## License
+
+GraKeL is distributed under the __BSD 3-clause__ license. The library makes use of the C++ source code of [BLISS](http://www.tcs.hut.fi/Software/bliss) (a tool for computing automorphism groups and canonical labelings of graphs) which is __LGPL__ licensed. Futhermore, the [cvxopt](https://cvxopt.org/) package (a software package for convex optimization) which is an optional dependency of GraKeL is __GPL__ licensed.

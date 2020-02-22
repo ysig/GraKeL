@@ -70,5 +70,5 @@ The implementation of the core framework can be found below
 
 Bibliography
 ------------
-.. bibliography:: ./graph_kernels.bib
+.. bibliography:: graph_kernels.bib
    :filter: docname in docnames

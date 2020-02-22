@@ -240,7 +240,7 @@ def test_graphlet_sampling():
 def test_weisfeiler_lehman():
     """Eigenvalue test for the Weisfeiler Lehman kernel."""
     wl_st_kernel = WeisfeilerLehman(verbose=verbose, normalize=normalize,
-                                    base_kernel=VertexHistogram)
+                                    base_graph_kernel=VertexHistogram)
     if verbose:
         print_kernel("WL/Subtree", wl_st_kernel, dataset_tr, dataset_te)
     else:
@@ -331,7 +331,7 @@ def test_propagation():
 def test_hadamard_code():
     """Eigenvalue test for the Hadamard Code kernel."""
     hadamard_code_kernel = HadamardCode(verbose=verbose, normalize=normalize,
-                                        base_kernel=VertexHistogram)
+                                        base_graph_kernel=VertexHistogram)
     if verbose:
         print_kernel("Hadamard-Code/VH [Simple]",
                      hadamard_code_kernel, dataset_tr, dataset_te)
@@ -388,8 +388,8 @@ def test_graph_hopper():
 
 def test_core_framework():
     """Eigenvalue test for the Core kernel Framework."""
-    base_kernel = (WeisfeilerLehman, dict(base_kernel=VertexHistogram))
-    core_framework = CoreFramework(verbose=verbose, normalize=normalize, base_kernel=base_kernel)
+    base_graph_kernel = (WeisfeilerLehman, dict(base_graph_kernel=VertexHistogram))
+    core_framework = CoreFramework(verbose=verbose, normalize=normalize, base_graph_kernel=base_graph_kernel)
     if verbose:
         print_kernel("Core Framework", core_framework, dataset_tr, dataset_te)
     else:

@@ -1,10 +1,10 @@
 .. _myok:
 
-=====================
-Write your own kernel
-=====================
+========================
+Creating your Own Kernel
+========================
 
-As mentioned before on the :ref:`longer_introduction`, each kernel imported from the :code:`GraphKernel` generic wrapper
+As mentioned in the :ref:`core_concepts` subsection, each kernel imported from the :code:`GraphKernel` generic wrapper
 and found inside :code:`grakel.kernels` sub-package, inherits the :code:`Kernel` class found there.
 In order to write any kernel that will be integrated (see :ref:`contributing`), in our package we would like the
 user to inherit that class. This may seem restricting but is not. We will try to demonstrate this in the
@@ -17,7 +17,7 @@ Overriding the :code:`Kernel` class methods
 In order to start we will present the current interface of the :code:`Kernel` class
 (public methods) and guide the user how he can write a simple base :code:`Kernel`, such as the *vertex-histogram-kernel*.
 
-The *vertex-histogram-kernel*, defined in :cite:`Sugiyama2015NIPSD` p.4 section 2.3 is a simple kernel, that
+The *vertex-histogram-kernel*, defined in :cite:`sugiyama2015halting` p.4 section 2.3 is a simple kernel, that
 calculates label histograms for each graph, that is: *counts the number of occurrences for each label
 value and as a kernel between two graphs calculates the sum of products between frequencies of common
 occurrences*.
@@ -213,7 +213,7 @@ and finally classify, by using/finding the best C (that is a parameter emphasizi
     >>>     y_pred = clf.predict(K_test)
     >>>     acc_score = max(acc_score, round(accuracy_score(y_test, y_pred)*100, 2))
 
-which produces an accuracy score close to the maximum 78.2% documented on :cite:`Kriege2016NIPSD`
+which produces an accuracy score close to the maximum 78.2% documented on :cite:`kriege2016valid`
 
 .. code-block:: python
 
@@ -286,6 +286,5 @@ in redisigning and extending the parallelization proccess he/she can see how in 
 
 Bibliography
 ------------
-
-.. bibliography:: ../kernels/graph_kernels.bib
+.. bibliography:: ../biblio.bib
    :filter: docname in docnames

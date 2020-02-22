@@ -6,18 +6,10 @@
 
 Random Walk Kernel
 ==================
-The most well-studied family of graph kernels is probably the *random walk kernels* which quantify the 
-similarity between a pair of graphs based on the number of common walks in the two graphs 
-:cite:`kashima2003marginalized`, :cite:`gartner2003graph`, :cite:`mahe2004extensions`,
-:cite:`borgwardt2005protein`, :cite:`vishwanathan2010graph`, :cite:`sugiyama2015halting`.
+The most well-studied family of graph kernels is probably the *random walk kernels* which quantify the similarity between a pair of graphs based on the number of common walks in the two graphs 
+:cite:`kashima2003marginalized`, :cite:`gartner2003graph`, :cite:`mahe2004extensions`, :cite:`borgwardt2005protein`, :cite:`vishwanathan2010graph`, :cite:`sugiyama2015halting`.
 
-Kernels belonging to this family have concentrated mainly on counting matching walks in the two input graphs.
-There are several variations of random walk kernels.
-The :math:`k`-step random walk kernel compares random walks up to length :math:`k` in the two graphs.
-The most widely-used kernel from this family is the geometric random walk kernel :cite:`gartner2003graph_gn`
-which compares walks up to infinity assigning a weight :math:`\lambda^k` (:math:`\lambda < 1`) to walks
-of length :math:`k` in order to ensure convergence of the corresponding geometric series.
-We next give the formal definition of the geometric random walk kernel.
+Kernels belonging to this family have concentrated mainly on counting matching walks in the two input graphs. There are several variations of random walk kernels. The :math:`k`-step random walk kernel compares random walks up to length :math:`k` in the two graphs. The most widely-used kernel from this family is the geometric random walk kernel :cite:`gartner2003graph` which compares walks up to infinity assigning a weight :math:`\lambda^k` (:math:`\lambda < 1`) to walks of length :math:`k` in order to ensure convergence of the corresponding geometric series. We next give the formal definition of the geometric random walk kernel.
 Given two node-labeled graphs :math:`G_i=(V_i,E_i)` and :math:`G_j=(V_j,E_j)`, their direct product
 :math:`G_\times=(V_\times,E_\times)` is a graph with vertex set:
 
@@ -86,5 +78,5 @@ Next follow two implementations of this kernel (one for unlabeled graphs and one
 
 Bibliography
 ------------
-.. bibliography:: ./graph_kernels.bib
+.. bibliography:: graph_kernels.bib
    :filter: docname in docnames

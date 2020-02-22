@@ -102,5 +102,5 @@ It is interesting to note that the Weisfeiler-Lehman subtree kernel exhibits an 
 
 Bibliography
 ------------
-.. bibliography:: ./graph_kernels.bib
+.. bibliography:: graph_kernels.bib
    :filter: docname in docnames

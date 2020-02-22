@@ -30,7 +30,7 @@ git reset --hard origin/gh-pages
 git clean -dfx
 
 # Copy the new build docs
-git -rf $DOC_URL
+git rm -rf $DOC_URL
 mkdir $DOC_URL
 rm -f .nojekyll
 touch .nojekyll

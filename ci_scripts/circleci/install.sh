@@ -6,6 +6,9 @@
 
 # System dependencies
 sudo -E apt-get -yq remove texlive-binaries --purge > /dev/null
+sudo apt-get install software-properties-common
+sudo add-apt-repository universe /dev/null
+sudo add-apt-repository main > /dev/null
 sudo apt-get update > /dev/null
 sudo apt-get install libatlas-dev libatlas3gf-base > /dev/null
 sudo apt-get install build-essential python-dev python-setuptools > /dev/null
@@ -13,7 +16,7 @@ sudo apt-get install build-essential python-dev python-setuptools > /dev/null
 # Setup a python venv and install basics
 source ./venv/bin/activate
 pip install --upgrade pip
-pip install --upgrade pandas networkx matplotlib setuptools nose coverage sphinx pillow sphinx-gallery sphinx_rtd_theme sphinxcontrib-bibtex nb2plots numpydoc tqdm > /dev/null
+pip install --upgrade pandas networkx matplotlib setuptools nose coverage "Sphinx>=2.0.0" pillow sphinx-gallery sphinx_rtd_theme sphinxcontrib-bibtex nb2plots numpydoc tqdm > /dev/null
 pip install -r requirements.txt > /dev/null
 pip install "cvxopt==1.2.0" > /dev/null
 
@@ -27,6 +30,6 @@ python setup.py develop
 
 
 # Build Docs
-set -o pipefail && cd doc && make clean html docteset 2>&1 | tee ~/log.txt && cd ..
+set -o pipefail && cd doc && make clean html doctest 2>&1 | tee ~/log.txt && cd ..
 cat ~/log.txt && if grep -q "Traceback (most recent call last):" ~/log.txt; then false; else true; fi
 

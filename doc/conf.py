@@ -23,7 +23,7 @@ import sphinx_rtd_theme
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #sys.path.insert(0, os.path.abspath('.'))
 
-sys.path.insert(0, os.path.abspath('user_manual'))
+sys.path.insert(0, os.path.abspath('documentation'))
 sys.path.insert(0, os.path.abspath('kernels'))
 sys.path.insert(0, os.path.abspath('generated'))
 sys.path.insert(0, os.path.abspath('sphinxext'))
@@ -125,7 +125,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'GraKeL'
-copyright = u'2018, DaSciM (BSD License)'
+copyright = u'2019, DaSciM (BSD License)'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -199,7 +199,7 @@ html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 
 # The name of an image file (relative to this directory) to place at the top
 # of the sidebar.
-html_logo = "_images/logo.png"
+html_logo = "_figures/logo.svg"
 
 # The name of an image file (within the static path) to use as favicon of the
 # docs.  This file should be a Windows icon file (.ico) being 16x16 or 32x32

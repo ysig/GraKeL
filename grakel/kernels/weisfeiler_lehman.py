@@ -29,12 +29,12 @@ class WeisfeilerLehman(Kernel):
     n_iter : int, default=5
         The number of iterations.
 
-    base_kernel : `grakel.kernels.Kernel` or tuple, default=None
+    base_graph_kernel : `grakel.kernels.Kernel` or tuple, default=None
         If tuple it must consist of a valid kernel object and a
         dictionary of parameters. General parameters concerning
         normalization, concurrency, .. will be ignored, and the
         ones of given on `__init__` will be passed in case it is needed.
-        Default `base_kernel` is `VertexHistogram`.
+        Default `base_graph_kernel` is `VertexHistogram`.
 
     Attributes
     ----------
@@ -47,7 +47,7 @@ class WeisfeilerLehman(Kernel):
     _n_iter : int
         Holds the number, of iterations.
 
-    _base_kernel : function
+    _base_graph_kernel : function
         A void function that initializes a base kernel object.
 
     _inv_labels : dict
@@ -58,35 +58,35 @@ class WeisfeilerLehman(Kernel):
     _graph_format = "dictionary"
 
     def __init__(self, n_jobs=None, verbose=False,
-                 normalize=False, n_iter=5, base_kernel=VertexHistogram):
+                 normalize=False, n_iter=5, base_graph_kernel=VertexHistogram):
         """Initialise a `weisfeiler_lehman` kernel."""
         super(WeisfeilerLehman, self).__init__(
             n_jobs=n_jobs, verbose=verbose, normalize=normalize)
 
         self.n_iter = n_iter
-        self.base_kernel = base_kernel
-        self._initialized.update({"n_iter": False, "base_kernel": False})
-        self._base_kernel = None
+        self.base_graph_kernel = base_graph_kernel
+        self._initialized.update({"n_iter": False, "base_graph_kernel": False})
+        self._base_graph_kernel = None
 
     def initialize(self):
         """Initialize all transformer arguments, needing initialization."""
         super(WeisfeilerLehman, self).initialize()
-        if not self._initialized["base_kernel"]:
-            base_kernel = self.base_kernel
-            if base_kernel is None:
-                base_kernel, params = VertexHistogram, dict()
-            elif type(base_kernel) is type and issubclass(base_kernel, Kernel):
+        if not self._initialized["base_graph_kernel"]:
+            base_graph_kernel = self.base_graph_kernel
+            if base_graph_kernel is None:
+                base_graph_kernel, params = VertexHistogram, dict()
+            elif type(base_graph_kernel) is type and issubclass(base_graph_kernel, Kernel):
                 params = dict()
             else:
                 try:
-                    base_kernel, params = base_kernel
+                    base_graph_kernel, params = base_graph_kernel
                 except Exception:
                     raise TypeError('Base kernel was not formulated in '
                                     'the correct way. '
                                     'Check documentation.')
 
-                if not (type(base_kernel) is type and
-                        issubclass(base_kernel, Kernel)):
+                if not (type(base_graph_kernel) is type and
+                        issubclass(base_graph_kernel, Kernel)):
                     raise TypeError('The first argument must be a valid '
                                     'grakel.kernel.kernel Object')
                 if type(params) is not dict:
@@ -99,9 +99,9 @@ class WeisfeilerLehman(Kernel):
             params["normalize"] = False
             params["verbose"] = self.verbose
             params["n_jobs"] = None
-            self._base_kernel = base_kernel
+            self._base_graph_kernel = base_graph_kernel
             self._params = params
-            self._initialized["base_kernel"] = True
+            self._initialized["base_graph_kernel"] = True
 
         if not self._initialized["n_iter"]:
             if type(self.n_iter) is not int or self.n_iter <= 0:
@@ -124,8 +124,8 @@ class WeisfeilerLehman(Kernel):
 
         Returns
         -------
-        base_kernel : object
-        Returns base_kernel.
+        base_graph_kernel : object
+        Returns base_graph_kernel.
 
         """
         if self._method_calling not in [1, 2]:
@@ -240,28 +240,28 @@ class WeisfeilerLehman(Kernel):
                 self._inv_labels[i] = WL_labels_inverse
                 yield new_graphs
 
-        base_kernel = {i: self._base_kernel(**self._params) for i in range(self._n_iter)}
+        base_graph_kernel = {i: self._base_graph_kernel(**self._params) for i in range(self._n_iter)}
         if self._parallel is None:
             if self._method_calling == 1:
                 for (i, g) in enumerate(generate_graphs(label_count, WL_labels_inverse)):
-                    base_kernel[i].fit(g)
+                    base_graph_kernel[i].fit(g)
             elif self._method_calling == 2:
-                K = np.sum((base_kernel[i].fit_transform(g) for (i, g) in
+                K = np.sum((base_graph_kernel[i].fit_transform(g) for (i, g) in
                            enumerate(generate_graphs(label_count, WL_labels_inverse))), axis=0)
 
         else:
             if self._method_calling == 1:
-                self._parallel(joblib.delayed(efit)(base_kernel[i], g)
+                self._parallel(joblib.delayed(efit)(base_graph_kernel[i], g)
                                for (i, g) in enumerate(generate_graphs(label_count, WL_labels_inverse)))
             elif self._method_calling == 2:
-                K = np.sum(self._parallel(joblib.delayed(efit_transform)(base_kernel[i], g)
+                K = np.sum(self._parallel(joblib.delayed(efit_transform)(base_graph_kernel[i], g)
                            for (i, g) in enumerate(generate_graphs(label_count, WL_labels_inverse))),
                            axis=0)
 
         if self._method_calling == 1:
-            return base_kernel
+            return base_graph_kernel
         elif self._method_calling == 2:
-            return K, base_kernel
+            return K, base_graph_kernel
 
     def fit_transform(self, X, y=None):
         """Fit and transform, on the same dataset.
