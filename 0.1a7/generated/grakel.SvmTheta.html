@@ -207,7 +207,7 @@
 <h1><a class="reference internal" href="../api.html#module-grakel" title="grakel"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code></a>.SvmTheta<a class="headerlink" href="#grakel-svmtheta" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="grakel.SvmTheta">
-<em class="property">class </em><code class="sig-prename descclassname">grakel.</code><code class="sig-name descname">SvmTheta</code><span class="sig-paren">(</span><em class="sig-param">n_jobs=None</em>, <em class="sig-param">normalize=False</em>, <em class="sig-param">verbose=False</em>, <em class="sig-param">random_state=None</em>, <em class="sig-param">n_samples=50</em>, <em class="sig-param">subsets_size_range=(2</em>, <em class="sig-param">8)</em>, <em class="sig-param">metric=&lt;function _inner&gt;</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/13934f40/grakel/kernels/svm_theta.py#L25"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/svm_theta.html#SvmTheta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SvmTheta" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">grakel.</code><code class="sig-name descname">SvmTheta</code><span class="sig-paren">(</span><em class="sig-param">n_jobs=None</em>, <em class="sig-param">normalize=False</em>, <em class="sig-param">verbose=False</em>, <em class="sig-param">random_state=None</em>, <em class="sig-param">n_samples=50</em>, <em class="sig-param">subsets_size_range=(2</em>, <em class="sig-param">8)</em>, <em class="sig-param">metric=&lt;function _inner&gt;</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/65895874/grakel/kernels/svm_theta.py#L25"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/svm_theta.html#SvmTheta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SvmTheta" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the SVM theta kernel.</p>
 <p>See <a class="bibtex reference internal" href="../kernels/svm_theta.html#johansson2014global" id="id1">[JJDB14]</a>.</p>
 <dl class="field-list">
@@ -314,13 +314,13 @@
 </table>
 <dl class="method">
 <dt id="grakel.SvmTheta.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">n_jobs=None</em>, <em class="sig-param">normalize=False</em>, <em class="sig-param">verbose=False</em>, <em class="sig-param">random_state=None</em>, <em class="sig-param">n_samples=50</em>, <em class="sig-param">subsets_size_range=(2</em>, <em class="sig-param">8)</em>, <em class="sig-param">metric=&lt;function _inner at 0x7fde33a5bd90&gt;</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/13934f40/grakel/kernels/svm_theta.py#L56"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/svm_theta.html#SvmTheta.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SvmTheta.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">n_jobs=None</em>, <em class="sig-param">normalize=False</em>, <em class="sig-param">verbose=False</em>, <em class="sig-param">random_state=None</em>, <em class="sig-param">n_samples=50</em>, <em class="sig-param">subsets_size_range=(2</em>, <em class="sig-param">8)</em>, <em class="sig-param">metric=&lt;function _inner at 0x7f183e4b8d90&gt;</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/65895874/grakel/kernels/svm_theta.py#L56"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/svm_theta.html#SvmTheta.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SvmTheta.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialise a lovasz_theta kernel.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="grakel.SvmTheta.diagonal">
-<code class="sig-name descname">diagonal</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/13934f40/grakel/kernels/kernel.py#L267"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SvmTheta.diagonal" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">diagonal</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/65895874/grakel/kernels/kernel.py#L267"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SvmTheta.diagonal" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the kernel matrix diagonal of the fit/transformed data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -343,7 +343,7 @@ This consists of each element calculated with itself.</p>
 
 <dl class="method">
 <dt id="grakel.SvmTheta.fit">
-<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">X</em>, <em class="sig-param">y=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/13934f40/grakel/kernels/kernel.py#L91"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SvmTheta.fit" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">X</em>, <em class="sig-param">y=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/65895874/grakel/kernels/kernel.py#L91"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SvmTheta.fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fit a dataset, for a transformer.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -370,7 +370,7 @@ requires this parameter.</p>
 
 <dl class="method">
 <dt id="grakel.SvmTheta.fit_transform">
-<code class="sig-name descname">fit_transform</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/13934f40/grakel/kernels/kernel.py#L169"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SvmTheta.fit_transform" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">fit_transform</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/65895874/grakel/kernels/kernel.py#L169"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SvmTheta.fit_transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fit and transform, on the same dataset.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -399,7 +399,7 @@ all pairs of graphs between target an features</p>
 
 <dl class="method">
 <dt id="grakel.SvmTheta.get_params">
-<code class="sig-name descname">get_params</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">deep=True</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/13934f40/grakel/../venv/lib/python3.5/site-packages/sklearn/base.py#L173"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SvmTheta.get_params" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_params</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">deep=True</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/65895874/grakel/../venv/lib/python3.5/site-packages/sklearn/base.py#L173"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SvmTheta.get_params" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get parameters for this estimator.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -420,13 +420,13 @@ contained subobjects that are estimators.</p>
 
 <dl class="method">
 <dt id="grakel.SvmTheta.initialize">
-<code class="sig-name descname">initialize</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/13934f40/grakel/kernels/svm_theta.py#L72"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/svm_theta.html#SvmTheta.initialize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SvmTheta.initialize" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">initialize</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/65895874/grakel/kernels/svm_theta.py#L72"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/svm_theta.html#SvmTheta.initialize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SvmTheta.initialize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize all transformer arguments, needing initialization.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="grakel.SvmTheta.pairwise_operation">
-<code class="sig-name descname">pairwise_operation</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">x</em>, <em class="sig-param">y</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/13934f40/grakel/kernels/svm_theta.py#L151"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/svm_theta.html#SvmTheta.pairwise_operation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SvmTheta.pairwise_operation" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">pairwise_operation</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">x</em>, <em class="sig-param">y</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/65895874/grakel/kernels/svm_theta.py#L151"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/svm_theta.html#SvmTheta.pairwise_operation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SvmTheta.pairwise_operation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Lovasz theta kernel as proposed in <a class="bibtex reference internal" href="../kernels/svm_theta.html#johansson2014global" id="id4">[JJDB14]</a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -446,7 +446,7 @@ contained subobjects that are estimators.</p>
 
 <dl class="method">
 <dt id="grakel.SvmTheta.parse_input">
-<code class="sig-name descname">parse_input</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/13934f40/grakel/kernels/svm_theta.py#L102"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/svm_theta.html#SvmTheta.parse_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SvmTheta.parse_input" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">parse_input</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/65895874/grakel/kernels/svm_theta.py#L102"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/svm_theta.html#SvmTheta.parse_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SvmTheta.parse_input" title="Permalink to this definition">¶</a></dt>
 <dd><p>Parse and create features for svm_theta kernel.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -471,13 +471,13 @@ graph format). A valid input also consists of graph type objects.</p>
 
 <dl class="method">
 <dt id="grakel.SvmTheta.set_params">
-<code class="sig-name descname">set_params</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">**params</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/13934f40/grakel/kernels/kernel.py#L386"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SvmTheta.set_params" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">set_params</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">**params</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/65895874/grakel/kernels/kernel.py#L386"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SvmTheta.set_params" title="Permalink to this definition">¶</a></dt>
 <dd><p>Call the parent method.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="grakel.SvmTheta.transform">
-<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/13934f40/grakel/kernels/kernel.py#L128"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SvmTheta.transform" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/65895874/grakel/kernels/kernel.py#L128"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SvmTheta.transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the kernel matrix, between given and fitted dataset.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
