@@ -8,8 +8,6 @@ pip install "cvxopt>=1.2.0"
 if [[ "$COVERAGE" == "true" ]]; then
     pip install networkx
     pip install pandas
-    pip install coverage
-    pip install codecov
 fi
 
 # Print versions

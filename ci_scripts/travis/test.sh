@@ -3,6 +3,8 @@ current_dir="$(pwd)"
 
 if [[ "$COVERAGE" == "true" ]]; then
     # Store artifacts
+    $PIP install coverage
+    $PIP install codecov
     mkdir -p $TEST_DIR;
     cd $TEST_DIR;
     nosetests $MODULE --with-coverage --cover-package=$MODULE;
@@ -14,7 +16,7 @@ if [[ "$COVERAGE" == "true" ]]; then
     # very reliable but we don't want travis to report a failure
     # in the github UI just because the coverage report failed to
     # be published.
-    python -m codecov;
+    $PYTHON -m codecov;
 else
     # Ignore arifacts: just change folder
     mkdir -p $TEST_DIR;
