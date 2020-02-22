@@ -3,10 +3,10 @@ current_dir="$(pwd)"
 
 if [[ "$COVERAGE" == "true" ]]; then
     # Store artifacts
-    $PIP install coverage
-    $PIP install codecov
     mkdir -p $TEST_DIR;
     cd $TEST_DIR;
+    $PIP install coverage
+    $PIP install codecov
     nosetests $MODULE --with-coverage --cover-package=$MODULE;
 
     echo "Coverage";
