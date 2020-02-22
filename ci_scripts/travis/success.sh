@@ -5,6 +5,7 @@ if [[ "$DEPLOY_WHEEL" == "true" ]]; then
     rm -rf dist/
 
     $PIP install twine
+    $PIP install setuptools --upgrade
     if [[ "$DEPLOY_SDIST" == "true" ]]; then
         # Build & Deploy sdist
         $PYTHON setup.py sdist --formats=zip 

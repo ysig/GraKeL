@@ -16,7 +16,8 @@ include doc/*.rst
 include doc/conf.py
 include doc/Makefile
 include doc/make.bat
-recursive-include doc/user_manual *
+recursive-include doc/documentation *
+recursive-include doc/benchmarks *
 recursive-include doc/_static *
 recursive-include doc/_templates *
 recursive-include doc/kernels *
