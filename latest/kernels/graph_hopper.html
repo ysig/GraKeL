@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Graph Hopper Kernel &mdash; GraKeL 0.1a6 documentation</title>
+  <title>Graph Hopper Kernel &mdash; GraKeL 0.1a7 documentation</title>
   
 
   
@@ -21,11 +21,11 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="../_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -58,7 +58,7 @@
 
           
             
-            <img src="../_static/logo.png" class="logo" alt="Logo"/>
+            <img src="../_static/logo.svg" class="logo" alt="Logo"/>
           
           </a>
 
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                0.1a6
+                0.1a7
               </div>
             
           
@@ -91,7 +91,10 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../user_manual.html">User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">Documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../benchmarks.html">Benchmarks</a></li>
 </ul>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../api.html">GraKeL</a><ul class="current">
@@ -127,6 +130,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../classes.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials.html">Tutorials</a></li>
 </ul>
 
             
@@ -197,7 +201,7 @@
             
   <div class="section" id="graph-hopper-kernel">
 <span id="graph-hopper"></span><h1>Graph Hopper Kernel<a class="headerlink" href="#graph-hopper-kernel" title="Permalink to this headline">¶</a></h1>
-<p>Given two graphs, the GraphHopper kernel compares shortest paths between pairs of vertices from the two graphs <a class="reference internal" href="#feragen2013scalable" id="id1">[feragen2013scalable]</a>.
+<p>Given two graphs, the GraphHopper kernel compares shortest paths between pairs of vertices from the two graphs <a class="bibtex reference internal" href="#feragen2013scalable" id="id1">[FKP+13]</a>.
 The kernel takes into account both path lengths and the vertices encountered while <a href="#id2"><span class="problematic" id="id3">``</span></a>hopping’’ along shortest paths.
 The kernel is equivalent to a weighted sum of node kernels.</p>
 <p>Let <span class="math notranslate nohighlight">\(G=(V,E)\)</span> be a graph.
@@ -233,25 +237,24 @@ We can decompose the weight <span class="math notranslate nohighlight">\(w(v,v')
 The components of these matrices can be computed efficiently using recursive message-passing algorithms.
 The total complexity of computing <span class="math notranslate nohighlight">\(k(G,G')\)</span> is <span class="math notranslate nohighlight">\(\mathcal{O}(n^2(m + \log n + d + \delta^2))\)</span> where <span class="math notranslate nohighlight">\(n\)</span> is the number of vertices, <span class="math notranslate nohighlight">\(m\)</span> is the number of edges and <span class="math notranslate nohighlight">\(d\)</span> is the dimensionality of the node attributes (<span class="math notranslate nohighlight">\(d=1\)</span> in the case of discrete node labels).</p>
 <p>The implementation of the neighborhood hash kernel can be found below</p>
-<table border="1" class="longtable docutils">
+<table class="longtable docutils align-default">
 <colgroup>
-<col width="10%" />
-<col width="90%" />
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="../generated/grakel.GraphHopper.html#grakel.GraphHopper" title="grakel.GraphHopper"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GraphHopper</span></code></a>([n_jobs,&nbsp;normalize,&nbsp;verbose,&nbsp;…])</td>
-<td>Graph Hopper Histogram kernel as found in <a class="reference internal" href="#feragen2013scalable" id="id6">[feragen2013scalable]</a>.</td>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/grakel.GraphHopper.html#grakel.GraphHopper" title="grakel.GraphHopper"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GraphHopper</span></code></a>([n_jobs, normalize, verbose, …])</p></td>
+<td><p>Graph Hopper Histogram kernel as found in <a class="bibtex reference internal" href="#feragen2013scalable" id="id6">[FKP+13]</a>.</p></td>
 </tr>
 </tbody>
 </table>
 <div class="section" id="bibliography">
 <h2>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">¶</a></h2>
-<p id="bibtex-bibliography-kernels/graph_hopper-0"><table class="bibtex docutils citation" frame="void" id="feragen2013scalable" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label">[FKP+13]</td><td><em>(<a class="fn-backref" href="#id1">1</a>, <a class="fn-backref" href="#id6">2</a>)</em> Aasa Feragen, Niklas Kasenburg, Jens Petersen, Marleen de&nbsp;Bruijne, and Karsten Borgwardt. Scalable kernels for graphs with continuous attributes. In <em>Advances in Neural Information Processing Systems</em>, 216–224. 2013.</td></tr>
-</tbody>
-</table>
+<p id="bibtex-bibliography-kernels/graph_hopper-0"><dl class="citation">
+<dt class="bibtex label" id="feragen2013scalable"><span class="brackets">FKP+13</span><span class="fn-backref">(<a href="#id1">1</a>,<a href="#id6">2</a>)</span></dt>
+<dd><p>Aasa Feragen, Niklas Kasenburg, Jens Petersen, Marleen de Bruijne, and Karsten Borgwardt. Scalable kernels for graphs with continuous attributes. In <em>Advances in Neural Information Processing Systems</em>, 216–224. 2013.</p>
+</dd>
+</dl>
 </p>
 </div>
 </div>
@@ -276,7 +279,7 @@ The total complexity of computing <span class="math notranslate nohighlight">\(k
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, DaSciM (BSD License)
+        &copy; Copyright 2019, DaSciM (BSD License)
 
     </p>
   </div>

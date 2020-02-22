@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>grakel.graph.laplacian &mdash; GraKeL 0.1a6 documentation</title>
+  <title>grakel.graph.laplacian &mdash; GraKeL 0.1a7 documentation</title>
   
 
   
@@ -21,11 +21,11 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="../_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -58,7 +58,7 @@
 
           
             
-            <img src="../_static/logo.png" class="logo" alt="Logo"/>
+            <img src="../_static/logo.svg" class="logo" alt="Logo"/>
           
           </a>
 
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                0.1a6
+                0.1a7
               </div>
             
           
@@ -91,29 +91,33 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../user_manual.html">User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">Documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../benchmarks.html">Benchmarks</a></li>
 </ul>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../api.html">GraKeL</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../classes.html">API Reference</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="../classes.html#grakel-graph-graph-class-with-its-utility-functions"><code class="docutils literal notranslate"><span class="pre">grakel.graph</span></code>: Graph class with its utility functions</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../classes.html#grakel-graph-graph-class-with-its-utility-functions"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel.graph</span></code>: Graph class with its utility functions</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="../classes.html#base-class">Base Class</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../classes.html#utility-functions">Utility Functions</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="grakel.graph.is_adjacency.html">grakel.graph.is_adjacency</a></li>
-<li class="toctree-l4"><a class="reference internal" href="grakel.graph.is_edge_dictionary.html">grakel.graph.is_edge_dictionary</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">grakel.graph.laplacian</a></li>
-<li class="toctree-l4"><a class="reference internal" href="grakel.graph.floyd_warshall.html">grakel.graph.floyd_warshall</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.graph.is_adjacency.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel.graph</span></code>.is_adjacency</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.graph.is_edge_dictionary.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel.graph</span></code>.is_edge_dictionary</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel.graph</span></code>.laplacian</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.graph.floyd_warshall.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel.graph</span></code>.floyd_warshall</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-graph-kernels-a-kernel-decorator"><code class="docutils literal notranslate"><span class="pre">grakel.graph_kernels</span></code>: A kernel decorator</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-kernels-a-collection-of-graph-kernels"><code class="docutils literal notranslate"><span class="pre">grakel.kernels</span></code>: A collection of graph kernels</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-datasets-datasets"><code class="docutils literal notranslate"><span class="pre">grakel.datasets</span></code>: Datasets</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-utils"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>: Utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-graph-kernels-a-kernel-decorator"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel.graph_kernels</span></code>: A kernel decorator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-kernels-a-collection-of-graph-kernels"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel.kernels</span></code>: A collection of graph kernels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-datasets-datasets"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel.datasets</span></code>: Datasets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-utils"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>: Utils</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials.html">Tutorials</a></li>
 </ul>
 
             
@@ -163,7 +167,7 @@
         
           <li><a href="../graph.html">Graph (class)</a> &raquo;</li>
         
-      <li>grakel.graph.laplacian</li>
+      <li><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel.graph</span></code>.laplacian</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -183,55 +187,45 @@
            <div itemprop="articleBody">
             
   <div class="section" id="grakel-graph-laplacian">
-<h1>grakel.graph.laplacian<a class="headerlink" href="#grakel-graph-laplacian" title="Permalink to this headline">¶</a></h1>
+<h1><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel.graph</span></code>.laplacian<a class="headerlink" href="#grakel-graph-laplacian" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="grakel.graph.laplacian">
-<code class="descclassname">grakel.graph.</code><code class="descname">laplacian</code><span class="sig-paren">(</span><em>csgraph</em>, <em>normed=False</em>, <em>return_diag=False</em>, <em>use_out_degree=False</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/9b6a3936/grakel/../venv/lib/python2.7/site-packages/scipy/sparse/csgraph/_laplacian.py#L18"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/scipy/sparse/csgraph/_laplacian.html#laplacian"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.graph.laplacian" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">grakel.graph.</code><code class="sig-name descname">laplacian</code><span class="sig-paren">(</span><em class="sig-param">csgraph</em>, <em class="sig-param">normed=False</em>, <em class="sig-param">return_diag=False</em>, <em class="sig-param">use_out_degree=False</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/d9c8df75/grakel/../venv/lib/python3.5/site-packages/scipy/sparse/csgraph/_laplacian.py#L18"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/scipy/sparse/csgraph/_laplacian.html#laplacian"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.graph.laplacian" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the Laplacian matrix of a directed graph.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>csgraph</strong> <span class="classifier-delimiter">:</span> <span class="classifier">array_like or sparse matrix, 2 dimensions</span></dt>
-<dd><p class="first last">compressed-sparse graph, with shape (N, N).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>csgraph</strong><span class="classifier">array_like or sparse matrix, 2 dimensions</span></dt><dd><p>compressed-sparse graph, with shape (N, N).</p>
 </dd>
-<dt><strong>normed</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional</span></dt>
-<dd><p class="first last">If True, then compute normalized Laplacian.</p>
+<dt><strong>normed</strong><span class="classifier">bool, optional</span></dt><dd><p>If True, then compute symmetric normalized Laplacian.</p>
 </dd>
-<dt><strong>return_diag</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional</span></dt>
-<dd><p class="first last">If True, then also return an array related to vertex degrees.</p>
+<dt><strong>return_diag</strong><span class="classifier">bool, optional</span></dt><dd><p>If True, then also return an array related to vertex degrees.</p>
 </dd>
-<dt><strong>use_out_degree</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional</span></dt>
-<dd><p class="first last">If True, then use out-degree instead of in-degree.
+<dt><strong>use_out_degree</strong><span class="classifier">bool, optional</span></dt><dd><p>If True, then use out-degree instead of in-degree.
 This distinction matters only if the graph is asymmetric.
 Default: False.</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>lap</strong> <span class="classifier-delimiter">:</span> <span class="classifier">ndarray or sparse matrix</span></dt>
-<dd><p class="first last">The N x N laplacian matrix of csgraph. It will be a numpy array (dense)
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>lap</strong><span class="classifier">ndarray or sparse matrix</span></dt><dd><p>The N x N laplacian matrix of csgraph. It will be a numpy array (dense)
 if the input was dense, or a sparse matrix otherwise.</p>
 </dd>
-<dt><strong>diag</strong> <span class="classifier-delimiter">:</span> <span class="classifier">ndarray, optional</span></dt>
-<dd><p class="first last">The length-N diagonal of the Laplacian matrix.
+<dt><strong>diag</strong><span class="classifier">ndarray, optional</span></dt><dd><p>The length-N diagonal of the Laplacian matrix.
 For the normalized Laplacian, this is the array of square roots
 of vertex degrees or 1 if the degree is zero.</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <p class="rubric">Notes</p>
 <p>The Laplacian matrix of a graph is sometimes referred to as the
 “Kirchoff matrix” or the “admittance matrix”, and is useful in many
 parts of spectral graph theory.  In particular, the eigen-decomposition
 of the laplacian matrix can give insight into many properties of the graph.</p>
 <p class="rubric">Examples</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">scipy.sparse</span> <span class="kn">import</span> <span class="n">csgraph</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">scipy.sparse</span> <span class="kn">import</span> <span class="n">csgraph</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">G</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">5</span><span class="p">)[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">G</span>
 <span class="go">array([[ 0,  0,  0,  0,  0],</span>
@@ -249,7 +243,7 @@ of the laplacian matrix can give insight into many properties of the graph.</p>
 </div>
 </dd></dl>
 
-</div>
+<div class="clearer"></div></div>
 
 
            </div>
@@ -271,7 +265,7 @@ of the laplacian matrix can give insight into many properties of the graph.</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, DaSciM (BSD License)
+        &copy; Copyright 2019, DaSciM (BSD License)
 
     </p>
   </div>

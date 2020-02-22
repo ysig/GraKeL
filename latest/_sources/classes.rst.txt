@@ -4,9 +4,7 @@
 API Reference
 =============
 
-This is the class and function reference of **grakel**.
-In order for the user to understand how to use the **grakel** project and how it works we suggest him
-to read :ref:`user_manual` section.
+This is the class and function reference of *GraKeL*. In order for the user to understand how to use the package, we suggest he reads :ref:`documentation` section.
 
 :mod:`grakel.graph`: Graph class with its utility functions
 ===========================================================

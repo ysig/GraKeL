@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>grakel.kernels.core_framework &mdash; GraKeL 0.1a6 documentation</title>
+  <title>grakel.kernels.core_framework &mdash; GraKeL 0.1a7 documentation</title>
   
 
   
@@ -21,11 +21,11 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../../_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
@@ -56,7 +56,7 @@
 
           
             
-            <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+            <img src="../../../_static/logo.svg" class="logo" alt="Logo"/>
           
           </a>
 
@@ -64,7 +64,7 @@
             
             
               <div class="version">
-                0.1a6
+                0.1a7
               </div>
             
           
@@ -89,12 +89,16 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../user_manual.html">User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../documentation.html">Documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../benchmarks.html">Benchmarks</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../api.html">GraKeL</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../classes.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials.html">Tutorials</a></li>
 </ul>
 
             
@@ -182,19 +186,19 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    base_kernel : `grakel.kernels.kernel` or tuple, default=None</span>
+<span class="sd">    base_graph_kernel : `grakel.kernels.kernel` or tuple, default=None</span>
 <span class="sd">        If tuple it must consist of a valid kernel object and a</span>
 <span class="sd">        dictionary of parameters. General parameters concerning</span>
 <span class="sd">        normalization, concurrency, .. will be ignored, and the</span>
 <span class="sd">        ones of given on `__init__` will be passed in case it is needed.</span>
-<span class="sd">        Default `base_kernel` is `VertexHistogram`.</span>
+<span class="sd">        Default `base_graph_kernel` is `VertexHistogram`.</span>
 
 <span class="sd">    min_core : int, default=-1</span>
 <span class="sd">        Core numbers bigger than min_core will only be considered.</span>
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
-<span class="sd">    base_kernel_ : function</span>
+<span class="sd">    base_graph_kernel_ : function</span>
 <span class="sd">        A void function that initializes a base kernel object.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -202,14 +206,14 @@
     <span class="n">_graph_format</span> <span class="o">=</span> <span class="s2">&quot;dictionary&quot;</span>
 
 <div class="viewcode-block" id="CoreFramework.__init__"><a class="viewcode-back" href="../../../generated/grakel.CoreFramework.html#grakel.CoreFramework.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                 <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">min_core</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">base_kernel</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+                 <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">min_core</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">base_graph_kernel</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialise a `hadamard_code` kernel.&quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">CoreFramework</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">n_jobs</span><span class="o">=</span><span class="n">n_jobs</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="n">normalize</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">min_core</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">base_kernel</span> <span class="o">=</span> <span class="n">base_kernel</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;min_core&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;base_kernel&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">})</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">base_graph_kernel</span> <span class="o">=</span> <span class="n">base_graph_kernel</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;min_core&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;base_graph_kernel&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">})</span></div>
 
 <div class="viewcode-block" id="CoreFramework.initialize"><a class="viewcode-back" href="../../../generated/grakel.CoreFramework.html#grakel.CoreFramework.initialize">[docs]</a>    <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialize all transformer arguments, needing initialization.&quot;&quot;&quot;</span>
@@ -218,22 +222,22 @@
                 <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;no implemented parallelization for CoreFramework&#39;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="p">[</span><span class="s2">&quot;n_jobs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
 
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="p">[</span><span class="s2">&quot;base_kernel&quot;</span><span class="p">]:</span>
-            <span class="n">base_kernel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_kernel</span>
-            <span class="k">if</span> <span class="n">base_kernel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">base_kernel</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="n">ShortestPath</span><span class="p">,</span> <span class="nb">dict</span><span class="p">()</span>
-            <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">base_kernel</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">type</span> <span class="ow">and</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">base_kernel</span><span class="p">,</span> <span class="n">Kernel</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="p">[</span><span class="s2">&quot;base_graph_kernel&quot;</span><span class="p">]:</span>
+            <span class="n">base_graph_kernel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_graph_kernel</span>
+            <span class="k">if</span> <span class="n">base_graph_kernel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">base_graph_kernel</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="n">ShortestPath</span><span class="p">,</span> <span class="nb">dict</span><span class="p">()</span>
+            <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">base_graph_kernel</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">type</span> <span class="ow">and</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">base_graph_kernel</span><span class="p">,</span> <span class="n">Kernel</span><span class="p">):</span>
                 <span class="n">params</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">try</span><span class="p">:</span>
-                    <span class="n">base_kernel</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="n">base_kernel</span>
+                    <span class="n">base_graph_kernel</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="n">base_graph_kernel</span>
                 <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Base kernel was not formulated in &#39;</span>
                                     <span class="s1">&#39;the correct way. &#39;</span>
                                     <span class="s1">&#39;Check documentation.&#39;</span><span class="p">)</span>
 
-                <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">base_kernel</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">type</span> <span class="ow">and</span>
-                        <span class="nb">issubclass</span><span class="p">(</span><span class="n">base_kernel</span><span class="p">,</span> <span class="n">Kernel</span><span class="p">)):</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">base_graph_kernel</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">type</span> <span class="ow">and</span>
+                        <span class="nb">issubclass</span><span class="p">(</span><span class="n">base_graph_kernel</span><span class="p">,</span> <span class="n">Kernel</span><span class="p">)):</span>
                     <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;The first argument must be a valid &#39;</span>
                                     <span class="s1">&#39;grakel.kernel.kernel Object&#39;</span><span class="p">)</span>
                 <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">params</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">dict</span><span class="p">:</span>
@@ -246,9 +250,9 @@
             <span class="n">params</span><span class="p">[</span><span class="s2">&quot;normalize&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="n">params</span><span class="p">[</span><span class="s2">&quot;verbose&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span>
             <span class="n">params</span><span class="p">[</span><span class="s2">&quot;n_jobs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">base_kernel_</span> <span class="o">=</span> <span class="n">base_kernel</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">base_graph_kernel_</span> <span class="o">=</span> <span class="n">base_graph_kernel</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">params_</span> <span class="o">=</span> <span class="n">params</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="p">[</span><span class="s2">&quot;base_kernel&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="p">[</span><span class="s2">&quot;base_graph_kernel&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="p">[</span><span class="s2">&quot;min_core&quot;</span><span class="p">]:</span>
             <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">min_core</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">int</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_core</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
@@ -270,8 +274,8 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        base_kernel : object</span>
-<span class="sd">            Returns base_kernel. Only if called from `fit` or `fit_transform`.</span>
+<span class="sd">        base_graph_kernel : object</span>
+<span class="sd">            Returns base_graph_kernel. Only if called from `fit` or `fit_transform`.</span>
 
 <span class="sd">        K : np.array</span>
 <span class="sd">            Returns the kernel matrix. Only if called from `transform` or</span>
@@ -333,7 +337,7 @@
             <span class="n">K</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">nx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nx</span><span class="p">))</span>
 
         <span class="c1"># Main</span>
-        <span class="n">base_kernel</span><span class="p">,</span> <span class="n">indexes_list</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(),</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="n">base_graph_kernel</span><span class="p">,</span> <span class="n">indexes_list</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(),</span> <span class="nb">dict</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_core_number</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_core</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
             <span class="n">subgraphs</span><span class="p">,</span> <span class="n">indexes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(),</span> <span class="nb">list</span><span class="p">()</span>
             <span class="k">for</span> <span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="p">(</span><span class="n">cn</span><span class="p">,</span> <span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">extra</span><span class="p">)))</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">core_numbers</span><span class="p">,</span> <span class="n">graphs</span><span class="p">)):</span>
@@ -359,18 +363,18 @@
 
             <span class="c1"># calculate kernel</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_method_calling</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">indexes</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">base_kernel</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_kernel_</span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">params_</span><span class="p">)</span>
-                <span class="n">base_kernel</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">subgraphs</span><span class="p">)</span>
+                <span class="n">base_graph_kernel</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_graph_kernel_</span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">params_</span><span class="p">)</span>
+                <span class="n">base_graph_kernel</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">subgraphs</span><span class="p">)</span>
             <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_method_calling</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">indexes</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">base_kernel</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_kernel_</span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">params_</span><span class="p">)</span>
-                <span class="n">ft_subgraph_mat</span> <span class="o">=</span> <span class="n">base_kernel</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">subgraphs</span><span class="p">)</span>
+                <span class="n">base_graph_kernel</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_graph_kernel_</span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">params_</span><span class="p">)</span>
+                <span class="n">ft_subgraph_mat</span> <span class="o">=</span> <span class="n">base_graph_kernel</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">subgraphs</span><span class="p">)</span>
                 <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">indexes</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
                     <span class="n">K</span><span class="p">[</span><span class="n">indexes</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">indexes</span><span class="p">]</span> <span class="o">+=</span> <span class="n">ft_subgraph_mat</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="p">:]</span>
             <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_method_calling</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_max_core_number</span> <span class="o">&lt;</span> <span class="n">i</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fit_indexes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">indexes</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                         <span class="c1"># add a dummy kernel for calculating the diagonal</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">_dummy_kernel</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_kernel_</span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">params_</span><span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_dummy_kernel</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_graph_kernel_</span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">params_</span><span class="p">)</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">_dummy_kernel</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">subgraphs</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">indexes</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
@@ -382,12 +386,12 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_nx</span> <span class="o">=</span> <span class="n">nx</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_max_core_number</span> <span class="o">=</span> <span class="n">max_core_number</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_fit_indexes</span> <span class="o">=</span> <span class="n">indexes_list</span>
-            <span class="k">return</span> <span class="n">base_kernel</span>
+            <span class="k">return</span> <span class="n">base_graph_kernel</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_method_calling</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_nx</span> <span class="o">=</span> <span class="n">nx</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_max_core_number</span> <span class="o">=</span> <span class="n">max_core_number</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_fit_indexes</span> <span class="o">=</span> <span class="n">indexes_list</span>
-            <span class="k">return</span> <span class="n">K</span><span class="p">,</span> <span class="n">base_kernel</span>
+            <span class="k">return</span> <span class="n">K</span><span class="p">,</span> <span class="n">base_graph_kernel</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_method_calling</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_t_nx</span> <span class="o">=</span> <span class="n">nx</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_max_core_number_trans</span> <span class="o">=</span> <span class="n">max_core_number</span>
@@ -680,10 +684,10 @@
                 <span class="n">tei</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
         <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
-        <span class="n">bk</span> <span class="o">=</span> <span class="p">(</span><span class="n">WeisfeilerLehman</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">base_kernel</span><span class="o">=</span><span class="n">VertexHistogram</span><span class="p">))</span>
+        <span class="n">bk</span> <span class="o">=</span> <span class="p">(</span><span class="n">WeisfeilerLehman</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">base_graph_kernel</span><span class="o">=</span><span class="n">VertexHistogram</span><span class="p">))</span>
         <span class="c1"># bk = (ShortestPath, dict(with_labels=False))</span>
-        <span class="c1"># gk = WeisfeilerLehman(normalize=True, base_kernel=VertexHistogram)</span>
-        <span class="n">gk</span> <span class="o">=</span> <span class="n">CoreFramework</span><span class="p">(</span><span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">base_kernel</span><span class="o">=</span><span class="n">bk</span><span class="p">,</span> <span class="n">min_core</span><span class="o">=</span><span class="n">mc</span><span class="p">)</span>
+        <span class="c1"># gk = WeisfeilerLehman(normalize=True, base_graph_kernel=VertexHistogram)</span>
+        <span class="n">gk</span> <span class="o">=</span> <span class="n">CoreFramework</span><span class="p">(</span><span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">base_graph_kernel</span><span class="o">=</span><span class="n">bk</span><span class="p">,</span> <span class="n">min_core</span><span class="o">=</span><span class="n">mc</span><span class="p">)</span>
 
         <span class="c1"># Calculate the kernel matrix.</span>
         <span class="k">if</span> <span class="n">full</span><span class="p">:</span>
@@ -729,7 +733,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, DaSciM (BSD License)
+        &copy; Copyright 2019, DaSciM (BSD License)
 
     </p>
   </div>

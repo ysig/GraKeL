@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>grakel.graph.floyd_warshall &mdash; GraKeL 0.1a6 documentation</title>
+  <title>grakel.graph.floyd_warshall &mdash; GraKeL 0.1a7 documentation</title>
   
 
   
@@ -21,11 +21,11 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="../_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -58,7 +58,7 @@
 
           
             
-            <img src="../_static/logo.png" class="logo" alt="Logo"/>
+            <img src="../_static/logo.svg" class="logo" alt="Logo"/>
           
           </a>
 
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                0.1a6
+                0.1a7
               </div>
             
           
@@ -91,29 +91,33 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../user_manual.html">User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">Documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../benchmarks.html">Benchmarks</a></li>
 </ul>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../api.html">GraKeL</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../classes.html">API Reference</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="../classes.html#grakel-graph-graph-class-with-its-utility-functions"><code class="docutils literal notranslate"><span class="pre">grakel.graph</span></code>: Graph class with its utility functions</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../classes.html#grakel-graph-graph-class-with-its-utility-functions"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel.graph</span></code>: Graph class with its utility functions</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="../classes.html#base-class">Base Class</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../classes.html#utility-functions">Utility Functions</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="grakel.graph.is_adjacency.html">grakel.graph.is_adjacency</a></li>
-<li class="toctree-l4"><a class="reference internal" href="grakel.graph.is_edge_dictionary.html">grakel.graph.is_edge_dictionary</a></li>
-<li class="toctree-l4"><a class="reference internal" href="grakel.graph.laplacian.html">grakel.graph.laplacian</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">grakel.graph.floyd_warshall</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.graph.is_adjacency.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel.graph</span></code>.is_adjacency</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.graph.is_edge_dictionary.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel.graph</span></code>.is_edge_dictionary</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.graph.laplacian.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel.graph</span></code>.laplacian</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel.graph</span></code>.floyd_warshall</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-graph-kernels-a-kernel-decorator"><code class="docutils literal notranslate"><span class="pre">grakel.graph_kernels</span></code>: A kernel decorator</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-kernels-a-collection-of-graph-kernels"><code class="docutils literal notranslate"><span class="pre">grakel.kernels</span></code>: A collection of graph kernels</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-datasets-datasets"><code class="docutils literal notranslate"><span class="pre">grakel.datasets</span></code>: Datasets</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-utils"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>: Utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-graph-kernels-a-kernel-decorator"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel.graph_kernels</span></code>: A kernel decorator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-kernels-a-collection-of-graph-kernels"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel.kernels</span></code>: A collection of graph kernels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-datasets-datasets"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel.datasets</span></code>: Datasets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-utils"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>: Utils</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials.html">Tutorials</a></li>
 </ul>
 
             
@@ -163,7 +167,7 @@
         
           <li><a href="../graph.html">Graph (class)</a> &raquo;</li>
         
-      <li>grakel.graph.floyd_warshall</li>
+      <li><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel.graph</span></code>.floyd_warshall</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -183,35 +187,29 @@
            <div itemprop="articleBody">
             
   <div class="section" id="grakel-graph-floyd-warshall">
-<h1>grakel.graph.floyd_warshall<a class="headerlink" href="#grakel-graph-floyd-warshall" title="Permalink to this headline">¶</a></h1>
+<h1><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel.graph</span></code>.floyd_warshall<a class="headerlink" href="#grakel-graph-floyd-warshall" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="grakel.graph.floyd_warshall">
-<code class="descclassname">grakel.graph.</code><code class="descname">floyd_warshall</code><span class="sig-paren">(</span><em>adjacency_matrix</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/9b6a3936/grakel/graph.py#L1698"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/graph.html#floyd_warshall"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.graph.floyd_warshall" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">grakel.graph.</code><code class="sig-name descname">floyd_warshall</code><span class="sig-paren">(</span><em class="sig-param">adjacency_matrix</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/d9c8df75/grakel/graph.py#L1698"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/graph.html#floyd_warshall"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.graph.floyd_warshall" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the Floyd Warshall, shortest path matrix.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>adjacency_matrix</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.array, square</span></dt>
-<dd><p class="first last">The adjacency matrix of the graph, on which the distances are being
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>adjacency_matrix</strong><span class="classifier">np.array, square</span></dt><dd><p>The adjacency matrix of the graph, on which the distances are being
 calculated.</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>dist</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.array</span></dt>
-<dd><p class="first last">The shortest path matrix as produced by floyd warshall</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>dist</strong><span class="classifier">np.array</span></dt><dd><p>The shortest path matrix as produced by floyd warshall</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
-</div>
+<div class="clearer"></div></div>
 
 
            </div>
@@ -233,7 +231,7 @@ calculated.</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, DaSciM (BSD License)
+        &copy; Copyright 2019, DaSciM (BSD License)
 
     </p>
   </div>

@@ -63,5 +63,5 @@ The implementation of the neighborhood subgraph pairwise distance kernel can be 
 
 Bibliography
 ------------
-.. bibliography:: ./graph_kernels.bib
+.. bibliography:: graph_kernels.bib
    :filter: docname in docnames

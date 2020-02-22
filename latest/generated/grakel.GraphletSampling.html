@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>grakel.GraphletSampling &mdash; GraKeL 0.1a6 documentation</title>
+  <title>grakel.GraphletSampling &mdash; GraKeL 0.1a7 documentation</title>
   
 
   
@@ -21,11 +21,11 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="../_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -58,7 +58,7 @@
 
           
             
-            <img src="../_static/logo.png" class="logo" alt="Logo"/>
+            <img src="../_static/logo.svg" class="logo" alt="Logo"/>
           
           </a>
 
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                0.1a6
+                0.1a7
               </div>
             
           
@@ -91,48 +91,52 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../user_manual.html">User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">Documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../benchmarks.html">Benchmarks</a></li>
 </ul>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../api.html">GraKeL</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../classes.html">API Reference</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-graph-graph-class-with-its-utility-functions"><code class="docutils literal notranslate"><span class="pre">grakel.graph</span></code>: Graph class with its utility functions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-graph-kernels-a-kernel-decorator"><code class="docutils literal notranslate"><span class="pre">grakel.graph_kernels</span></code>: A kernel decorator</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="../classes.html#grakel-kernels-a-collection-of-graph-kernels"><code class="docutils literal notranslate"><span class="pre">grakel.kernels</span></code>: A collection of graph kernels</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-graph-graph-class-with-its-utility-functions"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel.graph</span></code>: Graph class with its utility functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-graph-kernels-a-kernel-decorator"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel.graph_kernels</span></code>: A kernel decorator</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../classes.html#grakel-kernels-a-collection-of-graph-kernels"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel.kernels</span></code>: A collection of graph kernels</a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="../classes.html#kernels">Kernels</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="grakel.Kernel.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.Kernel</a></li>
-<li class="toctree-l4"><a class="reference internal" href="grakel.RandomWalk.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.RandomWalk</a></li>
-<li class="toctree-l4"><a class="reference internal" href="grakel.RandomWalkLabeled.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.RandomWalkLabeled</a></li>
-<li class="toctree-l4"><a class="reference internal" href="grakel.PyramidMatch.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.PyramidMatch</a></li>
-<li class="toctree-l4"><a class="reference internal" href="grakel.NeighborhoodHash.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.NeighborhoodHash</a></li>
-<li class="toctree-l4"><a class="reference internal" href="grakel.ShortestPath.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.ShortestPath</a></li>
-<li class="toctree-l4"><a class="reference internal" href="grakel.ShortestPathAttr.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.ShortestPathAttr</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.GraphletSampling</a></li>
-<li class="toctree-l4"><a class="reference internal" href="grakel.SubgraphMatching.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.SubgraphMatching</a></li>
-<li class="toctree-l4"><a class="reference internal" href="grakel.WeisfeilerLehman.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.WeisfeilerLehman</a></li>
-<li class="toctree-l4"><a class="reference internal" href="grakel.HadamardCode.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.HadamardCode</a></li>
-<li class="toctree-l4"><a class="reference internal" href="grakel.NeighborhoodSubgraphPairwiseDistance.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.NeighborhoodSubgraphPairwiseDistance</a></li>
-<li class="toctree-l4"><a class="reference internal" href="grakel.LovaszTheta.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.LovaszTheta</a></li>
-<li class="toctree-l4"><a class="reference internal" href="grakel.SvmTheta.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.SvmTheta</a></li>
-<li class="toctree-l4"><a class="reference internal" href="grakel.Propagation.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.Propagation</a></li>
-<li class="toctree-l4"><a class="reference internal" href="grakel.PropagationAttr.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.PropagationAttr</a></li>
-<li class="toctree-l4"><a class="reference internal" href="grakel.OddSth.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.OddSth</a></li>
-<li class="toctree-l4"><a class="reference internal" href="grakel.MultiscaleLaplacian.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.MultiscaleLaplacian</a></li>
-<li class="toctree-l4"><a class="reference internal" href="grakel.MultiscaleLaplacianFast.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.MultiscaleLaplacianFast</a></li>
-<li class="toctree-l4"><a class="reference internal" href="grakel.HadamardCode.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.HadamardCode</a></li>
-<li class="toctree-l4"><a class="reference internal" href="grakel.VertexHistogram.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.VertexHistogram</a></li>
-<li class="toctree-l4"><a class="reference internal" href="grakel.EdgeHistogram.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.EdgeHistogram</a></li>
-<li class="toctree-l4"><a class="reference internal" href="grakel.GraphHopper.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.GraphHopper</a></li>
-<li class="toctree-l4"><a class="reference internal" href="grakel.CoreFramework.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.CoreFramework</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.Kernel.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.Kernel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.RandomWalk.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.RandomWalk</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.RandomWalkLabeled.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.RandomWalkLabeled</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.PyramidMatch.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.PyramidMatch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.NeighborhoodHash.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.NeighborhoodHash</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.ShortestPath.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.ShortestPath</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.ShortestPathAttr.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.ShortestPathAttr</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.GraphletSampling</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.SubgraphMatching.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.SubgraphMatching</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.WeisfeilerLehman.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.WeisfeilerLehman</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.HadamardCode.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.HadamardCode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.NeighborhoodSubgraphPairwiseDistance.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.NeighborhoodSubgraphPairwiseDistance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.LovaszTheta.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.LovaszTheta</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.SvmTheta.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.SvmTheta</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.Propagation.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.Propagation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.PropagationAttr.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.PropagationAttr</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.OddSth.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.OddSth</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.MultiscaleLaplacian.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.MultiscaleLaplacian</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.MultiscaleLaplacianFast.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.MultiscaleLaplacianFast</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.HadamardCode.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.HadamardCode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.VertexHistogram.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.VertexHistogram</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.EdgeHistogram.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.EdgeHistogram</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.GraphHopper.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.GraphHopper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.CoreFramework.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.CoreFramework</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-datasets-datasets"><code class="docutils literal notranslate"><span class="pre">grakel.datasets</span></code>: Datasets</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-utils"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>: Utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-datasets-datasets"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel.datasets</span></code>: Datasets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-utils"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>: Utils</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials.html">Tutorials</a></li>
 </ul>
 
             
@@ -180,7 +184,7 @@
         
           <li><a href="../classes.html">API Reference</a> &raquo;</li>
         
-      <li><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.GraphletSampling</li>
+      <li><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.GraphletSampling</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -203,373 +207,316 @@
 <h1><a class="reference internal" href="../api.html#module-grakel" title="grakel"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code></a>.GraphletSampling<a class="headerlink" href="#grakel-graphletsampling" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="grakel.GraphletSampling">
-<em class="property">class </em><code class="descclassname">grakel.</code><code class="descname">GraphletSampling</code><span class="sig-paren">(</span><em>n_jobs=None</em>, <em>normalize=False</em>, <em>verbose=False</em>, <em>random_state=None</em>, <em>k=5</em>, <em>sampling=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/9b6a3936/grakel/kernels/graphlet_sampling.py#L26"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/graphlet_sampling.html#GraphletSampling"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphletSampling" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">grakel.</code><code class="sig-name descname">GraphletSampling</code><span class="sig-paren">(</span><em class="sig-param">n_jobs=None</em>, <em class="sig-param">normalize=False</em>, <em class="sig-param">verbose=False</em>, <em class="sig-param">random_state=None</em>, <em class="sig-param">k=5</em>, <em class="sig-param">sampling=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/d9c8df75/grakel/kernels/graphlet_sampling.py#L26"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/graphlet_sampling.html#GraphletSampling"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphletSampling" title="Permalink to this definition">¶</a></dt>
 <dd><p>The graphlet sampling kernel.</p>
-<p>See <a class="reference internal" href="../kernels/graphlet_sampling.html#shervashidze2009efficient" id="id1">[shervashidze2009efficient]</a>.</p>
+<p>See <a class="bibtex reference internal" href="../kernels/graphlet_sampling.html#shervashidze2009efficient" id="id1">[SPM+09]</a>.</p>
 <p>If either “delta”, “epsilon”, “a” or “n_samples” is given calculates
 the kernel value for the given (or derived) random picked n_samples, by
 randomly sampling from k from 3 to 5.
 Otherwise calculates the kernel value drawing all possible connected
 samples of size k.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>random_state</strong> <span class="classifier-delimiter">:</span> <span class="classifier">RandomState or int, default=None</span></dt>
-<dd><p class="first last">A random number generator instance or an int to initialize a RandomState as a seed.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl>
+<dt><strong>random_state</strong><span class="classifier">RandomState or int, default=None</span></dt><dd><p>A random number generator instance or an int to initialize a RandomState as a seed.</p>
 </dd>
-<dt><strong>k</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int, default=5</span></dt>
-<dd><p class="first last">The dimension of the given graphlets.</p>
+<dt><strong>k</strong><span class="classifier">int, default=5</span></dt><dd><p>The dimension of the given graphlets.</p>
 </dd>
-<dt><strong>sampling</strong> <span class="classifier-delimiter">:</span> <span class="classifier">None or dict</span></dt>
-<dd><p class="first">Defines if random sampling of graphlets will be utilised.
+<dt><strong>sampling</strong><span class="classifier">None or dict</span></dt><dd><p>Defines if random sampling of graphlets will be utilised.
 If not None the dictionary can either contain:</p>
 <blockquote>
 <div><ul class="simple">
-<li><dl class="first docutils">
-<dt>n_samples <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd>Sets the value of randomly drawn random samples,
+<li><dl class="simple">
+<dt>n_samples<span class="classifier">int</span></dt><dd><p>Sets the value of randomly drawn random samples,
 from sizes between 3..k. Overides the parameters a, epsilon,
-delta.</dd>
+delta.</p>
+</dd>
 </dl>
 </li>
 </ul>
 </div></blockquote>
 <p>or</p>
-<blockquote class="last">
+<blockquote>
 <div><ul class="simple">
-<li>delta : float, default=0.05
+<li><p>delta : float, default=0.05
 Confidence level (typically 0.05 or 0.1).
 For calculation of the number of samples achieving the certain
 bound. n_samples argument must not be provided and for
 initialising the default value either “epsilon” or
-“a” must be set.</li>
-<li><dl class="first docutils">
-<dt>epsilon <span class="classifier-delimiter">:</span> <span class="classifier">float, default=0.05</span></dt>
-<dd>Precision level (typically 0.05 or 0.1).
+“a” must be set.</p></li>
+<li><dl class="simple">
+<dt>epsilon<span class="classifier">float, default=0.05</span></dt><dd><p>Precision level (typically 0.05 or 0.1).
 For calculation of the number of samples achieving the certain
 bound. n_samples argument must not be provided and for
 initialising the default value either “delta” or
-“a” must be set.</dd>
+“a” must be set.</p>
+</dd>
 </dl>
 </li>
-<li><dl class="first docutils">
-<dt>a <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd>Number of isomorphism classes of graphlets.
+<li><dl class="simple">
+<dt>a<span class="classifier">int</span></dt><dd><p>Number of isomorphism classes of graphlets.
 If -1 the number is the maximum possible, from a database
 1 until 9 or else predicted through interpolation.
 For calculation of the number of samples achieving the certain
 bound. n_samples argument must not be provided and for
 initializing the default value either “delta” or “epsilon” must
-be set.</dd>
+be set.</p>
+</dd>
 </dl>
 </li>
 </ul>
 </div></blockquote>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>X</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
-<dd><p class="first last">A dictionary of pairs between each input graph and a bins where the
+</dd>
+<dt class="field-even">Attributes</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>X</strong><span class="classifier">dict</span></dt><dd><p>A dictionary of pairs between each input graph and a bins where the
 sampled graphlets have fallen.</p>
 </dd>
-<dt><strong>sample_graphlets_</strong> <span class="classifier-delimiter">:</span> <span class="classifier">function</span></dt>
-<dd><p class="first last">A function taking as input a binary adjacency matrix, parametrised
+<dt><strong>sample_graphlets_</strong><span class="classifier">function</span></dt><dd><p>A function taking as input a binary adjacency matrix, parametrised
 to work for the certain samples, k and deterministic/propabilistic
 mode.</p>
 </dd>
-<dt><strong>random_state_</strong> <span class="classifier-delimiter">:</span> <span class="classifier">RandomState</span></dt>
-<dd><p class="first last">A RandomState object handling all randomness of the class.</p>
+<dt><strong>random_state_</strong><span class="classifier">RandomState</span></dt><dd><p>A RandomState object handling all randomness of the class.</p>
 </dd>
-<dt><strong>_graph_bins</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
-<dd><p class="first last">A dictionary of graph bins holding pynauty objects</p>
+<dt><strong>_graph_bins</strong><span class="classifier">dict</span></dt><dd><p>A dictionary of graph bins holding pynauty objects</p>
 </dd>
-<dt><strong>_nx</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd><p class="first last">Holds the number of sampled X graphs.</p>
+<dt><strong>_nx</strong><span class="classifier">int</span></dt><dd><p>Holds the number of sampled X graphs.</p>
 </dd>
-<dt><strong>_ny</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd><p class="first last">Holds the number of sampled Y graphs.</p>
+<dt><strong>_ny</strong><span class="classifier">int</span></dt><dd><p>Holds the number of sampled Y graphs.</p>
 </dd>
-<dt><strong>_X_diag</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.array, shape=(_nx, 1)</span></dt>
-<dd><p class="first last">Holds the diagonal of X kernel matrix in a numpy array, if calculated
+<dt><strong>_X_diag</strong><span class="classifier">np.array, shape=(_nx, 1)</span></dt><dd><p>Holds the diagonal of X kernel matrix in a numpy array, if calculated
 (<cite>fit_transform</cite>).</p>
 </dd>
-<dt><strong>_phi_X</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.array, shape=(_nx, len(_graph_bins))</span></dt>
-<dd><p class="first last">Holds the features of X in a numpy array, if calculated.
+<dt><strong>_phi_X</strong><span class="classifier">np.array, shape=(_nx, len(_graph_bins))</span></dt><dd><p>Holds the features of X in a numpy array, if calculated.
 (<cite>fit_transform</cite>).</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <p class="rubric">Methods</p>
-<table border="1" class="longtable docutils">
+<table class="longtable docutils align-default">
 <colgroup>
-<col width="10%" />
-<col width="90%" />
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.GraphletSampling.diagonal" title="grakel.GraphletSampling.diagonal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">diagonal</span></code></a>(self)</td>
-<td>Calculate the kernel matrix diagonal for fitted data.</td>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#grakel.GraphletSampling.diagonal" title="grakel.GraphletSampling.diagonal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">diagonal</span></code></a>(self)</p></td>
+<td><p>Calculate the kernel matrix diagonal for fitted data.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.GraphletSampling.fit" title="grakel.GraphletSampling.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(self,&nbsp;X[,&nbsp;y])</td>
-<td>Fit a dataset, for a transformer.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#grakel.GraphletSampling.fit" title="grakel.GraphletSampling.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(self, X[, y])</p></td>
+<td><p>Fit a dataset, for a transformer.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.GraphletSampling.fit_transform" title="grakel.GraphletSampling.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code></a>(self,&nbsp;X)</td>
-<td>Fit and transform, on the same dataset.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#grakel.GraphletSampling.fit_transform" title="grakel.GraphletSampling.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code></a>(self, X)</p></td>
+<td><p>Fit and transform, on the same dataset.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.GraphletSampling.get_params" title="grakel.GraphletSampling.get_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code></a>(self[,&nbsp;deep])</td>
-<td>Get parameters for this estimator.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#grakel.GraphletSampling.get_params" title="grakel.GraphletSampling.get_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code></a>(self[, deep])</p></td>
+<td><p>Get parameters for this estimator.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.GraphletSampling.initialize" title="grakel.GraphletSampling.initialize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize</span></code></a>(self)</td>
-<td>Initialize all transformer arguments, needing initialization.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#grakel.GraphletSampling.initialize" title="grakel.GraphletSampling.initialize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize</span></code></a>(self)</p></td>
+<td><p>Initialize all transformer arguments, needing initialization.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.GraphletSampling.pairwise_operation" title="grakel.GraphletSampling.pairwise_operation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pairwise_operation</span></code></a>(self,&nbsp;x,&nbsp;y)</td>
-<td>Calculate a pairwise kernel between two elements.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#grakel.GraphletSampling.pairwise_operation" title="grakel.GraphletSampling.pairwise_operation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pairwise_operation</span></code></a>(self, x, y)</p></td>
+<td><p>Calculate a pairwise kernel between two elements.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.GraphletSampling.parse_input" title="grakel.GraphletSampling.parse_input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_input</span></code></a>(self,&nbsp;X)</td>
-<td>Parse and create features for graphlet_sampling kernel.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#grakel.GraphletSampling.parse_input" title="grakel.GraphletSampling.parse_input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_input</span></code></a>(self, X)</p></td>
+<td><p>Parse and create features for graphlet_sampling kernel.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.GraphletSampling.set_params" title="grakel.GraphletSampling.set_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code></a>(self,&nbsp;\*\*params)</td>
-<td>Call the parent method.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#grakel.GraphletSampling.set_params" title="grakel.GraphletSampling.set_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code></a>(self, \*\*params)</p></td>
+<td><p>Call the parent method.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.GraphletSampling.transform" title="grakel.GraphletSampling.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(self,&nbsp;X)</td>
-<td>Calculate the kernel matrix, between given and fitted dataset.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#grakel.GraphletSampling.transform" title="grakel.GraphletSampling.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(self, X)</p></td>
+<td><p>Calculate the kernel matrix, between given and fitted dataset.</p></td>
 </tr>
 </tbody>
 </table>
 <p>Initialise a subtree_wl kernel.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>X</strong></dt>
-<dd></dd>
+<dl class="field-list simple">
+<dt class="field-odd">Attributes</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>X</strong></dt><dd></dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <p class="rubric">Methods</p>
-<table border="1" class="longtable docutils">
+<table class="longtable docutils align-default">
 <colgroup>
-<col width="10%" />
-<col width="90%" />
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.GraphletSampling.diagonal" title="grakel.GraphletSampling.diagonal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">diagonal</span></code></a>(self)</td>
-<td>Calculate the kernel matrix diagonal for fitted data.</td>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#grakel.GraphletSampling.diagonal" title="grakel.GraphletSampling.diagonal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">diagonal</span></code></a>(self)</p></td>
+<td><p>Calculate the kernel matrix diagonal for fitted data.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.GraphletSampling.fit" title="grakel.GraphletSampling.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(self,&nbsp;X[,&nbsp;y])</td>
-<td>Fit a dataset, for a transformer.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#grakel.GraphletSampling.fit" title="grakel.GraphletSampling.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(self, X[, y])</p></td>
+<td><p>Fit a dataset, for a transformer.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.GraphletSampling.fit_transform" title="grakel.GraphletSampling.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code></a>(self,&nbsp;X)</td>
-<td>Fit and transform, on the same dataset.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#grakel.GraphletSampling.fit_transform" title="grakel.GraphletSampling.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code></a>(self, X)</p></td>
+<td><p>Fit and transform, on the same dataset.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.GraphletSampling.get_params" title="grakel.GraphletSampling.get_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code></a>(self[,&nbsp;deep])</td>
-<td>Get parameters for this estimator.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#grakel.GraphletSampling.get_params" title="grakel.GraphletSampling.get_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code></a>(self[, deep])</p></td>
+<td><p>Get parameters for this estimator.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.GraphletSampling.initialize" title="grakel.GraphletSampling.initialize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize</span></code></a>(self)</td>
-<td>Initialize all transformer arguments, needing initialization.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#grakel.GraphletSampling.initialize" title="grakel.GraphletSampling.initialize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize</span></code></a>(self)</p></td>
+<td><p>Initialize all transformer arguments, needing initialization.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.GraphletSampling.pairwise_operation" title="grakel.GraphletSampling.pairwise_operation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pairwise_operation</span></code></a>(self,&nbsp;x,&nbsp;y)</td>
-<td>Calculate a pairwise kernel between two elements.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#grakel.GraphletSampling.pairwise_operation" title="grakel.GraphletSampling.pairwise_operation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pairwise_operation</span></code></a>(self, x, y)</p></td>
+<td><p>Calculate a pairwise kernel between two elements.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.GraphletSampling.parse_input" title="grakel.GraphletSampling.parse_input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_input</span></code></a>(self,&nbsp;X)</td>
-<td>Parse and create features for graphlet_sampling kernel.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#grakel.GraphletSampling.parse_input" title="grakel.GraphletSampling.parse_input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_input</span></code></a>(self, X)</p></td>
+<td><p>Parse and create features for graphlet_sampling kernel.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.GraphletSampling.set_params" title="grakel.GraphletSampling.set_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code></a>(self,&nbsp;\*\*params)</td>
-<td>Call the parent method.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#grakel.GraphletSampling.set_params" title="grakel.GraphletSampling.set_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code></a>(self, \*\*params)</p></td>
+<td><p>Call the parent method.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.GraphletSampling.transform" title="grakel.GraphletSampling.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(self,&nbsp;X)</td>
-<td>Calculate the kernel matrix, between given and fitted dataset.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#grakel.GraphletSampling.transform" title="grakel.GraphletSampling.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(self, X)</p></td>
+<td><p>Calculate the kernel matrix, between given and fitted dataset.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="method">
 <dt id="grakel.GraphletSampling.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>self</em>, <em>n_jobs=None</em>, <em>normalize=False</em>, <em>verbose=False</em>, <em>random_state=None</em>, <em>k=5</em>, <em>sampling=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/9b6a3936/grakel/kernels/graphlet_sampling.py#L115"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/graphlet_sampling.html#GraphletSampling.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphletSampling.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">n_jobs=None</em>, <em class="sig-param">normalize=False</em>, <em class="sig-param">verbose=False</em>, <em class="sig-param">random_state=None</em>, <em class="sig-param">k=5</em>, <em class="sig-param">sampling=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/d9c8df75/grakel/kernels/graphlet_sampling.py#L115"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/graphlet_sampling.html#GraphletSampling.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphletSampling.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialise a subtree_wl kernel.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="grakel.GraphletSampling.diagonal">
-<code class="descname">diagonal</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/9b6a3936/grakel/kernels/graphlet_sampling.py#L327"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/graphlet_sampling.html#GraphletSampling.diagonal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphletSampling.diagonal" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">diagonal</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/d9c8df75/grakel/kernels/graphlet_sampling.py#L327"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/graphlet_sampling.html#GraphletSampling.diagonal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphletSampling.diagonal" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the kernel matrix diagonal for fitted data.</p>
 <p>A funtion called on transform on a seperate dataset to apply
 normalization on the exterior.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>None.</strong></dt>
-<dd></dd>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>None.</strong></dt><dd></dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>X_diag</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.array</span></dt>
-<dd><p class="first last">The diagonal of the kernel matrix, of the fitted data.
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>X_diag</strong><span class="classifier">np.array</span></dt><dd><p>The diagonal of the kernel matrix, of the fitted data.
 This consists of kernel calculation for each element with itself.</p>
 </dd>
-<dt><strong>Y_diag</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.array</span></dt>
-<dd><p class="first last">The diagonal of the kernel matrix, of the transformed data.
+<dt><strong>Y_diag</strong><span class="classifier">np.array</span></dt><dd><p>The diagonal of the kernel matrix, of the transformed data.
 This consists of kernel calculation for each element with itself.</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="grakel.GraphletSampling.fit">
-<code class="descname">fit</code><span class="sig-paren">(</span><em>self</em>, <em>X</em>, <em>y=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/9b6a3936/grakel/kernels/kernel.py#L91"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphletSampling.fit" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">X</em>, <em class="sig-param">y=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/d9c8df75/grakel/kernels/kernel.py#L91"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphletSampling.fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fit a dataset, for a transformer.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>X</strong> <span class="classifier-delimiter">:</span> <span class="classifier">iterable</span></dt>
-<dd><p class="first last">Each element must be an iterable with at most three features and at
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>X</strong><span class="classifier">iterable</span></dt><dd><p>Each element must be an iterable with at most three features and at
 least one. The first that is obligatory is a valid graph structure
 (adjacency matrix or edge_dictionary) while the second is
 node_labels and the third edge_labels (that fitting the given graph
 format). The train samples.</p>
 </dd>
-<dt><strong>y</strong> <span class="classifier-delimiter">:</span> <span class="classifier">None</span></dt>
-<dd><p class="first last">There is no need of a target in a transformer, yet the pipeline API
+<dt><strong>y</strong><span class="classifier">None</span></dt><dd><p>There is no need of a target in a transformer, yet the pipeline API
 requires this parameter.</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>self</strong> <span class="classifier-delimiter">:</span> <span class="classifier">object</span></dt>
-<dd></dd>
-<dt>Returns self.</dt>
-<dd></dd>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>self</strong><span class="classifier">object</span></dt><dd></dd>
+<dt>Returns self.</dt><dd></dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="grakel.GraphletSampling.fit_transform">
-<code class="descname">fit_transform</code><span class="sig-paren">(</span><em>self</em>, <em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/9b6a3936/grakel/kernels/graphlet_sampling.py#L285"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/graphlet_sampling.html#GraphletSampling.fit_transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphletSampling.fit_transform" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">fit_transform</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/d9c8df75/grakel/kernels/graphlet_sampling.py#L285"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/graphlet_sampling.html#GraphletSampling.fit_transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphletSampling.fit_transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fit and transform, on the same dataset.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>X</strong> <span class="classifier-delimiter">:</span> <span class="classifier">iterable</span></dt>
-<dd><p class="first last">Each element must be an iterable with at most three features and at
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>X</strong><span class="classifier">iterable</span></dt><dd><p>Each element must be an iterable with at most three features and at
 least one. The first that is obligatory is a valid graph structure
 (adjacency matrix or edge_dictionary) while the second is
 node_labels and the third edge_labels (that fitting the given graph
 format). If None the kernel matrix is calculated upon fit data.
 The test samples.</p>
 </dd>
-<dt><strong>y</strong> <span class="classifier-delimiter">:</span> <span class="classifier">None</span></dt>
-<dd><p class="first last">There is no need of a target in a transformer, yet the pipeline API
+<dt><strong>y</strong><span class="classifier">None</span></dt><dd><p>There is no need of a target in a transformer, yet the pipeline API
 requires this parameter.</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>K</strong> <span class="classifier-delimiter">:</span> <span class="classifier">numpy array, shape = [n_input_graphs, n_input_graphs]</span></dt>
-<dd><p class="first last">corresponding to the kernel matrix, a calculation between
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>K</strong><span class="classifier">numpy array, shape = [n_input_graphs, n_input_graphs]</span></dt><dd><p>corresponding to the kernel matrix, a calculation between
 all pairs of graphs between target an features</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="grakel.GraphletSampling.get_params">
-<code class="descname">get_params</code><span class="sig-paren">(</span><em>self</em>, <em>deep=True</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/9b6a3936/grakel/../venv/lib/python2.7/site-packages/sklearn/base.py#L168"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphletSampling.get_params" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_params</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">deep=True</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/d9c8df75/grakel/../venv/lib/python3.5/site-packages/sklearn/base.py#L173"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphletSampling.get_params" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get parameters for this estimator.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>deep</strong> <span class="classifier-delimiter">:</span> <span class="classifier">boolean, optional</span></dt>
-<dd><p class="first last">If True, will return the parameters for this estimator and
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>deep</strong><span class="classifier">bool, default=True</span></dt><dd><p>If True, will return the parameters for this estimator and
 contained subobjects that are estimators.</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>params</strong> <span class="classifier-delimiter">:</span> <span class="classifier">mapping of string to any</span></dt>
-<dd><p class="first last">Parameter names mapped to their values.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>params</strong><span class="classifier">mapping of string to any</span></dt><dd><p>Parameter names mapped to their values.</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="grakel.GraphletSampling.initialize">
-<code class="descname">initialize</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/9b6a3936/grakel/kernels/graphlet_sampling.py#L131"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/graphlet_sampling.html#GraphletSampling.initialize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphletSampling.initialize" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">initialize</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/d9c8df75/grakel/kernels/graphlet_sampling.py#L131"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/graphlet_sampling.html#GraphletSampling.initialize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphletSampling.initialize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize all transformer arguments, needing initialization.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="grakel.GraphletSampling.pairwise_operation">
-<code class="descname">pairwise_operation</code><span class="sig-paren">(</span><em>self</em>, <em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/9b6a3936/grakel/kernels/kernel.py#L370"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphletSampling.pairwise_operation" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">pairwise_operation</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">x</em>, <em class="sig-param">y</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/d9c8df75/grakel/kernels/kernel.py#L370"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphletSampling.pairwise_operation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate a pairwise kernel between two elements.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>x, y</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Object</span></dt>
-<dd><p class="first last">Objects as occur from parse_input.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>x, y</strong><span class="classifier">Object</span></dt><dd><p>Objects as occur from parse_input.</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>kernel</strong> <span class="classifier-delimiter">:</span> <span class="classifier">number</span></dt>
-<dd><p class="first last">The kernel value.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>kernel</strong><span class="classifier">number</span></dt><dd><p>The kernel value.</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="grakel.GraphletSampling.parse_input">
-<code class="descname">parse_input</code><span class="sig-paren">(</span><em>self</em>, <em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/9b6a3936/grakel/kernels/graphlet_sampling.py#L365"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/graphlet_sampling.html#GraphletSampling.parse_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphletSampling.parse_input" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">parse_input</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/d9c8df75/grakel/kernels/graphlet_sampling.py#L365"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/graphlet_sampling.html#GraphletSampling.parse_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphletSampling.parse_input" title="Permalink to this definition">¶</a></dt>
 <dd><p>Parse and create features for graphlet_sampling kernel.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>X</strong> <span class="classifier-delimiter">:</span> <span class="classifier">iterable</span></dt>
-<dd><p class="first last">For the input to pass the test, we must have:
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>X</strong><span class="classifier">iterable</span></dt><dd><p>For the input to pass the test, we must have:
 Each element must be an iterable with at most three features and at
 least one. The first that is obligatory is a valid graph structure
 (adjacency matrix or edge_dictionary) while the second is
@@ -577,67 +524,57 @@ node_labels and the third edge_labels (that correspond to the given
 graph format). A valid input also consists of graph type objects.</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>local_values</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
-<dd><p class="first last">A dictionary of pairs between each input graph and a bins where the
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>local_values</strong><span class="classifier">dict</span></dt><dd><p>A dictionary of pairs between each input graph and a bins where the
 sampled graphlets have fallen.</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="grakel.GraphletSampling.set_params">
-<code class="descname">set_params</code><span class="sig-paren">(</span><em>self</em>, <em>**params</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/9b6a3936/grakel/kernels/kernel.py#L386"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphletSampling.set_params" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">set_params</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">**params</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/d9c8df75/grakel/kernels/kernel.py#L386"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphletSampling.set_params" title="Permalink to this definition">¶</a></dt>
 <dd><p>Call the parent method.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="grakel.GraphletSampling.transform">
-<code class="descname">transform</code><span class="sig-paren">(</span><em>self</em>, <em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/9b6a3936/grakel/kernels/graphlet_sampling.py#L233"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/graphlet_sampling.html#GraphletSampling.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphletSampling.transform" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/d9c8df75/grakel/kernels/graphlet_sampling.py#L233"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/graphlet_sampling.html#GraphletSampling.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.GraphletSampling.transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the kernel matrix, between given and fitted dataset.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>X</strong> <span class="classifier-delimiter">:</span> <span class="classifier">iterable</span></dt>
-<dd><p class="first last">Each element must be an iterable with at most three features and at
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>X</strong><span class="classifier">iterable</span></dt><dd><p>Each element must be an iterable with at most three features and at
 least one. The first that is obligatory is a valid graph structure
 (adjacency matrix or edge_dictionary) while the second is
 node_labels and the third edge_labels (that fitting the given graph
 format).</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>K</strong> <span class="classifier-delimiter">:</span> <span class="classifier">numpy array, shape = [n_targets, n_input_graphs]</span></dt>
-<dd><p class="first last">corresponding to the kernel matrix, a calculation between
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>K</strong><span class="classifier">numpy array, shape = [n_targets, n_input_graphs]</span></dt><dd><p>corresponding to the kernel matrix, a calculation between
 all pairs of graphs between target an features</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
 
 <div class="section" id="bibliography">
 <h2>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">¶</a></h2>
-<p id="bibtex-bibliography-generated/grakel.GraphletSampling-0"><table class="bibtex docutils citation" frame="void" id="shervashidze2009efficient" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id1">[SPM+09]</a></td><td>N.&nbsp;Shervashidze, T.&nbsp;Petri, K.&nbsp;Mehlhorn, K.&nbsp;M. Borgwardt, and S.&nbsp;Vishwanathan. Efficient Graphlet Kernels for Large Graph Comparison. In <em>Proceedings of the International Conference on Artificial Intelligence and Statistics</em>, 488–495. 2009.</td></tr>
-</tbody>
-</table>
+<p id="bibtex-bibliography-generated/grakel.GraphletSampling-0"><dl class="citation">
+<dt class="bibtex label" id="shervashidze2009efficient"><span class="brackets"><a class="fn-backref" href="#id1">SPM+09</a></span></dt>
+<dd><p>N. Shervashidze, T. Petri, K. Mehlhorn, K. M. Borgwardt, and S. Vishwanathan. Efficient Graphlet Kernels for Large Graph Comparison. In <em>Proceedings of the International Conference on Artificial Intelligence and Statistics</em>, 488–495. 2009.</p>
+</dd>
+</dl>
 </p>
 <div class="clearer"></div></div>
 </div>
@@ -662,7 +599,7 @@ all pairs of graphs between target an features</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, DaSciM (BSD License)
+        &copy; Copyright 2019, DaSciM (BSD License)
 
     </p>
   </div>

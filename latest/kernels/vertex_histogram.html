@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Vertex Histogram Kernel &mdash; GraKeL 0.1a6 documentation</title>
+  <title>Vertex Histogram Kernel &mdash; GraKeL 0.1a7 documentation</title>
   
 
   
@@ -21,11 +21,11 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="../_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -58,7 +58,7 @@
 
           
             
-            <img src="../_static/logo.png" class="logo" alt="Logo"/>
+            <img src="../_static/logo.svg" class="logo" alt="Logo"/>
           
           </a>
 
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                0.1a6
+                0.1a7
               </div>
             
           
@@ -91,7 +91,10 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../user_manual.html">User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">Documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../benchmarks.html">Benchmarks</a></li>
 </ul>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../api.html">GraKeL</a><ul class="current">
@@ -124,6 +127,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../classes.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials.html">Tutorials</a></li>
 </ul>
 
             
@@ -206,14 +210,14 @@ The vertex histogram kernel is then defined as the linear kernel between <span c
 \[k(G, G') = \langle \mathbf{f}, \mathbf{f}' \rangle\]</div>
 <p>The complexity of the vertex histogram kernel is linear in the number of vertices of the graphs.</p>
 <p>An implementation of that kernel can be found below</p>
-<table border="1" class="longtable docutils">
+<table class="longtable docutils align-default">
 <colgroup>
-<col width="10%" />
-<col width="90%" />
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="../generated/grakel.VertexHistogram.html#grakel.VertexHistogram" title="grakel.VertexHistogram"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VertexHistogram</span></code></a>([n_jobs,&nbsp;normalize,&nbsp;…])</td>
-<td>Vertex Histogram kernel as found in <a class="reference internal" href="random_walk.html#sugiyama2015halting" id="id1">[sugiyama2015halting]</a>.</td>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/grakel.VertexHistogram.html#grakel.VertexHistogram" title="grakel.VertexHistogram"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VertexHistogram</span></code></a>([n_jobs, normalize, …])</p></td>
+<td><p>Vertex Histogram kernel as found in <a class="bibtex reference internal" href="random_walk.html#sugiyama2015halting" id="id1">[SB15]</a>.</p></td>
 </tr>
 </tbody>
 </table>
@@ -239,7 +243,7 @@ The vertex histogram kernel is then defined as the linear kernel between <span c
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, DaSciM (BSD License)
+        &copy; Copyright 2019, DaSciM (BSD License)
 
     </p>
   </div>

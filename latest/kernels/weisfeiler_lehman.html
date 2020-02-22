@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Weisfeiler Lehman Framework &mdash; GraKeL 0.1a6 documentation</title>
+  <title>Weisfeiler Lehman Framework &mdash; GraKeL 0.1a7 documentation</title>
   
 
   
@@ -21,11 +21,11 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="../_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -58,7 +58,7 @@
 
           
             
-            <img src="../_static/logo.png" class="logo" alt="Logo"/>
+            <img src="../_static/logo.svg" class="logo" alt="Logo"/>
           
           </a>
 
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                0.1a6
+                0.1a7
               </div>
             
           
@@ -91,7 +91,10 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../user_manual.html">User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">Documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../benchmarks.html">Benchmarks</a></li>
 </ul>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../api.html">GraKeL</a><ul class="current">
@@ -129,6 +132,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../classes.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials.html">Tutorials</a></li>
 </ul>
 
             
@@ -200,7 +204,7 @@
   <div class="section" id="weisfeiler-lehman-framework">
 <span id="weisfeiler-lehman"></span><h1>Weisfeiler Lehman Framework<a class="headerlink" href="#weisfeiler-lehman-framework" title="Permalink to this headline">¶</a></h1>
 <p>This Weisfeiler Lehman framework operates on top of existing graph kernels and is inspired by the
-Weisfeiler-Lehman test of graph isomorphism <a class="reference internal" href="#weisfeiler1968reduction" id="id1">[weisfeiler1968reduction]</a>.
+Weisfeiler-Lehman test of graph isomorphism <a class="bibtex reference internal" href="#weisfeiler1968reduction" id="id1">[WL68]</a>.
 The key idea of the Weisfeiler-Lehman algorithm is to replace the label of each vertex with a multiset
 label consisting of the original label of the vertex and the sorted set of labels of its neighbors.
 The resultant multiset is then compressed into a new, short label.
@@ -229,14 +233,14 @@ are the Weisfeiler-Lehman sequences of <span class="math notranslate nohighlight
 account discrete node labels can take advantage of the Weisfeiler-Lehman framework
 and compare graphs based on the whole Weisfeiler-Lehman sequence.</p>
 <p>The general implementation of this framework can be found here:</p>
-<table border="1" class="longtable docutils">
+<table class="longtable docutils align-default">
 <colgroup>
-<col width="10%" />
-<col width="90%" />
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="../generated/grakel.WeisfeilerLehman.html#grakel.WeisfeilerLehman" title="grakel.WeisfeilerLehman"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WeisfeilerLehman</span></code></a>([n_jobs,&nbsp;verbose,&nbsp;…])</td>
-<td>Compute the Weisfeiler Lehman Kernel.</td>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/grakel.WeisfeilerLehman.html#grakel.WeisfeilerLehman" title="grakel.WeisfeilerLehman"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WeisfeilerLehman</span></code></a>([n_jobs, verbose, …])</p></td>
+<td><p>Compute the Weisfeiler Lehman Kernel.</p></td>
 </tr>
 </tbody>
 </table>
@@ -264,27 +268,23 @@ is the number of occurrences of the letter <span class="math notranslate nohighl
 <div class="math notranslate nohighlight">
 \begin{equation}
         \phi(G') = (c_0(G',\sigma_{01}),\ldots,c_0(G',\sigma_{0|\Sigma_0|}),\ldots,c_h(G',\sigma_{h1}),\ldots,c_h(G',\sigma_{h|\Sigma_h|}))
-\end{equation}</div><p>It can be shown that the above definition is equivalent to comparing the number of shared subtrees between the two input graphs <a class="reference internal" href="#shervashidze2011weisfeiler" id="id2">[shervashidze2011weisfeiler]</a>.
+\end{equation}</div><p>It can be shown that the above definition is equivalent to comparing the number of shared subtrees between the two input graphs <a class="bibtex reference internal" href="#shervashidze2011weisfeiler" id="id2">[SSVL+11]</a>.
 It is interesting to note that the Weisfeiler-Lehman subtree kernel exhibits an attractive computational complexity since it can be computed in <span class="math notranslate nohighlight">\(\mathcal{O}(hm)\)</span> time.</p>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">To create an instance of the above kernel use the <a class="reference internal" href="vertex_histogram.html#vertex-histogram"><span class="std std-ref">Vertex Histogram Kernel</span></a> as the <code class="code docutils literal notranslate"><span class="pre">base_kernel</span></code>.</p>
+<p class="admonition-title">Note</p>
+<p>To create an instance of the above kernel use the <a class="reference internal" href="vertex_histogram.html#vertex-histogram"><span class="std std-ref">Vertex Histogram Kernel</span></a> as the <code class="code docutils literal notranslate"><span class="pre">base_kernel</span></code>.</p>
 </div>
 </div>
 <div class="section" id="bibliography">
 <h2>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">¶</a></h2>
-<p id="bibtex-bibliography-kernels/weisfeiler_lehman-0"><table class="bibtex docutils citation" frame="void" id="shervashidze2011weisfeiler" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id2">[SSVL+11]</a></td><td>Nino Shervashidze, Pascal Schweitzer, Erik Jan&nbsp;van Van&nbsp;Leeuwen, Kurt Mehlhorn, and Karsten&nbsp;M. Borgwardt. Weisfeiler-Lehman Graph Kernels. <em>Journal of Machine Learning Research</em>, 12:2539–2561, 2011.</td></tr>
-</tbody>
-</table>
-<table class="bibtex docutils citation" frame="void" id="weisfeiler1968reduction" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id1">[WL68]</a></td><td>Boris Weisfeiler and AA&nbsp;Lehman. A reduction of a graph to a canonical form and an algebra arising during this reduction. <em>Nauchno-Technicheskaya Informatsia</em>, 2(9):12–16, 1968.</td></tr>
-</tbody>
-</table>
+<p id="bibtex-bibliography-kernels/weisfeiler_lehman-0"><dl class="citation">
+<dt class="bibtex label" id="shervashidze2011weisfeiler"><span class="brackets"><a class="fn-backref" href="#id2">SSVL+11</a></span></dt>
+<dd><p>Nino Shervashidze, Pascal Schweitzer, Erik Jan van Van Leeuwen, Kurt Mehlhorn, and Karsten M. Borgwardt. Weisfeiler-Lehman Graph Kernels. <em>Journal of Machine Learning Research</em>, 12:2539–2561, 2011.</p>
+</dd>
+<dt class="bibtex label" id="weisfeiler1968reduction"><span class="brackets"><a class="fn-backref" href="#id1">WL68</a></span></dt>
+<dd><p>Boris Weisfeiler and AA Lehman. A reduction of a graph to a canonical form and an algebra arising during this reduction. <em>Nauchno-Technicheskaya Informatsia</em>, 2(9):12–16, 1968.</p>
+</dd>
+</dl>
 </p>
 </div>
 </div>
@@ -309,7 +309,7 @@ It is interesting to note that the Weisfeiler-Lehman subtree kernel exhibits an 
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, DaSciM (BSD License)
+        &copy; Copyright 2019, DaSciM (BSD License)
 
     </p>
   </div>

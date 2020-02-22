@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>grakel.EdgeHistogram &mdash; GraKeL 0.1a6 documentation</title>
+  <title>grakel.EdgeHistogram &mdash; GraKeL 0.1a7 documentation</title>
   
 
   
@@ -21,11 +21,11 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="../_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -58,7 +58,7 @@
 
           
             
-            <img src="../_static/logo.png" class="logo" alt="Logo"/>
+            <img src="../_static/logo.svg" class="logo" alt="Logo"/>
           
           </a>
 
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                0.1a6
+                0.1a7
               </div>
             
           
@@ -91,48 +91,52 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../user_manual.html">User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">Documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../benchmarks.html">Benchmarks</a></li>
 </ul>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../api.html">GraKeL</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../classes.html">API Reference</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-graph-graph-class-with-its-utility-functions"><code class="docutils literal notranslate"><span class="pre">grakel.graph</span></code>: Graph class with its utility functions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-graph-kernels-a-kernel-decorator"><code class="docutils literal notranslate"><span class="pre">grakel.graph_kernels</span></code>: A kernel decorator</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="../classes.html#grakel-kernels-a-collection-of-graph-kernels"><code class="docutils literal notranslate"><span class="pre">grakel.kernels</span></code>: A collection of graph kernels</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-graph-graph-class-with-its-utility-functions"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel.graph</span></code>: Graph class with its utility functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-graph-kernels-a-kernel-decorator"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel.graph_kernels</span></code>: A kernel decorator</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../classes.html#grakel-kernels-a-collection-of-graph-kernels"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel.kernels</span></code>: A collection of graph kernels</a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="../classes.html#kernels">Kernels</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="grakel.Kernel.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.Kernel</a></li>
-<li class="toctree-l4"><a class="reference internal" href="grakel.RandomWalk.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.RandomWalk</a></li>
-<li class="toctree-l4"><a class="reference internal" href="grakel.RandomWalkLabeled.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.RandomWalkLabeled</a></li>
-<li class="toctree-l4"><a class="reference internal" href="grakel.PyramidMatch.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.PyramidMatch</a></li>
-<li class="toctree-l4"><a class="reference internal" href="grakel.NeighborhoodHash.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.NeighborhoodHash</a></li>
-<li class="toctree-l4"><a class="reference internal" href="grakel.ShortestPath.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.ShortestPath</a></li>
-<li class="toctree-l4"><a class="reference internal" href="grakel.ShortestPathAttr.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.ShortestPathAttr</a></li>
-<li class="toctree-l4"><a class="reference internal" href="grakel.GraphletSampling.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.GraphletSampling</a></li>
-<li class="toctree-l4"><a class="reference internal" href="grakel.SubgraphMatching.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.SubgraphMatching</a></li>
-<li class="toctree-l4"><a class="reference internal" href="grakel.WeisfeilerLehman.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.WeisfeilerLehman</a></li>
-<li class="toctree-l4"><a class="reference internal" href="grakel.HadamardCode.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.HadamardCode</a></li>
-<li class="toctree-l4"><a class="reference internal" href="grakel.NeighborhoodSubgraphPairwiseDistance.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.NeighborhoodSubgraphPairwiseDistance</a></li>
-<li class="toctree-l4"><a class="reference internal" href="grakel.LovaszTheta.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.LovaszTheta</a></li>
-<li class="toctree-l4"><a class="reference internal" href="grakel.SvmTheta.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.SvmTheta</a></li>
-<li class="toctree-l4"><a class="reference internal" href="grakel.Propagation.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.Propagation</a></li>
-<li class="toctree-l4"><a class="reference internal" href="grakel.PropagationAttr.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.PropagationAttr</a></li>
-<li class="toctree-l4"><a class="reference internal" href="grakel.OddSth.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.OddSth</a></li>
-<li class="toctree-l4"><a class="reference internal" href="grakel.MultiscaleLaplacian.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.MultiscaleLaplacian</a></li>
-<li class="toctree-l4"><a class="reference internal" href="grakel.MultiscaleLaplacianFast.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.MultiscaleLaplacianFast</a></li>
-<li class="toctree-l4"><a class="reference internal" href="grakel.HadamardCode.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.HadamardCode</a></li>
-<li class="toctree-l4"><a class="reference internal" href="grakel.VertexHistogram.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.VertexHistogram</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.EdgeHistogram</a></li>
-<li class="toctree-l4"><a class="reference internal" href="grakel.GraphHopper.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.GraphHopper</a></li>
-<li class="toctree-l4"><a class="reference internal" href="grakel.CoreFramework.html"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.CoreFramework</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.Kernel.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.Kernel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.RandomWalk.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.RandomWalk</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.RandomWalkLabeled.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.RandomWalkLabeled</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.PyramidMatch.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.PyramidMatch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.NeighborhoodHash.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.NeighborhoodHash</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.ShortestPath.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.ShortestPath</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.ShortestPathAttr.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.ShortestPathAttr</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.GraphletSampling.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.GraphletSampling</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.SubgraphMatching.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.SubgraphMatching</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.WeisfeilerLehman.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.WeisfeilerLehman</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.HadamardCode.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.HadamardCode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.NeighborhoodSubgraphPairwiseDistance.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.NeighborhoodSubgraphPairwiseDistance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.LovaszTheta.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.LovaszTheta</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.SvmTheta.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.SvmTheta</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.Propagation.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.Propagation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.PropagationAttr.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.PropagationAttr</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.OddSth.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.OddSth</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.MultiscaleLaplacian.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.MultiscaleLaplacian</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.MultiscaleLaplacianFast.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.MultiscaleLaplacianFast</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.HadamardCode.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.HadamardCode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.VertexHistogram.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.VertexHistogram</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.EdgeHistogram</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.GraphHopper.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.GraphHopper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.CoreFramework.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.CoreFramework</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-datasets-datasets"><code class="docutils literal notranslate"><span class="pre">grakel.datasets</span></code>: Datasets</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-utils"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>: Utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-datasets-datasets"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel.datasets</span></code>: Datasets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-utils"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>: Utils</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials.html">Tutorials</a></li>
 </ul>
 
             
@@ -180,7 +184,7 @@
         
           <li><a href="../classes.html">API Reference</a> &raquo;</li>
         
-      <li><code class="docutils literal notranslate"><span class="pre">grakel</span></code>.EdgeHistogram</li>
+      <li><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.EdgeHistogram</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -203,288 +207,241 @@
 <h1><a class="reference internal" href="../api.html#module-grakel" title="grakel"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code></a>.EdgeHistogram<a class="headerlink" href="#grakel-edgehistogram" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="grakel.EdgeHistogram">
-<em class="property">class </em><code class="descclassname">grakel.</code><code class="descname">EdgeHistogram</code><span class="sig-paren">(</span><em>n_jobs=None</em>, <em>normalize=False</em>, <em>verbose=False</em>, <em>sparse='auto'</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/9b6a3936/grakel/kernels/edge_histogram.py#L26"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/edge_histogram.html#EdgeHistogram"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.EdgeHistogram" title="Permalink to this definition">¶</a></dt>
-<dd><p>Edge Histogram kernel as found in <a class="reference internal" href="../kernels/random_walk.html#sugiyama2015halting" id="id1">[sugiyama2015halting]</a>.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>sparse</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool, or ‘auto’, default=’auto’</span></dt>
-<dd><p class="first last">Defines if the data will be stored in a sparse format.
+<em class="property">class </em><code class="sig-prename descclassname">grakel.</code><code class="sig-name descname">EdgeHistogram</code><span class="sig-paren">(</span><em class="sig-param">n_jobs=None</em>, <em class="sig-param">normalize=False</em>, <em class="sig-param">verbose=False</em>, <em class="sig-param">sparse='auto'</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/d9c8df75/grakel/kernels/edge_histogram.py#L26"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/edge_histogram.html#EdgeHistogram"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.EdgeHistogram" title="Permalink to this definition">¶</a></dt>
+<dd><p>Edge Histogram kernel as found in <a class="bibtex reference internal" href="../kernels/random_walk.html#sugiyama2015halting" id="id1">[SB15]</a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>sparse</strong><span class="classifier">bool, or ‘auto’, default=’auto’</span></dt><dd><p>Defines if the data will be stored in a sparse format.
 Sparse format is slower, but less memory consuming and in some cases the only solution.
 If ‘auto’, uses a sparse matrix when the number of zeros is more than the half of the matrix size.
 In all cases if the dense matrix doesn’t fit system memory, I sparse approach will be tried.</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>None.</strong></dt>
-<dd></dd>
+</dd>
+<dt class="field-even">Attributes</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>None.</strong></dt><dd></dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <p class="rubric">Methods</p>
-<table border="1" class="longtable docutils">
+<table class="longtable docutils align-default">
 <colgroup>
-<col width="10%" />
-<col width="90%" />
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.EdgeHistogram.diagonal" title="grakel.EdgeHistogram.diagonal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">diagonal</span></code></a>(self)</td>
-<td>Calculate the kernel matrix diagonal of the fitted data.</td>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#grakel.EdgeHistogram.diagonal" title="grakel.EdgeHistogram.diagonal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">diagonal</span></code></a>(self)</p></td>
+<td><p>Calculate the kernel matrix diagonal of the fitted data.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.EdgeHistogram.fit" title="grakel.EdgeHistogram.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(self,&nbsp;X[,&nbsp;y])</td>
-<td>Fit a dataset, for a transformer.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#grakel.EdgeHistogram.fit" title="grakel.EdgeHistogram.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(self, X[, y])</p></td>
+<td><p>Fit a dataset, for a transformer.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.EdgeHistogram.fit_transform" title="grakel.EdgeHistogram.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code></a>(self,&nbsp;X)</td>
-<td>Fit and transform, on the same dataset.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#grakel.EdgeHistogram.fit_transform" title="grakel.EdgeHistogram.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code></a>(self, X)</p></td>
+<td><p>Fit and transform, on the same dataset.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.EdgeHistogram.get_params" title="grakel.EdgeHistogram.get_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code></a>(self[,&nbsp;deep])</td>
-<td>Get parameters for this estimator.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#grakel.EdgeHistogram.get_params" title="grakel.EdgeHistogram.get_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code></a>(self[, deep])</p></td>
+<td><p>Get parameters for this estimator.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.EdgeHistogram.initialize" title="grakel.EdgeHistogram.initialize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize</span></code></a>(self)</td>
-<td>Initialize all transformer arguments, needing initialization.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#grakel.EdgeHistogram.initialize" title="grakel.EdgeHistogram.initialize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize</span></code></a>(self)</p></td>
+<td><p>Initialize all transformer arguments, needing initialization.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.EdgeHistogram.pairwise_operation" title="grakel.EdgeHistogram.pairwise_operation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pairwise_operation</span></code></a>(self,&nbsp;x,&nbsp;y)</td>
-<td>Calculate a pairwise kernel between two elements.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#grakel.EdgeHistogram.pairwise_operation" title="grakel.EdgeHistogram.pairwise_operation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pairwise_operation</span></code></a>(self, x, y)</p></td>
+<td><p>Calculate a pairwise kernel between two elements.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.EdgeHistogram.parse_input" title="grakel.EdgeHistogram.parse_input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_input</span></code></a>(self,&nbsp;X)</td>
-<td>Parse and check the given input for EH kernel.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#grakel.EdgeHistogram.parse_input" title="grakel.EdgeHistogram.parse_input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_input</span></code></a>(self, X)</p></td>
+<td><p>Parse and check the given input for EH kernel.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.EdgeHistogram.set_params" title="grakel.EdgeHistogram.set_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code></a>(self,&nbsp;\*\*params)</td>
-<td>Call the parent method.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#grakel.EdgeHistogram.set_params" title="grakel.EdgeHistogram.set_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code></a>(self, \*\*params)</p></td>
+<td><p>Call the parent method.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.EdgeHistogram.transform" title="grakel.EdgeHistogram.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(self,&nbsp;X)</td>
-<td>Calculate the kernel matrix, between given and fitted dataset.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#grakel.EdgeHistogram.transform" title="grakel.EdgeHistogram.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(self, X)</p></td>
+<td><p>Calculate the kernel matrix, between given and fitted dataset.</p></td>
 </tr>
 </tbody>
 </table>
 <p>Initialize an edge kernel.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>X</strong></dt>
-<dd></dd>
+<dl class="field-list simple">
+<dt class="field-odd">Attributes</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>X</strong></dt><dd></dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <p class="rubric">Methods</p>
-<table border="1" class="longtable docutils">
+<table class="longtable docutils align-default">
 <colgroup>
-<col width="10%" />
-<col width="90%" />
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.EdgeHistogram.diagonal" title="grakel.EdgeHistogram.diagonal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">diagonal</span></code></a>(self)</td>
-<td>Calculate the kernel matrix diagonal of the fitted data.</td>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#grakel.EdgeHistogram.diagonal" title="grakel.EdgeHistogram.diagonal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">diagonal</span></code></a>(self)</p></td>
+<td><p>Calculate the kernel matrix diagonal of the fitted data.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.EdgeHistogram.fit" title="grakel.EdgeHistogram.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(self,&nbsp;X[,&nbsp;y])</td>
-<td>Fit a dataset, for a transformer.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#grakel.EdgeHistogram.fit" title="grakel.EdgeHistogram.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(self, X[, y])</p></td>
+<td><p>Fit a dataset, for a transformer.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.EdgeHistogram.fit_transform" title="grakel.EdgeHistogram.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code></a>(self,&nbsp;X)</td>
-<td>Fit and transform, on the same dataset.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#grakel.EdgeHistogram.fit_transform" title="grakel.EdgeHistogram.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code></a>(self, X)</p></td>
+<td><p>Fit and transform, on the same dataset.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.EdgeHistogram.get_params" title="grakel.EdgeHistogram.get_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code></a>(self[,&nbsp;deep])</td>
-<td>Get parameters for this estimator.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#grakel.EdgeHistogram.get_params" title="grakel.EdgeHistogram.get_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code></a>(self[, deep])</p></td>
+<td><p>Get parameters for this estimator.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.EdgeHistogram.initialize" title="grakel.EdgeHistogram.initialize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize</span></code></a>(self)</td>
-<td>Initialize all transformer arguments, needing initialization.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#grakel.EdgeHistogram.initialize" title="grakel.EdgeHistogram.initialize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize</span></code></a>(self)</p></td>
+<td><p>Initialize all transformer arguments, needing initialization.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.EdgeHistogram.pairwise_operation" title="grakel.EdgeHistogram.pairwise_operation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pairwise_operation</span></code></a>(self,&nbsp;x,&nbsp;y)</td>
-<td>Calculate a pairwise kernel between two elements.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#grakel.EdgeHistogram.pairwise_operation" title="grakel.EdgeHistogram.pairwise_operation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pairwise_operation</span></code></a>(self, x, y)</p></td>
+<td><p>Calculate a pairwise kernel between two elements.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.EdgeHistogram.parse_input" title="grakel.EdgeHistogram.parse_input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_input</span></code></a>(self,&nbsp;X)</td>
-<td>Parse and check the given input for EH kernel.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#grakel.EdgeHistogram.parse_input" title="grakel.EdgeHistogram.parse_input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_input</span></code></a>(self, X)</p></td>
+<td><p>Parse and check the given input for EH kernel.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#grakel.EdgeHistogram.set_params" title="grakel.EdgeHistogram.set_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code></a>(self,&nbsp;\*\*params)</td>
-<td>Call the parent method.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#grakel.EdgeHistogram.set_params" title="grakel.EdgeHistogram.set_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code></a>(self, \*\*params)</p></td>
+<td><p>Call the parent method.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#grakel.EdgeHistogram.transform" title="grakel.EdgeHistogram.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(self,&nbsp;X)</td>
-<td>Calculate the kernel matrix, between given and fitted dataset.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#grakel.EdgeHistogram.transform" title="grakel.EdgeHistogram.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(self, X)</p></td>
+<td><p>Calculate the kernel matrix, between given and fitted dataset.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="method">
 <dt id="grakel.EdgeHistogram.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>self</em>, <em>n_jobs=None</em>, <em>normalize=False</em>, <em>verbose=False</em>, <em>sparse='auto'</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/9b6a3936/grakel/kernels/edge_histogram.py#L43"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/edge_histogram.html#EdgeHistogram.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.EdgeHistogram.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">n_jobs=None</em>, <em class="sig-param">normalize=False</em>, <em class="sig-param">verbose=False</em>, <em class="sig-param">sparse='auto'</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/d9c8df75/grakel/kernels/edge_histogram.py#L43"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/edge_histogram.html#EdgeHistogram.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.EdgeHistogram.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize an edge kernel.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="grakel.EdgeHistogram.diagonal">
-<code class="descname">diagonal</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/9b6a3936/grakel/kernels/edge_histogram.py#L180"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/edge_histogram.html#EdgeHistogram.diagonal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.EdgeHistogram.diagonal" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">diagonal</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/d9c8df75/grakel/kernels/edge_histogram.py#L180"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/edge_histogram.html#EdgeHistogram.diagonal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.EdgeHistogram.diagonal" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the kernel matrix diagonal of the fitted data.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>None.</strong></dt>
-<dd></dd>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>None.</strong></dt><dd></dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>X_diag</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.array</span></dt>
-<dd><p class="first last">The diagonal of the kernel matrix, of the fitted. This consists
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>X_diag</strong><span class="classifier">np.array</span></dt><dd><p>The diagonal of the kernel matrix, of the fitted. This consists
 of each element calculated with itself.</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="grakel.EdgeHistogram.fit">
-<code class="descname">fit</code><span class="sig-paren">(</span><em>self</em>, <em>X</em>, <em>y=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/9b6a3936/grakel/kernels/kernel.py#L91"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.EdgeHistogram.fit" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">X</em>, <em class="sig-param">y=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/d9c8df75/grakel/kernels/kernel.py#L91"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.EdgeHistogram.fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fit a dataset, for a transformer.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>X</strong> <span class="classifier-delimiter">:</span> <span class="classifier">iterable</span></dt>
-<dd><p class="first last">Each element must be an iterable with at most three features and at
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>X</strong><span class="classifier">iterable</span></dt><dd><p>Each element must be an iterable with at most three features and at
 least one. The first that is obligatory is a valid graph structure
 (adjacency matrix or edge_dictionary) while the second is
 node_labels and the third edge_labels (that fitting the given graph
 format). The train samples.</p>
 </dd>
-<dt><strong>y</strong> <span class="classifier-delimiter">:</span> <span class="classifier">None</span></dt>
-<dd><p class="first last">There is no need of a target in a transformer, yet the pipeline API
+<dt><strong>y</strong><span class="classifier">None</span></dt><dd><p>There is no need of a target in a transformer, yet the pipeline API
 requires this parameter.</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>self</strong> <span class="classifier-delimiter">:</span> <span class="classifier">object</span></dt>
-<dd></dd>
-<dt>Returns self.</dt>
-<dd></dd>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>self</strong><span class="classifier">object</span></dt><dd></dd>
+<dt>Returns self.</dt><dd></dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="grakel.EdgeHistogram.fit_transform">
-<code class="descname">fit_transform</code><span class="sig-paren">(</span><em>self</em>, <em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/9b6a3936/grakel/kernels/kernel.py#L169"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.EdgeHistogram.fit_transform" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">fit_transform</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/d9c8df75/grakel/kernels/kernel.py#L169"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.EdgeHistogram.fit_transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fit and transform, on the same dataset.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>X</strong> <span class="classifier-delimiter">:</span> <span class="classifier">iterable</span></dt>
-<dd><p class="first last">Each element must be an iterable with at most three features and at
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>X</strong><span class="classifier">iterable</span></dt><dd><p>Each element must be an iterable with at most three features and at
 least one. The first that is obligatory is a valid graph structure
 (adjacency matrix or edge_dictionary) while the second is
 node_labels and the third edge_labels (that fitting the given graph
 format). If None the kernel matrix is calculated upon fit data.
 The test samples.</p>
 </dd>
-<dt><strong>y</strong> <span class="classifier-delimiter">:</span> <span class="classifier">None</span></dt>
-<dd><p class="first last">There is no need of a target in a transformer, yet the pipeline API
+<dt><strong>y</strong><span class="classifier">None</span></dt><dd><p>There is no need of a target in a transformer, yet the pipeline API
 requires this parameter.</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>K</strong> <span class="classifier-delimiter">:</span> <span class="classifier">numpy array, shape = [n_targets, n_input_graphs]</span></dt>
-<dd><p class="first last">corresponding to the kernel matrix, a calculation between
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>K</strong><span class="classifier">numpy array, shape = [n_targets, n_input_graphs]</span></dt><dd><p>corresponding to the kernel matrix, a calculation between
 all pairs of graphs between target an features</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="grakel.EdgeHistogram.get_params">
-<code class="descname">get_params</code><span class="sig-paren">(</span><em>self</em>, <em>deep=True</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/9b6a3936/grakel/../venv/lib/python2.7/site-packages/sklearn/base.py#L168"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.EdgeHistogram.get_params" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_params</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">deep=True</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/d9c8df75/grakel/../venv/lib/python3.5/site-packages/sklearn/base.py#L173"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.EdgeHistogram.get_params" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get parameters for this estimator.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>deep</strong> <span class="classifier-delimiter">:</span> <span class="classifier">boolean, optional</span></dt>
-<dd><p class="first last">If True, will return the parameters for this estimator and
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>deep</strong><span class="classifier">bool, default=True</span></dt><dd><p>If True, will return the parameters for this estimator and
 contained subobjects that are estimators.</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>params</strong> <span class="classifier-delimiter">:</span> <span class="classifier">mapping of string to any</span></dt>
-<dd><p class="first last">Parameter names mapped to their values.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>params</strong><span class="classifier">mapping of string to any</span></dt><dd><p>Parameter names mapped to their values.</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="grakel.EdgeHistogram.initialize">
-<code class="descname">initialize</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/9b6a3936/grakel/kernels/edge_histogram.py#L49"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/edge_histogram.html#EdgeHistogram.initialize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.EdgeHistogram.initialize" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">initialize</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/d9c8df75/grakel/kernels/edge_histogram.py#L49"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/edge_histogram.html#EdgeHistogram.initialize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.EdgeHistogram.initialize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize all transformer arguments, needing initialization.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="grakel.EdgeHistogram.pairwise_operation">
-<code class="descname">pairwise_operation</code><span class="sig-paren">(</span><em>self</em>, <em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/9b6a3936/grakel/kernels/kernel.py#L370"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.EdgeHistogram.pairwise_operation" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">pairwise_operation</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">x</em>, <em class="sig-param">y</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/d9c8df75/grakel/kernels/kernel.py#L370"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.EdgeHistogram.pairwise_operation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate a pairwise kernel between two elements.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>x, y</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Object</span></dt>
-<dd><p class="first last">Objects as occur from parse_input.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>x, y</strong><span class="classifier">Object</span></dt><dd><p>Objects as occur from parse_input.</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>kernel</strong> <span class="classifier-delimiter">:</span> <span class="classifier">number</span></dt>
-<dd><p class="first last">The kernel value.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>kernel</strong><span class="classifier">number</span></dt><dd><p>The kernel value.</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="grakel.EdgeHistogram.parse_input">
-<code class="descname">parse_input</code><span class="sig-paren">(</span><em>self</em>, <em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/9b6a3936/grakel/kernels/edge_histogram.py#L60"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/edge_histogram.html#EdgeHistogram.parse_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.EdgeHistogram.parse_input" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">parse_input</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/d9c8df75/grakel/kernels/edge_histogram.py#L60"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/edge_histogram.html#EdgeHistogram.parse_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.EdgeHistogram.parse_input" title="Permalink to this definition">¶</a></dt>
 <dd><p>Parse and check the given input for EH kernel.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>X</strong> <span class="classifier-delimiter">:</span> <span class="classifier">iterable</span></dt>
-<dd><p class="first last">For the input to pass the test, we must have:
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>X</strong><span class="classifier">iterable</span></dt><dd><p>For the input to pass the test, we must have:
 Each element must be an iterable with at most three features and at
 least one. The first that is obligatory is a valid graph structure
 (adjacency matrix or edge_dictionary) while the second is
@@ -492,36 +449,30 @@ node_labels and the third edge_labels (that fitting the given graph
 format).</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>out</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.array, shape=(len(X), n_labels)</span></dt>
-<dd><p class="first last">A np array for frequency (cols) histograms for all Graphs (rows).</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>out</strong><span class="classifier">np.array, shape=(len(X), n_labels)</span></dt><dd><p>A np array for frequency (cols) histograms for all Graphs (rows).</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="grakel.EdgeHistogram.set_params">
-<code class="descname">set_params</code><span class="sig-paren">(</span><em>self</em>, <em>**params</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/9b6a3936/grakel/kernels/kernel.py#L386"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.EdgeHistogram.set_params" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">set_params</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">**params</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/d9c8df75/grakel/kernels/kernel.py#L386"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.EdgeHistogram.set_params" title="Permalink to this definition">¶</a></dt>
 <dd><p>Call the parent method.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="grakel.EdgeHistogram.transform">
-<code class="descname">transform</code><span class="sig-paren">(</span><em>self</em>, <em>X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/9b6a3936/grakel/kernels/kernel.py#L128"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.EdgeHistogram.transform" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/d9c8df75/grakel/kernels/kernel.py#L128"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.EdgeHistogram.transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the kernel matrix, between given and fitted dataset.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>X</strong> <span class="classifier-delimiter">:</span> <span class="classifier">iterable</span></dt>
-<dd><p class="first last">Each element must be an iterable with at most three features and at
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>X</strong><span class="classifier">iterable</span></dt><dd><p>Each element must be an iterable with at most three features and at
 least one. The first that is obligatory is a valid graph structure
 (adjacency matrix or edge_dictionary) while the second is
 node_labels and the third edge_labels (that fitting the given graph
@@ -529,30 +480,26 @@ format). If None the kernel matrix is calculated upon fit data.
 The test samples.</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>K</strong> <span class="classifier-delimiter">:</span> <span class="classifier">numpy array, shape = [n_targets, n_input_graphs]</span></dt>
-<dd><p class="first last">corresponding to the kernel matrix, a calculation between
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>K</strong><span class="classifier">numpy array, shape = [n_targets, n_input_graphs]</span></dt><dd><p>corresponding to the kernel matrix, a calculation between
 all pairs of graphs between target an features</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
 
 <div class="section" id="bibliography">
 <h2>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">¶</a></h2>
-<p id="bibtex-bibliography-generated/grakel.EdgeHistogram-0"><table class="bibtex docutils citation" frame="void" id="sugiyama2015halting" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id1">[SB15]</a></td><td>Mahito Sugiyama and Karsten&nbsp;M. Borgwardt. Halting in Random Walk Kernels. In <em>Advances in Neural Information Processing Systems</em>, 1639–1647. 2015.</td></tr>
-</tbody>
-</table>
+<p id="bibtex-bibliography-generated/grakel.EdgeHistogram-0"><dl class="citation">
+<dt class="bibtex label" id="sugiyama2015halting"><span class="brackets"><a class="fn-backref" href="#id1">SB15</a></span></dt>
+<dd><p>Mahito Sugiyama and Karsten M. Borgwardt. Halting in Random Walk Kernels. In <em>Advances in Neural Information Processing Systems</em>, 1639–1647. 2015.</p>
+</dd>
+</dl>
 </p>
 <div class="clearer"></div></div>
 </div>
@@ -577,7 +524,7 @@ all pairs of graphs between target an features</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, DaSciM (BSD License)
+        &copy; Copyright 2019, DaSciM (BSD License)
 
     </p>
   </div>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Neighborhood Subgraph Pairwise Distance Kernel &mdash; GraKeL 0.1a6 documentation</title>
+  <title>Neighborhood Subgraph Pairwise Distance Kernel &mdash; GraKeL 0.1a7 documentation</title>
   
 
   
@@ -21,11 +21,11 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="../_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -58,7 +58,7 @@
 
           
             
-            <img src="../_static/logo.png" class="logo" alt="Logo"/>
+            <img src="../_static/logo.svg" class="logo" alt="Logo"/>
           
           </a>
 
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                0.1a6
+                0.1a7
               </div>
             
           
@@ -91,7 +91,10 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../user_manual.html">User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">Documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../benchmarks.html">Benchmarks</a></li>
 </ul>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../api.html">GraKeL</a><ul class="current">
@@ -127,6 +130,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../classes.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials.html">Tutorials</a></li>
 </ul>
 
             
@@ -197,7 +201,7 @@
             
   <div class="section" id="neighborhood-subgraph-pairwise-distance-kernel">
 <span id="nspdk"></span><h1>Neighborhood Subgraph Pairwise Distance Kernel<a class="headerlink" href="#neighborhood-subgraph-pairwise-distance-kernel" title="Permalink to this headline">¶</a></h1>
-<p>The neighborhood subgraph pairwise distance kernel extracts pairs of rooted subgraphs from each graph whose roots are located at a certain distance from each other, and which contain vertices up to a certain distance from the root <a class="reference internal" href="#costa2010fast" id="id1">[costa2010fast]</a>.
+<p>The neighborhood subgraph pairwise distance kernel extracts pairs of rooted subgraphs from each graph whose roots are located at a certain distance from each other, and which contain vertices up to a certain distance from the root <a class="bibtex reference internal" href="#costa2010fast" id="id1">[CDG10]</a>.
 It then compares graphs based on these pairs of rooted subgraphs.
 To avoid isomorphism checking, graph invariants are employed to encode each rooted subgraph.</p>
 <p>Let <span class="math notranslate nohighlight">\(G=(V,E)\)</span> be a graph.
@@ -236,25 +240,24 @@ Hence, instead of testing pairs of subgraphs for isomorphism, the kernel just ch
 <p>The computational complexity of the neighborhood subgraph pairwise distance kernel is <span class="math notranslate nohighlight">\(\mathcal{O}(|V| |S| |E(S)| \log |E(S)|)\)</span> and is dominated by the repeated computation of the graph invariant for each vertex of the graph.
 Since this is a constant time procedure, for small values of <span class="math notranslate nohighlight">\(d^*\)</span> and <span class="math notranslate nohighlight">\(r^*\)</span>, the complexity of the kernel is in practice linear in the size of the graph.</p>
 <p>The implementation of the neighborhood subgraph pairwise distance kernel can be found below</p>
-<table border="1" class="longtable docutils">
+<table class="longtable docutils align-default">
 <colgroup>
-<col width="10%" />
-<col width="90%" />
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="../generated/grakel.NeighborhoodSubgraphPairwiseDistance.html#grakel.NeighborhoodSubgraphPairwiseDistance" title="grakel.NeighborhoodSubgraphPairwiseDistance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NeighborhoodSubgraphPairwiseDistance</span></code></a>([…])</td>
-<td>The Neighborhood subgraph pairwise distance kernel.</td>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/grakel.NeighborhoodSubgraphPairwiseDistance.html#grakel.NeighborhoodSubgraphPairwiseDistance" title="grakel.NeighborhoodSubgraphPairwiseDistance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NeighborhoodSubgraphPairwiseDistance</span></code></a>([…])</p></td>
+<td><p>The Neighborhood subgraph pairwise distance kernel.</p></td>
 </tr>
 </tbody>
 </table>
 <div class="section" id="bibliography">
 <h2>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">¶</a></h2>
-<p id="bibtex-bibliography-kernels/neighborhood_subgraph_pairwise_distance-0"><table class="bibtex docutils citation" frame="void" id="costa2010fast" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id1">[CDG10]</a></td><td>Fabrizio Costa and Kurt De&nbsp;Grave. Fast Neighborhood Subgraph Pairwise Distance Kernel. In <em>Proceedings of the 26th International Conference on Machine Learning</em>, 255–262. 2010.</td></tr>
-</tbody>
-</table>
+<p id="bibtex-bibliography-kernels/neighborhood_subgraph_pairwise_distance-0"><dl class="citation">
+<dt class="bibtex label" id="costa2010fast"><span class="brackets"><a class="fn-backref" href="#id1">CDG10</a></span></dt>
+<dd><p>Fabrizio Costa and Kurt De Grave. Fast Neighborhood Subgraph Pairwise Distance Kernel. In <em>Proceedings of the 26th International Conference on Machine Learning</em>, 255–262. 2010.</p>
+</dd>
+</dl>
 </p>
 </div>
 </div>
@@ -279,7 +282,7 @@ Since this is a constant time procedure, for small values of <span class="math n
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, DaSciM (BSD License)
+        &copy; Copyright 2019, DaSciM (BSD License)
 
     </p>
   </div>

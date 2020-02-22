@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Neighborhood Hash Kernel &mdash; GraKeL 0.1a6 documentation</title>
+  <title>Neighborhood Hash Kernel &mdash; GraKeL 0.1a7 documentation</title>
   
 
   
@@ -21,11 +21,11 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="../_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -58,7 +58,7 @@
 
           
             
-            <img src="../_static/logo.png" class="logo" alt="Logo"/>
+            <img src="../_static/logo.svg" class="logo" alt="Logo"/>
           
           </a>
 
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                0.1a6
+                0.1a7
               </div>
             
           
@@ -91,7 +91,10 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../user_manual.html">User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">Documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../benchmarks.html">Benchmarks</a></li>
 </ul>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../api.html">GraKeL</a><ul class="current">
@@ -130,6 +133,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../classes.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials.html">Tutorials</a></li>
 </ul>
 
             
@@ -200,7 +204,7 @@
             
   <div class="section" id="neighborhood-hash-kernel">
 <span id="neighborhood-hash"></span><h1>Neighborhood Hash Kernel<a class="headerlink" href="#neighborhood-hash-kernel" title="Permalink to this headline">¶</a></h1>
-<p>The neighborhood hash kernel assumes node-labeled graphs <a class="reference internal" href="#hido2009alg" id="id1">[Hido2009ALG]</a>.
+<p>The neighborhood hash kernel assumes node-labeled graphs <a class="bibtex reference internal" href="#hido2009alg" id="id1">[HK09]</a>.
 It compares graphs by updating their node labels and counting the number of common labels.
 The kernel replaces the discrete node labels with binary arrays of fixed length, and it then employs logical operations to update the labels so that they contain information regarding the neighborhood structure of each vertex.</p>
 <p>Let <span class="math notranslate nohighlight">\(\ell : \mathcal{V} \rightarrow \Sigma\)</span> be a function that maps vertices to an alphabet <span class="math notranslate nohighlight">\(\Sigma\)</span> which is the set of possible discrete node labels.
@@ -256,7 +260,7 @@ Then, given two graphs <span class="math notranslate nohighlight">\(G\)</span> a
 <div class="math notranslate nohighlight">
 \[\kappa(G, G') = \frac{c}{|V| + |V'| - c}\]</div>
 <p>where <span class="math notranslate nohighlight">\(c\)</span> is the number of labels the two graphs have in common.
-This function is equivalent to the Tanimoto coefficent which is commonly used as a similarity measure between sets of discrete values and which has been proven to be positive semidefinite <a class="reference internal" href="#gower1971general" id="id2">[gower1971general]</a>.</p>
+This function is equivalent to the Tanimoto coefficent which is commonly used as a similarity measure between sets of discrete values and which has been proven to be positive semidefinite <a class="bibtex reference internal" href="#gower1971general" id="id2">[Gow71]</a>.</p>
 <p>The label-update procedures is not necessary to be applied once, but they can be applied iteratively.
 By updating the bit labels several times, the new labels can capture high-order relationships between vertices.
 For instance, if the procedure is performed <span class="math notranslate nohighlight">\(h\)</span> times in total, the updated label <span class="math notranslate nohighlight">\(\ell(v)\)</span> of a vertex <span class="math notranslate nohighlight">\(v\)</span> represents the label distribution of its <span class="math notranslate nohighlight">\(h\)</span>-neighbors.
@@ -267,32 +271,28 @@ Then, given two graphs <span class="math notranslate nohighlight">\(G\)</span> a
 \[k(G, G') = \frac{1}{h} \sum_{i=1}^h \kappa(G_i, G'_i)\]</div>
 <p>The computational complexity of the neighborhood hash kernel is <span class="math notranslate nohighlight">\(\mathcal{O}(dhn\bar{D})\)</span> where <span class="math notranslate nohighlight">\(n=|V|\)</span> is the number of vertices of the graphs and <span class="math notranslate nohighlight">\(\bar{D}\)</span> is the average degree of their vertices.</p>
 <p>The implementation of the neighborhood hash kernel can be found below</p>
-<table border="1" class="longtable docutils">
+<table class="longtable docutils align-default">
 <colgroup>
-<col width="10%" />
-<col width="90%" />
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="../generated/grakel.NeighborhoodHash.html#grakel.NeighborhoodHash" title="grakel.NeighborhoodHash"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NeighborhoodHash</span></code></a>([n_jobs,&nbsp;normalize,&nbsp;…])</td>
-<td>Neighborhood hashing kernel as proposed in <a class="reference internal" href="#hido2009alg" id="id3">[Hido2009ALG]</a>.</td>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/grakel.NeighborhoodHash.html#grakel.NeighborhoodHash" title="grakel.NeighborhoodHash"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NeighborhoodHash</span></code></a>([n_jobs, normalize, …])</p></td>
+<td><p>Neighborhood hashing kernel as proposed in <a class="bibtex reference internal" href="#hido2009alg" id="id3">[HK09]</a>.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
 <div class="section" id="bibliography">
 <h2>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">¶</a></h2>
-<p id="bibtex-bibliography-kernels/neighborhood_hash-0"><table class="bibtex docutils citation" frame="void" id="gower1971general" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id2">[Gow71]</a></td><td>John&nbsp;C Gower. A general coefficient of similarity and some of its properties. <em>Biometrics</em>, pages 857–871, 1971.</td></tr>
-</tbody>
-</table>
-<table class="bibtex docutils citation" frame="void" id="hido2009alg" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label">[HK09]</td><td><em>(<a class="fn-backref" href="#id1">1</a>, <a class="fn-backref" href="#id3">2</a>)</em> Shohei Hido and Hisashi Kashima. A Linear-time Graph Kernel. In <em>Proceedings of the 9th International Conference on Data Mining</em>, 179–188. 2009.</td></tr>
-</tbody>
-</table>
+<p id="bibtex-bibliography-kernels/neighborhood_hash-0"><dl class="citation">
+<dt class="bibtex label" id="gower1971general"><span class="brackets"><a class="fn-backref" href="#id2">Gow71</a></span></dt>
+<dd><p>John C Gower. A general coefficient of similarity and some of its properties. <em>Biometrics</em>, pages 857–871, 1971.</p>
+</dd>
+<dt class="bibtex label" id="hido2009alg"><span class="brackets">HK09</span><span class="fn-backref">(<a href="#id1">1</a>,<a href="#id3">2</a>)</span></dt>
+<dd><p>Shohei Hido and Hisashi Kashima. A Linear-time Graph Kernel. In <em>Proceedings of the 9th International Conference on Data Mining</em>, 179–188. 2009.</p>
+</dd>
+</dl>
 </p>
 </div>
 </div>
@@ -317,7 +317,7 @@ Then, given two graphs <span class="math notranslate nohighlight">\(G\)</span> a
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, DaSciM (BSD License)
+        &copy; Copyright 2019, DaSciM (BSD License)
 
     </p>
   </div>

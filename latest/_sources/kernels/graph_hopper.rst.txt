@@ -67,5 +67,5 @@ The implementation of the neighborhood hash kernel can be found below
 
 Bibliography
 ------------
-.. bibliography:: ./graph_kernels.bib
+.. bibliography:: graph_kernels.bib
    :filter: docname in docnames

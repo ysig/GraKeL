@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Graph (class) &mdash; GraKeL 0.1a6 documentation</title>
+  <title>Graph (class) &mdash; GraKeL 0.1a7 documentation</title>
   
 
   
@@ -21,11 +21,11 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -58,7 +58,7 @@
 
           
             
-            <img src="_static/logo.png" class="logo" alt="Logo"/>
+            <img src="_static/logo.svg" class="logo" alt="Logo"/>
           
           </a>
 
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                0.1a6
+                0.1a7
               </div>
             
           
@@ -91,18 +91,21 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="user_manual.html">User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="documentation.html">Documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="benchmarks.html">Benchmarks</a></li>
 </ul>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="api.html">GraKeL</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="kernels.html">Kernels (between graphs)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="graph_kernel.html">GraphKernel (class)</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Graph (class)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="generated/grakel.Graph.html">grakel.Graph</a></li>
-<li class="toctree-l3"><a class="reference internal" href="generated/grakel.graph.is_adjacency.html">grakel.graph.is_adjacency</a></li>
-<li class="toctree-l3"><a class="reference internal" href="generated/grakel.graph.is_edge_dictionary.html">grakel.graph.is_edge_dictionary</a></li>
-<li class="toctree-l3"><a class="reference internal" href="generated/grakel.graph.laplacian.html">grakel.graph.laplacian</a></li>
-<li class="toctree-l3"><a class="reference internal" href="generated/grakel.graph.floyd_warshall.html">grakel.graph.floyd_warshall</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/grakel.Graph.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.Graph</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/grakel.graph.is_adjacency.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel.graph</span></code>.is_adjacency</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/grakel.graph.is_edge_dictionary.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel.graph</span></code>.is_edge_dictionary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/grakel.graph.laplacian.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel.graph</span></code>.laplacian</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/grakel.graph.floyd_warshall.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel.graph</span></code>.floyd_warshall</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="datasets.html">Dataset loading utilities</a></li>
@@ -110,6 +113,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="classes.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
 </ul>
 
             
@@ -180,34 +184,34 @@
 <span id="graph"></span><h1>Graph (class)<a class="headerlink" href="#graph-class" title="Permalink to this headline">¶</a></h1>
 <p>Documentation for the graph class.
 .. currentmodule:: grakel</p>
-<table border="1" class="longtable docutils">
+<table class="longtable docutils align-default">
 <colgroup>
-<col width="10%" />
-<col width="90%" />
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="generated/grakel.Graph.html#grakel.Graph" title="grakel.Graph"><code class="xref py py-obj docutils literal notranslate"><span class="pre">grakel.Graph</span></code></a>([initialization_object,&nbsp;…])</td>
-<td>The general <cite>graph</cite> class.</td>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/grakel.Graph.html#grakel.Graph" title="grakel.Graph"><code class="xref py py-obj docutils literal notranslate"><span class="pre">grakel.Graph</span></code></a>([initialization_object, …])</p></td>
+<td><p>The general <cite>graph</cite> class.</p></td>
 </tr>
 </tbody>
 </table>
-<table border="1" class="longtable docutils">
+<table class="longtable docutils align-default">
 <colgroup>
-<col width="10%" />
-<col width="90%" />
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="generated/grakel.graph.is_adjacency.html#grakel.graph.is_adjacency" title="grakel.graph.is_adjacency"><code class="xref py py-obj docutils literal notranslate"><span class="pre">grakel.graph.is_adjacency</span></code></a>(g[,&nbsp;transform])</td>
-<td>Define if input is in a valid adjacency matrix format.</td>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/grakel.graph.is_adjacency.html#grakel.graph.is_adjacency" title="grakel.graph.is_adjacency"><code class="xref py py-obj docutils literal notranslate"><span class="pre">grakel.graph.is_adjacency</span></code></a>(g[, transform])</p></td>
+<td><p>Define if input is in a valid adjacency matrix format.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/grakel.graph.is_edge_dictionary.html#grakel.graph.is_edge_dictionary" title="grakel.graph.is_edge_dictionary"><code class="xref py py-obj docutils literal notranslate"><span class="pre">grakel.graph.is_edge_dictionary</span></code></a>(g[,&nbsp;transform])</td>
-<td>Define if input is in a valid edge dictionary format.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/grakel.graph.is_edge_dictionary.html#grakel.graph.is_edge_dictionary" title="grakel.graph.is_edge_dictionary"><code class="xref py py-obj docutils literal notranslate"><span class="pre">grakel.graph.is_edge_dictionary</span></code></a>(g[, transform])</p></td>
+<td><p>Define if input is in a valid edge dictionary format.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="generated/grakel.graph.laplacian.html#grakel.graph.laplacian" title="grakel.graph.laplacian"><code class="xref py py-obj docutils literal notranslate"><span class="pre">grakel.graph.laplacian</span></code></a>(csgraph[,&nbsp;normed,&nbsp;…])</td>
-<td>Return the Laplacian matrix of a directed graph.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/grakel.graph.laplacian.html#grakel.graph.laplacian" title="grakel.graph.laplacian"><code class="xref py py-obj docutils literal notranslate"><span class="pre">grakel.graph.laplacian</span></code></a>(csgraph[, normed, …])</p></td>
+<td><p>Return the Laplacian matrix of a directed graph.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/grakel.graph.floyd_warshall.html#grakel.graph.floyd_warshall" title="grakel.graph.floyd_warshall"><code class="xref py py-obj docutils literal notranslate"><span class="pre">grakel.graph.floyd_warshall</span></code></a>(adjacency_matrix)</td>
-<td>Calculate the Floyd Warshall, shortest path matrix.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/grakel.graph.floyd_warshall.html#grakel.graph.floyd_warshall" title="grakel.graph.floyd_warshall"><code class="xref py py-obj docutils literal notranslate"><span class="pre">grakel.graph.floyd_warshall</span></code></a>(adjacency_matrix)</p></td>
+<td><p>Calculate the Floyd Warshall, shortest path matrix.</p></td>
 </tr>
 </tbody>
 </table>
@@ -233,7 +237,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, DaSciM (BSD License)
+        &copy; Copyright 2019, DaSciM (BSD License)
 
     </p>
   </div>

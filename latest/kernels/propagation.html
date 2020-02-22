@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Propagation Kernel &mdash; GraKeL 0.1a6 documentation</title>
+  <title>Propagation Kernel &mdash; GraKeL 0.1a7 documentation</title>
   
 
   
@@ -21,11 +21,11 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="../_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -58,7 +58,7 @@
 
           
             
-            <img src="../_static/logo.png" class="logo" alt="Logo"/>
+            <img src="../_static/logo.svg" class="logo" alt="Logo"/>
           
           </a>
 
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                0.1a6
+                0.1a7
               </div>
             
           
@@ -91,7 +91,10 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../user_manual.html">User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">Documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../benchmarks.html">Benchmarks</a></li>
 </ul>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../api.html">GraKeL</a><ul class="current">
@@ -107,7 +110,10 @@
 <li class="toctree-l3"><a class="reference internal" href="neighborhood_hash.html">Neighborhood Hash Kernel</a></li>
 <li class="toctree-l3"><a class="reference internal" href="neighborhood_subgraph_pairwise_distance.html">Neighborhood Subgraph Pairwise Distance Kernel</a></li>
 <li class="toctree-l3"><a class="reference internal" href="odd_sth.html">ODD-STh Kernel</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Propagation Kernel</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Propagation Kernel</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#bibliography">Bibliography</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="pyramid_match.html">Pyramid Match Kernel</a></li>
 <li class="toctree-l3"><a class="reference internal" href="random_walk.html">Random Walk Kernel</a></li>
 <li class="toctree-l3"><a class="reference internal" href="shortest_path.html">Shortest Path Kernel</a></li>
@@ -124,6 +130,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../classes.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials.html">Tutorials</a></li>
 </ul>
 
             
@@ -194,7 +201,7 @@
             
   <div class="section" id="propagation-kernel">
 <span id="propagation"></span><h1>Propagation Kernel<a class="headerlink" href="#propagation-kernel" title="Permalink to this headline">¶</a></h1>
-<p>Propagation kernels where introduced as a general framework in <a class="reference internal" href="../generated/grakel.PropagationAttr.html#neumann2015propagation" id="id1">[neumann2015propagation]</a>. They are based in the idea of propagating label information between nodes of the graph, based on the graph structure.
+<p>Propagation kernels where introduced as a general framework in <a class="bibtex reference internal" href="#neumann2015propagation" id="id1">[NGBK15]</a>. They are based in the idea of propagating label information between nodes of the graph, based on the graph structure.
 A graph is considered to have <strong>attributes</strong> on nodes, where in the case of labels they correspond to One-Hot-Vectors of the full dictionary of labels.
 The totality of nodes for each graph, can be seen as a probability distribution <span class="math notranslate nohighlight">\(P\)</span> of size <span class="math notranslate nohighlight">\(n \times d\)</span> where <span class="math notranslate nohighlight">\(n\)</span> corresponds to the number of nodes and <span class="math notranslate nohighlight">\(d\)</span> to the size of attributes.
 After the idea of diffusion is applied in order to construct the algorithmic framework of propagation kernels.
@@ -203,9 +210,9 @@ Given a transition matrix <span class="math notranslate nohighlight">\(T\)</span
 \[P_{t+1} \leftarrow T P_{t}\]</div>
 <p>Other than a user given transition matrix, <span class="math notranslate nohighlight">\(T = D^{−1}A\)</span>, was considered as default for each graph, where <span class="math notranslate nohighlight">\(D = diag(\sum_{j} A_{ij})\)</span> and <span class="math notranslate nohighlight">\(A\)</span> corresponds to the adjacency matrix of this graph.
 The general algorithm for propagation kernels is as follows:</p>
-<div class="figure" id="id2">
+<div class="figure align-default" id="id2">
 <img alt="../_images/marion1.png" src="../_images/marion1.png" />
-<p class="caption"><span class="caption-text">The general algorithmic scheme for propagation kernels.</span></p>
+<p class="caption"><span class="caption-text">The general algorithmic scheme for propagation kernels.</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
 </div>
 <p>The kernel computation <span class="math notranslate nohighlight">\(\langle \Phi, \Phi \rangle_{ij}\)</span>, at iteration <span class="math notranslate nohighlight">\(t\)</span> between two graphs <span class="math notranslate nohighlight">\(i, j\)</span> is equivalent with the:</p>
 <div class="math notranslate nohighlight">
@@ -213,36 +220,45 @@ The general algorithm for propagation kernels is as follows:</p>
 <p>where the node kernel <span class="math notranslate nohighlight">\(k(u, v)\)</span> is resolved through binning.
 In order to bin nodes a method should be found that was both efficient and expressive.
 A simple hashing function was considered a bad idea as it would separate values that where much more common than others. A sense of <em>locality</em> was needed when binning in order to group similar diffusion patterns in the same bin, similar to what is shown in the following:</p>
-<div class="figure" id="id3">
+<div class="figure align-default" id="id3">
 <img alt="../_images/marion2.png" src="../_images/marion2.png" />
-<p class="caption"><span class="caption-text">A binning scheme between a two step label propagation.</span></p>
+<p class="caption"><span class="caption-text">A binning scheme between a two step label propagation.</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
 </div>
 <p>For that the technique of locally sensitive hashing [<strong>LSH</strong>] was utilized, which was applied to all the input graphs as shown in the following:</p>
-<div class="figure" id="id4">
+<div class="figure align-default" id="id4">
 <img alt="../_images/marion3.png" src="../_images/marion3.png" />
-<p class="caption"><span class="caption-text">The locally sensitive function implemented inside the kernel.</span></p>
+<p class="caption"><span class="caption-text">The locally sensitive function implemented inside the kernel.</span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></p>
 </div>
 <p>Finally the following algorithm was implemented, in our case where we consider all graphs to be <em>fully-labeled</em>:</p>
-<div class="figure" id="id5">
+<div class="figure align-default" id="id5">
 <img alt="../_images/marion4.png" src="../_images/marion4.png" />
-<p class="caption"><span class="caption-text">The propagation kernel algorithm, which was implemented inside the package.</span></p>
+<p class="caption"><span class="caption-text">The propagation kernel algorithm, which was implemented inside the package.</span><a class="headerlink" href="#id5" title="Permalink to this image">¶</a></p>
 </div>
 <p>In case we have an attributed graph the <span class="math notranslate nohighlight">\(P_{0} \leftarrow \delta_{l(V)}\)</span> is replaced by <span class="math notranslate nohighlight">\(P_{0} \leftarrow attr(V)\)</span> considering all the node attributes have the same dimension.</p>
 <p>Both for attributed and for labeled graphs, implementations of the propagation can be found below:</p>
-<table border="1" class="longtable docutils">
+<table class="longtable docutils align-default">
 <colgroup>
-<col width="10%" />
-<col width="90%" />
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="../generated/grakel.Propagation.html#grakel.Propagation" title="grakel.Propagation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Propagation</span></code></a>([n_jobs,&nbsp;verbose,&nbsp;normalize,&nbsp;…])</td>
-<td>The Propagation kernel for fully labeled graphs.</td>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/grakel.Propagation.html#grakel.Propagation" title="grakel.Propagation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Propagation</span></code></a>([n_jobs, verbose, normalize, …])</p></td>
+<td><p>The Propagation kernel for fully labeled graphs.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="../generated/grakel.PropagationAttr.html#grakel.PropagationAttr" title="grakel.PropagationAttr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PropagationAttr</span></code></a>([n_jobs,&nbsp;verbose,&nbsp;…])</td>
-<td>The Propagation kernel for fully attributed graphs.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/grakel.PropagationAttr.html#grakel.PropagationAttr" title="grakel.PropagationAttr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PropagationAttr</span></code></a>([n_jobs, verbose, …])</p></td>
+<td><p>The Propagation kernel for fully attributed graphs.</p></td>
 </tr>
 </tbody>
 </table>
+<div class="section" id="bibliography">
+<h2>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">¶</a></h2>
+<p id="bibtex-bibliography-kernels/propagation-0"><dl class="citation">
+<dt class="bibtex label" id="neumann2015propagation"><span class="brackets"><a class="fn-backref" href="#id1">NGBK15</a></span></dt>
+<dd><p>Marion Neumann, Roman Garnett, Christian Bauckhage, and Kristian Kersting. Propagation kernels: efficient graph kernels from propagated information. <em>Machine Learning</em>, 102:209–245, 2015.</p>
+</dd>
+</dl>
+</p>
+</div>
 </div>
 
 
@@ -265,7 +281,7 @@ A simple hashing function was considered a bad idea as it would separate values 
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, DaSciM (BSD License)
+        &copy; Copyright 2019, DaSciM (BSD License)
 
     </p>
   </div>

@@ -59,5 +59,5 @@ The above kernel is implemented below
 
 Bibliography
 ------------
-.. bibliography:: ./graph_kernels.bib
+.. bibliography:: graph_kernels.bib
    :filter: docname in docnames

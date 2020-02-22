@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>grakel.datasets.get_dataset_info &mdash; GraKeL 0.1a6 documentation</title>
+  <title>grakel.datasets.get_dataset_info &mdash; GraKeL 0.1a7 documentation</title>
   
 
   
@@ -21,11 +21,11 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="../_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -58,7 +58,7 @@
 
           
             
-            <img src="../_static/logo.png" class="logo" alt="Logo"/>
+            <img src="../_static/logo.svg" class="logo" alt="Logo"/>
           
           </a>
 
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                0.1a6
+                0.1a7
               </div>
             
           
@@ -91,26 +91,26 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../user_manual.html">User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">Documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../benchmarks.html">Benchmarks</a></li>
 </ul>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../api.html">GraKeL</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../classes.html">API Reference</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-graph-graph-class-with-its-utility-functions"><code class="docutils literal notranslate"><span class="pre">grakel.graph</span></code>: Graph class with its utility functions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-graph-kernels-a-kernel-decorator"><code class="docutils literal notranslate"><span class="pre">grakel.graph_kernels</span></code>: A kernel decorator</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-kernels-a-collection-of-graph-kernels"><code class="docutils literal notranslate"><span class="pre">grakel.kernels</span></code>: A collection of graph kernels</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="../classes.html#grakel-datasets-datasets"><code class="docutils literal notranslate"><span class="pre">grakel.datasets</span></code>: Datasets</a><ul class="current">
-<li class="toctree-l3 current"><a class="reference internal" href="../classes.html#fetch">Fetch</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="grakel.datasets.fetch_dataset.html">grakel.datasets.fetch_dataset</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">grakel.datasets.get_dataset_info</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">GraKeL</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../kernels.html">Kernels (between graphs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../graph_kernel.html">GraphKernel (class)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../graph.html">Graph (class)</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../datasets.html">Dataset loading utilities</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="grakel.datasets.fetch_dataset.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel.datasets</span></code>.fetch_dataset</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel.datasets</span></code>.get_dataset_info</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-utils"><code class="docutils literal notranslate"><span class="pre">grakel</span></code>: Utils</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../classes.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials.html">Tutorials</a></li>
 </ul>
 
             
@@ -160,7 +160,7 @@
         
           <li><a href="../datasets.html">Dataset loading utilities</a> &raquo;</li>
         
-      <li>grakel.datasets.get_dataset_info</li>
+      <li><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel.datasets</span></code>.get_dataset_info</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -180,52 +180,45 @@
            <div itemprop="articleBody">
             
   <div class="section" id="grakel-datasets-get-dataset-info">
-<h1>grakel.datasets.get_dataset_info<a class="headerlink" href="#grakel-datasets-get-dataset-info" title="Permalink to this headline">¶</a></h1>
+<h1><a class="reference internal" href="../datasets.html#module-grakel.datasets" title="grakel.datasets"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel.datasets</span></code></a>.get_dataset_info<a class="headerlink" href="#grakel-datasets-get-dataset-info" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="grakel.datasets.get_dataset_info">
-<code class="descclassname">grakel.datasets.</code><code class="descname">get_dataset_info</code><span class="sig-paren">(</span><em>dataset_name</em>, <em>default=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/9b6a3936/grakel/datasets/base.py#L511"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/datasets/base.html#get_dataset_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.datasets.get_dataset_info" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">grakel.datasets.</code><code class="sig-name descname">get_dataset_info</code><span class="sig-paren">(</span><em class="sig-param">dataset_name</em>, <em class="sig-param">default=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/d9c8df75/grakel/datasets/base.py#L511"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/datasets/base.html#get_dataset_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.datasets.get_dataset_info" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the info concerning the existence of a certain dataset.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>dataset_name</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">The name of the dataset.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>dataset_name</strong><span class="classifier">str</span></dt><dd><p>The name of the dataset.</p>
 </dd>
-<dt><strong>default</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Object, default=None</span></dt>
-<dd><p class="first last">The default return value if the dataset is not found.</p>
+<dt><strong>default</strong><span class="classifier">Object, default=None</span></dt><dd><p>The default return value if the dataset is not found.</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>dictionary_get</strong> <span class="classifier-delimiter">:</span> <span class="classifier">default or dictionary_entry</span></dt>
-<dd><p class="first">The info of a dataset as a dictionary with
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl>
+<dt><strong>dictionary_get</strong><span class="classifier">default or dictionary_entry</span></dt><dd><p>The info of a dataset as a dictionary with
 fields:</p>
-<blockquote class="last">
+<blockquote>
 <div><ul class="simple">
-<li><strong>nl</strong> : A boolean flag indicating if the
-dataset has node labels.</li>
-<li><strong>el</strong> : A boolean flag indicating if the
-dataset has edge labels.</li>
-<li><strong>na</strong> : A boolean flag indicating if the
-dataset has node attributes.</li>
-<li><strong>ea</strong> : A boolean flag indicating if the
-dataset has edge attributes.</li>
-<li><strong>link</strong> : A str corresponding to the
-download link of the dataset.</li>
+<li><p><strong>nl</strong> : A boolean flag indicating if the
+dataset has node labels.</p></li>
+<li><p><strong>el</strong> : A boolean flag indicating if the
+dataset has edge labels.</p></li>
+<li><p><strong>na</strong> : A boolean flag indicating if the
+dataset has node attributes.</p></li>
+<li><p><strong>ea</strong> : A boolean flag indicating if the
+dataset has edge attributes.</p></li>
+<li><p><strong>link</strong> : A str corresponding to the
+download link of the dataset.</p></li>
 </ul>
 </div></blockquote>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
-</div>
+<div class="clearer"></div></div>
 
 
            </div>
@@ -247,7 +240,7 @@ download link of the dataset.</li>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, DaSciM (BSD License)
+        &copy; Copyright 2019, DaSciM (BSD License)
 
     </p>
   </div>

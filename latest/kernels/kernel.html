@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Kernel (general class) &mdash; GraKeL 0.1a6 documentation</title>
+  <title>Kernel (general class) &mdash; GraKeL 0.1a7 documentation</title>
   
 
   
@@ -21,11 +21,11 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="../_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -58,7 +58,7 @@
 
           
             
-            <img src="../_static/logo.png" class="logo" alt="Logo"/>
+            <img src="../_static/logo.svg" class="logo" alt="Logo"/>
           
           </a>
 
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                0.1a6
+                0.1a7
               </div>
             
           
@@ -91,7 +91,10 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../user_manual.html">User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">Documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../benchmarks.html">Benchmarks</a></li>
 </ul>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../api.html">GraKeL</a><ul class="current">
@@ -127,6 +130,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../classes.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials.html">Tutorials</a></li>
 </ul>
 
             
@@ -202,8 +206,8 @@
 \[\phi \; :\; \mathcal{G} \rightarrow \mathbb{H}, \text{for a Hilbert space } \mathbb{H}\]</div>
 <p>where each kernel value can be computed as <span class="math notranslate nohighlight">\(k(G_{i}, G_{j}) = \langle \phi(G_{i}), \phi(G_{j}) \rangle\)</span> where <span class="math notranslate nohighlight">\(\langle \cdot , \cdot \rangle\)</span> denotes the inner product inside this space. The emerging matrix <span class="math notranslate nohighlight">\(\mathbf{K}_{ij} = k(G_{i}, G_{j})\)</span> is known as the kernel matrix. For a kernel matrix to be valid it is required to be <em>positive semidefinite</em> (i.e. <span class="math notranslate nohighlight">\(\lambda_{min} \ge 0\)</span>).</p>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">The kernels implemented inside this package have all a <strong>Polynomial</strong> time complexity.</p>
+<p class="admonition-title">Note</p>
+<p>The kernels implemented inside this package have all a <strong>Polynomial</strong> time complexity.</p>
 </div>
 <p>In many cases, if instead of computing the kernel for each pair of graphs, we calculate it for the whole collection of graphs <span class="math notranslate nohighlight">\([G]_{i=1}^{N}\)</span>, we have a significant computational advantage. Given two collections of graphs: <span class="math notranslate nohighlight">\(G^{n}, G^{m}\)</span>, the full kernel matrix <span class="math notranslate nohighlight">\(\mathcal{K}\)</span> looks like:</p>
 <div class="math notranslate nohighlight">
@@ -218,32 +222,32 @@
 \right]\end{split}\]</div>
 <p>Any <code class="code docutils literal notranslate"><span class="pre">Kernel</span></code> object inherited class should match the following behavior:</p>
 <ul class="simple">
-<li><span class="math notranslate nohighlight">\(\mathcal{K}^{n\times n}=\texttt{&lt;KernelName&gt;.fit_transform}(\mathcal{G}^{n})\)</span></li>
-<li><span class="math notranslate nohighlight">\(\mathcal{K}^{m\times n}=\texttt{&lt;KernelName&gt;.fit}(\mathcal{G}^{\text{n}}).\texttt{transform}(\mathcal{G}^{\text{m}})\)</span></li>
-<li><span class="math notranslate nohighlight">\(\mathcal{K}=\texttt{&lt;KernelName&gt;.fit_transform}([\mathcal{G}^{n}\; \mathcal{G}^{m}])\)</span></li>
+<li><p><span class="math notranslate nohighlight">\(\mathcal{K}^{n\times n}=\texttt{&lt;KernelName&gt;.fit_transform}(\mathcal{G}^{n})\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathcal{K}^{m\times n}=\texttt{&lt;KernelName&gt;.fit}(\mathcal{G}^{\text{n}}).\texttt{transform}(\mathcal{G}^{\text{m}})\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathcal{K}=\texttt{&lt;KernelName&gt;.fit_transform}([\mathcal{G}^{n}\; \mathcal{G}^{m}])\)</span></p></li>
 </ul>
 <p>In graph classification, a problem tackled mainly by graph kernels, we are usually interested in calculating the matrices <span class="math notranslate nohighlight">\(\mathcal{K}^{n\times n}\)</span> and <span class="math notranslate nohighlight">\(\mathcal{K}^{m\times n}\)</span>.</p>
 <div class="section" id="parametrization">
 <h2>Parametrization<a class="headerlink" href="#parametrization" title="Permalink to this headline">¶</a></h2>
 <p>Any <code class="code docutils literal notranslate"><span class="pre">Kernel</span></code> inherited object comes with three parameters:</p>
 <ul class="simple">
-<li><code class="code docutils literal notranslate"><span class="pre">verbose</span></code> is a <code class="code docutils literal notranslate"><span class="pre">bool</span></code> parameter in order for the kernel to print messages that are related to the progress of the execution.</li>
-<li><code class="code docutils literal notranslate"><span class="pre">normalize</span></code> parameter is a <code class="code docutils literal notranslate"><span class="pre">bool</span></code> parameter which ensures that the kernel output will be normalized, that is <span class="math notranslate nohighlight">\([\mathcal{\hat{K}}]_{ij} = \frac{[\mathcal{K}]_{ij}}{\sqrt[]{[\mathcal{K}]_{ii}*[\mathcal{K}]_{jj}}}\)</span>.</li>
-<li><code class="code docutils literal notranslate"><span class="pre">n_jobs</span></code> is an <code class="code docutils literal notranslate"><span class="pre">int</span></code> parameter that defines the amount of parallel jobs on which parts of the kernel calculation will be executed (if a parallelization has been implemented).</li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">verbose</span></code> is a <code class="code docutils literal notranslate"><span class="pre">bool</span></code> parameter in order for the kernel to print messages that are related to the progress of the execution.</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">normalize</span></code> parameter is a <code class="code docutils literal notranslate"><span class="pre">bool</span></code> parameter which ensures that the kernel output will be normalized, that is <span class="math notranslate nohighlight">\([\mathcal{\hat{K}}]_{ij} = \frac{[\mathcal{K}]_{ij}}{\sqrt[]{[\mathcal{K}]_{ii}*[\mathcal{K}]_{jj}}}\)</span>.</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">n_jobs</span></code> is an <code class="code docutils literal notranslate"><span class="pre">int</span></code> parameter that defines the amount of parallel jobs on which parts of the kernel calculation will be executed (if a parallelization has been implemented).</p></li>
 </ul>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">In order for normalization to happen even in a framework scheme, its <code class="code docutils literal notranslate"><span class="pre">Kernel</span></code> should have an implemented <code class="code docutils literal notranslate"><span class="pre">diagonal</span></code> method.</p>
+<p class="admonition-title">Note</p>
+<p>In order for normalization to happen even in a framework scheme, its <code class="code docutils literal notranslate"><span class="pre">Kernel</span></code> should have an implemented <code class="code docutils literal notranslate"><span class="pre">diagonal</span></code> method.</p>
 </div>
 <p>The <code class="code docutils literal notranslate"><span class="pre">Kernel</span></code> class as discussed above can be found below:</p>
-<table border="1" class="longtable docutils">
+<table class="longtable docutils align-default">
 <colgroup>
-<col width="10%" />
-<col width="90%" />
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="../generated/grakel.Kernel.html#grakel.Kernel" title="grakel.Kernel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Kernel</span></code></a>([n_jobs,&nbsp;normalize,&nbsp;verbose])</td>
-<td>A general class for graph kernels.</td>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/grakel.Kernel.html#grakel.Kernel" title="grakel.Kernel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Kernel</span></code></a>([n_jobs, normalize, verbose])</p></td>
+<td><p>A general class for graph kernels.</p></td>
 </tr>
 </tbody>
 </table>
@@ -270,7 +274,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, DaSciM (BSD License)
+        &copy; Copyright 2019, DaSciM (BSD License)
 
     </p>
   </div>

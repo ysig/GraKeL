@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Subgraph Matching Kernel &mdash; GraKeL 0.1a6 documentation</title>
+  <title>Subgraph Matching Kernel &mdash; GraKeL 0.1a7 documentation</title>
   
 
   
@@ -21,11 +21,11 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="../_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -58,7 +58,7 @@
 
           
             
-            <img src="../_static/logo.png" class="logo" alt="Logo"/>
+            <img src="../_static/logo.svg" class="logo" alt="Logo"/>
           
           </a>
 
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                0.1a6
+                0.1a7
               </div>
             
           
@@ -91,7 +91,10 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../user_manual.html">User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">Documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../benchmarks.html">Benchmarks</a></li>
 </ul>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../api.html">GraKeL</a><ul class="current">
@@ -127,6 +130,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../classes.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials.html">Tutorials</a></li>
 </ul>
 
             
@@ -197,7 +201,7 @@
             
   <div class="section" id="subgraph-matching-kernel">
 <span id="subgraph-matching"></span><h1>Subgraph Matching Kernel<a class="headerlink" href="#subgraph-matching-kernel" title="Permalink to this headline">¶</a></h1>
-<p>The subgraph matching kernel counts the number of matchings between subgraphs of bounded size in two graphs <a class="reference internal" href="#kriege2012subgraph" id="id1">[kriege2012subgraph]</a>.
+<p>The subgraph matching kernel counts the number of matchings between subgraphs of bounded size in two graphs <a class="bibtex reference internal" href="#kriege2012subgraph" id="id1">[KM12]</a>.
 The kernel is very general since it can be applied to graphs that contain node labels, edge labels, node attributes or edge attributes.</p>
 <p>Let <span class="math notranslate nohighlight">\(\mathcal{G}\)</span> be a set of graphs.
 We assume that the graphs that are contained in the set are labeled or attributed.
@@ -222,7 +226,7 @@ The subgraph matching kernel is defined as</p>
 \end{split}\end{split}\]</div>
 <p>is known as the common subgraph isomorphism kernel.
 This kernel counts the number of isomorphic subgraphs contained in two graphs.</p>
-<p>To count the number of isomorphisms between subgraphs, the kernel capitalizes on a classical result of Levi <a class="reference internal" href="#levi1973note" id="id2">[levi1973note]</a> which makes a connection between common subgraphs of two graphs and cliques in their product graph.
+<p>To count the number of isomorphisms between subgraphs, the kernel capitalizes on a classical result of Levi <a class="bibtex reference internal" href="#levi1973note" id="id2">[Lev73]</a> which makes a connection between common subgraphs of two graphs and cliques in their product graph.
 More specifically, each maximum clique in the product graph is associated with a maximum common subgraph of the factor graphs.
 This allows someone to compute the common subgraph isomorphism kernel by enumerating the cliques of the product graph.</p>
 <p>The general subgraph matching kernel extends the theory of Levi and builds a weighted product graph to allow a more flexible scoring of bijections.
@@ -243,31 +247,27 @@ The algorithm effectively avoids duplicates by removing a vertex from the candid
 <p>The runtime of the subgraph matching kernel depends on the number of cliques in the product graph.
 The worst-case runtime complexity of the kernel when considering subgraphs of size up to <span class="math notranslate nohighlight">\(k\)</span> is <span class="math notranslate nohighlight">\(\mathcal{O}(kn^{k+1})\)</span>, where <span class="math notranslate nohighlight">\(n=|V|+|V'|\)</span> is the sum of the number of vertices of the two graphs.</p>
 <p>The implementation of the subgraph matching kernel can be found below</p>
-<table border="1" class="longtable docutils">
+<table class="longtable docutils align-default">
 <colgroup>
-<col width="10%" />
-<col width="90%" />
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="../generated/grakel.SubgraphMatching.html#grakel.SubgraphMatching" title="grakel.SubgraphMatching"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SubgraphMatching</span></code></a>([n_jobs,&nbsp;verbose,&nbsp;…])</td>
-<td>Calculate the subgraph matching kernel.</td>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/grakel.SubgraphMatching.html#grakel.SubgraphMatching" title="grakel.SubgraphMatching"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SubgraphMatching</span></code></a>([n_jobs, verbose, …])</p></td>
+<td><p>Calculate the subgraph matching kernel.</p></td>
 </tr>
 </tbody>
 </table>
 <div class="section" id="bibliography">
 <h2>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">¶</a></h2>
-<p id="bibtex-bibliography-kernels/subgraph_matching-0"><table class="bibtex docutils citation" frame="void" id="kriege2012subgraph" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id1">[KM12]</a></td><td>Nils Kriege and Petra Mutzel. Subgraph Matching Kernels for Attributed Graphs. In <em>Proceedings of the 29th International Conference on Machine Learning</em>, 291–298. 2012.</td></tr>
-</tbody>
-</table>
-<table class="bibtex docutils citation" frame="void" id="levi1973note" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id2">[Lev73]</a></td><td>Giorgio Levi. A note on the derivation of maximal common subgraphs of two directed or undirected graphs. <em>Calcolo</em>, 9(4):341, 1973.</td></tr>
-</tbody>
-</table>
+<p id="bibtex-bibliography-kernels/subgraph_matching-0"><dl class="citation">
+<dt class="bibtex label" id="kriege2012subgraph"><span class="brackets"><a class="fn-backref" href="#id1">KM12</a></span></dt>
+<dd><p>Nils Kriege and Petra Mutzel. Subgraph Matching Kernels for Attributed Graphs. In <em>Proceedings of the 29th International Conference on Machine Learning</em>, 291–298. 2012.</p>
+</dd>
+<dt class="bibtex label" id="levi1973note"><span class="brackets"><a class="fn-backref" href="#id2">Lev73</a></span></dt>
+<dd><p>Giorgio Levi. A note on the derivation of maximal common subgraphs of two directed or undirected graphs. <em>Calcolo</em>, 9(4):341, 1973.</p>
+</dd>
+</dl>
 </p>
 </div>
 </div>
@@ -292,7 +292,7 @@ The worst-case runtime complexity of the kernel when considering subgraphs of si
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, DaSciM (BSD License)
+        &copy; Copyright 2019, DaSciM (BSD License)
 
     </p>
   </div>

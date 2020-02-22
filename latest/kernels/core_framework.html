@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Core Kernel Framework &mdash; GraKeL 0.1a6 documentation</title>
+  <title>Core Kernel Framework &mdash; GraKeL 0.1a7 documentation</title>
   
 
   
@@ -21,11 +21,11 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="../_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -58,7 +58,7 @@
 
           
             
-            <img src="../_static/logo.png" class="logo" alt="Logo"/>
+            <img src="../_static/logo.svg" class="logo" alt="Logo"/>
           
           </a>
 
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                0.1a6
+                0.1a7
               </div>
             
           
@@ -91,7 +91,10 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../user_manual.html">User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">Documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../benchmarks.html">Benchmarks</a></li>
 </ul>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../api.html">GraKeL</a><ul class="current">
@@ -129,6 +132,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../classes.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials.html">Tutorials</a></li>
 </ul>
 
             
@@ -199,12 +203,12 @@
             
   <div class="section" id="core-kernel-framework">
 <span id="core-framework"></span><h1>Core Kernel Framework<a class="headerlink" href="#core-kernel-framework" title="Permalink to this headline">¶</a></h1>
-<p>The core framework is a tool for increasing the expressive power of graph kernels <a class="reference internal" href="#nikolentzos2018degeneracy" id="id1">[nikolentzos2018degeneracy]</a>.
+<p>The core framework is a tool for increasing the expressive power of graph kernels <a class="bibtex reference internal" href="#nikolentzos2018degeneracy" id="id1">[NMLV18]</a>.
 The framework is not restricted to graph kernels, but can be applied to any graph comparison algorithm.
 It capitalizes on the <span class="math notranslate nohighlight">\(k\)</span>-core decomposition which is capable of uncovering topological and hierarchical properties of graphs.
 Specifically, the <span class="math notranslate nohighlight">\(k\)</span>-core decomposition is a powerful tool for network analysis and it is commonly used as a measure of importance and well connectedness for vertices in a broad spectrum of applications.
-The notion of <span class="math notranslate nohighlight">\(k\)</span>-core was first introduced by Seidman to study the cohesion of social networks <a class="reference internal" href="#seidman1983network" id="id2">[seidman1983network]</a>.
-In recent years, the <span class="math notranslate nohighlight">\(k\)</span>-core decomposition has been established as a standard tool in many application domains such as in network visualization <a class="reference internal" href="#alvarez2006large" id="id3">[alvarez2006large]</a>, in protein function prediction <a class="reference internal" href="#wuchty2005peeling" id="id4">[wuchty2005peeling]</a> and in graph clustering <a class="reference internal" href="#giatsidis2014corecluster" id="id5">[giatsidis2014corecluster]</a>.</p>
+The notion of <span class="math notranslate nohighlight">\(k\)</span>-core was first introduced by Seidman to study the cohesion of social networks <a class="bibtex reference internal" href="#seidman1983network" id="id2">[Sei83]</a>.
+In recent years, the <span class="math notranslate nohighlight">\(k\)</span>-core decomposition has been established as a standard tool in many application domains such as in network visualization <a class="bibtex reference internal" href="#alvarez2006large" id="id3">[AHDallAstaBV06]</a>, in protein function prediction <a class="bibtex reference internal" href="#wuchty2005peeling" id="id4">[WA05]</a> and in graph clustering <a class="bibtex reference internal" href="#giatsidis2014corecluster" id="id5">[GMTV14]</a>.</p>
 <div class="section" id="core-decomposition">
 <h2>Core Decomposition<a class="headerlink" href="#core-decomposition" title="Permalink to this headline">¶</a></h2>
 <p>Let <span class="math notranslate nohighlight">\(G = (V,E)\)</span> be an undirected and unweighted graph.
@@ -245,50 +249,37 @@ Then, the complexity of computing the core variant of algorithm <span class="mat
 It is well-known that the degeneracy of a graph is upper bounded by the maximum of the degrees of its vertices and by the largest eigenvalue of its adjacency matrix <span class="math notranslate nohighlight">\(\lambda_1\)</span>.
 Since in most real-world graphs it holds that <span class="math notranslate nohighlight">\(\lambda_1 \ll n\)</span>, it also holds that <span class="math notranslate nohighlight">\(\delta^*_{max} \ll n\)</span>, and hence, the time complexity added by the core framework is not very high.</p>
 <p>The implementation of the core framework can be found below</p>
-<table border="1" class="longtable docutils">
+<table class="longtable docutils align-default">
 <colgroup>
-<col width="10%" />
-<col width="90%" />
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="../generated/grakel.CoreFramework.html#grakel.CoreFramework" title="grakel.CoreFramework"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CoreFramework</span></code></a>([n_jobs,&nbsp;verbose,&nbsp;normalize,&nbsp;…])</td>
-<td>The core kernel framework, as proposed in <a class="reference internal" href="#nikolentzos2018degeneracy" id="id6">[nikolentzos2018degeneracy]</a>.</td>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/grakel.CoreFramework.html#grakel.CoreFramework" title="grakel.CoreFramework"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CoreFramework</span></code></a>([n_jobs, verbose, normalize, …])</p></td>
+<td><p>The core kernel framework, as proposed in <a class="bibtex reference internal" href="#nikolentzos2018degeneracy" id="id6">[NMLV18]</a>.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
 <div class="section" id="bibliography">
 <h2>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">¶</a></h2>
-<p id="bibtex-bibliography-kernels/core_framework-0"><table class="bibtex docutils citation" frame="void" id="alvarez2006large" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id3">[AHDallAstaBV06]</a></td><td>J.&nbsp;Ignacio Alvarez-Hamelin, Luca Dall’Asta, Alain Barrat, and Alessandro Vespignani. Large scale networks fingerprinting and visualization using the k-core decomposition. <em>Advances in Neural Information Processing Systems</em>, 18:41–50, 2006.</td></tr>
-</tbody>
-</table>
-<table class="bibtex docutils citation" frame="void" id="giatsidis2014corecluster" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id5">[GMTV14]</a></td><td>Christos Giatsidis, Fragkiskos Malliaros, Dimitrios Thilikos, and Michalis Vazirgiannis. CORECLUSTER: A Degeneracy Based Graph Clustering Framework. In <em>Proceedings of the 28th AAAI Conference on Artificial Intelligence</em>, 44–50. 2014.</td></tr>
-</tbody>
-</table>
-<table class="bibtex docutils citation" frame="void" id="nikolentzos2018degeneracy" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label">[NMLV18]</td><td><em>(<a class="fn-backref" href="#id1">1</a>, <a class="fn-backref" href="#id6">2</a>)</em> Giannis Nikolentzos, Polykarpos Meladianos, Stratis Limnios, and Michalis Vazirgiannis. A Degeneracy Framework for Graph Similarity. In <em>27th International Joint Conference on Artificial Intelligence</em>. 2018.</td></tr>
-</tbody>
-</table>
-<table class="bibtex docutils citation" frame="void" id="seidman1983network" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id2">[Sei83]</a></td><td>Stephen&nbsp;B. Seidman. Network Structure and Minimum Degree. <em>Social networks</em>, 5(3):269–287, 1983.</td></tr>
-</tbody>
-</table>
-<table class="bibtex docutils citation" frame="void" id="wuchty2005peeling" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id4">[WA05]</a></td><td>Stefan Wuchty and Eivind Almaas. Peeling the yeast protein network. <em>Proteomics</em>, 5(2):444–449, 2005.</td></tr>
-</tbody>
-</table>
+<p id="bibtex-bibliography-kernels/core_framework-0"><dl class="citation">
+<dt class="bibtex label" id="alvarez2006large"><span class="brackets"><a class="fn-backref" href="#id3">AHDallAstaBV06</a></span></dt>
+<dd><p>J. Ignacio Alvarez-Hamelin, Luca Dall’Asta, Alain Barrat, and Alessandro Vespignani. Large scale networks fingerprinting and visualization using the k-core decomposition. <em>Advances in Neural Information Processing Systems</em>, 18:41–50, 2006.</p>
+</dd>
+<dt class="bibtex label" id="giatsidis2014corecluster"><span class="brackets"><a class="fn-backref" href="#id5">GMTV14</a></span></dt>
+<dd><p>Christos Giatsidis, Fragkiskos Malliaros, Dimitrios Thilikos, and Michalis Vazirgiannis. CORECLUSTER: A Degeneracy Based Graph Clustering Framework. In <em>Proceedings of the 28th AAAI Conference on Artificial Intelligence</em>, 44–50. 2014.</p>
+</dd>
+<dt class="bibtex label" id="nikolentzos2018degeneracy"><span class="brackets">NMLV18</span><span class="fn-backref">(<a href="#id1">1</a>,<a href="#id6">2</a>)</span></dt>
+<dd><p>Giannis Nikolentzos, Polykarpos Meladianos, Stratis Limnios, and Michalis Vazirgiannis. A Degeneracy Framework for Graph Similarity. In <em>27th International Joint Conference on Artificial Intelligence</em>. 2018.</p>
+</dd>
+<dt class="bibtex label" id="seidman1983network"><span class="brackets"><a class="fn-backref" href="#id2">Sei83</a></span></dt>
+<dd><p>Stephen B. Seidman. Network Structure and Minimum Degree. <em>Social networks</em>, 5(3):269–287, 1983.</p>
+</dd>
+<dt class="bibtex label" id="wuchty2005peeling"><span class="brackets"><a class="fn-backref" href="#id4">WA05</a></span></dt>
+<dd><p>Stefan Wuchty and Eivind Almaas. Peeling the yeast protein network. <em>Proteomics</em>, 5(2):444–449, 2005.</p>
+</dd>
+</dl>
 </p>
 </div>
 </div>
@@ -313,7 +304,7 @@ Since in most real-world graphs it holds that <span class="math notranslate nohi
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, DaSciM (BSD License)
+        &copy; Copyright 2019, DaSciM (BSD License)
 
     </p>
   </div>

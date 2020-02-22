@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Shortest Path Kernel &mdash; GraKeL 0.1a6 documentation</title>
+  <title>Shortest Path Kernel &mdash; GraKeL 0.1a7 documentation</title>
   
 
   
@@ -21,11 +21,11 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="../_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -58,7 +58,7 @@
 
           
             
-            <img src="../_static/logo.png" class="logo" alt="Logo"/>
+            <img src="../_static/logo.svg" class="logo" alt="Logo"/>
           
           </a>
 
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                0.1a6
+                0.1a7
               </div>
             
           
@@ -91,7 +91,10 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../user_manual.html">User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">Documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../benchmarks.html">Benchmarks</a></li>
 </ul>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../api.html">GraKeL</a><ul class="current">
@@ -128,6 +131,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../classes.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials.html">Tutorials</a></li>
 </ul>
 
             
@@ -228,32 +232,31 @@ Then, <span class="math notranslate nohighlight">\(k_{walk}^{(1)}(e_i, e_j)\)</s
 \end{split}
 \end{equation}</div><p>where <span class="math notranslate nohighlight">\(k_v\)</span> is a kernel comparing vertex labels, and <span class="math notranslate nohighlight">\(k_e\)</span> a kernel comparing shortest path lengths.
 Vertex labels are usually compared via a dirac kernel, while shortest path lengths may also be compared via
-a dirac kernel or, more rarely, via a brownian bridge kernel <a class="reference internal" href="#borgwardt2005shortest" id="id1">[borgwardt2005shortest]</a>.</p>
+a dirac kernel or, more rarely, via a brownian bridge kernel <a class="bibtex reference internal" href="#borgwardt2005shortest" id="id1">[BK05]</a>.</p>
 <p>In terms of runtime complexity, the shortest-path kernel is very expensive since its computation takes <span class="math notranslate nohighlight">\(\mathcal{O}(n^4)\)</span> time.</p>
 <p>Two versions of this kernel can be found implemented below. The first takes as input graphs with discrete node labels and applies a speed-up technique for faster kernel calculation.</p>
-<table border="1" class="longtable docutils">
+<table class="longtable docutils align-default">
 <colgroup>
-<col width="10%" />
-<col width="90%" />
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="../generated/grakel.ShortestPath.html#grakel.ShortestPath" title="grakel.ShortestPath"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ShortestPath</span></code></a>([n_jobs,&nbsp;normalize,&nbsp;verbose,&nbsp;…])</td>
-<td>The shortest path kernel class.</td>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/grakel.ShortestPath.html#grakel.ShortestPath" title="grakel.ShortestPath"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ShortestPath</span></code></a>([n_jobs, normalize, verbose, …])</p></td>
+<td><p>The shortest path kernel class.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="../generated/grakel.ShortestPathAttr.html#grakel.ShortestPathAttr" title="grakel.ShortestPathAttr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ShortestPathAttr</span></code></a>([n_jobs,&nbsp;normalize,&nbsp;…])</td>
-<td>The shortest path kernel for attributes.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/grakel.ShortestPathAttr.html#grakel.ShortestPathAttr" title="grakel.ShortestPathAttr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ShortestPathAttr</span></code></a>([n_jobs, normalize, …])</p></td>
+<td><p>The shortest path kernel for attributes.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
 <div class="section" id="bibliography">
 <h2>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">¶</a></h2>
-<p id="bibtex-bibliography-kernels/shortest_path-0"><table class="bibtex docutils citation" frame="void" id="borgwardt2005shortest" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id1">[BK05]</a></td><td>Karsten&nbsp;M. Borgwardt and Hans-Peter Kriegel. Shortest-path kernels on graphs. In <em>Proceedings of the 5th International Conference on Data Mining</em>, 74–81. 2005.</td></tr>
-</tbody>
-</table>
+<p id="bibtex-bibliography-kernels/shortest_path-0"><dl class="citation">
+<dt class="bibtex label" id="borgwardt2005shortest"><span class="brackets"><a class="fn-backref" href="#id1">BK05</a></span></dt>
+<dd><p>Karsten M. Borgwardt and Hans-Peter Kriegel. Shortest-path kernels on graphs. In <em>Proceedings of the 5th International Conference on Data Mining</em>, 74–81. 2005.</p>
+</dd>
+</dl>
 </p>
 </div>
 </div>
@@ -278,7 +281,7 @@ a dirac kernel or, more rarely, via a brownian bridge kernel <a class="reference
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, DaSciM (BSD License)
+        &copy; Copyright 2019, DaSciM (BSD License)
 
     </p>
   </div>

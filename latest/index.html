@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Overview &mdash; GraKeL 0.1a6 documentation</title>
+  <title>Overview &mdash; GraKeL 0.1a7 documentation</title>
   
 
   
@@ -21,11 +21,11 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -38,7 +38,7 @@
   <link rel="stylesheet" href="_static/_static/css/supplementary.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="User Manual" href="user_manual.html" /> 
+    <link rel="next" title="Documentation" href="documentation.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -57,7 +57,7 @@
 
           
             
-            <img src="_static/logo.png" class="logo" alt="Logo"/>
+            <img src="_static/logo.svg" class="logo" alt="Logo"/>
           
           </a>
 
@@ -65,7 +65,7 @@
             
             
               <div class="version">
-                0.1a6
+                0.1a7
               </div>
             
           
@@ -90,12 +90,16 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="user_manual.html">User Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="documentation.html">Documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="benchmarks.html">Benchmarks</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="api.html">GraKeL</a></li>
 <li class="toctree-l1"><a class="reference internal" href="classes.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
 </ul>
 
             
@@ -162,36 +166,49 @@
             
   <div class="section" id="overview">
 <h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
-<p>GraKeL is a Python package extension, for the study and use of an upcoming
-area in data-mining and machine learning, known as graph kernels.</p>
+<p><em>GraKeL</em> is a Python package which provides implementations of several graph kernels, a family of powerful methods which allow kernel-based learning approaches such as SVMs to work directly on graphs.</p>
 <p>Getting Started</p>
 <blockquote>
 <div><div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="user_manual.html">User Manual</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="user_manual/installation.html">Installing grakel</a></li>
-<li class="toctree-l2"><a class="reference internal" href="user_manual/introduction.html">A short Introduction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="user_manual/longer_introduction.html">A longer Introduction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="user_manual/make_your_own_kernel.html">Write your own kernel</a></li>
-<li class="toctree-l2"><a class="reference internal" href="user_manual/contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="documentation.html">Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="documentation/installation.html">Installing GraKeL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="documentation/introduction.html">A Short Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="documentation/core_concepts.html">Core Concepts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="documentation/creating_kernels.html">Creating your Own Kernel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="documentation/contributing.html">Contributing</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div></blockquote>
-<p>For seeing this version of the <strong>GraKeL</strong> project on the relevant <strong>GitHub</strong> repository you can have a look on the <a class="reference external" href="https://github.com/ysig/GraKeL/blob/develop/README.md">README</a>.</p>
 </div>
-<div class="section" id="documentation">
-<h1>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h1>
-<p>A collection of all classes and functions important
-for the use and understanding of the <strong>GraKeL</strong> package.</p>
-<p>GrakeL provides</p>
+<div class="section" id="benchmarks">
+<h1>Benchmarks<a class="headerlink" href="#benchmarks" title="Permalink to this headline">¶</a></h1>
+<p>To demonstrate the efficiency of the algorithms implemented in <em>GraKeL</em>, we present a comparison of the running times of the implementations of some graph kernels from <em>GraKeL</em> and from other packages. We also compare the running times of the different kernels to each other.</p>
+<blockquote>
+<div><div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="benchmarks.html">Benchmarks</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="benchmarks/comparison.html">Comparison with Other Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="benchmarks/evaluation.html">Evaluation Study</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="package-reference">
+<h1>Package Reference<a class="headerlink" href="#package-reference" title="Permalink to this headline">¶</a></h1>
+<p>A collection of all classes and functions important for the use and understanding of the <em>GraKeL</em> package.</p>
+<p>GraKeL provides</p>
 <blockquote>
 <div><div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="api.html">GraKeL</a></li>
 <li class="toctree-l1"><a class="reference internal" href="classes.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
 </ul>
 </div>
 </div></blockquote>
@@ -199,27 +216,39 @@ for the use and understanding of the <strong>GraKeL</strong> package.</p>
 <div class="section" id="what-s-new">
 <h1>What’s New<a class="headerlink" href="#what-s-new" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
-<li>Version <strong>0.1a6</strong><ul>
-<li>More scikit-learn compatibility:<ol class="arabic">
-<li>Initialise kernels by name and alias on GraphKernel (as GraphKernel(kernel=”shortest_path”).</li>
-<li>Fit and instantion by default parameters.</li>
-<li>Random number generator standardized <cite>check_random_state</cite>. <cite>random_seed</cite> are now <cite>random_state</cite> arguments.</li>
-<li>Doctests.</li>
+<li><p>Version <strong>0.1a7</strong></p>
+<ul>
+<li><p>Detailed installation instructions for c++ extensions in windows.</p></li>
+<li><p>Changed <cite>base_kernel</cite> alias in frameworks with <cite>base_graph_kernel</cite> to disambiguate with vectorial kernels.</p></li>
+<li><p>Speed-up for floyd_warshall calculation in graph.py.</p></li>
+<li><p>Large update throughout all the documentation</p></li>
+</ul>
+</li>
+<li><p>Version <strong>0.1a6</strong></p>
+<ul>
+<li><p>More scikit-learn compatibility:</p>
+<ol class="arabic simple">
+<li><p>Initialise kernels by name and alias on GraphKernel (as GraphKernel(kernel=”shortest_path”).</p></li>
+<li><p>Fit and instantion by default parameters.</p></li>
+<li><p>Random number generator standardized <cite>check_random_state</cite>. <cite>random_seed</cite> are now <cite>random_state</cite> arguments.</p></li>
+<li><p>Doctests.</p></li>
 </ol>
 </li>
-<li>Miscelanous:<ol class="arabic">
-<li>Detailed unsupported kernel output.</li>
-<li>More detailed licensing information considering <strong>cvxopt</strong> and <strong>BLISS</strong></li>
-<li>Small bugfix inside the (Count Sensitive) Neighborhood Hash Kernel.</li>
-<li>Added sparse-compatibility for VertexHistogram and for EdgeHistogram.</li>
+<li><p>Miscelanous:</p>
+<ol class="arabic simple">
+<li><p>Detailed unsupported kernel output.</p></li>
+<li><p>More detailed licensing information considering <strong>cvxopt</strong> and <strong>BLISS</strong></p></li>
+<li><p>Small bugfix inside the (Count Sensitive) Neighborhood Hash Kernel.</p></li>
+<li><p>Added sparse-compatibility for VertexHistogram and for EdgeHistogram.</p></li>
 </ol>
 </li>
 </ul>
 </li>
-<li>Version <strong>0.1a5</strong><ul>
-<li>Various bugfixes in kernel implementations.</li>
-<li>Added a bunch of <code class="code docutils literal notranslate"><span class="pre">utils</span></code> functions for external operations: transforming existing <em>graph formats</em> (csv, pandas, networkx) to the grakel native, <em>k-fold cross validation</em> with an SVM and <em>kernel matrix transformer</em> for manipulating precomputed kernel matrices in an <code class="code docutils literal notranslate"><span class="pre">Transformer</span></code> fashion.</li>
-<li><strong>Conda</strong> compatibility: visit <a class="reference external" href="https://anaconda.org/ysig/grakel-dev">https://anaconda.org/ysig/grakel-dev</a>.</li>
+<li><p>Version <strong>0.1a5</strong></p>
+<ul>
+<li><p>Various bugfixes in kernel implementations.</p></li>
+<li><p>Added a bunch of <code class="code docutils literal notranslate"><span class="pre">utils</span></code> functions for external operations: transforming existing <em>graph formats</em> (csv, pandas, networkx) to the grakel native, <em>k-fold cross validation</em> with an SVM and <em>kernel matrix transformer</em> for manipulating precomputed kernel matrices in an <code class="code docutils literal notranslate"><span class="pre">Transformer</span></code> fashion.</p></li>
+<li><p><strong>Conda</strong> compatibility: visit <a class="reference external" href="https://anaconda.org/ysig/grakel-dev">https://anaconda.org/ysig/grakel-dev</a>.</p></li>
 </ul>
 </li>
 </ul>
@@ -227,9 +256,9 @@ for the use and understanding of the <strong>GraKeL</strong> package.</p>
 <div class="section" id="indices-and-tables">
 <h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
-<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
-<li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
-<li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
 </ul>
 </div>
 
@@ -241,7 +270,7 @@ for the use and understanding of the <strong>GraKeL</strong> package.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="user_manual.html" class="btn btn-neutral float-right" title="User Manual" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="documentation.html" class="btn btn-neutral float-right" title="Documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
     </div>
@@ -251,7 +280,7 @@ for the use and understanding of the <strong>GraKeL</strong> package.</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, DaSciM (BSD License)
+        &copy; Copyright 2019, DaSciM (BSD License)
 
     </p>
   </div>
