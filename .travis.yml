@@ -29,7 +29,7 @@ matrix:
       env:
         - PIP=pip
         - PYTHON=python
-        - CIBW_BUILD="cp35-*"
+        - CIBW_BUILD="cp35-manylinux_x86_64	cp35-manylinux_i686"
         - FLAKE="true"
         - DEPLOY_SDIST="true"
     - sudo: required
@@ -38,14 +38,14 @@ matrix:
       env:
         - PIP=pip
         - PYTHON=python
-        - CIBW_BUILD="cp36-*"
+        - CIBW_BUILD="cp36-manylinux_x86_64	cp36-manylinux_i686"
     - sudo: required
       services:
         - docker
       env:
         - PIP=pip
         - PYTHON=python
-        - CIBW_BUILD="cp37-*"
+        - CIBW_BUILD="cp37-manylinux_x86_64"
     - sudo: required
       services:
         - docker

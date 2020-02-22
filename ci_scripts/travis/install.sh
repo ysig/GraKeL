@@ -9,6 +9,7 @@ if [[ "$COVERAGE" == "true" ]]; then
     pip install networkx
     pip install pandas
     pip install coverage
+    pip install codecov
 fi
 
 # Print versions
