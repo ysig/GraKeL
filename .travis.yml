@@ -101,7 +101,7 @@ script:
         $PIP install flake8 --upgrade; flake8 $TRAVIS_BUILD_DIR/grakel;
     fi
   - $PIP install cibuildwheel
-  - export CIBW_ENVIRONMENT="TEST_DIR=$TEST_DIR MODULE=$MODULE CODECOV_TOKEN=$CODECOV_TOKEN COVERAGE=$COVERAGE";
+  - export CIBW_ENVIRONMENT="TEST_DIR=$TEST_DIR MODULE=$MODULE COVERAGE=$COVERAGE";
   - IFS= ; export CIBW_BEFORE_BUILD="$(cat ci_scripts/travis/install.sh)";
   - IFS= ; export CIBW_TEST_COMMAND="$(cat ci_scripts/travis/test.sh)";
   - cibuildwheel --output-dir $WHEEL_FOLDER
