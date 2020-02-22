@@ -51,7 +51,7 @@ What's New
   + Detailed installation instructions for c++ extensions in windows.
   + Changed `base_kernel` alias in frameworks with `base_graph_kernel` to disambiguate with vectorial kernels.
   + Speed-up for floyd_warshall calculation in graph.py.
-  + Huge update in documentation
+  + Large update throughout all the documentation
 
 - Version **0.1a6**
 
