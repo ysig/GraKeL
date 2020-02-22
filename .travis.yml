@@ -17,7 +17,7 @@ env:
     - WHEEL_FOLDER=wheelhouse
     - TWINE_USERNAME=ysig
     - DEPLOY_SDIST="true"
-    - COVERAGE="true"
+    - COVERAGE="false"
     - DEPLOY_WHEEL="true"
     - FLAKE="false"
 
@@ -38,6 +38,7 @@ matrix:
       env:
         - PIP=pip
         - PYTHON=python
+        - COVERAGE="true"
         - CIBW_BUILD="cp36-manylinux_x86_64	cp36-manylinux_i686"
     - sudo: required
       services:
