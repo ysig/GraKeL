@@ -157,7 +157,6 @@ class GraphletSampling(Kernel):
             k = self.k
             if sampling is None:
                 n_samples = None
-
                 def sample_graphlets(A, k, *args):
                     return sample_graphlets_all_connected(A, k)
             elif type(sampling) is dict:
