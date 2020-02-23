@@ -3,16 +3,9 @@ current_dir="$(pwd)"
 
 if [[ "$COVERAGE" == "true" ]]; then
     # Store artifacts
-    ls /project
-    cp -r /project/.git .
-    cp /project/git .
-
     pip install coverage
     pip install codecov
     nosetests $MODULE --with-coverage --cover-package=$MODULE;
-
-    echo "Coverage";
-    ls -la;
 
     # Ignore coveralls failures as the coveralls server is not
     # very reliable but we don't want travis to report a failure
@@ -20,6 +13,8 @@ if [[ "$COVERAGE" == "true" ]]; then
     # be published.
     cp -r .coverage /project/.coverage
     cd /project
+    echo "Coverage";
+    ls -la;
     python -m codecov;
 else
     # Ignore arifacts: just change folder
