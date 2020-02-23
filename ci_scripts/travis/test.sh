@@ -3,14 +3,13 @@ current_dir="$(pwd)"
 
 if [[ "$COVERAGE" == "true" ]]; then
     # Store artifacts
-    sudo add-apt-repository -y ppa:mercurial-ppa/releases
-    sudo apt-get update
-    sudo apt-get install -y mercurial
     cp -r $TRAVIS_BUILD_DIR/.git .
     cp  $TRAVIS_BUILD_DIR/git .
+
     pip install coverage
     pip install codecov
     nosetests $MODULE --with-coverage --cover-package=$MODULE;
+
     echo "Coverage";
     ls -la;
 
