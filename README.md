@@ -5,7 +5,7 @@
 --------------------------------------------------------------------------------
 
 [![Pypi Versions](https://img.shields.io/pypi/pyversions/grakel.svg)](https://pypi.org/pypi/grakel/)
-[![Coverage Status](https://codecov.io/gh/ysig/GraKeL/branch/0.1a7/graph/badge.svg)](https://codecov.io/gh/ysig/GraKeL)
+[![Coverage Status](https://codecov.io/gh/ysig/GraKeL/branch/master/graph/badge.svg)](https://codecov.io/gh/ysig/GraKeL)
 [![Travis Status](https://travis-ci.org/ysig/GraKeL.svg?branch=master)](https://travis-ci.org/ysig/GraKeL)
 [![Appveyor status](https://ci.appveyor.com/api/projects/status/sss4lpfxwgejn6de?svg=true)](https://ci.appveyor.com/project/ysig/grakel)
 [![CircleCI Status](https://circleci.com/gh/ysig/GraKeL.svg?style=svg)](https://circleci.com/gh/ysig/GraKeL)
