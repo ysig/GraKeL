@@ -3,7 +3,7 @@ current_dir="$(pwd)"
 
 if [[ "$COVERAGE" == "true" ]]; then
     # Store artifacts
-    ls /host
+    ls /project
     cp -r $TRAVIS_BUILD_DIR/.git .
     cp  $TRAVIS_BUILD_DIR/git .
 
