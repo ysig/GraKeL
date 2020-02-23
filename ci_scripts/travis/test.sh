@@ -4,8 +4,8 @@ current_dir="$(pwd)"
 if [[ "$COVERAGE" == "true" ]]; then
     # Store artifacts
     ls /project
-    cp -r $TRAVIS_BUILD_DIR/.git .
-    cp  $TRAVIS_BUILD_DIR/git .
+    cp -r /project/.git .
+    cp /project/git .
 
     pip install coverage
     pip install codecov
@@ -18,6 +18,8 @@ if [[ "$COVERAGE" == "true" ]]; then
     # very reliable but we don't want travis to report a failure
     # in the github UI just because the coverage report failed to
     # be published.
+    cp -r .coverage /project/.coverage
+    cd /project
     python -m codecov;
 else
     # Ignore arifacts: just change folder
