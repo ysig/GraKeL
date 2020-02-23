@@ -6,9 +6,9 @@
 
 [![Pypi Versions](https://img.shields.io/pypi/pyversions/grakel.svg)](https://pypi.org/pypi/grakel/)
 [![Coverage Status](https://codecov.io/gh/ysig/GraKeL/branch/0.1a7/graph/badge.svg)](https://codecov.io/gh/ysig/GraKeL)
-[![Travis Status](https://travis-ci.org/ysig/GraKeL.svg?branch=0.1a7)](https://travis-ci.org/ysig/GraKeL)
-[![Appveyor status](https://ci.appveyor.com/api/projects/status/sss4lpfxwgejn6de/branch/0.1a7?svg=true)](https://ci.appveyor.com/project/ysig/grakel)
-[![CircleCI Status](https://circleci.com/gh/ysig/GraKeL/tree/develop.svg?style=shield)](https://circleci.com/gh/ysig/GraKeL/tree/0.1a7)
+[![Travis Status](https://travis-ci.org/ysig/GraKeL.svg?branch=master)](https://travis-ci.org/ysig/GraKeL)
+[![Appveyor status](https://ci.appveyor.com/api/projects/status/sss4lpfxwgejn6de?svg=true)](https://ci.appveyor.com/project/ysig/grakel)
+[![CircleCI Status](https://circleci.com/gh/ysig/GraKeL.svg?style=svg)](https://circleci.com/gh/ysig/GraKeL)
 
 **[Documentation](https://ysig.github.io/GraKeL/)** | **[Paper](https://arxiv.org/pdf/1806.02193.pdf)**
 
