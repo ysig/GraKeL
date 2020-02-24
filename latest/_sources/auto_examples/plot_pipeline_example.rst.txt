@@ -69,7 +69,7 @@ Script makes use of :class:`grakel.ShortestPath`
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  6.362 seconds)
+   **Total running time of the script:** ( 0 minutes  6.542 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plot_pipeline_example.py:
