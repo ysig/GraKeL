@@ -76,7 +76,6 @@ matrix:
         - PIP=pip3
         - PYTHON=python3
         - TOXENV=py35
-        - COVERAGE="true"
         - CIBW_BUILD="cp35-macosx_10_6_intel"
     - os: osx
       language: generic
