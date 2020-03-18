@@ -395,7 +395,7 @@ def fetch_dataset(
         prefer_attr_nodes=False,
         prefer_attr_edges=False,
         as_graphs=False):
-    """Load a dataset from a huge collection of benchmark datasets :cite:`KKMMN2016`.
+    """Access a large collection of benchmark datasets from TU Dortmund :cite:`KKMMN2016`.
 
     For more info visit: :xref:`gd`
 
