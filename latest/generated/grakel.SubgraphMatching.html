@@ -207,7 +207,7 @@
 <h1><a class="reference internal" href="../api.html#module-grakel" title="grakel"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code></a>.SubgraphMatching<a class="headerlink" href="#grakel-subgraphmatching" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="grakel.SubgraphMatching">
-<em class="property">class </em><code class="sig-prename descclassname">grakel.</code><code class="sig-name descname">SubgraphMatching</code><span class="sig-paren">(</span><em class="sig-param">n_jobs=None</em>, <em class="sig-param">verbose=False</em>, <em class="sig-param">normalize=False</em>, <em class="sig-param">k=5</em>, <em class="sig-param">kv=&lt;function _dirac&gt;</em>, <em class="sig-param">ke=&lt;function _dirac&gt;</em>, <em class="sig-param">lw='uniform'</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/19cee809/grakel/kernels/subgraph_matching.py#L22"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/subgraph_matching.html#SubgraphMatching"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SubgraphMatching" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">grakel.</code><code class="sig-name descname">SubgraphMatching</code><span class="sig-paren">(</span><em class="sig-param">n_jobs=None</em>, <em class="sig-param">verbose=False</em>, <em class="sig-param">normalize=False</em>, <em class="sig-param">k=5</em>, <em class="sig-param">kv=&lt;function _dirac&gt;</em>, <em class="sig-param">ke=&lt;function _dirac&gt;</em>, <em class="sig-param">lw='uniform'</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/1ce2a739/grakel/kernels/subgraph_matching.py#L22"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/subgraph_matching.html#SubgraphMatching"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SubgraphMatching" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the subgraph matching kernel.</p>
 <p>See <a class="bibtex reference internal" href="../kernels/subgraph_matching.html#kriege2012subgraph" id="id1">[KM12]</a>.</p>
 <dl class="field-list">
@@ -318,13 +318,13 @@ If no function is provided, this is equivalent with not taking into account edge
 </table>
 <dl class="method">
 <dt id="grakel.SubgraphMatching.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">n_jobs=None</em>, <em class="sig-param">verbose=False</em>, <em class="sig-param">normalize=False</em>, <em class="sig-param">k=5</em>, <em class="sig-param">kv=&lt;function _dirac at 0x7fa8bfc3e7b8&gt;</em>, <em class="sig-param">ke=&lt;function _dirac at 0x7fa8bfc3e7b8&gt;</em>, <em class="sig-param">lw='uniform'</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/19cee809/grakel/kernels/subgraph_matching.py#L56"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/subgraph_matching.html#SubgraphMatching.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SubgraphMatching.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">n_jobs=None</em>, <em class="sig-param">verbose=False</em>, <em class="sig-param">normalize=False</em>, <em class="sig-param">k=5</em>, <em class="sig-param">kv=&lt;function _dirac at 0x7fa7ccfe1598&gt;</em>, <em class="sig-param">ke=&lt;function _dirac at 0x7fa7ccfe1598&gt;</em>, <em class="sig-param">lw='uniform'</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/1ce2a739/grakel/kernels/subgraph_matching.py#L56"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/subgraph_matching.html#SubgraphMatching.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SubgraphMatching.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialise a <cite>subgraph_matching</cite> kernel.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="grakel.SubgraphMatching.diagonal">
-<code class="sig-name descname">diagonal</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/19cee809/grakel/kernels/kernel.py#L267"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SubgraphMatching.diagonal" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">diagonal</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/1ce2a739/grakel/kernels/kernel.py#L267"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SubgraphMatching.diagonal" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the kernel matrix diagonal of the fit/transformed data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -347,7 +347,7 @@ This consists of each element calculated with itself.</p>
 
 <dl class="method">
 <dt id="grakel.SubgraphMatching.fit">
-<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">X</em>, <em class="sig-param">y=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/19cee809/grakel/kernels/kernel.py#L91"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SubgraphMatching.fit" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">X</em>, <em class="sig-param">y=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/1ce2a739/grakel/kernels/kernel.py#L91"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SubgraphMatching.fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fit a dataset, for a transformer.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -374,7 +374,7 @@ requires this parameter.</p>
 
 <dl class="method">
 <dt id="grakel.SubgraphMatching.fit_transform">
-<code class="sig-name descname">fit_transform</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/19cee809/grakel/kernels/kernel.py#L169"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SubgraphMatching.fit_transform" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">fit_transform</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/1ce2a739/grakel/kernels/kernel.py#L169"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SubgraphMatching.fit_transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fit and transform, on the same dataset.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -403,7 +403,7 @@ all pairs of graphs between target an features</p>
 
 <dl class="method">
 <dt id="grakel.SubgraphMatching.get_params">
-<code class="sig-name descname">get_params</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">deep=True</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/19cee809/grakel/../venv/lib/python3.5/site-packages/sklearn/base.py#L173"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SubgraphMatching.get_params" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_params</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">deep=True</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/1ce2a739/grakel/../venv/lib/python3.5/site-packages/sklearn/base.py#L173"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SubgraphMatching.get_params" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get parameters for this estimator.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -424,13 +424,13 @@ contained subobjects that are estimators.</p>
 
 <dl class="method">
 <dt id="grakel.SubgraphMatching.initialize">
-<code class="sig-name descname">initialize</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/19cee809/grakel/kernels/subgraph_matching.py#L69"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/subgraph_matching.html#SubgraphMatching.initialize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SubgraphMatching.initialize" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">initialize</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/1ce2a739/grakel/kernels/subgraph_matching.py#L69"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/subgraph_matching.html#SubgraphMatching.initialize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SubgraphMatching.initialize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize all transformer arguments, needing initialization.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="grakel.SubgraphMatching.pairwise_operation">
-<code class="sig-name descname">pairwise_operation</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">x</em>, <em class="sig-param">y</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/19cee809/grakel/kernels/subgraph_matching.py#L124"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/subgraph_matching.html#SubgraphMatching.pairwise_operation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SubgraphMatching.pairwise_operation" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">pairwise_operation</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">x</em>, <em class="sig-param">y</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/1ce2a739/grakel/kernels/subgraph_matching.py#L124"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/subgraph_matching.html#SubgraphMatching.pairwise_operation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SubgraphMatching.pairwise_operation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the <cite>subgraph_matching</cite> kernel.</p>
 <p>See <a class="bibtex reference internal" href="../kernels/subgraph_matching.html#kriege2012subgraph" id="id2">[KM12]</a>.</p>
 <dl class="field-list simple">
@@ -452,7 +452,7 @@ contained subobjects that are estimators.</p>
 
 <dl class="method">
 <dt id="grakel.SubgraphMatching.parse_input">
-<code class="sig-name descname">parse_input</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/19cee809/grakel/kernels/subgraph_matching.py#L144"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/subgraph_matching.html#SubgraphMatching.parse_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SubgraphMatching.parse_input" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">parse_input</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/1ce2a739/grakel/kernels/subgraph_matching.py#L144"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/subgraph_matching.html#SubgraphMatching.parse_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SubgraphMatching.parse_input" title="Permalink to this definition">¶</a></dt>
 <dd><p>Parse and create features for the <cite>subgraph_matching</cite> kernel.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -477,13 +477,13 @@ graph format). A valid input also consists of graph type objects.</p>
 
 <dl class="method">
 <dt id="grakel.SubgraphMatching.set_params">
-<code class="sig-name descname">set_params</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">**params</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/19cee809/grakel/kernels/kernel.py#L386"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SubgraphMatching.set_params" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">set_params</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">**params</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/1ce2a739/grakel/kernels/kernel.py#L386"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SubgraphMatching.set_params" title="Permalink to this definition">¶</a></dt>
 <dd><p>Call the parent method.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="grakel.SubgraphMatching.transform">
-<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/19cee809/grakel/kernels/kernel.py#L128"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SubgraphMatching.transform" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/1ce2a739/grakel/kernels/kernel.py#L128"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.SubgraphMatching.transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the kernel matrix, between given and fitted dataset.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
