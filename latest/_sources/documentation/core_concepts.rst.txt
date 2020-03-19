@@ -4,7 +4,27 @@
 Core Concepts
 =============
 
-We next present some core concepts in *GraKeL*.
+The package is organized as shown in the Figure below.
+
+.. figure:: ../_figures/grakel_schema.svg
+  :scale: 100%
+  :align: center
+
+Specifically, *GraKeL* consists of two nested subpackages:
+
+- :class:`grakel.datasets`
+- :class:`grakel.kernels`
+
+The :class:`grakel.datasets` subpackage contains functions for automatically downloading graph datasets. On the other hand, the :class:`grakel.kernels` subpackage contains the :class:`grakel.Kernel` class, and the implementations of all graph kernels and frameworks. Note that all graph kernels and frameworks such as the :class:`grakel.ShortestPath` kernel or the :class`grakel.WeisfeilerLehman` framework inherit from the :class:`grakel.Kernel` class.
+
+GraKeL also contains the following two classes:
+
+- :class:`grakel.Graph`
+- :class:`grakel.GraphKernel`
+
+The :class:`grakel.Graph` class is used to represent graphs and also provides functions for manipulating them. The :class:`grakel.GraphKernel` class is a generic wrapper. This class provides a uniform interface for all the implemented graph kernels and frameworks.
+
+We next present some core components of *GraKeL*.
 
 What is the :class:`grakel.GraphKernel` Class?
 ----------------------------------------------
@@ -218,6 +238,15 @@ The *GraKeL* package had also to be compatible with *scikit-learn*. From the dif
 
 .. note::
     The :code:`fit` and :code:`fit_transform` methods usually extract some features from the set of graphs that is given as input. These features are stored into memory and are not modified by the applications of the :code:`transform` method. This (the need to copy and protect the extracted data) however adds some overhead to the computation of some kernels such as the ODD-STh kernel. In such cases, the user may prefer to use the :code:`fit_transform` method once and then manually retrieve the two kernel matrices.
+
+The Figure below illustrates how the :class:`grakel.Kernel` class is organized.
+
+.. figure:: ../_figures/kernel_schema.svg
+  :scale: 100%
+  :align: center
+
+Besides the three methods discussed above, there also exist some other methods as shown in the Figure. As can be seen, these methods are called by the :code:`fit`, :code:`fit_transform` and :code:`transform` methods. The :code:`diagonal` method is used for normalizing kernel matrices. It returns the self-kernel values of all the graphs given as input to :code:`fit` along with those given as input to :code:`transform`, provided that this method has been called. The :code:`parse_input` method extracts features from the collection of graphs that is given as input either to :code:`fit` or to :code:`transform`. The :code:`pairwise_operation` method computes the kernel between two graphs. This method is used by the :code:`calculate_kernel_matrix` method which generates kernel matrices from collections of graphs. Finally, the :code:`initialize_` function is used just for initialization purposes.
+
 
 A kernel initialized as an instance of the :class:`grakel.Kernel` class is equivalent to an instance of the :class:`grakel.GraphKernel` generic wrapper corresponding to the same kernel if the attributes of the two kernels are identical to each other. To illustrate this, we will employ a deterministic graph kernel (the Wesfeiler-Lehman subtree kernel) and we will investigate if the kernel values produced by the two instances of the kernel are equal to each other.
 
