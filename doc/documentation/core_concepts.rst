@@ -10,7 +10,7 @@ Core Concepts
   :scale: 100%
   :align: center
 
-Specifically, the package consists of two nested subpackages:
+Specifically, the package consists of two subpackages:
 
 - :class:`grakel.datasets`
 - :class:`grakel.kernels`
