@@ -265,7 +265,7 @@ An edge-attributed graph is a graph endowed with a function :math:`f : E \righta
 
 Note that not all kernels can take into account node/edge labels and node/edge attributes. To find the type of graphs that each kernel expects as input, see :ref:`graph_kernel`.
 
-The following Figure shows how the :class:`grakel.Graph` is organized.
+The following Figure shows how the :class:`grakel.Graph` class is organized.
 
 .. figure:: ../_figures/graph_schema.svg
   :scale: 100%

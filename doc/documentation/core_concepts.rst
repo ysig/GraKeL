@@ -4,18 +4,18 @@
 Core Concepts
 =============
 
-The package is organized as shown in the Figure below.
+*GraKeL* is organized as shown in the Figure below.
 
 .. figure:: ../_figures/grakel_schema.svg
   :scale: 100%
   :align: center
 
-Specifically, *GraKeL* consists of two nested subpackages:
+Specifically, the package consists of two nested subpackages:
 
 - :class:`grakel.datasets`
 - :class:`grakel.kernels`
 
-The :class:`grakel.datasets` subpackage contains functions for automatically downloading graph datasets. On the other hand, the :class:`grakel.kernels` subpackage contains the :class:`grakel.Kernel` class, and the implementations of all graph kernels and frameworks. Note that all graph kernels and frameworks such as the :class:`grakel.ShortestPath` kernel or the :class`grakel.WeisfeilerLehman` framework inherit from the :class:`grakel.Kernel` class.
+The :class:`grakel.datasets` subpackage contains functions for automatically downloading graph datasets. On the other hand, the :class:`grakel.kernels` subpackage contains the :class:`grakel.Kernel` class, and the implementations of all graph kernels and frameworks. Note that all graph kernels and frameworks such as the :class:`grakel.ShortestPath` kernel or the :class:`grakel.WeisfeilerLehman` framework inherit from the :class:`grakel.Kernel` class.
 
 GraKeL also contains the following two classes:
 
