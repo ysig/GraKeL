@@ -229,9 +229,9 @@ An edge-labeled graph is a graph endowed with a function :math:`\ell : E \righta
 
   .. code-block:: python
       
-    edges = {1: [2, 3], 2: [1], 3: [1]}
-    edge_labels = {1: 'a', 2: 'b'}
-    G = Graph(edges, edge_labels=edge_attributes)
+    edges = {(1, 2): 1, (1, 3): 1, (2, 1): 1, (3, 1): 1}
+    edge_labels = {(1, 2): 'a', (1, 3): 'b', (2, 1): 'a', (3, 1): 'b'}
+    G = Graph(edges, edge_labels=edge_labels)
     
 * | A dictionary keyed by edge indices (i.e., :math:`0,\ldots,(|E|-1)`) to their labels.
 
@@ -251,8 +251,8 @@ An edge-attributed graph is a graph endowed with a function :math:`f : E \righta
 
   .. code-block:: python
       
-    edges = {1: [2, 3], 2: [1], 3: [1]}
-    edge_attributes = {1: [0.2, 0.8, 1.3], 2: [1.1, 0.1, 0.7]}
+    edges = {(1, 2): 1, (1, 3): 1, (2, 1): 1, (3, 1): 1}
+    edge_attributes = {(1, 2): [0.2, 0.8, 1.3], (1, 3): [1.1, 0.1, 0.7], (2, 1): [0.2, 0.8, 1.3], (3, 1): [1.1, 0.1, 0.7]}
     G = Graph(edges, edge_labels=edge_attributes)
     
 * | A dictionary keyed by edge indices (i.e., :math:`0,\ldots,(|E|-1)`) to their attributes.
