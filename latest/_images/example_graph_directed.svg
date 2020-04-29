@@ -16,7 +16,7 @@
 </symbol>
 </g>
 </defs>
-<g id="surface2186">
+<g id="surface16">
 <g style="fill:rgb(0%,0%,0%);fill-opacity:1;">
   <use xlink:href="#glyph0-1" x="80.125311" y="29.210453"/>
 </g>
@@ -33,5 +33,7 @@
 <path style="fill:none;stroke-width:0.4;stroke-linecap:butt;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 224.805899 682.001009 C 224.805899 689.072711 219.072369 694.806241 212.000668 694.806241 C 204.926357 694.806241 199.192827 689.072711 199.192827 682.001009 C 199.192827 674.926699 204.926357 669.193169 212.000668 669.193169 C 219.072369 669.193169 224.805899 674.926699 224.805899 682.001009 Z M 224.805899 682.001009 " transform="matrix(1.497496,0,0,-1.497496,-159.474021,1119.387415)"/>
 <path style="fill:none;stroke-width:0.4;stroke-linecap:butt;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 171.161656 723.382594 L 201.861345 689.823965 " transform="matrix(1.497496,0,0,-1.497496,-159.474021,1119.387415)"/>
 <path style="fill-rule:evenodd;fill:rgb(0%,0%,0%);fill-opacity:1;stroke-width:0.4;stroke-linecap:butt;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 201.861345 689.823965 L 198.856328 696.564384 L 195.418297 693.415899 Z M 201.861345 689.823965 " transform="matrix(1.497496,0,0,-1.497496,-159.474021,1119.387415)"/>
+<path style="fill:none;stroke-width:0.4;stroke-linecap:butt;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 212.33195 694.801024 C 209.405189 713.697153 195.37656 728.964829 176.796062 733.477572 " transform="matrix(1.497496,0,0,-1.497496,-159.474021,1119.387415)"/>
+<path style="fill-rule:evenodd;fill:rgb(0%,0%,0%);fill-opacity:1;stroke-width:0.4;stroke-linecap:butt;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 176.796062 733.477572 L 183.048688 729.562181 L 184.149484 734.090574 Z M 176.796062 733.477572 " transform="matrix(1.497496,0,0,-1.497496,-159.474021,1119.387415)"/>
 </g>
 </svg>

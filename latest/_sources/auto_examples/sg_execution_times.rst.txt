@@ -5,10 +5,10 @@
 
 Computation times
 =================
-**00:06.919** total execution time for **auto_examples** files:
+**00:08.187** total execution time for **auto_examples** files:
 
 +-------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_plot_pipeline_example.py` (``plot_pipeline_example.py``)           | 00:06.919 | 0.0 MB |
+| :ref:`sphx_glr_auto_examples_plot_pipeline_example.py` (``plot_pipeline_example.py``)           | 00:08.187 | 0.0 MB |
 +-------------------------------------------------------------------------------------------------+-----------+--------+
 | :ref:`sphx_glr_auto_examples_document_retrieval_example.py` (``document_retrieval_example.py``) | 00:00.000 | 0.0 MB |
 +-------------------------------------------------------------------------------------------------+-----------+--------+
