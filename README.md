@@ -10,7 +10,7 @@
 [![Appveyor status](https://ci.appveyor.com/api/projects/status/sss4lpfxwgejn6de?svg=true)](https://ci.appveyor.com/project/ysig/grakel)
 [![CircleCI Status](https://circleci.com/gh/ysig/GraKeL.svg?style=svg)](https://circleci.com/gh/ysig/GraKeL)
 
-**[Documentation](https://ysig.github.io/GraKeL/)** | **[Paper](https://arxiv.org/pdf/1806.02193.pdf)**
+**[Documentation](https://ysig.github.io/GraKeL/)** | **[Paper](http://jmlr.org/papers/volume21/18-370/18-370.pdf)**
 
 *GraKeL* is a library that provides implementations of several well-established graph kernels. The library unifies these kernels into a common framework. Furthermore, it provides implementations of some frameworks that work on top of graph kernels. Specifically, GraKeL contains 15 kernels and 2 frameworks. The library is compatible with the [scikit-learn](http://scikit-learn.org/) pipeline allowing easy and fast integration inside machine learning algorithms.
 
@@ -75,14 +75,17 @@ $ python shortest_path.py
 
 ## Cite
 
-If you use GraKeL in a scientific publication, please cite our paper (https://arxiv.org/pdf/1806.02193.pdf):
+If you use GraKeL in a scientific publication, please cite our paper (http://jmlr.org/papers/volume21/18-370/18-370.pdf):
 
 ```
-@article{siglidis2018grakel,
-  title={GraKeL: A Graph Kernel Library in Python},
-  author={Siglidis, Giannis and Nikolentzos, Giannis and Limnios, Stratis and Giatsidis, Christos and Skianis, Konstantinos and Vazirgiannis, Michalis},
-  journal={arXiv preprint arXiv:1806.02193},
-  year={2018}
+@article{JMLR:v21:18-370,
+  author  = {Giannis Siglidis and Giannis Nikolentzos and Stratis Limnios and Christos Giatsidis and Konstantinos Skianis and Michalis Vazirgiannis},
+  title   = {GraKeL: A Graph Kernel Library in Python},
+  journal = {Journal of Machine Learning Research},
+  year    = {2020},
+  volume  = {21},
+  number  = {54},
+  pages   = {1-5}
 }
 ```
 
