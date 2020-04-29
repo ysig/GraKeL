@@ -173,7 +173,7 @@ class MultiscaleLaplacianFast(Kernel):
                         continue
                     else:
                         x = Graph(x[0], x[1], {}, self._graph_format)
-                elif type(x) is not Graph:
+                elif type(x) is Graph:
                     x.desired_format(self._graph_format)
                 else:
                     raise TypeError('each element of X must be either a '
