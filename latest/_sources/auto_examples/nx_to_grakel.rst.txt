@@ -1,10 +1,12 @@
-.. note::
-    :class: sphx-glr-download-link-note
+.. only:: html
 
-    Click :ref:`here <sphx_glr_download_auto_examples_nx_to_grakel.py>` to download the full example code
-.. rst-class:: sphx-glr-example-title
+    .. note::
+        :class: sphx-glr-download-link-note
 
-.. _sphx_glr_auto_examples_nx_to_grakel.py:
+        Click :ref:`here <sphx_glr_download_auto_examples_nx_to_grakel.py>`     to download the full example code
+    .. rst-class:: sphx-glr-example-title
+
+    .. _sphx_glr_auto_examples_nx_to_grakel.py:
 
 
 =========================================================
@@ -90,13 +92,13 @@ Example of transforming NetworkX graphs to GraKeL graphs.
 
 
 
-  .. container:: sphx-glr-download
+  .. container:: sphx-glr-download sphx-glr-download-python
 
      :download:`Download Python source code: nx_to_grakel.py <nx_to_grakel.py>`
 
 
 
-  .. container:: sphx-glr-download
+  .. container:: sphx-glr-download sphx-glr-download-jupyter
 
      :download:`Download Jupyter notebook: nx_to_grakel.ipynb <nx_to_grakel.ipynb>`
 

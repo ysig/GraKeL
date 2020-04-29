@@ -34,8 +34,10 @@
   
   <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/_static/css/supplementary.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/gallery-dataframe.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
 </head>
@@ -446,7 +448,7 @@
                              <span class="s2">&quot;verbose&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
                              <span class="s2">&quot;n_jobs&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span></div>
 
-<div class="viewcode-block" id="GraphKernel.fit"><a class="viewcode-back" href="../../generated/grakel.GraphKernel.html#grakel.GraphKernel.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Fit a dataset, for a transformer.</span>
 
 <span class="sd">        Parameters</span>
@@ -501,9 +503,9 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">kernel_</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 
         <span class="c1"># Return the transformer</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
+        <span class="k">return</span> <span class="bp">self</span>
 
-<div class="viewcode-block" id="GraphKernel.transform"><a class="viewcode-back" href="../../generated/grakel.GraphKernel.html#grakel.GraphKernel.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate the kernel matrix, between given and fitted dataset.</span>
 
 <span class="sd">        Parameters</span>
@@ -532,9 +534,9 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">K</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel_</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">K</span></div>
+        <span class="k">return</span> <span class="n">K</span>
 
-<div class="viewcode-block" id="GraphKernel.fit_transform"><a class="viewcode-back" href="../../generated/grakel.GraphKernel.html#grakel.GraphKernel.fit_transform">[docs]</a>    <span class="k">def</span> <span class="nf">fit_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">fit_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Fit and transform, on the same dataset.</span>
 
 <span class="sd">        Parameters</span>
@@ -568,9 +570,9 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">K</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel_</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">K</span></div>
+        <span class="k">return</span> <span class="n">K</span>
 
-<div class="viewcode-block" id="GraphKernel.initialize"><a class="viewcode-back" href="../../generated/grakel.GraphKernel.html#grakel.GraphKernel.initialize">[docs]</a>    <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialize all transformer arguments, needing initialisation.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="p">[</span><span class="s2">&quot;Nystroem&quot;</span><span class="p">]:</span>
             <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Nystroem</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]:</span>
@@ -611,9 +613,9 @@
             <span class="n">kernel</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_kernel_</span><span class="p">(</span><span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">k</span><span class="p">),</span> <span class="n">hidden_args</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">kernel_</span> <span class="o">=</span> <span class="n">kernel</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;random_state&quot;</span><span class="p">,</span> <span class="s2">&quot;normalize&quot;</span><span class="p">,</span> <span class="s2">&quot;verbose&quot;</span><span class="p">,</span> <span class="s2">&quot;n_jobs&quot;</span><span class="p">,</span> <span class="s2">&quot;kernel&quot;</span><span class="p">]:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="p">[</span><span class="n">param</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span></div>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="p">[</span><span class="n">param</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
 
-<div class="viewcode-block" id="GraphKernel.make_kernel_"><a class="viewcode-back" href="../../generated/grakel.GraphKernel.html#grakel.GraphKernel.make_kernel_">[docs]</a>    <span class="k">def</span> <span class="nf">make_kernel_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kernel_list</span><span class="p">,</span> <span class="n">hidden_args</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">make_kernel_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kernel_list</span><span class="p">,</span> <span class="n">hidden_args</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Produce the desired kernel function.</span>
 
 <span class="sd">        Parameters</span>
@@ -717,9 +719,9 @@
                 <span class="k">return</span> <span class="p">(</span><span class="n">CoreFramework</span><span class="p">,</span> <span class="n">kernel</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Unsupported kernel: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">kernel_name</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
-                             <span class="s2">&quot;Supported kernels are:</span><span class="se">\n\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">sk_msg</span><span class="p">)</span></div>
+                             <span class="s2">&quot;Supported kernels are:</span><span class="se">\n\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">sk_msg</span><span class="p">)</span>
 
-<div class="viewcode-block" id="GraphKernel.set_params"><a class="viewcode-back" href="../../generated/grakel.GraphKernel.html#grakel.GraphKernel.set_params">[docs]</a>    <span class="k">def</span> <span class="nf">set_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">set_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Call the parent method.&quot;&quot;&quot;</span>
         <span class="c1"># Copy the parameters</span>
         <span class="n">params</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
@@ -734,7 +736,7 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
 
         <span class="c1"># Set parameters</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">GraphKernel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">set_params</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span></div></div>
+        <span class="nb">super</span><span class="p">(</span><span class="n">GraphKernel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">set_params</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span></div>
 </pre></div>
 
            </div>

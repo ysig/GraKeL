@@ -34,8 +34,10 @@
   
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="../_static/_static/css/supplementary.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery-dataframe.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="grakel.RandomWalkLabeled" href="grakel.RandomWalkLabeled.html" />
@@ -205,9 +207,9 @@
             
   <div class="section" id="grakel-randomwalk">
 <h1><a class="reference internal" href="../api.html#module-grakel" title="grakel"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code></a>.RandomWalk<a class="headerlink" href="#grakel-randomwalk" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
+<dl class="py class">
 <dt id="grakel.RandomWalk">
-<em class="property">class </em><code class="sig-prename descclassname">grakel.</code><code class="sig-name descname">RandomWalk</code><span class="sig-paren">(</span><em class="sig-param">n_jobs=None</em>, <em class="sig-param">normalize=False</em>, <em class="sig-param">verbose=False</em>, <em class="sig-param">lamda=0.1</em>, <em class="sig-param">method_type='fast'</em>, <em class="sig-param">kernel_type='geometric'</em>, <em class="sig-param">p=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/114c732d/grakel/kernels/random_walk.py#L26"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/random_walk.html#RandomWalk"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.RandomWalk" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">grakel.</code><code class="sig-name descname">RandomWalk</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">n_jobs</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">normalize</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">lamda</span><span class="o">=</span><span class="default_value">0.1</span></em>, <em class="sig-param"><span class="n">method_type</span><span class="o">=</span><span class="default_value">'fast'</span></em>, <em class="sig-param"><span class="n">kernel_type</span><span class="o">=</span><span class="default_value">'geometric'</span></em>, <em class="sig-param"><span class="n">p</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/64586c53/grakel/kernels/random_walk.py#L26"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/random_walk.html#RandomWalk"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.RandomWalk" title="Permalink to this definition">¶</a></dt>
 <dd><p>The random walk kernel class.</p>
 <p>See <a class="bibtex reference internal" href="../kernels/random_walk.html#kashima2003marginalized" id="id1">[KTI03]</a>, <a class="bibtex reference internal" href="../kernels/random_walk.html#gartner2003graph" id="id2">[GartnerFW03]</a>
 and <a class="bibtex reference internal" href="grakel.RandomWalkLabeled.html#vishwanathan2006fast" id="id3">[VBS07]</a>.</p>
@@ -246,31 +248,31 @@ and <a class="bibtex reference internal" href="grakel.RandomWalkLabeled.html#vis
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#grakel.RandomWalk.diagonal" title="grakel.RandomWalk.diagonal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">diagonal</span></code></a>(self)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">diagonal</span></code>(self)</p></td>
 <td><p>Calculate the kernel matrix diagonal of the fit/transformed data.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#grakel.RandomWalk.fit" title="grakel.RandomWalk.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(self, X[, y])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code>(self, X[, y])</p></td>
 <td><p>Fit a dataset, for a transformer.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#grakel.RandomWalk.fit_transform" title="grakel.RandomWalk.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code></a>(self, X)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code>(self, X)</p></td>
 <td><p>Fit and transform, on the same dataset.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#grakel.RandomWalk.get_params" title="grakel.RandomWalk.get_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code></a>(self[, deep])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code>(self[, deep])</p></td>
 <td><p>Get parameters for this estimator.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#grakel.RandomWalk.initialize" title="grakel.RandomWalk.initialize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize</span></code></a>(self)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize</span></code>(self)</p></td>
 <td><p>Initialize all transformer arguments, needing initialization.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#grakel.RandomWalk.pairwise_operation" title="grakel.RandomWalk.pairwise_operation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pairwise_operation</span></code></a>(self, X, Y)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pairwise_operation</span></code>(self, X, Y)</p></td>
 <td><p>Calculate the random walk kernel.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#grakel.RandomWalk.parse_input" title="grakel.RandomWalk.parse_input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_input</span></code></a>(self, X)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_input</span></code>(self, X)</p></td>
 <td><p>Parse and create features for random_walk kernel.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#grakel.RandomWalk.set_params" title="grakel.RandomWalk.set_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code></a>(self, \*\*params)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code>(self, \*\*params)</p></td>
 <td><p>Call the parent method.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#grakel.RandomWalk.transform" title="grakel.RandomWalk.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(self, X)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code>(self, X)</p></td>
 <td><p>Calculate the kernel matrix, between given and fitted dataset.</p></td>
 </tr>
 </tbody>
@@ -290,229 +292,39 @@ and <a class="bibtex reference internal" href="grakel.RandomWalkLabeled.html#vis
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#grakel.RandomWalk.diagonal" title="grakel.RandomWalk.diagonal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">diagonal</span></code></a>(self)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">diagonal</span></code>(self)</p></td>
 <td><p>Calculate the kernel matrix diagonal of the fit/transformed data.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#grakel.RandomWalk.fit" title="grakel.RandomWalk.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(self, X[, y])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code>(self, X[, y])</p></td>
 <td><p>Fit a dataset, for a transformer.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#grakel.RandomWalk.fit_transform" title="grakel.RandomWalk.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code></a>(self, X)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code>(self, X)</p></td>
 <td><p>Fit and transform, on the same dataset.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#grakel.RandomWalk.get_params" title="grakel.RandomWalk.get_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code></a>(self[, deep])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code>(self[, deep])</p></td>
 <td><p>Get parameters for this estimator.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#grakel.RandomWalk.initialize" title="grakel.RandomWalk.initialize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize</span></code></a>(self)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize</span></code>(self)</p></td>
 <td><p>Initialize all transformer arguments, needing initialization.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#grakel.RandomWalk.pairwise_operation" title="grakel.RandomWalk.pairwise_operation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pairwise_operation</span></code></a>(self, X, Y)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pairwise_operation</span></code>(self, X, Y)</p></td>
 <td><p>Calculate the random walk kernel.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#grakel.RandomWalk.parse_input" title="grakel.RandomWalk.parse_input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_input</span></code></a>(self, X)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_input</span></code>(self, X)</p></td>
 <td><p>Parse and create features for random_walk kernel.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#grakel.RandomWalk.set_params" title="grakel.RandomWalk.set_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code></a>(self, \*\*params)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code>(self, \*\*params)</p></td>
 <td><p>Call the parent method.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#grakel.RandomWalk.transform" title="grakel.RandomWalk.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(self, X)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code>(self, X)</p></td>
 <td><p>Calculate the kernel matrix, between given and fitted dataset.</p></td>
 </tr>
 </tbody>
 </table>
-<dl class="method">
+<dl class="py method">
 <dt id="grakel.RandomWalk.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">n_jobs=None</em>, <em class="sig-param">normalize=False</em>, <em class="sig-param">verbose=False</em>, <em class="sig-param">lamda=0.1</em>, <em class="sig-param">method_type='fast'</em>, <em class="sig-param">kernel_type='geometric'</em>, <em class="sig-param">p=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/114c732d/grakel/kernels/random_walk.py#L59"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/random_walk.html#RandomWalk.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.RandomWalk.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">n_jobs</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">normalize</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">lamda</span><span class="o">=</span><span class="default_value">0.1</span></em>, <em class="sig-param"><span class="n">method_type</span><span class="o">=</span><span class="default_value">'fast'</span></em>, <em class="sig-param"><span class="n">kernel_type</span><span class="o">=</span><span class="default_value">'geometric'</span></em>, <em class="sig-param"><span class="n">p</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/64586c53/grakel/kernels/random_walk.py#L59"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/random_walk.html#RandomWalk.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.RandomWalk.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialise a random_walk kernel.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="grakel.RandomWalk.diagonal">
-<code class="sig-name descname">diagonal</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/114c732d/grakel/kernels/kernel.py#L267"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.RandomWalk.diagonal" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate the kernel matrix diagonal of the fit/transformed data.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>None.</strong></dt><dd></dd>
-</dl>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
-<dt><strong>X_diag</strong><span class="classifier">np.array</span></dt><dd><p>The diagonal of the kernel matrix between the fitted data.
-This consists of each element calculated with itself.</p>
-</dd>
-<dt><strong>Y_diag</strong><span class="classifier">np.array</span></dt><dd><p>The diagonal of the kernel matrix, of the transform.
-This consists of each element calculated with itself.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="grakel.RandomWalk.fit">
-<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">X</em>, <em class="sig-param">y=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/114c732d/grakel/kernels/kernel.py#L91"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.RandomWalk.fit" title="Permalink to this definition">¶</a></dt>
-<dd><p>Fit a dataset, for a transformer.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>X</strong><span class="classifier">iterable</span></dt><dd><p>Each element must be an iterable with at most three features and at
-least one. The first that is obligatory is a valid graph structure
-(adjacency matrix or edge_dictionary) while the second is
-node_labels and the third edge_labels (that fitting the given graph
-format). The train samples.</p>
-</dd>
-<dt><strong>y</strong><span class="classifier">None</span></dt><dd><p>There is no need of a target in a transformer, yet the pipeline API
-requires this parameter.</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
-<dt><strong>self</strong><span class="classifier">object</span></dt><dd></dd>
-<dt>Returns self.</dt><dd></dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="grakel.RandomWalk.fit_transform">
-<code class="sig-name descname">fit_transform</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/114c732d/grakel/kernels/kernel.py#L169"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.RandomWalk.fit_transform" title="Permalink to this definition">¶</a></dt>
-<dd><p>Fit and transform, on the same dataset.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>X</strong><span class="classifier">iterable</span></dt><dd><p>Each element must be an iterable with at most three features and at
-least one. The first that is obligatory is a valid graph structure
-(adjacency matrix or edge_dictionary) while the second is
-node_labels and the third edge_labels (that fitting the given graph
-format). If None the kernel matrix is calculated upon fit data.
-The test samples.</p>
-</dd>
-<dt><strong>y</strong><span class="classifier">None</span></dt><dd><p>There is no need of a target in a transformer, yet the pipeline API
-requires this parameter.</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
-<dt><strong>K</strong><span class="classifier">numpy array, shape = [n_targets, n_input_graphs]</span></dt><dd><p>corresponding to the kernel matrix, a calculation between
-all pairs of graphs between target an features</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="grakel.RandomWalk.get_params">
-<code class="sig-name descname">get_params</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">deep=True</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/114c732d/grakel/../venv/lib/python3.5/site-packages/sklearn/base.py#L173"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.RandomWalk.get_params" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get parameters for this estimator.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>deep</strong><span class="classifier">bool, default=True</span></dt><dd><p>If True, will return the parameters for this estimator and
-contained subobjects that are estimators.</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
-<dt><strong>params</strong><span class="classifier">mapping of string to any</span></dt><dd><p>Parameter names mapped to their values.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="grakel.RandomWalk.initialize">
-<code class="sig-name descname">initialize</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/114c732d/grakel/kernels/random_walk.py#L79"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/random_walk.html#RandomWalk.initialize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.RandomWalk.initialize" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize all transformer arguments, needing initialization.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="grakel.RandomWalk.pairwise_operation">
-<code class="sig-name descname">pairwise_operation</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">X</em>, <em class="sig-param">Y</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/114c732d/grakel/kernels/random_walk.py#L181"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/random_walk.html#RandomWalk.pairwise_operation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.RandomWalk.pairwise_operation" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate the random walk kernel.</p>
-<p>Fast:
-Spectral demoposition algorithm as presented in
-<a class="bibtex reference internal" href="grakel.RandomWalkLabeled.html#vishwanathan2006fast" id="id7">[VBS07]</a> p.13, s.4.4, with
-complexity of <span class="math notranslate nohighlight">\(O((|E|+|V|)|E||V|^2)\)</span> for graphs witout labels.</p>
-<p>Baseline:
-Algorithm presented in <a class="bibtex reference internal" href="../kernels/random_walk.html#kashima2003marginalized" id="id8">[KTI03]</a>,
-<a class="bibtex reference internal" href="../kernels/random_walk.html#gartner2003graph" id="id9">[GartnerFW03]</a> with complexity of <span class="math notranslate nohighlight">\(O(|V|^6)\)</span></p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>X, Y</strong><span class="classifier">Objects</span></dt><dd><p>Objects as produced from parse_input.</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
-<dt><strong>kernel</strong><span class="classifier">number</span></dt><dd><p>The kernel value.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="grakel.RandomWalk.parse_input">
-<code class="sig-name descname">parse_input</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/114c732d/grakel/kernels/random_walk.py#L131"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/random_walk.html#RandomWalk.parse_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.RandomWalk.parse_input" title="Permalink to this definition">¶</a></dt>
-<dd><p>Parse and create features for random_walk kernel.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>X</strong><span class="classifier">iterable</span></dt><dd><p>For the input to pass the test, we must have:
-Each element must be an iterable with at most three features and at
-least one. The first that is obligatory is a valid graph structure
-(adjacency matrix or edge_dictionary) while the second is
-node_labels and the third edge_labels (that correspond to the given
-graph format). A valid input also consists of graph type objects.</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
-<dt><strong>out</strong><span class="classifier">list</span></dt><dd><p>The extracted adjacency matrices for any given input.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="grakel.RandomWalk.set_params">
-<code class="sig-name descname">set_params</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">**params</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/114c732d/grakel/kernels/kernel.py#L386"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.RandomWalk.set_params" title="Permalink to this definition">¶</a></dt>
-<dd><p>Call the parent method.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="grakel.RandomWalk.transform">
-<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/114c732d/grakel/kernels/kernel.py#L128"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.RandomWalk.transform" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate the kernel matrix, between given and fitted dataset.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>X</strong><span class="classifier">iterable</span></dt><dd><p>Each element must be an iterable with at most three features and at
-least one. The first that is obligatory is a valid graph structure
-(adjacency matrix or edge_dictionary) while the second is
-node_labels and the third edge_labels (that fitting the given graph
-format). If None the kernel matrix is calculated upon fit data.
-The test samples.</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
-<dt><strong>K</strong><span class="classifier">numpy array, shape = [n_targets, n_input_graphs]</span></dt><dd><p>corresponding to the kernel matrix, a calculation between
-all pairs of graphs between target an features</p>
-</dd>
-</dl>
-</dd>
-</dl>
 </dd></dl>
 
 </dd></dl>
@@ -520,13 +332,13 @@ all pairs of graphs between target an features</p>
 <div class="section" id="bibliography">
 <h2>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">¶</a></h2>
 <p id="bibtex-bibliography-generated/grakel.RandomWalk-0"><dl class="citation">
-<dt class="bibtex label" id="gartner2003graph"><span class="brackets">GartnerFW03</span><span class="fn-backref">(<a href="#id2">1</a>,<a href="#id5">2</a>,<a href="#id9">3</a>)</span></dt>
+<dt class="bibtex label" id="gartner2003graph"><span class="brackets">GartnerFW03</span><span class="fn-backref">(<a href="#id2">1</a>,<a href="#id5">2</a>)</span></dt>
 <dd><p>Thomas Gärtner, Peter Flach, and Stefan Wrobel. On Graph Kernels: Hardness Results and Efficient Alternatives. In <em>Learning Theory and Kernel Machines</em>, 129–143. 2003.</p>
 </dd>
-<dt class="bibtex label" id="kashima2003marginalized"><span class="brackets">KTI03</span><span class="fn-backref">(<a href="#id1">1</a>,<a href="#id4">2</a>,<a href="#id8">3</a>)</span></dt>
+<dt class="bibtex label" id="kashima2003marginalized"><span class="brackets">KTI03</span><span class="fn-backref">(<a href="#id1">1</a>,<a href="#id4">2</a>)</span></dt>
 <dd><p>Hisashi Kashima, Koji Tsuda, and Akihiro Inokuchi. Marginalized Kernels Between Labeled Graphs. In <em>Proceedings of the 20th Conference in Machine Learning</em>, 321–328. 2003.</p>
 </dd>
-<dt class="bibtex label" id="vishwanathan2006fast"><span class="brackets">VBS07</span><span class="fn-backref">(<a href="#id3">1</a>,<a href="#id6">2</a>,<a href="#id7">3</a>)</span></dt>
+<dt class="bibtex label" id="vishwanathan2006fast"><span class="brackets">VBS07</span><span class="fn-backref">(<a href="#id3">1</a>,<a href="#id6">2</a>)</span></dt>
 <dd><p>S.V.N. Vishwanathan, Karsten M. Borgwardt, and Nicol N. Schraudolph. Fast Computation of Graph Kernels. In <em>Advances in Neural Information Processing Systems</em>, 1449–1456. 2007.</p>
 </dd>
 </dl>

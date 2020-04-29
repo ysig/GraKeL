@@ -34,8 +34,10 @@
   
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/_static/css/supplementary.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery-dataframe.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
 </head>
@@ -292,7 +294,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">sampling</span> <span class="o">=</span> <span class="n">sampling</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;random_state&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;k&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;sampling&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">})</span></div>
 
-<div class="viewcode-block" id="GraphletSampling.initialize"><a class="viewcode-back" href="../../../generated/grakel.GraphletSampling.html#grakel.GraphletSampling.initialize">[docs]</a>    <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialize all transformer arguments, needing initialization.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_graph_bins</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="p">[</span><span class="s2">&quot;n_jobs&quot;</span><span class="p">]:</span>
@@ -393,9 +395,9 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">sample_graphlets_</span> <span class="o">=</span> <span class="n">sample_graphlets</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">k_</span> <span class="o">=</span> <span class="n">k</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">n_samples_</span> <span class="o">=</span> <span class="n">n_samples</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="p">[</span><span class="s2">&quot;sampling&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="p">[</span><span class="s2">&quot;sampling&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
 
-<div class="viewcode-block" id="GraphletSampling.transform"><a class="viewcode-back" href="../../../generated/grakel.GraphletSampling.html#grakel.GraphletSampling.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate the kernel matrix, between given and fitted dataset.</span>
 
 <span class="sd">        Parameters</span>
@@ -445,9 +447,9 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalize</span><span class="p">:</span>
             <span class="n">X_diag</span><span class="p">,</span> <span class="n">Y_diag</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">diagonal</span><span class="p">()</span>
             <span class="n">km</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">Y_diag</span><span class="p">,</span> <span class="n">X_diag</span><span class="p">))</span>
-        <span class="k">return</span> <span class="n">km</span></div>
+        <span class="k">return</span> <span class="n">km</span>
 
-<div class="viewcode-block" id="GraphletSampling.fit_transform"><a class="viewcode-back" href="../../../generated/grakel.GraphletSampling.html#grakel.GraphletSampling.fit_transform">[docs]</a>    <span class="k">def</span> <span class="nf">fit_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">fit_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Fit and transform, on the same dataset.</span>
 
 <span class="sd">        Parameters</span>
@@ -487,9 +489,9 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalize</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">km</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_X_diag</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_X_diag</span><span class="p">)))</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">km</span></div>
+            <span class="k">return</span> <span class="n">km</span>
 
-<div class="viewcode-block" id="GraphletSampling.diagonal"><a class="viewcode-back" href="../../../generated/grakel.GraphletSampling.html#grakel.GraphletSampling.diagonal">[docs]</a>    <span class="k">def</span> <span class="nf">diagonal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">diagonal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate the kernel matrix diagonal for fitted data.</span>
 
 <span class="sd">        A funtion called on transform on a seperate dataset to apply</span>
@@ -525,9 +527,9 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_X_diag</span><span class="p">,</span> <span class="n">Y_diag</span>
         <span class="k">except</span> <span class="n">NotFittedError</span><span class="p">:</span>
             <span class="c1"># Calculate diagonal of X</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_X_diag</span></div>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_X_diag</span>
 
-<div class="viewcode-block" id="GraphletSampling.parse_input"><a class="viewcode-back" href="../../../generated/grakel.GraphletSampling.html#grakel.GraphletSampling.parse_input">[docs]</a>    <span class="k">def</span> <span class="nf">parse_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">parse_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Parse and create features for graphlet_sampling kernel.</span>
 
 <span class="sd">        Parameters</span>
@@ -637,7 +639,7 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">_nx</span> <span class="o">=</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span>
             <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_method_calling</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_ny</span> <span class="o">=</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span>
-            <span class="k">return</span> <span class="n">local_values</span></div></div>
+            <span class="k">return</span> <span class="n">local_values</span></div>
 
 
 <span class="k">def</span> <span class="nf">sample_graphlets_probabilistic</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">,</span> <span class="n">rs</span><span class="p">):</span>

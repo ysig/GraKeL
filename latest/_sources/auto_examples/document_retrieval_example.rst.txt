@@ -1,10 +1,12 @@
-.. note::
-    :class: sphx-glr-download-link-note
+.. only:: html
 
-    Click :ref:`here <sphx_glr_download_auto_examples_document_retrieval_example.py>` to download the full example code
-.. rst-class:: sphx-glr-example-title
+    .. note::
+        :class: sphx-glr-download-link-note
 
-.. _sphx_glr_auto_examples_document_retrieval_example.py:
+        Click :ref:`here <sphx_glr_download_auto_examples_document_retrieval_example.py>`     to download the full example code
+    .. rst-class:: sphx-glr-example-title
+
+    .. _sphx_glr_auto_examples_document_retrieval_example.py:
 
 
 ==============================================================================
@@ -85,13 +87,13 @@ Script makes use of :class:`grakel.WeisfeilerLehman`, :class:`grakel.VertexHisto
 
 
 
-  .. container:: sphx-glr-download
+  .. container:: sphx-glr-download sphx-glr-download-python
 
      :download:`Download Python source code: document_retrieval_example.py <document_retrieval_example.py>`
 
 
 
-  .. container:: sphx-glr-download
+  .. container:: sphx-glr-download sphx-glr-download-jupyter
 
      :download:`Download Jupyter notebook: document_retrieval_example.ipynb <document_retrieval_example.ipynb>`
 

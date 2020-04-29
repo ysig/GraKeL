@@ -34,8 +34,10 @@
   
   <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/_static/css/supplementary.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/gallery-dataframe.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
 </head>
@@ -331,7 +333,7 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Invalid graph format.</span><span class="se">\n</span><span class="s1">Valid graph formats&#39;</span> <span class="o">+</span>
                              <span class="s1">&#39; are &quot;all&quot;, &quot;dictionary&quot;, &quot;adjacency&quot;, &quot;auto&quot;&#39;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Graph.build_graph"><a class="viewcode-back" href="../../generated/grakel.Graph.html#grakel.Graph.build_graph">[docs]</a>    <span class="k">def</span> <span class="nf">build_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">node_labels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">edge_labels</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">build_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">node_labels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">edge_labels</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Build a graph structure, given a supported graph representation.</span>
 
 <span class="sd">        Parameters</span>
@@ -394,9 +396,9 @@
         <span class="k">if</span> <span class="p">(</span><span class="n">case</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_import_adjacency</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
         <span class="k">elif</span> <span class="p">(</span><span class="n">case</span> <span class="o">==</span> <span class="mi">2</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_import_dictionary</span><span class="p">(</span><span class="n">g</span><span class="p">)</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_import_dictionary</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Graph.change_format"><a class="viewcode-back" href="../../generated/grakel.Graph.html#grakel.Graph.change_format">[docs]</a>    <span class="k">def</span> <span class="nf">change_format</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">graph_format</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">change_format</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">graph_format</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Change the format of the graph from an existing to an other.</span>
 
 <span class="sd">        Parameters</span>
@@ -439,9 +441,9 @@
                         <span class="bp">self</span><span class="o">.</span><span class="n">vertices</span> <span class="o">=</span> <span class="kc">None</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">node_labels</span> <span class="o">=</span> <span class="kc">None</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">edge_labels</span> <span class="o">=</span> <span class="kc">None</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">edge_dictionary</span> <span class="o">=</span> <span class="kc">None</span></div>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">edge_dictionary</span> <span class="o">=</span> <span class="kc">None</span>
 
-<div class="viewcode-block" id="Graph.desired_format"><a class="viewcode-back" href="../../generated/grakel.Graph.html#grakel.Graph.desired_format">[docs]</a>    <span class="k">def</span> <span class="nf">desired_format</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">graph_format</span><span class="p">,</span> <span class="n">warn</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">desired_format</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">graph_format</span><span class="p">,</span> <span class="n">warn</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Change the graph format, to include the desired.</span>
 
 <span class="sd">        Parameters</span>
@@ -474,9 +476,9 @@
         <span class="k">elif</span> <span class="n">graph_format</span> <span class="o">==</span> <span class="s2">&quot;adjacency&quot;</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;all&quot;</span><span class="p">,</span> <span class="s2">&quot;adjacency&quot;</span><span class="p">]:</span>
                 <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;changing format from &quot;adjacency&quot; to &quot;all&quot;&#39;</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">change_format</span><span class="p">(</span><span class="s2">&quot;all&quot;</span><span class="p">)</span></div>
+                <span class="bp">self</span><span class="o">.</span><span class="n">change_format</span><span class="p">(</span><span class="s2">&quot;all&quot;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Graph.construct_labels"><a class="viewcode-back" href="../../generated/grakel.Graph.html#grakel.Graph.construct_labels">[docs]</a>    <span class="k">def</span> <span class="nf">construct_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label_type</span><span class="o">=</span><span class="s2">&quot;vertex&quot;</span><span class="p">,</span> <span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;adjacency&quot;</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">construct_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label_type</span><span class="o">=</span><span class="s2">&quot;vertex&quot;</span><span class="p">,</span> <span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;adjacency&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Construct labels (if user does not provide).</span>
 
 <span class="sd">        Parameters</span>
@@ -512,9 +514,9 @@
                              <span class="bp">self</span><span class="o">.</span><span class="n">edge_dictionary</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">])</span>
                     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">nodes</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">}</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;unsupported label type&#39;</span><span class="p">)</span></div>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;unsupported label type&#39;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Graph.convert_labels"><a class="viewcode-back" href="../../generated/grakel.Graph.html#grakel.Graph.convert_labels">[docs]</a>    <span class="k">def</span> <span class="nf">convert_labels</span><span class="p">(</span>
+    <span class="k">def</span> <span class="nf">convert_labels</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span>
             <span class="n">target_format</span><span class="o">=</span><span class="s2">&quot;dictionary&quot;</span><span class="p">,</span>
             <span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;all&quot;</span><span class="p">,</span>
@@ -598,9 +600,9 @@
                                       <span class="s1">&#39;for the given purpose&#39;</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;labels already defined &#39;</span> <span class="o">+</span>
-                              <span class="s1">&#39;for the given format&#39;</span><span class="p">)</span></div>
+                              <span class="s1">&#39;for the given format&#39;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Graph.label"><a class="viewcode-back" href="../../generated/grakel.Graph.html#grakel.Graph.label">[docs]</a>    <span class="k">def</span> <span class="nf">label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">label_type</span><span class="o">=</span><span class="s2">&quot;vertex&quot;</span><span class="p">,</span> <span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;dictionary&quot;</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">label_type</span><span class="o">=</span><span class="s2">&quot;vertex&quot;</span><span class="p">,</span> <span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;dictionary&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Get the label of a vertex.</span>
 
 <span class="sd">        Parameters</span>
@@ -660,9 +662,9 @@
                    <span class="p">(</span><span class="n">edge</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">edge_dictionary</span><span class="p">[</span><span class="n">edge</span><span class="p">[</span><span class="mi">0</span><span class="p">]]):</span>
                     <span class="k">return</span> <span class="o">.</span><span class="mi">0</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">edge_dictionary</span><span class="p">[</span><span class="n">edge</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="n">edge</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span></div>
+                    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">edge_dictionary</span><span class="p">[</span><span class="n">edge</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="n">edge</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
 
-<div class="viewcode-block" id="Graph.relabel"><a class="viewcode-back" href="../../generated/grakel.Graph.html#grakel.Graph.relabel">[docs]</a>    <span class="k">def</span> <span class="nf">relabel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_labels</span><span class="p">,</span> <span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;dictionary&quot;</span><span class="p">,</span> <span class="n">label_type</span><span class="o">=</span><span class="s2">&quot;vertex&quot;</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">relabel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_labels</span><span class="p">,</span> <span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;dictionary&quot;</span><span class="p">,</span> <span class="n">label_type</span><span class="o">=</span><span class="s2">&quot;vertex&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Relabel the graph object, supporting the current format.</span>
 
 <span class="sd">        Parameters</span>
@@ -750,9 +752,9 @@
                 <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;no labels to convert from, for &#39;</span> <span class="o">+</span>
                               <span class="s1">&#39;the given purpose&#39;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;unrecognized label type&#39;</span><span class="p">)</span></div>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;unrecognized label type&#39;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Graph.build_shortest_path_matrix"><a class="viewcode-back" href="../../generated/grakel.Graph.html#grakel.Graph.build_shortest_path_matrix">[docs]</a>    <span class="k">def</span> <span class="nf">build_shortest_path_matrix</span><span class="p">(</span>
+    <span class="k">def</span> <span class="nf">build_shortest_path_matrix</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span>
             <span class="n">algorithm_type</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span>
             <span class="n">clean</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
@@ -842,9 +844,9 @@
         <span class="k">if</span> <span class="n">labels</span> <span class="o">==</span> <span class="s2">&quot;vertex&quot;</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">shortest_path_mat</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_labels</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">shortest_path_mat</span></div>
+            <span class="k">return</span> <span class="n">shortest_path_mat</span>
 
-<div class="viewcode-block" id="Graph.get_labels"><a class="viewcode-back" href="../../generated/grakel.Graph.html#grakel.Graph.get_labels">[docs]</a>    <span class="k">def</span> <span class="nf">get_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label_type</span><span class="o">=</span><span class="s2">&quot;vertex&quot;</span><span class="p">,</span> <span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;adjacency&quot;</span><span class="p">,</span> <span class="n">return_none</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">get_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label_type</span><span class="o">=</span><span class="s2">&quot;vertex&quot;</span><span class="p">,</span> <span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;adjacency&quot;</span><span class="p">,</span> <span class="n">return_none</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Get labels corresponding to the purpose.</span>
 
 <span class="sd">        Parameters</span>
@@ -928,9 +930,9 @@
                 <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">edge_labels</span>
             <span class="k">else</span><span class="p">:</span>
 
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;label type can only be &quot;vertex&quot; or &quot;edge&quot;&#39;</span><span class="p">)</span></div>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;label type can only be &quot;vertex&quot; or &quot;edge&quot;&#39;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Graph.get_label_group"><a class="viewcode-back" href="../../generated/grakel.Graph.html#grakel.Graph.get_label_group">[docs]</a>    <span class="k">def</span> <span class="nf">get_label_group</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label_type</span><span class="o">=</span><span class="s2">&quot;vertex&quot;</span><span class="p">,</span> <span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;dictionary&quot;</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">get_label_group</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label_type</span><span class="o">=</span><span class="s2">&quot;vertex&quot;</span><span class="p">,</span> <span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;dictionary&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate the inverse dictionary for vertex labels (once).</span>
 
 <span class="sd">        Parameters</span>
@@ -959,9 +961,9 @@
             <span class="c1"># calculate the label_group</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">label_group</span><span class="p">[(</span><span class="n">label_type</span><span class="p">,</span> <span class="n">purpose</span><span class="p">)]</span> <span class="o">=</span> \
                 <span class="n">inv_dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_labels</span><span class="p">(</span><span class="n">label_type</span><span class="p">,</span> <span class="n">purpose</span><span class="p">))</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">label_group</span><span class="p">[(</span><span class="n">label_type</span><span class="p">,</span> <span class="n">purpose</span><span class="p">)]</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">label_group</span><span class="p">[(</span><span class="n">label_type</span><span class="p">,</span> <span class="n">purpose</span><span class="p">)]</span>
 
-<div class="viewcode-block" id="Graph.neighbors"><a class="viewcode-back" href="../../generated/grakel.Graph.html#grakel.Graph.neighbors">[docs]</a>    <span class="k">def</span> <span class="nf">neighbors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vertex</span><span class="p">,</span> <span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;any&quot;</span><span class="p">,</span> <span class="n">with_weights</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">neighbors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vertex</span><span class="p">,</span> <span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;any&quot;</span><span class="p">,</span> <span class="n">with_weights</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Find all neighbors of a vertex.</span>
 
 <span class="sd">        Parameters</span>
@@ -1023,7 +1025,7 @@
                     <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">ns</span><span class="p">,</span>
                                     <span class="bp">self</span><span class="o">.</span><span class="n">adjacency</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="n">out_idx</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())[</span><span class="mi">0</span><span class="p">])</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;item with index &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot; does not exist&quot;</span><span class="p">)</span></div>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;item with index &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot; does not exist&quot;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_make_edsamic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vertices</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Produce the `edsamic`.</span>
@@ -1211,7 +1213,7 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">node_labels</span> <span class="o">=</span> <span class="kc">None</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">edge_labels</span> <span class="o">=</span> <span class="kc">None</span>
 
-<div class="viewcode-block" id="Graph.laplacian"><a class="viewcode-back" href="../../generated/grakel.Graph.html#grakel.Graph.laplacian">[docs]</a>    <span class="k">def</span> <span class="nf">laplacian</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">laplacian</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate the laplacian of the given graph.</span>
 
 <span class="sd">        Parameters</span>
@@ -1233,9 +1235,9 @@
 
             <span class="k">if</span> <span class="n">save</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">laplacian_graph</span> <span class="o">=</span> <span class="n">laplacian_graph</span>
-        <span class="k">return</span> <span class="n">laplacian_graph</span></div>
+        <span class="k">return</span> <span class="n">laplacian_graph</span>
 
-<div class="viewcode-block" id="Graph.get_vertices"><a class="viewcode-back" href="../../generated/grakel.Graph.html#grakel.Graph.get_vertices">[docs]</a>    <span class="k">def</span> <span class="nf">get_vertices</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;adjacency&quot;</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">get_vertices</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;adjacency&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Create an iterable of vertices.</span>
 
 <span class="sd">        Parameters</span>
@@ -1266,9 +1268,9 @@
             <span class="k">return</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">purpose</span> <span class="o">==</span> <span class="s2">&quot;dictionary&quot;</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">desired_format</span><span class="p">(</span><span class="s2">&quot;dictionary&quot;</span><span class="p">,</span> <span class="n">warn</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">vertices</span></div>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">vertices</span>
 
-<div class="viewcode-block" id="Graph.get_edges"><a class="viewcode-back" href="../../generated/grakel.Graph.html#grakel.Graph.get_edges">[docs]</a>    <span class="k">def</span> <span class="nf">get_edges</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;adjacency&quot;</span><span class="p">,</span> <span class="n">with_weights</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">get_edges</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;adjacency&quot;</span><span class="p">,</span> <span class="n">with_weights</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Create an iterable of edges as tuples.</span>
 
 <span class="sd">        Parameters</span>
@@ -1302,9 +1304,9 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">return</span> <span class="p">[((</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">edge_dictionary</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">])</span>
                         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">edge_dictionary</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
-                        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">edge_dictionary</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()]</span></div>
+                        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">edge_dictionary</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()]</span>
 
-<div class="viewcode-block" id="Graph.get_adjacency_matrix"><a class="viewcode-back" href="../../generated/grakel.Graph.html#grakel.Graph.get_adjacency_matrix">[docs]</a>    <span class="k">def</span> <span class="nf">get_adjacency_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">get_adjacency_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Get the adjacency matrix.</span>
 
 <span class="sd">        Format agnostic method.</span>
@@ -1328,9 +1330,9 @@
                     <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">v_map</span><span class="p">[</span><span class="n">kv</span><span class="p">]]</span> <span class="o">=</span> <span class="n">w</span>
             <span class="k">return</span> <span class="n">A</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">adjacency_matrix</span></div>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">adjacency_matrix</span>
 
-<div class="viewcode-block" id="Graph.get_edge_dictionary"><a class="viewcode-back" href="../../generated/grakel.Graph.html#grakel.Graph.get_edge_dictionary">[docs]</a>    <span class="k">def</span> <span class="nf">get_edge_dictionary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">get_edge_dictionary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Get the edge dictionary.</span>
 
 <span class="sd">        Format agnostic method.</span>
@@ -1352,9 +1354,9 @@
                 <span class="n">edge_dictionary</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">adjacency_matrix</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
             <span class="k">return</span> <span class="n">edge_dictionary</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">edge_dictionary</span></div>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">edge_dictionary</span>
 
-<div class="viewcode-block" id="Graph.nv"><a class="viewcode-back" href="../../generated/grakel.Graph.html#grakel.Graph.nv">[docs]</a>    <span class="k">def</span> <span class="nf">nv</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">nv</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Get the number of vertices for any existing format.</span>
 
 <span class="sd">        Parameters</span>
@@ -1370,9 +1372,9 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;all&#39;</span><span class="p">,</span> <span class="s1">&#39;adjacency&#39;</span><span class="p">]:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">)</span></div>
+            <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Graph.produce_neighborhoods"><a class="viewcode-back" href="../../generated/grakel.Graph.html#grakel.Graph.produce_neighborhoods">[docs]</a>    <span class="k">def</span> <span class="nf">produce_neighborhoods</span><span class="p">(</span>
+    <span class="k">def</span> <span class="nf">produce_neighborhoods</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span>
             <span class="n">r</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
             <span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;adjacency&quot;</span><span class="p">,</span>
@@ -1484,9 +1486,9 @@
         <span class="k">if</span> <span class="n">with_distances</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">N</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">Dist_pair</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">N</span></div>
+            <span class="k">return</span> <span class="n">N</span>
 
-<div class="viewcode-block" id="Graph.get_graph_object"><a class="viewcode-back" href="../../generated/grakel.Graph.html#grakel.Graph.get_graph_object">[docs]</a>    <span class="k">def</span> <span class="nf">get_graph_object</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">get_graph_object</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return the graph object corresponding to &#39;any&#39;.</span>
 
 <span class="sd">        Format agnostic method.</span>
@@ -1504,9 +1506,9 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;adjacency&quot;</span><span class="p">,</span> <span class="s2">&quot;all&quot;</span><span class="p">]:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">adjacency_matrix</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">edge_dictionary</span></div>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">edge_dictionary</span>
 
-<div class="viewcode-block" id="Graph.get_subgraph"><a class="viewcode-back" href="../../generated/grakel.Graph.html#grakel.Graph.get_subgraph">[docs]</a>    <span class="k">def</span> <span class="nf">get_subgraph</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vertices</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">get_subgraph</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vertices</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate the subgraph of object in the same format as the original.</span>
 
 <span class="sd">        Parameters</span>
@@ -1631,7 +1633,7 @@
                     <span class="k">def</span> <span class="nf">get_correct</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
                         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">edsamic</span><span class="p">[</span><span class="n">new_indexes</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
 
-        <span class="k">return</span> <span class="n">subgraph</span></div></div>
+        <span class="k">return</span> <span class="n">subgraph</span></div>
 
 
 <div class="viewcode-block" id="is_adjacency"><a class="viewcode-back" href="../../generated/grakel.graph.is_adjacency.html#grakel.is_adjacency">[docs]</a><span class="k">def</span> <span class="nf">is_adjacency</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>

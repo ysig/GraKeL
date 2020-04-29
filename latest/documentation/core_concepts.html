@@ -34,8 +34,10 @@
   
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="../_static/_static/css/supplementary.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery-dataframe.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Creating your Own Kernel" href="creating_kernels.html" />
@@ -183,7 +185,7 @@
 <span id="id1"></span><h1>Core Concepts<a class="headerlink" href="#core-concepts" title="Permalink to this headline">¶</a></h1>
 <p><em>GraKeL</em> is organized as shown in the Figure below.</p>
 <div class="figure align-center">
-<a class="reference internal image-reference" href="../_images/grakel_schema.svg"><img alt="../_images/grakel_schema.svg" height="411.0" src="../_images/grakel_schema.svg" width="748.0" /></a>
+<a class="reference internal image-reference" href="../_images/grakel_schema.svg"><img alt="../_images/grakel_schema.svg" height="411" src="../_images/grakel_schema.svg" width="748" /></a>
 </div>
 <p>Specifically, the package consists of two subpackages:</p>
 <ul class="simple">
@@ -404,7 +406,7 @@
 </div>
 <p>The Figure below illustrates how the <a class="reference internal" href="../generated/grakel.Kernel.html#grakel.Kernel" title="grakel.Kernel"><code class="xref py py-class docutils literal notranslate"><span class="pre">grakel.Kernel</span></code></a> class is organized.</p>
 <div class="figure align-center">
-<a class="reference internal image-reference" href="../_images/kernel_schema.svg"><img alt="../_images/kernel_schema.svg" height="571.0" src="../_images/kernel_schema.svg" width="558.0" /></a>
+<a class="reference internal image-reference" href="../_images/kernel_schema.svg"><img alt="../_images/kernel_schema.svg" height="571" src="../_images/kernel_schema.svg" width="558" /></a>
 </div>
 <p>Besides the three methods discussed above, there also exist some other methods as shown in the Figure. As can be seen, these methods are called by the <code class="code docutils literal notranslate"><span class="pre">fit</span></code>, <code class="code docutils literal notranslate"><span class="pre">fit_transform</span></code> and <code class="code docutils literal notranslate"><span class="pre">transform</span></code> methods. The <code class="code docutils literal notranslate"><span class="pre">diagonal</span></code> method is used for normalizing kernel matrices. It returns the self-kernel values of all the graphs given as input to <code class="code docutils literal notranslate"><span class="pre">fit</span></code> along with those given as input to <code class="code docutils literal notranslate"><span class="pre">transform</span></code>, provided that this method has been called. The <code class="code docutils literal notranslate"><span class="pre">parse_input</span></code> method extracts features from the collection of graphs that is given as input either to <code class="code docutils literal notranslate"><span class="pre">fit</span></code> or to <code class="code docutils literal notranslate"><span class="pre">transform</span></code>. The <code class="code docutils literal notranslate"><span class="pre">pairwise_operation</span></code> method computes the kernel between two graphs. This method is used by the <code class="code docutils literal notranslate"><span class="pre">calculate_kernel_matrix</span></code> method which generates kernel matrices from collections of graphs. Finally, the <code class="code docutils literal notranslate"><span class="pre">initialize_</span></code> function is used just for initialization purposes.</p>
 <p>A kernel initialized as an instance of the <a class="reference internal" href="../generated/grakel.Kernel.html#grakel.Kernel" title="grakel.Kernel"><code class="xref py py-class docutils literal notranslate"><span class="pre">grakel.Kernel</span></code></a> class is equivalent to an instance of the <a class="reference internal" href="../generated/grakel.GraphKernel.html#grakel.GraphKernel" title="grakel.GraphKernel"><code class="xref py py-class docutils literal notranslate"><span class="pre">grakel.GraphKernel</span></code></a> generic wrapper corresponding to the same kernel if the attributes of the two kernels are identical to each other. To illustrate this, we will employ a deterministic graph kernel (the Wesfeiler-Lehman subtree kernel) and we will investigate if the kernel values produced by the two instances of the kernel are equal to each other.</p>

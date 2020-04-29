@@ -1,10 +1,12 @@
-.. note::
-    :class: sphx-glr-download-link-note
+.. only:: html
 
-    Click :ref:`here <sphx_glr_download_auto_examples_erdos_renyi.py>` to download the full example code
-.. rst-class:: sphx-glr-example-title
+    .. note::
+        :class: sphx-glr-download-link-note
 
-.. _sphx_glr_auto_examples_erdos_renyi.py:
+        Click :ref:`here <sphx_glr_download_auto_examples_erdos_renyi.py>`     to download the full example code
+    .. rst-class:: sphx-glr-example-title
+
+    .. _sphx_glr_auto_examples_erdos_renyi.py:
 
 
 ===========================================================================
@@ -81,13 +83,13 @@ Script makes use of :class:`grakel.Graph` and :class:`grakel.ShortestPath`
 
 
 
-  .. container:: sphx-glr-download
+  .. container:: sphx-glr-download sphx-glr-download-python
 
      :download:`Download Python source code: erdos_renyi.py <erdos_renyi.py>`
 
 
 
-  .. container:: sphx-glr-download
+  .. container:: sphx-glr-download sphx-glr-download-jupyter
 
      :download:`Download Jupyter notebook: erdos_renyi.ipynb <erdos_renyi.ipynb>`
 

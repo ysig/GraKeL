@@ -34,8 +34,10 @@
   
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="../_static/_static/css/supplementary.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery-dataframe.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="grakel.RandomWalk" href="grakel.RandomWalk.html" />
@@ -205,9 +207,9 @@
             
   <div class="section" id="grakel-kernel">
 <h1><a class="reference internal" href="../api.html#module-grakel" title="grakel"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code></a>.Kernel<a class="headerlink" href="#grakel-kernel" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
+<dl class="py class">
 <dt id="grakel.Kernel">
-<em class="property">class </em><code class="sig-prename descclassname">grakel.</code><code class="sig-name descname">Kernel</code><span class="sig-paren">(</span><em class="sig-param">n_jobs=None</em>, <em class="sig-param">normalize=False</em>, <em class="sig-param">verbose=False</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/114c732d/grakel/kernels/kernel.py#L28"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/kernel.html#Kernel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.Kernel" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">grakel.</code><code class="sig-name descname">Kernel</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">n_jobs</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">normalize</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/64586c53/grakel/kernels/kernel.py#L28"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/kernel.html#Kernel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.Kernel" title="Permalink to this definition">¶</a></dt>
 <dd><p>A general class for graph kernels.</p>
 <p>At default a kernel is considered as pairwise. Doing so the coder that
 adds a new kernel, possibly only needs to overwrite the attributes:
@@ -259,31 +261,31 @@ The use of this object depends on the implementation of each base kernel.</p>
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#grakel.Kernel.diagonal" title="grakel.Kernel.diagonal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">diagonal</span></code></a>(self)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">diagonal</span></code>(self)</p></td>
 <td><p>Calculate the kernel matrix diagonal of the fit/transformed data.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#grakel.Kernel.fit" title="grakel.Kernel.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(self, X[, y])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code>(self, X[, y])</p></td>
 <td><p>Fit a dataset, for a transformer.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#grakel.Kernel.fit_transform" title="grakel.Kernel.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code></a>(self, X)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code>(self, X)</p></td>
 <td><p>Fit and transform, on the same dataset.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#grakel.Kernel.get_params" title="grakel.Kernel.get_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code></a>(self[, deep])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code>(self[, deep])</p></td>
 <td><p>Get parameters for this estimator.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#grakel.Kernel.initialize" title="grakel.Kernel.initialize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize</span></code></a>(self)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize</span></code>(self)</p></td>
 <td><p>Initialize all transformer arguments, needing initialisation.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#grakel.Kernel.pairwise_operation" title="grakel.Kernel.pairwise_operation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pairwise_operation</span></code></a>(self, x, y)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pairwise_operation</span></code>(self, x, y)</p></td>
 <td><p>Calculate a pairwise kernel between two elements.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#grakel.Kernel.parse_input" title="grakel.Kernel.parse_input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_input</span></code></a>(self, X)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_input</span></code>(self, X)</p></td>
 <td><p>Parse the given input and raise errors if it is invalid.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#grakel.Kernel.set_params" title="grakel.Kernel.set_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code></a>(self, \*\*params)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code>(self, \*\*params)</p></td>
 <td><p>Call the parent method.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#grakel.Kernel.transform" title="grakel.Kernel.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(self, X)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code>(self, X)</p></td>
 <td><p>Calculate the kernel matrix, between given and fitted dataset.</p></td>
 </tr>
 </tbody>
@@ -303,222 +305,39 @@ The use of this object depends on the implementation of each base kernel.</p>
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#grakel.Kernel.diagonal" title="grakel.Kernel.diagonal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">diagonal</span></code></a>(self)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">diagonal</span></code>(self)</p></td>
 <td><p>Calculate the kernel matrix diagonal of the fit/transformed data.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#grakel.Kernel.fit" title="grakel.Kernel.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(self, X[, y])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code>(self, X[, y])</p></td>
 <td><p>Fit a dataset, for a transformer.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#grakel.Kernel.fit_transform" title="grakel.Kernel.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code></a>(self, X)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code>(self, X)</p></td>
 <td><p>Fit and transform, on the same dataset.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#grakel.Kernel.get_params" title="grakel.Kernel.get_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code></a>(self[, deep])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code>(self[, deep])</p></td>
 <td><p>Get parameters for this estimator.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#grakel.Kernel.initialize" title="grakel.Kernel.initialize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize</span></code></a>(self)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize</span></code>(self)</p></td>
 <td><p>Initialize all transformer arguments, needing initialisation.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#grakel.Kernel.pairwise_operation" title="grakel.Kernel.pairwise_operation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pairwise_operation</span></code></a>(self, x, y)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pairwise_operation</span></code>(self, x, y)</p></td>
 <td><p>Calculate a pairwise kernel between two elements.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#grakel.Kernel.parse_input" title="grakel.Kernel.parse_input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_input</span></code></a>(self, X)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_input</span></code>(self, X)</p></td>
 <td><p>Parse the given input and raise errors if it is invalid.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#grakel.Kernel.set_params" title="grakel.Kernel.set_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code></a>(self, \*\*params)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code>(self, \*\*params)</p></td>
 <td><p>Call the parent method.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#grakel.Kernel.transform" title="grakel.Kernel.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(self, X)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code>(self, X)</p></td>
 <td><p>Calculate the kernel matrix, between given and fitted dataset.</p></td>
 </tr>
 </tbody>
 </table>
-<dl class="method">
+<dl class="py method">
 <dt id="grakel.Kernel.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">n_jobs=None</em>, <em class="sig-param">normalize=False</em>, <em class="sig-param">verbose=False</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/114c732d/grakel/kernels/kernel.py#L81"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/kernel.html#Kernel.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.Kernel.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">n_jobs</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">normalize</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/64586c53/grakel/kernels/kernel.py#L81"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/kernel.html#Kernel.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.Kernel.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p><cite>__init__</cite> for <cite>kernel</cite> object.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="grakel.Kernel.diagonal">
-<code class="sig-name descname">diagonal</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/114c732d/grakel/kernels/kernel.py#L267"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/kernel.html#Kernel.diagonal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.Kernel.diagonal" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate the kernel matrix diagonal of the fit/transformed data.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>None.</strong></dt><dd></dd>
-</dl>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
-<dt><strong>X_diag</strong><span class="classifier">np.array</span></dt><dd><p>The diagonal of the kernel matrix between the fitted data.
-This consists of each element calculated with itself.</p>
-</dd>
-<dt><strong>Y_diag</strong><span class="classifier">np.array</span></dt><dd><p>The diagonal of the kernel matrix, of the transform.
-This consists of each element calculated with itself.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="grakel.Kernel.fit">
-<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">X</em>, <em class="sig-param">y=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/114c732d/grakel/kernels/kernel.py#L91"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/kernel.html#Kernel.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.Kernel.fit" title="Permalink to this definition">¶</a></dt>
-<dd><p>Fit a dataset, for a transformer.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>X</strong><span class="classifier">iterable</span></dt><dd><p>Each element must be an iterable with at most three features and at
-least one. The first that is obligatory is a valid graph structure
-(adjacency matrix or edge_dictionary) while the second is
-node_labels and the third edge_labels (that fitting the given graph
-format). The train samples.</p>
-</dd>
-<dt><strong>y</strong><span class="classifier">None</span></dt><dd><p>There is no need of a target in a transformer, yet the pipeline API
-requires this parameter.</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
-<dt><strong>self</strong><span class="classifier">object</span></dt><dd></dd>
-<dt>Returns self.</dt><dd></dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="grakel.Kernel.fit_transform">
-<code class="sig-name descname">fit_transform</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/114c732d/grakel/kernels/kernel.py#L169"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/kernel.html#Kernel.fit_transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.Kernel.fit_transform" title="Permalink to this definition">¶</a></dt>
-<dd><p>Fit and transform, on the same dataset.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>X</strong><span class="classifier">iterable</span></dt><dd><p>Each element must be an iterable with at most three features and at
-least one. The first that is obligatory is a valid graph structure
-(adjacency matrix or edge_dictionary) while the second is
-node_labels and the third edge_labels (that fitting the given graph
-format). If None the kernel matrix is calculated upon fit data.
-The test samples.</p>
-</dd>
-<dt><strong>y</strong><span class="classifier">None</span></dt><dd><p>There is no need of a target in a transformer, yet the pipeline API
-requires this parameter.</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
-<dt><strong>K</strong><span class="classifier">numpy array, shape = [n_targets, n_input_graphs]</span></dt><dd><p>corresponding to the kernel matrix, a calculation between
-all pairs of graphs between target an features</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="grakel.Kernel.get_params">
-<code class="sig-name descname">get_params</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">deep=True</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/114c732d/grakel/../venv/lib/python3.5/site-packages/sklearn/base.py#L173"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.Kernel.get_params" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get parameters for this estimator.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>deep</strong><span class="classifier">bool, default=True</span></dt><dd><p>If True, will return the parameters for this estimator and
-contained subobjects that are estimators.</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
-<dt><strong>params</strong><span class="classifier">mapping of string to any</span></dt><dd><p>Parameter names mapped to their values.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="grakel.Kernel.initialize">
-<code class="sig-name descname">initialize</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/114c732d/grakel/kernels/kernel.py#L355"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/kernel.html#Kernel.initialize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.Kernel.initialize" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize all transformer arguments, needing initialisation.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="grakel.Kernel.pairwise_operation">
-<code class="sig-name descname">pairwise_operation</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">x</em>, <em class="sig-param">y</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/114c732d/grakel/kernels/kernel.py#L370"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/kernel.html#Kernel.pairwise_operation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.Kernel.pairwise_operation" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate a pairwise kernel between two elements.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>x, y</strong><span class="classifier">Object</span></dt><dd><p>Objects as occur from parse_input.</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
-<dt><strong>kernel</strong><span class="classifier">number</span></dt><dd><p>The kernel value.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="grakel.Kernel.parse_input">
-<code class="sig-name descname">parse_input</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/114c732d/grakel/kernels/kernel.py#L307"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/kernel.html#Kernel.parse_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.Kernel.parse_input" title="Permalink to this definition">¶</a></dt>
-<dd><p>Parse the given input and raise errors if it is invalid.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>X</strong><span class="classifier">iterable</span></dt><dd><p>For the input to pass the test, we must have:
-Each element must be an iterable with at most three features and at
-least one. The first that is obligatory is a valid graph structure
-(adjacency matrix or edge_dictionary) while the second is
-node_labels and the third edge_labels (that correspond to the given
-graph format). A valid input also consists of graph type objects.</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
-<dt><strong>Xp</strong><span class="classifier">list</span></dt><dd><p>List of graph type objects.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="grakel.Kernel.set_params">
-<code class="sig-name descname">set_params</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">**params</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/114c732d/grakel/kernels/kernel.py#L386"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/kernel.html#Kernel.set_params"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.Kernel.set_params" title="Permalink to this definition">¶</a></dt>
-<dd><p>Call the parent method.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="grakel.Kernel.transform">
-<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/114c732d/grakel/kernels/kernel.py#L128"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/kernel.html#Kernel.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.Kernel.transform" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate the kernel matrix, between given and fitted dataset.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>X</strong><span class="classifier">iterable</span></dt><dd><p>Each element must be an iterable with at most three features and at
-least one. The first that is obligatory is a valid graph structure
-(adjacency matrix or edge_dictionary) while the second is
-node_labels and the third edge_labels (that fitting the given graph
-format). If None the kernel matrix is calculated upon fit data.
-The test samples.</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
-<dt><strong>K</strong><span class="classifier">numpy array, shape = [n_targets, n_input_graphs]</span></dt><dd><p>corresponding to the kernel matrix, a calculation between
-all pairs of graphs between target an features</p>
-</dd>
-</dl>
-</dd>
-</dl>
 </dd></dl>
 
 </dd></dl>
@@ -526,7 +345,14 @@ all pairs of graphs between target an features</p>
 <div class="section" id="bibliography">
 <h2>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">¶</a></h2>
 <p id="bibtex-bibliography-generated/grakel.Kernel-0"></p>
-<div class="clearer"></div></div>
+<div class="section" id="examples-using-grakel-kernel">
+<h3>Examples using <code class="docutils literal notranslate"><span class="pre">grakel.Kernel</span></code><a class="headerlink" href="#examples-using-grakel-kernel" title="Permalink to this headline">¶</a></h3>
+<div class="sphx-glr-thumbcontainer" tooltip="Script makes use of grakel.ShortestPath "><div class="figure align-default" id="id1">
+<img alt="../_images/sphx_glr_plot_pipeline_example_thumb.png" src="../_images/sphx_glr_plot_pipeline_example_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/plot_pipeline_example.html#sphx-glr-auto-examples-plot-pipeline-example-py"><span class="std std-ref">Example of building a graph classification pipeline.</span></a></span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="clearer"></div></div>
+</div>
 </div>
 
 

@@ -34,8 +34,10 @@
   
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="../_static/_static/css/supplementary.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery-dataframe.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Performing cross-validation n times, optimizing SVM’s and kernel’s hyperparameters." href="optimizing_hyperparameters.html" />
@@ -179,7 +181,7 @@
             
   <div class="sphx-glr-download-link-note admonition note">
 <p class="admonition-title">Note</p>
-<p>Click <a class="reference internal" href="#sphx-glr-download-auto-examples-node-attributed-dataset-py"><span class="std std-ref">here</span></a> to download the full example code</p>
+<p>Click <a class="reference internal" href="#sphx-glr-download-auto-examples-node-attributed-dataset-py"><span class="std std-ref">here</span></a>     to download the full example code</p>
 </div>
 <div class="sphx-glr-example-title section" id="graph-classification-on-a-dataset-that-contains-node-attributed-graphs">
 <span id="sphx-glr-auto-examples-node-attributed-dataset-py"></span><h1>Graph classification on a dataset that contains node-attributed graphs.<a class="headerlink" href="#graph-classification-on-a-dataset-that-contains-node-attributed-graphs" title="Permalink to this headline">¶</a></h1>
@@ -189,41 +191,41 @@
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <a href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html#sklearn.model_selection.train_test_split" title="View documentation for sklearn.model_selection.train_test_split"><span class="n">train_test_split</span></a>
-<span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="kn">import</span> <a href="https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html#sklearn.svm.SVC" title="View documentation for sklearn.svm.SVC"><span class="n">SVC</span></a>
-<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <a href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.accuracy_score.html#sklearn.metrics.accuracy_score" title="View documentation for sklearn.metrics.accuracy_score"><span class="n">accuracy_score</span></a>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <a href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html#sklearn.model_selection.train_test_split" title="sklearn.model_selection.train_test_split" class="sphx-glr-backref-module-sklearn-model_selection sphx-glr-backref-type-py-function"><span class="n">train_test_split</span></a>
+<span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="kn">import</span> <a href="https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html#sklearn.svm.SVC" title="sklearn.svm.SVC" class="sphx-glr-backref-module-sklearn-svm sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">SVC</span></a>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <a href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.accuracy_score.html#sklearn.metrics.accuracy_score" title="sklearn.metrics.accuracy_score" class="sphx-glr-backref-module-sklearn-metrics sphx-glr-backref-type-py-function"><span class="n">accuracy_score</span></a>
 
-<span class="kn">from</span> <span class="nn">grakel.datasets</span> <span class="kn">import</span> <a href="../generated/grakel.datasets.fetch_dataset.html#grakel.datasets.fetch_dataset" title="View documentation for grakel.datasets.fetch_dataset"><span class="n">fetch_dataset</span></a>
-<span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="kn">import</span> <a href="../generated/grakel.PropagationAttr.html#grakel.PropagationAttr" title="View documentation for grakel.PropagationAttr"><span class="n">PropagationAttr</span></a>
+<span class="kn">from</span> <span class="nn">grakel.datasets</span> <span class="kn">import</span> <a href="../generated/grakel.datasets.fetch_dataset.html#grakel.datasets.fetch_dataset" title="grakel.datasets.fetch_dataset" class="sphx-glr-backref-module-grakel-datasets sphx-glr-backref-type-py-function"><span class="n">fetch_dataset</span></a>
+<span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="kn">import</span> <a href="../generated/grakel.PropagationAttr.html#grakel.PropagationAttr" title="grakel.PropagationAttr" class="sphx-glr-backref-module-grakel sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">PropagationAttr</span></a>
 
 <span class="c1"># Loads the ENZYMES dataset</span>
-<span class="n">ENZYMES_attr</span> <span class="o">=</span> <a href="../generated/grakel.datasets.fetch_dataset.html#grakel.datasets.fetch_dataset" title="View documentation for grakel.datasets.fetch_dataset"><span class="n">fetch_dataset</span></a><span class="p">(</span><span class="s2">&quot;ENZYMES&quot;</span><span class="p">,</span> <span class="n">prefer_attr_nodes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">ENZYMES_attr</span> <span class="o">=</span> <a href="../generated/grakel.datasets.fetch_dataset.html#grakel.datasets.fetch_dataset" title="grakel.datasets.fetch_dataset" class="sphx-glr-backref-module-grakel-datasets sphx-glr-backref-type-py-function"><span class="n">fetch_dataset</span></a><span class="p">(</span><span class="s2">&quot;ENZYMES&quot;</span><span class="p">,</span> <span class="n">prefer_attr_nodes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">G</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">ENZYMES_attr</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">ENZYMES_attr</span><span class="o">.</span><span class="n">target</span>
 
 <span class="c1"># Splits the dataset into a training and a test set</span>
-<span class="n">G_train</span><span class="p">,</span> <span class="n">G_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <a href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html#sklearn.model_selection.train_test_split" title="View documentation for sklearn.model_selection.train_test_split"><span class="n">train_test_split</span></a><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">G_train</span><span class="p">,</span> <span class="n">G_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <a href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html#sklearn.model_selection.train_test_split" title="sklearn.model_selection.train_test_split" class="sphx-glr-backref-module-sklearn-model_selection sphx-glr-backref-type-py-function"><span class="n">train_test_split</span></a><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
 
 <span class="c1"># Uses the graphhopper kernel to generate the kernel matrices</span>
-<span class="n">gk</span> <span class="o">=</span> <a href="../generated/grakel.PropagationAttr.html#grakel.PropagationAttr" title="View documentation for grakel.PropagationAttr"><span class="n">PropagationAttr</span></a><span class="p">(</span><span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">gk</span> <span class="o">=</span> <a href="../generated/grakel.PropagationAttr.html#grakel.PropagationAttr" title="grakel.PropagationAttr" class="sphx-glr-backref-module-grakel sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">PropagationAttr</span></a><span class="p">(</span><span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">K_train</span> <span class="o">=</span> <span class="n">gk</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">G_train</span><span class="p">)</span>
 <span class="n">K_test</span> <span class="o">=</span> <span class="n">gk</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">G_test</span><span class="p">)</span>
 
 <span class="c1"># Uses the SVM classifier to perform classification</span>
-<span class="n">clf</span> <span class="o">=</span> <a href="https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html#sklearn.svm.SVC" title="View documentation for sklearn.svm.SVC"><span class="n">SVC</span></a><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s2">&quot;precomputed&quot;</span><span class="p">)</span>
+<span class="n">clf</span> <span class="o">=</span> <a href="https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html#sklearn.svm.SVC" title="sklearn.svm.SVC" class="sphx-glr-backref-module-sklearn-svm sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">SVC</span></a><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s2">&quot;precomputed&quot;</span><span class="p">)</span>
 <span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">K_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
 <span class="n">y_pred</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">K_test</span><span class="p">)</span>
 
 <span class="c1"># Computes and prints the classification accuracy</span>
-<span class="n">acc</span> <span class="o">=</span> <a href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.accuracy_score.html#sklearn.metrics.accuracy_score" title="View documentation for sklearn.metrics.accuracy_score"><span class="n">accuracy_score</span></a><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+<span class="n">acc</span> <span class="o">=</span> <a href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.accuracy_score.html#sklearn.metrics.accuracy_score" title="sklearn.metrics.accuracy_score" class="sphx-glr-backref-module-sklearn-metrics sphx-glr-backref-type-py-function"><span class="n">accuracy_score</span></a><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Accuracy:&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">acc</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot;%&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.000 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-node-attributed-dataset-py">
-<div class="sphx-glr-download docutils container">
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/b6673b53343c696962f33ff00086023c/node_attributed_dataset.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">node_attributed_dataset.py</span></code></a></p>
 </div>
-<div class="sphx-glr-download docutils container">
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/199ae0d371b07113fee6bd39399e0bc6/node_attributed_dataset.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">node_attributed_dataset.ipynb</span></code></a></p>
 </div>
 </div>

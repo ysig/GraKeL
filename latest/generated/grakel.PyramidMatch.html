@@ -34,8 +34,10 @@
   
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="../_static/_static/css/supplementary.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery-dataframe.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="grakel.NeighborhoodHash" href="grakel.NeighborhoodHash.html" />
@@ -205,9 +207,9 @@
             
   <div class="section" id="grakel-pyramidmatch">
 <h1><a class="reference internal" href="../api.html#module-grakel" title="grakel"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code></a>.PyramidMatch<a class="headerlink" href="#grakel-pyramidmatch" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
+<dl class="py class">
 <dt id="grakel.PyramidMatch">
-<em class="property">class </em><code class="sig-prename descclassname">grakel.</code><code class="sig-name descname">PyramidMatch</code><span class="sig-paren">(</span><em class="sig-param">n_jobs=None</em>, <em class="sig-param">normalize=False</em>, <em class="sig-param">verbose=False</em>, <em class="sig-param">with_labels=True</em>, <em class="sig-param">L=4</em>, <em class="sig-param">d=6</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/114c732d/grakel/kernels/pyramid_match.py#L22"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/pyramid_match.html#PyramidMatch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.PyramidMatch" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">grakel.</code><code class="sig-name descname">PyramidMatch</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">n_jobs</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">normalize</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">with_labels</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">L</span><span class="o">=</span><span class="default_value">4</span></em>, <em class="sig-param"><span class="n">d</span><span class="o">=</span><span class="default_value">6</span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/64586c53/grakel/kernels/pyramid_match.py#L22"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/pyramid_match.html#PyramidMatch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.PyramidMatch" title="Permalink to this definition">¶</a></dt>
 <dd><p>Pyramid match kernel class.</p>
 <p>Kernel defined in <a class="bibtex reference internal" href="../kernels/pyramid_match.html#nikolentzos2017matching" id="id1">[NMV17]</a></p>
 <dl class="field-list simple">
@@ -237,31 +239,31 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#grakel.PyramidMatch.diagonal" title="grakel.PyramidMatch.diagonal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">diagonal</span></code></a>(self)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">diagonal</span></code>(self)</p></td>
 <td><p>Calculate the kernel matrix diagonal of the fit/transformed data.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#grakel.PyramidMatch.fit" title="grakel.PyramidMatch.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(self, X[, y])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code>(self, X[, y])</p></td>
 <td><p>Fit a dataset, for a transformer.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#grakel.PyramidMatch.fit_transform" title="grakel.PyramidMatch.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code></a>(self, X)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code>(self, X)</p></td>
 <td><p>Fit and transform, on the same dataset.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#grakel.PyramidMatch.get_params" title="grakel.PyramidMatch.get_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code></a>(self[, deep])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code>(self[, deep])</p></td>
 <td><p>Get parameters for this estimator.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#grakel.PyramidMatch.initialize" title="grakel.PyramidMatch.initialize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize</span></code></a>(self)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize</span></code>(self)</p></td>
 <td><p>Initialize all transformer arguments, needing initialization.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#grakel.PyramidMatch.pairwise_operation" title="grakel.PyramidMatch.pairwise_operation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pairwise_operation</span></code></a>(self, x, y)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pairwise_operation</span></code>(self, x, y)</p></td>
 <td><p>Calculate a pairwise kernel between two elements.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#grakel.PyramidMatch.parse_input" title="grakel.PyramidMatch.parse_input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_input</span></code></a>(self, X)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_input</span></code>(self, X)</p></td>
 <td><p>Parse and create features for pyramid_match kernel.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#grakel.PyramidMatch.set_params" title="grakel.PyramidMatch.set_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code></a>(self, \*\*params)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code>(self, \*\*params)</p></td>
 <td><p>Call the parent method.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#grakel.PyramidMatch.transform" title="grakel.PyramidMatch.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(self, X)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code>(self, X)</p></td>
 <td><p>Calculate the kernel matrix, between given and fitted dataset.</p></td>
 </tr>
 </tbody>
@@ -281,222 +283,39 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#grakel.PyramidMatch.diagonal" title="grakel.PyramidMatch.diagonal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">diagonal</span></code></a>(self)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">diagonal</span></code>(self)</p></td>
 <td><p>Calculate the kernel matrix diagonal of the fit/transformed data.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#grakel.PyramidMatch.fit" title="grakel.PyramidMatch.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(self, X[, y])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code>(self, X[, y])</p></td>
 <td><p>Fit a dataset, for a transformer.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#grakel.PyramidMatch.fit_transform" title="grakel.PyramidMatch.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code></a>(self, X)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code>(self, X)</p></td>
 <td><p>Fit and transform, on the same dataset.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#grakel.PyramidMatch.get_params" title="grakel.PyramidMatch.get_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code></a>(self[, deep])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code>(self[, deep])</p></td>
 <td><p>Get parameters for this estimator.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#grakel.PyramidMatch.initialize" title="grakel.PyramidMatch.initialize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize</span></code></a>(self)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize</span></code>(self)</p></td>
 <td><p>Initialize all transformer arguments, needing initialization.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#grakel.PyramidMatch.pairwise_operation" title="grakel.PyramidMatch.pairwise_operation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pairwise_operation</span></code></a>(self, x, y)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pairwise_operation</span></code>(self, x, y)</p></td>
 <td><p>Calculate a pairwise kernel between two elements.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#grakel.PyramidMatch.parse_input" title="grakel.PyramidMatch.parse_input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_input</span></code></a>(self, X)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_input</span></code>(self, X)</p></td>
 <td><p>Parse and create features for pyramid_match kernel.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#grakel.PyramidMatch.set_params" title="grakel.PyramidMatch.set_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code></a>(self, \*\*params)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code>(self, \*\*params)</p></td>
 <td><p>Call the parent method.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#grakel.PyramidMatch.transform" title="grakel.PyramidMatch.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(self, X)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code>(self, X)</p></td>
 <td><p>Calculate the kernel matrix, between given and fitted dataset.</p></td>
 </tr>
 </tbody>
 </table>
-<dl class="method">
+<dl class="py method">
 <dt id="grakel.PyramidMatch.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">n_jobs=None</em>, <em class="sig-param">normalize=False</em>, <em class="sig-param">verbose=False</em>, <em class="sig-param">with_labels=True</em>, <em class="sig-param">L=4</em>, <em class="sig-param">d=6</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/114c732d/grakel/kernels/pyramid_match.py#L50"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/pyramid_match.html#PyramidMatch.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.PyramidMatch.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">n_jobs</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">normalize</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">with_labels</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">L</span><span class="o">=</span><span class="default_value">4</span></em>, <em class="sig-param"><span class="n">d</span><span class="o">=</span><span class="default_value">6</span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/64586c53/grakel/kernels/pyramid_match.py#L50"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/pyramid_match.html#PyramidMatch.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.PyramidMatch.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialise a <cite>pyramid_match</cite> kernel.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="grakel.PyramidMatch.diagonal">
-<code class="sig-name descname">diagonal</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/114c732d/grakel/kernels/kernel.py#L267"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.PyramidMatch.diagonal" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate the kernel matrix diagonal of the fit/transformed data.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>None.</strong></dt><dd></dd>
-</dl>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
-<dt><strong>X_diag</strong><span class="classifier">np.array</span></dt><dd><p>The diagonal of the kernel matrix between the fitted data.
-This consists of each element calculated with itself.</p>
-</dd>
-<dt><strong>Y_diag</strong><span class="classifier">np.array</span></dt><dd><p>The diagonal of the kernel matrix, of the transform.
-This consists of each element calculated with itself.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="grakel.PyramidMatch.fit">
-<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">X</em>, <em class="sig-param">y=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/114c732d/grakel/kernels/kernel.py#L91"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.PyramidMatch.fit" title="Permalink to this definition">¶</a></dt>
-<dd><p>Fit a dataset, for a transformer.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>X</strong><span class="classifier">iterable</span></dt><dd><p>Each element must be an iterable with at most three features and at
-least one. The first that is obligatory is a valid graph structure
-(adjacency matrix or edge_dictionary) while the second is
-node_labels and the third edge_labels (that fitting the given graph
-format). The train samples.</p>
-</dd>
-<dt><strong>y</strong><span class="classifier">None</span></dt><dd><p>There is no need of a target in a transformer, yet the pipeline API
-requires this parameter.</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
-<dt><strong>self</strong><span class="classifier">object</span></dt><dd></dd>
-<dt>Returns self.</dt><dd></dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="grakel.PyramidMatch.fit_transform">
-<code class="sig-name descname">fit_transform</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/114c732d/grakel/kernels/kernel.py#L169"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.PyramidMatch.fit_transform" title="Permalink to this definition">¶</a></dt>
-<dd><p>Fit and transform, on the same dataset.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>X</strong><span class="classifier">iterable</span></dt><dd><p>Each element must be an iterable with at most three features and at
-least one. The first that is obligatory is a valid graph structure
-(adjacency matrix or edge_dictionary) while the second is
-node_labels and the third edge_labels (that fitting the given graph
-format). If None the kernel matrix is calculated upon fit data.
-The test samples.</p>
-</dd>
-<dt><strong>y</strong><span class="classifier">None</span></dt><dd><p>There is no need of a target in a transformer, yet the pipeline API
-requires this parameter.</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
-<dt><strong>K</strong><span class="classifier">numpy array, shape = [n_targets, n_input_graphs]</span></dt><dd><p>corresponding to the kernel matrix, a calculation between
-all pairs of graphs between target an features</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="grakel.PyramidMatch.get_params">
-<code class="sig-name descname">get_params</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">deep=True</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/114c732d/grakel/../venv/lib/python3.5/site-packages/sklearn/base.py#L173"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.PyramidMatch.get_params" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get parameters for this estimator.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>deep</strong><span class="classifier">bool, default=True</span></dt><dd><p>If True, will return the parameters for this estimator and
-contained subobjects that are estimators.</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
-<dt><strong>params</strong><span class="classifier">mapping of string to any</span></dt><dd><p>Parameter names mapped to their values.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="grakel.PyramidMatch.initialize">
-<code class="sig-name descname">initialize</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/114c732d/grakel/kernels/pyramid_match.py#L66"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/pyramid_match.html#PyramidMatch.initialize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.PyramidMatch.initialize" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize all transformer arguments, needing initialization.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="grakel.PyramidMatch.pairwise_operation">
-<code class="sig-name descname">pairwise_operation</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">x</em>, <em class="sig-param">y</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/114c732d/grakel/kernels/pyramid_match.py#L256"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/pyramid_match.html#PyramidMatch.pairwise_operation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.PyramidMatch.pairwise_operation" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate a pairwise kernel between two elements.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>x, y</strong><span class="classifier">dict</span></dt><dd><p>Histograms as produced by <cite>parse_input</cite>.</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
-<dt><strong>kernel</strong><span class="classifier">number</span></dt><dd><p>The kernel value.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="grakel.PyramidMatch.parse_input">
-<code class="sig-name descname">parse_input</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/114c732d/grakel/kernels/pyramid_match.py#L87"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/pyramid_match.html#PyramidMatch.parse_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.PyramidMatch.parse_input" title="Permalink to this definition">¶</a></dt>
-<dd><p>Parse and create features for pyramid_match kernel.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>X</strong><span class="classifier">iterable</span></dt><dd><p>For the input to pass the test, we must have:
-Each element must be an iterable with at most three features and at
-least one. The first that is obligatory is a valid graph structure
-(adjacency matrix or edge_dictionary) while the second is
-node_labels and the third edge_labels (that correspond to the given
-graph format). A valid input also consists of graph type objects.</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
-<dt><strong>H</strong><span class="classifier">list</span></dt><dd><p>A list of lists of Histograms for all levels for each graph.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="grakel.PyramidMatch.set_params">
-<code class="sig-name descname">set_params</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">**params</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/114c732d/grakel/kernels/kernel.py#L386"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.PyramidMatch.set_params" title="Permalink to this definition">¶</a></dt>
-<dd><p>Call the parent method.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="grakel.PyramidMatch.transform">
-<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">X</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/114c732d/grakel/kernels/kernel.py#L128"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.PyramidMatch.transform" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate the kernel matrix, between given and fitted dataset.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>X</strong><span class="classifier">iterable</span></dt><dd><p>Each element must be an iterable with at most three features and at
-least one. The first that is obligatory is a valid graph structure
-(adjacency matrix or edge_dictionary) while the second is
-node_labels and the third edge_labels (that fitting the given graph
-format). If None the kernel matrix is calculated upon fit data.
-The test samples.</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
-<dt><strong>K</strong><span class="classifier">numpy array, shape = [n_targets, n_input_graphs]</span></dt><dd><p>corresponding to the kernel matrix, a calculation between
-all pairs of graphs between target an features</p>
-</dd>
-</dl>
-</dd>
-</dl>
 </dd></dl>
 
 </dd></dl>
