@@ -230,7 +230,7 @@ An edge-labeled graph is a graph endowed with a function :math:`\ell : E \righta
   .. code-block:: python
       
     edges = {1: [2, 3], 2: [1], 3: [1]}
-    edge_labels = {1: 'a', 2: 'b', 3: 'a'}
+    edge_labels = {1: 'a', 2: 'b'}
     G = Graph(edges, edge_labels=edge_attributes)
     
 * | A dictionary keyed by edge indices (i.e., :math:`0,\ldots,(|E|-1)`) to their labels.
@@ -238,7 +238,7 @@ An edge-labeled graph is a graph endowed with a function :math:`\ell : E \righta
   .. code-block:: python
 
       adj = [[0, 1, 1], [1, 0, 0], [1, 0, 0]]
-      edge_labels = {0: 'a', 1: 'b', 2: 'a'}
+      edge_labels = {0: 'a', 1: 'b'}
       G = Graph(adj, edge_labels=edge_labels)
 
 An edge-attributed graph is a graph endowed with a function :math:`f : E \rightarrow \mathbb{R}^d` that assigns real-valued vectors to the edges of the graph. The following Figure illustrates an edge-attributed graph with three nodes and two edges.
@@ -252,7 +252,7 @@ An edge-attributed graph is a graph endowed with a function :math:`f : E \righta
   .. code-block:: python
       
     edges = {1: [2, 3], 2: [1], 3: [1]}
-    edge_attributes = {1: [1.2, 0.5], 2: [2.8, −0.6], 3: [0.7, 1.1]}
+    edge_attributes = {1: [0.2, 0.8, 1.3], 2: [1.1, 0.1, 0.7]}
     G = Graph(edges, edge_labels=edge_attributes)
     
 * | A dictionary keyed by edge indices (i.e., :math:`0,\ldots,(|E|-1)`) to their attributes.
@@ -260,7 +260,7 @@ An edge-attributed graph is a graph endowed with a function :math:`f : E \righta
   .. code-block:: python
 
     adj = [[0, 1, 1], [1, 0, 0], [1, 0, 0]]
-    edge_attributes = {0: [1.2, 0.5], 1: [2.8, −0.6], 2: [0.7, 1.1]}
+    edge_attributes = {0: [0.2, 0.8, 1.3], 1: [1.1, 0.1, 0.7]}
     G = Graph(adj, edge_labels=edge_attributes)
 
 Note that not all kernels can take into account node/edge labels and node/edge attributes. To find the type of graphs that each kernel expects as input, see :ref:`graph_kernel`.
