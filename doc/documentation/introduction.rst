@@ -189,7 +189,7 @@ A node-labeled graph is a graph endowed with a function :math:`\ell : V \rightar
   .. code-block:: python
 
       adj = [[0, 1, 1], [1, 0, 0], [1, 0, 0]]
-      node_labels = {0: 'a', 'b': 'H', 2: 'a'}
+      node_labels = {0: 'a', 1: 'b', 2: 'a'}
       G = Graph(adj, node_labels=node_labels)
 
 A node-attributed graph is a graph endowed with a function :math:`f : V \rightarrow \mathbb{R}^d` that assigns real-valued vectors to the vertices of the graph. The following Figure illustrates a node-attributed graph with three nodes and two edges.
@@ -211,7 +211,7 @@ A node-attributed graph is a graph endowed with a function :math:`f : V \rightar
   .. code-block:: python
 
     adj = [[0, 1, 1], [1, 0, 0], [1, 0, 0]]
-    node_attributes = {0: [1.2, 0.5], 'b': [2.8, −0.6], 2: [0.7, 1.1]}
+    node_attributes = {0: [1.2, 0.5], 1: [2.8, −0.6], 2: [0.7, 1.1]}
     G = Graph(adj, node_labels=node_attributes)
 
 
@@ -238,7 +238,7 @@ An edge-labeled graph is a graph endowed with a function :math:`\ell : E \righta
   .. code-block:: python
 
       adj = [[0, 1, 1], [1, 0, 0], [1, 0, 0]]
-      edge_labels = {0: 'a', 'b': 'H', 2: 'a'}
+      edge_labels = {0: 'a', 1: 'b', 2: 'a'}
       G = Graph(adj, edge_labels=edge_labels)
 
 An edge-attributed graph is a graph endowed with a function :math:`f : E \rightarrow \mathbb{R}^d` that assigns real-valued vectors to the edges of the graph. The following Figure illustrates an edge-attributed graph with three nodes and two edges.
@@ -260,7 +260,7 @@ An edge-attributed graph is a graph endowed with a function :math:`f : E \righta
   .. code-block:: python
 
     adj = [[0, 1, 1], [1, 0, 0], [1, 0, 0]]
-    edge_attributes = {0: [1.2, 0.5], 'b': [2.8, −0.6], 2: [0.7, 1.1]}
+    edge_attributes = {0: [1.2, 0.5], 1: [2.8, −0.6], 2: [0.7, 1.1]}
     G = Graph(adj, edge_labels=edge_attributes)
 
 Note that not all kernels can take into account node/edge labels and node/edge attributes. To find the type of graphs that each kernel expects as input, see :ref:`graph_kernel`.
