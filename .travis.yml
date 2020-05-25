@@ -21,14 +21,6 @@ env:
     - DEPLOY_WHEEL="false"
     - FLAKE="false"
 
-addons:
-  apt:
-    packages:
-      - libblas-dev
-      - liblapack-dev
-      - libopenblas-dev
-      - libopenblas-base
-
 matrix:
   include:
     - sudo: required
