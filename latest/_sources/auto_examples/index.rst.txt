@@ -20,6 +20,7 @@ Examples that use graph kernels to perform various tasks (e.g., graph classifica
 .. only:: html
 
  .. figure:: /auto_examples/images/thumb/sphx_glr_plot_pipeline_example_thumb.png
+     :alt: Example of building a graph classification pipeline.
 
      :ref:`sphx_glr_auto_examples_plot_pipeline_example.py`
 
@@ -40,6 +41,7 @@ Examples that use graph kernels to perform various tasks (e.g., graph classifica
 .. only:: html
 
  .. figure:: /auto_examples/images/thumb/sphx_glr_shortest_path_thumb.png
+     :alt: Graph classification on MUTAG using the shortest path kernel.
 
      :ref:`sphx_glr_auto_examples_shortest_path.py`
 
@@ -60,6 +62,7 @@ Examples that use graph kernels to perform various tasks (e.g., graph classifica
 .. only:: html
 
  .. figure:: /auto_examples/images/thumb/sphx_glr_node_attributed_dataset_thumb.png
+     :alt: Graph classification on a dataset that contains node-attributed graphs.
 
      :ref:`sphx_glr_auto_examples_node_attributed_dataset.py`
 
@@ -80,6 +83,7 @@ Examples that use graph kernels to perform various tasks (e.g., graph classifica
 .. only:: html
 
  .. figure:: /auto_examples/images/thumb/sphx_glr_optimizing_hyperparameters_thumb.png
+     :alt: Performing cross-validation n times, optimizing SVM's and kernel's hyperparameters.
 
      :ref:`sphx_glr_auto_examples_optimizing_hyperparameters.py`
 
@@ -100,6 +104,7 @@ Examples that use graph kernels to perform various tasks (e.g., graph classifica
 .. only:: html
 
  .. figure:: /auto_examples/images/thumb/sphx_glr_weisfeiler_lehman_subtree_thumb.png
+     :alt: Graph classification on MUTAG using the Weisfeiler-Lehman subtree kernel.
 
      :ref:`sphx_glr_auto_examples_weisfeiler_lehman_subtree.py`
 
@@ -120,6 +125,7 @@ Examples that use graph kernels to perform various tasks (e.g., graph classifica
 .. only:: html
 
  .. figure:: /auto_examples/images/thumb/sphx_glr_erdos_renyi_thumb.png
+     :alt: Graph classification on a randomly generated dataset of Erdos-Renyi graphs.
 
      :ref:`sphx_glr_auto_examples_erdos_renyi.py`
 
@@ -140,6 +146,7 @@ Examples that use graph kernels to perform various tasks (e.g., graph classifica
 .. only:: html
 
  .. figure:: /auto_examples/images/thumb/sphx_glr_document_retrieval_example_thumb.png
+     :alt: Retrieval of most similar document using the Weisfeiler-Lehman subtree kernel.
 
      :ref:`sphx_glr_auto_examples_document_retrieval_example.py`
 
@@ -160,6 +167,7 @@ Examples that use graph kernels to perform various tasks (e.g., graph classifica
 .. only:: html
 
  .. figure:: /auto_examples/images/thumb/sphx_glr_nx_to_grakel_thumb.png
+     :alt: Example of transforming NetworkX graphs to GraKeL graphs.
 
      :ref:`sphx_glr_auto_examples_nx_to_grakel.py`
 
