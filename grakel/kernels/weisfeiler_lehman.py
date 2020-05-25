@@ -5,10 +5,10 @@ import collections
 import warnings
 
 import numpy as np
+import joblib
 
 from sklearn.exceptions import NotFittedError
 from sklearn.utils.validation import check_is_fitted
-from sklearn.externals import joblib
 
 from grakel.graph import Graph
 from grakel.kernels import Kernel

@@ -641,15 +641,15 @@ class Graph(object):
 
         if self.shortest_path_mat is not None:
             if labels == "all":
-                return shortest_path_mat,\
+                return self.shortest_path_mat,\
                     self.get_labels(),\
                     self.get_labels("edge")
             if labels == "edge":
-                return shortest_path_mat, self.get_labels("edge")
+                return self.shortest_path_mat, self.get_labels("edge")
             if labels == "vertex":
-                return shortest_path_mat, self.get_labels()
+                return self.shortest_path_mat, self.get_labels()
             else:
-                return shortest_path_mat
+                return self.shortest_path_mat
 
         # Assign the desired algorithm
         if algorithm_type == "auto":
