@@ -6,12 +6,12 @@ import warnings
 import copy
 
 import numpy as np
+import joblib
 
 from sklearn.base import BaseEstimator
 from sklearn.base import TransformerMixin
 from sklearn.exceptions import NotFittedError
 from sklearn.utils.validation import check_is_fitted
-from sklearn.externals import joblib
 
 from grakel.graph import Graph
 from grakel.kernels._c_functions import k_to_ij_triangular
