@@ -32,6 +32,7 @@ from grakel.kernels import VertexHistogram
 from grakel.kernels import EdgeHistogram
 from grakel.kernels import GraphHopper
 from grakel.kernels import CoreFramework
+from grakel.kernels import WeisfeilerLehmanOptimalAssignment
 
 # Python 2/3 cross-compatibility import
 from future.utils import iteritems
@@ -52,7 +53,8 @@ sbk = [
     ["odd_sth", "ODD"],
     ["propagation", "PR"],
     ["pyramid_match", "PM"],
-    ["graph_hopper", "GH"]
+    ["graph_hopper", "GH"],
+    ["weisfeiler_lehman", "WL-OA"]    
     ]
 
 sbks = set(e for ls in sbk for e in ls)
@@ -541,6 +543,8 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                 return PyramidMatch, kernel
             elif kernel_name in sbk[14]:
                 return GraphHopper, kernel
+            elif kernel_name in sbk[15]:
+                return WeisfeilerLehmanOptimalAssignment, kernel
 
         elif kernel_name in sfs:
             if len(kernel_list):

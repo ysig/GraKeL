@@ -247,6 +247,16 @@ def test_weisfeiler_lehman():
         positive_eig(wl_st_kernel, dataset)
 
 
+def test_weisfeiler_lehman_optimal_assignment():
+    """Eigenvalue test for the Weisfeiler Lehman Optimal Assignment kernel."""
+    wl_st_kernel = WeisfeilerLehmanOptimalAssignment(
+        verbose=verbose, normalize=normalize)
+    if verbose:
+        print_kernel("WL/Subtree", wl_st_kernel, dataset_tr, dataset_te)
+    else:
+        positive_eig(wl_st_kernel, dataset)
+
+
 def test_pyramid_match():
     """Eigenvalue test for the Pyramid Match kernel."""
     pm_kernel = PyramidMatch(verbose=verbose, normalize=normalize)
@@ -464,6 +474,7 @@ if verbose and main:
     test_random_walk()
     test_shortest_path()
     test_weisfeiler_lehman()
+    test_weisfeiler_lehman_optimal_assignment()
     test_neighborhood_hash()
     test_graphlet_sampling()
     test_lovasz_theta()

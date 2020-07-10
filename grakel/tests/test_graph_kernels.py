@@ -181,6 +181,12 @@ if verbose:
         if verbose:
             print_kernel_decorator("WL/Subtree", gk, dataset_tr, dataset_te)
 
+    def test_weisfeiler_lehman_optimal_assignment():
+        """Test the Weisfeiler Lehman Optimal Assignment kernel [decorator]."""
+        gk = GraphKernel(kernel="WL-OA", verbose=verbose, normalize=normalize)
+        if verbose:
+            print_kernel_decorator("WL-OA", gk, dataset_tr, dataset_te)
+
     def test_pyramid_match():
         """Test the Pyramid Match kernel [decorator]."""
         gk = GraphKernel(kernel={"name": "pyramid_match"}, verbose=verbose,
@@ -371,6 +377,7 @@ if verbose and main:
     test_random_walk()
     test_shortest_path()
     test_weisfeiler_lehman()
+    test_weisfeiler_lehman_optimal_assignment()
     test_pyramid_match()
     test_neighborhood_hash()
     test_graphlet_sampling()

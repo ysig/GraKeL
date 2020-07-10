@@ -32,6 +32,7 @@ from grakel.kernels import VertexHistogram
 from grakel.kernels import EdgeHistogram
 from grakel.kernels import GraphHopper
 from grakel.kernels import CoreFramework
+from grakel.kernels import WeisfeilerLehmanOptimalAssignment
 
 verbose, normalize = False, True
 default_eigvalue_precision = float("-1e-5")
@@ -146,6 +147,21 @@ def test_weisfeiler_lehman():
                                     base_graph_kernel=VertexHistogram)
     wl_st_kernel.fit(train)
     assert is_picklable(wl_st_kernel)
+
+
+def test_weisfeiler_lehman_optimal_assignment():
+    """Picklability test for the Weisfeiler Lehman kernel."""
+    train, _ = generate_dataset(n_graphs=100,
+                                r_vertices=(10, 20),
+                                r_connectivity=(0.4, 0.8),
+                                r_weight_edges=(1, 1),
+                                n_graphs_test=40,
+                                random_state=rs,
+                                features=('nl', 3))
+
+    wl_oa_kernel = WeisfeilerLehman(verbose=verbose, normalize=normalize)
+    wl_oa_kernel.fit(train)
+    assert is_picklable(wl_oa_kernel)
 
 
 def test_pyramid_match():
@@ -489,6 +505,7 @@ if __name__ == "__main__":
     test_shortest_path()
     test_graphlet_sampling()
     test_weisfeiler_lehman()
+    test_weisfeiler_lehman_optimal_assignment()
     test_pyramid_match()
     test_pyramid_match_no_labels()
     test_neighborhood_hash()

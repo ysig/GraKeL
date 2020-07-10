@@ -26,6 +26,7 @@ from grakel.kernels.vertex_histogram import VertexHistogram
 from grakel.kernels.edge_histogram import EdgeHistogram
 from grakel.kernels.graph_hopper import GraphHopper
 from grakel.kernels.core_framework import CoreFramework
+from grakel.kernels.weisfeiler_lehman_optimal_assignment import WeisfeilerLehmanOptimalAssignment
 
 __all__ = [
     "default_executor",
@@ -51,5 +52,6 @@ __all__ = [
     "VertexHistogram",
     "EdgeHistogram",
     "GraphHopper",
-    "CoreFramework"
+    "CoreFramework",
+    "WeisfeilerLehmanOptimalAssignment"
 ]

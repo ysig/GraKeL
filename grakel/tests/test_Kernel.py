@@ -14,6 +14,7 @@ from grakel.kernels import RandomWalkLabeled
 from grakel.kernels import ShortestPath
 from grakel.kernels import ShortestPathAttr
 from grakel.kernels import WeisfeilerLehman
+from grakel.kernels import WeisfeilerLehmanOptimalAssignment
 from grakel.kernels import NeighborhoodHash
 from grakel.kernels import PyramidMatch
 from grakel.kernels import SubgraphMatching
@@ -238,6 +239,27 @@ def test_weisfeiler_lehman():
     try:
         wl_st_kernel.fit_transform(train)
         wl_st_kernel.transform(test)
+        assert True
+    except Exception as exception:
+        assert False, exception
+
+
+def test_weisfeiler_lehman_optimal_assignment():
+    """Random input test for the Weisfeiler Lehman kernel."""
+    train, test = generate_dataset(n_graphs=100,
+                                   r_vertices=(10, 20),
+                                   r_connectivity=(0.4, 0.8),
+                                   r_weight_edges=(1, 1),
+                                   n_graphs_test=40,
+                                   random_state=rs,
+                                   features=('nl', 3))
+
+    wl_oa_kernel = WeisfeilerLehmanOptimalAssignment(
+        verbose=verbose, normalize=normalize)
+
+    try:
+        wl_oa_kernel.fit_transform(train)
+        wl_oa_kernel.transform(test)
         assert True
     except Exception as exception:
         assert False, exception
@@ -959,6 +981,7 @@ if __name__ == "__main__":
     test_shortest_path_pd()
     test_graphlet_sampling()
     test_weisfeiler_lehman()
+    test_weisfeiler_lehman_optimal_assignment()
     test_weisfeiler_lehman_pd()
     test_pyramid_match()
     test_pyramid_match_no_labels()
