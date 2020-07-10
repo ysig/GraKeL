@@ -27,7 +27,6 @@ from grakel.kernels import Propagation
 from grakel.kernels import PropagationAttr
 from grakel.kernels import HadamardCode
 from grakel.kernels import MultiscaleLaplacian
-from grakel.kernels import MultiscaleLaplacianFast
 from grakel.kernels import VertexHistogram
 from grakel.kernels import EdgeHistogram
 from grakel.kernels import GraphHopper
@@ -133,8 +132,6 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                     + (**o**) "sampling" : [dict] or **None**
 
                 - "multiscale_laplacian" or "ML"
-                    + (**o**) "which" : [str] "slow", "fast"
-
                     + (**o**) "L" : [int] > 0
 
                     + (**o**) "gamma" : [float] > .0
@@ -515,12 +512,8 @@ class GraphKernel(BaseEstimator, TransformerMixin):
             elif kernel_name in sbk[5]:
                 return SubgraphMatching, kernel
             elif kernel_name in sbk[6]:
-                if kernel.pop("which", "fast") == "slow":
-                    kernel.pop("N", None)
-                    return (MultiscaleLaplacian, kernel)
-                else:
-                    kernel["random_state"] = get_random_state_(kernel)
-                    return (MultiscaleLaplacianFast, kernel)
+                kernel["random_state"] = get_random_state_(kernel)
+                return (MultiscaleLaplacian, kernel)
             elif kernel_name in sbk[7]:
                 kernel["random_state"] = get_random_state_(kernel)
                 return LovaszTheta, kernel

@@ -21,7 +21,6 @@ from grakel.kernels.propagation import Propagation
 from grakel.kernels.propagation import PropagationAttr
 from grakel.kernels.hadamard_code import HadamardCode
 from grakel.kernels.multiscale_laplacian import MultiscaleLaplacian
-from grakel.kernels.multiscale_laplacian import MultiscaleLaplacianFast
 from grakel.kernels.vertex_histogram import VertexHistogram
 from grakel.kernels.edge_histogram import EdgeHistogram
 from grakel.kernels.graph_hopper import GraphHopper
@@ -48,7 +47,6 @@ __all__ = [
     "PropagationAttr",
     "HadamardCode",
     "MultiscaleLaplacian",
-    "MultiscaleLaplacianFast",
     "VertexHistogram",
     "EdgeHistogram",
     "GraphHopper",

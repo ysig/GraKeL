@@ -27,7 +27,6 @@ from grakel.kernels import Propagation
 from grakel.kernels import PropagationAttr
 from grakel.kernels import HadamardCode
 from grakel.kernels import MultiscaleLaplacian
-from grakel.kernels import MultiscaleLaplacianFast
 from grakel.kernels import VertexHistogram
 from grakel.kernels import EdgeHistogram
 from grakel.kernels import GraphHopper
@@ -388,22 +387,6 @@ def test_hadamard_code():
 
 
 def test_multiscale_laplacian():
-    """Picklability test for the Multiscale Laplacian kernel."""
-    # Intialise kernel
-    train, _ = generate_dataset(n_graphs=30,
-                                r_vertices=(5, 10),
-                                r_connectivity=(0.4, 0.8),
-                                r_weight_edges=(1, 1),
-                                n_graphs_test=10,
-                                random_state=rs,
-                                features=('na', 5))
-
-    ml_kernel = MultiscaleLaplacian(verbose=verbose, normalize=normalize)
-    ml_kernel.fit(train)
-    assert is_picklable(ml_kernel)
-
-
-def test_multiscale_laplacian_fast():
     """Picklability test for the Fast Multiscale Laplacian kernel."""
     # Initialise kernel
     train, _ = generate_dataset(n_graphs=100,
@@ -414,7 +397,7 @@ def test_multiscale_laplacian_fast():
                                 random_state=rs,
                                 features=('na', 5))
 
-    mlf_kernel = MultiscaleLaplacianFast(verbose=verbose, normalize=normalize)
+    mlf_kernel = MultiscaleLaplacian(verbose=verbose, normalize=normalize)
 
     mlf_kernel.fit(train)
     assert is_picklable(mlf_kernel)
@@ -518,7 +501,6 @@ if __name__ == "__main__":
     test_propagation()
     test_hadamard_code()
     test_multiscale_laplacian()
-    test_multiscale_laplacian_fast()
     test_vertex_histogram()
     test_edge_histogram()
     test_graph_hopper()

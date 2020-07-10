@@ -32,7 +32,6 @@ from grakel.kernels import Propagation
 from grakel.kernels import PropagationAttr
 from grakel.kernels import HadamardCode
 from grakel.kernels import MultiscaleLaplacian
-from grakel.kernels import MultiscaleLaplacianFast
 from grakel.kernels import VertexHistogram
 from grakel.kernels import EdgeHistogram
 from grakel.kernels import GraphHopper
@@ -350,16 +349,6 @@ def test_hadamard_code():
 
 
 def test_multiscale_laplacian():
-    """Eigenvalue test for the Multiscale Laplacian kernel."""
-    ml_kernel = MultiscaleLaplacian(verbose=verbose, normalize=normalize)
-    if verbose and slow:
-        print_kernel("Multiscale Laplacian", ml_kernel,
-                     dataset_attr_tr, dataset_attr_te)
-    elif not verbose and slow:
-        positive_eig(ml_kernel, dataset_attr)
-
-
-def test_multiscale_laplacian_fast():
     """Eigenvalue test for the Fast Multiscale Laplacian kernel."""
     mlf_kernel = MultiscaleLaplacianFast(verbose=verbose, normalize=normalize)
     if verbose:
@@ -484,15 +473,9 @@ if verbose and main:
     test_hadamard_code()
     test_neighborhood_subgraph_pairwise_distance()
     test_pyramid_match()
-    test_multiscale_laplacian_fast()
+    test_multiscale_laplacian()
     test_edge_histogram()
     test_vertex_histogram()
     test_subgraph_matching()
     test_graph_hopper()
     test_core_framework()
-
-if verbose and develop:
-    if slow:
-        test_multiscale_laplacian()
-    if problematic:
-        pass

@@ -282,20 +282,10 @@ if verbose:
 
     def test_multiscale_laplacian():
         """Test the Multiscale Laplacian kernel [decorator]."""
-        gk = GraphKernel(kernel={"name": "multiscale_laplacian"},
-                         verbose=verbose, normalize=normalize)
-
-        if verbose and slow:
-            print_kernel_decorator("Multiscale Laplacian",
-                                   gk, dataset_attr_tr, dataset_attr_te)
-
-    def test_multiscale_laplacian_fast():
-        """Test the fast Multiscale Laplacian kernel [decorator]."""
-        gk = GraphKernel(kernel={"name": "multiscale_laplacian", "which": "fast"},
-                         verbose=verbose, normalize=normalize)
+        gk = GraphKernel(kernel="ML", verbose=verbose, normalize=normalize)
 
         if verbose:
-            print_kernel_decorator("Multiscale Laplacian Fast",
+            print_kernel_decorator("Multiscale Laplacian",
                                    gk, dataset_attr_tr, dataset_attr_te)
 
     def test_graph_hopper():
@@ -387,16 +377,9 @@ if verbose and main:
     test_propagation()
     test_hadamard_code()
     test_neighborhood_pairwise_distance()
-    test_multiscale_laplacian_fast()
+    test_multiscale_laplacian()
     test_subgraph_matching()
     test_vertex_histogram()
     test_edge_histogram()
-    test_multiscale_laplacian_fast()
     test_core_framework()
     test_graph_hopper()
-
-if verbose and develop:
-    if slow:
-        test_multiscale_laplacian()
-    if problematic:
-        pass
