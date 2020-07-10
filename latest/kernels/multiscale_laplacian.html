@@ -1,8 +1,7 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
@@ -12,12 +11,22 @@
   
 
   
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/_static/css/supplementary.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery-dataframe.css" type="text/css" />
+
+  
   
   
   
 
   
-  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
@@ -25,19 +34,11 @@
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
         <script src="../_static/language_data.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/_static/css/supplementary.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/gallery-binder.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/gallery-dataframe.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Neighborhood Hash Kernel" href="neighborhood_hash.html" />
@@ -55,7 +56,7 @@
           
 
           
-            <a href="../index.html" class="icon icon-home"> GraKeL
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> GraKeL
           
 
           
@@ -85,6 +86,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -139,6 +141,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -177,7 +180,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../index.html">Docs</a> &raquo;</li>
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
           <li><a href="../api.html">GraKeL</a> &raquo;</li>
         
@@ -208,7 +211,7 @@
 It takes into account structure in graphs at a range of different scales by building a hierarchy of nested subgraphs.
 These subgraphs are compared to each other using another graph kernel, called the feature space laplacian graph kernel.
 This kernel is capable of lifting a base kernel defined on the vertices of two graphs to a kernel between the graphs themselves.
-Since exact computation of the multiscale laplacian graph kernel is a very expensive operation, the kernel uses a randomized projection procedure  similar to the popular Nystr{“o}m approximation for kernel matrices <a class="bibtex reference internal" href="#williams2001using" id="id2">[WS01]</a>.</p>
+Since exact computation of the multiscale laplacian graph kernel is a very expensive operation, the kernel uses a randomized projection procedure  similar to the popular Nystr{&quot;o}m approximation for kernel matrices <a class="bibtex reference internal" href="#williams2001using" id="id2">[WS01]</a>.</p>
 <p>Let <span class="math notranslate nohighlight">\(G=(V,E)\)</span> be an undirected graph such that <span class="math notranslate nohighlight">\(n = |V|\)</span>.
 The Laplacian of <span class="math notranslate nohighlight">\(G\)</span> is a <span class="math notranslate nohighlight">\(n \times n\)</span> matrix defined as</p>
 <div class="math notranslate nohighlight">
@@ -366,11 +369,19 @@ The combination of these two factors makes computing the entire stack of kernels
 
   <div role="contentinfo">
     <p>
+        
         &copy; Copyright 2019, DaSciM (BSD License)
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -381,7 +392,6 @@ The combination of these two factors makes computing the entire stack of kernels
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

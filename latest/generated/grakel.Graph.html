@@ -1,8 +1,7 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
@@ -12,12 +11,22 @@
   
 
   
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/_static/css/supplementary.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery-dataframe.css" type="text/css" />
+
+  
   
   
   
 
   
-  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
@@ -25,19 +34,11 @@
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
         <script src="../_static/language_data.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/_static/css/supplementary.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/gallery-binder.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/gallery-dataframe.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="grakel.graph.is_adjacency" href="grakel.graph.is_adjacency.html" />
@@ -55,7 +56,7 @@
           
 
           
-            <a href="../index.html" class="icon icon-home"> GraKeL
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> GraKeL
           
 
           
@@ -85,6 +86,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -99,21 +101,22 @@
 <li class="toctree-l1"><a class="reference internal" href="../benchmarks.html">Benchmarks</a></li>
 </ul>
 <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="../api.html">GraKeL</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="../kernels.html">Kernels (between graphs)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../graph_kernel.html">GraphKernel (class)</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="../graph.html">Graph (class)</a><ul class="current">
-<li class="toctree-l3 current"><a class="current reference internal" href="#">grakel.Graph</a></li>
-<li class="toctree-l3"><a class="reference internal" href="grakel.graph.is_adjacency.html">grakel.graph.is_adjacency</a></li>
-<li class="toctree-l3"><a class="reference internal" href="grakel.graph.is_edge_dictionary.html">grakel.graph.is_edge_dictionary</a></li>
-<li class="toctree-l3"><a class="reference internal" href="grakel.graph.laplacian.html">grakel.graph.laplacian</a></li>
-<li class="toctree-l3"><a class="reference internal" href="grakel.graph.floyd_warshall.html">grakel.graph.floyd_warshall</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">GraKeL</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../classes.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../classes.html#grakel-graph-graph-class-with-its-utility-functions"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel.graph</span></code>: Graph class with its utility functions</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../classes.html#base-class">Base Class</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">grakel.Graph</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../datasets.html">Dataset loading utilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes.html#utility-functions">Utility Functions</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../classes.html">API Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-graph-kernels-a-kernel-decorator"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel.graph_kernels</span></code>: A kernel decorator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-kernels-a-collection-of-graph-kernels"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel.kernels</span></code>: A collection of graph kernels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-datasets-datasets"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel.datasets</span></code>: Datasets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-utils"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>: Utils</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorials.html">Tutorials</a></li>
 </ul>
@@ -121,6 +124,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -159,7 +163,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../index.html">Docs</a> &raquo;</li>
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
           <li><a href="../api.html">GraKeL</a> &raquo;</li>
         
@@ -295,64 +299,64 @@ holds the inverse map of labels.</p>
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">build_graph</span></code>(self, g[, node_labels, edge_labels])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">build_graph</span></code>(g[, node_labels, edge_labels])</p></td>
 <td><p>Build a graph structure, given a supported graph representation.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">build_shortest_path_matrix</span></code>(self[, …])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">build_shortest_path_matrix</span></code>([algorithm_type, …])</p></td>
 <td><p>Build and return the shortest path matrix between all nodes.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">change_format</span></code>(self, graph_format)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">change_format</span></code>(graph_format)</p></td>
 <td><p>Change the format of the graph from an existing to an other.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">construct_labels</span></code>(self[, label_type, purpose])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">construct_labels</span></code>([label_type, purpose])</p></td>
 <td><p>Construct labels (if user does not provide).</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">convert_labels</span></code>(self[, target_format, …])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">convert_labels</span></code>([target_format, purpose, init])</p></td>
 <td><p>Convert labels to a desired format.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">desired_format</span></code>(self, graph_format[, warn])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">desired_format</span></code>(graph_format[, warn])</p></td>
 <td><p>Change the graph format, to include the desired.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_adjacency_matrix</span></code>(self)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_adjacency_matrix</span></code>()</p></td>
 <td><p>Get the adjacency matrix.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_edge_dictionary</span></code>(self)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_edge_dictionary</span></code>()</p></td>
 <td><p>Get the edge dictionary.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_edges</span></code>(self[, purpose, with_weights])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_edges</span></code>([purpose, with_weights])</p></td>
 <td><p>Create an iterable of edges as tuples.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_graph_object</span></code>(self)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_graph_object</span></code>()</p></td>
 <td><p>Return the graph object corresponding to ‘any’.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_label_group</span></code>(self[, label_type, purpose])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_label_group</span></code>([label_type, purpose])</p></td>
 <td><p>Calculate the inverse dictionary for vertex labels (once).</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_labels</span></code>(self[, label_type, purpose, …])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_labels</span></code>([label_type, purpose, return_none])</p></td>
 <td><p>Get labels corresponding to the purpose.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_subgraph</span></code>(self, vertices)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_subgraph</span></code>(vertices)</p></td>
 <td><p>Calculate the subgraph of object in the same format as the original.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_vertices</span></code>(self[, purpose])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_vertices</span></code>([purpose])</p></td>
 <td><p>Create an iterable of vertices.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">label</span></code>(self, obj[, label_type, purpose])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">label</span></code>(obj[, label_type, purpose])</p></td>
 <td><p>Get the label of a vertex.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">laplacian</span></code>(self[, save])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">laplacian</span></code>([save])</p></td>
 <td><p>Calculate the laplacian of the given graph.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">neighbors</span></code>(self, vertex[, purpose, with_weights])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">neighbors</span></code>(vertex[, purpose, with_weights])</p></td>
 <td><p>Find all neighbors of a vertex.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">nv</span></code>(self)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">nv</span></code>()</p></td>
 <td><p>Get the number of vertices for any existing format.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">produce_neighborhoods</span></code>(self[, r, purpose, …])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">produce_neighborhoods</span></code>([r, purpose, …])</p></td>
 <td><p>Calculate neighborhoods for each node of a Graph, up to a depth.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">relabel</span></code>(self, new_labels[, purpose, label_type])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">relabel</span></code>(new_labels[, purpose, label_type])</p></td>
 <td><p>Relabel the graph object, supporting the current format.</p></td>
 </tr>
 </tbody>
@@ -373,71 +377,71 @@ holds the inverse map of labels.</p>
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">build_graph</span></code>(self, g[, node_labels, edge_labels])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">build_graph</span></code>(g[, node_labels, edge_labels])</p></td>
 <td><p>Build a graph structure, given a supported graph representation.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">build_shortest_path_matrix</span></code>(self[, …])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">build_shortest_path_matrix</span></code>([algorithm_type, …])</p></td>
 <td><p>Build and return the shortest path matrix between all nodes.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">change_format</span></code>(self, graph_format)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">change_format</span></code>(graph_format)</p></td>
 <td><p>Change the format of the graph from an existing to an other.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">construct_labels</span></code>(self[, label_type, purpose])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">construct_labels</span></code>([label_type, purpose])</p></td>
 <td><p>Construct labels (if user does not provide).</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">convert_labels</span></code>(self[, target_format, …])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">convert_labels</span></code>([target_format, purpose, init])</p></td>
 <td><p>Convert labels to a desired format.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">desired_format</span></code>(self, graph_format[, warn])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">desired_format</span></code>(graph_format[, warn])</p></td>
 <td><p>Change the graph format, to include the desired.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_adjacency_matrix</span></code>(self)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_adjacency_matrix</span></code>()</p></td>
 <td><p>Get the adjacency matrix.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_edge_dictionary</span></code>(self)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_edge_dictionary</span></code>()</p></td>
 <td><p>Get the edge dictionary.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_edges</span></code>(self[, purpose, with_weights])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_edges</span></code>([purpose, with_weights])</p></td>
 <td><p>Create an iterable of edges as tuples.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_graph_object</span></code>(self)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_graph_object</span></code>()</p></td>
 <td><p>Return the graph object corresponding to ‘any’.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_label_group</span></code>(self[, label_type, purpose])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_label_group</span></code>([label_type, purpose])</p></td>
 <td><p>Calculate the inverse dictionary for vertex labels (once).</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_labels</span></code>(self[, label_type, purpose, …])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_labels</span></code>([label_type, purpose, return_none])</p></td>
 <td><p>Get labels corresponding to the purpose.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_subgraph</span></code>(self, vertices)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_subgraph</span></code>(vertices)</p></td>
 <td><p>Calculate the subgraph of object in the same format as the original.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_vertices</span></code>(self[, purpose])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_vertices</span></code>([purpose])</p></td>
 <td><p>Create an iterable of vertices.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">label</span></code>(self, obj[, label_type, purpose])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">label</span></code>(obj[, label_type, purpose])</p></td>
 <td><p>Get the label of a vertex.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">laplacian</span></code>(self[, save])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">laplacian</span></code>([save])</p></td>
 <td><p>Calculate the laplacian of the given graph.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">neighbors</span></code>(self, vertex[, purpose, with_weights])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">neighbors</span></code>(vertex[, purpose, with_weights])</p></td>
 <td><p>Find all neighbors of a vertex.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">nv</span></code>(self)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">nv</span></code>()</p></td>
 <td><p>Get the number of vertices for any existing format.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">produce_neighborhoods</span></code>(self[, r, purpose, …])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">produce_neighborhoods</span></code>([r, purpose, …])</p></td>
 <td><p>Calculate neighborhoods for each node of a Graph, up to a depth.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">relabel</span></code>(self, new_labels[, purpose, label_type])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">relabel</span></code>(new_labels[, purpose, label_type])</p></td>
 <td><p>Relabel the graph object, supporting the current format.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py method">
 <dt id="grakel.Graph.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">initialization_object</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">node_labels</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">edge_labels</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">graph_format</span><span class="o">=</span><span class="default_value">'auto'</span></em>, <em class="sig-param"><span class="n">construct_labels</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/cfd14e05/grakel/graph.py#L150"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/graph.html#Graph.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.Graph.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">initialization_object</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">node_labels</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">edge_labels</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">graph_format</span><span class="o">=</span><span class="default_value">'auto'</span></em>, <em class="sig-param"><span class="n">construct_labels</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/cfd14e05/grakel/graph.py#L150"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/graph.html#Graph.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.Graph.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>__init__ function of the graph object.</p>
 </dd></dl>
 
@@ -448,67 +452,67 @@ holds the inverse map of labels.</p>
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#grakel.Graph.__init__" title="grakel.Graph.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(self[, initialization_object, …])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#grakel.Graph.__init__" title="grakel.Graph.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>([initialization_object, …])</p></td>
 <td><p>__init__ function of the graph object.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">build_graph</span></code>(self, g[, node_labels, edge_labels])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">build_graph</span></code>(g[, node_labels, edge_labels])</p></td>
 <td><p>Build a graph structure, given a supported graph representation.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">build_shortest_path_matrix</span></code>(self[, …])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">build_shortest_path_matrix</span></code>([algorithm_type, …])</p></td>
 <td><p>Build and return the shortest path matrix between all nodes.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">change_format</span></code>(self, graph_format)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">change_format</span></code>(graph_format)</p></td>
 <td><p>Change the format of the graph from an existing to an other.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">construct_labels</span></code>(self[, label_type, purpose])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">construct_labels</span></code>([label_type, purpose])</p></td>
 <td><p>Construct labels (if user does not provide).</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">convert_labels</span></code>(self[, target_format, …])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">convert_labels</span></code>([target_format, purpose, init])</p></td>
 <td><p>Convert labels to a desired format.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">desired_format</span></code>(self, graph_format[, warn])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">desired_format</span></code>(graph_format[, warn])</p></td>
 <td><p>Change the graph format, to include the desired.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_adjacency_matrix</span></code>(self)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_adjacency_matrix</span></code>()</p></td>
 <td><p>Get the adjacency matrix.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_edge_dictionary</span></code>(self)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_edge_dictionary</span></code>()</p></td>
 <td><p>Get the edge dictionary.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_edges</span></code>(self[, purpose, with_weights])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_edges</span></code>([purpose, with_weights])</p></td>
 <td><p>Create an iterable of edges as tuples.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_graph_object</span></code>(self)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_graph_object</span></code>()</p></td>
 <td><p>Return the graph object corresponding to ‘any’.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_label_group</span></code>(self[, label_type, purpose])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_label_group</span></code>([label_type, purpose])</p></td>
 <td><p>Calculate the inverse dictionary for vertex labels (once).</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_labels</span></code>(self[, label_type, purpose, …])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_labels</span></code>([label_type, purpose, return_none])</p></td>
 <td><p>Get labels corresponding to the purpose.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_subgraph</span></code>(self, vertices)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_subgraph</span></code>(vertices)</p></td>
 <td><p>Calculate the subgraph of object in the same format as the original.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_vertices</span></code>(self[, purpose])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_vertices</span></code>([purpose])</p></td>
 <td><p>Create an iterable of vertices.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">label</span></code>(self, obj[, label_type, purpose])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">label</span></code>(obj[, label_type, purpose])</p></td>
 <td><p>Get the label of a vertex.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">laplacian</span></code>(self[, save])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">laplacian</span></code>([save])</p></td>
 <td><p>Calculate the laplacian of the given graph.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">neighbors</span></code>(self, vertex[, purpose, with_weights])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">neighbors</span></code>(vertex[, purpose, with_weights])</p></td>
 <td><p>Find all neighbors of a vertex.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">nv</span></code>(self)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">nv</span></code>()</p></td>
 <td><p>Get the number of vertices for any existing format.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">produce_neighborhoods</span></code>(self[, r, purpose, …])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">produce_neighborhoods</span></code>([r, purpose, …])</p></td>
 <td><p>Calculate neighborhoods for each node of a Graph, up to a depth.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">relabel</span></code>(self, new_labels[, purpose, label_type])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">relabel</span></code>(new_labels[, purpose, label_type])</p></td>
 <td><p>Relabel the graph object, supporting the current format.</p></td>
 </tr>
 </tbody>
@@ -582,11 +586,19 @@ holds the inverse map of labels.</p>
 
   <div role="contentinfo">
     <p>
+        
         &copy; Copyright 2019, DaSciM (BSD License)
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -597,7 +609,6 @@ holds the inverse map of labels.</p>
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {
