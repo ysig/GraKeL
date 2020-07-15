@@ -35,6 +35,7 @@ In detail, the following kernels and frameworks are currently implemented:
 * **[Subgraph matching kernel](https://ysig.github.io/GraKeL/latest/generated/grakel.SubgraphMatching.html)** from Kriege and Mutzel: [Subgraph Matching Kernels for Attributed Graphs](https://arxiv.org/ftp/arxiv/papers/1206/1206.6483.pdf) (ICML 2012)
 * **[Multiscale Laplacian kernel](https://ysig.github.io/GraKeL/latest/generated/grakel.MultiscaleLaplacian.html)** from Kondor and Pan: [The Multiscale Laplacian Graph Kernel](https://papers.nips.cc/paper/6135-the-multiscale-laplacian-graph-kernel.pdf) (NIPS 2016)
 * **[Core framework](https://ysig.github.io/GraKeL/latest/generated/grakel.CoreFramework.html)** from Nikolentzos *et al.*: [A Degeneracy Framework for Graph Similarity](https://www.ijcai.org/proceedings/2018/0360.pdf) (IJCAI 2018)
+* **[Weisfeiler-Lehman optimal assignment](https://ysig.github.io/GraKeL/latest/generated/grakel.WeisfeilerLehmanOptimalAssignment.html)** from Kriege *et al.*: [On Valid Optimal Assignment Kernels and Applications to Graph Classification](http://papers.nips.cc/paper/6166-on-valid-optimal-assignment-kernels-and-applications-to-graph-classification.pdf) (NIPS 2016)
 
 --------------------------------------------------------------------------------
 
