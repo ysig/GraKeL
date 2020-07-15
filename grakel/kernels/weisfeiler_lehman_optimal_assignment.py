@@ -1,5 +1,5 @@
-"""The weisfeiler lehman kernel :cite:`shervashidze2011weisfeiler`."""
-# Author: Ioannis Siglidis <y.siglidis@gmail.com>
+"""The weisfeiler lehman optimal assignment kernel :cite:`kriege2016valid`."""
+# Author: Giannis Nikolentzos <nikolentzos@lix.polytechnique.fr>
 # License: BSD 3 clause
 import collections
 import warnings
@@ -19,9 +19,9 @@ from six import itervalues
 
 
 class WeisfeilerLehmanOptimalAssignment(Kernel):
-    """Compute the Weisfeiler Lehman Kernel.
+    """Compute the Weisfeiler Lehman Optimal Assignment Kernel.
 
-    See :cite:`shervashidze2011weisfeiler`.
+    See :cite:`kriege2016valid`.
 
     Parameters
     ----------
@@ -31,13 +31,16 @@ class WeisfeilerLehmanOptimalAssignment(Kernel):
     Attributes
     ----------
     X : dict
-     Holds a dictionary of fitted subkernel modules for all levels.
+     Holds a list of fitted subkernel modules.
 
     _nx : number
         Holds the number of inputs.
 
     _n_iter : int
         Holds the number, of iterations.
+
+    _hierarchy : dict
+        A hierarchy produced by the WL relabeling procedure.
 
     _inv_labels : dict
         An inverse dictionary, used for relabeling on each iteration.
@@ -53,20 +56,11 @@ class WeisfeilerLehmanOptimalAssignment(Kernel):
             n_jobs=n_jobs, verbose=verbose, normalize=normalize)
 
         self.n_iter = n_iter
-        self._initialized.update({"n_iter": False, "base_graph_kernel": False})
-        self._base_graph_kernel = None
+        self._initialized.update({"n_iter": False})
 
     def initialize(self):
         """Initialize all transformer arguments, needing initialization."""
         super(WeisfeilerLehmanOptimalAssignment, self).initialize()
-        if not self._initialized["base_graph_kernel"]:
-            base_graph_kernel = self.base_graph_kernel
-            params["normalize"] = False
-            params["verbose"] = self.verbose
-            params["n_jobs"] = None
-            self._base_graph_kernel = base_graph_kernel
-            self._params = params
-            self._initialized["base_graph_kernel"] = True
 
         if not self._initialized["n_iter"]:
             if type(self.n_iter) is not int or self.n_iter <= 0:
@@ -75,7 +69,7 @@ class WeisfeilerLehmanOptimalAssignment(Kernel):
             self._initialized["n_iter"] = True
 
     def parse_input(self, X):
-        """Parse input for weisfeiler lehman.
+        """Parse input for weisfeiler lehman optimal assignment.
 
         Parameters
         ----------
@@ -89,8 +83,8 @@ class WeisfeilerLehmanOptimalAssignment(Kernel):
 
         Returns
         -------
-        base_graph_kernel : object
-        Returns base_graph_kernel.
+        Hs : numpy array, shape = [n_input_graphs, hierarchy_size]
+            An array where the rows contain the histograms of the graphs.
 
         """
         if self._method_calling not in [1, 2]:
@@ -129,12 +123,6 @@ class WeisfeilerLehmanOptimalAssignment(Kernel):
 
                 elif type(x) is Graph:
                     x.desired_format(self._graph_format)
-                    el = x.get_labels(purpose=self._graph_format, label_type="edge", return_none=True)
-                    if el is None:
-                        extra = tuple()
-                    else:
-                        extra = (el, )
-
                 else:
                     raise TypeError('each element of X must be either a ' +
                                     'graph object or a list with at least ' +
@@ -142,7 +130,6 @@ class WeisfeilerLehmanOptimalAssignment(Kernel):
                                     'dict \n')
                 Gs_ed[nx] = x.get_edge_dictionary()
                 L[nx] = x.get_labels(purpose="dictionary")
-                extras[nx] = extra
                 distinct_values |= set(itervalues(L[nx]))
                 nx += 1
             if nx == 0:
@@ -151,6 +138,14 @@ class WeisfeilerLehmanOptimalAssignment(Kernel):
         # Save the number of "fitted" graphs.
         self._nx = nx
 
+        # Initialize hierarchy
+        self._hierarchy = dict()
+        self._hierarchy['root'] = dict()
+        self._hierarchy['root']['parent'] = None
+        self._hierarchy['root']['children'] = list()
+        self._hierarchy['root']['w'] = 0
+        self._hierarchy['root']['omega'] = 0
+
         # get all the distinct values of current labels
         WL_labels_inverse = dict()
 
@@ -158,75 +153,75 @@ class WeisfeilerLehmanOptimalAssignment(Kernel):
         label_count = 0
         for dv in sorted(list(distinct_values)):
             WL_labels_inverse[dv] = label_count
+            self._insert_into_hierarchy(label_count, 'root')
             label_count += 1
 
         # Initalize an inverse dictionary of labels for all iterations
         self._inv_labels = dict()
         self._inv_labels[0] = WL_labels_inverse
 
-        def generate_graphs(label_count, WL_labels_inverse):
-            new_graphs = list()
+        for j in range(nx):
+            new_labels = dict()
+            for k in L[j].keys():
+                new_labels[k] = WL_labels_inverse[L[j][k]]
+            L[j] = new_labels
+
+        for i in range(1, self._n_iter):
+            new_previous_label_set, WL_labels_inverse, L_temp = set(), dict(), dict()
+            for j in range(nx):
+                # Find unique labels and sort
+                # them for both graphs
+                # Keep for each node the temporary
+                L_temp[j] = dict()
+                for v in Gs_ed[j].keys():
+                    credential = str(L[j][v]) + "," + \
+                        str(sorted([L[j][n] for n in Gs_ed[j][v].keys()]))
+                    L_temp[j][v] = credential
+                    new_previous_label_set.add((credential, L[j][v]))
+
+            label_list = sorted(list(new_previous_label_set), key=lambda tup: tup[0])
+            for dv,previous_label in label_list:
+                WL_labels_inverse[dv] = label_count
+                self._insert_into_hierarchy(label_count, previous_label)
+                label_count += 1
+
+            # Recalculate labels
             for j in range(nx):
                 new_labels = dict()
-                for k in L[j].keys():
-                    new_labels[k] = WL_labels_inverse[L[j][k]]
+                for k in L_temp[j].keys():
+                    new_labels[k] = WL_labels_inverse[L_temp[j][k]]
                 L[j] = new_labels
-                # add new labels
-                new_graphs.append((Gs_ed[j], new_labels) + extras[j])
-            yield new_graphs
+            self._inv_labels[i] = WL_labels_inverse
 
-            for i in range(1, self._n_iter):
-                label_set, WL_labels_inverse, L_temp = set(), dict(), dict()
-                for j in range(nx):
-                    # Find unique labels and sort
-                    # them for both graphs
-                    # Keep for each node the temporary
-                    L_temp[j] = dict()
-                    for v in Gs_ed[j].keys():
-                        credential = str(L[j][v]) + "," + \
-                            str(sorted([L[j][n] for n in Gs_ed[j][v].keys()]))
-                        L_temp[j][v] = credential
-                        label_set.add(credential)
+        # Compute the vector representation of each graph
+        Hs = np.zeros((nx, len(self._hierarchy)))
+        for j in range(nx):
+            for k in L[j].keys():
+                current_label = L[j][k]
+                while self._hierarchy[current_label]['parent'] is not None:
+                    Hs[j,current_label] += self._hierarchy[current_label]['omega']
+                    current_label = self._hierarchy[current_label]['parent']
 
-                label_list = sorted(list(label_set))
-                for dv in label_list:
-                    WL_labels_inverse[dv] = label_count
-                    label_count += 1
+        return Hs
 
-                # Recalculate labels
-                new_graphs = list()
-                for j in range(nx):
-                    new_labels = dict()
-                    for k in L_temp[j].keys():
-                        new_labels[k] = WL_labels_inverse[L_temp[j][k]]
-                    L[j] = new_labels
-                    # relabel
-                    new_graphs.append((Gs_ed[j], new_labels) + extras[j])
-                self._inv_labels[i] = WL_labels_inverse
-                yield new_graphs
+    def _insert_into_hierarchy(self, label, previous_label):
+        """Inserts a label into the hierarchy.
 
-        base_graph_kernel = {i: self._base_graph_kernel(**self._params) for i in range(self._n_iter)}
-        if self._parallel is None:
-            if self._method_calling == 1:
-                for (i, g) in enumerate(generate_graphs(label_count, WL_labels_inverse)):
-                    base_graph_kernel[i].fit(g)
-            elif self._method_calling == 2:
-                K = np.sum((base_graph_kernel[i].fit_transform(g) for (i, g) in
-                           enumerate(generate_graphs(label_count, WL_labels_inverse))), axis=0)
+        Parameters
+        ----------
+        label : int
+            The label to insert into the hierarchy.
 
-        else:
-            if self._method_calling == 1:
-                self._parallel(joblib.delayed(efit)(base_graph_kernel[i], g)
-                               for (i, g) in enumerate(generate_graphs(label_count, WL_labels_inverse)))
-            elif self._method_calling == 2:
-                K = np.sum(self._parallel(joblib.delayed(efit_transform)(base_graph_kernel[i], g)
-                           for (i, g) in enumerate(generate_graphs(label_count, WL_labels_inverse))),
-                           axis=0)
+        previous_label : int
+            The previous label of the node.
 
-        if self._method_calling == 1:
-            return base_graph_kernel
-        elif self._method_calling == 2:
-            return K, base_graph_kernel
+        """
+        self._hierarchy[label] = dict()
+        self._hierarchy[label]['parent'] = previous_label
+        self._hierarchy[label]['children'] = list()
+        self._hierarchy[label]['w'] = self._hierarchy[previous_label]['w'] + 1
+        self._hierarchy[label]['omega'] = 1
+        self._hierarchy[previous_label]['children'].append(label)
 
     def fit_transform(self, X, y=None):
         """Fit and transform, on the same dataset.
@@ -257,14 +252,21 @@ class WeisfeilerLehmanOptimalAssignment(Kernel):
         if X is None:
             raise ValueError('transform input cannot be None')
         else:
-            km, self.X = self.parse_input(X)
+            self.X = [self.parse_input(X)]
 
-        self._X_diag = np.diagonal(km)
+        # Compute the histogram intersection kernel
+        K = np.zeros((self._nx, self._nx))
+        for i in range(self._nx):
+            for j in range(i, self._nx):
+                K[i,j] = np.sum(np.min(self.X[0][np.ix_([i,j]),:], axis=1))
+                K[j,i] = K[i,j]
+
+        self._X_diag = np.diagonal(K)
         if self.normalize:
             old_settings = np.seterr(divide='ignore')
-            km = np.nan_to_num(np.divide(km, np.sqrt(np.outer(self._X_diag, self._X_diag))))
+            K = np.nan_to_num(np.divide(K, np.sqrt(np.outer(self._X_diag, self._X_diag))))
             np.seterr(**old_settings)
-        return km
+        return K
 
     def transform(self, X):
         """Calculate the kernel matrix, between given and fitted dataset.
@@ -288,7 +290,7 @@ class WeisfeilerLehmanOptimalAssignment(Kernel):
         """
         self._method_calling = 3
         # Check is fit had been called
-        check_is_fitted(self, ['X', '_nx', '_inv_labels'])
+        check_is_fitted(self, ['X', '_nx', '_hierarchy', '_inv_labels'])
 
         # Input validation and parsing
         if X is None:
@@ -328,70 +330,72 @@ class WeisfeilerLehmanOptimalAssignment(Kernel):
                 if nx == 0:
                     raise ValueError('parsed input is empty')
 
-        nl = len(self._inv_labels[0])
-        WL_labels_inverse = {dv: idx for (idx, dv) in
-                             enumerate(sorted(list(distinct_values)), nl)}
+        # get all the distinct values of new labels
+        WL_labels_inverse = dict()
 
-        def generate_graphs(WL_labels_inverse, nl):
-            # calculate the kernel matrix for the 0 iteration
-            new_graphs = list()
+        # assign a number to each label
+        label_count = sum([len(self._inv_labels[i]) for i in range(len(self._inv_labels))])
+        for dv in sorted(list(distinct_values)):
+            WL_labels_inverse[dv] = label_count
+            self._insert_into_hierarchy(label_count, 'root')
+            label_count += 1
+        
+        for j in range(nx):
+            new_labels = dict()
+            for (k, v) in iteritems(L[j]):
+                if v in self._inv_labels[0]:
+                    new_labels[k] = self._inv_labels[0][v]
+                else:
+                    new_labels[k] = WL_labels_inverse[v]
+            L[j] = new_labels
+
+        for i in range(1, self._n_iter):
+            L_temp, new_previous_label_set = dict(), set()
+            for j in range(nx):
+                # Find unique labels and sort them for both graphs
+                # Keep for each node the temporary
+                L_temp[j] = dict()
+                for v in Gs_ed[j].keys():
+                    credential = str(L[j][v]) + "," + \
+                        str(sorted([L[j][n] for n in Gs_ed[j][v].keys()]))
+                    L_temp[j][v] = credential
+                    if credential not in self._inv_labels[i]:
+                        new_previous_label_set.add((credential, L[j][v]))
+
+            # Calculate the new label_set
+            WL_labels_inverse = dict()
+            if len(new_previous_label_set) > 0:
+                for dv, previous_label in sorted(list(new_previous_label_set), key=lambda tup: tup[0]):
+                    WL_labels_inverse[dv] = label_count
+                    self._insert_into_hierarchy(label_count, previous_label)
+                    label_count += 1
+
+            # Recalculate labels
             for j in range(nx):
                 new_labels = dict()
-                for (k, v) in iteritems(L[j]):
-                    if v in self._inv_labels[0]:
-                        new_labels[k] = self._inv_labels[0][v]
+                for (k, v) in iteritems(L_temp[j]):
+                    if v in self._inv_labels[i]:
+                        new_labels[k] = self._inv_labels[i][v]
                     else:
                         new_labels[k] = WL_labels_inverse[v]
                 L[j] = new_labels
-                # produce the new graphs
-                new_graphs.append([Gs_ed[j], new_labels])
-            yield new_graphs
 
-            for i in range(1, self._n_iter):
-                new_graphs = list()
-                L_temp, label_set = dict(), set()
-                nl += len(self._inv_labels[i])
-                for j in range(nx):
-                    # Find unique labels and sort them for both graphs
-                    # Keep for each node the temporary
-                    L_temp[j] = dict()
-                    for v in Gs_ed[j].keys():
-                        credential = str(L[j][v]) + "," + \
-                            str(sorted([L[j][n] for n in Gs_ed[j][v].keys()]))
-                        L_temp[j][v] = credential
-                        if credential not in self._inv_labels[i]:
-                            label_set.add(credential)
+        # Compute the vector representation of each graph
+        Hs = np.zeros((nx, len(self._hierarchy)))
+        for j in range(nx):
+            for k in L[j].keys():
+                current_label = L[j][k]
+                while self._hierarchy[current_label]['parent'] is not None:
+                    Hs[j,current_label] += self._hierarchy[current_label]['omega']
+                    current_label = self._hierarchy[current_label]['parent']
 
-                # Calculate the new label_set
-                WL_labels_inverse = dict()
-                if len(label_set) > 0:
-                    for dv in sorted(list(label_set)):
-                        idx = len(WL_labels_inverse) + nl
-                        WL_labels_inverse[dv] = idx
-
-                # Recalculate labels
-                new_graphs = list()
-                for j in range(nx):
-                    new_labels = dict()
-                    for (k, v) in iteritems(L_temp[j]):
-                        if v in self._inv_labels[i]:
-                            new_labels[k] = self._inv_labels[i][v]
-                        else:
-                            new_labels[k] = WL_labels_inverse[v]
-                    L[j] = new_labels
-                    # Create the new graphs with the new labels.
-                    new_graphs.append([Gs_ed[j], new_labels])
-                yield new_graphs
-
-        if self._parallel is None:
-            # Calculate the kernel matrix without parallelization
-            K = np.sum((self.X[i].transform(g) for (i, g)
-                       in enumerate(generate_graphs(WL_labels_inverse, nl))), axis=0)
-
-        else:
-            # Calculate the kernel marix with parallelization
-            K = np.sum(self._parallel(joblib.delayed(etransform)(self.X[i], g) for (i, g)
-                       in enumerate(generate_graphs(WL_labels_inverse, nl))), axis=0)
+        self.X.append(Hs)
+        
+        # Compute the histogram intersection kernel
+        K = np.zeros((nx, self._nx))
+        for i in range(nx):
+            for j in range(self._nx):
+                K[i,j] = np.sum(np.min([Hs[i,:self.X[0].shape[1]], self.X[0][j,:]], axis=0))
 
         self._is_transformed = True
         if self.normalize:
@@ -428,29 +432,24 @@ class WeisfeilerLehmanOptimalAssignment(Kernel):
         try:
             check_is_fitted(self, ['_X_diag'])
             if self._is_transformed:
-                Y_diag = self.X[0].diagonal()[1]
-                for i in range(1, self._n_iter):
-                    Y_diag += self.X[i].diagonal()[1]
+                Y_diag = np.zeros(self.X[1].shape[0])
+                for i in range(self.X[1].shape[0]):
+                    Y_diag[i] = np.sum(np.min(self.X[1][np.ix_([i,i]),:], axis=1))
         except NotFittedError:
             # Calculate diagonal of X
             if self._is_transformed:
-                X_diag, Y_diag = self.X[0].diagonal()
-                # X_diag is considered a mutable and should not affect the kernel matrix itself.
-                X_diag.flags.writeable = True
-                for i in range(1, self._n_iter):
-                    x, y = self.X[i].diagonal()
-                    X_diag += x
-                    Y_diag += y
-                self._X_diag = X_diag
+                self._X_diag = np.zeros(self.X[0].shape[0])
+                for i in range(self.X[0].shape[0]):
+                    self._X_diag[i] = np.sum(np.min(self.X[0][np.ix_([i,i]),:], axis=1))
+                
+                Y_diag = np.zeros(self.X[1].shape[0])
+                for i in range(self.X[1].shape[0]):
+                    Y_diag[i] = np.sum(np.min(self.X[1][np.ix_([i,i]),:], axis=1))
             else:
                 # case sub kernel is only fitted
-                X_diag = self.X[0].diagonal()
-                # X_diag is considered a mutable and should not affect the kernel matrix itself.
-                X_diag.flags.writeable = True
-                for i in range(1, self._n_iter):
-                    x = self.X[i].diagonal()
-                    X_diag += x
-                self._X_diag = X_diag
+                self._X_diag = np.zeros(self.X[0].shape[0])
+                for i in range(self.X[0].shape[0]):
+                    self._X_diag[i] = np.sum(np.min(self.X[0][np.ix_([i,i]),:], axis=1))
 
         if self._is_transformed:
             return self._X_diag, Y_diag
