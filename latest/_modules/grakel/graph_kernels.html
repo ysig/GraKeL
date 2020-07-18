@@ -196,11 +196,11 @@
 <span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="kn">import</span> <span class="n">PropagationAttr</span>
 <span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="kn">import</span> <span class="n">HadamardCode</span>
 <span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="kn">import</span> <span class="n">MultiscaleLaplacian</span>
-<span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="kn">import</span> <span class="n">MultiscaleLaplacianFast</span>
 <span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="kn">import</span> <span class="n">VertexHistogram</span>
 <span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="kn">import</span> <span class="n">EdgeHistogram</span>
 <span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="kn">import</span> <span class="n">GraphHopper</span>
 <span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="kn">import</span> <span class="n">CoreFramework</span>
+<span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="kn">import</span> <span class="n">WeisfeilerLehmanOptimalAssignment</span>
 
 <span class="c1"># Python 2/3 cross-compatibility import</span>
 <span class="kn">from</span> <span class="nn">future.utils</span> <span class="kn">import</span> <span class="n">iteritems</span>
@@ -221,7 +221,8 @@
     <span class="p">[</span><span class="s2">&quot;odd_sth&quot;</span><span class="p">,</span> <span class="s2">&quot;ODD&quot;</span><span class="p">],</span>
     <span class="p">[</span><span class="s2">&quot;propagation&quot;</span><span class="p">,</span> <span class="s2">&quot;PR&quot;</span><span class="p">],</span>
     <span class="p">[</span><span class="s2">&quot;pyramid_match&quot;</span><span class="p">,</span> <span class="s2">&quot;PM&quot;</span><span class="p">],</span>
-    <span class="p">[</span><span class="s2">&quot;graph_hopper&quot;</span><span class="p">,</span> <span class="s2">&quot;GH&quot;</span><span class="p">]</span>
+    <span class="p">[</span><span class="s2">&quot;graph_hopper&quot;</span><span class="p">,</span> <span class="s2">&quot;GH&quot;</span><span class="p">],</span>
+    <span class="p">[</span><span class="s2">&quot;weisfeiler_lehman&quot;</span><span class="p">,</span> <span class="s2">&quot;WL-OA&quot;</span><span class="p">]</span>    
     <span class="p">]</span>
 
 <span class="n">sbks</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">e</span> <span class="k">for</span> <span class="n">ls</span> <span class="ow">in</span> <span class="n">sbk</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">ls</span><span class="p">)</span>
@@ -300,8 +301,6 @@
 <span class="sd">                    + (**o**) &quot;sampling&quot; : [dict] or **None**</span>
 
 <span class="sd">                - &quot;multiscale_laplacian&quot; or &quot;ML&quot;</span>
-<span class="sd">                    + (**o**) &quot;which&quot; : [str] &quot;slow&quot;, &quot;fast&quot;</span>
-
 <span class="sd">                    + (**o**) &quot;L&quot; : [int] &gt; 0</span>
 
 <span class="sd">                    + (**o**) &quot;gamma&quot; : [float] &gt; .0</span>
@@ -682,12 +681,8 @@
             <span class="k">elif</span> <span class="n">kernel_name</span> <span class="ow">in</span> <span class="n">sbk</span><span class="p">[</span><span class="mi">5</span><span class="p">]:</span>
                 <span class="k">return</span> <span class="n">SubgraphMatching</span><span class="p">,</span> <span class="n">kernel</span>
             <span class="k">elif</span> <span class="n">kernel_name</span> <span class="ow">in</span> <span class="n">sbk</span><span class="p">[</span><span class="mi">6</span><span class="p">]:</span>
-                <span class="k">if</span> <span class="n">kernel</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;which&quot;</span><span class="p">,</span> <span class="s2">&quot;fast&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;slow&quot;</span><span class="p">:</span>
-                    <span class="n">kernel</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;N&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-                    <span class="k">return</span> <span class="p">(</span><span class="n">MultiscaleLaplacian</span><span class="p">,</span> <span class="n">kernel</span><span class="p">)</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">kernel</span><span class="p">[</span><span class="s2">&quot;random_state&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_random_state_</span><span class="p">(</span><span class="n">kernel</span><span class="p">)</span>
-                    <span class="k">return</span> <span class="p">(</span><span class="n">MultiscaleLaplacianFast</span><span class="p">,</span> <span class="n">kernel</span><span class="p">)</span>
+                <span class="n">kernel</span><span class="p">[</span><span class="s2">&quot;random_state&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_random_state_</span><span class="p">(</span><span class="n">kernel</span><span class="p">)</span>
+                <span class="k">return</span> <span class="p">(</span><span class="n">MultiscaleLaplacian</span><span class="p">,</span> <span class="n">kernel</span><span class="p">)</span>
             <span class="k">elif</span> <span class="n">kernel_name</span> <span class="ow">in</span> <span class="n">sbk</span><span class="p">[</span><span class="mi">7</span><span class="p">]:</span>
                 <span class="n">kernel</span><span class="p">[</span><span class="s2">&quot;random_state&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_random_state_</span><span class="p">(</span><span class="n">kernel</span><span class="p">)</span>
                 <span class="k">return</span> <span class="n">LovaszTheta</span><span class="p">,</span> <span class="n">kernel</span>
@@ -710,6 +705,8 @@
                 <span class="k">return</span> <span class="n">PyramidMatch</span><span class="p">,</span> <span class="n">kernel</span>
             <span class="k">elif</span> <span class="n">kernel_name</span> <span class="ow">in</span> <span class="n">sbk</span><span class="p">[</span><span class="mi">14</span><span class="p">]:</span>
                 <span class="k">return</span> <span class="n">GraphHopper</span><span class="p">,</span> <span class="n">kernel</span>
+            <span class="k">elif</span> <span class="n">kernel_name</span> <span class="ow">in</span> <span class="n">sbk</span><span class="p">[</span><span class="mi">15</span><span class="p">]:</span>
+                <span class="k">return</span> <span class="n">WeisfeilerLehmanOptimalAssignment</span><span class="p">,</span> <span class="n">kernel</span>
 
         <span class="k">elif</span> <span class="n">kernel_name</span> <span class="ow">in</span> <span class="n">sfs</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">kernel_list</span><span class="p">):</span>

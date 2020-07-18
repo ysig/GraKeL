@@ -41,7 +41,7 @@
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="grakel.MultiscaleLaplacianFast" href="grakel.MultiscaleLaplacianFast.html" />
+    <link rel="next" title="grakel.VertexHistogram" href="grakel.VertexHistogram.html" />
     <link rel="prev" title="grakel.OddSth" href="grakel.OddSth.html" /> 
 </head>
 
@@ -125,7 +125,6 @@
 <li class="toctree-l4"><a class="reference internal" href="grakel.PropagationAttr.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.PropagationAttr</a></li>
 <li class="toctree-l4"><a class="reference internal" href="grakel.OddSth.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.OddSth</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.MultiscaleLaplacian</a></li>
-<li class="toctree-l4"><a class="reference internal" href="grakel.MultiscaleLaplacianFast.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.MultiscaleLaplacianFast</a></li>
 <li class="toctree-l4"><a class="reference internal" href="grakel.HadamardCode.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.HadamardCode</a></li>
 <li class="toctree-l4"><a class="reference internal" href="grakel.VertexHistogram.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.VertexHistogram</a></li>
 <li class="toctree-l4"><a class="reference internal" href="grakel.EdgeHistogram.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.EdgeHistogram</a></li>
@@ -212,26 +211,31 @@
 <h1><a class="reference internal" href="../api.html#module-grakel" title="grakel"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code></a>.MultiscaleLaplacian<a class="headerlink" href="#grakel-multiscalelaplacian" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
 <dt id="grakel.MultiscaleLaplacian">
-<em class="property">class </em><code class="sig-prename descclassname">grakel.</code><code class="sig-name descname">MultiscaleLaplacian</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">n_jobs</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">normalize</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">L</span><span class="o">=</span><span class="default_value">3</span></em>, <em class="sig-param"><span class="n">gamma</span><span class="o">=</span><span class="default_value">0.01</span></em>, <em class="sig-param"><span class="n">heta</span><span class="o">=</span><span class="default_value">0.01</span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/cfd14e05/grakel/kernels/multiscale_laplacian.py#L333"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/multiscale_laplacian.html#MultiscaleLaplacian"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.MultiscaleLaplacian" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">grakel.</code><code class="sig-name descname">MultiscaleLaplacian</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">n_jobs</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">normalize</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">random_state</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">L</span><span class="o">=</span><span class="default_value">3</span></em>, <em class="sig-param"><span class="n">P</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">gamma</span><span class="o">=</span><span class="default_value">0.01</span></em>, <em class="sig-param"><span class="n">heta</span><span class="o">=</span><span class="default_value">0.01</span></em>, <em class="sig-param"><span class="n">n_samples</span><span class="o">=</span><span class="default_value">50</span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/3d544d8d/grakel/kernels/multiscale_laplacian.py#L33"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/multiscale_laplacian.html#MultiscaleLaplacian"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.MultiscaleLaplacian" title="Permalink to this definition">¶</a></dt>
 <dd><p>Laplacian Graph Kernel as proposed in <a class="bibtex reference internal" href="../kernels/multiscale_laplacian.html#kondor2016multiscale" id="id1">[KP16]</a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
+<dt><strong>random_state</strong><span class="classifier">RandomState or int, default=None</span></dt><dd><p>A random number generator instance or an int to initialize a RandomState as a seed.</p>
+</dd>
 <dt><strong>L</strong><span class="classifier">int, default=3</span></dt><dd><p>The number of neighborhoods.</p>
 </dd>
-<dt><strong>gamma</strong><span class="classifier">Real, default=0.01</span></dt><dd><p>A small softening parameter of float value.</p>
+<dt><strong>gamma</strong><span class="classifier">Real, default=0.01</span></dt><dd><p>A smoothing parameter of float value.</p>
 </dd>
 <dt><strong>heta</strong><span class="classifier">float, default=0.01</span></dt><dd><p>A smoothing parameter of float value.</p>
+</dd>
+<dt><strong>P</strong><span class="classifier">int, default=10</span></dt><dd><p>Restrict the maximum number of eigenvalues, taken on eigenvalue decomposition.</p>
+</dd>
+<dt><strong>n_samples</strong><span class="classifier">int, default=50</span></dt><dd><p>The number of vertex samples.</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Attributes</dt>
 <dd class="field-even"><dl class="simple">
-<dt><strong>L</strong><span class="classifier">int</span></dt><dd><p>The number of neighborhoods.</p>
+<dt><strong>random_state_</strong><span class="classifier">RandomState</span></dt><dd><p>A RandomState object handling all randomness of the class.</p>
 </dd>
-<dt><strong>gamma</strong><span class="classifier">Real</span></dt><dd><p>A smoothing parameter for calculation of S matrices.</p>
-</dd>
-<dt><strong>heta</strong><span class="classifier">float</span></dt><dd><p>A smoothing parameter for calculation of S matrices.</p>
+<dt><strong>_data_level</strong><span class="classifier">dict</span></dt><dd><p>A dictionary containing the feature basis information needed
+for each level calculation on transform.</p>
 </dd>
 </dl>
 </dd>
@@ -259,10 +263,10 @@
 <td><p>Initialize all transformer arguments, needing initialization.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pairwise_operation</span></code>(x, y)</p></td>
-<td><p>ML kernel as proposed in <a class="bibtex reference internal" href="../kernels/multiscale_laplacian.html#kondor2016multiscale" id="id2">[KP16]</a>..</p></td>
+<td><p>FLG calculation for the fast multiscale laplacian.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_input</span></code>(X)</p></td>
-<td><p>Parse and create features for multiscale_laplacian kernel.</p></td>
+<td><p>Fast ML Graph Kernel.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code>(**params)</p></td>
 <td><p>Call the parent method.</p></td>
@@ -303,10 +307,10 @@
 <td><p>Initialize all transformer arguments, needing initialization.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pairwise_operation</span></code>(x, y)</p></td>
-<td><p>ML kernel as proposed in <a class="bibtex reference internal" href="../kernels/multiscale_laplacian.html#kondor2016multiscale" id="id3">[KP16]</a>..</p></td>
+<td><p>FLG calculation for the fast multiscale laplacian.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_input</span></code>(X)</p></td>
-<td><p>Parse and create features for multiscale_laplacian kernel.</p></td>
+<td><p>Fast ML Graph Kernel.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code>(**params)</p></td>
 <td><p>Call the parent method.</p></td>
@@ -318,7 +322,7 @@
 </table>
 <dl class="py method">
 <dt id="grakel.MultiscaleLaplacian.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">n_jobs</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">normalize</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">L</span><span class="o">=</span><span class="default_value">3</span></em>, <em class="sig-param"><span class="n">gamma</span><span class="o">=</span><span class="default_value">0.01</span></em>, <em class="sig-param"><span class="n">heta</span><span class="o">=</span><span class="default_value">0.01</span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/cfd14e05/grakel/kernels/multiscale_laplacian.py#L362"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/multiscale_laplacian.html#MultiscaleLaplacian.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.MultiscaleLaplacian.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">n_jobs</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">normalize</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">random_state</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">L</span><span class="o">=</span><span class="default_value">3</span></em>, <em class="sig-param"><span class="n">P</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">gamma</span><span class="o">=</span><span class="default_value">0.01</span></em>, <em class="sig-param"><span class="n">heta</span><span class="o">=</span><span class="default_value">0.01</span></em>, <em class="sig-param"><span class="n">n_samples</span><span class="o">=</span><span class="default_value">50</span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/3d544d8d/grakel/kernels/multiscale_laplacian.py#L69"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/multiscale_laplacian.html#MultiscaleLaplacian.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.MultiscaleLaplacian.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialise a <cite>multiscale_laplacian</cite> kernel.</p>
 </dd></dl>
 
@@ -327,7 +331,7 @@
 <div class="section" id="bibliography">
 <h2>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">¶</a></h2>
 <p id="bibtex-bibliography-generated/grakel.MultiscaleLaplacian-0"><dl class="citation">
-<dt class="bibtex label" id="kondor2016multiscale"><span class="brackets">KP16</span><span class="fn-backref">(<a href="#id1">1</a>,<a href="#id2">2</a>,<a href="#id3">3</a>)</span></dt>
+<dt class="bibtex label" id="kondor2016multiscale"><span class="brackets"><a class="fn-backref" href="#id1">KP16</a></span></dt>
 <dd><p>Risi Kondor and Horace Pan. The Multiscale Laplacian Graph Kernel. In <em>Advances in Neural Information Processing Systems</em>, 2990–2998. 2016.</p>
 </dd>
 </dl>
@@ -343,7 +347,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="grakel.MultiscaleLaplacianFast.html" class="btn btn-neutral float-right" title="grakel.MultiscaleLaplacianFast" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="grakel.VertexHistogram.html" class="btn btn-neutral float-right" title="grakel.VertexHistogram" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="grakel.OddSth.html" class="btn btn-neutral float-left" title="grakel.OddSth" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
