@@ -25,7 +25,6 @@ from grakel.kernels import Propagation
 from grakel.kernels import PropagationAttr
 from grakel.kernels import HadamardCode
 from grakel.kernels import MultiscaleLaplacian
-from grakel.kernels import MultiscaleLaplacianFast
 from grakel.kernels import VertexHistogram
 from grakel.kernels import EdgeHistogram
 from grakel.kernels import GraphHopper
