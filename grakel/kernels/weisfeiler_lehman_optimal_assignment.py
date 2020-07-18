@@ -13,6 +13,8 @@ from sklearn.utils.validation import check_is_fitted
 from grakel.graph import Graph
 from grakel.kernels import Kernel
 
+from scipy.sparse import lil_matrix
+
 # Python 2/3 cross-compatibility import
 from six import iteritems
 from six import itervalues
@@ -33,6 +35,10 @@ class WeisfeilerLehmanOptimalAssignment(Kernel):
     X : dict
      Holds a list of fitted subkernel modules.
 
+    sparse : bool
+        Defines if the data will be stored in a sparse format.
+        Sparse format is slower, but less memory consuming and in some cases the only solution.
+
     _nx : number
         Holds the number of inputs.
 
@@ -50,13 +56,14 @@ class WeisfeilerLehmanOptimalAssignment(Kernel):
     _graph_format = "dictionary"
 
     def __init__(self, n_jobs=None, verbose=False,
-                 normalize=False, n_iter=5):
+                 normalize=False, n_iter=5, sparse='auto'):
         """Initialise a `weisfeiler_lehman` kernel."""
         super(WeisfeilerLehmanOptimalAssignment, self).__init__(
             n_jobs=n_jobs, verbose=verbose, normalize=normalize)
 
         self.n_iter = n_iter
-        self._initialized.update({"n_iter": False})
+        self.sparse = sparse
+        self._initialized.update({"n_iter": False, 'sparse': True})
 
     def initialize(self):
         """Initialize all transformer arguments, needing initialization."""
@@ -67,6 +74,10 @@ class WeisfeilerLehmanOptimalAssignment(Kernel):
                 raise TypeError("'n_iter' must be a positive integer")
             self._n_iter = self.n_iter + 1
             self._initialized["n_iter"] = True
+        if not self._initialized["sparse"]:
+            if self.sparse not in ['auto', False, True]:
+                TypeError('sparse could be False, True or auto')
+            self._initialized["sparse"] = True
 
     def parse_input(self, X):
         """Parse input for weisfeiler lehman optimal assignment.
@@ -194,7 +205,10 @@ class WeisfeilerLehmanOptimalAssignment(Kernel):
             self._inv_labels[i] = WL_labels_inverse
 
         # Compute the vector representation of each graph
-        Hs = np.zeros((nx, len(self._hierarchy)))
+        if self.sparse:
+            Hs = lil_matrix((nx, len(self._hierarchy)))
+        else:
+            Hs = np.zeros((nx, len(self._hierarchy)))
         for j in range(nx):
             for k in L[j].keys():
                 current_label = L[j][k]
@@ -252,13 +266,13 @@ class WeisfeilerLehmanOptimalAssignment(Kernel):
         if X is None:
             raise ValueError('transform input cannot be None')
         else:
-            self.X = [self.parse_input(X)]
+            self.X = self.parse_input(X)
 
         # Compute the histogram intersection kernel
         K = np.zeros((self._nx, self._nx))
         for i in range(self._nx):
             for j in range(i, self._nx):
-                K[i,j] = np.sum(np.min(self.X[0][np.ix_([i,j]),:], axis=1))
+                K[i,j] = np.sum(np.min(self.X[np.ix_([i,j]),:], axis=1))
                 K[j,i] = K[i,j]
 
         self._X_diag = np.diagonal(K)
@@ -381,7 +395,10 @@ class WeisfeilerLehmanOptimalAssignment(Kernel):
                 L[j] = new_labels
 
         # Compute the vector representation of each graph
-        Hs = np.zeros((nx, len(self._hierarchy)))
+        if self.sparse:
+            Hs = lil_matrix((nx, len(self._hierarchy)))
+        else:
+            Hs = np.zeros((nx, len(self._hierarchy)))
         for j in range(nx):
             for k in L[j].keys():
                 current_label = L[j][k]
@@ -389,13 +406,13 @@ class WeisfeilerLehmanOptimalAssignment(Kernel):
                     Hs[j,current_label] += self._hierarchy[current_label]['omega']
                     current_label = self._hierarchy[current_label]['parent']
 
-        self.X.append(Hs)
+        self.Y = Hs
         
         # Compute the histogram intersection kernel
         K = np.zeros((nx, self._nx))
         for i in range(nx):
             for j in range(self._nx):
-                K[i,j] = np.sum(np.min([Hs[i,:self.X[0].shape[1]], self.X[0][j,:]], axis=0))
+                K[i,j] = np.sum(np.min([Hs[i,:self.X.shape[1]], self.X[0][j,:]], axis=0))
 
         self._is_transformed = True
         if self.normalize:
@@ -432,24 +449,24 @@ class WeisfeilerLehmanOptimalAssignment(Kernel):
         try:
             check_is_fitted(self, ['_X_diag'])
             if self._is_transformed:
-                Y_diag = np.zeros(self.X[1].shape[0])
-                for i in range(self.X[1].shape[0]):
-                    Y_diag[i] = np.sum(np.min(self.X[1][np.ix_([i,i]),:], axis=1))
+                Y_diag = np.zeros(self.Y.shape[0])
+                for i in range(self.Y.shape[0]):
+                    Y_diag[i] = np.sum(np.min(self.Y[np.ix_([i,i]),:], axis=1))
         except NotFittedError:
             # Calculate diagonal of X
             if self._is_transformed:
-                self._X_diag = np.zeros(self.X[0].shape[0])
-                for i in range(self.X[0].shape[0]):
-                    self._X_diag[i] = np.sum(np.min(self.X[0][np.ix_([i,i]),:], axis=1))
+                self._X_diag = np.zeros(self.X.shape[0])
+                for i in range(self.X.shape[0]):
+                    self._X_diag[i] = np.sum(np.min(self.X[np.ix_([i,i]),:], axis=1))
                 
-                Y_diag = np.zeros(self.X[1].shape[0])
-                for i in range(self.X[1].shape[0]):
-                    Y_diag[i] = np.sum(np.min(self.X[1][np.ix_([i,i]),:], axis=1))
+                Y_diag = np.zeros(self.Y.shape[0])
+                for i in range(self.Y.shape[0]):
+                    Y_diag[i] = np.sum(np.min(self.Y[np.ix_([i,i]),:], axis=1))
             else:
                 # case sub kernel is only fitted
-                self._X_diag = np.zeros(self.X[0].shape[0])
-                for i in range(self.X[0].shape[0]):
-                    self._X_diag[i] = np.sum(np.min(self.X[0][np.ix_([i,i]),:], axis=1))
+                self._X_diag = np.zeros(self.X.shape[0])
+                for i in range(self.X.shape[0]):
+                    self._X_diag[i] = np.sum(np.min(self.X[np.ix_([i,i]),:], axis=1))
 
         if self._is_transformed:
             return self._X_diag, Y_diag
