@@ -772,7 +772,7 @@ def test_hadamard_code_pd():
 
 
 def test_multiscale_laplacian():
-    """Random input test for the Fast Multiscale Laplacian kernel."""
+    """Random input test for the Multiscale Laplacian kernel."""
     # Initialise kernel
     train, test = generate_dataset(n_graphs=100,
                                    r_vertices=(10, 20),
@@ -782,7 +782,7 @@ def test_multiscale_laplacian():
                                    random_state=rs,
                                    features=('na', 5))
 
-    mlf_kernel = MultiscaleLaplacianFast(verbose=verbose, normalize=normalize)
+    mlf_kernel = MultiscaleLaplacian(verbose=verbose, normalize=normalize)
 
     try:
         mlf_kernel.fit_transform(train)
@@ -793,7 +793,7 @@ def test_multiscale_laplacian():
 
 
 def test_multiscale_laplacian_pd():
-    """Random input test for the Fast Multiscale Laplacian kernel [n_jobs=-1/generic-wrapper]."""
+    """Random input test for the Multiscale Laplacian kernel [n_jobs=-1/generic-wrapper]."""
     # Initialise kernel
     train, test = generate_dataset(n_graphs=100,
                                    r_vertices=(10, 20),
