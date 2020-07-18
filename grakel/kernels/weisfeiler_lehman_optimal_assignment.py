@@ -56,7 +56,7 @@ class WeisfeilerLehmanOptimalAssignment(Kernel):
     _graph_format = "dictionary"
 
     def __init__(self, n_jobs=None, verbose=False,
-                 normalize=False, n_iter=5, sparse='auto'):
+                 normalize=False, n_iter=5, sparse=False):
         """Initialise a `weisfeiler_lehman` kernel."""
         super(WeisfeilerLehmanOptimalAssignment, self).__init__(
             n_jobs=n_jobs, verbose=verbose, normalize=normalize)
@@ -75,9 +75,9 @@ class WeisfeilerLehmanOptimalAssignment(Kernel):
             self._n_iter = self.n_iter + 1
             self._initialized["n_iter"] = True
         if not self._initialized["sparse"]:
-            if self.sparse not in ['auto', False, True]:
-                TypeError('sparse could be False, True or auto')
-            self._initialized["sparse"] = True
+            if self.sparse not in [False, True]:
+                TypeError('sparse could be False, True')
+            self._initialized["sparse"] = False
 
     def parse_input(self, X):
         """Parse input for weisfeiler lehman optimal assignment.
@@ -270,10 +270,16 @@ class WeisfeilerLehmanOptimalAssignment(Kernel):
 
         # Compute the histogram intersection kernel
         K = np.zeros((self._nx, self._nx))
-        for i in range(self._nx):
-            for j in range(i, self._nx):
-                K[i,j] = np.sum(np.min(self.X[np.ix_([i,j]),:], axis=1))
-                K[j,i] = K[i,j]
+        if self.sparse:
+            for i in range(self._nx):
+                for j in range(i, self._nx):
+                    K[i,j] = np.sum(self.X[i,:].minimum(self.X[j,:]))
+                    K[j,i] = K[i,j]
+        else:
+            for i in range(self._nx):
+                for j in range(i, self._nx):
+                    K[i,j] = np.sum(np.min(self.X[np.ix_([i,j]),:], axis=1))
+                    K[j,i] = K[i,j]
 
         self._X_diag = np.diagonal(K)
         if self.normalize:
@@ -410,9 +416,14 @@ class WeisfeilerLehmanOptimalAssignment(Kernel):
         
         # Compute the histogram intersection kernel
         K = np.zeros((nx, self._nx))
-        for i in range(nx):
-            for j in range(self._nx):
-                K[i,j] = np.sum(np.min([Hs[i,:self.X.shape[1]], self.X[0][j,:]], axis=0))
+        if self.sparse:
+            for i in range(self._nx):
+                for j in range(i, self._nx):
+                    K[i,j] = np.sum(Hs[i,:self.X.shape[1]].minimum(self.X[j,:]))
+        else:
+            for i in range(nx):
+                for j in range(self._nx):
+                    K[i,j] = np.sum(np.min([Hs[i,:self.X.shape[1]], self.X[0][j,:]], axis=0))
 
         self._is_transformed = True
         if self.normalize:

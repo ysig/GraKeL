@@ -244,7 +244,7 @@ def test_weisfeiler_lehman():
 
 
 def test_weisfeiler_lehman_optimal_assignment():
-    """Random input test for the Weisfeiler Lehman kernel."""
+    """Random input test for the Weisfeiler Lehman Optimal Assignment kernel."""
     train, test = generate_dataset(n_graphs=100,
                                    r_vertices=(10, 20),
                                    r_connectivity=(0.4, 0.8),
