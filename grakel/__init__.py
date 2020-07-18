@@ -58,7 +58,6 @@ __all__ = [
     "PropagationAttr",
     "HadamardCode",
     "MultiscaleLaplacian",
-    "MultiscaleLaplacianFast",
     "VertexHistogram",
     "EdgeHistogram",
     "GraphHopper",
