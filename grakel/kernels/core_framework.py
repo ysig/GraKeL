@@ -60,7 +60,7 @@ class CoreFramework(Kernel):
 
         if not self._initialized["base_graph_kernel"]:
             base_graph_kernel = self.base_graph_kernel
-            if base_graph_kernel is not None:
+            if base_graph_kernel is None:
                 base_graph_kernel, params = ShortestPath, dict()
             elif type(base_graph_kernel) is type and issubclass(base_graph_kernel, Kernel):
                 params = dict()
