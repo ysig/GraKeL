@@ -1,4 +1,4 @@
-:mod:`grakel`.MultiscaleLaplacian
+﻿:mod:`grakel`.MultiscaleLaplacian
 ========================================
 
 .. currentmodule:: grakel

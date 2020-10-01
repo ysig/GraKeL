@@ -1,4 +1,4 @@
-:mod:`grakel`.SubgraphMatching
+﻿:mod:`grakel`.SubgraphMatching
 =====================================
 
 .. currentmodule:: grakel

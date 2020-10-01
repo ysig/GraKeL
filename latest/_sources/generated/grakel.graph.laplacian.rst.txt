@@ -1,4 +1,4 @@
-grakel.graph.laplacian
+﻿grakel.graph.laplacian
 ======================
 
 .. currentmodule:: grakel.graph

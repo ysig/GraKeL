@@ -1,4 +1,4 @@
-grakel.graph.is\_edge\_dictionary
+﻿grakel.graph.is\_edge\_dictionary
 =================================
 
 .. currentmodule:: grakel.graph

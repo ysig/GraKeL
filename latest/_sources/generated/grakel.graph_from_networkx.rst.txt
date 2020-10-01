@@ -1,4 +1,4 @@
-:mod:`grakel`.graph_from_networkx
+﻿:mod:`grakel`.graph_from_networkx
 ==============================================
 
 .. currentmodule:: grakel

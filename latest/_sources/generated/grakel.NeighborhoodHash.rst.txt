@@ -1,4 +1,4 @@
-:mod:`grakel`.NeighborhoodHash
+﻿:mod:`grakel`.NeighborhoodHash
 =====================================
 
 .. currentmodule:: grakel

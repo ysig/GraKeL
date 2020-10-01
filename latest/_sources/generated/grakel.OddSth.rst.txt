@@ -1,4 +1,4 @@
-:mod:`grakel`.OddSth
+﻿:mod:`grakel`.OddSth
 ===========================
 
 .. currentmodule:: grakel

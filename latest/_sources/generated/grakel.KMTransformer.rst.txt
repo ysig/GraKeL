@@ -1,4 +1,4 @@
-:mod:`grakel`.KMTransformer
+﻿:mod:`grakel`.KMTransformer
 ==================================
 
 .. currentmodule:: grakel

@@ -1,4 +1,4 @@
-grakel.datasets.get\_dataset\_info
+﻿grakel.datasets.get\_dataset\_info
 ==================================
 
 .. currentmodule:: grakel.datasets

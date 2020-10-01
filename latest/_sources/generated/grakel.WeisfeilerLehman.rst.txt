@@ -1,4 +1,4 @@
-:mod:`grakel`.WeisfeilerLehman
+﻿:mod:`grakel`.WeisfeilerLehman
 =====================================
 
 .. currentmodule:: grakel

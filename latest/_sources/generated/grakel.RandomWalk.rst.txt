@@ -1,4 +1,4 @@
-:mod:`grakel`.RandomWalk
+﻿:mod:`grakel`.RandomWalk
 ===============================
 
 .. currentmodule:: grakel

@@ -1,4 +1,4 @@
-:mod:`grakel`.graph_from_pandas
+﻿:mod:`grakel`.graph_from_pandas
 ============================================
 
 .. currentmodule:: grakel

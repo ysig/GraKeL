@@ -1,4 +1,4 @@
-grakel.graph.is\_adjacency
+﻿grakel.graph.is\_adjacency
 ==========================
 
 .. currentmodule:: grakel.graph

@@ -1,4 +1,4 @@
-grakel.datasets.fetch\_dataset
+﻿grakel.datasets.fetch\_dataset
 ==============================
 
 .. currentmodule:: grakel.datasets

@@ -1,4 +1,4 @@
-grakel.graph.floyd\_warshall
+﻿grakel.graph.floyd\_warshall
 ============================
 
 .. currentmodule:: grakel.graph

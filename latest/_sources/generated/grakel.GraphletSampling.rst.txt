@@ -1,4 +1,4 @@
-:mod:`grakel`.GraphletSampling
+﻿:mod:`grakel`.GraphletSampling
 =====================================
 
 .. currentmodule:: grakel

@@ -1,4 +1,4 @@
-:mod:`grakel`.Kernel
+﻿:mod:`grakel`.Kernel
 ===========================
 
 .. currentmodule:: grakel

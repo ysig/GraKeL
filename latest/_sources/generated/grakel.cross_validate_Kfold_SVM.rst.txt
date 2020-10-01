@@ -1,4 +1,4 @@
-:mod:`grakel`.cross_validate_Kfold_SVM
+﻿:mod:`grakel`.cross_validate_Kfold_SVM
 ===================================================
 
 .. currentmodule:: grakel

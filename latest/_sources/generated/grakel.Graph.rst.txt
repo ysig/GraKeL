@@ -1,4 +1,4 @@
-grakel.Graph
+﻿grakel.Graph
 ============
 
 .. currentmodule:: grakel

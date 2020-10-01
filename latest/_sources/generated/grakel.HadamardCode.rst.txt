@@ -1,4 +1,4 @@
-:mod:`grakel`.HadamardCode
+﻿:mod:`grakel`.HadamardCode
 =================================
 
 .. currentmodule:: grakel

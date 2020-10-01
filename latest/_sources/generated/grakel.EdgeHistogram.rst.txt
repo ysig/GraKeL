@@ -1,4 +1,4 @@
-:mod:`grakel`.EdgeHistogram
+﻿:mod:`grakel`.EdgeHistogram
 ==================================
 
 .. currentmodule:: grakel

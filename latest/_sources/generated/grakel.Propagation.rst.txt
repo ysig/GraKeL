@@ -1,4 +1,4 @@
-:mod:`grakel`.Propagation
+﻿:mod:`grakel`.Propagation
 ================================
 
 .. currentmodule:: grakel

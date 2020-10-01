@@ -1,4 +1,4 @@
-:mod:`grakel`.LovaszTheta
+﻿:mod:`grakel`.LovaszTheta
 ================================
 
 .. currentmodule:: grakel
