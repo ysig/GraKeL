@@ -14,7 +14,7 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.model_selection import ShuffleSplit
 from sklearn.base import BaseEstimator
 from sklearn.svm import SVC
-from sklearn.datasets.lfw import Bunch
+from sklearn.utils import Bunch
 from sklearn.utils import check_random_state
 from sklearn.utils.validation import check_is_fitted
 
