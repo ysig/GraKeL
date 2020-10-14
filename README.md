@@ -39,7 +39,7 @@ In detail, the following kernels and frameworks are currently implemented:
 
 --------------------------------------------------------------------------------
 
-To learn how to install and use GraKeL, and to find out more about the implemented kernels and frameworks, please read our [documentation](https://ysig.github.io/GraKeL/). To learn about the functionality of the library and about example applications, check out our [examples](https://github.com/ysig/GraKeL/tree/0.1a7/examples) in the `examples/` directory and our [tutorials](https://github.com/ysig/GraKeL/tree/0.1a7/tutorials) in the `tutorials/` directory.
+To learn how to install and use GraKeL, and to find out more about the implemented kernels and frameworks, please read our [documentation](https://ysig.github.io/GraKeL/). To learn about the functionality of the library and about example applications, check out our [examples](https://github.com/ysig/GraKeL/tree/master/examples) in the `examples/` directory and our [tutorials](https://github.com/ysig/GraKeL/tree/master/tutorials) in the `tutorials/` directory.
 
 In case you find a bug, please open an [issue](https://github.com/ysig/GraKeL/issues). To propose a new kernel, you can open a [feature request](https://github.com/ysig/GraKeL/issues).
 
