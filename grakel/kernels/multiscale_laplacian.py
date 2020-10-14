@@ -7,7 +7,6 @@ from __future__ import print_function
 import collections
 import warnings
 import numpy as np
-import time
 
 from numbers import Real
 from math import exp
@@ -23,9 +22,6 @@ from grakel.graph import Graph
 from scipy.sparse.csgraph import laplacian
 
 from grakel.kernels import Kernel
-
-# Python 2/3 cross-compatibility import
-from six import iteritems
 
 positive_eigenvalue_limit = float("+1e-6")
 

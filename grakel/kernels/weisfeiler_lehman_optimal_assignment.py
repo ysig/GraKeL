@@ -5,7 +5,6 @@ import collections
 import warnings
 
 import numpy as np
-import joblib
 
 from sklearn.exceptions import NotFittedError
 from sklearn.utils.validation import check_is_fitted
@@ -110,7 +109,7 @@ class WeisfeilerLehmanOptimalAssignment(Kernel):
             raise TypeError('input must be an iterable\n')
         else:
             nx = 0
-            Gs_ed, L, distinct_values, extras = dict(), dict(), set(), dict()
+            Gs_ed, L, distinct_values = dict(), dict(), set()
             for (idx, x) in enumerate(iter(X)):
                 is_iter = isinstance(x, collections.Iterable)
                 if is_iter:
@@ -191,7 +190,7 @@ class WeisfeilerLehmanOptimalAssignment(Kernel):
                     new_previous_label_set.add((credential, L[j][v]))
 
             label_list = sorted(list(new_previous_label_set), key=lambda tup: tup[0])
-            for dv,previous_label in label_list:
+            for dv, previous_label in label_list:
                 WL_labels_inverse[dv] = label_count
                 self._insert_into_hierarchy(label_count, previous_label)
                 label_count += 1
@@ -213,7 +212,7 @@ class WeisfeilerLehmanOptimalAssignment(Kernel):
             for k in L[j].keys():
                 current_label = L[j][k]
                 while self._hierarchy[current_label]['parent'] is not None:
-                    Hs[j,current_label] += self._hierarchy[current_label]['omega']
+                    Hs[j, current_label] += self._hierarchy[current_label]['omega']
                     current_label = self._hierarchy[current_label]['parent']
 
         return Hs
@@ -273,13 +272,13 @@ class WeisfeilerLehmanOptimalAssignment(Kernel):
         if self.sparse:
             for i in range(self._nx):
                 for j in range(i, self._nx):
-                    K[i,j] = np.sum(self.X[i,:].minimum(self.X[j,:]))
-                    K[j,i] = K[i,j]
+                    K[i, j] = np.sum(self.X[i, :].minimum(self.X[j, :]))
+                    K[j, i] = K[i, j]
         else:
             for i in range(self._nx):
                 for j in range(i, self._nx):
-                    K[i,j] = np.sum(np.min(self.X[np.ix_([i,j]),:], axis=1))
-                    K[j,i] = K[i,j]
+                    K[i, j] = np.sum(np.min(self.X[np.ix_([i, j]),:], axis=1))
+                    K[j, i] = K[i, j]
 
         self._X_diag = np.diagonal(K)
         if self.normalize:
@@ -359,7 +358,7 @@ class WeisfeilerLehmanOptimalAssignment(Kernel):
             WL_labels_inverse[dv] = label_count
             self._insert_into_hierarchy(label_count, 'root')
             label_count += 1
-        
+
         for j in range(nx):
             new_labels = dict()
             for (k, v) in iteritems(L[j]):
@@ -419,11 +418,11 @@ class WeisfeilerLehmanOptimalAssignment(Kernel):
         if self.sparse:
             for i in range(self._nx):
                 for j in range(i, self._nx):
-                    K[i,j] = np.sum(Hs[i,:self.X.shape[1]].minimum(self.X[j,:]))
+                    K[i, j] = np.sum(Hs[i, :self.X.shape[1]].minimum(self.X[j, :]))
         else:
             for i in range(nx):
                 for j in range(self._nx):
-                    K[i,j] = np.sum(np.min([Hs[i,:self.X.shape[1]], self.X[j,:]], axis=0))
+                    K[i, j] = np.sum(np.min([Hs[i, :self.X.shape[1]], self.X[j, :]], axis=0))
 
         self._is_transformed = True
         if self.normalize:
@@ -462,22 +461,22 @@ class WeisfeilerLehmanOptimalAssignment(Kernel):
             if self._is_transformed:
                 Y_diag = np.zeros(self.Y.shape[0])
                 for i in range(self.Y.shape[0]):
-                    Y_diag[i] = np.sum(np.min(self.Y[np.ix_([i,i]),:], axis=1))
+                    Y_diag[i] = np.sum(np.min(self.Y[np.ix_([i, i]),:], axis=1))
         except NotFittedError:
             # Calculate diagonal of X
             if self._is_transformed:
                 self._X_diag = np.zeros(self.X.shape[0])
                 for i in range(self.X.shape[0]):
-                    self._X_diag[i] = np.sum(np.min(self.X[np.ix_([i,i]),:], axis=1))
+                    self._X_diag[i] = np.sum(np.min(self.X[np.ix_([i, i]),:], axis=1))
                 
                 Y_diag = np.zeros(self.Y.shape[0])
                 for i in range(self.Y.shape[0]):
-                    Y_diag[i] = np.sum(np.min(self.Y[np.ix_([i,i]),:], axis=1))
+                    Y_diag[i] = np.sum(np.min(self.Y[np.ix_([i, i]),:], axis=1))
             else:
                 # case sub kernel is only fitted
                 self._X_diag = np.zeros(self.X.shape[0])
                 for i in range(self.X.shape[0]):
-                    self._X_diag[i] = np.sum(np.min(self.X[np.ix_([i,i]),:], axis=1))
+                    self._X_diag[i] = np.sum(np.min(self.X[np.ix_([i, i]),:], axis=1))
 
         if self._is_transformed:
             return self._X_diag, Y_diag

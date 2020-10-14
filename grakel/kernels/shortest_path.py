@@ -367,7 +367,6 @@ class ShortestPath(Kernel):
         except NotFittedError:
             return self._X_diag
 
-
     def fit_transform(self, X, y=None):
         """Fit and transform, on the same dataset.
 

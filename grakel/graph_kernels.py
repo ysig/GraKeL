@@ -53,7 +53,7 @@ sbk = [
     ["propagation", "PR"],
     ["pyramid_match", "PM"],
     ["graph_hopper", "GH"],
-    ["weisfeiler_lehman", "WL-OA"]    
+    ["weisfeiler_lehman", "WL-OA"]
     ]
 
 sbks = set(e for ls in sbk for e in ls)
