@@ -31,5 +31,5 @@ python setup.py develop
 
 # Build Docs
 set -o pipefail && cd doc && make clean html doctest 2>&1 | tee ~/log.txt && cd ..
-cat ~/log.txt && if grep -q "Traceback (most recent call last):" ~/log.txt; then false; else true; fi
+cat ~/log.txt && if tail -n 1 ~/log.txt | grep -q "Error " ~/log.txt; then false; else true; fi
 
