@@ -576,10 +576,7 @@ G = Graph(adj, node_labels=node_attributes)
 <div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="kn">import</span> <span class="n">SVC</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">clf</span> <span class="o">=</span> <span class="n">SVC</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;precomputed&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">K_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
-<span class="go">SVC(C=1.0, break_ties=False, cache_size=200, class_weight=None, coef0=0.0,</span>
-<span class="go">    decision_function_shape=&#39;ovr&#39;, degree=3, gamma=&#39;scale&#39;,</span>
-<span class="go">    kernel=&#39;precomputed&#39;, max_iter=-1, probability=False, random_state=None,</span>
-<span class="go">    shrinking=True, tol=0.001, verbose=False)</span>
+<span class="go">SVC(kernel=&#39;precomputed&#39;)</span>
 
 <span class="gp">&gt;&gt;&gt; </span><span class="n">y_pred</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">K_test</span><span class="p">)</span>
 </pre></div>

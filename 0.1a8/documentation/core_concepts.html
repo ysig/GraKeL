@@ -280,10 +280,7 @@
 <div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="kn">import</span> <span class="n">SVC</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">clf</span> <span class="o">=</span> <span class="n">SVC</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">K_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
-<span class="go">SVC(C=1.0, break_ties=False, cache_size=200, class_weight=None, coef0=0.0,</span>
-<span class="go">    decision_function_shape=&#39;ovr&#39;, degree=3, gamma=&#39;scale&#39;, kernel=&#39;linear&#39;,</span>
-<span class="go">    max_iter=-1, probability=False, random_state=None, shrinking=True,</span>
-<span class="go">    tol=0.001, verbose=False)</span>
+<span class="go">SVC(kernel=&#39;linear&#39;)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">y_pred</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">K_test</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -329,9 +326,7 @@
 <div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">grakel</span> <span class="kn">import</span> <span class="n">GraphKernel</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">gk</span> <span class="o">=</span> <span class="n">GraphKernel</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;graphlet_sampling&quot;</span><span class="p">,</span> <span class="n">sampling</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">5</span><span class="p">)))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">gk</span><span class="o">.</span><span class="n">fit</span><span class="p">([</span><span class="n">H2O</span><span class="p">])</span>
-<span class="go">GraphKernel(Nystroem=False,</span>
-<span class="go">            kernel={&#39;name&#39;: &#39;graphlet_sampling&#39;, &#39;sampling&#39;: {&#39;n_samples&#39;: 5}},</span>
-<span class="go">            n_jobs=None, normalize=False, random_state=None, verbose=False)</span>
+<span class="go">GraphKernel(kernel={&#39;name&#39;: &#39;graphlet_sampling&#39;, &#39;sampling&#39;: {&#39;n_samples&#39;: 5}})</span>
 </pre></div>
 </div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">gk</span><span class="o">.</span><span class="n">transform</span><span class="p">([</span><span class="n">H3O</span><span class="p">])</span>
@@ -341,10 +336,8 @@
 <p>Note that we did not set <code class="code docutils literal notranslate"><span class="pre">random_state</span></code> to some value, and therefore it took its default <code class="code docutils literal notranslate"><span class="pre">None</span></code> value. We will now set <code class="code docutils literal notranslate"><span class="pre">random_state</span></code> equal to 42.</p>
 <div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">gk</span> <span class="o">=</span> <span class="n">GraphKernel</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;graphlet_sampling&quot;</span><span class="p">,</span> <span class="n">sampling</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">5</span><span class="p">),</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">20</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">gk</span><span class="o">.</span><span class="n">fit</span><span class="p">([</span><span class="n">H2O</span><span class="p">])</span>
-<span class="go">GraphKernel(Nystroem=False,</span>
-<span class="go">            kernel={&#39;name&#39;: &#39;graphlet_sampling&#39;, &#39;random_state&#39;: 20,</span>
-<span class="go">                    &#39;sampling&#39;: {&#39;n_samples&#39;: 5}},</span>
-<span class="go">            n_jobs=None, normalize=False, random_state=None, verbose=False)</span>
+<span class="go">GraphKernel(kernel={&#39;name&#39;: &#39;graphlet_sampling&#39;, &#39;random_state&#39;: 20,</span>
+<span class="go">                    &#39;sampling&#39;: {&#39;n_samples&#39;: 5}})</span>
 
 <span class="gp">&gt;&gt;&gt; </span><span class="n">gk</span><span class="o">.</span><span class="n">transform</span><span class="p">([</span><span class="n">H3O</span><span class="p">])</span>
 <span class="go">array([[20.]])</span>
@@ -353,9 +346,8 @@
 <p>As you can see, the new kernel value is not equal to the previous one. If we re-run the above code, we will obtain the same kernel value since the algorithm will sample exactly the same graphlets from both graphs. As shown below, we can also obtain the same kernel value if <code class="code docutils literal notranslate"><span class="pre">random_state</span></code> is initialized as an attribute of <code class="code docutils literal notranslate"><span class="pre">GraphKernel</span></code> instead of the graphlet kernel itself.</p>
 <div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">gk</span> <span class="o">=</span> <span class="n">GraphKernel</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;graphlet_sampling&quot;</span><span class="p">,</span> <span class="n">sampling</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">5</span><span class="p">)),</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">gk</span><span class="o">.</span><span class="n">fit</span><span class="p">([</span><span class="n">H2O</span><span class="p">])</span>
-<span class="go">GraphKernel(Nystroem=False,</span>
-<span class="go">            kernel={&#39;name&#39;: &#39;graphlet_sampling&#39;, &#39;sampling&#39;: {&#39;n_samples&#39;: 5}},</span>
-<span class="go">            n_jobs=None, normalize=False, random_state=20, verbose=False)</span>
+<span class="go">GraphKernel(kernel={&#39;name&#39;: &#39;graphlet_sampling&#39;, &#39;sampling&#39;: {&#39;n_samples&#39;: 5}},</span>
+<span class="go">            random_state=20)</span>
 
 <span class="gp">&gt;&gt;&gt; </span><span class="n">gk</span><span class="o">.</span><span class="n">transform</span><span class="p">([</span><span class="n">H3O</span><span class="p">])</span>
 <span class="go">array([[20.]])</span>
@@ -364,10 +356,9 @@
 <p>If we provide a <code class="code docutils literal notranslate"><span class="pre">random_state</span></code> value to both <code class="code docutils literal notranslate"><span class="pre">GraphKernel</span></code> and <code class="code docutils literal notranslate"><span class="pre">kernel</span></code>, then each one will have an effect only on the corresponding instances.</p>
 <div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">gk</span> <span class="o">=</span> <span class="n">GraphKernel</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;graphlet_sampling&quot;</span><span class="p">,</span> <span class="n">sampling</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)),</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">gk</span><span class="o">.</span><span class="n">fit</span><span class="p">([</span><span class="n">H2O</span><span class="p">])</span>
-<span class="go">GraphKernel(Nystroem=False,</span>
-<span class="go">            kernel={&#39;name&#39;: &#39;graphlet_sampling&#39;,</span>
+<span class="go">GraphKernel(kernel={&#39;name&#39;: &#39;graphlet_sampling&#39;,</span>
 <span class="go">                    &#39;sampling&#39;: {&#39;n_samples&#39;: 5, &#39;random_state&#39;: 0}},</span>
-<span class="go">            n_jobs=None, normalize=False, random_state=20, verbose=False)</span>
+<span class="go">            random_state=20)</span>
 
 <span class="gp">&gt;&gt;&gt; </span><span class="n">gk</span><span class="o">.</span><span class="n">transform</span><span class="p">([</span><span class="n">H3O</span><span class="p">])</span>
 <span class="go">array([[20.]])</span>
