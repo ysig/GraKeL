@@ -202,6 +202,9 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                     + (**o**) kernel_type: [str: {'linear', 'gaussian'}] or [tuple: {('gaussian', mu)}]
                       or [function] x:[(np.array, np.array)] , y:[(np.array, np.array)] -> [number]
 
+                - "weisfeiler_lehman_optimal_assignment" or "WL-OA"
+                    + (**o**) "n_iter" : [int] >= 0
+
             2. frameworks (if a next kernel in the list it asssigned as a base-kernel, else see default)
                 - "weisfeiler_lehman" or "WL" / default="VH"
                     + (**o**) "n_iter" : [int] >= 0

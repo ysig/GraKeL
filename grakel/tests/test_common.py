@@ -158,7 +158,7 @@ def test_weisfeiler_lehman_optimal_assignment():
                                 random_state=rs,
                                 features=('nl', 3))
 
-    wl_oa_kernel = WeisfeilerLehman(verbose=verbose, normalize=normalize)
+    wl_oa_kernel = WeisfeilerLehmanOptimalAssignment(verbose=verbose, normalize=normalize)
     wl_oa_kernel.fit(train)
     assert is_picklable(wl_oa_kernel)
 

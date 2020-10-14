@@ -29,6 +29,7 @@ from grakel.kernels import VertexHistogram
 from grakel.kernels import EdgeHistogram
 from grakel.kernels import GraphHopper
 from grakel.kernels import CoreFramework
+from grakel.kernels import WeisfeilerLehmanOptimalAssignment
 
 from grakel.utils import KMTransformer
 from grakel.utils import cross_validate_Kfold_SVM
@@ -62,6 +63,7 @@ __all__ = [
     "EdgeHistogram",
     "GraphHopper",
     "CoreFramework",
+    "WeisfeilerLehmanOptimalAssignment",
     "graph_from_networkx",
     "graph_from_pandas",
     "graph_from_csv",
