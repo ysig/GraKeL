@@ -1,0 +1,426 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>grakel.RandomWalkLabeled &mdash; GraKeL 0.1.8 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/_static/css/supplementary.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery-dataframe.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="grakel.PyramidMatch" href="grakel.PyramidMatch.html" />
+    <link rel="prev" title="grakel.RandomWalk" href="grakel.RandomWalk.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> GraKeL
+          
+
+          
+            
+            <img src="../_static/logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.8
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">Documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../benchmarks.html">Benchmarks</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../api.html">GraKeL</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../classes.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-graph-graph-class-with-its-utility-functions"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel.graph</span></code>: Graph class with its utility functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-graph-kernels-a-kernel-decorator"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel.graph_kernels</span></code>: A kernel decorator</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../classes.html#grakel-kernels-a-collection-of-graph-kernels"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel.kernels</span></code>: A collection of graph kernels</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../classes.html#kernels">Kernels</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="grakel.Kernel.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.Kernel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.RandomWalk.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.RandomWalk</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.RandomWalkLabeled</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.PyramidMatch.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.PyramidMatch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.NeighborhoodHash.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.NeighborhoodHash</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.ShortestPath.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.ShortestPath</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.ShortestPathAttr.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.ShortestPathAttr</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.GraphletSampling.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.GraphletSampling</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.SubgraphMatching.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.SubgraphMatching</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.WeisfeilerLehman.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.WeisfeilerLehman</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.HadamardCode.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.HadamardCode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.NeighborhoodSubgraphPairwiseDistance.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.NeighborhoodSubgraphPairwiseDistance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.LovaszTheta.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.LovaszTheta</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.SvmTheta.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.SvmTheta</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.Propagation.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.Propagation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.PropagationAttr.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.PropagationAttr</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.OddSth.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.OddSth</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.MultiscaleLaplacian.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.MultiscaleLaplacian</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.HadamardCode.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.HadamardCode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.VertexHistogram.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.VertexHistogram</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.EdgeHistogram.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.EdgeHistogram</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.GraphHopper.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.GraphHopper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.CoreFramework.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.CoreFramework</a></li>
+<li class="toctree-l4"><a class="reference internal" href="grakel.WeisfeilerLehmanOptimalAssignment.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.WeisfeilerLehmanOptimalAssignment</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-datasets-datasets"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel.datasets</span></code>: Datasets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-utils"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>: Utils</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials.html">Tutorials</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">GraKeL</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../classes.html">API Reference</a> &raquo;</li>
+        
+      <li><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.RandomWalkLabeled</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/generated/grakel.RandomWalkLabeled.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="grakel-randomwalklabeled">
+<h1><a class="reference internal" href="../api.html#module-grakel" title="grakel"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code></a>.RandomWalkLabeled<a class="headerlink" href="#grakel-randomwalklabeled" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="grakel.RandomWalkLabeled">
+<em class="property">class </em><code class="sig-prename descclassname">grakel.</code><code class="sig-name descname">RandomWalkLabeled</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">n_jobs</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">normalize</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">lamda</span><span class="o">=</span><span class="default_value">0.1</span></em>, <em class="sig-param"><span class="n">method_type</span><span class="o">=</span><span class="default_value">'fast'</span></em>, <em class="sig-param"><span class="n">kernel_type</span><span class="o">=</span><span class="default_value">'geometric'</span></em>, <em class="sig-param"><span class="n">p</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/09702e40/grakel/kernels/random_walk.py#L275"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/random_walk.html#RandomWalkLabeled"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.RandomWalkLabeled" title="Permalink to this definition">¶</a></dt>
+<dd><p>The labeled random walk kernel class.</p>
+<p>See <a class="bibtex reference internal" href="../kernels/random_walk.html#kashima2003marginalized" id="id1">[KTI03]</a>, <a class="bibtex reference internal" href="../kernels/random_walk.html#gartner2003graph" id="id2">[GartnerFW03]</a>
+and <a class="bibtex reference internal" href="#vishwanathan2006fast" id="id3">[VBS07]</a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>lambda</strong><span class="classifier">float</span></dt><dd><p>A lambda factor concerning summation.</p>
+</dd>
+<dt><strong>method_type</strong><span class="classifier">str, valid_values={“baseline”, “fast”}</span></dt><dd><dl class="simple">
+<dt>The method to use for calculating random walk kernel [geometric]:</dt><dd><ul class="simple">
+<li><p>“baseline” <em>Complexity</em>: <span class="math notranslate nohighlight">\(O(|V|^6)\)</span>
+(see <a class="bibtex reference internal" href="../kernels/random_walk.html#kashima2003marginalized" id="id4">[KTI03]</a>,
+<a class="bibtex reference internal" href="../kernels/random_walk.html#gartner2003graph" id="id5">[GartnerFW03]</a>)</p></li>
+<li><p>“fast” <em>Complexity</em>: <span class="math notranslate nohighlight">\(O(|E|^{2}rd|V|^{3})\)</span>
+(see <a class="bibtex reference internal" href="#vishwanathan2006fast" id="id6">[VBS07]</a>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+<dt><strong>kernel_type</strong><span class="classifier">str, valid_values={“geometric”, “exponential”}</span></dt><dd><p>Defines how inner summation will be applied.</p>
+</dd>
+<dt><strong>p</strong><span class="classifier">int, optional</span></dt><dd><p>If initialised defines the number of steps.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Attributes</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>_lamda</strong><span class="classifier">float, default=0.1</span></dt><dd><p>A lambda factor concerning summation.</p>
+</dd>
+<dt><strong>_kernel_type</strong><span class="classifier">str, valid_values={“geometric”, “exponential”},</span></dt><dd></dd>
+<dt><strong>default=”geometric”</strong></dt><dd><p>Defines how inner summation will be applied.</p>
+</dd>
+<dt><strong>_method_type</strong><span class="classifier">str valid_values={“baseline”, “fast”},</span></dt><dd></dd>
+<dt><strong>default=”fast”</strong></dt><dd><dl class="simple">
+<dt>The method to use for calculating random walk kernel:</dt><dd><ul class="simple">
+<li><p>“baseline” <em>Complexity</em>: <span class="math notranslate nohighlight">\(O(|V|^6)\)</span>
+(see <a class="bibtex reference internal" href="../kernels/random_walk.html#kashima2003marginalized" id="id7">[KTI03]</a>,
+<a class="bibtex reference internal" href="../kernels/random_walk.html#gartner2003graph" id="id8">[GartnerFW03]</a>)</p></li>
+<li><p>“fast” <em>Complexity</em>: <span class="math notranslate nohighlight">\(O((|E|+|V|)|V||M|)\)</span>
+(see <a class="bibtex reference internal" href="#vishwanathan2006fast" id="id9">[VBS07]</a>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+<dt><strong>_p</strong><span class="classifier">int, default=1</span></dt><dd><p>If not -1, the number of steps of the random walk kernel.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">diagonal</span></code>()</p></td>
+<td><p>Calculate the kernel matrix diagonal of the fit/transformed data.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code>(X[, y])</p></td>
+<td><p>Fit a dataset, for a transformer.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code>(X)</p></td>
+<td><p>Fit and transform, on the same dataset.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code>([deep])</p></td>
+<td><p>Get parameters for this estimator.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize</span></code>()</p></td>
+<td><p>Initialize all transformer arguments, needing initialization.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pairwise_operation</span></code>(X, Y)</p></td>
+<td><p>Calculate the labeled random walk kernel.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_input</span></code>(X)</p></td>
+<td><p>Parse and create features for graphlet_sampling kernel.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code>(**params)</p></td>
+<td><p>Call the parent method.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code>(X)</p></td>
+<td><p>Calculate the kernel matrix, between given and fitted dataset.</p></td>
+</tr>
+</tbody>
+</table>
+<p>Initialise a labeled random_walk kernel.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attributes</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>X</strong></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">diagonal</span></code>()</p></td>
+<td><p>Calculate the kernel matrix diagonal of the fit/transformed data.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code>(X[, y])</p></td>
+<td><p>Fit a dataset, for a transformer.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code>(X)</p></td>
+<td><p>Fit and transform, on the same dataset.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code>([deep])</p></td>
+<td><p>Get parameters for this estimator.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize</span></code>()</p></td>
+<td><p>Initialize all transformer arguments, needing initialization.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pairwise_operation</span></code>(X, Y)</p></td>
+<td><p>Calculate the labeled random walk kernel.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_input</span></code>(X)</p></td>
+<td><p>Parse and create features for graphlet_sampling kernel.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code>(**params)</p></td>
+<td><p>Call the parent method.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code>(X)</p></td>
+<td><p>Calculate the kernel matrix, between given and fitted dataset.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt id="grakel.RandomWalkLabeled.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">n_jobs</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">normalize</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">lamda</span><span class="o">=</span><span class="default_value">0.1</span></em>, <em class="sig-param"><span class="n">method_type</span><span class="o">=</span><span class="default_value">'fast'</span></em>, <em class="sig-param"><span class="n">kernel_type</span><span class="o">=</span><span class="default_value">'geometric'</span></em>, <em class="sig-param"><span class="n">p</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/09702e40/grakel/kernels/random_walk.py#L325"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/kernels/random_walk.html#RandomWalkLabeled.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.RandomWalkLabeled.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialise a labeled random_walk kernel.</p>
+</dd></dl>
+
+</dd></dl>
+
+<div class="section" id="bibliography">
+<h2>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">¶</a></h2>
+<p id="bibtex-bibliography-generated/grakel.RandomWalkLabeled-0"><dl class="citation">
+<dt class="bibtex label" id="gartner2003graph"><span class="brackets">GartnerFW03</span><span class="fn-backref">(<a href="#id2">1</a>,<a href="#id5">2</a>,<a href="#id8">3</a>)</span></dt>
+<dd><p>Thomas Gärtner, Peter Flach, and Stefan Wrobel. On Graph Kernels: Hardness Results and Efficient Alternatives. In <em>Learning Theory and Kernel Machines</em>, 129–143. 2003.</p>
+</dd>
+<dt class="bibtex label" id="kashima2003marginalized"><span class="brackets">KTI03</span><span class="fn-backref">(<a href="#id1">1</a>,<a href="#id4">2</a>,<a href="#id7">3</a>)</span></dt>
+<dd><p>Hisashi Kashima, Koji Tsuda, and Akihiro Inokuchi. Marginalized Kernels Between Labeled Graphs. In <em>Proceedings of the 20th Conference in Machine Learning</em>, 321–328. 2003.</p>
+</dd>
+<dt class="bibtex label" id="vishwanathan2006fast"><span class="brackets">VBS07</span><span class="fn-backref">(<a href="#id3">1</a>,<a href="#id6">2</a>,<a href="#id9">3</a>)</span></dt>
+<dd><p>S.V.N. Vishwanathan, Karsten M. Borgwardt, and Nicol N. Schraudolph. Fast Computation of Graph Kernels. In <em>Advances in Neural Information Processing Systems</em>, 1449–1456. 2007.</p>
+</dd>
+</dl>
+</p>
+<div class="clearer"></div></div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="grakel.PyramidMatch.html" class="btn btn-neutral float-right" title="grakel.PyramidMatch" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="grakel.RandomWalk.html" class="btn btn-neutral float-left" title="grakel.RandomWalk" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2019, DaSciM (BSD License)
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

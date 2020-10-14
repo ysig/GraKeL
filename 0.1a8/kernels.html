@@ -1,0 +1,288 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Kernels (between graphs) &mdash; GraKeL 0.1.8 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/_static/css/supplementary.css" type="text/css" />
+  <link rel="stylesheet" href="_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="_static/gallery-dataframe.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Core Kernel Framework" href="kernels/core_framework.html" />
+    <link rel="prev" title="GraKeL" href="api.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> GraKeL
+          
+
+          
+            
+            <img src="_static/logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.8
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="documentation.html">Documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="benchmarks.html">Benchmarks</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="api.html">GraKeL</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Kernels (between graphs)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="kernels/core_framework.html">Core Kernel Framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kernels/edge_histogram.html">Edge Histogram Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kernels/graph_hopper.html">Graph Hopper Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kernels/graphlet_sampling.html">Graphlet Sampling Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kernels/hadamard_code.html">Hadamard Code Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kernels/kernel.html">Kernel (general class)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kernels/lovasz_theta.html">Lovasz Theta Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kernels/multiscale_laplacian.html">Multiscale Laplacian Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kernels/neighborhood_hash.html">Neighborhood Hash Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kernels/neighborhood_subgraph_pairwise_distance.html">Neighborhood Subgraph Pairwise Distance Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kernels/odd_sth.html">ODD-STh Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kernels/propagation.html">Propagation Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kernels/pyramid_match.html">Pyramid Match Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kernels/random_walk.html">Random Walk Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kernels/shortest_path.html">Shortest Path Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kernels/subgraph_matching.html">Subgraph Matching Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kernels/svm_theta.html">SVM Theta Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kernels/vertex_histogram.html">Vertex Histogram Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kernels/weisfeiler_lehman.html">Weisfeiler Lehman Framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kernels/weisfeiler_lehman_optimal_assignment.html">Weisfeiler-Lehman Optimal Assignment</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="graph_kernel.html">GraphKernel (class)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="graph.html">Graph (class)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datasets.html">Dataset loading utilities</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="classes.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">GraKeL</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="api.html">GraKeL</a> &raquo;</li>
+        
+      <li>Kernels (between graphs)</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/kernels.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-grakel.kernels">
+<span id="kernels-between-graphs"></span><span id="kernels"></span><h1>Kernels (between graphs)<a class="headerlink" href="#module-grakel.kernels" title="Permalink to this headline">¶</a></h1>
+<p>The documentation of the <cite>kernels</cite> submodule.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="kernels/core_framework.html">Core Kernel Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kernels/edge_histogram.html">Edge Histogram Kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kernels/graph_hopper.html">Graph Hopper Kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kernels/graphlet_sampling.html">Graphlet Sampling Kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kernels/hadamard_code.html">Hadamard Code Kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kernels/kernel.html">Kernel (general class)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kernels/lovasz_theta.html">Lovasz Theta Kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kernels/multiscale_laplacian.html">Multiscale Laplacian Kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kernels/neighborhood_hash.html">Neighborhood Hash Kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kernels/neighborhood_subgraph_pairwise_distance.html">Neighborhood Subgraph Pairwise Distance Kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kernels/odd_sth.html">ODD-STh Kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kernels/propagation.html">Propagation Kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kernels/pyramid_match.html">Pyramid Match Kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kernels/random_walk.html">Random Walk Kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kernels/shortest_path.html">Shortest Path Kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kernels/subgraph_matching.html">Subgraph Matching Kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kernels/svm_theta.html">SVM Theta Kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kernels/vertex_histogram.html">Vertex Histogram Kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kernels/weisfeiler_lehman.html">Weisfeiler Lehman Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kernels/weisfeiler_lehman_optimal_assignment.html">Weisfeiler-Lehman Optimal Assignment</a></li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="kernels/core_framework.html" class="btn btn-neutral float-right" title="Core Kernel Framework" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="api.html" class="btn btn-neutral float-left" title="GraKeL" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2019, DaSciM (BSD License)
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
