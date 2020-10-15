@@ -96,6 +96,7 @@ where :math:`k` is the following base kernel
 
 .. math::
     :nowrap:
+    
     \begin{equation}
         k(v,v') = \sum_{i=0}^h \delta(\tau_i(v), \tau_i(v'))
     \end{equation}

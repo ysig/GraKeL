@@ -273,7 +273,10 @@ The Weisfeiler-Lehman optimal assignment kernel is defined as</p>
 \begin{equation}
     k(G,G') = K_\mathfrak{B}^k(V,V')
 \end{equation}</div><p>where <span class="math notranslate nohighlight">\(k\)</span> is the following base kernel</p>
-<p>where <span class="math notranslate nohighlight">\(\tau_i(v)\)</span> is the label of node <span class="math notranslate nohighlight">\(v\)</span> at the end of the <span class="math notranslate nohighlight">\(i^{th}\)</span> iteration of the Weisfeiler-Lehman relabeling procedure.</p>
+<div class="math notranslate nohighlight">
+\begin{equation}
+    k(v,v') = \sum_{i=0}^h \delta(\tau_i(v), \tau_i(v'))
+\end{equation}</div><p>where <span class="math notranslate nohighlight">\(\tau_i(v)\)</span> is the label of node <span class="math notranslate nohighlight">\(v\)</span> at the end of the <span class="math notranslate nohighlight">\(i^{th}\)</span> iteration of the Weisfeiler-Lehman relabeling procedure.</p>
 <p>The base kernel value reflects to what extent two vertices <span class="math notranslate nohighlight">\(v\)</span> and <span class="math notranslate nohighlight">\(v'\)</span> have a similar neighborhood.
 It can be shown that the colour refinement process of the Weisfeiler-Lehman algorithm defines a hierarchy on the set of all vertices of the input graphs.
 Specifically, the sequence <span class="math notranslate nohighlight">\((\tau_i)_{0\leq i \leq h}\)</span> gives rise to a family of nested subsets, which can naturally be represented by a hierarchy <span class="math notranslate nohighlight">\((T,w)\)</span>.
