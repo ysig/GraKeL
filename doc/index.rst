@@ -46,12 +46,18 @@ GraKeL provides
 What's New
 ==========
 
+- Version **0.1a8**
+
+  + Added a new kernel: [Weisfeiler-Lehman-Optimal-Assignment](https://ysig.github.io/GraKeL/0.1a8/kernels/weisfeiler_lehman_optimal_assignment.html).
+  + Removed MultiScaleLaplacian (as being really slow and useless) and renamed MultiScaleLaplacianFast to MultiScaleLaplacian.
+  + Fixed minor issues (joblib deprecation, skbunch etc) from `0.1a7`.
+
 - Version **0.1a7**
 
   + Detailed installation instructions for c++ extensions in windows.
   + Changed `base_kernel` alias in frameworks with `base_graph_kernel` to disambiguate with vectorial kernels.
   + Speed-up for floyd_warshall calculation in graph.py.
-  + Large update throughout all the documentation
+  + Large update throughout all the documentation.
 
 - Version **0.1a6**
 
