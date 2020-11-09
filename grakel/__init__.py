@@ -25,11 +25,11 @@ from grakel.kernels import Propagation
 from grakel.kernels import PropagationAttr
 from grakel.kernels import HadamardCode
 from grakel.kernels import MultiscaleLaplacian
-from grakel.kernels import MultiscaleLaplacianFast
 from grakel.kernels import VertexHistogram
 from grakel.kernels import EdgeHistogram
 from grakel.kernels import GraphHopper
 from grakel.kernels import CoreFramework
+from grakel.kernels import WeisfeilerLehmanOptimalAssignment
 
 from grakel.utils import KMTransformer
 from grakel.utils import cross_validate_Kfold_SVM
@@ -59,11 +59,11 @@ __all__ = [
     "PropagationAttr",
     "HadamardCode",
     "MultiscaleLaplacian",
-    "MultiscaleLaplacianFast",
     "VertexHistogram",
     "EdgeHistogram",
     "GraphHopper",
     "CoreFramework",
+    "WeisfeilerLehmanOptimalAssignment",
     "graph_from_networkx",
     "graph_from_pandas",
     "graph_from_csv",
@@ -84,4 +84,4 @@ __all__ = [
 # Dev branch marker is: 'X.Y.dev' or 'X.Y.devN' where N is an integer.
 # 'X.Y.dev0' is the canonical version of 'X.Y.dev'
 #
-__version__ = '0.1b7'
+__version__ = '0.1.8'

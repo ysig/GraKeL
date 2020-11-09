@@ -293,14 +293,14 @@ class ShortestPath(Kernel):
 
         # Transform - calculate kernel matrix
         try:
-            check_is_fitted(self, ['phi_X'])
+            check_is_fitted(self, ['_phi_X'])
             phi_x = self._phi_X
         except NotFittedError:
             phi_x = np.zeros(shape=(self._nx, len(self._enum)))
             for i in self.X.keys():
                 for j in self.X[i].keys():
                     phi_x[i, j] = self.X[i][j]
-            self.phi_X = phi_x
+            self._phi_X = phi_x
 
         phi_y = np.zeros(shape=(self._ny, len(self._enum) + len(self._Y_enum)))
         for i in Y.keys():
@@ -339,12 +339,24 @@ class ShortestPath(Kernel):
 
         """
         # Check is fit and transform had been called
-        check_is_fitted(self, ['phi_X'])
+        try:
+            check_is_fitted(self, ['_phi_X'])
+        except NotFittedError:
+            check_is_fitted(self, ['X'])
+            # calculate feature matrices.
+            phi_x = np.zeros(shape=(self._nx, len(self._enum)))
+
+            for i in self.X.keys():
+                for j in self.X[i].keys():
+                    phi_x[i, j] = self.X[i][j]
+                    # Transform - calculate kernel matrix
+            self._phi_X = phi_x
+
         try:
             check_is_fitted(self, ['X_diag'])
         except NotFittedError:
             # Calculate diagonal of X
-            self._X_diag = np.sum(np.square(self.phi_X), axis=1)
+            self._X_diag = np.sum(np.square(self._phi_X), axis=1)
             self._X_diag = np.reshape(self._X_diag, (self._X_diag.shape[0], 1))
 
         try:

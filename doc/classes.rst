@@ -85,6 +85,7 @@ Kernels
    EdgeHistogram
    GraphHopper
    CoreFramework
+   WeisfeilerLehmanOptimalAssignment
 
 **User guide:** See the :ref:`kernels` section for further details.
 

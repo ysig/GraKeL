@@ -3,7 +3,7 @@ version: 2
 jobs:
   python3:
     docker:
-      - image: circleci/python:3.5
+      - image: circleci/python:3.6
     steps:
       - checkout
       - run: python -m venv ./venv
@@ -20,7 +20,7 @@ jobs:
 
   deploy:
     docker:
-      - image: circleci/python:3.5
+      - image: circleci/python:3.6
     environment:
       # The github organization or username of the repository which hosts the
       # project and documentation.
@@ -30,7 +30,7 @@ jobs:
       - DOC_REPO: GraKeL
 
       # The base URL for the Github page where the documentation will be hosted
-      - DOC_URL: latest
+      - DOC_URL: 0.1a8
 
       # The email is to be used for commits in the Github Page
       - EMAIL: y.siglidis@gmail.com

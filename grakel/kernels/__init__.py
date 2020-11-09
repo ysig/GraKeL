@@ -21,11 +21,11 @@ from grakel.kernels.propagation import Propagation
 from grakel.kernels.propagation import PropagationAttr
 from grakel.kernels.hadamard_code import HadamardCode
 from grakel.kernels.multiscale_laplacian import MultiscaleLaplacian
-from grakel.kernels.multiscale_laplacian import MultiscaleLaplacianFast
 from grakel.kernels.vertex_histogram import VertexHistogram
 from grakel.kernels.edge_histogram import EdgeHistogram
 from grakel.kernels.graph_hopper import GraphHopper
 from grakel.kernels.core_framework import CoreFramework
+from grakel.kernels.weisfeiler_lehman_optimal_assignment import WeisfeilerLehmanOptimalAssignment
 
 __all__ = [
     "default_executor",
@@ -47,9 +47,9 @@ __all__ = [
     "PropagationAttr",
     "HadamardCode",
     "MultiscaleLaplacian",
-    "MultiscaleLaplacianFast",
     "VertexHistogram",
     "EdgeHistogram",
     "GraphHopper",
-    "CoreFramework"
+    "CoreFramework",
+    "WeisfeilerLehmanOptimalAssignment"
 ]

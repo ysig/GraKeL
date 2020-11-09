@@ -27,11 +27,11 @@ from grakel.kernels import Propagation
 from grakel.kernels import PropagationAttr
 from grakel.kernels import HadamardCode
 from grakel.kernels import MultiscaleLaplacian
-from grakel.kernels import MultiscaleLaplacianFast
 from grakel.kernels import VertexHistogram
 from grakel.kernels import EdgeHistogram
 from grakel.kernels import GraphHopper
 from grakel.kernels import CoreFramework
+from grakel.kernels import WeisfeilerLehmanOptimalAssignment
 
 # Python 2/3 cross-compatibility import
 from future.utils import iteritems
@@ -52,7 +52,8 @@ sbk = [
     ["odd_sth", "ODD"],
     ["propagation", "PR"],
     ["pyramid_match", "PM"],
-    ["graph_hopper", "GH"]
+    ["graph_hopper", "GH"],
+    ["weisfeiler_lehman_optimal_assignment", "WL-OA"]
     ]
 
 sbks = set(e for ls in sbk for e in ls)
@@ -131,8 +132,6 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                     + (**o**) "sampling" : [dict] or **None**
 
                 - "multiscale_laplacian" or "ML"
-                    + (**o**) "which" : [str] "slow", "fast"
-
                     + (**o**) "L" : [int] > 0
 
                     + (**o**) "gamma" : [float] > .0
@@ -202,6 +201,9 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                 - "graph_hopper" or "GH"
                     + (**o**) kernel_type: [str: {'linear', 'gaussian'}] or [tuple: {('gaussian', mu)}]
                       or [function] x:[(np.array, np.array)] , y:[(np.array, np.array)] -> [number]
+
+                - "weisfeiler_lehman_optimal_assignment" or "WL-OA"
+                    + (**o**) "n_iter" : [int] >= 0
 
             2. frameworks (if a next kernel in the list it asssigned as a base-kernel, else see default)
                 - "weisfeiler_lehman" or "WL" / default="VH"
@@ -513,12 +515,8 @@ class GraphKernel(BaseEstimator, TransformerMixin):
             elif kernel_name in sbk[5]:
                 return SubgraphMatching, kernel
             elif kernel_name in sbk[6]:
-                if kernel.pop("which", "fast") == "slow":
-                    kernel.pop("N", None)
-                    return (MultiscaleLaplacian, kernel)
-                else:
-                    kernel["random_state"] = get_random_state_(kernel)
-                    return (MultiscaleLaplacianFast, kernel)
+                kernel["random_state"] = get_random_state_(kernel)
+                return (MultiscaleLaplacian, kernel)
             elif kernel_name in sbk[7]:
                 kernel["random_state"] = get_random_state_(kernel)
                 return LovaszTheta, kernel
@@ -541,6 +539,8 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                 return PyramidMatch, kernel
             elif kernel_name in sbk[14]:
                 return GraphHopper, kernel
+            elif kernel_name in sbk[15]:
+                return WeisfeilerLehmanOptimalAssignment, kernel
 
         elif kernel_name in sfs:
             if len(kernel_list):

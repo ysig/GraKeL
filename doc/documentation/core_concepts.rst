@@ -109,10 +109,7 @@ The :class:`grakel.GraphKernel` class is a *generic wrapper class*. This class p
         >>> from sklearn.svm import SVC
         >>> clf = SVC(kernel='linear')
         >>> clf.fit(K_train, y_train)
-        SVC(C=1.0, break_ties=False, cache_size=200, class_weight=None, coef0=0.0,
-            decision_function_shape='ovr', degree=3, gamma='scale', kernel='linear',
-            max_iter=-1, probability=False, random_state=None, shrinking=True,
-            tol=0.001, verbose=False)
+        SVC(kernel='linear')
         >>> y_pred = clf.predict(K_test)
 
     Finally, we calculate the classification accuracy.
@@ -157,10 +154,8 @@ The :class:`grakel.GraphKernel` class is a *generic wrapper class*. This class p
         >>> from grakel import GraphKernel
         >>> gk = GraphKernel(kernel=dict(name="graphlet_sampling", sampling=dict(n_samples=5)))
         >>> gk.fit([H2O])
-        GraphKernel(Nystroem=False,
-                    kernel={'name': 'graphlet_sampling', 'sampling': {'n_samples': 5}},
-                    n_jobs=None, normalize=False, random_state=None, verbose=False)
-    
+        GraphKernel(kernel={'name': 'graphlet_sampling', 'sampling': {'n_samples': 5}})    
+
     .. code-block:: python
 
         >>> gk.transform([H3O])
@@ -172,10 +167,8 @@ The :class:`grakel.GraphKernel` class is a *generic wrapper class*. This class p
 
         >>> gk = GraphKernel(kernel=dict(name="graphlet_sampling", sampling=dict(n_samples=5), random_state=20))
         >>> gk.fit([H2O])
-        GraphKernel(Nystroem=False,
-                    kernel={'name': 'graphlet_sampling', 'random_state': 20,
-                            'sampling': {'n_samples': 5}},
-                    n_jobs=None, normalize=False, random_state=None, verbose=False)
+        GraphKernel(kernel={'name': 'graphlet_sampling', 'random_state': 20,
+                            'sampling': {'n_samples': 5}})
 
         >>> gk.transform([H3O])
         array([[20.]])
@@ -186,9 +179,8 @@ The :class:`grakel.GraphKernel` class is a *generic wrapper class*. This class p
 
         >>> gk = GraphKernel(kernel=dict(name="graphlet_sampling", sampling=dict(n_samples=5)), random_state=20)
         >>> gk.fit([H2O])
-        GraphKernel(Nystroem=False,
-                    kernel={'name': 'graphlet_sampling', 'sampling': {'n_samples': 5}},
-                    n_jobs=None, normalize=False, random_state=20, verbose=False)
+        GraphKernel(kernel={'name': 'graphlet_sampling', 'sampling': {'n_samples': 5}},
+                    random_state=20)
     
         >>> gk.transform([H3O])
         array([[20.]])
@@ -199,10 +191,9 @@ The :class:`grakel.GraphKernel` class is a *generic wrapper class*. This class p
 
         >>> gk = GraphKernel(kernel=dict(name="graphlet_sampling", sampling=dict(n_samples=5, random_state=0)), random_state=20)
         >>> gk.fit([H2O])
-        GraphKernel(Nystroem=False,
-                    kernel={'name': 'graphlet_sampling',
+        GraphKernel(kernel={'name': 'graphlet_sampling',
                             'sampling': {'n_samples': 5, 'random_state': 0}},
-                    n_jobs=None, normalize=False, random_state=20, verbose=False)
+                    random_state=20)
     
         >>> gk.transform([H3O])
         array([[20.]])

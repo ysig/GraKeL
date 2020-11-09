@@ -21,6 +21,7 @@ from grakel.kernels import RandomWalkLabeled
 from grakel.kernels import ShortestPath
 from grakel.kernels import ShortestPathAttr
 from grakel.kernels import WeisfeilerLehman
+from grakel.kernels import WeisfeilerLehmanOptimalAssignment
 from grakel.kernels import NeighborhoodHash
 from grakel.kernels import PyramidMatch
 from grakel.kernels import SubgraphMatching
@@ -32,7 +33,6 @@ from grakel.kernels import Propagation
 from grakel.kernels import PropagationAttr
 from grakel.kernels import HadamardCode
 from grakel.kernels import MultiscaleLaplacian
-from grakel.kernels import MultiscaleLaplacianFast
 from grakel.kernels import VertexHistogram
 from grakel.kernels import EdgeHistogram
 from grakel.kernels import GraphHopper
@@ -247,6 +247,16 @@ def test_weisfeiler_lehman():
         positive_eig(wl_st_kernel, dataset)
 
 
+def test_weisfeiler_lehman_optimal_assignment():
+    """Eigenvalue test for the Weisfeiler Lehman Optimal Assignment kernel."""
+    wl_oa_kernel = WeisfeilerLehmanOptimalAssignment(
+        verbose=verbose, normalize=normalize)
+    if verbose:
+        print_kernel("WL-OA", wl_oa_kernel, dataset_tr, dataset_te)
+    else:
+        positive_eig(wl_oa_kernel, dataset)
+
+
 def test_pyramid_match():
     """Eigenvalue test for the Pyramid Match kernel."""
     pm_kernel = PyramidMatch(verbose=verbose, normalize=normalize)
@@ -341,19 +351,9 @@ def test_hadamard_code():
 
 def test_multiscale_laplacian():
     """Eigenvalue test for the Multiscale Laplacian kernel."""
-    ml_kernel = MultiscaleLaplacian(verbose=verbose, normalize=normalize)
-    if verbose and slow:
-        print_kernel("Multiscale Laplacian", ml_kernel,
-                     dataset_attr_tr, dataset_attr_te)
-    elif not verbose and slow:
-        positive_eig(ml_kernel, dataset_attr)
-
-
-def test_multiscale_laplacian_fast():
-    """Eigenvalue test for the Fast Multiscale Laplacian kernel."""
-    mlf_kernel = MultiscaleLaplacianFast(verbose=verbose, normalize=normalize)
+    mlf_kernel = MultiscaleLaplacian(verbose=verbose, normalize=normalize)
     if verbose:
-        print_kernel("Multiscale Laplacian Fast", mlf_kernel,
+        print_kernel("Multiscale Laplacian", mlf_kernel,
                      dataset_attr_tr, dataset_attr_te)
     else:
         positive_eig(mlf_kernel, dataset_attr)
@@ -464,6 +464,7 @@ if verbose and main:
     test_random_walk()
     test_shortest_path()
     test_weisfeiler_lehman()
+    test_weisfeiler_lehman_optimal_assignment()
     test_neighborhood_hash()
     test_graphlet_sampling()
     test_lovasz_theta()
@@ -473,15 +474,9 @@ if verbose and main:
     test_hadamard_code()
     test_neighborhood_subgraph_pairwise_distance()
     test_pyramid_match()
-    test_multiscale_laplacian_fast()
+    test_multiscale_laplacian()
     test_edge_histogram()
     test_vertex_histogram()
     test_subgraph_matching()
     test_graph_hopper()
     test_core_framework()
-
-if verbose and develop:
-    if slow:
-        test_multiscale_laplacian()
-    if problematic:
-        pass

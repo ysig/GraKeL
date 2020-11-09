@@ -14,6 +14,7 @@ from grakel.kernels import RandomWalkLabeled
 from grakel.kernels import ShortestPath
 from grakel.kernels import ShortestPathAttr
 from grakel.kernels import WeisfeilerLehman
+from grakel.kernels import WeisfeilerLehmanOptimalAssignment
 from grakel.kernels import NeighborhoodHash
 from grakel.kernels import PyramidMatch
 from grakel.kernels import SubgraphMatching
@@ -25,7 +26,6 @@ from grakel.kernels import Propagation
 from grakel.kernels import PropagationAttr
 from grakel.kernels import HadamardCode
 from grakel.kernels import MultiscaleLaplacian
-from grakel.kernels import MultiscaleLaplacianFast
 from grakel.kernels import VertexHistogram
 from grakel.kernels import EdgeHistogram
 from grakel.kernels import GraphHopper
@@ -238,6 +238,27 @@ def test_weisfeiler_lehman():
     try:
         wl_st_kernel.fit_transform(train)
         wl_st_kernel.transform(test)
+        assert True
+    except Exception as exception:
+        assert False, exception
+
+
+def test_weisfeiler_lehman_optimal_assignment():
+    """Random input test for the Weisfeiler Lehman Optimal Assignment kernel."""
+    train, test = generate_dataset(n_graphs=100,
+                                   r_vertices=(10, 20),
+                                   r_connectivity=(0.4, 0.8),
+                                   r_weight_edges=(1, 1),
+                                   n_graphs_test=40,
+                                   random_state=rs,
+                                   features=('nl', 3))
+
+    wl_oa_kernel = WeisfeilerLehmanOptimalAssignment(
+        verbose=verbose, normalize=normalize)
+
+    try:
+        wl_oa_kernel.fit_transform(train)
+        wl_oa_kernel.transform(test)
         assert True
     except Exception as exception:
         assert False, exception
@@ -752,48 +773,6 @@ def test_hadamard_code_pd():
 
 def test_multiscale_laplacian():
     """Random input test for the Multiscale Laplacian kernel."""
-    # Intialise kernel
-    train, test = generate_dataset(n_graphs=30,
-                                   r_vertices=(5, 10),
-                                   r_connectivity=(0.4, 0.8),
-                                   r_weight_edges=(1, 1),
-                                   n_graphs_test=10,
-                                   random_state=rs,
-                                   features=('na', 5))
-
-    ml_kernel = MultiscaleLaplacian(verbose=verbose, normalize=normalize)
-
-    try:
-        ml_kernel.fit_transform(train)
-        ml_kernel.transform(test)
-        assert True
-    except Exception as exception:
-        assert False, exception
-
-
-def test_multiscale_laplacian_pd():
-    """Random input test for the Multiscale Laplacian kernel [n_jobs=-1/generic-wrapper]."""
-    # Intialise kernel
-    train, test = generate_dataset(n_graphs=30,
-                                   r_vertices=(5, 10),
-                                   r_connectivity=(0.4, 0.8),
-                                   r_weight_edges=(1, 1),
-                                   n_graphs_test=10,
-                                   random_state=rs,
-                                   features=('na', 5))
-
-    gk = GraphKernel(kernel="ML", verbose=verbose, normalize=normalize, n_jobs=-1)
-
-    try:
-        gk.fit_transform(train)
-        gk.transform(test)
-        assert True
-    except Exception as exception:
-        assert False, exception
-
-
-def test_multiscale_laplacian_fast():
-    """Random input test for the Fast Multiscale Laplacian kernel."""
     # Initialise kernel
     train, test = generate_dataset(n_graphs=100,
                                    r_vertices=(10, 20),
@@ -803,7 +782,7 @@ def test_multiscale_laplacian_fast():
                                    random_state=rs,
                                    features=('na', 5))
 
-    mlf_kernel = MultiscaleLaplacianFast(verbose=verbose, normalize=normalize)
+    mlf_kernel = MultiscaleLaplacian(verbose=verbose, normalize=normalize)
 
     try:
         mlf_kernel.fit_transform(train)
@@ -813,8 +792,8 @@ def test_multiscale_laplacian_fast():
         assert False, exception
 
 
-def test_multiscale_laplacian_fast_pd():
-    """Random input test for the Fast Multiscale Laplacian kernel [n_jobs=-1/generic-wrapper]."""
+def test_multiscale_laplacian_pd():
+    """Random input test for the Multiscale Laplacian kernel [n_jobs=-1/generic-wrapper]."""
     # Initialise kernel
     train, test = generate_dataset(n_graphs=100,
                                    r_vertices=(10, 20),
@@ -824,8 +803,7 @@ def test_multiscale_laplacian_fast_pd():
                                    random_state=rs,
                                    features=('na', 5))
 
-    gk = GraphKernel(kernel={"name": "ML", "which": "fast"},
-                     verbose=verbose, normalize=normalize, n_jobs=-1)
+    gk = GraphKernel(kernel="ML", verbose=verbose, normalize=normalize, n_jobs=-1)
 
     try:
         gk.fit_transform(train)
@@ -959,6 +937,7 @@ if __name__ == "__main__":
     test_shortest_path_pd()
     test_graphlet_sampling()
     test_weisfeiler_lehman()
+    test_weisfeiler_lehman_optimal_assignment()
     test_weisfeiler_lehman_pd()
     test_pyramid_match()
     test_pyramid_match_no_labels()
@@ -979,8 +958,6 @@ if __name__ == "__main__":
     test_hadamard_code_pd()
     test_multiscale_laplacian()
     test_multiscale_laplacian_pd()
-    test_multiscale_laplacian_fast()
-    test_multiscale_laplacian_fast_pd()
     test_vertex_histogram()
     test_edge_histogram()
     test_graph_hopper()
