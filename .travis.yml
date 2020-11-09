@@ -18,7 +18,7 @@ env:
     - TWINE_USERNAME=ysig
     - DEPLOY_SDIST="false"
     - COVERAGE="false"
-    - DEPLOY_WHEEL="false"
+    - DEPLOY_WHEEL="true"
     - FLAKE="false"
 
 matrix:
@@ -31,7 +31,7 @@ matrix:
         - PYTHON=python
         - CIBW_BUILD="cp37-manylinux_x86_64"
         - COVERAGE="true"
-        - DEPLOY_SDIST="false"
+        - DEPLOY_SDIST="true"
     - sudo: required
       services:
         - docker
