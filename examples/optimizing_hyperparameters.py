@@ -23,7 +23,7 @@ G, y = MUTAG.data, MUTAG.target
 # kernel to a different value (from 2 to 7)
 Ks = list()
 for i in range(1, 7):
-	gk = WeisfeilerLehman(n_iter=i, base_kernel=VertexHistogram, normalize=True)
+	gk = WeisfeilerLehman(n_iter=i, base_graph_kernel=VertexHistogram, normalize=True)
 	K = gk.fit_transform(G)
 	Ks.append(K)
 
