@@ -16,7 +16,7 @@ sudo apt-get install build-essential python-dev python-setuptools > /dev/null
 # Setup a python venv and install basics
 source ./venv/bin/activate
 pip install --upgrade pip
-pip install --upgrade pandas networkx matplotlib setuptools nose coverage "Sphinx>=2.0.0" pillow sphinx-gallery sphinx_rtd_theme sphinxcontrib-bibtex nb2plots numpydoc tqdm > /dev/null
+pip install --upgrade pandas networkx matplotlib setuptools nose coverage "Sphinx>=2.0.0" pillow sphinx-gallery sphinx_rtd_theme "sphinxcontrib-bibtex==1.0" nb2plots numpydoc tqdm > /dev/null
 pip install -r requirements.txt > /dev/null
 pip install "cvxopt==1.2.0" > /dev/null
 
