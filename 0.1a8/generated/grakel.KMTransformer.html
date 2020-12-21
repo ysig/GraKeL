@@ -1,0 +1,339 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>grakel.KMTransformer &mdash; GraKeL 0.1.8 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/_static/css/supplementary.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery-dataframe.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery-rendered-html.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="grakel.cross_validate_Kfold_SVM" href="grakel.cross_validate_Kfold_SVM.html" />
+    <link rel="prev" title="grakel.WeisfeilerLehmanOptimalAssignment" href="grakel.WeisfeilerLehmanOptimalAssignment.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> GraKeL
+          
+
+          
+            
+            <img src="../_static/logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.8
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">Documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../benchmarks.html">Benchmarks</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../api.html">GraKeL</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../classes.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-graph-graph-class-with-its-utility-functions"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel.graph</span></code>: Graph class with its utility functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-graph-kernels-a-kernel-decorator"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel.graph_kernels</span></code>: A kernel decorator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-kernels-a-collection-of-graph-kernels"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel.kernels</span></code>: A collection of graph kernels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../classes.html#grakel-datasets-datasets"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel.datasets</span></code>: Datasets</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../classes.html#grakel-utils"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>: Utils</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../classes.html#use-a-kernel-matrix-as-a-transformer">Use a kernel matrix as a transformer</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.KMTransformer</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../classes.html#cross-validation">Cross Validation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../classes.html#load-from-other-file-formats">Load from other file formats</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials.html">Tutorials</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">GraKeL</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../classes.html">API Reference</a> &raquo;</li>
+        
+      <li><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code>.KMTransformer</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/generated/grakel.KMTransformer.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="grakel-kmtransformer">
+<h1><a class="reference internal" href="../api.html#module-grakel" title="grakel"><code class="xref py py-mod docutils literal notranslate"><span class="pre">grakel</span></code></a>.KMTransformer<a class="headerlink" href="#grakel-kmtransformer" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="grakel.KMTransformer">
+<em class="property">class </em><code class="sig-prename descclassname">grakel.</code><code class="sig-name descname">KMTransformer</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">K</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/df1a1af5/grakel/utils.py#L25"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/utils.html#KMTransformer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.KMTransformer" title="Permalink to this definition">¶</a></dt>
+<dd><p>A Kernel Matrix Transformer.</p>
+<p>Usefull for using precalculated Kernel Matrices inside scikit-learn pipeline.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl>
+<dt><strong>K</strong><span class="classifier">array-like, shape=[n, n]</span></dt><dd><p>If given an array the input can be as follows:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>array-like lists of lists</p></li>
+<li><p>np.array</p></li>
+<li><p>sparse matrix (scipy.sparse)</p></li>
+</ul>
+</div></blockquote>
+<p>It can also be embedded in an sklearn Bunch object as a mat (argument)</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Attributes</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>K_</strong><span class="classifier">numpy.array, shape=[n, n]</span></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code>(X[, y])</p></td>
+<td><p>Fit a list of indeces.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code>(X[, y])</p></td>
+<td><p>Fit and transform, on the same dataset.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code>([deep])</p></td>
+<td><p>Get parameters for this estimator.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize</span></code>()</p></td>
+<td><p>Initialize all transformer arguments, needing initialisation.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code>(**params)</p></td>
+<td><p>Set the parameters of this estimator.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code>(X)</p></td>
+<td><p>Calculate the kernel matrix, between given and fitted dataset.</p></td>
+</tr>
+</tbody>
+</table>
+<p>Initialise the Kernel Matrix Transformer</p>
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code>(X[, y])</p></td>
+<td><p>Fit a list of indeces.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code>(X[, y])</p></td>
+<td><p>Fit and transform, on the same dataset.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code>([deep])</p></td>
+<td><p>Get parameters for this estimator.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize</span></code>()</p></td>
+<td><p>Initialize all transformer arguments, needing initialisation.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code>(**params)</p></td>
+<td><p>Set the parameters of this estimator.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code>(X)</p></td>
+<td><p>Calculate the kernel matrix, between given and fitted dataset.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt id="grakel.KMTransformer.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">K</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/ysig/GraKeL/blob/df1a1af5/grakel/utils.py#L48"><span class="viewcode-link">[source]</span></a><a class="reference internal" href="../_modules/grakel/utils.html#KMTransformer.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grakel.KMTransformer.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialise the Kernel Matrix Transformer</p>
+</dd></dl>
+
+</dd></dl>
+
+<div class="clearer"></div></div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="grakel.cross_validate_Kfold_SVM.html" class="btn btn-neutral float-right" title="grakel.cross_validate_Kfold_SVM" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="grakel.WeisfeilerLehmanOptimalAssignment.html" class="btn btn-neutral float-left" title="grakel.WeisfeilerLehmanOptimalAssignment" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2019, DaSciM (BSD License)
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,315 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Hadamard Code Kernel &mdash; GraKeL 0.1.8 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/_static/css/supplementary.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery-dataframe.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery-rendered-html.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Kernel (general class)" href="kernel.html" />
+    <link rel="prev" title="Graphlet Sampling Kernel" href="graphlet_sampling.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> GraKeL
+          
+
+          
+            
+            <img src="../_static/logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.8
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">Documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../benchmarks.html">Benchmarks</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">GraKeL</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../kernels.html">Kernels (between graphs)</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="core_framework.html">Core Kernel Framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="edge_histogram.html">Edge Histogram Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="graph_hopper.html">Graph Hopper Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="graphlet_sampling.html">Graphlet Sampling Kernel</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Hadamard Code Kernel</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#bibliography">Bibliography</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="kernel.html">Kernel (general class)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lovasz_theta.html">Lovasz Theta Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="multiscale_laplacian.html">Multiscale Laplacian Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="neighborhood_hash.html">Neighborhood Hash Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="neighborhood_subgraph_pairwise_distance.html">Neighborhood Subgraph Pairwise Distance Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="odd_sth.html">ODD-STh Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="propagation.html">Propagation Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyramid_match.html">Pyramid Match Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="random_walk.html">Random Walk Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="shortest_path.html">Shortest Path Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="subgraph_matching.html">Subgraph Matching Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="svm_theta.html">SVM Theta Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vertex_histogram.html">Vertex Histogram Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="weisfeiler_lehman.html">Weisfeiler Lehman Framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="weisfeiler_lehman_optimal_assignment.html">Weisfeiler-Lehman Optimal Assignment</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../graph_kernel.html">GraphKernel (class)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../graph.html">Graph (class)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../datasets.html">Dataset loading utilities</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../classes.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials.html">Tutorials</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">GraKeL</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../api.html">GraKeL</a> &raquo;</li>
+        
+          <li><a href="../kernels.html">Kernels (between graphs)</a> &raquo;</li>
+        
+      <li>Hadamard Code Kernel</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/kernels/hadamard_code.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="hadamard-code-kernel">
+<span id="hadamard-code"></span><h1>Hadamard Code Kernel<a class="headerlink" href="#hadamard-code-kernel" title="Permalink to this headline">¶</a></h1>
+<p>A similar framework to the neighborhood-hashing kernel and the Weisfeiler-Lehman kernel was introduced by Tetsuya Kataoka and Akihito Inokuchi in <a class="bibtex reference internal" href="#icpram16" id="id1">[KI16]</a>, known as Hadamard-code kernel.
+Given a collection of <strong>labeled</strong> graphs <span class="math notranslate nohighlight">\(\mathbf{G}=[G]^{N}_{i=1}\)</span> collect the set <span class="math notranslate nohighlight">\(\Sigma\)</span> of all distinct labels inside <span class="math notranslate nohighlight">\(\mathbf{G}\)</span>. A <span class="math notranslate nohighlight">\(2^{k}\)</span>-th Hadamard code matrix <span class="math notranslate nohighlight">\(H_{2^{k}}\)</span> is defined as follows:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}H_{2^{k+1}}= \begin{cases}
+\begin{pmatrix}
+    1 &amp; 1\\
+    1 &amp; -1
+\end{pmatrix},\text{ if }k = 0
+\\\\
+\begin{pmatrix}
+    H_{2^{k}} &amp; H_{2^{k}}\\
+    H_{2^{k}} &amp; -H_{2^{k}}
+\end{pmatrix},\text{if } k &gt; 0
+\end{cases}\end{split}\]</div>
+<p>Now by defining a Hadamard matrix <span class="math notranslate nohighlight">\(\mathbb{H} = H_{2^{\lceil \log_{2}|\Sigma|\rceil}}\)</span>, then we initially label each node inside a graph:</p>
+<div class="math notranslate nohighlight">
+\[l^{(0)}(v) = \mathtt{row}_{i}\mathbb{H},\text{ }\textbf{iff}\text{ }label(v) = \Sigma_{i}\]</div>
+<p>Based on this initial labeling the following relabeling rule:</p>
+<div class="math notranslate nohighlight">
+\[l^{(k+1)}(v) = l^{(k)}(v) + \sum_{u \in N(v)}l^{(k)}(u)\]</div>
+<p>was used. <span class="math notranslate nohighlight">\(N(v)\)</span> is used to denote the neighborhood of a node <span class="math notranslate nohighlight">\(v\)</span>.
+Following the above scheme, relabeling is applied iteratively for a fixed number of iterations, while each kernel matrix (calculated from a give <em>base-kernel</em>) between relabeled graphs is aggregated to a total one, through summation.</p>
+<div class="figure align-default" id="id3">
+<img alt="../_images/kataoka1.png" src="../_images/kataoka1.png" />
+<p class="caption"><span class="caption-text">An example of the relabeling procedure of the Hadamard code kernel for a single graph.</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
+</div>
+<p>The implementation of the hadamard code kernel framework can be found below. Note that use can use <code class="code docutils literal notranslate"><span class="pre">base_kernel</span></code> to attach as a base kernel any kernel for <strong>labeled</strong> graphs.</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/grakel.HadamardCode.html#grakel.HadamardCode" title="grakel.HadamardCode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HadamardCode</span></code></a>([n_jobs, verbose, normalize, …])</p></td>
+<td><p>The simple Hadamard code kernel, as proposed in <a class="bibtex reference internal" href="#icpram16" id="id2">[KI16]</a>.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="bibliography">
+<h2>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">¶</a></h2>
+<p id="bibtex-bibliography-kernels/hadamard_code-0"><dl class="citation">
+<dt class="bibtex label" id="icpram16"><span class="brackets">KI16</span><span class="fn-backref">(<a href="#id1">1</a>,<a href="#id2">2</a>)</span></dt>
+<dd><p>Tetsuya Kataoka and Akihiro Inokuchi. Hadamard code graph kernels for classifying graphs. In <em>Proceedings of the 5th International Conference on Pattern Recognition Applications and Methods</em>, 24–32. 2016.</p>
+</dd>
+</dl>
+</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="kernel.html" class="btn btn-neutral float-right" title="Kernel (general class)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="graphlet_sampling.html" class="btn btn-neutral float-left" title="Graphlet Sampling Kernel" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2019, DaSciM (BSD License)
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
