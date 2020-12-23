@@ -23,7 +23,7 @@ Retrieval of most similar document using the Weisfeiler-Lehman subtree kernel.
 ==============================================================================
 Script makes use of :class:`grakel.WeisfeilerLehman`, :class:`grakel.VertexHistogram`
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-60
+.. GENERATED FROM PYTHON SOURCE LINES 7-61
 
 .. code-block:: default
 
@@ -66,7 +66,7 @@ Script makes use of :class:`grakel.WeisfeilerLehman`, :class:`grakel.VertexHisto
     query_sent = [word_networks[query_sent_id]]
 
     # Initialize Weisfeiler-Lehman subtree kernel
-    gk = WeisfeilerLehman(niter=2, normalize=True, base_kernel=VertexHistogram)
+    gk = WeisfeilerLehman(niter=2, normalize=True, base_graph_kernel=VertexHistogram)
 
     print("Computing similarities\n")
     t0 = time.time()
@@ -81,6 +81,7 @@ Script makes use of :class:`grakel.WeisfeilerLehman`, :class:`grakel.VertexHisto
     print("Most similar sentence")
     print("---------------------")
     print(" ".join(sents[np.argsort(K[:,0])[-2]]))
+
 
 .. rst-class:: sphx-glr-timing
 

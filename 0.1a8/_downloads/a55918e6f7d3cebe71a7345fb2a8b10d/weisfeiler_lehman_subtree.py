@@ -25,7 +25,7 @@ G, y = MUTAG.data, MUTAG.target
 G_train, G_test, y_train, y_test = train_test_split(G, y, test_size=0.1, random_state=42)
 
 # Uses the Weisfeiler-Lehman subtree kernel to generate the kernel matrices
-gk = WeisfeilerLehman(n_iter=4, base_kernel=VertexHistogram, normalize=True)
+gk = WeisfeilerLehman(n_iter=4, base_graph_kernel=VertexHistogram, normalize=True)
 K_train = gk.fit_transform(G_train)
 K_test = gk.transform(G_test)
 

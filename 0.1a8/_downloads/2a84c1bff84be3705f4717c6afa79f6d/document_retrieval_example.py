@@ -43,7 +43,7 @@ query_sent_id = 54
 query_sent = [word_networks[query_sent_id]]
 
 # Initialize Weisfeiler-Lehman subtree kernel
-gk = WeisfeilerLehman(niter=2, normalize=True, base_kernel=VertexHistogram)
+gk = WeisfeilerLehman(niter=2, normalize=True, base_graph_kernel=VertexHistogram)
 
 print("Computing similarities\n")
 t0 = time.time()
