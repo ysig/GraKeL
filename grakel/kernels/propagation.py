@@ -11,6 +11,7 @@ from collections import Counter
 from numbers import Real
 
 from sklearn.utils import check_random_state
+from sklearn.preprocessing import normalize as normalizer
 
 from grakel.graph import Graph
 from grakel.kernels import Kernel
@@ -209,7 +210,7 @@ class Propagation(Kernel):
                     T = g.get_adjacency_matrix()
 
                 i += 1
-                transition_matrix[i] = (T.T / np.sum(T, axis=1)).T
+                transition_matrix[i] = normalizer(T, axis=1, norm='l1')
                 label = g.get_labels(purpose='adjacency')
                 try:
                     labels |= set(itervalues(label))
@@ -524,7 +525,7 @@ class PropagationAttr(Propagation):
                     T = g.get_adjacency_matrix()
 
                 nv = g.nv()
-                transition_matrix[n] = (T.T / np.sum(T, axis=1)).T
+                transition_matrix[n] = normalizer(T, axis=1, norm='l1')
                 attr = g.get_labels(purpose="adjacency")
                 try:
                     attributes = np.array([attr[j] for j in range(nv)])
