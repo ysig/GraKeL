@@ -3,9 +3,9 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>grakel.kernels.propagation &mdash; GraKeL 0.1.8 documentation</title>
   
@@ -21,7 +21,10 @@
 
   
   
+
   
+  
+
   
 
   
@@ -54,7 +57,7 @@
           
 
           
-            <a href="../../../index.html" class="icon icon-home" alt="Documentation Home"> GraKeL
+            <a href="../../../index.html" class="icon icon-home"> GraKeL
           
 
           
@@ -143,6 +146,8 @@
 
 
 
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
@@ -180,6 +185,7 @@
 <span class="kn">from</span> <span class="nn">numbers</span> <span class="kn">import</span> <span class="n">Real</span>
 
 <span class="kn">from</span> <span class="nn">sklearn.utils</span> <span class="kn">import</span> <span class="n">check_random_state</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">normalize</span> <span class="k">as</span> <span class="n">normalizer</span>
 
 <span class="kn">from</span> <span class="nn">grakel.graph</span> <span class="kn">import</span> <span class="n">Graph</span>
 <span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="kn">import</span> <span class="n">Kernel</span>
@@ -378,7 +384,7 @@
                     <span class="n">T</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">get_adjacency_matrix</span><span class="p">()</span>
 
                 <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
-                <span class="n">transition_matrix</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">T</span><span class="o">.</span><span class="n">T</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
+                <span class="n">transition_matrix</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">normalizer</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="s1">&#39;l1&#39;</span><span class="p">)</span>
                 <span class="n">label</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">get_labels</span><span class="p">(</span><span class="n">purpose</span><span class="o">=</span><span class="s1">&#39;adjacency&#39;</span><span class="p">)</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">labels</span> <span class="o">|=</span> <span class="nb">set</span><span class="p">(</span><span class="n">itervalues</span><span class="p">(</span><span class="n">label</span><span class="p">))</span>
@@ -693,7 +699,7 @@
                     <span class="n">T</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">get_adjacency_matrix</span><span class="p">()</span>
 
                 <span class="n">nv</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">nv</span><span class="p">()</span>
-                <span class="n">transition_matrix</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">T</span><span class="o">.</span><span class="n">T</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
+                <span class="n">transition_matrix</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">normalizer</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="s1">&#39;l1&#39;</span><span class="p">)</span>
                 <span class="n">attr</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">get_labels</span><span class="p">(</span><span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;adjacency&quot;</span><span class="p">)</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">attributes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">attr</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nv</span><span class="p">)])</span>
@@ -966,28 +972,25 @@
            
           </div>
           <footer>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        
-        &copy; Copyright 2019, DaSciM (BSD License)
+        &#169; Copyright 2019, DaSciM (BSD License).
 
     </p>
   </div>
     
     
     
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     
     provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 
