@@ -339,7 +339,7 @@ def generate_example_rst(app, what, name, obj, options, lines):
 
 
 def setup(app):
-    app.add_stylesheet('_static/css/supplementary.css')
+    app.add_css_file('_static/css/supplementary.css')
     app.connect('autodoc-process-docstring', generate_example_rst)
 
 # Documents to append as an appendix to all manuals.
