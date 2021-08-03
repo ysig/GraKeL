@@ -1,0 +1,22 @@
+﻿:mod:`grakel`.GraphletSampling
+=====================================
+
+.. currentmodule:: grakel
+
+.. autoclass:: GraphletSampling
+
+   
+   .. automethod:: __init__
+   
+
+
+Bibliography
+------------
+.. bibliography:: ../kernels/graph_kernels.bib
+   :filter: docname in docnames
+
+.. include:: grakel.GraphletSampling.examples
+
+.. raw:: html
+
+    <div class="clearer"></div>

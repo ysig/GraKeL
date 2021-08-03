@@ -1,0 +1,22 @@
+﻿:mod:`grakel`.SvmTheta
+=============================
+
+.. currentmodule:: grakel
+
+.. autoclass:: SvmTheta
+
+   
+   .. automethod:: __init__
+   
+
+
+Bibliography
+------------
+.. bibliography:: ../kernels/graph_kernels.bib
+   :filter: docname in docnames
+
+.. include:: grakel.SvmTheta.examples
+
+.. raw:: html
+
+    <div class="clearer"></div>

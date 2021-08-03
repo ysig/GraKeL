@@ -1,0 +1,722 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>grakel.kernels.lovasz_theta &mdash; GraKeL 0.1.8 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/_static/css/supplementary.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery-dataframe.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery-rendered-html.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> GraKeL
+          
+
+          
+            
+            <img src="../../../_static/logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.8
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../documentation.html">Documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../benchmarks.html">Benchmarks</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">GraKeL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../classes.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials.html">Tutorials</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">GraKeL</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>grakel.kernels.lovasz_theta</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for grakel.kernels.lovasz_theta</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;The lovasz theta kernel as in :cite:`johansson2014global`.&quot;&quot;&quot;</span>
+<span class="c1"># Author: Ioannis Siglidis &lt;y.siglidis@gmail.com&gt;</span>
+<span class="c1"># License: BSD 3 clause</span>
+<span class="kn">import</span> <span class="nn">collections</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="kn">import</span> <span class="n">Kernel</span>
+<span class="kn">from</span> <span class="nn">grakel.graph</span> <span class="kn">import</span> <span class="n">Graph</span>
+<span class="kn">from</span> <span class="nn">grakel.tools</span> <span class="kn">import</span> <span class="n">distribute_samples</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.utils</span> <span class="kn">import</span> <span class="n">check_random_state</span>
+
+<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">sqrt</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">pad</span>
+<span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="kn">import</span> <span class="n">LinAlgError</span>
+<span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="kn">import</span> <span class="n">norm</span>
+<span class="kn">from</span> <span class="nn">scipy.linalg</span> <span class="kn">import</span> <span class="n">cholesky</span>
+<span class="kn">from</span> <span class="nn">scipy.linalg</span> <span class="kn">import</span> <span class="n">eigvalsh</span>
+<span class="kn">from</span> <span class="nn">scipy.linalg</span> <span class="kn">import</span> <span class="n">solve</span>
+
+<span class="n">cvxopt_installed</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">cvxopt.base</span> <span class="kn">import</span> <span class="n">matrix</span>
+    <span class="kn">from</span> <span class="nn">cvxopt.base</span> <span class="kn">import</span> <span class="n">spmatrix</span>
+    <span class="kn">from</span> <span class="nn">cvxopt.solvers</span> <span class="kn">import</span> <span class="n">sdp</span>
+    <span class="kn">from</span> <span class="nn">cvxopt.solvers</span> <span class="kn">import</span> <span class="n">options</span>
+    <span class="n">options</span><span class="p">[</span><span class="s1">&#39;show_progress&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">cvxopt_installed</span> <span class="o">=</span> <span class="kc">False</span>
+
+<span class="n">min_weight</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;1e-10&quot;</span><span class="p">)</span>
+<span class="n">angle_precision</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;1e-6&quot;</span><span class="p">)</span>
+<span class="n">tolerance</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;1e-1&quot;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="LovaszTheta"><a class="viewcode-back" href="../../../generated/grakel.LovaszTheta.html#grakel.LovaszTheta">[docs]</a><span class="k">class</span> <span class="nc">LovaszTheta</span><span class="p">(</span><span class="n">Kernel</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Lovasz theta kernel as proposed in :cite:`johansson2014global`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    X,Y : *valid-graph-format*</span>
+<span class="sd">        The pair of graphs on which the kernel is applied.</span>
+
+<span class="sd">    n_samples : int, default=50</span>
+<span class="sd">        The number of samples.</span>
+
+<span class="sd">    subsets_size_range : tuple, len=2, default=(2,8)</span>
+<span class="sd">        (min, max) size of the vertex set of sampled subgraphs.</span>
+
+<span class="sd">    random_state :  RandomState or int, default=None</span>
+<span class="sd">        A random number generator instance or an int to initialize a RandomState as a seed.</span>
+
+<span class="sd">    base_kernel : function (np.1darray, np.1darray -&gt; number), default=None</span>
+
+<span class="sd">        The applied metric between the lovasz_theta numbers of subgraphs.</span>
+<span class="sd">        If None :math:`f(x,y) = x*y`</span>
+
+<span class="sd">    max_dim : int, default=None</span>
+<span class="sd">        The maximum graph size that can appear both in fit or transform.</span>
+<span class="sd">        When None, max_dim is calculated based on the size of the biggest graph on fit.</span>
+<span class="sd">        This can lead to a crash in case a graph appears in transform with size bigger than in fit.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    d_ : int,</span>
+<span class="sd">        The maximum matrix dimension of fit plus 1. Signifies the number</span>
+<span class="sd">        of features assigned for lovasz labelling.</span>
+
+<span class="sd">    random_state_ : RandomState</span>
+<span class="sd">        A RandomState object handling all randomness of the class.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_graph_format</span> <span class="o">=</span> <span class="s2">&quot;adjacency&quot;</span>
+
+<div class="viewcode-block" id="LovaszTheta.__init__"><a class="viewcode-back" href="../../../generated/grakel.LovaszTheta.html#grakel.LovaszTheta.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">n_jobs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">n_samples</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+                 <span class="n">subsets_size_range</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span>
+                 <span class="n">max_dim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">base_kernel</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialise a lovasz_theta kernel.&quot;&quot;&quot;</span>
+        <span class="c1"># setup valid parameters and initialise from parent</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">cvxopt_installed</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s1">&#39;cvxopt should be installed for the &#39;</span>
+                              <span class="s1">&#39;computation of the Lovasz-Theta Kernel.&#39;</span><span class="p">)</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">LovaszTheta</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="n">n_jobs</span><span class="p">,</span>
+                                          <span class="n">normalize</span><span class="o">=</span><span class="n">normalize</span><span class="p">,</span>
+                                          <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_samples</span> <span class="o">=</span> <span class="n">n_samples</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">subsets_size_range</span> <span class="o">=</span> <span class="n">subsets_size_range</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">base_kernel</span> <span class="o">=</span> <span class="n">base_kernel</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span> <span class="o">=</span> <span class="n">random_state</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_dim</span> <span class="o">=</span> <span class="n">max_dim</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;n_samples&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;subsets_size_range&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                                  <span class="s2">&quot;base_kernel&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;random_state&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                                  <span class="s2">&quot;max_dim&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">})</span></div>
+
+    <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize all transformer arguments, needing initialization.&quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">LovaszTheta</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">initialize</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="p">[</span><span class="s2">&quot;n_samples&quot;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_samples</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_samples</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">int</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;n_samples must an integer be bigger than &#39;</span>
+                                <span class="s1">&#39;zero&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="p">[</span><span class="s2">&quot;n_samples&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="p">[</span><span class="s2">&quot;subsets_size_range&quot;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">subsets_size_range</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">tuple</span>
+                    <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">subsets_size_range</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span>
+                    <span class="ow">or</span> <span class="nb">any</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">int</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">subsets_size_range</span><span class="p">)</span>
+                    <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">subsets_size_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">subsets_size_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                    <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">subsets_size_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;subsets_size_range subset size range&#39;</span>
+                                <span class="s1">&#39;must be a tuple of two integers in &#39;</span>
+                                <span class="s1">&#39;increasing order, bigger than 1&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="p">[</span><span class="s2">&quot;subsets_size_range&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="p">[</span><span class="s2">&quot;base_kernel&quot;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">callable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_kernel</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_kernel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;base_kernel between arguments &#39;</span> <span class="o">+</span>
+                                <span class="s1">&#39;must be a function&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="p">[</span><span class="s2">&quot;base_kernel&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">base_kernel_</span> <span class="o">=</span> <span class="n">inner_product</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="p">[</span><span class="s2">&quot;random_state&quot;</span><span class="p">]:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">random_state_</span> <span class="o">=</span> <span class="n">check_random_state</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="p">[</span><span class="s2">&quot;random_state&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="p">[</span><span class="s2">&quot;max_dim&quot;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_dim</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_dim</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">int</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_dim</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;max_dim if not None, should be an integer bigger than 1&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_dim</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">d_</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">d_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_dim</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="p">[</span><span class="s2">&quot;max_dim&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">parse_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Parse and create features for lovasz_theta kernel.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : iterable</span>
+<span class="sd">            For the input to pass the test, we must have:</span>
+<span class="sd">            Each element must be an iterable with at most three features and at</span>
+<span class="sd">            least one. The first that is obligatory is a valid graph structure</span>
+<span class="sd">            (adjacency matrix or edge_dictionary) while the second is</span>
+<span class="sd">            node_labels and the third edge_labels (that correspond to the given</span>
+<span class="sd">            graph format). A valid input also consists of graph type objects.</span>
+
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out : list</span>
+<span class="sd">            The lovasz metrics for the given input.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">collections</span><span class="o">.</span><span class="n">Iterable</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;input must be an iterable</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">adjm</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+            <span class="n">max_dim</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">X</span><span class="p">)):</span>
+                <span class="n">is_iter</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">collections</span><span class="o">.</span><span class="n">Iterable</span><span class="p">):</span>
+                    <span class="n">x</span><span class="p">,</span> <span class="n">is_iter</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="kc">True</span>
+                <span class="k">if</span> <span class="n">is_iter</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;Ignoring empty element &#39;</span> <span class="o">+</span>
+                                      <span class="s1">&#39;on index: &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">idx</span><span class="p">))</span>
+                        <span class="k">continue</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">x</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">{},</span> <span class="p">{},</span> <span class="bp">self</span><span class="o">.</span><span class="n">_graph_format</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">Graph</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;each element of X must be either a &#39;</span> <span class="o">+</span>
+                                    <span class="s1">&#39;graph or an iterable with at least 1 &#39;</span> <span class="o">+</span>
+                                    <span class="s1">&#39;and at most 3 elements</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">A</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">get_adjacency_matrix</span><span class="p">()</span>
+                <span class="n">adjm</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+                <span class="n">max_dim</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">max_dim</span><span class="p">,</span> <span class="n">A</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_method_calling</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">d_</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">d_</span> <span class="o">=</span> <span class="n">max_dim</span> <span class="o">+</span> <span class="mi">1</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">d_</span> <span class="o">&lt;</span> <span class="n">max_dim</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_dim</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_method_calling</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Maximum dimension of a graph in transform is bigger &#39;</span>
+                                     <span class="s1">&#39;than the one found in fit. To avoid that use max_dim parameter.&#39;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;max_dim should correspond to the &#39;</span>
+                                     <span class="s1">&#39;biggest graph inside the dataset&#39;</span><span class="p">)</span>
+
+            <span class="n">out</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">A</span> <span class="ow">in</span> <span class="n">adjm</span><span class="p">:</span>
+                <span class="n">X</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="n">_calculate_lovasz_embeddings_</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+                <span class="n">U</span> <span class="o">=</span> <span class="n">_calculate_lovasz_labelling_</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">d_</span><span class="p">)</span>
+                <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_calculate_MEC_</span><span class="p">(</span><span class="n">U</span><span class="p">))</span>
+
+            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;parsed input is empty&#39;</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">out</span>
+
+    <span class="k">def</span> <span class="nf">pairwise_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Lovasz theta kernel as proposed in :cite:`johansson2014global`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        x, y : dict</span>
+<span class="sd">            Subgraph samples metric dictionaries for all levels.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        kernel : number</span>
+<span class="sd">            The kernel value.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_kernel_</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_calculate_MEC_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">U</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Calculate the minimum enclosing cone for given U.</span>
+
+<span class="sd">        Calculates the minimum a graph metric as the lovasz theta kernel or the</span>
+<span class="sd">        svm-theta kernel, on a set of randomly sampled subgraphs, producing a</span>
+<span class="sd">        dictionary of subgraph levels and sets.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        U : np.array, ndim=2</span>
+<span class="sd">            The adjacency matrix.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        level_values : np.array, shape=(num_of_levels, 1)</span>
+<span class="sd">            Returns for all levels the mean of lovasz_numbers for</span>
+<span class="sd">            sampled subsets.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Calculate subsets</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="n">U</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">samples_on_subsets</span> <span class="o">=</span> <span class="n">distribute_samples</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">subsets_size_range</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_samples</span><span class="p">)</span>
+
+        <span class="c1"># Calculate level dictionary with lovasz values</span>
+        <span class="n">phi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">subsets_size_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">subsets_size_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">level</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">subsets_size_range</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">subsets_size_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)):</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="n">samples_on_subsets</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">level</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">level_values</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+                <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">level</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">:</span>
+                        <span class="n">indexes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">random_state_</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">level</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">indexes</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+                    <span class="c1"># calculate the metrix value for that level</span>
+                    <span class="n">level_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_minimum_cone_</span><span class="p">(</span><span class="n">U</span><span class="p">[:,</span> <span class="n">indexes</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">random_state_</span><span class="p">))</span>
+                <span class="n">phi</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">level_values</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">phi</span></div>
+
+
+<span class="k">def</span> <span class="nf">_calculate_lovasz_embeddings_</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calculate the lovasz embeddings for the given graph.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    A : np.array, ndim=2</span>
+<span class="sd">        The adjacency matrix.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    lovasz_theta : float</span>
+<span class="sd">        Returns the lovasz theta number.</span>
+
+<span class="sd">    optimization_solution : np.array</span>
+<span class="sd">        Returns the slack variable solution</span>
+<span class="sd">        of the primal optimization program.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">A</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">1.0</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">tf_adjm</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">A</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">min_weight</span><span class="p">)</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">fill_diagonal</span><span class="p">(</span><span class="n">tf_adjm</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">i_list</span><span class="p">,</span> <span class="n">j_list</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">triu</span><span class="p">(</span><span class="n">tf_adjm</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">),</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+
+        <span class="n">nv</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">ne</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">i_list</span><span class="p">)</span>
+
+        <span class="n">x_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="n">e_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">))</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">i_list</span><span class="p">,</span> <span class="n">j_list</span><span class="p">)):</span>
+            <span class="n">e_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">e</span><span class="p">)),</span> <span class="n">x_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="o">*</span><span class="n">nv</span><span class="o">+</span><span class="n">j</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">tf_adjm</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]:</span>
+                <span class="n">e_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">e</span><span class="p">)),</span> <span class="n">x_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="o">*</span><span class="n">nv</span><span class="o">+</span><span class="n">j</span><span class="p">))</span>
+
+    <span class="c1"># Add on the last row, diagonal elements</span>
+    <span class="n">e_list</span> <span class="o">=</span> <span class="n">e_list</span><span class="o">+</span><span class="p">(</span><span class="n">nv</span><span class="o">*</span><span class="p">[</span><span class="n">ne</span><span class="p">])</span>
+    <span class="n">x_list</span> <span class="o">=</span> <span class="n">x_list</span><span class="o">+</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="o">*</span><span class="n">nv</span> <span class="o">+</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nv</span><span class="p">)]</span>
+
+    <span class="c1"># initialise g sparse (to values -1, based on two list that</span>
+    <span class="c1"># define index and one that defines shape</span>
+    <span class="n">g_sparse</span> <span class="o">=</span> <span class="n">spmatrix</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">x_list</span><span class="p">,</span> <span class="n">e_list</span><span class="p">,</span> <span class="p">(</span><span class="n">nv</span><span class="o">*</span><span class="n">nv</span><span class="p">,</span> <span class="n">ne</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+
+    <span class="c1"># Initialise optimization parameters</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="p">(</span><span class="n">nv</span><span class="p">,</span> <span class="n">nv</span><span class="p">))</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">([</span><span class="mf">0.0</span><span class="p">]</span><span class="o">*</span><span class="n">ne</span> <span class="o">+</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">])</span>
+
+    <span class="c1"># Solve the convex optimization problem</span>
+    <span class="n">sol</span> <span class="o">=</span> <span class="n">sdp</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">Gs</span><span class="o">=</span><span class="p">[</span><span class="n">g_sparse</span><span class="p">],</span> <span class="n">hs</span><span class="o">=</span><span class="p">[</span><span class="n">h</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">sol</span><span class="p">[</span><span class="s1">&#39;ss&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]),</span> <span class="n">sol</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">][</span><span class="n">ne</span><span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">_calculate_lovasz_labelling_</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calculate the lovasz labelling for the extracted embeddings.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    X : np.array, ndim=2</span>
+<span class="sd">        The optimization solution of the sdp program.</span>
+
+<span class="sd">    t : float</span>
+<span class="sd">        Returns the lovasz theta number.</span>
+
+<span class="sd">    d : int</span>
+<span class="sd">        The number of features size.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    lovasz_theta : float</span>
+<span class="sd">        Returns the lovasz theta number.</span>
+
+<span class="sd">    optimization_solution : np.array</span>
+<span class="sd">        Returns the slack variable solution</span>
+<span class="sd">        of the primal optimization program.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">V</span> <span class="o">=</span> <span class="n">cholesky</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">LinAlgError</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">diagonal</span><span class="p">()</span>
+        <span class="n">x</span><span class="o">.</span><span class="n">setflags</span><span class="p">(</span><span class="n">write</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">+=</span> <span class="mi">2</span><span class="o">*</span><span class="nb">abs</span><span class="p">(</span><span class="n">eigvalsh</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">eigvals</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">V</span> <span class="o">=</span> <span class="n">cholesky</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+    <span class="n">V</span> <span class="o">=</span> <span class="n">pad</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="n">d</span><span class="o">-</span><span class="n">n</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)],</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;constant&#39;</span><span class="p">,</span> <span class="n">constant_values</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">d</span><span class="p">,))</span>
+    <span class="n">c</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="n">C</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">n</span><span class="p">,)))</span>
+
+    <span class="n">U</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">sqrt</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">C</span><span class="o">+</span><span class="n">V</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">U</span>
+
+
+<span class="k">def</span> <span class="nf">_minimum_cone_</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">rs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calculate the minimum cone.</span>
+
+<span class="sd">    Computes the angle and center of the minimum cone, with its point</span>
+<span class="sd">    in the origin, enclosing the vectors in A.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    U : np.array, ndim=2</span>
+<span class="sd">        The vectors that will be enclosed.</span>
+
+<span class="sd">    rs : RandomState</span>
+<span class="sd">        A RandomState object handling all randomness of the class.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    angle_cosine : float</span>
+<span class="sd">        Returns the cosine of the minimum angle.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">U</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">P</span> <span class="o">=</span> <span class="n">rs</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="n">c</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">_b_minidisk_</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">rs</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="n">np</span><span class="o">.</span><span class="n">errstate</span><span class="p">(</span><span class="n">divide</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">):</span>
+        <span class="n">c</span> <span class="o">/=</span> <span class="n">norm</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="n">t</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">U</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">c</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">t</span> <span class="o">&gt;</span> <span class="mf">1.</span> <span class="ow">and</span> <span class="n">t</span> <span class="o">&lt;</span> <span class="n">angle_precision</span><span class="p">:</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="mf">1.</span>
+
+    <span class="k">elif</span> <span class="n">t</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mf">1.</span> <span class="ow">and</span> <span class="n">t</span> <span class="o">&gt;</span> <span class="o">-</span><span class="n">angle_precision</span><span class="p">:</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.</span>
+
+    <span class="k">return</span> <span class="n">t</span>
+
+
+<span class="k">def</span> <span class="nf">_b_minidisk_</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">rs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calculate the minidisk.</span>
+
+<span class="sd">    Implements Welzl&#39;s algorithm (*move-to-front*)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    A : np.array, ndim=2</span>
+<span class="sd">        The vectors that will be enclosed.</span>
+
+<span class="sd">    P : np.array, ndim=1</span>
+<span class="sd">        A random permutation of indeces.</span>
+
+<span class="sd">    R : np.array, ndim=1</span>
+<span class="sd">        A subset of vectors that are enclosed.</span>
+
+<span class="sd">    rs : RandomState</span>
+<span class="sd">        A RandomState object handling all randomness of the class.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    c : np.array, ndim=1</span>
+<span class="sd">        The center vector C of the cone as it is being minimized.</span>
+
+<span class="sd">    r : int</span>
+<span class="sd">        The cone radius as it is beeing minimized.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">d</span><span class="p">,</span> <span class="n">nP</span><span class="p">,</span> <span class="n">nR</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">P</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">R</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="c1"># original algorithm</span>
+    <span class="k">if</span> <span class="n">nP</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">nR</span> <span class="o">==</span> <span class="n">d</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">nR</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">c</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">d</span><span class="p">,)),</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">c</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span> <span class="n">_fitball_</span><span class="p">(</span><span class="n">A</span><span class="p">[:,</span> <span class="n">R</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">P</span><span class="p">[</span><span class="n">rs</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">nP</span><span class="p">)]</span>
+        <span class="n">P_prime</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">P</span> <span class="o">==</span> <span class="n">p</span><span class="p">))</span>
+        <span class="n">c</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span> <span class="n">_b_minidisk_</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">P_prime</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">rs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">norm</span><span class="p">(</span><span class="n">A</span><span class="p">[:,</span> <span class="n">p</span><span class="p">]</span> <span class="o">-</span> <span class="n">c</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="n">r</span> <span class="o">&gt;</span> <span class="n">tolerance</span><span class="p">:</span>
+            <span class="c1"># if not inside ball</span>
+            <span class="k">if</span> <span class="n">p</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">R</span><span class="p">:</span>
+                <span class="n">R_prime</span> <span class="o">=</span> <span class="n">pad</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)],</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;constant&#39;</span><span class="p">,</span> <span class="n">constant_values</span><span class="o">=</span><span class="n">p</span><span class="p">)</span>
+                <span class="n">c</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span> <span class="n">_b_minidisk_</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">P_prime</span><span class="p">,</span> <span class="n">R_prime</span><span class="p">,</span> <span class="n">rs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">c</span><span class="p">,</span> <span class="n">r</span>
+
+
+<span class="k">def</span> <span class="nf">_fitball_</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Fit the minimum ball.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    A : np.array, ndim=2</span>
+<span class="sd">        The vectors that will be enclosed inside the ball.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    c : np.array, ndim=1</span>
+<span class="sd">        The center vector C of the ball.</span>
+
+<span class="sd">    r : int</span>
+<span class="sd">        The ball radius.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">c</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span> <span class="n">A</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="mi">0</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">Q</span> <span class="o">=</span> <span class="n">A</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">A</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))</span>
+        <span class="n">B</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">Q</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">Q</span><span class="p">)</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">B</span><span class="o">.</span><span class="n">diagonal</span><span class="p">()</span><span class="o">/</span><span class="mi">2</span>
+
+        <span class="n">L</span> <span class="o">=</span> <span class="n">solve</span><span class="p">(</span><span class="n">B</span><span class="p">[</span><span class="mi">1</span><span class="p">:,</span> <span class="p">:][:,</span> <span class="mi">1</span><span class="p">:],</span> <span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+        <span class="n">L</span> <span class="o">=</span> <span class="n">pad</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)],</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;constant&#39;</span><span class="p">,</span> <span class="n">constant_values</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="n">C</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">d</span><span class="p">,))</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+            <span class="n">C</span> <span class="o">=</span> <span class="n">C</span> <span class="o">+</span> <span class="n">L</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">Q</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span>
+
+        <span class="n">r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">C</span><span class="p">))</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">C</span> <span class="o">+</span> <span class="n">A</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">c</span><span class="p">,</span> <span class="n">r</span>
+
+
+<span class="k">def</span> <span class="nf">inner_product</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2019, DaSciM (BSD License).
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

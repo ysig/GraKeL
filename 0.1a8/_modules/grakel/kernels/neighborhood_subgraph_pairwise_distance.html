@@ -1,0 +1,663 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>grakel.kernels.neighborhood_subgraph_pairwise_distance &mdash; GraKeL 0.1.8 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/_static/css/supplementary.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery-dataframe.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery-rendered-html.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> GraKeL
+          
+
+          
+            
+            <img src="../../../_static/logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.8
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../documentation.html">Documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../benchmarks.html">Benchmarks</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">GraKeL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../classes.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials.html">Tutorials</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">GraKeL</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>grakel.kernels.neighborhood_subgraph_pairwise_distance</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for grakel.kernels.neighborhood_subgraph_pairwise_distance</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Neighborhood subgraph pairwise distance kernel :cite:`costa2010fast`.&quot;&quot;&quot;</span>
+<span class="c1"># Author: Ioannis Siglidis &lt;y.siglidis@gmail.com&gt;</span>
+<span class="c1"># License: BSD 3 clause</span>
+<span class="kn">import</span> <span class="nn">collections</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">scipy.sparse</span> <span class="kn">import</span> <span class="n">csr_matrix</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.exceptions</span> <span class="kn">import</span> <span class="n">NotFittedError</span>
+<span class="kn">from</span> <span class="nn">sklearn.utils.validation</span> <span class="kn">import</span> <span class="n">check_is_fitted</span>
+
+<span class="kn">from</span> <span class="nn">grakel.kernels</span> <span class="kn">import</span> <span class="n">Kernel</span>
+<span class="kn">from</span> <span class="nn">grakel.graph</span> <span class="kn">import</span> <span class="n">Graph</span>
+
+<span class="kn">from</span> <span class="nn">grakel.kernels._c_functions</span> <span class="kn">import</span> <span class="n">APHash</span>
+
+<span class="c1"># Python 2/3 cross-compatibility import</span>
+<span class="kn">from</span> <span class="nn">six</span> <span class="kn">import</span> <span class="n">iteritems</span>
+<span class="kn">from</span> <span class="nn">six.moves</span> <span class="kn">import</span> <span class="n">filterfalse</span>
+<span class="kn">from</span> <span class="nn">builtins</span> <span class="kn">import</span> <span class="nb">range</span>
+
+
+<div class="viewcode-block" id="NeighborhoodSubgraphPairwiseDistance"><a class="viewcode-back" href="../../../generated/grakel.NeighborhoodSubgraphPairwiseDistance.html#grakel.NeighborhoodSubgraphPairwiseDistance">[docs]</a><span class="k">class</span> <span class="nc">NeighborhoodSubgraphPairwiseDistance</span><span class="p">(</span><span class="n">Kernel</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;The Neighborhood subgraph pairwise distance kernel.</span>
+
+<span class="sd">    See :cite:`costa2010fast`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    r : int, default=3</span>
+<span class="sd">        The maximum considered radius between vertices.</span>
+
+<span class="sd">    d : int, default=4</span>
+<span class="sd">        Neighborhood depth.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    _ngx : int</span>
+<span class="sd">        The number of graphs upon fit.</span>
+
+<span class="sd">    _ngy : int</span>
+<span class="sd">        The number of graphs upon transform.</span>
+
+<span class="sd">    _fit_keys : dict</span>
+<span class="sd">        A dictionary with keys from `0` to `_d+1`, constructed upon fit</span>
+<span class="sd">        holding an enumeration of all the found (in the fit dataset)</span>
+<span class="sd">        tuples of two hashes and a radius in this certain level.</span>
+
+<span class="sd">    _X_level_norm_factor : dict</span>
+<span class="sd">        A dictionary with keys from `0` to `_d+1`, that holds the self</span>
+<span class="sd">        calculated kernel `[krg(X_i, X_i) for i=1:ngraphs_X]` for all levels.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_graph_format</span> <span class="o">=</span> <span class="s2">&quot;dictionary&quot;</span>
+
+<div class="viewcode-block" id="NeighborhoodSubgraphPairwiseDistance.__init__"><a class="viewcode-back" href="../../../generated/grakel.NeighborhoodSubgraphPairwiseDistance.html#grakel.NeighborhoodSubgraphPairwiseDistance.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize an NSPD kernel.&quot;&quot;&quot;</span>
+        <span class="c1"># setup valid parameters and initialise from parent</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">NeighborhoodSubgraphPairwiseDistance</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">n_jobs</span><span class="o">=</span><span class="n">n_jobs</span><span class="p">,</span>
+            <span class="n">normalize</span><span class="o">=</span><span class="n">normalize</span><span class="p">,</span>
+            <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">r</span> <span class="o">=</span> <span class="n">r</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">d</span> <span class="o">=</span> <span class="n">d</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;r&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;d&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">})</span></div>
+
+    <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize all transformer arguments, needing initialization.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="p">[</span><span class="s2">&quot;n_jobs&quot;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;no implemented parallelization for NeighborhoodSubgraphPairwiseDistance&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="p">[</span><span class="s2">&quot;n_jobs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="p">[</span><span class="s2">&quot;r&quot;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">r</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">int</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">r</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;r must be a positive integer&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="p">[</span><span class="s2">&quot;r&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="p">[</span><span class="s2">&quot;d&quot;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">int</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">d</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;d must be a positive integer&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="p">[</span><span class="s2">&quot;d&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">parse_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Parse and create features for the NSPD kernel.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : iterable</span>
+<span class="sd">            For the input to pass the test, we must have:</span>
+<span class="sd">            Each element must be an iterable with at most three features and at</span>
+<span class="sd">            least one. The first that is obligatory is a valid graph structure</span>
+<span class="sd">            (adjacency matrix or edge_dictionary) while the second is</span>
+<span class="sd">            node_labels and the third edge_labels (that correspond to the given</span>
+<span class="sd">            graph format). A valid input also consists of graph type objects.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        M : dict</span>
+<span class="sd">            A dictionary with keys all the distances from 0 to self.d</span>
+<span class="sd">            and values the the np.arrays with rows corresponding to the</span>
+<span class="sd">            non-null input graphs and columns to the enumerations of tuples</span>
+<span class="sd">            consisting of pairs of hash values and radius, from all the given</span>
+<span class="sd">            graphs of the input (plus the fitted one&#39;s on transform).</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">collections</span><span class="o">.</span><span class="n">Iterable</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;input must be an iterable</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Hold the number of graphs</span>
+            <span class="n">ng</span> <span class="o">=</span> <span class="mi">0</span>
+
+            <span class="c1"># Holds all the data for combinations of r, d</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">defaultdict</span><span class="p">(</span><span class="nb">dict</span><span class="p">)</span>
+
+            <span class="c1"># Index all keys for combinations of r, d</span>
+            <span class="n">all_keys</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">defaultdict</span><span class="p">(</span><span class="nb">dict</span><span class="p">)</span>
+            <span class="k">for</span> <span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">X</span><span class="p">)):</span>
+                <span class="n">is_iter</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">collections</span><span class="o">.</span><span class="n">Iterable</span><span class="p">):</span>
+                    <span class="n">is_iter</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">is_iter</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;Ignoring empty element&#39;</span> <span class="o">+</span>
+                                      <span class="s1">&#39; on index: &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">idx</span><span class="p">))</span>
+                        <span class="k">continue</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">g</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+                        <span class="n">g</span><span class="o">.</span><span class="n">change_format</span><span class="p">(</span><span class="s2">&quot;adjacency&quot;</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">is</span> <span class="n">Graph</span><span class="p">:</span>
+                    <span class="n">g</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">get_adjacency_matrix</span><span class="p">(),</span>
+                              <span class="n">x</span><span class="o">.</span><span class="n">get_labels</span><span class="p">(</span><span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;adjacency&quot;</span><span class="p">,</span> <span class="n">label_type</span><span class="o">=</span><span class="s2">&quot;vertex&quot;</span><span class="p">),</span>
+                              <span class="n">x</span><span class="o">.</span><span class="n">get_labels</span><span class="p">(</span><span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;adjacency&quot;</span><span class="p">,</span> <span class="n">label_type</span><span class="o">=</span><span class="s2">&quot;edge&quot;</span><span class="p">))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;each element of X must have either &#39;</span> <span class="o">+</span>
+                                    <span class="s1">&#39;a graph with labels for node and edge &#39;</span> <span class="o">+</span>
+                                    <span class="s1">&#39;or 3 elements consisting of a graph &#39;</span> <span class="o">+</span>
+                                    <span class="s1">&#39;type object, labels for vertices and &#39;</span> <span class="o">+</span>
+                                    <span class="s1">&#39;labels for edges.&#39;</span><span class="p">)</span>
+
+                <span class="c1"># Bring to the desired format</span>
+                <span class="n">g</span><span class="o">.</span><span class="n">change_format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_graph_format</span><span class="p">)</span>
+
+                <span class="c1"># Take the vertices</span>
+                <span class="n">vertices</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">get_vertices</span><span class="p">(</span><span class="n">purpose</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_graph_format</span><span class="p">))</span>
+
+                <span class="c1"># Extract the dicitionary</span>
+                <span class="n">ed</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">get_edge_dictionary</span><span class="p">()</span>
+
+                <span class="c1"># Convert edges to tuples</span>
+                <span class="n">edges</span> <span class="o">=</span> <span class="p">{(</span><span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">ed</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">ed</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()}</span>
+
+                <span class="c1"># Extract labels for nodes</span>
+                <span class="n">Lv</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">get_labels</span><span class="p">(</span><span class="n">purpose</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_graph_format</span><span class="p">)</span>
+                <span class="c1"># and for edges</span>
+                <span class="n">Le</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">get_labels</span><span class="p">(</span><span class="n">purpose</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_graph_format</span><span class="p">,</span> <span class="n">label_type</span><span class="o">=</span><span class="s2">&quot;edge&quot;</span><span class="p">)</span>
+
+                <span class="c1"># Produce all the neighborhoods and the distance pairs</span>
+                <span class="c1"># up to the desired radius and maximum distance</span>
+                <span class="n">N</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">D_pair</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">produce_neighborhoods</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">r</span><span class="p">,</span> <span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;dictionary&quot;</span><span class="p">,</span>
+                                                       <span class="n">with_distances</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="p">)</span>
+
+                <span class="c1"># Hash all the neighborhoods</span>
+                <span class="n">H</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hash_neighborhoods</span><span class="p">(</span><span class="n">vertices</span><span class="p">,</span> <span class="n">edges</span><span class="p">,</span> <span class="n">Lv</span><span class="p">,</span> <span class="n">Le</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">D_pair</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_method_calling</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">filterfalse</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">D</span><span class="p">,</span>
+                                         <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="o">+</span><span class="mi">1</span><span class="p">)):</span>
+                        <span class="k">for</span> <span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span> <span class="ow">in</span> <span class="n">D</span><span class="p">[</span><span class="n">d</span><span class="p">]:</span>
+                            <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">r</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+                                <span class="n">key</span> <span class="o">=</span> <span class="p">(</span><span class="n">H</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">A</span><span class="p">],</span> <span class="n">H</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">B</span><span class="p">])</span>
+                                <span class="n">keys</span> <span class="o">=</span> <span class="n">all_keys</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">d</span><span class="p">]</span>
+                                <span class="n">idx</span> <span class="o">=</span> <span class="n">keys</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                                <span class="k">if</span> <span class="n">idx</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                                    <span class="n">idx</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span>
+                                    <span class="n">keys</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">idx</span>
+                                <span class="n">data</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">d</span><span class="p">][</span><span class="n">ng</span><span class="p">,</span> <span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">d</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">((</span><span class="n">ng</span><span class="p">,</span> <span class="n">idx</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+
+                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_method_calling</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">filterfalse</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">D</span><span class="p">,</span>
+                                         <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="o">+</span><span class="mi">1</span><span class="p">)):</span>
+                        <span class="k">for</span> <span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span> <span class="ow">in</span> <span class="n">D</span><span class="p">[</span><span class="n">d</span><span class="p">]:</span>
+                            <span class="c1"># Based on the edges of the bidirected graph</span>
+                            <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">r</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+                                <span class="n">keys</span> <span class="o">=</span> <span class="n">all_keys</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">d</span><span class="p">]</span>
+                                <span class="n">fit_keys</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fit_keys</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">d</span><span class="p">]</span>
+                                <span class="n">key</span> <span class="o">=</span> <span class="p">(</span><span class="n">H</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">A</span><span class="p">],</span> <span class="n">H</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">B</span><span class="p">])</span>
+                                <span class="n">idx</span> <span class="o">=</span> <span class="n">fit_keys</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                                <span class="k">if</span> <span class="n">idx</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                                    <span class="n">idx</span> <span class="o">=</span> <span class="n">keys</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                                    <span class="k">if</span> <span class="n">idx</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                                        <span class="n">idx</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">fit_keys</span><span class="p">)</span>
+                                        <span class="n">keys</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">idx</span>
+                                <span class="n">data</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">d</span><span class="p">][</span><span class="n">ng</span><span class="p">,</span> <span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">d</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">((</span><span class="n">ng</span><span class="p">,</span> <span class="n">idx</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+                <span class="n">ng</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">ng</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;parsed input is empty&#39;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_method_calling</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="c1"># A feature matrix for all levels</span>
+                <span class="n">M</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+
+                <span class="k">for</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="ow">in</span> <span class="n">filterfalse</span><span class="p">(</span><span class="k">lambda</span> <span class="n">a</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span>
+                                            <span class="n">iteritems</span><span class="p">(</span><span class="n">data</span><span class="p">)):</span>
+                    <span class="n">indexes</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">iteritems</span><span class="p">(</span><span class="n">d</span><span class="p">))</span>
+                    <span class="n">rows</span><span class="p">,</span> <span class="n">cols</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">indexes</span><span class="p">)</span>
+                    <span class="n">M</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">csr_matrix</span><span class="p">((</span><span class="n">data</span><span class="p">,</span> <span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">cols</span><span class="p">)),</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">ng</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">all_keys</span><span class="p">[</span><span class="n">key</span><span class="p">])),</span>
+                                        <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_fit_keys</span> <span class="o">=</span> <span class="n">all_keys</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_ngx</span> <span class="o">=</span> <span class="n">ng</span>
+
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_method_calling</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="c1"># A feature matrix for all levels</span>
+                <span class="n">M</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+
+                <span class="k">for</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="ow">in</span> <span class="n">filterfalse</span><span class="p">(</span><span class="k">lambda</span> <span class="n">a</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span>
+                                            <span class="n">iteritems</span><span class="p">(</span><span class="n">data</span><span class="p">)):</span>
+                    <span class="n">indexes</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">iteritems</span><span class="p">(</span><span class="n">d</span><span class="p">))</span>
+                    <span class="n">rows</span><span class="p">,</span> <span class="n">cols</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">indexes</span><span class="p">)</span>
+                    <span class="n">M</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">csr_matrix</span><span class="p">((</span><span class="n">data</span><span class="p">,</span> <span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">cols</span><span class="p">)),</span>
+                                        <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">ng</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">all_keys</span><span class="p">[</span><span class="n">key</span><span class="p">])</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_fit_keys</span><span class="p">[</span><span class="n">key</span><span class="p">])),</span>
+                                        <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">_ngy</span> <span class="o">=</span> <span class="n">ng</span>
+
+            <span class="k">return</span> <span class="n">M</span>
+
+    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Calculate the kernel matrix, between given and fitted dataset.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : iterable</span>
+<span class="sd">            Each element must be an iterable with at most three features and at</span>
+<span class="sd">            least one. The first that is obligatory is a valid graph structure</span>
+<span class="sd">            (adjacency matrix or edge_dictionary) while the second is</span>
+<span class="sd">            node_labels and the third edge_labels (that fitting the given graph</span>
+<span class="sd">            format).</span>
+
+<span class="sd">        y : Object, default=None</span>
+<span class="sd">            Ignored argument, added for the pipeline.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        K : numpy array, shape = [n_targets, n_input_graphs]</span>
+<span class="sd">            corresponding to the kernel matrix, a calculation between</span>
+<span class="sd">            all pairs of graphs between target an features</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_method_calling</span> <span class="o">=</span> <span class="mi">3</span>
+        <span class="c1"># Check is fit had been called</span>
+        <span class="n">check_is_fitted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;X&#39;</span><span class="p">])</span>
+
+        <span class="c1"># Input validation and parsing</span>
+        <span class="k">if</span> <span class="n">X</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;transform input cannot be None&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">Y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parse_input</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">check_is_fitted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;_X_level_norm_factor&#39;</span><span class="p">])</span>
+        <span class="k">except</span> <span class="n">NotFittedError</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_X_level_norm_factor</span> <span class="o">=</span> \
+                <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+                 <span class="k">for</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">M</span><span class="p">)</span> <span class="ow">in</span> <span class="n">iteritems</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">)}</span>
+
+        <span class="n">N</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_X_level_norm_factor</span>
+        <span class="n">S</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ngy</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ngx</span><span class="p">))</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">Mp</span><span class="p">)</span> <span class="ow">in</span> <span class="n">filterfalse</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">,</span>
+                                     <span class="n">iteritems</span><span class="p">(</span><span class="n">Y</span><span class="p">)):</span>
+            <span class="n">M</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+            <span class="n">K</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">Mp</span><span class="o">.</span><span class="n">T</span><span class="p">[:</span><span class="n">M</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
+            <span class="n">S</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan_to_num</span><span class="p">(</span><span class="n">K</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Mp</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)),</span> <span class="n">N</span><span class="p">[</span><span class="n">key</span><span class="p">])))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_Y</span> <span class="o">=</span> <span class="n">Y</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_is_transformed</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalize</span><span class="p">:</span>
+            <span class="n">S</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">diagonal</span><span class="p">()))</span>
+        <span class="k">return</span> <span class="n">S</span>
+
+    <span class="k">def</span> <span class="nf">fit_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Fit and transform, on the same dataset.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : iterable</span>
+<span class="sd">            Each element must be an iterable with at most three features and at</span>
+<span class="sd">            least one. The first that is obligatory is a valid graph structure</span>
+<span class="sd">            (adjacency matrix or edge_dictionary) while the second is</span>
+<span class="sd">            node_labels and the third edge_labels (that fitting the given graph</span>
+<span class="sd">            format). If None the kernel matrix is calculated upon fit data.</span>
+<span class="sd">            The test samples.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        K : numpy array, shape = [n_input_graphs, n_input_graphs]</span>
+<span class="sd">            corresponding to the kernel matrix, a calculation between</span>
+<span class="sd">            all pairs of graphs between target an features</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_method_calling</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+        <span class="n">S</span><span class="p">,</span> <span class="n">N</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ngx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ngx</span><span class="p">)),</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">M</span><span class="p">)</span> <span class="ow">in</span> <span class="n">iteritems</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">):</span>
+            <span class="n">K</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">T</span><span class="p">)</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
+            <span class="n">K_diag</span> <span class="o">=</span> <span class="n">K</span><span class="o">.</span><span class="n">diagonal</span><span class="p">()</span>
+            <span class="n">N</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">K_diag</span>
+            <span class="n">S</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan_to_num</span><span class="p">(</span><span class="n">K</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">K_diag</span><span class="p">,</span> <span class="n">K_diag</span><span class="p">)))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_X_level_norm_factor</span> <span class="o">=</span> <span class="n">N</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalize</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">S</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">S</span>
+
+    <span class="k">def</span> <span class="nf">diagonal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Calculate the kernel matrix diagonal of the fitted data.</span>
+
+<span class="sd">        Static. Added for completeness.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        X_diag : int</span>
+<span class="sd">            Always equal with r*d.</span>
+
+<span class="sd">        Y_diag : int</span>
+<span class="sd">            Always equal with r*d.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># constant based on normalization of krd</span>
+        <span class="n">check_is_fitted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;X&#39;</span><span class="p">])</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">check_is_fitted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;_X_diag&#39;</span><span class="p">])</span>
+        <span class="k">except</span> <span class="n">NotFittedError</span><span class="p">:</span>
+            <span class="c1"># Calculate diagonal of X</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_X_diag</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">check_is_fitted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;_Y&#39;</span><span class="p">])</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_X_diag</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_Y</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">NotFittedError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_X_diag</span>
+
+    <span class="k">def</span> <span class="nf">_hash_neighborhoods</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vertices</span><span class="p">,</span> <span class="n">edges</span><span class="p">,</span> <span class="n">Lv</span><span class="p">,</span> <span class="n">Le</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">D_pair</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Hash all neighborhoods and all root nodes.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        vertices : set</span>
+<span class="sd">            The graph vertices.</span>
+
+<span class="sd">        edges : set</span>
+<span class="sd">            The set of edges</span>
+
+<span class="sd">        N : dict</span>
+<span class="sd">            Neighborhoods that map levels (int) to dictionaries of root node</span>
+<span class="sd">            symbols (keys) to list of vertex symbols, which correspond to the</span>
+<span class="sd">            neighbors, that belong to this neighborhood.</span>
+
+<span class="sd">        D_pairs : dict</span>
+<span class="sd">            A dictionary that maps edges (tuple pairs of vertex symbols) to</span>
+<span class="sd">            element distances (int - as produced from a BFS traversal).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        H : dict</span>
+<span class="sd">            The hashed neighborhoods as a 2-level dict from radious,</span>
+<span class="sd">            vertex to the hashed values.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">H</span><span class="p">,</span> <span class="n">sel</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(),</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">edges</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">vertices</span><span class="p">:</span>
+            <span class="n">re</span><span class="p">,</span> <span class="n">lv</span><span class="p">,</span> <span class="n">le</span> <span class="o">=</span> <span class="n">sel</span><span class="p">,</span> <span class="n">Lv</span><span class="p">,</span> <span class="n">Le</span>
+            <span class="k">for</span> <span class="n">radius</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">r</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+                <span class="n">sub_vertices</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">N</span><span class="p">[</span><span class="n">radius</span><span class="p">][</span><span class="n">v</span><span class="p">])</span>
+                <span class="n">re</span> <span class="o">=</span> <span class="p">{(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="ow">in</span> <span class="n">re</span>
+                      <span class="k">if</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">sub_vertices</span> <span class="ow">and</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">sub_vertices</span><span class="p">}</span>
+                <span class="n">lv</span> <span class="o">=</span> <span class="p">{</span><span class="n">v</span><span class="p">:</span> <span class="n">lv</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">sub_vertices</span><span class="p">}</span>
+                <span class="n">le</span> <span class="o">=</span> <span class="p">{</span><span class="n">e</span><span class="p">:</span> <span class="n">le</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">}</span>
+                <span class="n">H</span><span class="p">[</span><span class="n">radius</span><span class="p">,</span> <span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">hash_graph</span><span class="p">(</span><span class="n">D_pair</span><span class="p">,</span> <span class="n">sub_vertices</span><span class="p">,</span> <span class="n">re</span><span class="p">,</span> <span class="n">lv</span><span class="p">,</span> <span class="n">le</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">H</span></div>
+
+
+<span class="k">def</span> <span class="nf">hash_graph</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">vertices</span><span class="p">,</span> <span class="n">edges</span><span class="p">,</span> <span class="n">glv</span><span class="p">,</span> <span class="n">gle</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Make labels for hashing according to the proposed method.</span>
+
+<span class="sd">    Produces the graph hash needed for fast comparison.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    D_pairs : dict</span>
+<span class="sd">        A dictionary that maps edges (tuple pairs of vertex symbols) to</span>
+<span class="sd">        element distances (int - as produced from a BFS traversal).</span>
+
+<span class="sd">    vertices : set</span>
+<span class="sd">        A set of vertices.</span>
+
+<span class="sd">    edges : set</span>
+<span class="sd">        A set of edges.</span>
+
+<span class="sd">    glv : dict</span>
+<span class="sd">        Labels for vertices of the graph.</span>
+
+<span class="sd">    gle : dict</span>
+<span class="sd">        Labels for edges of the graph.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    hash : int.</span>
+<span class="sd">        The hash value for the given graph.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">encoding</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+    <span class="c1"># Make labels for vertices</span>
+    <span class="n">Lv</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">vertices</span><span class="p">:</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;|&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">D</span><span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)])</span> <span class="o">+</span> <span class="s1">&#39;,&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">glv</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+                                 <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">vertices</span> <span class="k">if</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="ow">in</span> <span class="n">D</span><span class="p">]))</span>
+        <span class="n">encoding</span> <span class="o">+=</span> <span class="n">label</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span>
+        <span class="n">Lv</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">label</span>
+
+    <span class="n">encoding</span> <span class="o">=</span> <span class="n">encoding</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="s2">&quot;:&quot;</span>
+
+    <span class="c1"># Expand to labels for edges</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">:</span>
+        <span class="n">encoding</span> <span class="o">+=</span> <span class="n">Lv</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;,&#39;</span> <span class="o">+</span> <span class="n">Lv</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;,&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">gle</span><span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)])</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span>
+
+    <span class="c1"># Arash Partov hashing, as in the original</span>
+    <span class="c1"># implementation of NSPK.</span>
+    <span class="k">return</span> <span class="n">APHash</span><span class="p">(</span><span class="n">encoding</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2019, DaSciM (BSD License).
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,362 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Neighborhood Hash Kernel &mdash; GraKeL 0.1.8 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/_static/css/supplementary.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery-dataframe.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery-rendered-html.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Neighborhood Subgraph Pairwise Distance Kernel" href="neighborhood_subgraph_pairwise_distance.html" />
+    <link rel="prev" title="Multiscale Laplacian Kernel" href="multiscale_laplacian.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> GraKeL
+          
+
+          
+            
+            <img src="../_static/logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.8
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">Documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../benchmarks.html">Benchmarks</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">GraKeL</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../kernels.html">Kernels (between graphs)</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="core_framework.html">Core Kernel Framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="edge_histogram.html">Edge Histogram Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="graph_hopper.html">Graph Hopper Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="graphlet_sampling.html">Graphlet Sampling Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hadamard_code.html">Hadamard Code Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kernel.html">Kernel (general class)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lovasz_theta.html">Lovasz Theta Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="multiscale_laplacian.html">Multiscale Laplacian Kernel</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Neighborhood Hash Kernel</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#simple-neighborhood-hash">Simple Neighborhood Hash</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#count-sensitive-neighborhood-hash">Count-sensitive Neighborhood Hash</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kernel-calculation">Kernel Calculation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#bibliography">Bibliography</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="neighborhood_subgraph_pairwise_distance.html">Neighborhood Subgraph Pairwise Distance Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="odd_sth.html">ODD-STh Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="propagation.html">Propagation Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyramid_match.html">Pyramid Match Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="random_walk.html">Random Walk Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="shortest_path.html">Shortest Path Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="subgraph_matching.html">Subgraph Matching Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="svm_theta.html">SVM Theta Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vertex_histogram.html">Vertex Histogram Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="weisfeiler_lehman.html">Weisfeiler Lehman Framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="weisfeiler_lehman_optimal_assignment.html">Weisfeiler-Lehman Optimal Assignment</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../graph_kernel.html">GraphKernel (class)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../graph.html">Graph (class)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../datasets.html">Dataset loading utilities</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../classes.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials.html">Tutorials</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">GraKeL</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../api.html">GraKeL</a> &raquo;</li>
+        
+          <li><a href="../kernels.html">Kernels (between graphs)</a> &raquo;</li>
+        
+      <li>Neighborhood Hash Kernel</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/kernels/neighborhood_hash.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="neighborhood-hash-kernel">
+<span id="neighborhood-hash"></span><h1>Neighborhood Hash Kernel<a class="headerlink" href="#neighborhood-hash-kernel" title="Permalink to this headline">¶</a></h1>
+<p>The neighborhood hash kernel assumes node-labeled graphs <a class="bibtex reference internal" href="#hido2009alg" id="id1">[HK09]</a>.
+It compares graphs by updating their node labels and counting the number of common labels.
+The kernel replaces the discrete node labels with binary arrays of fixed length, and it then employs logical operations to update the labels so that they contain information regarding the neighborhood structure of each vertex.</p>
+<p>Let <span class="math notranslate nohighlight">\(\ell : \mathcal{V} \rightarrow \Sigma\)</span> be a function that maps vertices to an alphabet <span class="math notranslate nohighlight">\(\Sigma\)</span> which is the set of possible discrete node labels.
+Hence, given a vertex <span class="math notranslate nohighlight">\(v\)</span>, <span class="math notranslate nohighlight">\(\ell(v) \in \Sigma\)</span> is the label of vertex <span class="math notranslate nohighlight">\(v\)</span>.
+The algorithm first transform each discrete node label to a bit label.
+A bit label is a binary array consisting of <span class="math notranslate nohighlight">\(d\)</span> bits as</p>
+<div class="math notranslate nohighlight">
+\[s = \{ b_1, b_2, \ldots, b_d \}\]</div>
+<p>where the constant <span class="math notranslate nohighlight">\(d\)</span> satisfies <span class="math notranslate nohighlight">\(2^d - 1 \gg |\Sigma|\)</span> and <span class="math notranslate nohighlight">\(b_1, b_2, \ldots, b_d \in \{0, 1\}\)</span>.</p>
+<p>The most important step of the algorithm involves a procedure that updates the labels of the vertices.
+To achieve that, the kernel makes use of two very common bit operations: (1) the exclusive or (<span class="math notranslate nohighlight">\(XOR\)</span>) operation, and (2) the bit rotation (<span class="math notranslate nohighlight">\(ROT\)</span>) operation.
+Let <span class="math notranslate nohighlight">\(XOR(s_i, s_j) = s_i \oplus s_j\)</span> denote the <span class="math notranslate nohighlight">\(XOR\)</span> operation between two bit labels <span class="math notranslate nohighlight">\(s_i\)</span> and <span class="math notranslate nohighlight">\(s_j\)</span> (ie the <span class="math notranslate nohighlight">\(XOR\)</span> operation is applied to all their components).
+The output of the operation is a new binary array whose components represent the <span class="math notranslate nohighlight">\(XOR\)</span> value between the corresponding components of the <span class="math notranslate nohighlight">\(s_i\)</span> and <span class="math notranslate nohighlight">\(s_j\)</span> arrays.
+The <span class="math notranslate nohighlight">\(ROT_o\)</span> operation takes as input a bit array and shifts its last <span class="math notranslate nohighlight">\(o\)</span> bits to the left by <span class="math notranslate nohighlight">\(o\)</span> bits and moves the first <span class="math notranslate nohighlight">\(o\)</span> bits to the right end as shown below</p>
+<div class="math notranslate nohighlight">
+\[ROT_o(s) = \{ b_{o+1}, b_{o+2}, \ldots, b_d, b_1, \ldots, b_o \}\]</div>
+<p>Below, we present in detail two procedures for updating the labels of the vertices: (1) the simple neighborhood hash, and (2) the count-sensitive neighborhood hash.</p>
+<div class="section" id="simple-neighborhood-hash">
+<h2>Simple Neighborhood Hash<a class="headerlink" href="#simple-neighborhood-hash" title="Permalink to this headline">¶</a></h2>
+<p>Given a graph <span class="math notranslate nohighlight">\(G=(V,E)\)</span> with bit labels, the simple neighborhood hash update procedure computes a neighborhood hash for each vertex using the logical operations <span class="math notranslate nohighlight">\(XOR\)</span> and <span class="math notranslate nohighlight">\(ROT\)</span>.
+More specifically, given a vertex <span class="math notranslate nohighlight">\(v \in V\)</span>, let <span class="math notranslate nohighlight">\(\mathcal{N}(v)=\{ u_1,\ldots,u_d \}\)</span> be the set of neighbors of <span class="math notranslate nohighlight">\(v\)</span>.
+Then, the kernel computes the neighborhood hash as</p>
+<div class="math notranslate nohighlight">
+\[NH(v) = ROT_1 \big( \ell(v) \big) \oplus \big( \ell(u_1) \oplus \ldots \oplus \ell(u_d) \big)\]</div>
+<p>The resulting hash <span class="math notranslate nohighlight">\(NH(v)\)</span> is still a bit array of length <span class="math notranslate nohighlight">\(d\)</span>, and we regard it as the new label of <span class="math notranslate nohighlight">\(v\)</span>.
+This new label represents the distribution of the node labels around <span class="math notranslate nohighlight">\(v\)</span>.
+Hence, if <span class="math notranslate nohighlight">\(v_i\)</span> and <span class="math notranslate nohighlight">\(v_j\)</span> are two vertices that have the same label (ie <span class="math notranslate nohighlight">\(\ell(v_i) = \ell(v_j)\)</span>) and the label sets of their neighborhors are also identical, their hash values will be the same (ie <span class="math notranslate nohighlight">\(NH(v_i) = NH(v_j))\)</span>.
+Otherwise, they will be different except for accidental hash collisions.
+The main idea behind this update procedure is that the hash value is independent of the order of the neighborhood values due to the properties of the <span class="math notranslate nohighlight">\(XOR\)</span> operation.
+Hence, one can check whether or not the distributions of neighborhood labels of two vertices are equivalent without sorting or matching these two label sets.</p>
+</div>
+<div class="section" id="count-sensitive-neighborhood-hash">
+<h2>Count-sensitive Neighborhood Hash<a class="headerlink" href="#count-sensitive-neighborhood-hash" title="Permalink to this headline">¶</a></h2>
+<p>The simple neighborhood hash update procedure described above suffers from some problematic hash collisions.
+Specifically, the neighborhood hash values for two independent nodes have a small probability of being the same even if there is no accidental hash collision.
+Such problematic hash collisions may affect the positive semidefiniteness of the kernel.
+To address that problem, the count-sensitive neighborhood hash update procedure counts the number of occurences of each label in the set.
+More specifically, it first uses a sorting algorithm (eg radix sort) to align the bit labels of the neighbors, and then, it extracts the unique labels (set <span class="math notranslate nohighlight">\(\{ \ell_1, \ldots, \ell_l \}\)</span> in the case of <span class="math notranslate nohighlight">\(l\)</span> unique labels) and for each label counts its number of occurences.
+Then, it updates each unique label based on its number of occurences as follows</p>
+<div class="math notranslate nohighlight">
+\[\ell'_i = ROT_o \big( \ell_i \oplus o \big)\]</div>
+<p>where <span class="math notranslate nohighlight">\(\ell_i, \ell'_i\)</span> is the initial and updated label respectively, and <span class="math notranslate nohighlight">\(o\)</span> is the number of occurences of that label in the set of neighbors.
+The above operation makes the hash values unique by depending on the number of label occurrences.
+Then, the count-sensitive neighborhood hash is computed as</p>
+<div class="math notranslate nohighlight">
+\[CSNH(v) = ROT_1 \big( \ell(v) \big) \oplus \big( \ell'_1 \oplus \ldots \oplus \ell'_l \big)\]</div>
+<p>Both the simple and the count-sensitive neighborhood hash can be seen as general approaches for enriching the labels of vertices based on the label distribution of their neighborhood vertices.</p>
+</div>
+<div class="section" id="kernel-calculation">
+<h2>Kernel Calculation<a class="headerlink" href="#kernel-calculation" title="Permalink to this headline">¶</a></h2>
+<p>The neighborhood hash update procedures presented above aggregate the information of the neighborhood vertices to each vertex.
+Then, given two graphs <span class="math notranslate nohighlight">\(G\)</span> and <span class="math notranslate nohighlight">\(G'\)</span>, the updated labels of their vertices are compared using the following function</p>
+<div class="math notranslate nohighlight">
+\[\kappa(G, G') = \frac{c}{|V| + |V'| - c}\]</div>
+<p>where <span class="math notranslate nohighlight">\(c\)</span> is the number of labels the two graphs have in common.
+This function is equivalent to the Tanimoto coefficent which is commonly used as a similarity measure between sets of discrete values and which has been proven to be positive semidefinite <a class="bibtex reference internal" href="#gower1971general" id="id2">[Gow71]</a>.</p>
+<p>The label-update procedures is not necessary to be applied once, but they can be applied iteratively.
+By updating the bit labels several times, the new labels can capture high-order relationships between vertices.
+For instance, if the procedure is performed <span class="math notranslate nohighlight">\(h\)</span> times in total, the updated label <span class="math notranslate nohighlight">\(\ell(v)\)</span> of a vertex <span class="math notranslate nohighlight">\(v\)</span> represents the label distribution of its <span class="math notranslate nohighlight">\(h\)</span>-neighbors.
+Hence, two vertices <span class="math notranslate nohighlight">\(v_i, v_j\)</span> with identical labels and connections among their <span class="math notranslate nohighlight">\(r\)</span>-neighbors will be assigned the same label.
+Given a graph <span class="math notranslate nohighlight">\(G=(V,E)\)</span>, let <span class="math notranslate nohighlight">\(G_1, \ldots, G_h\)</span> denote the updated graphs where the node labels have been updated <span class="math notranslate nohighlight">\(1,\ldots,h\)</span> times, respectively.
+Then, given two graphs <span class="math notranslate nohighlight">\(G\)</span> and <span class="math notranslate nohighlight">\(G'\)</span>, the neighborhood hash kernel is defined as</p>
+<div class="math notranslate nohighlight">
+\[k(G, G') = \frac{1}{h} \sum_{i=1}^h \kappa(G_i, G'_i)\]</div>
+<p>The computational complexity of the neighborhood hash kernel is <span class="math notranslate nohighlight">\(\mathcal{O}(dhn\bar{D})\)</span> where <span class="math notranslate nohighlight">\(n=|V|\)</span> is the number of vertices of the graphs and <span class="math notranslate nohighlight">\(\bar{D}\)</span> is the average degree of their vertices.</p>
+<p>The implementation of the neighborhood hash kernel can be found below</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/grakel.NeighborhoodHash.html#grakel.NeighborhoodHash" title="grakel.NeighborhoodHash"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NeighborhoodHash</span></code></a>([n_jobs, normalize, …])</p></td>
+<td><p>Neighborhood hashing kernel as proposed in <a class="bibtex reference internal" href="#hido2009alg" id="id3">[HK09]</a>.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="bibliography">
+<h2>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">¶</a></h2>
+<p id="bibtex-bibliography-kernels/neighborhood_hash-0"><dl class="citation">
+<dt class="bibtex label" id="gower1971general"><span class="brackets"><a class="fn-backref" href="#id2">Gow71</a></span></dt>
+<dd><p>John C Gower. A general coefficient of similarity and some of its properties. <em>Biometrics</em>, pages 857–871, 1971.</p>
+</dd>
+<dt class="bibtex label" id="hido2009alg"><span class="brackets">HK09</span><span class="fn-backref">(<a href="#id1">1</a>,<a href="#id3">2</a>)</span></dt>
+<dd><p>Shohei Hido and Hisashi Kashima. A Linear-time Graph Kernel. In <em>Proceedings of the 9th International Conference on Data Mining</em>, 179–188. 2009.</p>
+</dd>
+</dl>
+</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="neighborhood_subgraph_pairwise_distance.html" class="btn btn-neutral float-right" title="Neighborhood Subgraph Pairwise Distance Kernel" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="multiscale_laplacian.html" class="btn btn-neutral float-left" title="Multiscale Laplacian Kernel" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2019, DaSciM (BSD License).
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

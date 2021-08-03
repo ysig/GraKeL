@@ -1,0 +1,12 @@
+﻿:mod:`grakel`.graph_from_networkx
+==============================================
+
+.. currentmodule:: grakel
+
+.. autofunction:: graph_from_networkx
+
+.. include:: grakel.graph_from_networkx.examples
+
+.. raw:: html
+
+    <div class="clearer"></div>

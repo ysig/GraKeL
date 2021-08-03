@@ -1,0 +1,655 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Evaluation Study &mdash; GraKeL 0.1.8 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/_static/css/supplementary.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery-dataframe.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery-rendered-html.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="GraKeL" href="../api.html" />
+    <link rel="prev" title="Comparison with Other Packages" href="comparison.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> GraKeL
+          
+
+          
+            
+            <img src="../_static/logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.8
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">Documentation</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../benchmarks.html">Benchmarks</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="comparison.html">Comparison with Other Packages</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Evaluation Study</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#node-labeled-graphs">Node-Labeled Graphs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#unabeled-graphs">Unabeled Graphs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#node-attributed-graphs">Node-Attributed Graphs</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">GraKeL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../classes.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials.html">Tutorials</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">GraKeL</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../benchmarks.html">Benchmarks</a> &raquo;</li>
+        
+      <li>Evaluation Study</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/benchmarks/evaluation.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="evaluation-study">
+<span id="evaluation"></span><h1>Evaluation Study<a class="headerlink" href="#evaluation-study" title="Permalink to this headline">¶</a></h1>
+<p>We have measured the running time of <em>GraKeL</em>’s kernels on several datasets, and we present the results below.
+We experimented with the following 16 kernels: (1) vertex histogram kernel (VH), (2) random walk kernel (RW), (3) shortest path kernel (SP), (4) Weisfeiler-Lehman subtree kernel (WL-VH), (5) Weisfeiler-Lehman shortest path kernel (WL-SP), (6) Weisfeiler-Lehman pyramid match kernel (WL-PM), (7) neighborhood hash kernel (NH), (8) neighborhood subgraph pairwise distance kernel (NSPDK), (9) ordered decompositional DAGs with subtree kernel (ODD-STh), (10) pyramid match kernel (PM), (11) GraphHopper kernel (GH), (12) subgraph matching kernel (SM), (13) propagation kernel (PK), (14) multiscale Laplacian kernel (ML), (15) core Weisfeiler-Lehman subtree kernel (CORE-WL), (16) core shortest path kernel (CORE-SP). Note that some of the kernels (e.g., WL-SP, CORE-SP) correspond to frameworks applied to graph kernels. We evaluated the kernels on standard graph classification datasets. Some datasets contain unlabeled graphs, other datasets contain node-labeled graphs, while there are also datasets that contain node-attributed graphs. Since some kernels can handle different types of graphs than others, we conduct three distinct experiments. The three experiments are characterized by the types of graphs contained in the employed datasets: (1) datasets with unlabeled graphs, (2) datasets with node-labeled graphs, and (3) datasets with node-attributed graphs. Note that kernels that are designed for node-labeled graphs can also be applied to unlabaled graphs by initializing the node labels of all vertices of the unlabaled graphs to the same value. Hence, we evaluate these kernels on datasets that contain node-labeled graphs, but also on datasets that contain unlabeled graphs. Moreover, kernels that are designed for node-attributed graphs can be applied to unlabeled graphs and to graphs that contain dicrete node labels.</p>
+<p>In all cases, to perform graph classification, we employed a Support Vector Machine (SVM) classifier. We performed 10-fold cross-validation, and within each fold, the parameter <span class="math notranslate nohighlight">\(C\)</span> of the SVM and the hyperparameters of the kernels were chosen based on a validation experiment on a single <span class="math notranslate nohighlight">\(90\%-10\%\)</span> split of the training data. Furthermore, the whole process was repeated 10 times in order to exclude random effects of the fold assignments. All kernel matrices were normalized.</p>
+<p>All experiments were performed on a cluster of 80 Intel Xeon CPU E7-4860 &#64; 2.27GHz with 1TB RAM. Each kernel was computed on a single thread of the cluster. We set a time limit of 24 hours for each kernel to compute the kernel matrix. Hence, we denote by TIMEOUT kernel computations that did not finish within one day. We also set a memory limit of 64GB, and we denote by OUT-OF-MEM computations that exceeded this limit. Given a kernel and a dataset, the running time of a single run is computed as follows: for each fold of a 10-fold cross-validation experiment, the running time of the kernel corresponds to the running time for the computation of the kernel matrix that performed best on the validation experiment. Then, we report the average running time of the 10 runs.</p>
+<div class="section" id="node-labeled-graphs">
+<h2>Node-Labeled Graphs<a class="headerlink" href="#node-labeled-graphs" title="Permalink to this headline">¶</a></h2>
+<p>The following Table illustrates the average CPU running times of the compared kernels on the 7 datasets that contain node-labeled graphs.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 8%" />
+<col style="width: 10%" />
+<col style="width: 14%" />
+<col style="width: 15%" />
+<col style="width: 11%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"><p>MUTAG</p></th>
+<th class="head"><p>ENZYMES</p></th>
+<th class="head"><p>NCI1</p></th>
+<th class="head"><p>PTC-MR</p></th>
+<th class="head"><p>D&amp;D</p></th>
+<th class="head"><p>PROTEINS</p></th>
+<th class="head"><p>AIDS</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>VH</p></td>
+<td><p>0.01s</p></td>
+<td><p>0.04s</p></td>
+<td><p>0.84s</p></td>
+<td><p>0.02s</p></td>
+<td><p>0.24s</p></td>
+<td><p>0.10s</p></td>
+<td><p>0.25s</p></td>
+</tr>
+<tr class="row-odd"><td><p>RW</p></td>
+<td><p>1m 46.86s</p></td>
+<td><p>4h 24m 16.26s</p></td>
+<td><p>TIMEOUT</p></td>
+<td><p>6m 41.20s</p></td>
+<td><p>OUT-OF-MEM</p></td>
+<td><p>51m 10.11s</p></td>
+<td><p>1h 51m 56.47s</p></td>
+</tr>
+<tr class="row-even"><td><p>SP</p></td>
+<td><p>0.92s</p></td>
+<td><p>11.03s</p></td>
+<td><p>1m 9.69s</p></td>
+<td><p>1.52s</p></td>
+<td><p>55m 58.79s</p></td>
+<td><p>1m 18.91s</p></td>
+<td><p>13.93s</p></td>
+</tr>
+<tr class="row-odd"><td><p>WL-VH</p></td>
+<td><p>0.21s</p></td>
+<td><p>3.81s</p></td>
+<td><p>7m 5.33s</p></td>
+<td><p>0.55s</p></td>
+<td><p>5m 52.96s</p></td>
+<td><p>32.48s</p></td>
+<td><p>40.49s</p></td>
+</tr>
+<tr class="row-even"><td><p>WL-SP</p></td>
+<td><p>7.02s</p></td>
+<td><p>1m 27.07s</p></td>
+<td><p>15m 29.50s</p></td>
+<td><p>12.55s</p></td>
+<td><p>7h 27m 21.90s</p></td>
+<td><p>8m 3.68s</p></td>
+<td><p>1m 33.46s</p></td>
+</tr>
+<tr class="row-odd"><td><p>WL-PM</p></td>
+<td><p>3m 42.07s</p></td>
+<td><p>1h 5m 37.26s</p></td>
+<td><p>13h 31m 34.36s</p></td>
+<td><p>11m 8.16s</p></td>
+<td><p>OUT-OF-MEM</p></td>
+<td><p>5h 37m 10.33s</p></td>
+<td><p>5h 55m 20.37s</p></td>
+</tr>
+<tr class="row-even"><td><p>NH</p></td>
+<td><p>0.40s</p></td>
+<td><p>11.17s</p></td>
+<td><p>7m 4.54s</p></td>
+<td><p>1.31s</p></td>
+<td><p>6m 17.21s</p></td>
+<td><p>41.81s</p></td>
+<td><p>33.30s</p></td>
+</tr>
+<tr class="row-odd"><td><p>NSPDK</p></td>
+<td><p>4.05s</p></td>
+<td><p>27.02s</p></td>
+<td><p>6m 9.81s</p></td>
+<td><p>7.66s</p></td>
+<td><p>4h 36m 28.97s</p></td>
+<td><p>9m 9.80s</p></td>
+<td><p>1m 12.31s</p></td>
+</tr>
+<tr class="row-even"><td><p>ODD-STh</p></td>
+<td><p>1.54s</p></td>
+<td><p>50.05s</p></td>
+<td><p>46m 2.13s</p></td>
+<td><p>4.03s</p></td>
+<td><p>27m 59.18s</p></td>
+<td><p>4m 7.81s</p></td>
+<td><p>2m 5.32s</p></td>
+</tr>
+<tr class="row-odd"><td><p>PM</p></td>
+<td><p>2.59s</p></td>
+<td><p>31.38s</p></td>
+<td><p>37m 37.50s</p></td>
+<td><p>11.35s</p></td>
+<td><p>5m 48.51s</p></td>
+<td><p>1m 26.82s</p></td>
+<td><p>2m 48.04s</p></td>
+</tr>
+<tr class="row-even"><td><p>GH</p></td>
+<td><p>24.70s</p></td>
+<td><p>15m 38.33s</p></td>
+<td><p>3h 45m 8.31s</p></td>
+<td><p>1m 33.90s</p></td>
+<td><p>TIMEOUT</p></td>
+<td><p>3h 43m 1.54s</p></td>
+<td><p>38m 51.78s</p></td>
+</tr>
+<tr class="row-odd"><td><p>SM</p></td>
+<td><p>1m 57.25s</p></td>
+<td><p>3h 25m 43.59s</p></td>
+<td><p>TIMEOUT</p></td>
+<td><p>4m 19.80s</p></td>
+<td><p>OUT-OF-MEM</p></td>
+<td><p>OUT-OF-MEM</p></td>
+<td><p>4h 26m 46.71s</p></td>
+</tr>
+<tr class="row-even"><td><p>PK</p></td>
+<td><p>0.48s</p></td>
+<td><p>12.05s</p></td>
+<td><p>10m 27.83s</p></td>
+<td><p>1.81s</p></td>
+<td><p>9m 34.30s</p></td>
+<td><p>51.20s</p></td>
+<td><p>1m 43.62s</p></td>
+</tr>
+<tr class="row-odd"><td><p>ML</p></td>
+<td><p>10m 3.15s</p></td>
+<td><p>56m 43.76s</p></td>
+<td><p>5h 30m 56.29s</p></td>
+<td><p>19m 22.43s</p></td>
+<td><p>3h 40m 30.72s</p></td>
+<td><p>2h 20m 39.57s</p></td>
+<td><p>1h 11m 58.23s</p></td>
+</tr>
+<tr class="row-even"><td><p>CORE-WL</p></td>
+<td><p>0.55s</p></td>
+<td><p>12.52s</p></td>
+<td><p>14m 30.56s</p></td>
+<td><p>17m 2.27s</p></td>
+<td><p>17m 2.27s</p></td>
+<td><p>1m 16.74s</p></td>
+<td><p>54.79s</p></td>
+</tr>
+<tr class="row-odd"><td><p>CORE-SP</p></td>
+<td><p>2.69s</p></td>
+<td><p>48.02s</p></td>
+<td><p>3m 16.54s</p></td>
+<td><p>3.97s</p></td>
+<td><p>5h 2m 39.71s</p></td>
+<td><p>3m 31.97s</p></td>
+<td><p>40.11s</p></td>
+</tr>
+</tbody>
+</table>
+<p>Αs expected, VH is the fastest kernel on all datasets. This kernel computes the dot product on vertex label histograms, hence, its complexity is linear to the number of vertices. The running time of WL-VH, NH, SP and PK is also low compared to the other kernels on most datasets. Hence, the effectiveness of WL-PM comes at a price, as computing the kernel requires a large amount of time. Note also that while the worst-case complexity of SP is very high, by employing an explicit computation scheme, the running time of the kernel in real scenarios is very attractive. We also observe that the ML, RW, SM and WL-PM kernels are very expensive in terms of runtime. Specifically, the SM kernel failed to compute the kernel matrix on NCI1 within one day, while it exceeded the maximum available memory on two other datasets (D&amp;D and PROTEINS). It should be mentioned that the size of the graphs (i.e., number of nodes) and the size of the dataset (i.e., number of graphs) have a different impact on the running time of the kernels. For instance, the average running time of the PM kernel is relatively high on datasets that contain small graphs. However, this kernel is much more competitive on datasets which contain large graphs such as the D&amp;D dataset on which it was the third fastest kernel.</p>
+</div>
+<div class="section" id="unabeled-graphs">
+<h2>Unabeled Graphs<a class="headerlink" href="#unabeled-graphs" title="Permalink to this headline">¶</a></h2>
+<p>The following Table illustrates the average CPU running times of the compared kernels on the 6 datasets that contain unlabeled graphs.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 9%" />
+<col style="width: 15%" />
+<col style="width: 15%" />
+<col style="width: 15%" />
+<col style="width: 16%" />
+<col style="width: 15%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"><p>IMDB-B</p></th>
+<th class="head"><p>IMDB-M</p></th>
+<th class="head"><p>REDDIT-B</p></th>
+<th class="head"><p>REDDIT-M-5K</p></th>
+<th class="head"><p>REDDIT-M-12K</p></th>
+<th class="head"><p>COLLAB</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>VH</p></td>
+<td><p>0.07s</p></td>
+<td><p>0.15s</p></td>
+<td><p>0.67s</p></td>
+<td><p>2.20s</p></td>
+<td><p>6.37s</p></td>
+<td><p>1.12s</p></td>
+</tr>
+<tr class="row-odd"><td><p>RW</p></td>
+<td><p>7m 20.94s</p></td>
+<td><p>13m 40.75s</p></td>
+<td><p>TIMEOUT</p></td>
+<td><p>TIMEOUT</p></td>
+<td><p>TIMEOUT</p></td>
+<td><p>13h 38m 11.49s</p></td>
+</tr>
+<tr class="row-even"><td><p>SP</p></td>
+<td><p>11.51s</p></td>
+<td><p>7.92s</p></td>
+<td><p>4h 48m 11.19s</p></td>
+<td><p>12h 40m 19.50s</p></td>
+<td><p>TIMEOUT</p></td>
+<td><p>1h 9m 5.50s</p></td>
+</tr>
+<tr class="row-odd"><td><p>GR</p></td>
+<td><p>22m 45.89s</p></td>
+<td><p>21m 44.30s</p></td>
+<td><p>44m 45.42s</p></td>
+<td><p>44m 6.52s</p></td>
+<td><p>53m 14.22s</p></td>
+<td><p>2h 58m 1.14s</p></td>
+</tr>
+<tr class="row-even"><td><p>WL-VH</p></td>
+<td><p>4.49s</p></td>
+<td><p>6.16s</p></td>
+<td><p>16m 2.65s</p></td>
+<td><p>OUT-OF-MEM</p></td>
+<td><p>OUT-OF-MEM</p></td>
+<td><p>38m 42.24s</p></td>
+</tr>
+<tr class="row-odd"><td><p>WL-SP</p></td>
+<td><p>1m 32.66s</p></td>
+<td><p>1m 40.46s</p></td>
+<td><p>TIMEOUT</p></td>
+<td><p>TIMEOUT</p></td>
+<td><p>TIMEOUT</p></td>
+<td><p>10h 27m 41.97s</p></td>
+</tr>
+<tr class="row-even"><td><p>NH</p></td>
+<td><p>21.83s</p></td>
+<td><p>26.07s</p></td>
+<td><p>23m 3.42s</p></td>
+<td><p>2h 44m 44.66s</p></td>
+<td><p>9h 11m 23.67s</p></td>
+<td><p>35m 49.96s</p></td>
+</tr>
+<tr class="row-odd"><td><p>NSPDK</p></td>
+<td><p>4m 18.12s</p></td>
+<td><p>2m 49.45s</p></td>
+<td><p>TIMEOUT</p></td>
+<td><p>TIMEOUT</p></td>
+<td><p>TIMEOUT</p></td>
+<td><p>TIMEOUT</p></td>
+</tr>
+<tr class="row-even"><td><p>Lo-θ</p></td>
+<td><p>5h 19m 27.17s</p></td>
+<td><p>6h 33m 6.55s</p></td>
+<td><p>TIMEOUT</p></td>
+<td><p>TIMEOUT</p></td>
+<td><p>TIMEOUT</p></td>
+<td><p>TIMEOUT</p></td>
+</tr>
+<tr class="row-odd"><td><p>SVM-θ</p></td>
+<td><p>39.40s</p></td>
+<td><p>1m 0.57s</p></td>
+<td><p>19m 24.73s</p></td>
+<td><p>23m 14.31s</p></td>
+<td><p>52m 10.36s</p></td>
+<td><p>5m 57.31s</p></td>
+</tr>
+<tr class="row-even"><td><p>ODD-STh</p></td>
+<td><p>4.47s</p></td>
+<td><p>4.85s</p></td>
+<td><p>1m 53.50s</p></td>
+<td><p>4m 48.92s</p></td>
+<td><p>8m 20.66s</p></td>
+<td><p>2h 1m 9.55s</p></td>
+</tr>
+<tr class="row-odd"><td><p>PM</p></td>
+<td><p>1m 28.02s</p></td>
+<td><p>2m 13.01s</p></td>
+<td><p>10m 9.24s</p></td>
+<td><p>51m 45.10s</p></td>
+<td><p>3h 50m 38.60s</p></td>
+<td><p>36m 26.14s</p></td>
+</tr>
+<tr class="row-even"><td><p>GH</p></td>
+<td><p>2m 11.15s</p></td>
+<td><p>2m 3.71s</p></td>
+<td><p>TIMEOUT</p></td>
+<td><p>TIMEOUT</p></td>
+<td><p>TIMEOUT</p></td>
+<td><p>5h 51m 32.27s</p></td>
+</tr>
+<tr class="row-odd"><td><p>SM</p></td>
+<td><p>TIMEOUT</p></td>
+<td><p>TIMEOUT</p></td>
+<td><p>OUT-OF-MEM</p></td>
+<td><p>OUT-OF-MEM</p></td>
+<td><p>OUT-OF-MEM</p></td>
+<td><p>TIMEOUT</p></td>
+</tr>
+<tr class="row-even"><td><p>PK</p></td>
+<td><p>7.41s</p></td>
+<td><p>14.26s</p></td>
+<td><p>1m 23.42s</p></td>
+<td><p>5m 49.01s</p></td>
+<td><p>20m 41.73s</p></td>
+<td><p>4m 34.26s</p></td>
+</tr>
+<tr class="row-odd"><td><p>ML</p></td>
+<td><p>1h 22m 6.04s</p></td>
+<td><p>1h 41m 13.74s</p></td>
+<td><p>8h 21m 18.76s</p></td>
+<td><p>47m 51.91s</p></td>
+<td><p>OUT-OF-MEM</p></td>
+<td><p>9h 24m 15.22s</p></td>
+</tr>
+<tr class="row-even"><td><p>CORE-WL</p></td>
+<td><p>36.74s</p></td>
+<td><p>1m 1.82s</p></td>
+<td><p>45m 1.09s</p></td>
+<td><p>OUT-OF-MEM</p></td>
+<td><p>OUT-OF-MEM</p></td>
+<td><p>OUT-OF-MEM</p></td>
+</tr>
+<tr class="row-odd"><td><p>CORE-SP</p></td>
+<td><p>3m 58.29s</p></td>
+<td><p>4m 29.55s</p></td>
+<td><p>10h 37m 3.94s</p></td>
+<td><p>TIMEOUT</p></td>
+<td><p>OUT-OF-MEM</p></td>
+<td><p>TIMEOUT</p></td>
+</tr>
+</tbody>
+</table>
+<p>Similar to the labeled case, VH is again the fastest kernel on all datasets. The running time of PK, ODD-STh, and WL-VH is also low compared to the other kernels on most datasets. The SVM-θ, NH, PM, SP and CORE-WL kernels were also competitive in terms of running time. Besides achieving low accuracy levels, the Lo-θ kernel is also very computationally expensive. The RW, NSPDK, CORE-SP, WL-SP and GH are also very expensive in terms of running time. The above 6 kernels did not manage to calculate any kernel matrix on REDDIT-M-5K and REDDIT-M-12K within one day. The SM kernel failed to compute the kernel matrix on IMDB-B, IMDB-M and COLLAB within one day, while it exceeded the maximum available memory on the remaining three datasets. The WL-VH and CORE-WL kernels also exceeded the maximum available memory on REDDIT-M-5K and REDDIT-M-12K. It should be mentioned that these two datasets contain several thousands of graphs, while the size of the graphs is also large (i.e., several hundreds of vertices on average).</p>
+</div>
+<div class="section" id="node-attributed-graphs">
+<h2>Node-Attributed Graphs<a class="headerlink" href="#node-attributed-graphs" title="Permalink to this headline">¶</a></h2>
+<p>The Table below illustrates the average CPU running time for kernel matrix computation on the 5 classification datasets containing node-attributed graphs.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 6%" />
+<col style="width: 17%" />
+<col style="width: 21%" />
+<col style="width: 21%" />
+<col style="width: 17%" />
+<col style="width: 18%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"><p>ENZYMES</p></th>
+<th class="head"><p>PROTEINS_full</p></th>
+<th class="head"><p>SYNTHETICnew</p></th>
+<th class="head"><p>Synthie</p></th>
+<th class="head"><p>BZR</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>SP</p></td>
+<td><p>TIMEOUT</p></td>
+<td><p>TIMEOUT</p></td>
+<td><p>TIMEOUT</p></td>
+<td><p>TIMEOUT</p></td>
+<td><p>TIMEOUT</p></td>
+</tr>
+<tr class="row-odd"><td><p>SM</p></td>
+<td><p>TIMEOUT</p></td>
+<td><p>OUT-OF-MEM</p></td>
+<td><p>TIMEOUT</p></td>
+<td><p>TIMEOUT</p></td>
+<td><p>8h 2m 3.79s</p></td>
+</tr>
+<tr class="row-even"><td><p>GH</p></td>
+<td><p>16m 36.12s</p></td>
+<td><p>5h 16m 46.48s</p></td>
+<td><p>13m 54.36s</p></td>
+<td><p>24m 20.00s</p></td>
+<td><p>4m 24.79s</p></td>
+</tr>
+<tr class="row-odd"><td><p>PK</p></td>
+<td><p>15.85s</p></td>
+<td><p>1m 43.58s</p></td>
+<td><p>13.44s</p></td>
+<td><p>34.68s</p></td>
+<td><p>10.40s</p></td>
+</tr>
+<tr class="row-even"><td><p>ML</p></td>
+<td><p>26.05s</p></td>
+<td><p>4h 29m 35.69s</p></td>
+<td><p>2h 54m 31.22s</p></td>
+<td><p>15m 11.29s</p></td>
+<td><p>49m 33.60s</p></td>
+</tr>
+</tbody>
+</table>
+<p>In terms of running time, PK is the most efficient kernel since it handled all datasets in less than two minutes. GH and ML are much slower than PK on all datasets. For instance, the average computation time of ML and GH was greater than 4 hours and 5 hours on PROTEINS_full, respectively. The SP and SM kernels, as already discussed, are very expensive in terms of running time, and hence, their usefulness in real-world problems is limited.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="../api.html" class="btn btn-neutral float-right" title="GraKeL" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="comparison.html" class="btn btn-neutral float-left" title="Comparison with Other Packages" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2019, DaSciM (BSD License).
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

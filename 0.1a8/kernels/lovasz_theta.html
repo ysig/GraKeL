@@ -1,0 +1,328 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Lovasz Theta Kernel &mdash; GraKeL 0.1.8 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/_static/css/supplementary.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery-dataframe.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery-rendered-html.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Multiscale Laplacian Kernel" href="multiscale_laplacian.html" />
+    <link rel="prev" title="Kernel (general class)" href="kernel.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> GraKeL
+          
+
+          
+            
+            <img src="../_static/logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.8
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">Documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../benchmarks.html">Benchmarks</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">GraKeL</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../kernels.html">Kernels (between graphs)</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="core_framework.html">Core Kernel Framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="edge_histogram.html">Edge Histogram Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="graph_hopper.html">Graph Hopper Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="graphlet_sampling.html">Graphlet Sampling Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hadamard_code.html">Hadamard Code Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kernel.html">Kernel (general class)</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Lovasz Theta Kernel</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#bibliography">Bibliography</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="multiscale_laplacian.html">Multiscale Laplacian Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="neighborhood_hash.html">Neighborhood Hash Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="neighborhood_subgraph_pairwise_distance.html">Neighborhood Subgraph Pairwise Distance Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="odd_sth.html">ODD-STh Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="propagation.html">Propagation Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyramid_match.html">Pyramid Match Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="random_walk.html">Random Walk Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="shortest_path.html">Shortest Path Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="subgraph_matching.html">Subgraph Matching Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="svm_theta.html">SVM Theta Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vertex_histogram.html">Vertex Histogram Kernel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="weisfeiler_lehman.html">Weisfeiler Lehman Framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="weisfeiler_lehman_optimal_assignment.html">Weisfeiler-Lehman Optimal Assignment</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../graph_kernel.html">GraphKernel (class)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../graph.html">Graph (class)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../datasets.html">Dataset loading utilities</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../classes.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials.html">Tutorials</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">GraKeL</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../api.html">GraKeL</a> &raquo;</li>
+        
+          <li><a href="../kernels.html">Kernels (between graphs)</a> &raquo;</li>
+        
+      <li>Lovasz Theta Kernel</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/kernels/lovasz_theta.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="lovasz-theta-kernel">
+<span id="lovasz-theta"></span><h1>Lovasz Theta Kernel<a class="headerlink" href="#lovasz-theta-kernel" title="Permalink to this headline">¶</a></h1>
+<p>The Lovász number <span class="math notranslate nohighlight">\(\vartheta(G)\)</span> of a graph <span class="math notranslate nohighlight">\(G=(V,E)\)</span> is a real number that is an upper bound on the Shannon capacity of the graph.
+It was introduced by László Lovász in <span class="math notranslate nohighlight">\(1979\)</span> <a class="bibtex reference internal" href="#lovasz1979shannon" id="id1">[Lovasz79]</a>.
+The Lovász number is intimately connected with the notion of orthonormal representations of graphs.
+An orthonormal representation of a graph <span class="math notranslate nohighlight">\(G\)</span> consists of a set of unit vectors <span class="math notranslate nohighlight">\(U_G = \{ \mathbf{u}_i \in \mathbb{R}^d : || \mathbf{u}_i || = 1 \}_{i \in V}\)</span> where each vertex <span class="math notranslate nohighlight">\(i\)</span> is assigned a unit vector <span class="math notranslate nohighlight">\(\mathbf{u}_i\)</span> such that <span class="math notranslate nohighlight">\((i,j) \not \in E \implies \mathbf{u}_i^\top \mathbf{u}_j = 0\)</span>.
+Specifically, the Lovász number of a graph <span class="math notranslate nohighlight">\(G\)</span> is defined as</p>
+<div class="math notranslate nohighlight">
+\[\vartheta(G) = \min_{\mathbf{c}, U_G} \max_{i \in V} \frac{1}{(\mathbf{c}^\top \mathbf{u}_i)^2}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mathbf{c} \in \mathbb{R}^d\)</span> is a unit vector and <span class="math notranslate nohighlight">\(U_G\)</span> is an orthonormal representation of <span class="math notranslate nohighlight">\(G\)</span>.
+Geometrically, <span class="math notranslate nohighlight">\(\vartheta(G)\)</span> is defined by the smallest cone enclosing a valid orthonormal representation <span class="math notranslate nohighlight">\(U_G\)</span>.
+The Lovász number <span class="math notranslate nohighlight">\(\vartheta(G)\)</span> of a graph <span class="math notranslate nohighlight">\(G\)</span> can be computed to arbitrary precision in polynomial time by solving a semidefinite program.</p>
+<p>The Lovász <span class="math notranslate nohighlight">\(\vartheta\)</span> kernel utilizes the orthonormal representations associated with the Lovász number to compare graphs <a class="bibtex reference internal" href="svm_theta.html#johansson2014global" id="id2">[JJDB14]</a>.
+The kernel is applicable only to unlabeled graphs.
+Given a collection of graphs, it first generates orthonormal representations for the vertices of each graph by computing the Lovász <span class="math notranslate nohighlight">\(\vartheta\)</span> number.
+Hence, <span class="math notranslate nohighlight">\(U_G\)</span> is a set that contains the orthonormal representations of <span class="math notranslate nohighlight">\(G\)</span>.
+Let <span class="math notranslate nohighlight">\(S \subseteq V\)</span> be a subset of the vertex set of <span class="math notranslate nohighlight">\(G\)</span>.
+Then, the Lovász value of the set of vertices <span class="math notranslate nohighlight">\(S\)</span> is defined as</p>
+<div class="math notranslate nohighlight">
+\[\vartheta_S(G) = \min_{\mathbf{c}} \max_{i \in S} \frac{1}{(\mathbf{c}^\top \mathbf{u}_i)^2}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mathbf{c} \in \mathbb{R}^d\)</span> is a unit vector and <span class="math notranslate nohighlight">\(\mathbf{u}_i\)</span> is the representation of vertex <span class="math notranslate nohighlight">\(i\)</span> obtained by computing the Lovász number <span class="math notranslate nohighlight">\(\vartheta(G)\)</span> of <span class="math notranslate nohighlight">\(G\)</span>.
+The Lovász value of a set of vertices <span class="math notranslate nohighlight">\(S\)</span> represents the angle of the smallest cone enclosing the set of orthonormal representations of these vertices (ie subset of <span class="math notranslate nohighlight">\(U_G\)</span> defined as <span class="math notranslate nohighlight">\(\{ \mathbf{u}_i : \mathbf{u}_i \in U_G, i \in S \}\)</span>).</p>
+<p>The Lovász <span class="math notranslate nohighlight">\(vartheta\)</span> kernel between two graphs <span class="math notranslate nohighlight">\(G, G'\)</span> is then defined as follows:</p>
+<div class="math notranslate nohighlight">
+\[k_{Lo}(G, G') = \sum_{S \subseteq V} \sum_{S' \subseteq V'} \delta(|S|, |S'|) \frac{1}{Z_{|S|}} k(\vartheta_S(G), \vartheta_{S'}(G'))\]</div>
+<p>where <span class="math notranslate nohighlight">\(Z_{|S|} = \binom{|V|}{|S|} \binom{|V'|}{|S|}\)</span>, <span class="math notranslate nohighlight">\(\delta(|S|, |S'|)\)</span> is a delta kernel (equal to <span class="math notranslate nohighlight">\(1\)</span> if <span class="math notranslate nohighlight">\(|S|=|S'|\)</span>, and <span class="math notranslate nohighlight">\(0\)</span> otherwise), and <span class="math notranslate nohighlight">\(k\)</span> is a positive semi-definite kernel between Lovász values (eg linear kernel, gaussian kernel).</p>
+<p>The Lovász <span class="math notranslate nohighlight">\(\vartheta\)</span> kernel consists of two main steps: (<span class="math notranslate nohighlight">\(1\)</span>) computing the Lovász number <span class="math notranslate nohighlight">\(\vartheta\)</span> of each graph and obtaining the associated orthonormal representations, and (<span class="math notranslate nohighlight">\(2\)</span>) computing the Lovász value for all subgraphs (ie subsets of vertices <span class="math notranslate nohighlight">\(S \subseteq V\)</span>) of each graph.
+Exact computation of the Lovász <span class="math notranslate nohighlight">\(\vartheta\)</span> kernel is in most real settings infeasible since it requires computing the minimum enclosing cones of <span class="math notranslate nohighlight">\(2^n\)</span> sets of vertices.</p>
+<p>When dealing with large graphs, it is thus necessary to resort to sampling.
+Given a graph <span class="math notranslate nohighlight">\(G\)</span>, instead of evaluating the Lovász value on all <span class="math notranslate nohighlight">\(2^n\)</span> sets of vertices, the algorithm evaluates it in on a smaller number of subgraphs <span class="math notranslate nohighlight">\(\mathfrak{S} \in 2^V\)</span>.
+Then, the Lovász <span class="math notranslate nohighlight">\(\vartheta\)</span> kernel is defined as follows</p>
+<div class="math notranslate nohighlight">
+\[\hat{k}_{Lo}(G, G') = \sum_{S \subseteq \mathfrak{S}} \sum_{S' \subseteq \mathfrak{S}'} \delta(|S|, |S'|) \frac{1}{\hat{Z}_{|S|}} k(\vartheta_S(G), \vartheta_{S'}(G'))\]</div>
+<p>where <span class="math notranslate nohighlight">\(\hat{Z}_{|S|} = |\mathfrak{S}_{|S|}| |\mathfrak{S}'_{|S|}|\)</span> and <span class="math notranslate nohighlight">\(\mathfrak{S}_{|S|}\)</span> denotes the subset of <span class="math notranslate nohighlight">\(\mathfrak{S}\)</span> consisting of all sets of cardinality <span class="math notranslate nohighlight">\(|S|\)</span>, that is <span class="math notranslate nohighlight">\(\mathfrak{S}_{|S|} = \{ B \in \mathfrak{S} : |B| = |S| \}\)</span>.</p>
+<p>The time complexity of computing <span class="math notranslate nohighlight">\(\hat{k}_{Lo}(G, G')\)</span> is <span class="math notranslate nohighlight">\(\mathcal{O}(n^2 m \epsilon^{-1} + s^2 T(k) + sn)\)</span> where <span class="math notranslate nohighlight">\(T(k)\)</span> is the complexity of computing the base kernel <span class="math notranslate nohighlight">\(k\)</span>, <span class="math notranslate nohighlight">\(n = |V|\)</span>, <span class="math notranslate nohighlight">\(m = |E|\)</span> and <span class="math notranslate nohighlight">\(s = \max(|\mathfrak{S}|, |\mathfrak{S}'|)\)</span>.
+The first term represents the cost of solving the semi-definite program that computes the Lovász number <span class="math notranslate nohighlight">\(\vartheta\)</span>.
+The second term corresponds to the worst-case complexity of computing the sum of the Lovász values.
+And finally, the third term is the cost of computing the Lovász values of the sampled subsets of vertices.</p>
+<p>The implementation of the Lovász <span class="math notranslate nohighlight">\(\vartheta\)</span> kernel can be found below</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/grakel.LovaszTheta.html#grakel.LovaszTheta" title="grakel.LovaszTheta"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LovaszTheta</span></code></a>([n_jobs, normalize, verbose, …])</p></td>
+<td><p>Lovasz theta kernel as proposed in <a class="bibtex reference internal" href="svm_theta.html#johansson2014global" id="id3">[JJDB14]</a>.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="bibliography">
+<h2>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">¶</a></h2>
+<p id="bibtex-bibliography-kernels/lovasz_theta-0"><dl class="citation">
+<dt class="bibtex label" id="johansson2014global"><span class="brackets">JJDB14</span><span class="fn-backref">(<a href="#id2">1</a>,<a href="#id3">2</a>)</span></dt>
+<dd><p>Fredrik Johansson, Vinay Jethava, Devdatt Dubhashi, and Chiranjib Bhattacharyya. Global graph kernels using geometric embeddings. In <em>Proceedings of the 31st International Conference on Machine Learning</em>, 694–702. 2014.</p>
+</dd>
+<dt class="bibtex label" id="lovasz1979shannon"><span class="brackets"><a class="fn-backref" href="#id1">Lovasz79</a></span></dt>
+<dd><p>László Lovász. On the shannon capacity of a graph. <em>IEEE Transactions on Information Theory</em>, 25(1):1–7, 1979.</p>
+</dd>
+</dl>
+</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="multiscale_laplacian.html" class="btn btn-neutral float-right" title="Multiscale Laplacian Kernel" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="kernel.html" class="btn btn-neutral float-left" title="Kernel (general class)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2019, DaSciM (BSD License).
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
