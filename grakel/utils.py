@@ -159,6 +159,10 @@ def cross_validate_Kfold_SVM(K, y,
     n_splits : int
         Number of splits for the K-Fold.
 
+    C_grid : numpy array or list, default=None
+        A list of C parameters for the SVM to choose from.
+        By default, it is set to 10**-7, ..., 10**7, divided by the number of examples
+
     random_state :  RandomState or int, default=None
         A random number generator instance or an int to initialize a RandomState as a seed.
 
