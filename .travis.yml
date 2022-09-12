@@ -16,7 +16,7 @@ env:
     - MODULE=grakel
     - WHEEL_FOLDER=wheelhouse
     - TWINE_USERNAME=ysig
-    - DEPLOY_SDIST="false"
+    - DEPLOY_SDIST="true"
     - COVERAGE="false"
     - DEPLOY_WHEEL="true"
     - FLAKE="false"
@@ -39,7 +39,6 @@ matrix:
         - docker
       env:
         - CIBW_BUILD="cp37-manylinux_x86_64"
-        - DEPLOY_SDIST="true"
     - sudo: required
       services:
         - docker
