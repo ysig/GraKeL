@@ -82,7 +82,7 @@ jobs:
           path: ./wheelhouse/*.whl
 
   build_sdist:
-    name: sdist-${{ env.sdist-version }}
+    name: sdist
     runs-on: ubuntu-latest
 
     steps:
