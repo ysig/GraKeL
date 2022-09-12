@@ -43,7 +43,7 @@ jobs:
       # 1 runner per combination of (os, py)
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        py: ["cp27-*" "cp35-*" "cp36-*" "cp37-*" "cp38-*" "cp39-*" "cp310-*"]
+        py: ["cp35-*" "cp36-*" "cp37-*" "cp38-*" "cp39-*" "cp310-*"]
 
     steps:
       - uses: actions/checkout@v3

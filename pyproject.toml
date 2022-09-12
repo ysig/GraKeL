@@ -13,7 +13,7 @@ dependencies = [
     "future >= 0.16.0",
     "joblib"
 ]
-requires-python=">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, <4"
+requires-python=">=3.5"
 authors = [
     { name = "Ioannis-Siglidis", email = "y.siglidis@gmail.com" }
 ]
@@ -30,7 +30,6 @@ classifiers=[
     'Operating System :: POSIX',
     'Operating System :: Unix',
     'Operating System :: MacOS',
-    'Programming Language :: Python :: 2.7',
     'Programming Language :: Python :: 3',
 ]
 license= { file = "LICENSE" }
