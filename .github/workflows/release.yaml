@@ -30,7 +30,7 @@ env:
 
   test-cmd: "nosetests"
   extra-requires: "[dev]"
-  sdist-version: "3.5"
+  sdist-version: "3.7"
 
 jobs:
 
@@ -43,7 +43,8 @@ jobs:
       # 1 runner per combination of (os, py)
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        py: ["cp35-*", "cp36-*", "cp37-*", "cp38-*", "cp39-*", "cp310-*"]
+        py: ["cp37-*", "cp38-*", "cp39-*", "cp310-*"]
+    fail-fast: false  # All workers independent, don't cancel all if one fails
 
     steps:
       - uses: actions/checkout@v3
@@ -78,7 +79,7 @@ jobs:
           path: ./wheelhouse/*.whl
 
   build_sdist:
-    name: sdist-${{ matrix.py }}
+    name: sdist-${{ env.sdist-version }}
     runs-on: ubuntu-latest
 
     steps:

@@ -27,7 +27,7 @@ env:
 
   # https://github.com/eddiebergman/GraKeL/blob/63a2723fc9488257a7c880fa9b5e5cc95ada9f42/ci_scripts/travis/install.sh#L8-L11
   coverage-reqs: "networkx pandas"
-  codecov-py: "3.5"
+  codecov-py: "3.7"
 
 jobs:
 
@@ -43,7 +43,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        py: ["3.5", "3.6", "3.7", "3.8", "3.9", "3.10"]
+        py: ["3.7", "3.8", "3.9", "3.10"]
         os: ["ubuntu-latest", "macos-latest", "windows-latest"]
 
     steps:
