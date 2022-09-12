@@ -1,0 +1,106 @@
+name: Tests
+
+on:
+  # Allow to manually trigger through github API
+  workflow_dispatch:
+
+  # Triggers with push to master
+  push:
+    branches:
+      - master
+
+  # Triggers with push to a pr aimed at master
+  pull_request:
+    branches:
+      - master
+
+  schedule:
+    # Every day at 7AM UTC
+    - cron: '0 07 * * *'
+
+env:
+
+  package-name: grakel
+  extra-requires: "[dev]"  # "" for no extra_requires
+
+  tmp-testdir: "tmp-test"
+
+  # https://github.com/eddiebergman/GraKeL/blob/63a2723fc9488257a7c880fa9b5e5cc95ada9f42/ci_scripts/travis/install.sh#L8-L11
+  coverage-reqs: "networkx pandas"
+  codecov-py: "3.5"
+
+jobs:
+
+  # General unit tests
+  source-test:
+    name: ${{ matrix.python-version }}-${{ matrix.os }}
+
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash # Default to using bash on all
+
+    strategy:
+      fail-fast: false
+      matrix:
+        py: ["2.7", "3.5", "3.6", "3.7", "3.8", "3.9", "3.10"]
+        os: ["ubuntu-latest", "macos-latest", "windows-latest"]
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.py }}
+
+    - name: Install ${{ env.package-name }}
+      run: |
+        python -m pip install --upgrade pip
+        python -m pip install --upgrade setuptools
+        python -m pip install -e ".${{ env.extra-requires }}"
+
+    - name: Tests
+      run: |
+        mkdir ${{ env.tmp-testdir }}
+        cd ${{ env.tmp-testdir }}
+        nosetests ${{ env.package-name }}
+
+  # Testing with codecov coverage uploaded
+  codecov-test:
+    name: codecov-test
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.codecov-py }}
+
+    - name: Install ${{ env.package-name }}
+      run: |
+        python -m pip install --upgrade pip
+        python -m pip install --upgrade setuptools
+        python -m pip install -e ".${{ env.extra-requires }}"
+
+    - name: Tests
+      run: |
+        mkdir ${{ env.tmp-testdir }}
+        cd ${{ env.tmp-testdir }}
+        nosetests ${{ env.package-name }} --with-coverage --cover-package=${{ env.package-name }}
+        # NOTE: Not sure if the below is needed
+        cp -r .coverage /project/.coverage
+        cd /project
+        echo "Coverage"
+        ls -la
+        python -m codecov
+
+    - name: Upload coverage
+      uses: codecov/codecov-action@v3
+      with:
+        fail_ci_if_error: true
+        verbose: true
