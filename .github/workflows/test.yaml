@@ -33,7 +33,7 @@ jobs:
 
   # General unit tests
   source-test:
-    name: ${{ matrix.python-version }}-${{ matrix.os }}
+    name: ${{ matrix.py }}-${{ matrix.os }}
 
     runs-on: ${{ matrix.os }}
     defaults:
