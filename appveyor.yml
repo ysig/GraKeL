@@ -33,6 +33,21 @@ environment:
       MINICONDA: "C:\\Miniconda37-x64"
       DEPLOY_WHEEL: "true"
 
+    - PYTHON_VERSION: "3.8.5"
+      PYTHON_ARCH: "64"
+      MINICONDA: "C:\\Miniconda38-x64"
+      DEPLOY_WHEEL: "true"
+
+    - PYTHON_VERSION: "3.9.14"
+      PYTHON_ARCH: "64"
+      MINICONDA: "C:\\Miniconda39-x64"
+      DEPLOY_WHEEL: "true"
+
+    - PYTHON_VERSION: "3.10.7"
+      PYTHON_ARCH: "64"
+      MINICONDA: "C:\\Miniconda310-x64"
+      DEPLOY_WHEEL: "true"
+
 install:
   # Initialise conda
   - "set PATH=%MINICONDA%;%MINICONDA%\\Scripts;%PATH%"
