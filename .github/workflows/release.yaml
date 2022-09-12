@@ -11,6 +11,8 @@
 # ------
 # cibuildwheel docs:
 # * https://cibuildwheel.readthedocs.io/en/stable/options/
+# github actions:
+# * https://docs.github.com/en/actions
 
 name: Wheel builder
 
@@ -44,7 +46,8 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
         py: ["cp37-*", "cp38-*", "cp39-*", "cp310-*"]
-    fail-fast: false  # All workers independent, don't cancel all if one fails
+      # All workers independent, don't cancel all if one fails
+      fail-fast: false
 
     steps:
       - uses: actions/checkout@v3
