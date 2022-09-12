@@ -14,7 +14,7 @@ if [[ $DEPLOY_PYPI == "true" ]]; then
     echo "[pypi]" >> ~/.pypirc
     echo "username=$USERNAME" >> ~/.pypirc
     echo "password=$PYPI_PASSWORD" >> ~/.pypirc
-    
+
     # Upload sphinx docs
     cd ~/project
     sudo apt-get install tree
