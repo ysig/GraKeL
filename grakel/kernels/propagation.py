@@ -1,7 +1,6 @@
 """The propagation kernel as defined in :cite:`neumann2015propagation`."""
 # Author: Ioannis Siglidis <y.siglidis@gmail.com>
 # License: BSD 3 clause
-import collections
 import warnings
 
 import numpy as np
@@ -20,6 +19,7 @@ from grakel.kernels import Kernel
 from six import itervalues
 from six import iteritems
 from six.moves import filterfalse
+from six.moves.collections_abc import Iterable
 
 
 def _dot(x, y):
@@ -166,7 +166,7 @@ class Propagation(Kernel):
             sampled graphlets have fallen.
 
         """
-        if not isinstance(X, collections.Iterable):
+        if not isinstance(X, Iterable):
             raise ValueError('input must be an iterable\n')
         else:
             i = -1
@@ -174,7 +174,7 @@ class Propagation(Kernel):
             labels = set()
             L = list()
             for (idx, x) in enumerate(iter(X)):
-                is_iter = isinstance(x, collections.Iterable)
+                is_iter = isinstance(x, Iterable)
                 if is_iter:
                     x = list(x)
                 if is_iter and len(x) in [0, 2, 3, 4]:
@@ -480,7 +480,7 @@ class PropagationAttr(Propagation):
             sampled graphlets have fallen.
 
         """
-        if not isinstance(X, collections.Iterable):
+        if not isinstance(X, Iterable):
             raise ValueError('input must be an iterable\n')
         else:
             # The number of parsed graphs
@@ -489,7 +489,7 @@ class PropagationAttr(Propagation):
             indexes = [0]
             Attr = list()
             for (idx, x) in enumerate(iter(X)):
-                is_iter = isinstance(x, collections.Iterable)
+                is_iter = isinstance(x, Iterable)
                 if is_iter:
                     x = list(x)
                 if is_iter and len(x) in [0, 2, 3, 4]:

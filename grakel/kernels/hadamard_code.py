@@ -1,7 +1,6 @@
 """The hadamard code kernel as defined in :cite:`icpram16`."""
 # Author: Ioannis Siglidis <y.siglidis@gmail.com>
 # License: BSD 3 clause
-import collections
 import warnings
 
 import numpy as np
@@ -22,6 +21,7 @@ from grakel.kernels.vertex_histogram import VertexHistogram
 # Python 2/3 cross-compatibility import
 from six import iteritems
 from six import itervalues
+from six.moves.collections_abc import Iterable
 
 
 class HadamardCode(Kernel):
@@ -130,7 +130,7 @@ class HadamardCode(Kernel):
         if self.base_graph_kernel_ is None:
             raise ValueError('User must provide a base_graph_kernel')
         # Input validation and parsing
-        if not isinstance(X, collections.Iterable):
+        if not isinstance(X, Iterable):
             raise TypeError('input must be an iterable\n')
         else:
             nx, labels = 0, list()
@@ -144,7 +144,7 @@ class HadamardCode(Kernel):
             neighbors = list()
             for (idx, x) in enumerate(iter(X)):
                 is_iter = False
-                if isinstance(x, collections.Iterable):
+                if isinstance(x, Iterable):
                     x, is_iter = list(x), True
                 if is_iter and (len(x) == 0 or len(x) >= 2):
                     if len(x) == 0:

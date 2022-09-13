@@ -1,7 +1,6 @@
 """RW-kernel. as in :cite:`kashima2003marginalized`, :cite:`gartner2003graph`."""
 # Author: Ioannis Siglidis <y.siglidis@gmail.com>
 # License: BSD 3 clause
-import collections
 import warnings
 
 import numpy as np
@@ -21,6 +20,7 @@ from grakel.graph import Graph
 
 # Python 2/3 cross-compatibility import
 from builtins import range
+from six.moves.collections_abc import Iterable
 
 
 class RandomWalk(Kernel):
@@ -147,13 +147,13 @@ class RandomWalk(Kernel):
             The extracted adjacency matrices for any given input.
 
         """
-        if not isinstance(X, collections.Iterable):
+        if not isinstance(X, Iterable):
             raise TypeError('input must be an iterable\n')
         else:
             i = 0
             out = list()
             for (idx, x) in enumerate(iter(X)):
-                is_iter = isinstance(x, collections.Iterable)
+                is_iter = isinstance(x, Iterable)
                 if is_iter:
                     x = list(x)
                 if is_iter and len(x) in [0, 1, 2, 3]:
@@ -352,13 +352,13 @@ class RandomWalkLabeled(RandomWalk):
             The extracted adjacency matrices for any given input.
 
         """
-        if not isinstance(X, collections.Iterable):
+        if not isinstance(X, Iterable):
             raise TypeError('input must be an iterable\n')
         else:
             i = 0
             proc = list()
             for (idx, x) in enumerate(iter(X)):
-                is_iter = isinstance(x, collections.Iterable)
+                is_iter = isinstance(x, Iterable)
                 if is_iter:
                     x = list(x)
                 if is_iter and len(x) in [1, 2, 3]:

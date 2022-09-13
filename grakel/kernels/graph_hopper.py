@@ -4,7 +4,6 @@
 import numpy as np
 
 from collections import defaultdict
-from collections import Iterable
 from numbers import Real
 from warnings import warn
 from numpy.matlib import repmat
@@ -15,6 +14,7 @@ from grakel.graph import dijkstra
 
 # Python 2/3 cross-compatibility import
 from six.moves import filterfalse
+from six.moves.collections_abc import Iterable
 
 
 class GraphHopper(Kernel):

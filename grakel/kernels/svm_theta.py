@@ -1,7 +1,6 @@
 """The svm theta kernel as defined in :cite:`johansson2014global`."""
 # Author: Ioannis Siglidis <y.siglidis@gmail.com>
 # License: BSD 3 clause
-import collections
 import warnings
 
 import numpy as np
@@ -13,6 +12,9 @@ from sklearn.utils import check_random_state
 from grakel.kernels import Kernel
 from grakel.graph import Graph
 from grakel.tools import distribute_samples
+
+# For python2/3 compatibility
+from six.moves.collections_abc import Iterable
 
 positive_eigenvalue_limit = float("+1e-6")
 min_weight = float("1e-10")
@@ -118,14 +120,14 @@ class SvmTheta(Kernel):
             The lovasz metrics for the given input.
 
         """
-        if not isinstance(X, collections.Iterable):
+        if not isinstance(X, Iterable):
             raise TypeError('input must be an iterable\n')
         else:
             i = 0
             out = list()
             for (idx, x) in enumerate(iter(X)):
                 is_iter = False
-                if isinstance(x, collections.Iterable):
+                if isinstance(x, Iterable):
                     x, is_iter = list(x), True
                 if is_iter and len(x) in [0, 1, 2, 3]:
                     if len(x) == 0:

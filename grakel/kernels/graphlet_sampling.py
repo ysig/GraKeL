@@ -1,7 +1,6 @@
 """The graphlet sampling kernel :cite:`shervashidze2009efficient`."""
 # Author: Ioannis Siglidis <y.siglidis@gmail.com>
 # License: BSD 3 clause
-import collections
 import math
 import warnings
 
@@ -20,6 +19,7 @@ from grakel.kernels._isomorphism import Graph as bGraph
 # Python 2/3 cross-compatibility import
 from six import iteritems
 from six import itervalues
+from six.moves.collections_abc import Iterable
 from builtins import range
 
 
@@ -383,7 +383,7 @@ class GraphletSampling(Kernel):
             sampled graphlets have fallen.
 
         """
-        if not isinstance(X, collections.Iterable):
+        if not isinstance(X, Iterable):
             raise TypeError('input must be an iterable\n')
         else:
             i = -1
@@ -394,7 +394,7 @@ class GraphletSampling(Kernel):
             local_values = dict()
             for (idx, x) in enumerate(iter(X)):
                 is_iter = False
-                if isinstance(x, collections.Iterable):
+                if isinstance(x, Iterable):
                     is_iter = True
                     x = list(x)
                 if type(x) is Graph:

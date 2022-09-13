@@ -1,8 +1,8 @@
 """Neighborhood subgraph pairwise distance kernel :cite:`costa2010fast`."""
 # Author: Ioannis Siglidis <y.siglidis@gmail.com>
 # License: BSD 3 clause
-import collections
 import warnings
+from collections import defaultdict
 
 import numpy as np
 
@@ -20,6 +20,7 @@ from grakel.kernels._c_functions import APHash
 from six import iteritems
 from six.moves import filterfalse
 from builtins import range
+from six.moves.collections_abc import Iterable
 
 
 class NeighborhoodSubgraphPairwiseDistance(Kernel):
@@ -108,20 +109,20 @@ class NeighborhoodSubgraphPairwiseDistance(Kernel):
             graphs of the input (plus the fitted one's on transform).
 
         """
-        if not isinstance(X, collections.Iterable):
+        if not isinstance(X, Iterable):
             raise TypeError('input must be an iterable\n')
         else:
             # Hold the number of graphs
             ng = 0
 
             # Holds all the data for combinations of r, d
-            data = collections.defaultdict(dict)
+            data = defaultdict(dict)
 
             # Index all keys for combinations of r, d
-            all_keys = collections.defaultdict(dict)
+            all_keys = defaultdict(dict)
             for (idx, x) in enumerate(iter(X)):
                 is_iter = False
-                if isinstance(x, collections.Iterable):
+                if isinstance(x, Iterable):
                     is_iter, x = True, list(x)
                 if is_iter and len(x) in [0, 3]:
                     if len(x) == 0:

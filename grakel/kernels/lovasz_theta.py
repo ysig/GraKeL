@@ -1,7 +1,6 @@
 """The lovasz theta kernel as in :cite:`johansson2014global`."""
 # Author: Ioannis Siglidis <y.siglidis@gmail.com>
 # License: BSD 3 clause
-import collections
 import warnings
 
 import numpy as np
@@ -19,6 +18,9 @@ from numpy.linalg import norm
 from scipy.linalg import cholesky
 from scipy.linalg import eigvalsh
 from scipy.linalg import solve
+
+# For python2/3 compatibility
+from six.moves.collections_abc import Iterable
 
 cvxopt_installed = True
 try:
@@ -164,7 +166,7 @@ class LovaszTheta(Kernel):
             The lovasz metrics for the given input.
 
         """
-        if not isinstance(X, collections.Iterable):
+        if not isinstance(X, Iterable):
             raise TypeError('input must be an iterable\n')
         else:
             i = 0
@@ -172,7 +174,7 @@ class LovaszTheta(Kernel):
             max_dim = 0
             for (idx, x) in enumerate(iter(X)):
                 is_iter = False
-                if isinstance(x, collections.Iterable):
+                if isinstance(x, Iterable):
                     x, is_iter = list(x), True
                 if is_iter and len(x) in [0, 1, 2, 3]:
                     if len(x) == 0:

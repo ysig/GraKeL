@@ -19,6 +19,7 @@ from grakel.kernels._c_functions import k_to_ij_rectangular
 
 # Python 2/3 cross-compatibility import
 from six import iteritems
+from six.moves.collections_abc import Iterable
 try:
     import itertools.imap as map
 except ImportError:
@@ -323,12 +324,12 @@ class Kernel(BaseEstimator, TransformerMixin):
             List of graph type objects.
 
         """
-        if not isinstance(X, collections.Iterable):
+        if not isinstance(X, Iterable):
             raise TypeError('input must be an iterable\n')
         else:
             Xp = list()
             for (i, x) in enumerate(iter(X)):
-                is_iter = isinstance(x, collections.Iterable)
+                is_iter = isinstance(x, Iterable)
                 if is_iter:
                     x = list(x)
                 if is_iter and len(x) in [0, 1, 2, 3]:

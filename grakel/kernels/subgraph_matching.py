@@ -1,7 +1,6 @@
 """The sugraph mathing kernel as defined by :cite:`kriege2012subgraph`."""
 # Author: Ioannis Siglidis <y.siglidis@gmail.com>
 # License: BSD 3 clause
-import collections
 import warnings
 
 import numpy as np
@@ -12,6 +11,8 @@ from grakel.kernels import Kernel
 from grakel.graph import Graph
 from grakel.kernels._c_functions import sm_kernel
 
+# For python2/3 compatibility
+from six.moves.collections_abc import Iterable
 
 # Define default vertex, edge and lambda weight functions
 def _dirac(a, b):
@@ -87,7 +88,7 @@ class SubgraphMatching(Kernel):
         if not self._initialized["lw"]:
             k = self.k + 1
             not_str_iter = type(self.lw) is not str and \
-                isinstance(self.lw, collections.Iterable)
+                isinstance(self.lw, Iterable)
             if not_str_iter:
                 lw = list(self.lw)
 
@@ -160,14 +161,14 @@ class SubgraphMatching(Kernel):
             The extracted adjacency matrices for any given input.
 
         """
-        if not isinstance(X, collections.Iterable):
+        if not isinstance(X, Iterable):
             raise TypeError('input must be an iterable\n')
         else:
             i = 0
             out = list()
             for (idx, x) in enumerate(iter(X)):
                 is_iter = False
-                if isinstance(x, collections.Iterable):
+                if isinstance(x, Iterable):
                     is_iter = True
                     x = list(x)
 

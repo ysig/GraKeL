@@ -1,7 +1,10 @@
-from collections import Counter, Iterable
+from collections import Counter
 from sklearn.utils.validation import check_is_fitted
 from grakel import Kernel, Graph
 from numpy import zeros, einsum
+
+# For python2/3 compatibility
+from six.moves.collections_abc import Iterable
 
 
 class VertexHistogram(Kernel):

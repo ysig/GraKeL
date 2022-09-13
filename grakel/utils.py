@@ -5,7 +5,6 @@ import os
 import numpy as np
 
 from collections import defaultdict
-from collections import Iterable
 
 from sklearn.base import TransformerMixin
 from sklearn.pipeline import make_pipeline
@@ -21,6 +20,8 @@ from sklearn.utils.validation import check_is_fitted
 from grakel import Graph
 from grakel.graph import is_adjacency as valid_matrix
 
+# For python2/3 compatibility
+from six.moves.collections_abc import Iterable
 
 class KMTransformer(BaseEstimator, TransformerMixin):
     """A Kernel Matrix Transformer.

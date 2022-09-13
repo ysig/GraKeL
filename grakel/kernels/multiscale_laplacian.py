@@ -4,7 +4,6 @@
 # Python 2/3 cross-compatibility import
 from __future__ import print_function
 
-import collections
 import warnings
 import numpy as np
 
@@ -22,6 +21,9 @@ from grakel.graph import Graph
 from scipy.sparse.csgraph import laplacian
 
 from grakel.kernels import Kernel
+
+# For python2/3 compatibility
+from six.moves.collections_abc import Iterable
 
 positive_eigenvalue_limit = float("+1e-6")
 
@@ -151,7 +153,7 @@ class MultiscaleLaplacian(Kernel):
             and their 4th-root determinants.
 
         """
-        if not isinstance(X, collections.Iterable):
+        if not isinstance(X, Iterable):
             raise TypeError('input must be an iterable\n')
         else:
             ng = 0
@@ -160,7 +162,7 @@ class MultiscaleLaplacian(Kernel):
             neighborhoods = dict()
             for (idx, x) in enumerate(iter(X)):
                 is_iter = False
-                if isinstance(x, collections.Iterable):
+                if isinstance(x, Iterable):
                     is_iter, x = True, list(x)
                 if is_iter and len(x) in [0, 2, 3]:
                     if len(x) == 0:
