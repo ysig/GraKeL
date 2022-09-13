@@ -226,12 +226,16 @@ class HadamardCode(Kernel):
                 for (i, g) in enumerate(generate_graphs(labels)):
                     base_graph_kernel[i].fit(g)
             elif self._method_calling == 2:
-                K = np.sum((base_graph_kernel[i].fit_transform(g) for (i, g)
-                           in enumerate(generate_graphs(labels))), axis=0)
+                K = np.sum(np.fromiter(
+                    (base_graph_kernel[i].fit_transform(g) for (i, g) in enumerate(generate_graphs(labels))),
+                     dtype=float), axis=0
+                )
             elif self._method_calling == 3:
                 # Calculate the kernel matrix without parallelization
-                K = np.sum((self.X[i].transform(g) for (i, g)
-                           in enumerate(generate_graphs(labels))), axis=0)
+                K = np.sum(np.fromiter(
+                       (self.X[i].transform(g) for (i, g) in enumerate(generate_graphs(labels))),
+                        dtype=float), axis=0
+                )
 
         else:
             if self._method_calling == 1:

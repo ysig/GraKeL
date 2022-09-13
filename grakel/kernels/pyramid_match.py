@@ -137,7 +137,7 @@ class PyramidMatch(Kernel):
                     # Embed vertices into the d-dimensional space
                     if A.shape[0] > self.d+1:
                         # If size of graph smaller than d, pad with zeros
-                        Lambda, U = eigs(csr_matrix(A, dtype=np.float),
+                        Lambda, U = eigs(csr_matrix(A, dtype=float),
                                          k=self.d, ncv=10*self.d)
                         idx = Lambda.argsort()[::-1]
                         U = U[:, idx]
