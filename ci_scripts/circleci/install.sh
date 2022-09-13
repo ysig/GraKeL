@@ -24,7 +24,7 @@ sudo -E apt-get -yq --no-install-suggests --no-install-recommends --force-yes in
 
 # Install project
 python setup.py clean
-python install -e .
+pip install -e .
 
 
 # Build Docs
