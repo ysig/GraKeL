@@ -97,7 +97,8 @@ jobs:
       - name: Build source distribution
         run: |
           python -m pip install --upgrade pip
-          python setup.py sdist
+          python -m pip install build
+          python -m build --sdist
           echo "sdist_name=$(ls -t dist/${{ env.package-name }}-*.tar.gz | head -n 1)" >> $GITHUB_ENV
 
       - name: Twine check ${{ env.package-name }}
