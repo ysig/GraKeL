@@ -28,7 +28,7 @@ on:
       - "[0-9]+.[0-9]+.X"
 
 env:
-  package-name: grakel
+  package-name: GraKeL
 
   test-cmd: "nosetests"
   extra-requires: "dev"

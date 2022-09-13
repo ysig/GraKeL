@@ -20,7 +20,7 @@ on:
 
 env:
 
-  package-name: grakel
+  import-package-name: grakel
   extra-requires: "[dev]"  # "" for no extra_requires
 
   # https://github.com/eddiebergman/GraKeL/blob/63a2723fc9488257a7c880fa9b5e5cc95ada9f42/ci_scripts/travis/install.sh#L8-L11
@@ -53,7 +53,7 @@ jobs:
       with:
         python-version: ${{ matrix.py }}
 
-    - name: Install ${{ env.package-name }}
+    - name: Install ${{ env.import-package-name }}
       run: |
         python -m pip install --upgrade pip setuptools
         python -m pip install -e ".${{ env.extra-requires }}"
@@ -76,7 +76,7 @@ jobs:
       with:
         python-version: ${{ env.codecov-py }}
 
-    - name: Install ${{ env.package-name }}
+    - name: Install ${{ env.import-package-name }}
       run: |
         python -m pip install --upgrade pip
         python -m pip install --upgrade setuptools
@@ -84,7 +84,7 @@ jobs:
 
     - name: Tests
       run: |
-        nosetests --with-coverage --cover-xml --cover-package=${{ env.package-name }}
+        nosetests --with-coverage --cover-xml --cover-package=${{ env.import-package-name }}
 
     #
     #- name: Upload coverage
