@@ -246,15 +246,11 @@ class WeisfeilerLehman(Kernel):
                 for (i, g) in enumerate(generate_graphs(label_count, WL_labels_inverse)):
                     base_graph_kernel[i].fit(g)
             elif self._method_calling == 2:
-                K = np.sum(np.fromiter(
-                    (
-                        base_graph_kernel[i].fit_transform(g)
-                        for (i, g) in enumerate(
-                            generate_graphs(label_count, WL_labels_inverse)
-                        )
-                    ),
-                    dtype=float), axis=0
-                )
+                graphs = generate_graphs(label_count, WL_labels_inverse)
+                values = [
+                    base_graph_kernel[i].fit_transform(g) for (i, g) in enumerate(graphs)
+                ]
+                K = np.sum(values, axis=0)
 
         else:
             if self._method_calling == 1:
@@ -427,14 +423,9 @@ class WeisfeilerLehman(Kernel):
 
         if self._parallel is None:
             # Calculate the kernel matrix without parallelization
-            K = np.sum(np.fromiter(
-                    (
-                        self.X[i].transform(g)
-                        for (i, g) in enumerate(generate_graphs(WL_labels_inverse, nl))
-                    ),
-                    dtype=float), axis=0
-            )
-
+            graphs = generate_graphs(WL_labels_inverse, nl)
+            values = [self.X[i].transform(g) for (i, g) in enumerate(graphs)]
+            K = np.sum(values, axis=0)
         else:
             # Calculate the kernel marix with parallelization
             K = np.sum(self._parallel(joblib.delayed(etransform)(self.X[i], g) for (i, g)
