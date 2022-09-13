@@ -67,8 +67,8 @@ jobs:
           CIBW_ARCHS_MACOS: x86_64 universal2
           CIBW_ARCHS_LINUX: x86_64 i686 aarch64
           CIBW_ARCHS_WINDOWS: AMD64 x86
-          # i686 wheels not supported by scipy with cp310
-          CIBW_SKIP: cp310-*-i686
+          # i686 wheels not supported by scipy with cp310, i686 not supported by cvxopt at all
+          CIBW_SKIP: "*-i686"
           # Install test requirements and run the test-cmd
           CIBW_TEST_EXTRAS: ${{ env.extra-requires }}
           CIBW_TEST_COMMAND: ${{ env.test-cmd }}

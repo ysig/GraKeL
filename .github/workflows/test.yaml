@@ -23,8 +23,6 @@ env:
   package-name: grakel
   extra-requires: "[dev]"  # "" for no extra_requires
 
-  tmp-testdir: "tmp-test"
-
   # https://github.com/eddiebergman/GraKeL/blob/63a2723fc9488257a7c880fa9b5e5cc95ada9f42/ci_scripts/travis/install.sh#L8-L11
   coverage-reqs: "networkx pandas"
   codecov-py: "3.7"
@@ -87,12 +85,11 @@ jobs:
 
     - name: Tests
       run: |
-        mkdir ${{ env.tmp-testdir }}
-        cd ${{ env.tmp-testdir }}
-        nosetests --with-coverage --cover-package=${{ env.package-name }}
+        nosetests --with-coverage --cover-xml --cover-package=${{ env.package-name }}
 
-    - name: Upload coverage
-      uses: codecov/codecov-action@v3
-      with:
-        fail_ci_if_error: true
-        verbose: true
+    #
+    #- name: Upload coverage
+    #  uses: codecov/codecov-action@v3
+    #  with:
+    #    fail_ci_if_error: true
+    #    verbose: true
