@@ -36,7 +36,7 @@ license= { file = "LICENSE" }
 
 [project.optional-dependencies]
 lovasz = ["cvxopt>=1.2.0"]
-dev = ["cvxopt>=1.2.0", "pytest"]
+dev = ["cvxopt>=1.2.0", "pytest", "pytest-coverage"]
 
 [project.urls]
 documentation = 'https://ysig.github.io/GraKeL/'

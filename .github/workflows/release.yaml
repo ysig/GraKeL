@@ -30,7 +30,8 @@ on:
 env:
   package-name: GraKeL
 
-  test-cmd: "pytest"
+  test-cmd: python -m pytest
+  test-dir: grakel/tests
   extra-requires: "dev"
   sdist-version: "3.7"
 
@@ -69,7 +70,7 @@ jobs:
           CIBW_ARCHS_WINDOWS: AMD64 x86
           # Install test requirements and run the test-cmd
           CIBW_TEST_EXTRAS: ${{ env.extra-requires }}
-          CIBW_TEST_COMMAND: ${{ env.test-cmd }}
+          CIBW_TEST_COMMAND: ${{ env.test-cmd }} {project}/${{ env.test-dir }}
           # https://cibuildwheel.readthedocs.io/en/stable/options/#test-skip
           # * Will avoid testing on emulated architectures (aarch64)
           # * Skip trying to test arm64 builds on Intel Macs
@@ -111,7 +112,7 @@ jobs:
 
       - name: Tests
         run: |
-          ${{ env.test-cmd }}
+          ${{ env.test-cmd }} ${{ env.test-dir }}
 
       - name: Store artifacts
         uses: actions/upload-artifact@v2
