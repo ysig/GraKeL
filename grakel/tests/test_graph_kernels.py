@@ -149,7 +149,7 @@ dataset_attr_tr, dataset_attr_te = train_test_split(dataset_attr,
                                                     random_state=42)
 
 if verbose:
-    # Guard for nosetests
+    # Guard for pytest
     def test_random_walk():
         """Test the Simple random walk kernel [decorator]."""
         gk = GraphKernel(kernel={"name": "random_walk"}, verbose=verbose,

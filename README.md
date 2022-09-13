@@ -64,7 +64,7 @@ $ pip install grakel
 
 To test the package, execute:
 ```sh
-$ nosetests grakel
+$ pytest
 ```
 
 ## Running examples

@@ -30,7 +30,7 @@ on:
 env:
   package-name: GraKeL
 
-  test-cmd: "nosetests"
+  test-cmd: "pytest"
   extra-requires: "dev"
   sdist-version: "3.7"
 

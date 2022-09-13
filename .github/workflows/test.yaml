@@ -26,6 +26,9 @@ env:
   # https://github.com/eddiebergman/GraKeL/blob/63a2723fc9488257a7c880fa9b5e5cc95ada9f42/ci_scripts/travis/install.sh#L8-L11
   coverage-reqs: "networkx pandas"
   codecov-py: "3.7"
+  codecov-args: >-
+    --cov=grakel
+    --cov-report=xml
 
 jobs:
 
@@ -60,7 +63,7 @@ jobs:
 
     - name: Tests
       run: |
-        nosetests
+        pytest
 
   # Testing with codecov coverage uploaded
   codecov-test:
@@ -78,17 +81,15 @@ jobs:
 
     - name: Install ${{ env.import-package-name }}
       run: |
-        python -m pip install --upgrade pip
-        python -m pip install --upgrade setuptools
+        python -m pip install --upgrade pip setuptools
         python -m pip install -e ".${{ env.extra-requires }}"
 
     - name: Tests
       run: |
-        nosetests --with-coverage --cover-xml --cover-package=${{ env.import-package-name }}
+        python -m pytest ${{ env.codecov-args }}
 
-    #
-    #- name: Upload coverage
-    #  uses: codecov/codecov-action@v3
-    #  with:
-    #    fail_ci_if_error: true
-    #    verbose: true
+    - name: Upload coverage
+      uses: codecov/codecov-action@v3
+      with:
+        fail_ci_if_error: true
+        verbose: true
