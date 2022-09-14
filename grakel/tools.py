@@ -11,11 +11,7 @@ from scipy.special import binom as binomial
 
 # Python 2/3 cross-compatibility import
 from future.utils import iteritems
-
-if sys.version_info < (3,10):
-    from collections import Hashable
-else:
-    from collections.abc import Hashable
+from six.moves.collections_abc import Hashable
 
 
 class priority_dict(dict, object):
