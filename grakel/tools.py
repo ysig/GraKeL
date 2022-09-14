@@ -13,7 +13,7 @@ from scipy.special import binom as binomial
 from future.utils import iteritems
 
 if sys.version_info < (3,10):
-    from collections import Hashable:
+    from collections import Hashable
 else:
     from collections.abc import Hashable
 
