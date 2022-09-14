@@ -1,8 +1,9 @@
 """A file having general functions and classes usefull insid `grakel`."""
 
 from __future__ import generators
-import collections
+import sys
 import operator
+import collections
 
 import numpy as np
 
@@ -10,6 +11,11 @@ from scipy.special import binom as binomial
 
 # Python 2/3 cross-compatibility import
 from future.utils import iteritems
+
+if sys.version_info < (3,10):
+    from collections import Hashable:
+else:
+    from collections.abc import Hashable
 
 
 class priority_dict(dict, object):
@@ -172,7 +178,7 @@ def inv_dict(d):
             elif type(k) is set:
                 k = frozenset(k)
             else:
-                if not isinstance(k, collections.Hashable):
+                if not isinstance(k, Hashable):
                     raise ValueError('in order to calculate inverse \
                           dictionary, values must be hashable')
             if k not in inv:
