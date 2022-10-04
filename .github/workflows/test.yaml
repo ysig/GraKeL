@@ -64,7 +64,7 @@ jobs:
 
     - name: Tests
       run: |
-        python -m pytest ${{ env.test-dir }}
+        python -m pytest -k "test_debug" # ${{ env.test-dir }}
 
   # Testing with codecov coverage uploaded
   codecov-test:
@@ -87,7 +87,7 @@ jobs:
 
     - name: Tests
       run: |
-        python -m pytest ${{ env.codecov-args }} ${{ env.test-dir }}
+        python -m pytest -k "test_debug" #${{ env.codecov-args }} ${{ env.test-dir }}
 
     - name: Upload coverage
       uses: codecov/codecov-action@v3
