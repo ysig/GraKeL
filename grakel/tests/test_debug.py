@@ -1,8 +1,7 @@
 import pytest
 from cvxopt.base import matrix, spmatrix
-from cvxopt.solvers import sdp
+from cvxopt.solvers import sdp, conelp
 
-# Try again, see if error is stochastic
 
 @pytest.mark.parametrize(
     "nv, ne, e_list, x_list",
@@ -107,5 +106,5 @@ def test_windows_sdp(nv, ne, e_list, x_list) -> None:
 
     # Solve the convex optimization problem
     # Should raise here on windows
-    sol = sdp(c, Gs=[g_sparse], hs=[h])
+    sol = sdp(c, Gs=[g_sparse], hs=[h], solver="dsdp")
     assert sol is not None
