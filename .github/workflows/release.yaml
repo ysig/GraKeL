@@ -70,7 +70,8 @@ jobs:
           CIBW_ARCHS_WINDOWS: AMD64 x86
           # Install test requirements and run the test-cmd
           CIBW_TEST_EXTRAS: ${{ env.extra-requires }}
-          CIBW_TEST_COMMAND: ${{ env.test-cmd }} {project}/${{ env.test-dir }}
+          # CD back out so the installed version is used, not the source code
+          CIBW_TEST_COMMAND: cd ..; ${{ env.test-cmd }} {project}/${{ env.test-dir }}
           # https://cibuildwheel.readthedocs.io/en/stable/options/#test-skip
           # * Will avoid testing on emulated architectures (aarch64)
           # * Skip trying to test arm64 builds on Intel Macs
@@ -95,8 +96,7 @@ jobs:
 
       - name: Build source distribution
         run: |
-          python -m pip install --upgrade pip
-          python -m pip install build
+          python -m pip install --upgrade pip setuptools wheel build
           python -m build --sdist
           echo "sdist_name=$(ls -t dist/${{ env.package-name }}-*.tar.gz | head -n 1)" >> $GITHUB_ENV
 
@@ -112,7 +112,8 @@ jobs:
 
       - name: Tests
         run: |
-          ${{ env.test-cmd }} ${{ env.test-dir }}
+          # CD back out so the installed version is used, not the source code
+          cd ..; ${{ env.test-cmd }} ${{ env.test-dir }}
 
       - name: Store artifacts
         uses: actions/upload-artifact@v2
