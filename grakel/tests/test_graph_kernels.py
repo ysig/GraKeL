@@ -2,6 +2,7 @@
 # Author: Ioannis Siglidis <y.siglidis@gmail.com>
 # License: BSD 3 clause
 import os
+import sys
 from time import time
 from warnings import warn
 
@@ -12,6 +13,9 @@ from grakel.datasets.base import read_data
 from grakel.datasets import get_dataset_info
 from grakel.graph_kernels import GraphKernel
 
+import pytest
+
+is_windows = sys.platform.lower().startswith("win")
 
 fdir = os.path.dirname(__file__)
 
@@ -217,6 +221,10 @@ if verbose:
         if verbose:
             print_kernel_decorator("NSPD", gk, dataset_tr, dataset_te)
 
+    @pytest.mark.xfail(
+        condition=is_windows,
+        reason="See https://github.com/ysig/GraKeL/pull/83#issuecomment-1267069069"
+    )
     def test_lovasz_theta():
         """Test the Lovasz-theta kernel [decorator]."""
         try:

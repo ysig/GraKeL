@@ -3,6 +3,7 @@
 # License: BSD 3 clause
 # Currently checking only for picklability.
 
+import sys
 import warnings
 import numpy as np
 import pickle
@@ -32,6 +33,10 @@ from grakel.kernels import EdgeHistogram
 from grakel.kernels import GraphHopper
 from grakel.kernels import CoreFramework
 from grakel.kernels import WeisfeilerLehmanOptimalAssignment
+
+import pytest
+
+is_windows = sys.platform.lower().startswith("win")
 
 verbose, normalize = False, True
 default_eigvalue_precision = float("-1e-5")
@@ -293,6 +298,11 @@ def test_neighborhood_subgraph_pairwise_distance():
 
 
 if cvxopt:
+
+    @pytest.mark.xfail(
+        condition=is_windows,
+        reason="See https://github.com/ysig/GraKeL/pull/83#issuecomment-1267069069"
+    )
     def test_lovasz_theta():
         """Picklability test for the Lovasz-theta distance kernel."""
         train, _ = generate_dataset(n_graphs=50,
