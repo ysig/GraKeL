@@ -2,6 +2,7 @@ import pytest
 from cvxopt.base import matrix, spmatrix
 from cvxopt.solvers import sdp
 
+# Try again, see if error is stochastic
 
 @pytest.mark.parametrize(
     "nv, ne, e_list, x_list",
