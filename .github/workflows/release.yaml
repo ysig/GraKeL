@@ -70,7 +70,6 @@ jobs:
           CIBW_ARCHS_WINDOWS: AMD64 x86
           # Install test requirements and run the test-cmd
           CIBW_TEST_EXTRAS: ${{ env.extra-requires }}
-          # CD back out so the installed version is used, not the source code
           CIBW_TEST_COMMAND: ${{ env.test-cmd }} {project}/${{ env.test-dir }}
           # https://cibuildwheel.readthedocs.io/en/stable/options/#test-skip
           # * Will avoid testing on emulated architectures (aarch64)
@@ -112,7 +111,6 @@ jobs:
 
       - name: Tests
         run: |
-          # CD back out so the installed version is used, not the source code
           ${{ env.test-cmd }} ${{ env.test-dir }}
 
       - name: Store artifacts
