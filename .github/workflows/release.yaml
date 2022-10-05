@@ -69,7 +69,8 @@ jobs:
           CIBW_ARCHS_WINDOWS: AMD64 x86
           # Install test requirements and run the test-cmd
           CIBW_TEST_EXTRAS: ${{ env.extra-requires }}
-          CIBW_TEST_COMMAND: ${{ env.test-cmd }}
+          # {project} is a special string recognized by CIBW and replaced with the project dir
+          CIBW_TEST_COMMAND: ${{ env.test-cmd }} {project}
           # https://cibuildwheel.readthedocs.io/en/stable/options/#test-skip
           # * Will avoid testing on emulated architectures (aarch64)
           # * Skip trying to test arm64 builds on Intel Macs
