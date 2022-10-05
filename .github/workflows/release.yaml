@@ -63,6 +63,7 @@ jobs:
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.9.0
         env:
+          CIBW_BUILD_FRONTEND: "build"
           CIBW_BUILD: ${{ matrix.py }}
           CIBW_ARCHS_MACOS: x86_64 universal2
           CIBW_ARCHS_LINUX: x86_64 aarch64
@@ -71,9 +72,9 @@ jobs:
           CIBW_TEST_EXTRAS: ${{ env.extra-requires }}
           # {project} is a special string recognized by CIBW and replaced with the project dir
           CIBW_TEST_COMMAND: ${{ env.test-cmd }} {project}
-          # https://about.codecov.io/sign-up/
           # * Scipy has stopped releasing win32 builds from python 3.10 onwards
-          CIBW_SKIP: "cp310-win32"
+          # * Scipy has no wheels released for musslinux and will not build because OpenBLAS is not found
+          CIBW_SKIP: "cp310-win32 *-musslinux*"
           # https://cibuildwheel.readthedocs.io/en/stable/options/#test-skip
           # * Will avoid testing on emulated architectures (aarch64)
           # * Skip trying to test arm64 builds on Intel Macs
