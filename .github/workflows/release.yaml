@@ -71,10 +71,13 @@ jobs:
           CIBW_TEST_EXTRAS: ${{ env.extra-requires }}
           # {project} is a special string recognized by CIBW and replaced with the project dir
           CIBW_TEST_COMMAND: ${{ env.test-cmd }} {project}
+          # https://about.codecov.io/sign-up/
+          # * Scipy has stopped releasing win32 builds from python 3.10 onwards
+          CIBW_SKIP: "cp310-win32"
           # https://cibuildwheel.readthedocs.io/en/stable/options/#test-skip
           # * Will avoid testing on emulated architectures (aarch64)
           # * Skip trying to test arm64 builds on Intel Macs
-          CIBW_TEST_SKIP: "*-*linux_aarch64 *-macosx_universal2:arm64"
+          CIBW_TEST_SKIP: "*-*linux_aarch64 *-macosx_universal2:arm64 "
 
       - uses: actions/upload-artifact@v3
         with:
