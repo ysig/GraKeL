@@ -73,8 +73,8 @@ jobs:
           # {project} is a special string recognized by CIBW and replaced with the project dir
           CIBW_TEST_COMMAND: ${{ env.test-cmd }} {project}
           # * Scipy has stopped releasing win32 builds from python 3.10 onwards
-          # * Scipy has no wheels released for musslinux and will not build because OpenBLAS is not found
-          CIBW_SKIP: "cp310-win32 *-musslinux*"
+          # * Scipy has no wheels released for musllinux and will not build because OpenBLAS is not found
+          CIBW_SKIP: "cp310-win32 *-musllinux*"
           # https://cibuildwheel.readthedocs.io/en/stable/options/#test-skip
           # * Will avoid testing on emulated architectures (aarch64)
           # * Skip trying to test arm64 builds on Intel Macs
