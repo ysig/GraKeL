@@ -1,6 +1,7 @@
 """The lovasz theta kernel as in :cite:`johansson2014global`."""
 # Author: Ioannis Siglidis <y.siglidis@gmail.com>
 # License: BSD 3 clause
+import sys
 import warnings
 
 import numpy as np
@@ -91,6 +92,12 @@ class LovaszTheta(Kernel):
         if not cvxopt_installed:
             raise ImportError('cvxopt should be installed for the '
                               'computation of the Lovasz-Theta Kernel.')
+
+        if sys.platform.startswith("win"):
+            warnings.warn(
+                "Use of LovaszTheta on Windows may fail due to issues in lapack/cvxopt."
+                " Please consider using another Kernel if this affects you."
+            )
 
         super(LovaszTheta, self).__init__(n_jobs=n_jobs,
                                           normalize=normalize,
