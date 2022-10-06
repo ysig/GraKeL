@@ -19,6 +19,11 @@ name: Wheel builder
 on:
   # Manual trigger on github
   workflow_dispatch:
+    inputs:
+      deploy:
+        description: "Deploy to PyPI"
+        required: false
+        type: boolean
 
   # Bushj
   push:
@@ -122,30 +127,21 @@ jobs:
         with:
           path: dist/*.tar.gz
 
-
-  # Upload the wheels as artifacts to the run
   release_assets:
+    # Only when manually specified
+    if: if ${{ inputs.deploy }}
+
     name: Upload Release
     runs-on: ubuntu-latest
     needs: [build_wheels, build_sdist]
-
-    # Only on a tagged release, push
-    if: startsWith(github.ref, 'refs/tags/v')  && github.event_name != 'pull_request'
-
     steps:
-      - name: Checkout ${{ env.package-name }}
-        uses: actions/checkout@v3
-
       - name: Download artifacts
         uses: actions/download-artifact@v2
         with:
           path: dist
 
-      - name: Upload Release Asset
-        id: upload-release-asset
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          tag_name="${GITHUB_REF##*/}"
-          echo Uploading `(find ./dist -type f -printf "-a %p ")`
-          hub release edit $(find ./dist -type f -printf "-a %p ") -m "" "$tag_name"
+      - name: Publish a Python distribution to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+          with:
+            password: ${{ secrets.PYPI_API_TOKEN }}
+            packages_dir: dist/
