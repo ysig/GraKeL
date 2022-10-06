@@ -137,8 +137,14 @@ jobs:
     steps:
       - name: Download artifacts
         uses: actions/download-artifact@v2
-        with:
-          path: dist
+          path: artifact
+
+      - name: Display structure of downloaded files
+        run: |
+          ls -R
+          mkdir dist
+          mv artifact/* dist/
+          ls -R
 
       - name: Publish a Python distribution to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
