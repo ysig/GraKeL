@@ -142,6 +142,6 @@ jobs:
 
       - name: Publish a Python distribution to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
-          with:
+        with:
             password: ${{ secrets.PYPI_API_TOKEN }}
             packages_dir: dist/
