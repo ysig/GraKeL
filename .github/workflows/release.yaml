@@ -129,7 +129,7 @@ jobs:
 
   release_assets:
     # Only when manually specified
-    if: if ${{ inputs.deploy }}
+    if: ${{ inputs.deploy }}
 
     name: Upload Release
     runs-on: ubuntu-latest
