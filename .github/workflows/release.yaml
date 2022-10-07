@@ -138,13 +138,14 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v2
         with:
-          path: artifact
+          path: dist
 
       - name: Display structure of downloaded files
         run: |
           ls -R
           mkdir dist
-          mv artifact/* dist/
+          mv dist/artifact/* dist/
+          rm -rf dist/artifact
           ls -R
 
       - name: Publish a Python distribution to PyPI
