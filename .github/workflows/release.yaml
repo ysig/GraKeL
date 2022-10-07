@@ -143,7 +143,6 @@ jobs:
       - name: Display structure of downloaded files
         run: |
           ls -R
-          mkdir dist
           mv dist/artifact/* dist/
           rm -rf dist/artifact
           ls -R
