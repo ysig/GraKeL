@@ -1,7 +1,6 @@
 """The neighborhood hashing kernel as defined in :cite:`Hido2009ALG`."""
 # Author: Ioannis Siglidis <y.siglidis@gmail.com>
 # License: BSD 3 clause
-import collections
 import warnings
 
 from grakel.graph import Graph
@@ -13,7 +12,7 @@ from sklearn.utils.validation import check_is_fitted
 # Python 2/3 cross-compatibility import
 from six import itervalues
 from six import iteritems
-
+from six.moves.collections_abc import Iterable
 
 class NeighborhoodHash(Kernel):
     """Neighborhood hashing kernel as proposed in :cite:`Hido2009ALG`.
@@ -121,7 +120,7 @@ class NeighborhoodHash(Kernel):
         if X is None:
             raise ValueError('`fit` input cannot be None')
         else:
-            if not isinstance(X, collections.Iterable):
+            if not isinstance(X, Iterable):
                 raise TypeError('input must be an iterable\n')
 
             i = 0
@@ -129,7 +128,7 @@ class NeighborhoodHash(Kernel):
             gs = list()
             self._labels_hash_dict, labels_hash_set = dict(), set()
             for (idx, x) in enumerate(iter(X)):
-                is_iter = isinstance(x, collections.Iterable)
+                is_iter = isinstance(x, Iterable)
                 if is_iter:
                     x = list(x)
                 if is_iter and len(x) in [0, 1, 2, 3]:
@@ -268,13 +267,13 @@ class NeighborhoodHash(Kernel):
         if X is None:
             raise ValueError('`transform` input cannot be None')
         else:
-            if not isinstance(X, collections.Iterable):
+            if not isinstance(X, Iterable):
                 raise TypeError('input must be an iterable\n')
 
             i = 0
             out = list()
             for (idx, x) in enumerate(iter(X)):
-                is_iter = isinstance(x, collections.Iterable)
+                is_iter = isinstance(x, Iterable)
                 if is_iter:
                     x = list(x)
                 if is_iter and len(x) in [0, 1, 2, 3]:

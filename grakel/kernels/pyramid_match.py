@@ -1,7 +1,6 @@
 """The pyramid match kernel as in :cite:`nikolentzos2017matching`."""
 # Author: Ioannis Siglidis <y.siglidis@gmail.com>
 # License: BSD 3 clause
-import collections
 import warnings
 
 import numpy as np
@@ -17,7 +16,7 @@ from grakel.kernels import Kernel
 # Python 2/3 cross-compatibility import
 from six import itervalues
 from six import iteritems
-
+from six.moves.collections_abc import Iterable
 
 class PyramidMatch(Kernel):
     """Pyramid match kernel class.
@@ -103,7 +102,7 @@ class PyramidMatch(Kernel):
             A list of lists of Histograms for all levels for each graph.
 
         """
-        if not isinstance(X, collections.Iterable):
+        if not isinstance(X, Iterable):
             raise TypeError('input must be an iterable\n')
         else:
             i = 0
@@ -111,7 +110,7 @@ class PyramidMatch(Kernel):
             if self.with_labels:
                 Ls = []
             for (idx, x) in enumerate(iter(X)):
-                is_iter = isinstance(x, collections.Iterable)
+                is_iter = isinstance(x, Iterable)
                 if is_iter:
                     x = list(x)
                 if is_iter and (len(x) == 0 or (len(x) >= 1 and not self.with_labels) or
@@ -138,7 +137,7 @@ class PyramidMatch(Kernel):
                     # Embed vertices into the d-dimensional space
                     if A.shape[0] > self.d+1:
                         # If size of graph smaller than d, pad with zeros
-                        Lambda, U = eigs(csr_matrix(A, dtype=np.float),
+                        Lambda, U = eigs(csr_matrix(A, dtype=float),
                                          k=self.d, ncv=10*self.d)
                         idx = Lambda.argsort()[::-1]
                         U = U[:, idx]

@@ -1,7 +1,6 @@
 """The weisfeiler lehman optimal assignment kernel :cite:`kriege2016valid`."""
 # Author: Giannis Nikolentzos <nikolentzos@lix.polytechnique.fr>
 # License: BSD 3 clause
-import collections
 import warnings
 
 import numpy as np
@@ -17,6 +16,7 @@ from scipy.sparse import lil_matrix
 # Python 2/3 cross-compatibility import
 from six import iteritems
 from six import itervalues
+from six.moves.collections_abc import Iterable
 
 
 class WeisfeilerLehmanOptimalAssignment(Kernel):
@@ -105,13 +105,13 @@ class WeisfeilerLehmanOptimalAssignment(Kernel):
             delattr(self, '_X_diag')
 
         # Input validation and parsing
-        if not isinstance(X, collections.Iterable):
+        if not isinstance(X, Iterable):
             raise TypeError('input must be an iterable\n')
         else:
             nx = 0
             Gs_ed, L, distinct_values = dict(), dict(), set()
             for (idx, x) in enumerate(iter(X)):
-                is_iter = isinstance(x, collections.Iterable)
+                is_iter = isinstance(x, Iterable)
                 if is_iter:
                     x = list(x)
                 if is_iter and (len(x) == 0 or len(x) >= 2):
@@ -315,14 +315,14 @@ class WeisfeilerLehmanOptimalAssignment(Kernel):
         if X is None:
             raise ValueError('transform input cannot be None')
         else:
-            if not isinstance(X, collections.Iterable):
+            if not isinstance(X, Iterable):
                 raise ValueError('input must be an iterable\n')
             else:
                 nx = 0
                 distinct_values = set()
                 Gs_ed, L = dict(), dict()
                 for (i, x) in enumerate(iter(X)):
-                    is_iter = isinstance(x, collections.Iterable)
+                    is_iter = isinstance(x, Iterable)
                     if is_iter:
                         x = list(x)
                     if is_iter and len(x) in [0, 2, 3]:

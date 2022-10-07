@@ -1,0 +1,4 @@
+[flake8]
+# Default flake8 3.5 ignored flags
+max-line-length = 130
+ignore=H306,E121,E123,E126,E741,E226,E24,E704,W503,W504

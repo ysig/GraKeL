@@ -2,6 +2,7 @@
 # Author: Ioannis Siglidis <y.siglidis@gmail.com>
 # License: BSD 3 clause
 import os
+import sys
 import numpy as np
 
 from time import time
@@ -37,6 +38,10 @@ from grakel.kernels import VertexHistogram
 from grakel.kernels import EdgeHistogram
 from grakel.kernels import GraphHopper
 from grakel.kernels import CoreFramework
+
+import pytest
+
+is_windows = sys.platform.lower().startswith("win")
 
 global verbose, main, development
 
@@ -295,6 +300,11 @@ def test_neighborhood_subgraph_pairwise_distance():
 
 
 if cvxopt:
+
+    @pytest.mark.xfail(
+        condition=is_windows,
+        reason="See https://github.com/ysig/GraKeL/pull/83#issuecomment-1267069069"
+    )
     def test_lovasz_theta():
         """Eigenvalue test for the Lovasz-theta distance kernel."""
         lt_kernel = LovaszTheta(verbose=verbose, normalize=normalize)

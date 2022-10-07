@@ -1,7 +1,6 @@
 """Shortest path kernel as defined in :cite:`borgwardt2005shortest`."""
 # Author: Ioannis Siglidis <y.siglidis@gmail.com>
 # License: BSD 3 clause
-import collections
 import warnings
 
 import numpy as np
@@ -12,6 +11,8 @@ from sklearn.utils.validation import check_is_fitted
 from grakel.graph import Graph
 from grakel.kernels import Kernel
 
+# For python2/3 compatibility
+from six.moves.collections_abc import Iterable
 
 class ShortestPathAttr(Kernel):
     r"""The shortest path kernel for attributes.
@@ -93,13 +94,13 @@ class ShortestPathAttr(Kernel):
             A list of tuples of shortest path matrices and tehir attributes.
 
         """
-        if not isinstance(X, collections.Iterable):
+        if not isinstance(X, Iterable):
             raise TypeError('input must be an iterable\n')
         else:
             sp_attr_tup = list()
             ni = 0
             for (i, x) in enumerate(iter(X)):
-                is_iter = isinstance(x, collections.Iterable)
+                is_iter = isinstance(x, Iterable)
                 if is_iter:
                     x = list(x)
                 if is_iter and len(x) in [0, 2, 3]:
@@ -429,7 +430,7 @@ class ShortestPath(Kernel):
             tuples.
 
         """
-        if not isinstance(X, collections.Iterable):
+        if not isinstance(X, Iterable):
             raise TypeError('input must be an iterable\n')
             # Not a dictionary
         else:
@@ -440,7 +441,7 @@ class ShortestPath(Kernel):
             elif self._method_calling == 3:
                 self._Y_enum = dict()
             for (idx, x) in enumerate(iter(X)):
-                is_iter = isinstance(x, collections.Iterable)
+                is_iter = isinstance(x, Iterable)
                 if is_iter:
                     x = list(x)
                 if is_iter and (len(x) == 0 or

@@ -1,7 +1,7 @@
 """A random input test for Kernel Oblects similar to test_estimator."""
 # Author: Ioannis Siglidis <y.siglidis@gmail.com>
 # License: BSD 3 clause
-
+import sys
 import warnings
 import numpy as np
 
@@ -30,6 +30,10 @@ from grakel.kernels import VertexHistogram
 from grakel.kernels import EdgeHistogram
 from grakel.kernels import GraphHopper
 from grakel.kernels import CoreFramework
+
+import pytest
+
+is_windows = sys.platform.lower().startswith("win")
 
 verbose, normalize = False, True
 default_eigvalue_precision = float("-1e-5")
@@ -549,6 +553,10 @@ def test_neighborhood_subgraph_pairwise_distance():
 
 
 if cvxopt:
+    @pytest.mark.xfail(
+        condition=is_windows,
+        reason="See https://github.com/ysig/GraKeL/pull/83#issuecomment-1267069069"
+    )
     def test_lovasz_theta():
         """Random input test for the Lovasz-theta distance kernel."""
         train, test = generate_dataset(n_graphs=50,
@@ -568,6 +576,10 @@ if cvxopt:
         except Exception as exception:
             assert False, exception
 
+    @pytest.mark.xfail(
+        condition=is_windows,
+        reason="See https://github.com/ysig/GraKeL/pull/83#issuecomment-1267069069"
+    )
     def test_lovasz_theta_pd():
         """Random input test for the Lovasz-theta distance kernel [n_jobs=-1/generic-wrapper]."""
         train, test = generate_dataset(n_graphs=50,

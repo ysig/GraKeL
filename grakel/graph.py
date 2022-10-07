@@ -1,7 +1,6 @@
 """A python file that implements a class and functions for graphs."""
 
 from __future__ import absolute_import
-import collections
 import numbers
 import warnings
 
@@ -17,6 +16,8 @@ from .tools import priority_dict
 # Python 2/3 cross-compatibility import
 from six import iteritems
 from six import itervalues
+from six.moves.collections_abc import Iterable
+
 from builtins import range
 
 
@@ -1606,7 +1607,7 @@ def is_edge_dictionary(g, transform=False):
                 return True, vertices_key | vertices_val, g
             else:
                 return True
-    if isinstance(g, collections.Iterable):
+    if isinstance(g, Iterable):
         if all(type(t) is tuple and len(t) == 2 for t in g):
             if transform:
                 vertices_key = set()

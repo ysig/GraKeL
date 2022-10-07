@@ -1,0 +1,154 @@
+# Workflow to build and test wheels
+# =================================
+# This github action gets triggered whenever there is a push to the master branch or a release is created.
+# It generates both wheels and distributions files, making sure their contents are correct via unit-testing.
+#
+# Please note that creating a git tag and pushing it (git tag <>; git push --tags) is not
+# sufficient to append the wheels and distribution files to your release.
+# You need to generate a new release using github, not git.
+#
+# Guides
+# ------
+# cibuildwheel docs:
+# * https://cibuildwheel.readthedocs.io/en/stable/options/
+# github actions:
+# * https://docs.github.com/en/actions
+
+name: Wheel builder
+
+on:
+  # Manual trigger on github
+  workflow_dispatch:
+    inputs:
+      deploy:
+        description: "Deploy to PyPI"
+        required: false
+        type: boolean
+
+  # Bushj
+  push:
+    branches:
+      - master
+      # Release branches
+      - "[0-9]+.[0-9]+.X"
+
+env:
+  package-name: GraKeL
+
+  test-cmd: pytest
+  extra-requires: "dev"
+  sdist-version: "3.7"
+
+jobs:
+
+  build_wheels:
+    name: Wheels ${{ matrix.os }}-${{ matrix.py }}
+    runs-on: ${{ matrix.os }}
+
+    # Parellilize as much as possible across github action workers
+    strategy:
+      # 1 runner per combination of (os, py)
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        py: ["cp37-*", "cp38-*", "cp39-*", "cp310-*"]
+      # All workers independent, don't cancel all if one fails
+      fail-fast: false
+
+    steps:
+      - uses: actions/checkout@v3
+
+      # Let's us build aarch64 on linux
+      - name: Set up QEMU
+        if: runner.os == 'Linux'
+        uses: docker/setup-qemu-action@v2
+        with:
+          platforms: all
+
+        # https://cibuildwheel.readthedocs.io/en/1.x/options
+      - name: Build wheels
+        uses: pypa/cibuildwheel@v2.9.0
+        env:
+          CIBW_BUILD_FRONTEND: "build"
+          CIBW_BUILD: ${{ matrix.py }}
+          CIBW_ARCHS_MACOS: x86_64 universal2
+          CIBW_ARCHS_LINUX: x86_64 aarch64
+          CIBW_ARCHS_WINDOWS: AMD64 x86
+          # Install test requirements and run the test-cmd
+          CIBW_TEST_EXTRAS: ${{ env.extra-requires }}
+          # {project} is a special string recognized by CIBW and replaced with the project dir
+          CIBW_TEST_COMMAND: ${{ env.test-cmd }} {project}
+          # * Scipy has stopped releasing win32 builds from python 3.10 onwards
+          # * Scipy has no wheels released for musllinux and will not build because OpenBLAS is not found
+          CIBW_SKIP: "cp310-win32 *-musllinux*"
+          # https://cibuildwheel.readthedocs.io/en/stable/options/#test-skip
+          # * Will avoid testing on emulated architectures (aarch64)
+          # * Skip trying to test arm64 builds on Intel Macs
+          CIBW_TEST_SKIP: "*-*linux_aarch64 *-macosx_universal2:arm64 "
+
+      - uses: actions/upload-artifact@v3
+        with:
+          path: ./wheelhouse/*.whl
+
+  build_sdist:
+    name: sdist
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout ${{ env.package-name }}
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.sdist-version }}
+
+      - name: Build source distribution
+        run: |
+          python -m pip install --upgrade pip setuptools wheel build
+          python -m build -s
+          echo "sdist_name=$(ls -t dist/${{ env.package-name }}-*.tar.gz | head -n 1)" >> $GITHUB_ENV
+
+      - name: Twine check ${{ env.package-name }}
+        run: |
+          python -m pip install twine
+          twine_output=`twine check ${{ env.sdist_name }}`
+          twine check ${{env.sdist_name}} --strict
+
+      - name: Install dist
+        run: |
+          python -m pip install ${{ env.sdist_name }}[${{ env.extra-requires }}]
+
+      - name: Tests
+        run: |
+          ${{ env.test-cmd }}
+
+      - name: Store artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          path: dist/*.tar.gz
+
+  release_assets:
+    # Only when manually specified
+    if: ${{ inputs.deploy }}
+
+    name: Upload Release
+    runs-on: ubuntu-latest
+    needs: [build_wheels, build_sdist]
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v2
+        with:
+          path: dist
+
+      - name: Display structure of downloaded files
+        run: |
+          ls -R
+          mv dist/artifact/* dist/
+          rm -rf dist/artifact
+          ls -R
+
+      - name: Publish a Python distribution to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+            password: ${{ secrets.PYPI_API_TOKEN }}
+            packages_dir: dist/

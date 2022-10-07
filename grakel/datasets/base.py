@@ -344,7 +344,7 @@ def read_data(
             for line in f:
                 classes.append(int(line[:-1]))
 
-        classes = np.array(classes, dtype=np.int)
+        classes = np.array(classes, dtype=int)
         return Bunch(data=Gs, target=classes)
     else:
         return Bunch(data=Gs)

@@ -1,0 +1,45 @@
+[build-system]
+requires = ["setuptools>=61.0.0", "cython", "numpy>=1.14.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "GraKeL"
+version='0.1.9'
+dependencies = [
+    "numpy >= 1.14.0",
+    "cython >= 0.27.3",
+    "scikit-learn >= 0.19",
+    "six >= 1.11.0",
+    "future >= 0.16.0",
+    "joblib"
+]
+requires-python=">=3.5"
+authors = [
+    { name = "Ioannis-Siglidis", email = "y.siglidis@gmail.com" }
+]
+readme = "README.md"
+description='A scikit-learn compatible library for graph kernels'
+classifiers=[
+    'Intended Audience :: Science/Research',
+    'Intended Audience :: Developers',
+    'License :: OSI Approved',
+    'Programming Language :: C',
+    'Programming Language :: Python',
+    'Topic :: Software Development',
+    'Topic :: Scientific/Engineering',
+    'Operating System :: POSIX',
+    'Operating System :: Unix',
+    'Operating System :: MacOS',
+    'Programming Language :: Python :: 3',
+]
+license= { file = "LICENSE" }
+
+[project.optional-dependencies]
+lovasz = ["cvxopt>=1.2.0"]
+dev = ["cvxopt>=1.2.0", "pytest", "pytest-coverage"]
+
+[project.urls]
+documentation = 'https://ysig.github.io/GraKeL/'
+feedback = 'http://www.lix.polytechnique.fr/dascim/contact/'
+source = 'https://github.com/ysig/GraKeL/'
+tracker = 'https://github.com/ysig/GraKeL/issues'

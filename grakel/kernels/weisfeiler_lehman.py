@@ -1,7 +1,6 @@
 """The weisfeiler lehman kernel :cite:`shervashidze2011weisfeiler`."""
 # Author: Ioannis Siglidis <y.siglidis@gmail.com>
 # License: BSD 3 clause
-import collections
 import warnings
 
 import numpy as np
@@ -17,6 +16,7 @@ from grakel.kernels.vertex_histogram import VertexHistogram
 # Python 2/3 cross-compatibility import
 from six import iteritems
 from six import itervalues
+from six.moves.collections_abc import Iterable
 
 
 class WeisfeilerLehman(Kernel):
@@ -136,13 +136,13 @@ class WeisfeilerLehman(Kernel):
             delattr(self, '_X_diag')
 
         # Input validation and parsing
-        if not isinstance(X, collections.Iterable):
+        if not isinstance(X, Iterable):
             raise TypeError('input must be an iterable\n')
         else:
             nx = 0
             Gs_ed, L, distinct_values, extras = dict(), dict(), set(), dict()
             for (idx, x) in enumerate(iter(X)):
-                is_iter = isinstance(x, collections.Iterable)
+                is_iter = isinstance(x, Iterable)
                 if is_iter:
                     x = list(x)
                 if is_iter and (len(x) == 0 or len(x) >= 2):
@@ -246,8 +246,11 @@ class WeisfeilerLehman(Kernel):
                 for (i, g) in enumerate(generate_graphs(label_count, WL_labels_inverse)):
                     base_graph_kernel[i].fit(g)
             elif self._method_calling == 2:
-                K = np.sum((base_graph_kernel[i].fit_transform(g) for (i, g) in
-                           enumerate(generate_graphs(label_count, WL_labels_inverse))), axis=0)
+                graphs = generate_graphs(label_count, WL_labels_inverse)
+                values = [
+                    base_graph_kernel[i].fit_transform(g) for (i, g) in enumerate(graphs)
+                ]
+                K = np.sum(values, axis=0)
 
         else:
             if self._method_calling == 1:
@@ -329,14 +332,14 @@ class WeisfeilerLehman(Kernel):
         if X is None:
             raise ValueError('transform input cannot be None')
         else:
-            if not isinstance(X, collections.Iterable):
+            if not isinstance(X, Iterable):
                 raise ValueError('input must be an iterable\n')
             else:
                 nx = 0
                 distinct_values = set()
                 Gs_ed, L = dict(), dict()
                 for (i, x) in enumerate(iter(X)):
-                    is_iter = isinstance(x, collections.Iterable)
+                    is_iter = isinstance(x, Iterable)
                     if is_iter:
                         x = list(x)
                     if is_iter and len(x) in [0, 2, 3]:
@@ -420,9 +423,9 @@ class WeisfeilerLehman(Kernel):
 
         if self._parallel is None:
             # Calculate the kernel matrix without parallelization
-            K = np.sum((self.X[i].transform(g) for (i, g)
-                       in enumerate(generate_graphs(WL_labels_inverse, nl))), axis=0)
-
+            graphs = generate_graphs(WL_labels_inverse, nl)
+            values = [self.X[i].transform(g) for (i, g) in enumerate(graphs)]
+            K = np.sum(values, axis=0)
         else:
             # Calculate the kernel marix with parallelization
             K = np.sum(self._parallel(joblib.delayed(etransform)(self.X[i], g) for (i, g)

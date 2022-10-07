@@ -4,7 +4,6 @@
 from warnings import warn
 
 from collections import Counter
-from collections import Iterable
 
 from sklearn.exceptions import NotFittedError
 from sklearn.utils.validation import check_is_fitted
@@ -21,6 +20,7 @@ from scipy.sparse import csr_matrix
 # Python 2/3 cross-compatibility import
 from six import iteritems
 from six import itervalues
+from six.moves.collections_abc import Iterable
 
 
 class EdgeHistogram(Kernel):

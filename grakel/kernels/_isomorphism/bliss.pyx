@@ -9,6 +9,9 @@ import sys
 import types
 import collections
 
+# Python 2/3 cross-compatibility import
+from six.moves.collections_abc import Hashable
+
 from grakel.kernels._isomorphism import intpybliss
 from functools import total_ordering
 from six import iteritems
@@ -28,7 +31,7 @@ class Graph:
         def __init__(self, name, color):
             assert type(color) is int
             assert 0 <= color and color < pow(2,31)
-            assert isinstance(name, collections.Hashable)
+            assert isinstance(name, Hashable)
             assert type(name) is int
             self.edges = set()
             self.name = name

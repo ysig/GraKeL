@@ -6,7 +6,6 @@ import warnings
 
 import numpy as np
 
-from collections import Iterable
 from collections import defaultdict
 
 from sklearn.utils.validation import check_is_fitted
@@ -17,6 +16,7 @@ from grakel.graph import Graph
 
 # Python 2/3 cross-compatibility import
 from six import iteritems
+from six.moves.collections_abc import Iterable
 
 
 class OddSth(Kernel):
