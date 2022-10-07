@@ -96,4 +96,4 @@ GraKeL is distributed under the __BSD 3-clause__ license. The library makes use 
 
 ## Acknowledgements
 
-We would like to thank [@eddiebergman](https://github.com/eddiebergman) for modernizing our CI and python support.
+We would like to thank [@eddiebergman](https://github.com/eddiebergman) for modernizing our CI and extending our python support.
