@@ -37,6 +37,9 @@ jobs:
 
       # Deploy docs on pypi
       - DEPLOY_PYPI: false
+
+      - PUSH_DOCS: false
+ 
     steps:
       - checkout
       - attach_workspace:
