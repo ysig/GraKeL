@@ -93,3 +93,7 @@ If you use GraKeL in a scientific publication, please cite our paper (http://jml
 ## License
 
 GraKeL is distributed under the __BSD 3-clause__ license. The library makes use of the C++ source code of [BLISS](http://www.tcs.hut.fi/Software/bliss) (a tool for computing automorphism groups and canonical labelings of graphs) which is __LGPL__ licensed. Futhermore, the [cvxopt](https://cvxopt.org/) package (a software package for convex optimization) which is an optional dependency of GraKeL is __GPL__ licensed.
+
+## Acknowledgements
+
+We would like to thank [https://github.com/eddiebergman](@eddiebergman) for modernizing our CI and python support.
