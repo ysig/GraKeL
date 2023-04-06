@@ -15,8 +15,10 @@ on:
       - master
 
   schedule:
-    # Every day at 7AM UTC
-    - cron: '0 07 * * *'
+    # https://crontab.guru/#42_2_3_*_*
+    # "At 02:42 on day-of-month 3"
+    # Put it at this odd time to reduce competing with load spikes on github action servers
+    - cron: '42 2 3 * *'
 
 env:
 
@@ -91,6 +93,8 @@ jobs:
 
     - name: Upload coverage
       uses: codecov/codecov-action@v3
+      # Only upload coverage when it's **not** a scheduled test run
+      if: ! github.event.schedule
       with:
         fail_ci_if_error: true
         verbose: true
