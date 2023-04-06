@@ -94,7 +94,7 @@ jobs:
     - name: Upload coverage
       uses: codecov/codecov-action@v3
       # Only upload coverage when it's **not** a scheduled test run
-      if: ! github.event.schedule
+      if: ${{ ! github.event.schedule }}
       with:
         fail_ci_if_error: true
         verbose: true
