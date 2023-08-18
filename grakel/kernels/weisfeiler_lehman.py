@@ -178,7 +178,16 @@ class WeisfeilerLehman(Kernel):
                 Gs_ed[nx] = x.get_edge_dictionary()
                 L[nx] = x.get_labels(purpose="dictionary")
                 extras[nx] = extra
-                distinct_values |= set(itervalues(L[nx]))
+                elements = list(itervalues(L[nx]))
+                if( isinstance( elements[0], Iterable) ):
+                    el = list( map( lambda y: y[0], elements ))
+                else:
+                    el = elements
+                temp={}
+                for k,v in zip( list(L[nx].keys()), el):
+                    temp[k] = v
+                L[nx] = temp 
+                distinct_values |= set( el )
                 nx += 1
             if nx == 0:
                 raise ValueError('parsed input is empty')
@@ -357,10 +366,18 @@ class WeisfeilerLehman(Kernel):
                                          'least one and at most 3 elements\n')
                     Gs_ed[nx] = x.get_edge_dictionary()
                     L[nx] = x.get_labels(purpose="dictionary")
-
+                    elements = list(itervalues( L[nx] ))
+                    if( isinstance( elements[0], Iterable) ):
+                        el = list( map( lambda y: y[0], elements ))
+                    else:
+                        el = elements
+                    temp={}
+                    for k,v in zip( list(L[nx].keys()), el):
+                        temp[k] = v
+                    L[nx] = temp
                     # Hold all the distinct values
                     distinct_values |= set(
-                        v for v in itervalues(L[nx])
+                        v for v in el
                         if v not in self._inv_labels[0])
                     nx += 1
                 if nx == 0:
