@@ -437,7 +437,7 @@ class RandomWalkLabeled(RandomWalk):
                 P = np.eye(XY.shape[0])
                 S = self.mu_[0] * P
                 for k in self.mu_[1:]:
-                    P *= XY
+                    P = np.matmul(P, XY)
                     S += k*P
             elif self.kernel_type == "exponential":
                 S = expm(self.lamda*XY).T
