@@ -312,7 +312,7 @@ class NeighborhoodSubgraphPairwiseDistance(Kernel):
             K_diag = K.diagonal()
             N[key] = K_diag
             Q = K / np.sqrt(np.outer(K_diag, K_diag))
-            S += np.fill_diag(np.nan_to_num(Q), np.nan_to_num(np.diag(Q), 1))
+            S += np.fill_diagonal(np.nan_to_num(Q), np.nan_to_num(np.diag(Q), 1))
 
         self._X_level_norm_factor = N
 
