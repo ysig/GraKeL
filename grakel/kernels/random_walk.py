@@ -102,14 +102,14 @@ class RandomWalk(Kernel):
         if not self._initialized["p"]:
             if self.p is not None:
                 if type(self.p) is int and self.p > 0:
-                    if self.kernel_type == "geometric":
+                    if self.kernel_type == "exponential":
                         self.mu_ = [1]
                         fact = 1
                         power = 1
                         for k in range(1, self.p + 1):
                             fact *= k
                             power *= self.lamda
-                            self.mu_.append(fact/power)
+                            self.mu_.append(power/fact)
                     else:
                         self.mu_ = [1]
                         power = 1
