@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "GraKeL"
-version='0.1.9'
+version='0.1.10'
 dependencies = [
     "numpy >= 1.14.0",
     "cython >= 0.27.3",
