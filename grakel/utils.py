@@ -231,7 +231,7 @@ def cross_validate_Kfold_SVM(K, y,
 
 
 def graph_from_networkx(X, node_labels_tag=None, edge_labels_tag=None, edge_weight_tag=None,
-                        as_Graph=False):
+                        as_Graph=False, val_node_labels=None, val_edge_labels=None):
     """Transform an iterable of networkx objects to an iterable of Graphs.
 
     A function for helping a user that has a collection of graphs in networkx to use grakel.
@@ -253,6 +253,13 @@ def graph_from_networkx(X, node_labels_tag=None, edge_labels_tag=None, edge_weig
         as_Graph : bool, default=False
             Return each output as a grakel.Graph object.
 
+        val_node_labels : Union[str, int, np.array], default=None
+            Sets constant value to all nodes labels of a graph if missing.
+
+        val_edge_labels : Union[str, int, np.array], default=None
+            Sets constant value to all edges labels of a graph if missing.
+
+
     Returns
     -------
         grakel_graphs : generator
@@ -269,8 +276,9 @@ def graph_from_networkx(X, node_labels_tag=None, edge_labels_tag=None, edge_weig
         def nodel_init():
             return None
 
-        def nodel_put(*args):
-            pass
+        def nodel_put(nl, u, d):
+            if val_node_labels is not None:
+                nl[u] = val_node_labels
     elif type(node_labels_tag) is str:
         def nodel_init():
             return dict()
@@ -285,8 +293,9 @@ def graph_from_networkx(X, node_labels_tag=None, edge_labels_tag=None, edge_weig
         def edgel_init():
             return None
 
-        def edgel_put(*args):
-            pass
+        def edgel_put(el, u, d):
+            if val_edge_labels is not None:
+                el[u] = val_edge_labels
     elif type(edge_labels_tag) is str:
         def edgel_init():
             return dict()
@@ -679,3 +688,103 @@ def graph_from_csv(edge_files, node_files=None, index_type=str,
                 yield Graph(graph_object, nl, el)
             else:
                 yield [graph_object, nl, el]
+
+
+def graph_from_torch_geometric(data, node_one_hot=False, edge_one_hot=False, ignore_y=False):
+    """Produces a collection of Graph Objects from a collection of csv files.
+
+    A function for helping a user that has a bunch of graph csv
+    files make a collection for grakel input.
+
+    Parameters
+    ----------
+        data : Union[torch_geometric.data.Data, torch_geometric.data.batch.DataBatch]
+            Input should be a torch_geometric data object to be converted.
+
+        node_one_hot : bool, default=False
+            Whether each element of `data.x` should be treated as a one-hot vector.
+
+        edge_one_hot : bool, default=False
+            Whether each element of `data.edge_attr` should be treated as a one-hot vector.
+
+        ignore_y : bool, default=False
+            Argument determining whether to return the labels connected to the input graphs.
+
+    Returns
+    -------
+        grakel_graphs : dict
+            Returns a dictionary with keys:
+                'graph' : list[grakel.Graph]
+                    If input is torch_geometric.data.Data returns a single element.
+                    If input is torch_geometric.data.Data returns a list of graphs.
+
+                'y' : list[int]
+                    List of labels of graphs.
+                    If ignore_y is True this argument is ommited.
+
+    """
+    def one_hot_node(x):
+        if node_one_hot:
+            return x.argmax().item()
+        else:
+            return x.cpu().numpy()
+
+    def one_hot_edge(x):
+        if edge_one_hot:
+            return x.argmax().item()
+        else:
+            return x.cpu().numpy()
+
+    if data.batch is None:
+        edges = [tuple(e) for e in data.edge_index.t().tolist()]
+        node_labels, edge_labels = [], []
+        if data.x is not None:
+            node_labels = {i: one_hot_node(data.x[i]) for i in range(data.x.shape[0])}
+
+        if data.edge_attr is not None:
+            edge_labels = {edges[i]: one_hot_edge(data.edge_attr[i]) for i in range(data.edge_attr.shape[0])}
+
+        x = {'graph': Graph(edges, node_labels, edge_labels)}
+        if data.y is not None:
+            try:
+                x['y'] = int(data.y.item())
+            except:
+                raise ValueError('Either set ignore_y=True or use a ')
+
+        return x
+    else:
+        edges = defaultdict(list)
+        node_labels = None
+        edge_labels = None if data.edge_attr is None else defaultdict(dict)
+        group_id = (data.batch).unique_consecutive().tolist()
+        lookup = {i: data.batch[i].item() for i in range(data.batch.shape[0])}
+        for i, e in enumerate(data.edge_index.t().tolist()):
+            e = tuple(e)
+            group = lookup[e[0]]
+            if lookup[e[0]] != lookup[e[1]]:
+                raise ValueError('Both nodes from an edge should correspond to the same graph.')
+            edges[group].append(e)
+            if  data.edge_attr is not None:
+                edge_labels[group][e] = one_hot_edge(data.edge_attr[i])
+
+        if data.x is not None:
+            node_labels = defaultdict(dict)
+            for i in range(data.x.shape[0]):
+                node_labels[data.batch[i].item()][i] = one_hot_node(data.x[i])
+
+        x = defaultdict(list)
+        for i in group_id:
+            x['graph'].append(
+                Graph(
+                  edges[i], 
+                  (node_labels[i] if node_labels is not None else None),
+                  (edge_labels[i] if edge_labels is not None else None)
+                )
+            )
+            if not ignore_y:
+                if data.y is not None:
+                    try:
+                        x['y'].append(int(data.y[i].item()))
+                    except:
+                        raise ValueError('Either set ignore_y=True or input a Data/DataBatch with y attribute.')
+        return x
