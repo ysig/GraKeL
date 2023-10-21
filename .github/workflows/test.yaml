@@ -63,12 +63,12 @@ jobs:
     - name: Install ${{ env.import-package-name }}
       run: |
         python -m pip install --upgrade pip setuptools wheel
-        python -m pip install -e ".${{ env.extra-requires }}"
         # escape for cvxopt
         if ( [[ "${{ matrix.os }}" == "windows-latest" ]] && [[ "${{ matrix.py }}" == "3.7" ]] ) || [[ "${{ matrix.py }}" == "3.12" ]];then
-          echo python -m pip install -e ".${{ env.extra-requires-soft }}"
+          echo "one"
           python -m pip install -e ".${{ env.extra-requires-soft }}"
         else
+          echo "two"
           python -m pip install -e ".${{ env.extra-requires }}"
         fi
 
