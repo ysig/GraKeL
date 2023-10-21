@@ -714,13 +714,18 @@ def graph_from_torch_geometric(data, node_one_hot=False, edge_one_hot=False, ign
     -------
         grakel_graphs : dict
             Returns a dictionary with keys:
-                'graph' : list[grakel.Graph]
-                    If input is torch_geometric.data.Data returns a single element.
-                    If input is torch_geometric.data.Data returns a list of graphs.
 
-                'y' : list[int]
-                    List of labels of graphs.
-                    If ignore_y is True this argument is ommited.
+                - 'graph' : `list[grakel.Graph]`
+                    
+                    + If input is torch_geometric.data.Data returns a single element.
+                    
+                    + If input is torch_geometric.data.Data returns a list of graphs.
+
+                - 'y' : `list[int]`
+                    
+                    + List of labels of graphs.
+                    
+                    + If ignore_y is True this argument is ommited.
 
     """
     def one_hot_node(x):
