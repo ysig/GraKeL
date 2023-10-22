@@ -12,6 +12,7 @@ from grakel import graph_from_pandas
 from grakel import graph_from_networkx
 from grakel import graph_from_csv
 from grakel import cross_validate_Kfold_SVM
+from grakel import graph_from_torch_geometric
 from grakel import ShortestPath
 from grakel import WeisfeilerLehman
 from grakel import VertexHistogram
@@ -192,8 +193,48 @@ def test_KM_Kfold():
                              random_state=rs, scoring=scoring, fold_reduce=None)
 
 
+def test_torch_geometric():
+    """Testing Graph object consistency for a torch geometric initialization object."""
+    import numpy as np
+    try:
+        import torch
+        from torch_geometric.data import Data
+    except ImportError:
+        return
+
+    edge_index = torch.tensor([[0, 1, 1, 2],
+                            [1, 0, 2, 1]], dtype=torch.long)
+    x = torch.tensor([[1, 0], [0, 1], [0, 1]], dtype=torch.float)
+    edge_attr = torch.tensor([[-1.2, 2.5], [0.4, 1.8], 
+                            [-2.4, 5.1], [0.4, -2.2]], dtype=torch.float)
+    y = torch.tensor([0])
+
+    data = Data(x=x, edge_index=edge_index, edge_attr=edge_attr, y=y)
+    
+    d = graph_from_torch_geometric(data, node_one_hot=False)
+    gs, y = d['graph'], d['y']
+    gs.desired_format('adjacency')
+
+    edge_index = np.array(np.nonzero(gs.adjacency_matrix))
+    edge_index = torch.from_numpy(edge_index).float()
+
+    x = np.array([gs.node_labels[n] for n in gs.node_labels])
+    x = torch.from_numpy(x)
+    
+    edge_attr = np.array([gs.edge_labels[e] for e in gs.edge_labels])
+    edge_attr = torch.from_numpy(edge_attr)
+    
+    label_f = data.y.item() == y
+    edge_f = torch.norm(data.edge_index.float() - edge_index).item() == 0.
+    node_f = torch.norm(data.x - x).item() == 0.
+    edge_attr_f = torch.norm(data.edge_attr - edge_attr).item() == 0.
+    
+    assert(label_f and edge_f and node_f and edge_attr_f)
+
+
 if __name__ == '__main__':
     test_pandas()
     test_networkx()
     test_csv()
     test_KM_Kfold()
+    test_torch_geometric()
