@@ -274,7 +274,10 @@ def graph_from_networkx(X, node_labels_tag=None, edge_labels_tag=None, edge_weig
 
     if node_labels_tag is None:
         def nodel_init():
-            return None
+            if val_node_labels is None:
+                return None
+            else:
+                return dict()
 
         def nodel_put(nl, u, d):
             if val_node_labels is not None:
@@ -291,7 +294,10 @@ def graph_from_networkx(X, node_labels_tag=None, edge_labels_tag=None, edge_weig
 
     if edge_labels_tag is None:
         def edgel_init():
-            return None
+            if val_edge_labels is None:
+                return None
+            else:
+                return dict()
 
         def edgel_put(el, u, d):
             if val_edge_labels is not None:

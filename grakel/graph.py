@@ -774,7 +774,6 @@ class Graph(object):
                             raise ValueError('Graph does not have any labels for edges.')
                 return self.edge_labels
             else:
-
                 raise ValueError('label type can only be "vertex" or "edge"')
 
     def get_label_group(self, label_type="vertex", purpose="dictionary"):
@@ -1512,10 +1511,10 @@ class Graph(object):
 
     def __repr__(self):
         output = ["#vertices"]
-        output += [','.join(map(str, self.get_vertices()))]
+        output += [','.join(map(str, self.get_vertices('any')))]
 
         output += ["#edges"]
-        output += ['\n'.join(map(lambda x: str(x[0]) + ',' + str(x[1]), self.get_edges()))]
+        output += ['\n'.join(map(lambda x: str(x[0]) + ',' + str(x[1]), self.get_edges('any')))]
 
         def list_repr(x):
             # convert numpy to list
