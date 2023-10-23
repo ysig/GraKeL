@@ -199,9 +199,11 @@ def test_torch_geometric():
     try:
         import torch
         from torch_geometric.data import Data
+        from torch_geometric.loader import DataLoader
     except ImportError:
         return
 
+    # Single graph
     edge_index = torch.tensor([[0, 1, 1, 2],
                             [1, 0, 2, 1]], dtype=torch.long)
     x = torch.tensor([[1, 0], [0, 1], [0, 1]], dtype=torch.float)
@@ -229,6 +231,65 @@ def test_torch_geometric():
     node_f = torch.norm(data.x - x).item() == 0.
     edge_attr_f = torch.norm(data.edge_attr - edge_attr).item() == 0.
     
+    assert(label_f and edge_f and node_f and edge_attr_f)
+
+    # Batch of graphs
+    edge_index = torch.tensor([[0, 1, 1, 2],
+                                [1, 0, 2, 1]], dtype=torch.long)
+    x = torch.tensor([[1, 0], [0, 1], [0, 1]], dtype=torch.float)
+    edge_attr = torch.tensor([[-1.2, 2.5], [0.4, 1.8], 
+                            [-2.4, 5.1], [0.4, -2.2]], dtype=torch.float)
+    y = torch.tensor([0])
+    g1 = Data(x=x, edge_index=edge_index, edge_attr=edge_attr, y=y)
+
+    edge_index = torch.tensor([[0, 0, 1, 1, 2, 2],
+                                [1, 2, 0, 2, 0, 1]], dtype=torch.long)
+    x = torch.tensor([[0, 1], [1, 0], [1, 0]], dtype=torch.float)
+    edge_attr = torch.tensor([[-0.4, -4.2], [0.2, -1.5], 
+                            [2.3, -2.1], [1.8, -0.1],
+                            [-3.5, -0.2], [-2.8, 0.1]], dtype=torch.float)
+
+    y = torch.tensor([1])
+    g2 = Data(x=x, edge_index=edge_index, edge_attr=edge_attr, y=y)
+    
+    loader = DataLoader([g1, g2], batch_size=2, shuffle=False)
+    for data in loader:
+        d = graph_from_torch_geometric(data, node_one_hot=False, edge_one_hot=False)
+    
+    gs, y = d['graph'], d['y']
+    gs[0].desired_format('adjacency')
+    gs[1].desired_format('adjacency')
+
+    edge_index = np.array(np.nonzero(gs[0].adjacency_matrix))
+    edge_index = torch.from_numpy(edge_index).float()
+
+    x = np.array([gs[0].node_labels[n] for n in gs[0].node_labels])
+    x = torch.from_numpy(x)
+
+    edge_attr = np.array([gs[0].edge_labels[e] for e in gs[0].edge_labels])
+    edge_attr = torch.from_numpy(edge_attr)
+
+    label_f = g1.y.item() == y[0]
+    edge_f = torch.norm(g1.edge_index.float() - edge_index).item() == 0.
+    node_f = torch.norm(g1.x - x).item() == 0.
+    edge_attr_f = torch.norm(g1.edge_attr - edge_attr).item() == 0.
+
+    assert(label_f and edge_f and node_f and edge_attr_f)
+
+    edge_index = np.array(np.nonzero(gs[1].adjacency_matrix))
+    edge_index = torch.from_numpy(edge_index).float()
+
+    x = np.array([gs[1].node_labels[n] for n in gs[1].node_labels])
+    x = torch.from_numpy(x)
+
+    edge_attr = np.array([gs[1].edge_labels[e] for e in gs[1].edge_labels])
+    edge_attr = torch.from_numpy(edge_attr)
+
+    label_f = g2.y.item() == y[1]
+    edge_f = torch.norm(g2.edge_index.float() - edge_index).item() == 0.
+    node_f = torch.norm(g2.x - x).item() == 0.
+    edge_attr_f = torch.norm(g2.edge_attr - edge_attr).item() == 0.
+
     assert(label_f and edge_f and node_f and edge_attr_f)
 
 
