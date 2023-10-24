@@ -3,6 +3,7 @@
 from __future__ import absolute_import
 import numbers
 import warnings
+import copy
 
 import numpy as np
 
@@ -773,7 +774,6 @@ class Graph(object):
                             raise ValueError('Graph does not have any labels for edges.')
                 return self.edge_labels
             else:
-
                 raise ValueError('label type can only be "vertex" or "edge"')
 
     def get_label_group(self, label_type="vertex", purpose="dictionary"):
@@ -1479,6 +1479,62 @@ class Graph(object):
 
         return subgraph
 
+    def copy(self):
+        """Returns a copy of the `self` graph.
+
+        Parameters
+        ----------
+        None.
+
+        Returns
+        -------
+        copy : graph
+            The copied graph.
+
+        """
+        return copy.deepcopy(self)
+
+    def clone(self):
+        """Alias for copy function.
+
+        Parameters
+        ----------
+        None.
+
+        Returns
+        -------
+        clone : graph
+            The cloned graph.
+
+        """
+        return self.copy()
+
+    def __repr__(self):
+        output = ["#vertices"]
+        output += [','.join(map(str, self.get_vertices('any')))]
+
+        output += ["#edges"]
+        output += ['\n'.join(map(lambda x: str(x[0]) + ',' + str(x[1]), self.get_edges('any')))]
+
+        def list_repr(x):
+            # convert numpy to list
+            if type(x) in [np.array, np.ndarray]:
+                x = x.tolist()
+            elif isinstance(x, Iterable):
+                x = list(x)
+            else:
+                return str(x)
+            return '[' + ','.join(map(str, x)) + ']'
+
+        if bool(self.node_labels):
+            output += ["#node_labels"]
+            output += ['\n'.join(map(lambda x: str(x[0]) + '->'+ list_repr(x[1]), self.node_labels.items()))]
+
+        if bool(self.edge_labels):
+            output += ["#edge_labels"]
+            output += ['\n'.join(map(lambda x: str(x[0][0]) + ',' + str(x[0][1]) + '->' + list_repr(x[1]), self.edge_labels.items()))]
+
+        return '\n'.join(output)
 
 def is_adjacency(g, transform=False):
     """Define if input is in a valid adjacency matrix format.

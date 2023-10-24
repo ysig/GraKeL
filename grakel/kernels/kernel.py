@@ -167,7 +167,7 @@ class Kernel(BaseEstimator, TransformerMixin):
             km /= np.sqrt(np.outer(Y_diag, X_diag))
         return km
 
-    def fit_transform(self, X):
+    def fit_transform(self, X, y=None):
         """Fit and transform, on the same dataset.
 
         Parameters

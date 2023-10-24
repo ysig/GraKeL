@@ -283,7 +283,7 @@ class NeighborhoodSubgraphPairwiseDistance(Kernel):
             S /= np.sqrt(np.outer(*self.diagonal()))
         return S
 
-    def fit_transform(self, X):
+    def fit_transform(self, X, y=None):
         """Fit and transform, on the same dataset.
 
         Parameters
@@ -311,7 +311,10 @@ class NeighborhoodSubgraphPairwiseDistance(Kernel):
             K = M.dot(M.T).toarray()
             K_diag = K.diagonal()
             N[key] = K_diag
-            S += np.nan_to_num(K / np.sqrt(np.outer(K_diag, K_diag)))
+            Q = K / np.sqrt(np.outer(K_diag, K_diag))
+            np.fill_diagonal(Q, np.nan_to_num(np.diag(Q), nan=1.))
+            Q = np.nan_to_num(Q)
+            S = S + Q
 
         self._X_level_norm_factor = N
 

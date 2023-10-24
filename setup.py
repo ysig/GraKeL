@@ -1,4 +1,4 @@
-"""The general `setup.py`  file."""
+"""The general `setup.py` file."""
 # Author: Ioannis Siglidis <y.siglidis@gmail.com>
 # License: BSD 3 clause
 import sys

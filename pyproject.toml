@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "GraKeL"
-version='0.1.9'
+version='0.1.10'
 dependencies = [
     "numpy >= 1.14.0",
     "cython >= 0.27.3",
@@ -36,7 +36,8 @@ license= { file = "LICENSE" }
 
 [project.optional-dependencies]
 lovasz = ["cvxopt>=1.2.0"]
-dev = ["cvxopt>=1.2.0", "pytest", "pytest-coverage"]
+dev = ["cvxopt>=1.2.0", "pytest", "pytest-coverage", "torch_geometric"]
+test = ["pytest", "pytest-coverage", "torch_geometric"]
 
 [project.urls]
 documentation = 'https://ysig.github.io/GraKeL/'

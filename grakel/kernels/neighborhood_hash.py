@@ -208,7 +208,7 @@ class NeighborhoodHash(Kernel):
         # Return the transformer
         return self
 
-    def fit_transform(self, X):
+    def fit_transform(self, X, y=None):
         """Fit and transform, on the same dataset.
 
         Parameters

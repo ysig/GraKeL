@@ -7,13 +7,14 @@
 # This test is here in case debugging is required in the future.
 import pytest
 
-from cvxopt.base import matrix, spmatrix
-from cvxopt.solvers import sdp
-
 DISABLED = True
+cvxopt = True
+try:
+    import cvxopt
+except ImportError:
+    cvxopt = False
 
-
-@pytest.mark.skipif(DISABLED, reason="Skipping debugging test")
+@pytest.mark.skipif(DISABLED or not cvxopt, reason="Skipping debugging test")
 @pytest.mark.parametrize(
     "nv, ne, e_list, x_list",
     [
@@ -30,6 +31,9 @@ DISABLED = True
 def test_windows_sdp(nv, ne, e_list, x_list) -> None:
     # initialise g sparse (to values -1, based on two list that
     # define index and one that defines shape
+    from cvxopt.base import matrix, spmatrix
+    from cvxopt.solvers import sdp
+
     print(nv, ne, e_list, x_list)
     g_sparse = spmatrix(-1, x_list, e_list, (nv * nv, ne + 1))
 

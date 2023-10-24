@@ -336,8 +336,7 @@ class WeisfeilerLehman(Kernel):
                 raise ValueError('input must be an iterable\n')
             else:
                 nx = 0
-                distinct_values = set()
-                Gs_ed, L = dict(), dict()
+                Gs_ed, L, distinct_values, extras = dict(), dict(), set(), dict()
                 for (i, x) in enumerate(iter(X)):
                     is_iter = isinstance(x, Iterable)
                     if is_iter:
@@ -348,17 +347,34 @@ class WeisfeilerLehman(Kernel):
                                           + str(i))
                             continue
 
-                        elif len(x) in [2, 3]:
-                            x = Graph(x[0], x[1], {}, self._graph_format)
+                        else:
+                            if len(x) > 2:
+                                extra = tuple()
+                                if len(x) > 3:
+                                    extra = tuple(x[3:])
+                                x = Graph(x[0], x[1], x[2], graph_format=self._graph_format)
+                                extra = (x.get_labels(purpose=self._graph_format, label_type="edge", return_none=True),) + extra
+                            else:
+                                x = Graph(x[0], x[1], {}, graph_format=self._graph_format)
+                                extra = tuple()
+
                     elif type(x) is Graph:
                         x.desired_format("dictionary")
+                        el = x.get_labels(purpose=self._graph_format, label_type="edge", return_none=True)
+                        if el is None:
+                            extra = tuple()
+                        else:
+                            extra = (el, )
                     else:
-                        raise ValueError('each element of X must have at ' +
-                                         'least one and at most 3 elements\n')
+                        raise TypeError('each element of X must be either a ' +
+                                        'graph object or a list with at least ' +
+                                        'a graph like object and node labels ' +
+                                        'dict \n')
                     Gs_ed[nx] = x.get_edge_dictionary()
                     L[nx] = x.get_labels(purpose="dictionary")
 
                     # Hold all the distinct values
+                    extras[nx] = extra
                     distinct_values |= set(
                         v for v in itervalues(L[nx])
                         if v not in self._inv_labels[0])
@@ -382,7 +398,7 @@ class WeisfeilerLehman(Kernel):
                         new_labels[k] = WL_labels_inverse[v]
                 L[j] = new_labels
                 # produce the new graphs
-                new_graphs.append([Gs_ed[j], new_labels])
+                new_graphs.append((Gs_ed[j], new_labels) + extras[j])
             yield new_graphs
 
             for i in range(1, self._n_iter):
@@ -418,7 +434,7 @@ class WeisfeilerLehman(Kernel):
                             new_labels[k] = WL_labels_inverse[v]
                     L[j] = new_labels
                     # Create the new graphs with the new labels.
-                    new_graphs.append([Gs_ed[j], new_labels])
+                    new_graphs.append((Gs_ed[j], new_labels) + extras[j])
                 yield new_graphs
 
         if self._parallel is None:
