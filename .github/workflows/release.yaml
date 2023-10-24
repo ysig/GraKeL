@@ -36,7 +36,7 @@ env:
   package-name: GraKeL
 
   test-cmd: pytest
-  extra-requires: "dev"
+  extra-requires: "wheel"
   sdist-version: "3.7"
 
 jobs:
