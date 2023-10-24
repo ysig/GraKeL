@@ -76,7 +76,7 @@ $ python shortest_path.py
 
 If you use GraKeL in a scientific publication, please cite our paper (http://jmlr.org/papers/volume21/18-370/18-370.pdf):
 
-```
+```bibtex
 @article{JMLR:v21:18-370,
   author  = {Giannis Siglidis and Giannis Nikolentzos and Stratis Limnios and Christos Giatsidis and Konstantinos Skianis and Michalis Vazirgiannis},
   title   = {GraKeL: A Graph Kernel Library in Python},
