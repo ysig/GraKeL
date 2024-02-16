@@ -29,163 +29,163 @@ global datasets_metadata, symmetric_dataset
 
 dataset_metadata = {
     "AIDS": {"nl": True, "el": True, "na": True, "ea": False,
-             "link": "https://ls11-www.cs.uni-dortmund.de/people/" +
+             "link": "http://ls11-www.cs.uni-dortmund.de/people/" +
              "morris/graphkerneldatasets/AIDS.zip"},
     "BZR": {"nl": True, "el": False, "na": True, "ea": False,
-            "link": "https://ls11-www.cs.uni-dortmund.de/people/" +
+            "link": "http://ls11-www.cs.uni-dortmund.de/people/" +
             "morris/graphkerneldatasets/BZR.zip"},
     "BZR_MD": {"nl": True, "el": True, "na": False, "ea": True,
-               "link": "https://ls11-www.cs.uni-dortmund.de/people/" +
+               "link": "http://ls11-www.cs.uni-dortmund.de/people/" +
                "morris/graphkerneldatasets/BZR_MD.zip"},
     "COIL-DEL": {"nl": False, "el": True, "na": True, "ea": False,
-                 "link": "https://ls11-www.cs.uni-dortmund.de/people/morris/" +
+                 "link": "http://ls11-www.cs.uni-dortmund.de/people/morris/" +
                  "graphkerneldatasets/COIL-DEL.zip"},
     "COIL-RAG": {"nl": False, "el": False, "na": True, "ea": True,
-                 "link": "https://ls11-www.cs.uni-dortmund.de/people/morris/" +
+                 "link": "http://ls11-www.cs.uni-dortmund.de/people/morris/" +
                  "graphkerneldatasets/COIL-RAG.zip"},
     "COLLAB": {"nl": False, "el": False, "na": False, "ea": False,
-               "link": "https://ls11-www.cs.uni-dortmund.de/people/morris/" +
+               "link": "http://ls11-www.cs.uni-dortmund.de/people/morris/" +
                "graphkerneldatasets/COLLAB.zip"},
     "COX2": {"nl": True, "el": False, "na": True, "ea": False,
-             "link": "https://ls11-www.cs.uni-dortmund.de/people/morris/" +
+             "link": "http://ls11-www.cs.uni-dortmund.de/people/morris/" +
              "graphkerneldatasets/COX2.zip"},
     "COX2_MD": {"nl": True, "el": True, "na": False, "ea": True,
-                "link": "https://ls11-www.cs.uni-dortmund.de/people/morris/" +
+                "link": "http://ls11-www.cs.uni-dortmund.de/people/morris/" +
                 "graphkerneldatasets/COX2_MD.zip"},
     "DHFR": {"nl": True, "el": False, "na": True, "ea": False,
-             "link": "https://ls11-www.cs.uni-dortmund.de/people/morris/" +
+             "link": "http://ls11-www.cs.uni-dortmund.de/people/morris/" +
              "graphkerneldatasets/DHFR.zip"},
     "DHFR_MD": {"nl": True, "el": True, "na": False, "ea": True,
-                "link": "https://ls11-www.cs.uni-dortmund.de/people/morris/" +
+                "link": "http://ls11-www.cs.uni-dortmund.de/people/morris/" +
                 "graphkerneldatasets/DHFR_MD.zip"},
     "ER_MD": {"nl": True, "el": True, "na": False, "ea": True,
-              "link": "https://ls11-www.cs.uni-dortmund.de/people/morris/" +
+              "link": "http://ls11-www.cs.uni-dortmund.de/people/morris/" +
               "graphkerneldatasets/ER_MD.zip"},
     "DD": {"nl": True, "el": False, "na": False, "ea": False,
-           "link": "https://ls11-www.cs.uni-dortmund.de/people/morris/" +
+           "link": "http://ls11-www.cs.uni-dortmund.de/people/morris/" +
            "graphkerneldatasets/DD.zip"},
     "ENZYMES": {"nl": True, "el": False, "na": True, "ea": False,
-                "link": "https://ls11-www.cs.uni-dortmund.de/people/morris/" +
+                "link": "http://ls11-www.cs.uni-dortmund.de/people/morris/" +
                 "graphkerneldatasets/ENZYMES.zip"},
     "Cuneiform": {"nl": True, "el": True, "na": True, "ea": True,
-                  "link": "https://ls11-www.cs.uni-dortmund.de/people/morris/"
+                  "link": "http://ls11-www.cs.uni-dortmund.de/people/morris/"
                           "graphkerneldatasets/Cuneiform.zip"},
     "FINGERPRINT": {"nl": False, "el": False, "na": True, "ea": True,
-                    "link": "https://ls11-www.cs.uni-dortmund.de/people/" +
+                    "link": "http://ls11-www.cs.uni-dortmund.de/people/" +
                     "morris/graphkerneldatasets/Fingerprint.zip"},
     "FIRSTMM_DB": {"nl": True, "el": False, "na": True, "ea": True,
-                   "link": "https://ls11-www.cs.uni-dortmund.de/people/" +
+                   "link": "http://ls11-www.cs.uni-dortmund.de/people/" +
                    "morris/graphkerneldatasets/FIRSTMM_DB.zip"},
     "FRANKENSTEIN": {"nl": False, "el": False, "na": True, "ea": False,
-                     "link": "https://ls11-www.cs.uni-dortmund.de/people/mor" +
+                     "link": "http://ls11-www.cs.uni-dortmund.de/people/mor" +
                      "ris/graphkerneldatasets/FRANKENSTEIN.zip"},
     "IMDB-BINARY": {"nl": False, "el": False, "na": False, "ea": False,
-                    "link": "https://ls11-www.cs.uni-dortmund.de/people/mor" +
+                    "link": "http://ls11-www.cs.uni-dortmund.de/people/mor" +
                     "ris/graphkerneldatasets/IMDB-BINARY.zip"},
     "IMDB-MULTI": {"nl": False, "el": False, "na": False, "ea": False,
-                   "link": "https://ls11-www.cs.uni-dortmund.de/people/" +
+                   "link": "http://ls11-www.cs.uni-dortmund.de/people/" +
                    "morris/graphkerneldatasets/IMDB-MULTI.zip"},
     "Letter-high": {"nl": False, "el": False, "na": True, "ea": False,
-                    "link": "https://ls11-www.cs.uni-dortmund.de/people/mor" +
+                    "link": "http://ls11-www.cs.uni-dortmund.de/people/mor" +
                     "ris/graphkerneldatasets/Letter-high.zip"},
     "Letter-low": {"nl": False, "el": False, "na": True, "ea": False,
-                   "link": "https://ls11-www.cs.uni-dortmund.de/people/mor" +
+                   "link": "http://ls11-www.cs.uni-dortmund.de/people/mor" +
                    "ris/graphkerneldatasets/Letter-low.zip"},
     "Letter-med": {"nl": False, "el": False, "na": True, "ea": False,
-                   "link": "https://ls11-www.cs.uni-dortmund.de/people/mor" +
+                   "link": "http://ls11-www.cs.uni-dortmund.de/people/mor" +
                    "ris/graphkerneldatasets/Letter-med.zip"},
     "Mutagenicity": {"nl": True, "el": True, "na": False, "ea": False,
-                     "link": "https://ls11-www.cs.uni-dortmund.de/peo" +
+                     "link": "http://ls11-www.cs.uni-dortmund.de/peo" +
                      "ple/morris/graphkerneldatasets/Mutagenicity.zip"},
     "MSRC_9": {"nl": True, "el": False, "na": False, "ea": False,
-               "link": "https://ls11-www.cs.uni-dortmund.de/people/morris/" +
+               "link": "http://ls11-www.cs.uni-dortmund.de/people/morris/" +
                "graphkerneldatasets/MSRC_9.zip"},
     "MSRC_21": {"nl": True, "el": False, "na": False, "ea": False,
-                "link": "https://ls11-www.cs.uni-dortmund.de/people/mor" +
+                "link": "http://ls11-www.cs.uni-dortmund.de/people/mor" +
                 "ris/graphkerneldatasets/MSRC_21.zip"},
     "MSRC_21C": {"nl": True, "el": False, "na": False, "ea": False,
-                 "link": "https://ls11-www.cs.uni-dortmund.de/people/mor" +
+                 "link": "http://ls11-www.cs.uni-dortmund.de/people/mor" +
                  "ris/graphkerneldatasets/MSRC_21C.zip"},
     "MUTAG": {"nl": True, "el": True, "na": False, "ea": False,
-              "link": "https://ls11-www.cs.uni-dortmund.de/people/mor" +
+              "link": "http://ls11-www.cs.uni-dortmund.de/people/mor" +
               "ris/graphkerneldatasets/MUTAG.zip"},
     "NCI1": {"nl": True, "el": False, "na": False, "ea": False,
-             "link": "https://ls11-www.cs.uni-dortmund.de/people/mor" +
+             "link": "http://ls11-www.cs.uni-dortmund.de/people/mor" +
              "ris/graphkerneldatasets/NCI1.zip"},
     "NCI109": {"nl": True, "el": False, "na": False, "ea": False,
-               "link": "https://ls11-www.cs.uni-dortmund.de/people/mor" +
+               "link": "http://ls11-www.cs.uni-dortmund.de/people/mor" +
                "ris/graphkerneldatasets/NCI109.zip"},
     "PTC_FM": {"nl": True, "el": True, "na": False, "ea": False,
-               "link": "https://ls11-www.cs.uni-dortmund.de/people/mor" +
+               "link": "http://ls11-www.cs.uni-dortmund.de/people/mor" +
                "ris/graphkerneldatasets/PTC_FM.zip"},
     "PTC_FR": {"nl": True, "el": True, "na": False, "ea": False,
-               "link": "https://ls11-www.cs.uni-dortmund.de/people/mor" +
+               "link": "http://ls11-www.cs.uni-dortmund.de/people/mor" +
                "ris/graphkerneldatasets/PTC_FR.zip"},
     "PTC_MM": {"nl": True, "el": True, "na": False, "ea": False,
-               "link": "https://ls11-www.cs.uni-dortmund.de/people/mor" +
+               "link": "http://ls11-www.cs.uni-dortmund.de/people/mor" +
                "ris/graphkerneldatasets/PTC_MM.zip"},
     "PTC_MR": {"nl": True, "el": True, "na": False, "ea": False,
-               "link": "https://ls11-www.cs.uni-dortmund.de/people/mor" +
+               "link": "http://ls11-www.cs.uni-dortmund.de/people/mor" +
                "ris/graphkerneldatasets/PTC_MR.zip"},
     "PROTEINS": {"nl": True, "el": False, "na": True, "ea": False,
-                 "link": "https://ls11-www.cs.uni-dortmund.de/people/mor" +
+                 "link": "http://ls11-www.cs.uni-dortmund.de/people/mor" +
                  "ris/graphkerneldatasets/PROTEINS.zip"},
     "PROTEINS_full": {"nl": True, "el": False, "na": True, "ea": False,
-                      "link": "https://ls11-www.cs.uni-dortmund.de/people" +
+                      "link": "http://ls11-www.cs.uni-dortmund.de/people" +
                       "/morris/graphkerneldatasets/PROTEINS_full.zip"},
     "REDDIT-BINARY": {"nl": False, "el": False, "na": False, "ea": False,
-                      "link": "https://ls11-www.cs.uni-dortmund.de/people" +
+                      "link": "http://ls11-www.cs.uni-dortmund.de/people" +
                       "/morris/graphkerneldatasets/REDDIT-BINARY.zip"},
     "REDDIT-MULTI-5K": {"nl": False, "el": False, "na": False, "ea": False,
-                        "link": "https://ls11-www.cs.uni-dortmund.de/people/" +
+                        "link": "http://ls11-www.cs.uni-dortmund.de/people/" +
                         "morris/graphkerneldatasets/REDDIT-MULTI-5K.zip"},
     "REDDIT-MULTI-12K": {"nl": False, "el": False, "na": False, "ea": False,
-                         "link": "https://ls11-www.cs.uni-dortmund.de/peop" +
+                         "link": "http://ls11-www.cs.uni-dortmund.de/peop" +
                          "le/morris/graphkerneldatasets/REDDIT-MULTI-12K.zip"},
     "SYNTHETIC": {"nl": False, "el": False, "na": True, "ea": False,
-                  "link": "https://ls11-www.cs.uni-dortmund.de/people" +
+                  "link": "http://ls11-www.cs.uni-dortmund.de/people" +
                   "/morris/graphkerneldatasets/SYNTHETIC.zip"},
     "SYNTHETICnew": {"nl": False, "el": False, "na": True, "ea": False,
-                     "link": "https://ls11-www.cs.uni-dortmund.de/people/" +
+                     "link": "http://ls11-www.cs.uni-dortmund.de/people/" +
                      "morris/graphkerneldatasets/SYNTHETICnew.zip"},
     "Synthie": {"nl": False, "el": False, "na": True, "ea": False,
-                "link": "https://ls11-www.cs.uni-dortmund.de/people/" +
+                "link": "http://ls11-www.cs.uni-dortmund.de/people/" +
                 "morris/graphkerneldatasets/Synthie.zip"},
     "Tox21_AHR": {"nl": True, "el": True, "na": False, "ea": False,
-                  "link": "https://ls11-www.cs.uni-dortmund.de/people/" +
+                  "link": "http://ls11-www.cs.uni-dortmund.de/people/" +
                   "morris/graphkerneldatasets/Tox21_AHR.zip"},
     "Tox21_AR": {"nl": True, "el": True, "na": False, "ea": False,
-                 "link": "https://ls11-www.cs.uni-dortmund.de/people/morris/" +
+                 "link": "http://ls11-www.cs.uni-dortmund.de/people/morris/" +
                  "graphkerneldatasets/COX2_MD.zip"},
     "Tox21_AR-LBD": {"nl": True, "el": True, "na": False, "ea": False,
-                     "link": "https://ls11-www.cs.uni-dortmund.de/people/" +
+                     "link": "http://ls11-www.cs.uni-dortmund.de/people/" +
                      "morris/graphkerneldatasets/Tox21_AR-LBD.zip"},
     "Tox21_ARE": {"nl": True, "el": True, "na": False, "ea": False,
-                  "link": "https://ls11-www.cs.uni-dortmund.de/people/" +
+                  "link": "http://ls11-www.cs.uni-dortmund.de/people/" +
                   "morris/graphkerneldatasets/Tox21_ARE.zip"},
     "Tox21_aromatase": {"nl": True, "el": True, "na": False, "ea": False,
-                        "link": "https://ls11-www.cs.uni-dortmund.de/people/" +
+                        "link": "http://ls11-www.cs.uni-dortmund.de/people/" +
                         "morris/graphkerneldatasets/Tox21_aromatase.zip"},
     "Tox21_ATAD5": {"nl": True, "el": True, "na": False, "ea": False,
-                    "link": "https://ls11-www.cs.uni-dortmund.de/people/" +
+                    "link": "http://ls11-www.cs.uni-dortmund.de/people/" +
                     "morris/graphkerneldatasets/Tox21_ATAD5.zip"},
     "Tox21_ER": {"nl": True, "el": True, "na": False, "ea": False,
-                 "link": "https://ls11-www.cs.uni-dortmund.de/people/" +
+                 "link": "http://ls11-www.cs.uni-dortmund.de/people/" +
                  "morris/graphkerneldatasets/Tox21_ER.zip"},
     "Tox21_ER_LBD": {"nl": True, "el": True, "na": False, "ea": False,
-                     "link": "https://ls11-www.cs.uni-dortmund.de/people/" +
+                     "link": "http://ls11-www.cs.uni-dortmund.de/people/" +
                      "morris/graphkerneldatasets/Tox21_ER_LBD.zipp"},
     "Tox21_HSE": {"nl": True, "el": True, "na": False, "ea": False,
-                  "link": "https://ls11-www.cs.uni-dortmund.de/people/" +
+                  "link": "http://ls11-www.cs.uni-dortmund.de/people/" +
                   "morris/graphkerneldatasets/Tox21_HSE.zip"},
     "Tox21_MMP": {"nl": True, "el": True, "na": False, "ea": False,
-                  "link": "https://ls11-www.cs.uni-dortmund.de/people/" +
+                  "link": "http://ls11-www.cs.uni-dortmund.de/people/" +
                   "morris/graphkerneldatasets/Tox21_MMP.zip"},
     "Tox21_p53": {"nl": True, "el": True, "na": False, "ea": False,
-                  "link": "https://ls11-www.cs.uni-dortmund.de/people/" +
+                  "link": "http://ls11-www.cs.uni-dortmund.de/people/" +
                   "morris/graphkerneldatasets/Tox21_p53.zip"},
     "Tox21_PPAR-gamma": {"nl": True, "el": True, "na": False, "ea": False,
-                         "link": "https://ls11-www.cs.uni-dortmund.de/peop" +
+                         "link": "http://ls11-www.cs.uni-dortmund.de/peop" +
                          "le/morris/graphkerneldatasets/Tox21_PPAR-gamma.zip"}
 }
 
@@ -501,7 +501,7 @@ def fetch_dataset(
     else:
         raise ValueError('Dataset: "'+str(name)+'" is currently unsupported.' +
                          '\nSupported datasets come from '
-                         'https://ls11-www.cs.tu-dortmund.de/staff/morris/' +
+                         'http://ls11-www.cs.tu-dortmund.de/staff/morris/' +
                          'graphkerneldatasets. If your dataset name appears' +
                          ' them send us a pm, to explain you either why we ' +
                          'don\'t support it, or to update our dataset ' +
