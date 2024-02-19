@@ -96,7 +96,11 @@ class EdgeHistogram(Kernel):
                         continue
                     else:
                         # Our element is an iterable of at least 2 elements
-                        L = x[2]
+                        elements = list(itervalues( x[2] ))
+                        if( isinstance( elements[0], Iterable) ):
+                            L = list( map( lambda y: y[0], elements ))
+                        else:
+                            L = elements
                 elif type(x) is Graph:
                     # get labels in any existing format
                     L = x.get_labels(purpose="any", label_type="edge")
@@ -107,7 +111,7 @@ class EdgeHistogram(Kernel):
                                     'dict \n')
 
                 # construct the data input for the numpy array
-                for (label, frequency) in iteritems(Counter(itervalues(L))):
+                for (label, frequency) in iteritems(Counter( L )):
                     # for the row that corresponds to that graph
                     rows.append(ni)
 
