@@ -79,7 +79,6 @@ Kernels
    PropagationAttr
    OddSth
    MultiscaleLaplacian
-   MultiscaleLaplacianFast
    HadamardCode
    VertexHistogram
    EdgeHistogram

@@ -170,7 +170,7 @@ The approximate multiscale Laplacian graph kernel can be found below
 
 .. autosummary::
 
-   MultiscaleLaplacianFast
+   MultiscaleLaplacian
 
 Bibliography
 ------------
