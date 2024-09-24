@@ -132,7 +132,12 @@ class VertexHistogram(Kernel):
                     self.sparse_ = bool(self.sparse)
 
             if self.sparse_:
-                features = csr_matrix((data, (rows, cols)), shape=(ni, len(labels)), copy=False)
+                features = csr_matrix(
+                    (data, (rows, cols)),
+                    shape=(ni, len(labels)),
+                    copy=False,
+                    dtype=">f8",
+                )
             else:
                 # Initialise the feature matrix
                 try:
@@ -140,7 +145,12 @@ class VertexHistogram(Kernel):
                     features[rows, cols] = data
                 except MemoryError:
                     warn('memory-error: switching to sparse')
-                    self.sparse_, features = True, csr_matrix((data, (rows, cols)), shape=(ni, len(labels)), copy=False)
+                    self.sparse_, features = True, csr_matrix(
+                        (data, (rows, cols)),
+                        shape=(ni, len(labels)),
+                        copy=False,
+                        dtype=">f8",
+                    )
 
             if ni == 0:
                 raise ValueError('parsed input is empty')
