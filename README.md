@@ -9,7 +9,7 @@
 > Lots of libraries change requiring constant pull requests to keep up with newer python/numpy versions,
 > or for example modernizing our ci-cycle was not finalized and the owner currently lacks knowledge and time to go over changes.
 > If there is a community of researchers that want to be part of grakel's support please reach out,
-> to ioannis dot siglidis at enpc dot fr and we would be happy to gradually move you into maintenance.
+> to `ioannis <dot> siglidis <at> enpc <dot> fr` and we would be happy to gradually move you into maintenance.
 > Thank you! 💕
 
 [![Pypi Versions](https://img.shields.io/pypi/pyversions/grakel.svg)](https://pypi.org/pypi/grakel/)
