@@ -29,164 +29,111 @@ global datasets_metadata, symmetric_dataset
 
 dataset_metadata = {
     "AIDS": {"nl": True, "el": True, "na": True, "ea": False,
-             "link": "http://ls11-www.cs.uni-dortmund.de/people/" +
-             "morris/graphkerneldatasets/AIDS.zip"},
+             "link": "https://www.chrsmrrs.com/graphkerneldatasets/AIDS.zip"},
     "BZR": {"nl": True, "el": False, "na": True, "ea": False,
-            "link": "http://ls11-www.cs.uni-dortmund.de/people/" +
-            "morris/graphkerneldatasets/BZR.zip"},
+            "link": "https://www.chrsmrrs.com/graphkerneldatasets/BZR.zip"},
     "BZR_MD": {"nl": True, "el": True, "na": False, "ea": True,
-               "link": "http://ls11-www.cs.uni-dortmund.de/people/" +
-               "morris/graphkerneldatasets/BZR_MD.zip"},
+               "link": "https://www.chrsmrrs.com/graphkerneldatasets/BZR_MD.zip"},
     "COIL-DEL": {"nl": False, "el": True, "na": True, "ea": False,
-                 "link": "http://ls11-www.cs.uni-dortmund.de/people/morris/" +
-                 "graphkerneldatasets/COIL-DEL.zip"},
+                 "link": "https://www.chrsmrrs.com/graphkerneldatasets/COIL-DEL.zip"},
     "COIL-RAG": {"nl": False, "el": False, "na": True, "ea": True,
-                 "link": "http://ls11-www.cs.uni-dortmund.de/people/morris/" +
-                 "graphkerneldatasets/COIL-RAG.zip"},
+                 "link": "https://www.chrsmrrs.com/graphkerneldatasets/COIL-RAG.zip"},
     "COLLAB": {"nl": False, "el": False, "na": False, "ea": False,
-               "link": "http://ls11-www.cs.uni-dortmund.de/people/morris/" +
-               "graphkerneldatasets/COLLAB.zip"},
+               "link": "https://www.chrsmrrs.com/graphkerneldatasets/COLLAB.zip"},
     "COX2": {"nl": True, "el": False, "na": True, "ea": False,
-             "link": "http://ls11-www.cs.uni-dortmund.de/people/morris/" +
-             "graphkerneldatasets/COX2.zip"},
+             "link": "https://www.chrsmrrs.com/graphkerneldatasets/COX2.zip"},
     "COX2_MD": {"nl": True, "el": True, "na": False, "ea": True,
-                "link": "http://ls11-www.cs.uni-dortmund.de/people/morris/" +
-                "graphkerneldatasets/COX2_MD.zip"},
+                "link": "https://www.chrsmrrs.com/graphkerneldatasets/COX2_MD.zip"},
     "DHFR": {"nl": True, "el": False, "na": True, "ea": False,
-             "link": "http://ls11-www.cs.uni-dortmund.de/people/morris/" +
-             "graphkerneldatasets/DHFR.zip"},
+             "link": "https://www.chrsmrrs.com/graphkerneldatasets/DHFR.zip"},
     "DHFR_MD": {"nl": True, "el": True, "na": False, "ea": True,
-                "link": "http://ls11-www.cs.uni-dortmund.de/people/morris/" +
-                "graphkerneldatasets/DHFR_MD.zip"},
+                "link": "https://www.chrsmrrs.com/graphkerneldatasets/DHFR_MD.zip"},
     "ER_MD": {"nl": True, "el": True, "na": False, "ea": True,
-              "link": "http://ls11-www.cs.uni-dortmund.de/people/morris/" +
-              "graphkerneldatasets/ER_MD.zip"},
+              "link": "https://www.chrsmrrs.com/graphkerneldatasets/ER_MD.zip"},
     "DD": {"nl": True, "el": False, "na": False, "ea": False,
-           "link": "http://ls11-www.cs.uni-dortmund.de/people/morris/" +
-           "graphkerneldatasets/DD.zip"},
+           "link": "https://www.chrsmrrs.com/graphkerneldatasets/DD.zip"},
     "ENZYMES": {"nl": True, "el": False, "na": True, "ea": False,
-                "link": "http://ls11-www.cs.uni-dortmund.de/people/morris/" +
-                "graphkerneldatasets/ENZYMES.zip"},
+                "link": "https://www.chrsmrrs.com/graphkerneldatasets/ENZYMES.zip"},
     "Cuneiform": {"nl": True, "el": True, "na": True, "ea": True,
-                  "link": "http://ls11-www.cs.uni-dortmund.de/people/morris/"
-                          "graphkerneldatasets/Cuneiform.zip"},
+                  "link": "https://www.chrsmrrs.com/graphkerneldatasets/Cuneiform.zip"},
     "FINGERPRINT": {"nl": False, "el": False, "na": True, "ea": True,
-                    "link": "http://ls11-www.cs.uni-dortmund.de/people/" +
-                    "morris/graphkerneldatasets/Fingerprint.zip"},
+                    "link": "https://www.chrsmrrs.com/graphkerneldatasets/Fingerprint.zip"},
     "FIRSTMM_DB": {"nl": True, "el": False, "na": True, "ea": True,
-                   "link": "http://ls11-www.cs.uni-dortmund.de/people/" +
-                   "morris/graphkerneldatasets/FIRSTMM_DB.zip"},
+                   "link": "https://www.chrsmrrs.com/graphkerneldatasets/graphkerneldatasets/FIRSTMM_DB.zip"},
     "FRANKENSTEIN": {"nl": False, "el": False, "na": True, "ea": False,
-                     "link": "http://ls11-www.cs.uni-dortmund.de/people/mor" +
-                     "ris/graphkerneldatasets/FRANKENSTEIN.zip"},
+                     "link": "https://www.chrsmrrs.com/graphkerneldatasets/FRANKENSTEIN.zip"},
     "IMDB-BINARY": {"nl": False, "el": False, "na": False, "ea": False,
-                    "link": "http://ls11-www.cs.uni-dortmund.de/people/mor" +
-                    "ris/graphkerneldatasets/IMDB-BINARY.zip"},
+                    "link": "https://www.chrsmrrs.com/graphkerneldatasets/IMDB-BINARY.zip"},
     "IMDB-MULTI": {"nl": False, "el": False, "na": False, "ea": False,
-                   "link": "http://ls11-www.cs.uni-dortmund.de/people/" +
-                   "morris/graphkerneldatasets/IMDB-MULTI.zip"},
+                   "link": "https://www.chrsmrrs.com/graphkerneldatasets/graphkerneldatasets/IMDB-MULTI.zip"},
     "Letter-high": {"nl": False, "el": False, "na": True, "ea": False,
-                    "link": "http://ls11-www.cs.uni-dortmund.de/people/mor" +
-                    "ris/graphkerneldatasets/Letter-high.zip"},
+                    "link": "https://www.chrsmrrs.com/graphkerneldatasets/Letter-high.zip"},
     "Letter-low": {"nl": False, "el": False, "na": True, "ea": False,
-                   "link": "http://ls11-www.cs.uni-dortmund.de/people/mor" +
-                   "ris/graphkerneldatasets/Letter-low.zip"},
+                   "link": "https://www.chrsmrrs.com/graphkerneldatasets/Letter-low.zip"},
     "Letter-med": {"nl": False, "el": False, "na": True, "ea": False,
-                   "link": "http://ls11-www.cs.uni-dortmund.de/people/mor" +
-                   "ris/graphkerneldatasets/Letter-med.zip"},
+                   "link": "https://www.chrsmrrs.com/graphkerneldatasets/Letter-med.zip"},
     "Mutagenicity": {"nl": True, "el": True, "na": False, "ea": False,
-                     "link": "http://ls11-www.cs.uni-dortmund.de/peo" +
-                     "ple/morris/graphkerneldatasets/Mutagenicity.zip"},
+                     "link": "https://www.chrsmrrs.com/graphkerneldatasets/Mutagenicity.zip"},
     "MSRC_9": {"nl": True, "el": False, "na": False, "ea": False,
-               "link": "http://ls11-www.cs.uni-dortmund.de/people/morris/" +
-               "graphkerneldatasets/MSRC_9.zip"},
+               "link": "https://www.chrsmrrs.com/graphkerneldatasets/MSRC_9.zip"},
     "MSRC_21": {"nl": True, "el": False, "na": False, "ea": False,
-                "link": "http://ls11-www.cs.uni-dortmund.de/people/mor" +
-                "ris/graphkerneldatasets/MSRC_21.zip"},
+                "link": "https://www.chrsmrrs.com/graphkerneldatasets/MSRC_21.zip"},
     "MSRC_21C": {"nl": True, "el": False, "na": False, "ea": False,
-                 "link": "http://ls11-www.cs.uni-dortmund.de/people/mor" +
-                 "ris/graphkerneldatasets/MSRC_21C.zip"},
+                 "link": "https://www.chrsmrrs.com/graphkerneldatasets/MSRC_21C.zip"},
     "MUTAG": {"nl": True, "el": True, "na": False, "ea": False,
-              "link": "http://ls11-www.cs.uni-dortmund.de/people/mor" +
-              "ris/graphkerneldatasets/MUTAG.zip"},
+              "link": "https://www.chrsmrrs.com/graphkerneldatasets/MUTAG.zip"},
     "NCI1": {"nl": True, "el": False, "na": False, "ea": False,
-             "link": "http://ls11-www.cs.uni-dortmund.de/people/mor" +
-             "ris/graphkerneldatasets/NCI1.zip"},
+             "link": "https://www.chrsmrrs.com/graphkerneldatasets/NCI1.zip"},
     "NCI109": {"nl": True, "el": False, "na": False, "ea": False,
-               "link": "http://ls11-www.cs.uni-dortmund.de/people/mor" +
-               "ris/graphkerneldatasets/NCI109.zip"},
+               "link": "https://www.chrsmrrs.com/graphkerneldatasets/NCI109.zip"},
     "PTC_FM": {"nl": True, "el": True, "na": False, "ea": False,
-               "link": "http://ls11-www.cs.uni-dortmund.de/people/mor" +
-               "ris/graphkerneldatasets/PTC_FM.zip"},
+               "link": "https://www.chrsmrrs.com/graphkerneldatasets/PTC_FM.zip"},
     "PTC_FR": {"nl": True, "el": True, "na": False, "ea": False,
-               "link": "http://ls11-www.cs.uni-dortmund.de/people/mor" +
-               "ris/graphkerneldatasets/PTC_FR.zip"},
+               "link": "https://www.chrsmrrs.com/graphkerneldatasets/PTC_FR.zip"},
     "PTC_MM": {"nl": True, "el": True, "na": False, "ea": False,
-               "link": "http://ls11-www.cs.uni-dortmund.de/people/mor" +
-               "ris/graphkerneldatasets/PTC_MM.zip"},
+               "link": "https://www.chrsmrrs.com/graphkerneldatasets/PTC_MM.zip"},
     "PTC_MR": {"nl": True, "el": True, "na": False, "ea": False,
-               "link": "http://ls11-www.cs.uni-dortmund.de/people/mor" +
-               "ris/graphkerneldatasets/PTC_MR.zip"},
+               "link": "https://www.chrsmrrs.com/graphkerneldatasets/PTC_MR.zip"},
     "PROTEINS": {"nl": True, "el": False, "na": True, "ea": False,
-                 "link": "http://ls11-www.cs.uni-dortmund.de/people/mor" +
-                 "ris/graphkerneldatasets/PROTEINS.zip"},
+                 "link": "https://www.chrsmrrs.com/graphkerneldatasets/PROTEINS.zip"},
     "PROTEINS_full": {"nl": True, "el": False, "na": True, "ea": False,
-                      "link": "http://ls11-www.cs.uni-dortmund.de/people" +
-                      "/morris/graphkerneldatasets/PROTEINS_full.zip"},
+                      "link": "https://www.chrsmrrs.com/graphkerneldatasets/PROTEINS_full.zip"},
     "REDDIT-BINARY": {"nl": False, "el": False, "na": False, "ea": False,
-                      "link": "http://ls11-www.cs.uni-dortmund.de/people" +
-                      "/morris/graphkerneldatasets/REDDIT-BINARY.zip"},
+                      "link": "https://www.chrsmrrs.com/graphkerneldatasets/REDDIT-BINARY.zip"},
     "REDDIT-MULTI-5K": {"nl": False, "el": False, "na": False, "ea": False,
-                        "link": "http://ls11-www.cs.uni-dortmund.de/people/" +
-                        "morris/graphkerneldatasets/REDDIT-MULTI-5K.zip"},
+                        "link": "https://www.chrsmrrs.com/graphkerneldatasets/REDDIT-MULTI-5K.zip"},
     "REDDIT-MULTI-12K": {"nl": False, "el": False, "na": False, "ea": False,
-                         "link": "http://ls11-www.cs.uni-dortmund.de/peop" +
-                         "le/morris/graphkerneldatasets/REDDIT-MULTI-12K.zip"},
+                         "link": "https://www.chrsmrrs.com/graphkerneldatasets/REDDIT-MULTI-12K.zip"},
     "SYNTHETIC": {"nl": False, "el": False, "na": True, "ea": False,
-                  "link": "http://ls11-www.cs.uni-dortmund.de/people" +
-                  "/morris/graphkerneldatasets/SYNTHETIC.zip"},
+                  "link": "https://www.chrsmrrs.com/graphkerneldatasets/SYNTHETIC.zip"},
     "SYNTHETICnew": {"nl": False, "el": False, "na": True, "ea": False,
-                     "link": "http://ls11-www.cs.uni-dortmund.de/people/" +
-                     "morris/graphkerneldatasets/SYNTHETICnew.zip"},
+                     "link": "https://www.chrsmrrs.com/graphkerneldatasets/SYNTHETICnew.zip"},
     "Synthie": {"nl": False, "el": False, "na": True, "ea": False,
-                "link": "http://ls11-www.cs.uni-dortmund.de/people/" +
-                "morris/graphkerneldatasets/Synthie.zip"},
+                "link": "https://www.chrsmrrs.com/graphkerneldatasets/Synthie.zip"},
     "Tox21_AHR": {"nl": True, "el": True, "na": False, "ea": False,
-                  "link": "http://ls11-www.cs.uni-dortmund.de/people/" +
-                  "morris/graphkerneldatasets/Tox21_AHR.zip"},
+                  "link": "https://www.chrsmrrs.com/graphkerneldatasets/Tox21_AHR.zip"},
     "Tox21_AR": {"nl": True, "el": True, "na": False, "ea": False,
-                 "link": "http://ls11-www.cs.uni-dortmund.de/people/morris/" +
-                 "graphkerneldatasets/COX2_MD.zip"},
+                 "link": "https://www.chrsmrrs.com/graphkerneldatasets/Tox21_AR.zip"},
     "Tox21_AR-LBD": {"nl": True, "el": True, "na": False, "ea": False,
-                     "link": "http://ls11-www.cs.uni-dortmund.de/people/" +
-                     "morris/graphkerneldatasets/Tox21_AR-LBD.zip"},
+                     "link": "https://www.chrsmrrs.com/graphkerneldatasets/Tox21_AR-LBD.zip"},
     "Tox21_ARE": {"nl": True, "el": True, "na": False, "ea": False,
-                  "link": "http://ls11-www.cs.uni-dortmund.de/people/" +
-                  "morris/graphkerneldatasets/Tox21_ARE.zip"},
+                  "link": "https://www.chrsmrrs.com/graphkerneldatasets/Tox21_ARE.zip"},
     "Tox21_aromatase": {"nl": True, "el": True, "na": False, "ea": False,
-                        "link": "http://ls11-www.cs.uni-dortmund.de/people/" +
-                        "morris/graphkerneldatasets/Tox21_aromatase.zip"},
+                        "link": "https://www.chrsmrrs.com/graphkerneldatasets/Tox21_aromatase.zip"},
     "Tox21_ATAD5": {"nl": True, "el": True, "na": False, "ea": False,
-                    "link": "http://ls11-www.cs.uni-dortmund.de/people/" +
-                    "morris/graphkerneldatasets/Tox21_ATAD5.zip"},
+                    "link": "https://www.chrsmrrs.com/graphkerneldatasets/Tox21_ATAD5.zip"},
     "Tox21_ER": {"nl": True, "el": True, "na": False, "ea": False,
-                 "link": "http://ls11-www.cs.uni-dortmund.de/people/" +
-                 "morris/graphkerneldatasets/Tox21_ER.zip"},
+                 "link": "https://www.chrsmrrs.com/graphkerneldatasets/Tox21_ER.zip"},
     "Tox21_ER_LBD": {"nl": True, "el": True, "na": False, "ea": False,
-                     "link": "http://ls11-www.cs.uni-dortmund.de/people/" +
-                     "morris/graphkerneldatasets/Tox21_ER_LBD.zipp"},
+                     "link": "https://www.chrsmrrs.com/graphkerneldatasets/Tox21_ER_LBD.zipp"},
     "Tox21_HSE": {"nl": True, "el": True, "na": False, "ea": False,
-                  "link": "http://ls11-www.cs.uni-dortmund.de/people/" +
-                  "morris/graphkerneldatasets/Tox21_HSE.zip"},
+                  "link": "https://www.chrsmrrs.com/graphkerneldatasets/Tox21_HSE.zip"},
     "Tox21_MMP": {"nl": True, "el": True, "na": False, "ea": False,
-                  "link": "http://ls11-www.cs.uni-dortmund.de/people/" +
-                  "morris/graphkerneldatasets/Tox21_MMP.zip"},
+                  "link": "https://www.chrsmrrs.com/graphkerneldatasets/Tox21_MMP.zip"},
     "Tox21_p53": {"nl": True, "el": True, "na": False, "ea": False,
-                  "link": "http://ls11-www.cs.uni-dortmund.de/people/" +
-                  "morris/graphkerneldatasets/Tox21_p53.zip"},
+                  "link": "https://www.chrsmrrs.com/graphkerneldatasets/Tox21_p53.zip"},
     "Tox21_PPAR-gamma": {"nl": True, "el": True, "na": False, "ea": False,
-                         "link": "http://ls11-www.cs.uni-dortmund.de/peop" +
-                         "le/morris/graphkerneldatasets/Tox21_PPAR-gamma.zip"}
+                         "link": "https://www.chrsmrrs.com/graphkerneldatasets/ox21_PPAR-gamma.zip"}
 }
 
 symmetric_dataset = False
@@ -366,7 +313,7 @@ def _download_zip(url, output_name):
     None.
 
     """
-    ctx = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
+    ctx = ssl.create_default_context(ssl.Purpose.SERVER_AUTH)
     filename = output_name + ".zip"
     try:
         data_url = urlopen(url, context=ctx)
