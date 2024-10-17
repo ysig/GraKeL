@@ -39,6 +39,7 @@ lovasz = ["cvxopt>=1.2.0"]
 dev = ["cvxopt>=1.2.0", "pytest", "pytest-coverage", "torch_geometric"]
 test = ["pytest", "pytest-coverage", "torch_geometric"]
 wheel = ["pytest", "pytest-coverage"]
+doc = ["sphinx", "sphinxcontrib-bibtex==1.0", "matplotlib", "numpydoc", "sphinx-gallery", "sphinx-rtd-theme"]
 
 [project.urls]
 documentation = 'https://ysig.github.io/GraKeL/'

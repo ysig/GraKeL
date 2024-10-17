@@ -1,0 +1,66 @@
+# If triggered on the master branch, then it will be pushed to the `latest` directory
+# of `gh-pages`, which will be the default landing page. If this is triggered on any other
+# branch, it will take the name of the branch and use it a directory name (i.e. version branch).
+# This will allow us to have a landing page for each version of GraKeL.
+#
+# Workflow:
+#   * Update `latest` by pushing to master
+#   * New vesrion by manually dispatching this on a new branch
+#
+# Something went wrong, I need to manually inspect:
+#   * git clone git@github.com/ysig/GraKeL.git
+#   * git checkout gh-pages
+#   * Poke around, modify as needed
+#   * git add .
+#   * git commit -m "Update gh-pages"
+#   * git push origin gh-pages
+#   * wait until GitHub deploys the changes
+
+name: Docs
+
+on:
+  # Manually triggerable in github
+  workflow_dispatch:
+
+  push:
+    branches:
+      - master
+
+jobs:
+
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.8  # Using higher version seems to break some doc deps
+
+    - name: Install dependencies
+      run: |
+        pip install -e ".[docs]"
+
+    - name: Make docs
+      run: |
+        cd doc
+        make html
+
+    - name: Push non-master branch to gh-pages
+      uses: peaceiris/actions-gh-pages@v3
+      if: github.ref != 'refs/heads/master'
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: doc/_build/html
+        destination_dir: ./${GITHUB_REF_NAME}
+
+    - name: Push master branch to gh-pages as latest
+      uses: peaceiris/actions-gh-pages@v3
+      if: github.ref == 'refs/heads/master'
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: doc/_build/html
+        destination_dir: ./latest
