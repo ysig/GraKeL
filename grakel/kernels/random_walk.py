@@ -7,7 +7,10 @@ import numpy as np
 
 from itertools import product
 
-from numpy import ComplexWarning
+if np.__version__ < '2.0.0':
+    from numpy import ComplexWarning
+else:
+    from numpy.exceptions import ComplexWarning
 from numpy.linalg import inv
 from numpy.linalg import eig
 from numpy.linalg import multi_dot
