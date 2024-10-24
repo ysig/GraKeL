@@ -268,7 +268,7 @@ class RandomWalk(Kernel):
             # A*x=b
             A = LinearOperator((mn, mn), matvec=lambda x: lsf(x, self.lamda))
             b = np.ones(mn)
-            x_sol, _ = cg(A, b, tol=1.0e-6, maxiter=20, atol='legacy')
+            x_sol, _ = cg(A, b, rtol=1.0e-6, maxiter=20)
             return np.sum(x_sol)
 
 
@@ -467,7 +467,7 @@ class RandomWalkLabeled(RandomWalk):
             # A*x=b
             A = LinearOperator((mn, mn), matvec=lambda x: lsf(x, self.lamda))
             b = np.ones(mn)
-            x_sol, _ = cg(A, b, tol=1.0e-6, maxiter=20, atol='legacy')
+            x_sol, _ = cg(A, b, rtol=1.0e-6, maxiter=20)
             return np.sum(x_sol)
 
 
