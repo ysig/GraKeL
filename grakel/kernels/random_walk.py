@@ -11,7 +11,8 @@ if np.__version__ >= "2.0.0":
     from numpy.exceptions import ComplexWarning
 else:
     from numpy import ComplexWarning
-from numpy.linalg import inv
+
+from numpy.linalg import inv    
 from numpy.linalg import eig
 from numpy.linalg import multi_dot
 from scipy.linalg import expm
