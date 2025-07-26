@@ -4,20 +4,18 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "GraKeL"
-version='0.1.10'
+version = '0.1.10'
 dependencies = [
     "numpy>=1.14.0",
     "cython>=3.0.0",
     "scikit-learn>=1.0.0",
-    "joblib"
+    "joblib",
 ]
-requires-python=">=3.8"
-authors = [
-    { name = "Ioannis-Siglidis", email = "y.siglidis@gmail.com" }
-]
+requires-python = ">=3.8"
+authors = [{ name = "Ioannis-Siglidis", email = "y.siglidis@gmail.com" }]
 readme = "README.md"
-description='A scikit-learn compatible library for graph kernels'
-classifiers=[
+description = 'A scikit-learn compatible library for graph kernels'
+classifiers = [
     'Intended Audience :: Science/Research',
     'Intended Audience :: Developers',
     'License :: OSI Approved',
@@ -29,12 +27,27 @@ classifiers=[
     'Operating System :: Unix',
     'Operating System :: MacOS',
 ]
-license= { file = "LICENSE" }
+license = { file = "LICENSE" }
 
 [project.optional-dependencies]
 lovasz = ["cvxopt>=1.2.0"]
-dev = ["cvxopt>=1.2.0", "pytest", "pytest-xdist", "pytest-coverage", "torch_geometric>=2.4.0"]
-test = ["pytest", "pytest-xdist", "pytest-coverage", "torch_geometric>=2.4.0", "pandas", "networkx", "torch"]
+dev = [
+    "cvxopt>=1.2.0",
+    "pytest",
+    "pytest-xdist",
+    "pytest-coverage",
+    "torch_geometric>=2.4.0",
+]
+test = [
+    "cvxopt>=1.2.0",
+    "pytest",
+    "pytest-xdist",
+    "pytest-coverage",
+    "torch_geometric>=2.4.0",
+    "pandas",
+    "networkx",
+    "torch",
+]
 wheel = ["pytest", "pytest-coverage"]
 
 [project.urls]

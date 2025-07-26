@@ -2,8 +2,7 @@ from warnings import warn
 from collections import Counter
 from grakel import Kernel, Graph
 
-# For python2/3 compatibility
-from six.moves.collections_abc import Iterable
+from collections.abc import Iterable
 
 
 class VertexHistogram(Kernel):

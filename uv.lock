@@ -1046,6 +1046,7 @@ lovasz = [
     { name = "cvxopt" },
 ]
 test = [
+    { name = "cvxopt" },
     { name = "networkx", version = "3.1", source = { registry = "https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple/" }, marker = "python_full_version < '3.9'" },
     { name = "networkx", version = "3.2.1", source = { registry = "https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple/" }, marker = "python_full_version == '3.9.*'" },
     { name = "networkx", version = "3.4.2", source = { registry = "https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple/" }, marker = "python_full_version == '3.10.*'" },
@@ -1071,6 +1072,7 @@ wheel = [
 requires-dist = [
     { name = "cvxopt", marker = "extra == 'dev'", specifier = ">=1.2.0" },
     { name = "cvxopt", marker = "extra == 'lovasz'", specifier = ">=1.2.0" },
+    { name = "cvxopt", marker = "extra == 'test'", specifier = ">=1.2.0" },
     { name = "cython", specifier = ">=3.0.0" },
     { name = "joblib" },
     { name = "networkx", marker = "extra == 'test'" },

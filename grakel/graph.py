@@ -13,9 +13,6 @@ from .tools import inv_dict
 from .tools import nested_dict_add
 from .tools import priority_dict
 
-# Python 2/3 cross-compatibility import
-from six import iteritems
-from six import itervalues
 from collections.abc import Iterable
 
 
