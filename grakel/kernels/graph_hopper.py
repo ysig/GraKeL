@@ -12,9 +12,8 @@ from grakel.kernels import Kernel
 from grakel.graph import Graph
 from grakel.graph import dijkstra
 
-# Python 2/3 cross-compatibility import
-from six.moves import filterfalse
-from six.moves.collections_abc import Iterable
+from itertools import filterfalse
+from collections.abc import Iterable
 
 
 class GraphHopper(Kernel):
@@ -45,7 +44,7 @@ class GraphHopper(Kernel):
 
     def __init__(self, n_jobs=None, normalize=False, verbose=False, kernel_type='linear'):
         """Initialize an Graph Hopper kernel."""
-        super(GraphHopper, self).__init__(n_jobs=n_jobs,
+        super().__init__(n_jobs=n_jobs,
                                           normalize=normalize,
                                           verbose=verbose)
         self.kernel_type = kernel_type
@@ -53,7 +52,7 @@ class GraphHopper(Kernel):
 
     def initialize(self):
         """Initialize all transformer arguments, needing initialization."""
-        super(GraphHopper, self).initialize()
+        super().initialize()
         if not self._initialized["kernel_type"]:
             if type(self.kernel_type) is str:
                 if self.kernel_type == "linear":

@@ -17,13 +17,7 @@ from grakel.graph import Graph
 from grakel.kernels._c_functions import k_to_ij_triangular
 from grakel.kernels._c_functions import k_to_ij_rectangular
 
-# Python 2/3 cross-compatibility import
-from six import iteritems
-from six.moves.collections_abc import Iterable
-try:
-    import itertools.imap as map
-except ImportError:
-    pass
+from collections.abc import Iterable
 
 
 class Kernel(BaseEstimator, TransformerMixin):
@@ -391,7 +385,7 @@ class Kernel(BaseEstimator, TransformerMixin):
             params = copy.deepcopy(params)
 
             # Iterate over the parameters
-            for key, value in iteritems(params):
+            for key, value in params.items():
                 key, delim, sub_key = key.partition('__')
                 if delim:
                     if sub_key in self._initialized:
@@ -400,7 +394,7 @@ class Kernel(BaseEstimator, TransformerMixin):
                     self._initialized[key] = False
 
         # Set parameters
-        super(Kernel, self).set_params(**params)
+        super().set_params(**params)
 
 
 def indexes(n_jobs, nsamples):

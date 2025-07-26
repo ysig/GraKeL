@@ -13,8 +13,7 @@ from grakel.kernels import Kernel
 from grakel.graph import Graph
 from grakel.tools import distribute_samples
 
-# For python2/3 compatibility
-from six.moves.collections_abc import Iterable
+from collections.abc import Iterable
 
 positive_eigenvalue_limit = float("+1e-6")
 min_weight = float("1e-10")
@@ -60,7 +59,7 @@ class SvmTheta(Kernel):
                  subsets_size_range=(2, 8), metric=_inner):
         """Initialise a lovasz_theta kernel."""
         # setup valid parameters and initialise from parent
-        super(SvmTheta, self).__init__(n_jobs=n_jobs,
+        super().__init__(n_jobs=n_jobs,
                                        normalize=normalize,
                                        verbose=verbose)
 
@@ -73,7 +72,7 @@ class SvmTheta(Kernel):
 
     def initialize(self):
         """Initialize all transformer arguments, needing initialization."""
-        super(SvmTheta, self).initialize()
+        super().initialize()
         if not self._initialized["n_samples"]:
             if self.n_samples <= 0 or type(self.n_samples) is not int:
                 raise TypeError('n_samples must an integer be bigger '

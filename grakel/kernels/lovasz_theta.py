@@ -21,7 +21,7 @@ from scipy.linalg import eigvalsh
 from scipy.linalg import solve
 
 # For python2/3 compatibility
-from six.moves.collections_abc import Iterable
+from collections.abc import Iterable
 
 cvxopt_installed = True
 try:
@@ -99,7 +99,7 @@ class LovaszTheta(Kernel):
                 " Please consider using another Kernel if this affects you."
             )
 
-        super(LovaszTheta, self).__init__(n_jobs=n_jobs,
+        super().__init__(n_jobs=n_jobs,
                                           normalize=normalize,
                                           verbose=verbose)
 
@@ -114,7 +114,7 @@ class LovaszTheta(Kernel):
 
     def initialize(self):
         """Initialize all transformer arguments, needing initialization."""
-        super(LovaszTheta, self).initialize()
+        super().initialize()
 
         if not self._initialized["n_samples"]:
             if self.n_samples <= 0 or type(self.n_samples) is not int:

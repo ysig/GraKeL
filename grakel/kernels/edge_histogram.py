@@ -17,10 +17,7 @@ from numpy import squeeze
 from numpy import einsum
 from scipy.sparse import csr_matrix
 
-# Python 2/3 cross-compatibility import
-from six import iteritems
-from six import itervalues
-from six.moves.collections_abc import Iterable
+from collections.abc import Iterable
 
 
 class EdgeHistogram(Kernel):
@@ -42,7 +39,7 @@ class EdgeHistogram(Kernel):
 
     def __init__(self, n_jobs=None, normalize=False, verbose=False, sparse='auto'):
         """Initialize an edge kernel."""
-        super(EdgeHistogram, self).__init__(n_jobs=n_jobs, normalize=normalize, verbose=verbose)
+        super().__init__(n_jobs=n_jobs, normalize=normalize, verbose=verbose)
         self.sparse = sparse
         self._initialized.update({'sparse': True})
 
@@ -107,7 +104,7 @@ class EdgeHistogram(Kernel):
                                     'dict \n')
 
                 # construct the data input for the numpy array
-                for (label, frequency) in iteritems(Counter(itervalues(L))):
+                for (label, frequency) in Counter(L.values()).items():
                     # for the row that corresponds to that graph
                     rows.append(ni)
 

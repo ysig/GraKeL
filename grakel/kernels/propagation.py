@@ -15,11 +15,8 @@ from sklearn.preprocessing import normalize as normalizer
 from grakel.graph import Graph
 from grakel.kernels import Kernel
 
-# Python 2/3 cross-compatibility import
-from six import itervalues
-from six import iteritems
-from six.moves import filterfalse
-from six.moves.collections_abc import Iterable
+from itertools import filterfalse
+from collections.abc import Iterable
 
 
 def _dot(x, y):
@@ -79,7 +76,7 @@ class Propagation(Kernel):
                  t_max=5,
                  w=0.01):
         """Initialise a propagation kernel."""
-        super(Propagation, self).__init__(n_jobs=n_jobs,
+        super().__init__(n_jobs=n_jobs,
                                           verbose=verbose,
                                           normalize=normalize)
 
@@ -93,7 +90,7 @@ class Propagation(Kernel):
 
     def initialize(self):
         """Initialize all transformer arguments, needing initialization."""
-        super(Propagation, self).initialize()
+        super().initialize()
 
         if not self._initialized["random_state"]:
             self.random_state_ = check_random_state(self.random_state)
@@ -213,7 +210,7 @@ class Propagation(Kernel):
                 transition_matrix[i] = normalizer(T, axis=1, norm='l1')
                 label = g.get_labels(purpose='adjacency')
                 try:
-                    labels |= set(itervalues(label))
+                    labels |= set(label.values())
                 except TypeError:
                     raise TypeError('For a non attributed kernel, labels should be hashable.')
                 L.append((g.nv(), label))
@@ -234,7 +231,7 @@ class Propagation(Kernel):
                 if len(new_elements) > 0:
                     new_enum_labels = iter((l, i) for (i, l) in
                                            enumerate(list(new_elements), len(self._enum_labels)))
-                    enum_labels = dict(chain(iteritems(self._enum_labels), new_enum_labels))
+                    enum_labels = dict(chain(self._enum_labels.items(), new_enum_labels))
                 else:
                     enum_labels = self._enum_labels
 
@@ -269,7 +266,7 @@ class Propagation(Kernel):
                 for t in range(self.t_max):
                     # for hash all graphs inside P and produce the feature vectors
                     hashes = self.calculate_LSH(P, self._u[t], self._b[t])
-                    hd = dict((j, i) for i, j in enumerate(set(np.unique(hashes))))
+                    hd = {j: i for i, j in enumerate(set(np.unique(hashes)))}
                     self._hd.append(hd)
                     features = np.vectorize(lambda i: hd[i])(hashes)
 
@@ -291,7 +288,7 @@ class Propagation(Kernel):
                     # for hash all graphs inside P and produce the feature vectors
                     hashes = self.calculate_LSH(P, self._u[t], self._b[t])
                     hd = dict(chain(
-                            iteritems(self._hd[t]),
+                            self._hd[t].items(),
                             iter((j, i) for i, j in enumerate(
                                     filterfalse(lambda x: x in self._hd[t],
                                                 np.unique(hashes)),
@@ -323,7 +320,7 @@ class Propagation(Kernel):
                                                 self._u[t], self._b[t])
 
                     hd = dict(chain(
-                            iteritems(self._hd[t]),
+                            self._hd[t].items(),
                             iter((j, i) for i, j in enumerate(
                                     filterfalse(lambda x: x in self._hd[t],
                                                 np.unique(hashes)),
@@ -341,7 +338,7 @@ class Propagation(Kernel):
 
                     # calculate hashes for the remaining
                     hashes = self.calculate_LSH(P[vertices_p, :], u, self._b[t])
-                    hd = dict(chain(iteritems(hd), iter((j, i) for i, j in enumerate(hashes, len(hd)))))
+                    hd = dict(chain(hd.items(), iter((j, i) for i, j in enumerate(hashes, len(hd)))))
 
                     features_p = np.vectorize(lambda i: hd[i], otypes=[int])(hashes)
 
@@ -447,7 +444,7 @@ class PropagationAttr(Propagation):
                  t_max=5,
                  w=4):
         """Initialise a propagation kernel."""
-        super(PropagationAttr, self).__init__(n_jobs=n_jobs,
+        super().__init__(n_jobs=n_jobs,
                                               verbose=verbose,
                                               normalize=normalize,
                                               random_state=random_state,
@@ -458,7 +455,7 @@ class PropagationAttr(Propagation):
 
     def initialize(self):
         """Initialize all transformer arguments, needing initialization."""
-        super(PropagationAttr, self).initialize()
+        super().initialize()
 
     def parse_input(self, X):
         """Parse and create features for the attributed propation kernel.
@@ -593,7 +590,7 @@ class PropagationAttr(Propagation):
                     hashes = self.calculate_LSH(P, self._u[t], self._b[t]).tolist()
 
                     hd = dict(chain(
-                            iteritems(self._hd[t]),
+                            self._hd[t].items(),
                             iter((j, i) for i, j in enumerate(
                                     filterfalse(lambda x: x in self._hd[t],
                                                 {tuple(l) for l in hashes}),

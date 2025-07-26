@@ -11,8 +11,7 @@ from grakel.kernels import Kernel
 from grakel.graph import Graph
 from grakel.kernels._c_functions import sm_kernel
 
-# For python2/3 compatibility
-from six.moves.collections_abc import Iterable
+from collections.abc import Iterable
 
 # Define default vertex, edge and lambda weight functions
 def _dirac(a, b):
@@ -58,7 +57,7 @@ class SubgraphMatching(Kernel):
                  normalize=False, k=5, kv=_dirac,
                  ke=_dirac, lw="uniform"):
         """Initialise a `subgraph_matching` kernel."""
-        super(SubgraphMatching, self).__init__(
+        super().__init__(
             n_jobs=n_jobs, verbose=verbose, normalize=normalize)
 
         self.k = k
@@ -69,7 +68,7 @@ class SubgraphMatching(Kernel):
 
     def initialize(self):
         """Initialize all transformer arguments, needing initialization."""
-        super(SubgraphMatching, self).initialize()
+        super().initialize()
         if not self._initialized["k"]:
             if type(self.k) is not int and self.k < 1:
                 raise TypeError('k must be an integer greater-equal than 1')
@@ -197,8 +196,8 @@ class SubgraphMatching(Kernel):
                 L = g.get_labels(purpose="dictionary", return_none=(self.kv is None))
                 Le = g.get_labels(purpose="dictionary", label_type="edge",
                                   return_none=(self.ke is None))
-                Er = set((a, b) for a in E.keys()
-                         for b in E[a].keys() if a != b)
+                Er = {(a, b) for a in E.keys()
+                         for b in E[a].keys() if a != b}
 
                 i += 1
                 out.append((n, Er, L, Le))

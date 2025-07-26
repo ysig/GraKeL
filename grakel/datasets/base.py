@@ -1,6 +1,5 @@
 """The base file for loading default datasets."""
 # Python 2/3 cross-compatibility import
-from __future__ import print_function
 
 import os
 import shutil
@@ -209,7 +208,7 @@ def read_data(
     edge_labels = dict()
 
     # Associate graphs nodes with indexes
-    with open(indicator_path, "r") as f:
+    with open(indicator_path) as f:
         for (i, line) in enumerate(f, 1):
             ngc[i] = int(line[:-1])
             if int(line[:-1]) not in Graphs:
@@ -220,7 +219,7 @@ def read_data(
                 edge_labels[int(line[:-1])] = dict()
 
     # Extract graph edges
-    with open(edges_path, "r") as f:
+    with open(edges_path) as f:
         for (i, line) in enumerate(f, 1):
             edge = line[:-1].replace(' ', '').split(",")
             elc[i] = (int(edge[0]), int(edge[1]))
@@ -234,7 +233,7 @@ def read_data(
                 "na",
                 os.path.exists(node_attributes_path)
                 )):
-        with open(node_attributes_path, "r") as f:
+        with open(node_attributes_path) as f:
             for (i, line) in enumerate(f, 1):
                 node_labels[ngc[i]][i] = \
                     [float(num) for num in
@@ -244,7 +243,7 @@ def read_data(
             "nl",
             os.path.exists(node_labels_path)
             ):
-        with open(node_labels_path, "r") as f:
+        with open(node_labels_path) as f:
             for (i, line) in enumerate(f, 1):
                 node_labels[ngc[i]][i] = int(line[:-1])
     elif produce_labels_nodes:
@@ -257,7 +256,7 @@ def read_data(
             "ea",
             os.path.exists(edge_attributes_path)
             )):
-        with open(edge_attributes_path, "r") as f:
+        with open(edge_attributes_path) as f:
             for (i, line) in enumerate(f, 1):
                 attrs = [float(num)
                          for num in line[:-1].replace(' ', '').split(",")]
@@ -270,7 +269,7 @@ def read_data(
             "el",
             os.path.exists(edge_labels_path)
             ):
-        with open(edge_labels_path, "r") as f:
+        with open(edge_labels_path) as f:
             for (i, line) in enumerate(f, 1):
                 edge_labels[ngc[elc[i][0]]][elc[i]] = int(line[:-1])
                 if is_symmetric:
@@ -287,7 +286,7 @@ def read_data(
 
     if with_classes:
         classes = []
-        with open(graph_classes_path, "r") as f:
+        with open(graph_classes_path) as f:
             for line in f:
                 classes.append(int(line[:-1]))
 
@@ -412,7 +411,7 @@ def fetch_dataset(
                     print("Downloading dataset for", name + "..")
                 _download_zip(dataset_metadata[name]["link"], name)
             else:
-                raise IOError('Dataset ' + name +
+                raise OSError('Dataset ' + name +
                               ' was not found on ' + str(data_home))
         else:
             # move to the general data directory

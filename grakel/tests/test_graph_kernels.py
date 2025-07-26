@@ -91,8 +91,6 @@ else:
     dataset_name = "MUTAG"
     dataset_attr_name = "Cuneiform"
 
-global dataset_tr, dataset_te, dataset_attr_tr, dataset_attr_te
-
 # consistency check for the dataset
 dinfo = get_dataset_info(dataset_name)
 if dinfo is None:
@@ -107,9 +105,6 @@ if dinfo is None:
 elif not dinfo_attr["nl"] and not dinfo_attr["el"]:
     raise TypeError('dataset must have node attributes')
 
-
-# The baseline dataset for node, edge_labels
-global dataset, dataset_tr, dataset_te
 
 try:
     dataset = fetch_dataset(dataset_name, with_classes=False, verbose=verbose).data
@@ -127,9 +122,6 @@ except Exception:
 dataset_tr, dataset_te = train_test_split(dataset,
                                           test_size=0.2,
                                           random_state=42)
-
-# The baseline dataset for node/edge-attributes
-global dataset_attr, dataset_attr_tr, dataset_attr_te
 
 try:
     dataset_attr = fetch_dataset(dataset_attr_name, with_classes=False,

@@ -21,9 +21,7 @@ from scipy.sparse.linalg import LinearOperator
 from grakel.kernels import Kernel
 from grakel.graph import Graph
 
-# Python 2/3 cross-compatibility import
-from builtins import range
-from six.moves.collections_abc import Iterable
+from collections.abc import Iterable
 
 
 class RandomWalk(Kernel):
@@ -65,7 +63,7 @@ class RandomWalk(Kernel):
                  kernel_type="geometric", p=None):
         """Initialise a random_walk kernel."""
         # setup valid parameters and initialise from parent
-        super(RandomWalk, self).__init__(
+        super().__init__(
             n_jobs=n_jobs, normalize=normalize, verbose=verbose)
 
         # Ignores ComplexWarning as it does not signify anything problematic
@@ -81,7 +79,7 @@ class RandomWalk(Kernel):
 
     def initialize(self):
         """Initialize all transformer arguments, needing initialization."""
-        super(RandomWalk, self).initialize()
+        super().initialize()
 
         if not self._initialized["method_type"]:
             # Setup method type and define operation.
@@ -331,7 +329,7 @@ class RandomWalkLabeled(RandomWalk):
                  kernel_type="geometric", p=None):
         """Initialise a labeled random_walk kernel."""
         # Initialise from parent
-        super(RandomWalkLabeled, self).__init__(
+        super().__init__(
             n_jobs=n_jobs, normalize=normalize, verbose=verbose,
             lamda=lamda, method_type=method_type, kernel_type=kernel_type,
             p=p)

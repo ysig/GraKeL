@@ -6,8 +6,6 @@ import numpy.testing as npt
 
 from grakel.graph import Graph
 
-global verbose
-
 # Add extra arguments for allowing unit testing
 if __name__ == '__main__':
     import argparse
@@ -92,10 +90,10 @@ def test_graph_edge_dictionary():
     g["all"] = Graph(X, labels, {}, "all")
 
     # Desired output label group
-    desired_output_label_group = {'cherry': set(['d', 'b']),
-                                  'banana': set(['a', 'c'])}
-    desired_output_label_group_idx = {'banana': set([0, 2]),
-                                      'cherry': set([1, 3])}
+    desired_output_label_group = {'cherry': {'d', 'b'},
+                                  'banana': {'a', 'c'}}
+    desired_output_label_group_idx = {'banana': {0, 2},
+                                      'cherry': {1, 3}}
 
     def proper_dict(x):
         return {key: set(x[key]) for key in x.keys()}

@@ -10,14 +10,13 @@ import types
 import collections
 
 # Python 2/3 cross-compatibility import
-from six.moves.collections_abc import Hashable
+from collections.abc import Hashable
 
 from grakel.kernels._isomorphism import intpybliss
 from functools import total_ordering
-from six import iteritems
 
 def _report(perm, args):
-    [reporter_func, reporter_args, bliss_map_inv] = args;
+    [reporter_func, reporter_args, bliss_map_inv] = args
     if reporter_func:
         p = {}
         for (index,image) in enumerate(perm):
@@ -195,9 +194,9 @@ class Graph:
         Write the graph into a file in the graphviz dot format.
         """
         file.write("graph g {\n")
-        for v,vertex in iteritems(self._vertices):
+        for v,vertex in self._vertices.items():
             file.write("\""+str(v)+"\" [label="+str(vertex.color)+"];\n")
-        for v,vertex in iteritems(self._vertices):
+        for v,vertex in self._vertices.items():
             for neighbour in vertex.edges:
                 file.write("\""+str(v)+"\" -- \""+str(neighbour.name)+"\";\n")
         file.write("}\n")
@@ -206,10 +205,10 @@ class Graph:
         g = intpybliss.create()
         bliss_map = {}
         bliss_map_inv = {}
-        for v,vertex in iteritems(self._vertices):
+        for v,vertex in self._vertices.items():
             bliss_map[v] = intpybliss.add_vertex(g, vertex.color)
             bliss_map_inv[bliss_map[v]] = v
-        for name,vertex in iteritems(self._vertices):
+        for name,vertex in self._vertices.items():
             for neighbour in vertex.edges:
                 intpybliss.add_edge(g,
                                     bliss_map[name],
@@ -268,11 +267,11 @@ class Graph:
         assert type(lab) is dict
         assert len(lab) == self.nof_vertices()
         g2 = Graph()
-        for name,vertex in iteritems(self._vertices):
+        for name,vertex in self._vertices.items():
             inserted = g2.add_vertex(lab[name],vertex.color)
             if not inserted:
                 raise RuntimeError("'lab' is not a bijection")
-        for name,vertex in iteritems(self._vertices):
+        for name,vertex in self._vertices.items():
             for neighbour in vertex.edges:
                 g2.add_edge(lab[name], lab[neighbour.name])
         return g2
@@ -282,9 +281,9 @@ class Graph:
         Return a copy of this graph.
         """
         g2 = Graph()
-        for name,vertex in iteritems(self._vertices):
+        for name,vertex in self._vertices.items():
             g2.add_vertex(name, vertex.color)
-        for name,vertex in iteritems(self._vertices):
+        for name,vertex in self._vertices.items():
             for neighbour in vertex.edges:
                 g2.add_edge(name, neighbour.name)
         return g2
@@ -296,13 +295,13 @@ class Graph:
         """
         if len(self._vertices) != len(g._vertices):
             return False
-        for name,vertex in iteritems(self._vertices):
+        for name,vertex in self._vertices.items():
             if name not in g._vertices:
                 return False
             if vertex.color != g._vertices[name].color:
                 return False
-            my_edges = set([v.name for v in vertex.edges])
-            g_edges = set([v.name for v in g._vertices[name].edges])
+            my_edges = {v.name for v in vertex.edges}
+            g_edges = {v.name for v in g._vertices[name].edges}
             if my_edges != g_edges:
                 return False
         return True
@@ -324,18 +323,18 @@ class Graph:
         g_colors = {}
         my_degrees = {}
         g_degrees = {}
-        for name,vertex in iteritems(self._vertices):
+        for name,vertex in self._vertices.items():
             if vertex.color in my_colors: my_colors[vertex.color] += 1
-            else: my_colors[vertex.color] = 1;
+            else: my_colors[vertex.color] = 1
             degree = len(vertex.edges)
             if degree in my_degrees: my_degrees[degree] += 1
-            else: my_degrees[degree] = 1;
-        for name,vertex in iteritems(g._vertices):
+            else: my_degrees[degree] = 1
+        for name,vertex in g._vertices.items():
             if vertex.color in g_colors: g_colors[vertex.color] += 1
-            else: g_colors[vertex.color] = 1;
+            else: g_colors[vertex.color] = 1
             degree = len(vertex.edges)
             if degree in g_degrees: g_degrees[degree] += 1
-            else: g_degrees[degree] = 1;
+            else: g_degrees[degree] = 1
         if my_colors != g_colors:
             return None
         if my_degrees != g_degrees:
@@ -347,10 +346,10 @@ class Graph:
         if not my_canform.is_equal(g_canform):
             return None
         g_canlab_inv = {}
-        for name,image in iteritems(g_canlab):
+        for name,image in g_canlab.items():
             g_canlab_inv[image] = name
         isomorphism = {}
-        for name,image in iteritems(my_canlab):
+        for name,image in my_canlab.items():
             isomorphism[name] = g_canlab_inv[image]
         assert self.relabel(isomorphism).is_equal(g) == True
 

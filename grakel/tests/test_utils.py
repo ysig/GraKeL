@@ -1,7 +1,6 @@
 """Tests for utils.py"""
 # Author: Ioannis Siglidis <y.siglidis@gmail.com>
 # License: BSD 3 clause
-from __future__ import print_function
 
 import os
 
