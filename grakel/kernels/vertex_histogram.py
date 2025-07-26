@@ -17,6 +17,8 @@ from numpy import array
 from numpy import squeeze
 from scipy.sparse import csr_matrix
 
+import numpy as np
+
 # Python 2/3 cross-compatibility import
 from six import iteritems
 from six import itervalues
@@ -136,7 +138,7 @@ class VertexHistogram(Kernel):
                     (data, (rows, cols)),
                     shape=(ni, len(labels)),
                     copy=False,
-                    dtype=">f8",
+                    dtype=np.float64,
                 )
             else:
                 # Initialise the feature matrix

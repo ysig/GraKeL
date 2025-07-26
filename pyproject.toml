@@ -13,7 +13,7 @@ dependencies = [
     "future >= 0.16.0",
     "joblib"
 ]
-requires-python=">=3.5"
+requires-python=">=3.10"
 authors = [
     { name = "Ioannis-Siglidis", email = "y.siglidis@gmail.com" }
 ]
@@ -36,8 +36,8 @@ license= { file = "LICENSE" }
 
 [project.optional-dependencies]
 lovasz = ["cvxopt>=1.2.0"]
-dev = ["cvxopt>=1.2.0", "pytest", "pytest-coverage", "torch_geometric"]
-test = ["pytest", "pytest-coverage", "torch_geometric"]
+dev = ["cvxopt>=1.2.0", "pytest", "pytest-coverage", "torch_geometric>=2.4.0"]
+test = ["pytest", "pytest-coverage", "torch_geometric>=2.4.0"]
 wheel = ["pytest", "pytest-coverage"]
 
 [project.urls]
