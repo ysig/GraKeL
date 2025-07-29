@@ -140,7 +140,7 @@ class SubgraphMatching(Kernel):
 
         """
         tv = sm_kernel(x, y, self.kv, self.ke, self.k)
-        return np.dot(self.lambdas_, tv)
+        return np.dot(self.lambdas_.flat, tv)
 
     def parse_input(self, X):
         """Parse and create features for the `subgraph_matching` kernel.
