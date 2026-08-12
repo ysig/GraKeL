@@ -14,7 +14,7 @@ build:
 
 requirements:
   host:
-    - python
+    - python >=3.9,<3.13
     - setuptools
     - pytest
     - numpy >=1.14.0
@@ -25,7 +25,7 @@ requirements:
     - six >=1.11.0
     - cvxopt >=1.2.0
   run:
-    - python
+    - python >=3.9,<3.13
     - pytest
     - numpy >=1.14.0
     - scikit-learn >=0.19.0

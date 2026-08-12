@@ -1,6 +1,7 @@
 include README.md
 include requirements.txt
 include LICENSE
+include uv.lock
 
 include grakel/kernels/_c_functions/*.pxd
 include grakel/kernels/_c_functions/*.pyx

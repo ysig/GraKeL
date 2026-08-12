@@ -1,19 +1,20 @@
 [build-system]
-requires = ["setuptools>=61.0.0", "cython", "numpy>=1.14.0"]
+requires = ["setuptools>=61.0.0", "cython", "numpy>=1.19.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "GraKeL"
 version='0.1.10'
 dependencies = [
-    "numpy >= 1.14.0",
-    "cython >= 0.27.3",
-    "scikit-learn >= 0.19",
+    "numpy >= 1.19.0",
+    "scipy >= 1.12.0",
+    "cython >= 0.29.21",
+    "scikit-learn >= 0.24.0",
     "six >= 1.11.0",
     "future >= 0.16.0",
     "joblib"
 ]
-requires-python=">=3.5"
+requires-python=">=3.9,<3.13"
 authors = [
     { name = "Ioannis-Siglidis", email = "y.siglidis@gmail.com" }
 ]
@@ -31,6 +32,11 @@ classifiers=[
     'Operating System :: Unix',
     'Operating System :: MacOS',
     'Programming Language :: Python :: 3',
+    'Programming Language :: Python :: 3 :: Only',
+    'Programming Language :: Python :: 3.9',
+    'Programming Language :: Python :: 3.10',
+    'Programming Language :: Python :: 3.11',
+    'Programming Language :: Python :: 3.12',
 ]
 license= { file = "LICENSE" }
 
