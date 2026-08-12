@@ -65,7 +65,7 @@ jobs:
           platforms: all
 
       - name: Install uv
-        uses: astral-sh/setup-uv@v9
+        uses: astral-sh/setup-uv@v9.0.0
 
         # https://cibuildwheel.readthedocs.io/en/1.x/options
       - name: Build wheels
@@ -108,7 +108,7 @@ jobs:
           python-version: ${{ env.sdist-version }}
 
       - name: Install uv
-        uses: astral-sh/setup-uv@v9
+        uses: astral-sh/setup-uv@v9.0.0
 
       - name: Build source distribution
         run: |
