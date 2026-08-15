@@ -1,0 +1,45 @@
+name: Docs
+
+on:
+  # Allow to manually trigger through github API
+  workflow_dispatch:
+
+  # Triggers with push to master
+  push:
+    branches:
+      - master
+
+  # Triggers with push to a pr aimed at master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+
+  build:
+    name: Sphinx html + doctest
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v7
+
+    - name: Setup Python
+      uses: actions/setup-python@v7
+      with:
+        python-version: "3.12"
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@v9.0.0
+
+    - name: Install grakel
+      run: |
+        uv sync --locked
+
+    - name: Build docs and run doctests
+      run: |
+        cd doc
+        uv run --with "sphinx>=6,<9" --with "sphinx-gallery>=0.15" \
+          --with "sphinx-rtd-theme" --with "sphinxcontrib-bibtex>=2.5" \
+          --with "numpydoc" --with "matplotlib" --with "pillow" \
+          make clean html doctest
