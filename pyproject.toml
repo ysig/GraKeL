@@ -19,7 +19,7 @@ authors = [
     { name = "Ioannis-Siglidis", email = "y.siglidis@gmail.com" }
 ]
 readme = "README.md"
-description='A scikit-learn compatible library for graph kernels'
+description='A scikit-learn compatible library for graph kernels.'
 classifiers=[
     'Intended Audience :: Science/Research',
     'Intended Audience :: Developers',

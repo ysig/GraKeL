@@ -99,4 +99,7 @@ jobs:
       # Only upload coverage when it's **not** a scheduled test run
       if: ${{ ! github.event.schedule }}
       with:
+        # Tokenless uploads are rejected ("Token required because branch is
+        # protected"), so the report needs the repository upload token
+        token: ${{ secrets.CODECOV_TOKEN }}
         verbose: true
