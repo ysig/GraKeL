@@ -41,3 +41,10 @@ jobs:
           --with "sphinx-rtd-theme" --with "sphinxcontrib-bibtex>=2.5" \
           --with "numpydoc" --with "matplotlib" --with "pillow" \
           make clean html doctest
+
+    # Handed to the release pipeline, which publishes it to github pages
+    - name: Upload built docs
+      uses: actions/upload-artifact@v7
+      with:
+        name: docs-html
+        path: doc/_build/html
