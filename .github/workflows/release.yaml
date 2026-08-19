@@ -91,7 +91,7 @@ jobs:
 
       - uses: actions/upload-artifact@v7
         with:
-          name: wheel-${{ matrix.os }}-${{ matrix.py }}
+          name: wheel-${{ matrix.os }}-${{ replace(matrix.py, '-*', '') }}
           path: ./wheelhouse/*.whl
 
   build_sdist:
@@ -113,7 +113,7 @@ jobs:
       - name: Build source distribution
         run: |
           uv build --sdist
-          echo "sdist_name=$(ls -t dist/${{ env.package-name }}-*.tar.gz | head -n 1)" >> $GITHUB_ENV
+          echo "sdist_name=$(ls -t dist/*.tar.gz | head -n 1)" >> $GITHUB_ENV
 
       - name: Twine check ${{ env.package-name }}
         run: |
