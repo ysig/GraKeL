@@ -275,7 +275,13 @@ class NeighborhoodSubgraphPairwiseDistance(Kernel):
                                      iteritems(Y)):
             M = self.X[key]
             K = M.dot(Mp.T[:M.shape[1]]).toarray().T
-            S += np.nan_to_num(K / np.sqrt(np.outer(np.array(Mp.power(2).sum(-1)), N[key])))
+            # Graphs with no features at this (radius, distance) level give a
+            # zero norm; the division is deliberately allowed to produce NaN
+            # and cleaned up on the spot.
+            with np.errstate(invalid='ignore', divide='ignore'):
+                S += np.nan_to_num(
+                    K / np.sqrt(np.outer(np.array(Mp.power(2).sum(-1)),
+                                         N[key])))
 
         self._Y = Y
         self._is_transformed = True
@@ -313,7 +319,10 @@ class NeighborhoodSubgraphPairwiseDistance(Kernel):
             K = M.dot(M.T).toarray()
             K_diag = K.diagonal()
             N[key] = K_diag
-            Q = K / np.sqrt(np.outer(K_diag, K_diag))
+            # As above: a zero diagonal here means the graph has no features
+            # at this level, and the NaN it produces is handled immediately.
+            with np.errstate(invalid='ignore', divide='ignore'):
+                Q = K / np.sqrt(np.outer(K_diag, K_diag))
             np.fill_diagonal(Q, np.nan_to_num(np.diag(Q), nan=1.))
             Q = np.nan_to_num(Q)
             S = S + Q

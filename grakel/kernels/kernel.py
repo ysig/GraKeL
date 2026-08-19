@@ -164,7 +164,10 @@ class Kernel(BaseEstimator, TransformerMixin):
         self._is_transformed = True
         if self.normalize:
             X_diag, Y_diag = self.diagonal()
-            km /= np.sqrt(np.outer(Y_diag, X_diag))
+            self._warn_unnormalizable(X_diag, Y_diag)
+            # numpy's own warning here is redundant with the one above
+            with np.errstate(invalid='ignore', divide='ignore'):
+                km /= np.sqrt(np.outer(Y_diag, X_diag))
         return km
 
     def fit_transform(self, X, y=None):
@@ -199,9 +202,42 @@ class Kernel(BaseEstimator, TransformerMixin):
 
         self._X_diag = np.diagonal(km)
         if self.normalize:
-            return km / np.sqrt(np.outer(self._X_diag, self._X_diag))
+            self._warn_unnormalizable(self._X_diag)
+            # numpy's own warning here is redundant with the one above
+            with np.errstate(invalid='ignore', divide='ignore'):
+                return km / np.sqrt(np.outer(self._X_diag, self._X_diag))
         else:
             return km
+
+    def _warn_unnormalizable(self, *diagonals):
+        """Explain a diagonal that cannot be used to normalize.
+
+        Dividing by the square root of a negative or zero self similarity
+        quietly fills the kernel matrix with NaNs, and numpy's own
+        "invalid value encountered in sqrt" says nothing about why.
+
+        """
+        name = type(self).__name__
+        for d in diagonals:
+            d = np.asarray(d, dtype=float)
+            if np.any(d < 0):
+                warnings.warn(
+                    name + ' has negative self similarities, so normalizing '
+                    'it yields NaNs: k(G, G) < 0 means the kernel is not '
+                    'positive semi-definite on this input. For the random '
+                    'walk kernels this usually means the decay factor is too '
+                    'large for these graphs -- it has to stay below 1 over '
+                    'the largest eigenvalue of the product graph adjacency '
+                    'matrix. Either lower it or pass normalize=False.',
+                    RuntimeWarning)
+                break
+            if np.any(d == 0):
+                warnings.warn(
+                    name + ' has zero self similarities, so normalizing it '
+                    'yields NaNs: those graphs have no features this kernel '
+                    'can see. Either drop them or pass normalize=False.',
+                    RuntimeWarning)
+                break
 
     def _calculate_kernel_matrix(self, Y=None):
         """Calculate the kernel matrix given a target_graph and a kernel.

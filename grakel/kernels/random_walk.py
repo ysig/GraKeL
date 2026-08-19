@@ -14,6 +14,7 @@ else:
 from numpy.linalg import inv
 from numpy.linalg import eig
 from numpy.linalg import multi_dot
+from numpy.linalg import eigvals
 from scipy.linalg import expm
 from scipy.sparse.linalg import cg
 from scipy.sparse.linalg import LinearOperator
@@ -127,9 +128,72 @@ class RandomWalk(Kernel):
         if not self._initialized["lamda"]:
             if self.lamda <= 0:
                 raise TypeError('lambda must be positive bigger than equal')
-            elif self.lamda > 0.5 and self.p is None:
-                warnings.warn('random-walk series may fail to converge')
+            # The user's lamda is never modified in place -- the value actually
+            # used is _lamda, which parse_input lowers if the walk series would
+            # otherwise diverge on the graphs it is given.
+            self._lamda = self.lamda
             self._initialized["lamda"] = True
+
+    # how far below the divergence bound to sit when lamda has to be lowered:
+    # right at the bound inv(I - lamda W) is near singular
+    _lamda_safety = 0.9
+
+    @staticmethod
+    def _spectral_radius(A):
+        """Return the largest absolute eigenvalue of an adjacency matrix."""
+        if A.shape[0] == 0:
+            return 0.
+        return float(np.max(np.absolute(eigvals(A))))
+
+    def _tune_lamda(self, spectral_radii):
+        """Keep the walk series convergent on the graphs actually given.
+
+        A geometric random walk sums lamda^k over the walks of the product
+        graph, so it converges only while lamda stays below the inverse of that
+        product graph's spectral radius -- which is the product of the two
+        graphs' radii, making the binding case the largest radius against
+        itself. A fixed threshold on lamda alone cannot see that, which is why
+        the default of 0.1 still diverged on denser graphs and only surfaced
+        much later as a negative self similarity and a bare numpy NaN warning.
+
+        The exponential kernel converges for every lamda and a finite p is a
+        plain finite sum, so neither is touched.
+
+        """
+        if self.kernel_type != "geometric" or self.p is not None:
+            return
+        if not spectral_radii:
+            return
+
+        rho = max(spectral_radii)
+        if rho <= 0:
+            return
+        limit = 1.0 / (rho ** 2)
+
+        if self._method_calling in (1, 2):
+            # fitting: pick a lamda that works, and say so
+            if self.lamda >= limit:
+                self._lamda = self._lamda_safety * limit
+                warnings.warn(
+                    'lamda=' + repr(self.lamda) + ' makes the random walk '
+                    'series diverge on these graphs, whose largest spectral '
+                    'radius is ' + format(rho, '.4g') + ': convergence needs '
+                    'lamda < ' + format(limit, '.4g') + '. Using lamda=' +
+                    format(self._lamda, '.4g') + ' instead. Pass a smaller '
+                    'lamda, or p=<int> for a fixed number of steps, to '
+                    'silence this.', RuntimeWarning)
+        else:
+            # transforming: the fitted lamda has to stand, or the test kernel
+            # would not be the one the model was fitted with
+            if self._lamda >= limit:
+                warnings.warn(
+                    'the graphs passed to transform have a larger spectral '
+                    'radius (' + format(rho, '.4g') + ') than the fitted '
+                    'ones, so lamda=' + format(self._lamda, '.4g') + ' no '
+                    'longer converges on them (it needs to stay below ' +
+                    format(limit, '.4g') + '). Refit with a smaller lamda: it '
+                    'cannot be changed now without invalidating the fit.',
+                    RuntimeWarning)
 
     def parse_input(self, X):
         """Parse and create features for random_walk kernel.
@@ -155,6 +219,7 @@ class RandomWalk(Kernel):
         else:
             i = 0
             out = list()
+            spectral_radii = list()
             for (idx, x) in enumerate(iter(X)):
                 is_iter = isinstance(x, Iterable)
                 if is_iter:
@@ -174,11 +239,13 @@ class RandomWalk(Kernel):
                                     'graph or an iterable with at least 1 ' +
                                     'and at most 3 elements\n')
                 i += 1
+                spectral_radii.append(self._spectral_radius(A))
                 out.append(self.add_input_(A))
 
             if i == 0:
                 raise ValueError('parsed input is empty')
 
+            self._tune_lamda(spectral_radii)
             return out
 
     def pairwise_operation(self, X, Y):
@@ -223,9 +290,9 @@ class RandomWalk(Kernel):
                     S += k*P
             else:
                 if self.kernel_type == "geometric":
-                    S = inv(np.identity(s) - self.lamda*XY).T
+                    S = inv(np.identity(s) - self._lamda*XY).T
                 elif self.kernel_type == "exponential":
-                    S = expm(self.lamda*XY).T
+                    S = expm(self._lamda*XY).T
 
             return np.sum(S)
         elif self.method_type == "fast" and (self.p is not None or self.kernel_type == "exponential"):
@@ -253,7 +320,7 @@ class RandomWalk(Kernel):
                 S = np.diagflat(S)
             else:
                 # Exponential
-                S = np.diagflat(np.exp(self.lamda*Dij))
+                S = np.diagflat(np.exp(self._lamda*Dij))
             return ff.dot(S).dot(ff.T)
         else:
             # Random Walk
@@ -266,10 +333,10 @@ class RandomWalk(Kernel):
             def lsf(x, lamda):
                 xm = x.reshape((xs, ys), order='F')
                 y = np.reshape(multi_dot((Ax, xm, Ay)), (mn,), order='F')
-                return x - self.lamda * y
+                return x - self._lamda * y
 
             # A*x=b
-            A = LinearOperator((mn, mn), matvec=lambda x: lsf(x, self.lamda))
+            A = LinearOperator((mn, mn), matvec=lambda x: lsf(x, self._lamda))
             b = np.ones(mn)
             x_sol, _ = cg(A, b, rtol=1.0e-6, maxiter=20)
             return np.sum(x_sol)
@@ -396,6 +463,8 @@ class RandomWalkLabeled(RandomWalk):
             if i == 0:
                 raise ValueError('parsed input is empty')
 
+            self._tune_lamda([self._spectral_radius(Ax)
+                              for Ax, _, _ in proc])
             return out
 
     def pairwise_operation(self, X, Y):
@@ -443,12 +512,12 @@ class RandomWalkLabeled(RandomWalk):
                     P = np.matmul(P, XY)
                     S += k*P
             elif self.kernel_type == "exponential":
-                S = expm(self.lamda*XY).T
+                S = expm(self._lamda*XY).T
             elif self.kernel_type == "geometric":
                 # Baseline Algorithm as presented in
                 # [Vishwanathan et al., 2006]
                 Id = np.identity(s)
-                S = inv(Id - self.lamda*XY).T
+                S = inv(Id - self._lamda*XY).T
 
             return np.sum(S)
         elif self.method_type == "fast" and self.kernel_type == "geometric":
@@ -462,13 +531,13 @@ class RandomWalkLabeled(RandomWalk):
                     xm = x.reshape((xs, ys), order='F')
                     for Ax, Ay in AxAy:
                         y += np.reshape(multi_dot((Ax, xm, Ay)), (mn,), order='F')
-                    return x - self.lamda * y
+                    return x - self._lamda * y
             else:
                 def lsf(x, lamda):
                     return x - np.zeros(mn)
 
             # A*x=b
-            A = LinearOperator((mn, mn), matvec=lambda x: lsf(x, self.lamda))
+            A = LinearOperator((mn, mn), matvec=lambda x: lsf(x, self._lamda))
             b = np.ones(mn)
             x_sol, _ = cg(A, b, rtol=1.0e-6, maxiter=20)
             return np.sum(x_sol)

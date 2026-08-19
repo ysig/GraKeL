@@ -200,40 +200,11 @@ jobs:
       contents: write
 
     steps:
-      - name: Checkout gh-pages
+      # Needed for the composite action living in this repository
+      - name: Checkout
         uses: actions/checkout@v7
-        with:
-          ref: gh-pages
-          path: gh-pages
 
-      - name: Download built docs
-        uses: actions/download-artifact@v8
-        with:
-          name: docs-html
-          path: docs-html
-
-      - name: Publish to https://ysig.github.io/GraKeL/
-        working-directory: gh-pages
-        run: |
-          # Drop the previously published site, but keep git metadata and the
-          # archived docs of the old releases (0.1a6, 0.1a7, 0.1a8), which are
-          # still linked to from elsewhere
-          find . -mindepth 1 -maxdepth 1 \
-            ! -name '.git' ! -name '0.1a*' -exec rm -rf {} +
-
-          cp -R ../docs-html/. .
-          # Stop github pages running the output through jekyll
-          touch .nojekyll
-
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A
-          if git diff --cached --quiet; then
-            echo "Docs unchanged, nothing to publish"
-          else
-            git commit -m "Publish docs for ${{ github.sha }} [ci skip]"
-            git push
-          fi
+      - uses: ./.github/actions/publish-docs
 
   # Single place to look to see whether the release went out, and what of it
   summary:

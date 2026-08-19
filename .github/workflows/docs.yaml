@@ -1,8 +1,15 @@
 name: Docs
 
 on:
-  # Allow to manually trigger through github API
+  # Manual trigger: refreshes https://ysig.github.io/GraKeL/ on its own, without
+  # having to run the whole release pipeline just to update the website.
   workflow_dispatch:
+    inputs:
+      publish:
+        description: "Publish the docs to https://ysig.github.io/GraKeL/"
+        required: false
+        default: true
+        type: boolean
 
   # Allow the release pipeline to gate publishing on the docs building
   workflow_call:
@@ -55,3 +62,21 @@ jobs:
       with:
         name: docs-html
         path: doc/_build/html
+
+  # Only on an explicit manual run: pushes and pull requests just build, and the
+  # release pipeline has its own publish step gated behind the whole matrix.
+  publish:
+    name: Publish docs
+    needs: build
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.publish }}
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      # Needed for the composite action living in this repository
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - uses: ./.github/actions/publish-docs
