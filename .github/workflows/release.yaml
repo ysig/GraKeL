@@ -153,8 +153,15 @@ jobs:
           uv pip install --python .venv pytest
 
       - name: Tests
+        # Run from outside the checkout. With the repository root as the
+        # working directory "import grakel" resolves to the source tree, which
+        # carries no compiled extension, instead of to the sdist just
+        # installed into .venv -- which fails as an ImportError on
+        # _c_functions rather than as anything to do with the distribution.
+        working-directory: ${{ runner.temp }}
         run: |
-          .venv/bin/python -m pytest
+          "${{ github.workspace }}/.venv/bin/python" -m pytest \
+            "${{ github.workspace }}/grakel/tests"
 
       - name: Store artifacts
         uses: actions/upload-artifact@v7
