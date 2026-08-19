@@ -363,7 +363,7 @@ def _calculate_lovasz_labelling_(X, t, d):
     except LinAlgError:
         x = X.diagonal()
         x.setflags(write=True)
-        x += 2*abs(eigvalsh(X, lower=False, eigvals=(0, 0))[0])
+        x += 2*abs(eigvalsh(X, lower=False, subset_by_index=(0, 0))[0])
         V = cholesky(X)
 
     V = pad(V, [(0, d-n), (0, 0)], mode='constant', constant_values=0)
@@ -506,4 +506,4 @@ def _fitball_(A):
 
 
 def inner_product(x, y):
-    return x.T.dot(y)
+    return x.T.dot(y).item()

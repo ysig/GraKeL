@@ -14,7 +14,6 @@
 
 [![Pypi Versions](https://img.shields.io/pypi/pyversions/grakel.svg)](https://pypi.org/pypi/grakel/)
 [![Coverage Status](https://codecov.io/gh/ysig/GraKeL/branch/master/graph/badge.svg)](https://codecov.io/gh/ysig/GraKeL)
-[![CircleCI Status](https://circleci.com/gh/ysig/GraKeL.svg?style=svg)](https://circleci.com/gh/ysig/GraKeL)
 
 **[Documentation](https://ysig.github.io/GraKeL/)** | **[Paper](http://jmlr.org/papers/volume21/18-370/18-370.pdf)**
 
@@ -53,12 +52,12 @@ In case you find a bug, please open an [issue](https://github.com/ysig/GraKeL/is
 
 The GraKeL library requires the following packages to be installed:
 
-* Python (>=2.7, >=3.5)
-* NumPy (>=1.8.2)
-* SciPy (>=0.13.3)
-* Cython (>=0.27.3)
+* Python (>=3.9, <3.13)
+* NumPy (>=1.19.0)
+* SciPy (>=1.12.0)
+* scikit-learn (>=0.24.0)
+* Cython (>=0.29.21)
 * cvxopt (>=1.2.0) [optional]
-* future (>=0.16.0) (for python 2.7)
 
 To install the package, run:
 
@@ -66,11 +65,19 @@ To install the package, run:
 $ pip install grakel
 ```
 
+## Development
+
+To work on the source, first install [uv](https://docs.astral.sh/uv/) and then sync the project (this installs the package and all its development dependencies in a `.venv`):
+
+```sh
+$ uv sync --all-extras
+```
+
 ## Running tests
 
 To test the package, execute:
 ```sh
-$ pytest
+$ uv run pytest
 ```
 
 ## Running examples

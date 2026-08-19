@@ -69,6 +69,10 @@ xref_links = {
             "https://ls11-www.cs.tu-dortmund.de/staff/morris/graphkerneldatasets")
     }
 
+# Bibtex files used by :cite: roles in docstrings and .. bibliography::
+bibtex_bibfiles = ['kernels/graph_kernels.bib', 'benchmarks/benchmarks.bib',
+                   'biblio.bib']
+
 
 doctest_global_setup = '''
 import numpy as np
@@ -329,6 +333,16 @@ texinfo_documents = [
 ]
 
 def generate_example_rst(app, what, name, obj, options, lines):
+    if name == "grakel.graph.laplacian":
+        # ponytail: keep SciPy's API, skip its unstable upstream doctests.
+        lines[:] = [
+            "Re-export of :func:`scipy.sparse.csgraph.laplacian`.",
+            "See the `SciPy documentation`__ for parameters and behavior.",
+            "",
+            ".. __: https://docs.scipy.org/doc/scipy/reference/generated/"
+            "scipy.sparse.csgraph.laplacian.html",
+        ]
+
     # generate empty examples files, so that we don't get
     # inclusion errors if there are no examples for a class / module
     examples_path = os.path.join(app.srcdir, "generated",

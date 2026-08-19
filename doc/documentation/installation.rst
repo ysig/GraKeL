@@ -5,12 +5,12 @@ Installing GraKeL
 =================
 The GraKeL library requires the following packages to be installed:
 
-* Python (>=2.7, >=3.5)
-* NumPy (>=1.8.2)
-* SciPy (>=0.13.3)
-* Cython (>=0.27.3)
+* Python (>=3.9, <3.13)
+* NumPy (>=1.19.0)
+* SciPy (>=1.12.0)
+* scikit-learn (>=0.24.0)
+* Cython (>=0.29.21)
 * cvxopt (>=1.2.0) [optional]
-* future (>=0.16.0) (for python 2.7)
 
 *GraKeL* is available via `PyPI`_ . You can install the latest release of *GraKeL* using the following command:
 
@@ -30,6 +30,14 @@ Building GraKeL
 ---------------
 
 In order to build your own version of *GraKeL*, you need a C++ compiler since the package contains some C++ extensions. To build and install a local version of `GraKeL`, you need to execute :code:`pip install .` or :code:`python setup.py install` on the root folder. Furthermore, in case you want to build the extensions locally, execute :code:`python setup.py build_ext`.
+
+For a development install with all test dependencies, the recommended way is to use `uv <https://docs.astral.sh/uv/>`_:
+
+.. code-block:: bash
+
+   $ uv sync --all-extras
+
+which installs the package and its dependencies in a local :code:`.venv`, and then run the tests with :code:`uv run pytest`.
 
 In order for the C++ extensions to compile our extensions, a system-specific build environment should be configured. What you generally need is a C++ compiler and some python header files.
 

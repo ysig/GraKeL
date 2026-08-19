@@ -136,7 +136,7 @@ class VertexHistogram(Kernel):
                     (data, (rows, cols)),
                     shape=(ni, len(labels)),
                     copy=False,
-                    dtype=">f8",
+                    dtype="float64",
                 )
             else:
                 # Initialise the feature matrix
@@ -149,7 +149,7 @@ class VertexHistogram(Kernel):
                         (data, (rows, cols)),
                         shape=(ni, len(labels)),
                         copy=False,
-                        dtype=">f8",
+                        dtype="float64",
                     )
 
             if ni == 0:

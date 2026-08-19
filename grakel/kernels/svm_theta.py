@@ -221,7 +221,7 @@ def _calculate_svm_theta_(A):
     """
     K = (A > min_weight).astype(float)
     np.fill_diagonal(K, .0)
-    min_eigv = eigvalsh(K, lower=False, eigvals=(0, 0))[0]
+    min_eigv = eigvalsh(K, lower=False, subset_by_index=(0, 0))[0]
     if min_eigv < 0 and abs(min_eigv) > positive_eigenvalue_limit:
         K /= -min_eigv
         d = K.diagonal()
