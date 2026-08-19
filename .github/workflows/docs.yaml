@@ -4,10 +4,8 @@ on:
   # Allow to manually trigger through github API
   workflow_dispatch:
 
-  # Triggers with push to master
-  push:
-    branches:
-      - master
+  # Allow the release pipeline to gate publishing on the docs building
+  workflow_call:
 
   # Triggers with push to a pr aimed at master
   pull_request:

@@ -4,10 +4,8 @@ on:
   # Allow to manually trigger through github API
   workflow_dispatch:
 
-  # Triggers with push to master
-  push:
-    branches:
-      - master
+  # Allow the release pipeline to gate wheel builds on these tests
+  workflow_call:
 
   # Triggers with push to a pr aimed at master
   pull_request:
