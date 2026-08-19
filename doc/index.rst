@@ -85,7 +85,7 @@ What's New
 Acknowledgements
 ================
 
-We would like to thank `@SneachChea <https://github.com/SneachChea>`_ (Shaheen Acheche) for a round of tooling, CI, and docs modernization.
+We would like to thank `@SneachChea <https://github.com/SneachChea>`_ for a round of tooling, CI, and docs modernization.
 
 We would like to thank `@eddiebergman <https://github.com/eddiebergman>`_ for modernizing our CI and extending our python support.
 
