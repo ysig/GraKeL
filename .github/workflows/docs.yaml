@@ -12,11 +12,7 @@ on:
     branches:
       - master
 
-# Superseded runs on a pull request get cancelled. Runs started through
-# workflow_call share the calling pipeline's group, so they are left alone.
-concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+# NOTE: no `concurrency` here on purpose -- see the comment in test.yaml.
 
 jobs:
 

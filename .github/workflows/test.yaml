@@ -18,11 +18,10 @@ on:
     # Put it at this odd time to reduce competing with load spikes on github action servers
     - cron: '42 2 3 * *'
 
-# Superseded runs on a pull request get cancelled. Scheduled runs and those
-# started through workflow_call are left alone.
-concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+# NOTE: no `concurrency` here on purpose. In a workflow called through
+# workflow_call, github.workflow resolves to the *calling* workflow, so a
+# concurrency group defined here collides with the caller's own group and the
+# pipeline deadlocks against itself. The caller does the cancelling.
 
 env:
 
