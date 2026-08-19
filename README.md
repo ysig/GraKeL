@@ -2,22 +2,19 @@
   <img width="50%" src="https://raw.githubusercontent.com/ysig/GraKeL/0.1a7/doc/_figures/logo.svg?sanitize=true" />
 </p>
 
---------------------------------------------------------------------------------
-
-<table width="100%">
-<tr>
-<td align="left">
+<p align="center">
   <strong><a href="https://ysig.github.io/GraKeL/">Documentation</a></strong>
-  &nbsp;
+  &nbsp;•&nbsp;
   <strong><a href="http://jmlr.org/papers/volume21/18-370/18-370.pdf">Paper</a></strong>
-</td>
-<td align="right">
+</p>
+
+<p align="center">
   <a href="https://pypi.org/project/GraKeL/"><img src="https://img.shields.io/pypi/v/grakel.svg" alt="PyPI"></a>
   <a href="https://github.com/ysig/GraKeL/actions/workflows/release.yaml"><img src="https://github.com/ysig/GraKeL/actions/workflows/release.yaml/badge.svg?branch=master" alt="CI"></a>
   <a href="https://github.com/ysig/GraKeL/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-BSD--3--Clause-blue.svg" alt="License"></a>
-</td>
-</tr>
-</table>
+</p>
+
+--------------------------------------------------------------------------------
 
 *GraKeL* is a library that provides implementations of several well-established graph kernels. The library unifies these kernels into a common framework. Furthermore, it provides implementations of some frameworks that work on top of graph kernels. Specifically, GraKeL contains 16 kernels and 2 frameworks. The library is compatible with the [scikit-learn](http://scikit-learn.org/) pipeline allowing easy and fast integration inside machine learning algorithms.
 
