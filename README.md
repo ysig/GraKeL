@@ -6,11 +6,9 @@
 > [!NOTE]
 > **GraKeL needs your support!** Keeping a graph kernel library working takes ongoing maintenance — updates for newer Python/numpy, CI upkeep, etc. Feel free to help out by opening a pull request or raising an issue, or reach out via the contact info on [ysig.github.io](https://ysig.github.io) if you'd like to help maintain GraKeL more closely — happy to gradually bring you on board. Thank you! 💕
 
-[![PyPI](https://img.shields.io/pypi/v/grakel.svg)](https://pypi.org/project/GraKeL/)
-[![CI](https://github.com/ysig/GraKeL/actions/workflows/release.yaml/badge.svg?branch=master)](https://github.com/ysig/GraKeL/actions/workflows/release.yaml)
-[![License](https://img.shields.io/badge/license-BSD--3--Clause-blue.svg)](https://github.com/ysig/GraKeL/blob/master/LICENSE)
-
 **[Documentation](https://ysig.github.io/GraKeL/)** | **[Paper](http://jmlr.org/papers/volume21/18-370/18-370.pdf)**
+
+[![PyPI](https://img.shields.io/pypi/v/grakel.svg)](https://pypi.org/project/GraKeL/) [![CI](https://github.com/ysig/GraKeL/actions/workflows/release.yaml/badge.svg?branch=master)](https://github.com/ysig/GraKeL/actions/workflows/release.yaml) [![License](https://img.shields.io/badge/license-BSD--3--Clause-blue.svg)](https://github.com/ysig/GraKeL/blob/master/LICENSE)
 
 *GraKeL* is a library that provides implementations of several well-established graph kernels. The library unifies these kernels into a common framework. Furthermore, it provides implementations of some frameworks that work on top of graph kernels. Specifically, GraKeL contains 16 kernels and 2 frameworks. The library is compatible with the [scikit-learn](http://scikit-learn.org/) pipeline allowing easy and fast integration inside machine learning algorithms.
 
