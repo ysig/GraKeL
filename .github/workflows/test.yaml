@@ -7,6 +7,11 @@ on:
   # Allow the release pipeline to gate wheel builds on these tests
   workflow_call:
 
+  # Triggers with push to master
+  push:
+    branches:
+      - master
+
   # Triggers with push to a pr aimed at master
   pull_request:
     branches:

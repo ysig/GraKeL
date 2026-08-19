@@ -7,6 +7,11 @@ on:
   # Allow the release pipeline to gate publishing on the docs building
   workflow_call:
 
+  # Triggers with push to master
+  push:
+    branches:
+      - master
+
   # Triggers with push to a pr aimed at master
   pull_request:
     branches:

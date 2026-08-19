@@ -1,11 +1,13 @@
-# Workflow to build and test wheels
-# =================================
-# This github action gets triggered whenever there is a push to the master branch or a release is created.
-# It generates both wheels and distributions files, making sure their contents are correct via unit-testing.
+# Release pipeline
+# ================
+# Run this from the Actions tab when a new version is ready to go out. It runs
+# the full test matrix, builds the wheels and the sdist, builds the docs, and
+# then -- only if all of that is green -- publishes to PyPI and to github pages.
 #
-# Please note that creating a git tag and pushing it (git tag <>; git push --tags) is not
-# sufficient to append the wheels and distribution files to your release.
-# You need to generate a new release using github, not git.
+# Ordinary pushes do not come through here: they only run Tests and Docs.
+#
+# Both deployments are opt-in switches on the run dialog, so the same button
+# can be used for a dry run that just proves everything builds.
 #
 # Guides
 # ------
@@ -14,30 +16,30 @@
 # github actions:
 # * https://docs.github.com/en/actions
 
-name: Wheel builder
+name: Release
 
+# Releasing is deliberately a button, not something a push triggers: run the
+# workflow from the Actions tab when a new version is ready to go out. Ordinary
+# pushes only run the tests and the docs build.
 on:
-  # Manual trigger on github
   workflow_dispatch:
     inputs:
       deploy:
-        description: "Deploy to PyPI"
+        description: "Publish the release to PyPI"
         required: false
+        default: false
+        type: boolean
+      publish_docs:
+        description: "Publish the docs to https://ysig.github.io/GraKeL/"
+        required: false
+        default: true
         type: boolean
 
-  # Bushj
-  push:
-    branches:
-      - master
-      # Release branches
-      - "[0-9]+.[0-9]+.X"
-
-# A push that supersedes another one cancels its pipeline rather than queueing
-# a second full matrix behind it. Manually dispatched runs are never cancelled,
-# so a deploy can't be interrupted half way through.
+# Never cancel a release half way through: a second run queues behind the first
+# rather than interrupting a publish in progress.
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: ${{ github.event_name == 'push' }}
+  cancel-in-progress: false
 
 env:
   package-name: GraKeL
@@ -191,7 +193,7 @@ jobs:
     name: Publish docs
     # Everything has to be green before the site is replaced
     needs: [tests, docs, build_wheels, build_sdist]
-    if: github.ref == 'refs/heads/master'
+    if: ${{ inputs.publish_docs }}
 
     runs-on: ubuntu-latest
     permissions:
@@ -231,4 +233,44 @@ jobs:
           else
             git commit -m "Publish docs for ${{ github.sha }} [ci skip]"
             git push
+          fi
+
+  # Single place to look to see whether the release went out, and what of it
+  summary:
+    name: Release summary
+    needs: [tests, docs, build_wheels, build_sdist, release_assets, publish_docs]
+    # Report even when something upstream failed or was skipped
+    if: always()
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Write the summary
+        run: |
+          {
+            echo "## GraKeL release"
+            echo
+            echo "| Stage | Result |"
+            echo "| --- | --- |"
+            echo "| Tests | ${{ needs.tests.result }} |"
+            echo "| Docs build | ${{ needs.docs.result }} |"
+            echo "| Wheels | ${{ needs.build_wheels.result }} |"
+            echo "| Source distribution | ${{ needs.build_sdist.result }} |"
+            echo "| Published to PyPI | ${{ needs.release_assets.result }} |"
+            echo "| Published the docs | ${{ needs.publish_docs.result }} |"
+            echo
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          built='${{ needs.tests.result }}${{ needs.docs.result }}${{ needs.build_wheels.result }}${{ needs.build_sdist.result }}'
+          if [ "$built" = "successsuccesssuccesssuccess" ]; then
+            echo "Everything built and tested cleanly." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "**Something did not pass -- nothing should be released from this run.**" >> "$GITHUB_STEP_SUMMARY"
+            exit 1
+          fi
+
+          if [ "${{ needs.release_assets.result }}" = "skipped" ]; then
+            echo "PyPI publishing was switched off for this run." >> "$GITHUB_STEP_SUMMARY"
+          fi
+          if [ "${{ needs.publish_docs.result }}" = "skipped" ]; then
+            echo "Docs publishing was switched off for this run." >> "$GITHUB_STEP_SUMMARY"
           fi
