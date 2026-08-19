@@ -81,6 +81,14 @@ What's New
   + Added a bunch of :code:`utils` functions for external operations: transforming existing *graph formats* (csv, pandas, networkx) to the grakel native, *k-fold cross validation* with an SVM and *kernel matrix transformer* for manipulating precomputed kernel matrices in an :code:`Transformer` fashion.
   + **Conda** compatibility: visit `<https://anaconda.org/ysig/grakel-dev>`_.
 
+================
+Acknowledgements
+================
+
+We would like to thank `@SneachChea <https://github.com/SneachChea>`_ (Shaheen Acheche) for a round of tooling, CI, and docs modernization.
+
+We would like to thank `@eddiebergman <https://github.com/eddiebergman>`_ for modernizing our CI and extending our python support.
+
 ==================
 Indices and tables
 ==================

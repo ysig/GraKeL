@@ -103,6 +103,6 @@ GraKeL is distributed under the __BSD 3-clause__ license. The library makes use 
 
 ## Acknowledgements
 
-We would like to thank [@SneachChea](https://github.com/SneachChea) (Shaheen Acheche) for a round of tooling, CI, and docs modernization: switching the project to `uv`, updating CI to support Python 3.9-3.12, adding a docs build, and fixing kernel code that had broken on newer numpy/scipy.
+We would like to thank [@SneachChea](https://github.com/SneachChea) (Shaheen Acheche) for a round of tooling, CI, and docs modernization.
 
 We would like to thank [@eddiebergman](https://github.com/eddiebergman) for modernizing our CI and extending our python support.
