@@ -42,7 +42,7 @@ env:
 jobs:
 
   build_wheels:
-    name: Wheels ${{ matrix.os }}-${{ matrix.py }}
+    name: Wheels ${{ matrix.os }}-${{ matrix.py.tag }}
     runs-on: ${{ matrix.os }}
 
     # Parellilize as much as possible across github action workers
@@ -50,7 +50,11 @@ jobs:
       # 1 runner per combination of (os, py)
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        py: ["cp39-*", "cp310-*", "cp311-*", "cp312-*"]
+        py:
+          - { cibw: "cp39-*", tag: "cp39" }
+          - { cibw: "cp310-*", tag: "cp310" }
+          - { cibw: "cp311-*", tag: "cp311" }
+          - { cibw: "cp312-*", tag: "cp312" }
       # All workers independent, don't cancel all if one fails
       fail-fast: false
 
@@ -72,7 +76,7 @@ jobs:
         uses: pypa/cibuildwheel@v4.2.0
         env:
           CIBW_BUILD_FRONTEND: "build[uv]"
-          CIBW_BUILD: ${{ matrix.py }}
+          CIBW_BUILD: ${{ matrix.py.cibw }}
           CIBW_ARCHS_MACOS: x86_64 universal2
           CIBW_ARCHS_LINUX: x86_64 aarch64
           # No win32 ("x86") for Windows as scipy declared it has stopped releasing wheels
@@ -91,7 +95,7 @@ jobs:
 
       - uses: actions/upload-artifact@v7
         with:
-          name: wheel-${{ matrix.os }}-${{ replace(matrix.py, '-*', '') }}
+          name: wheel-${{ matrix.os }}-${{ matrix.py.tag }}
           path: ./wheelhouse/*.whl
 
   build_sdist:
@@ -157,4 +161,4 @@ jobs:
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
             password: ${{ secrets.PYPI_API_TOKEN }}
-            packages_dir: dist/
+            packages-dir: dist/
