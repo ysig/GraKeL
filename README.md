@@ -4,13 +4,7 @@
 
 --------------------------------------------------------------------------------
 > [!NOTE]
-> **GraKeL needs your support!**
-> Our goal with GraKeL was to have a stable library for graph kernels but as tools change it requires maintenance:
-> Lots of libraries change requiring constant pull requests to keep up with newer python/numpy versions,
-> or for example modernizing our ci-cycle was not finalized and the owner currently lacks knowledge and time to go over changes.
-> If there is a community of researchers that want to be part of grakel's support please reach out,
-> to `ioannis <dot> siglidis <at> enpc <dot> fr` and we would be happy to gradually move you into maintenance.
-> Thank you! 💕
+> **GraKeL needs your support!** Keeping a graph kernel library working takes ongoing maintenance — updates for newer Python/numpy, CI upkeep, etc. Feel free to help out by opening a pull request or raising an issue, or reach out via the contact info on [ysig.github.io](https://ysig.github.io) if you'd like to help maintain GraKeL more closely — happy to gradually bring you on board. Thank you! 💕
 
 [![Pypi Versions](https://img.shields.io/pypi/pyversions/grakel.svg)](https://pypi.org/pypi/grakel/)
 [![Coverage Status](https://codecov.io/gh/ysig/GraKeL/branch/master/graph/badge.svg)](https://codecov.io/gh/ysig/GraKeL)
@@ -109,6 +103,6 @@ GraKeL is distributed under the __BSD 3-clause__ license. The library makes use 
 
 ## Acknowledgements
 
-We would like to thank [@SneachChea](https://github.com/SneachChea) (Shaheen Acheche) for their contributions to the project.
+We would like to thank [@SneachChea](https://github.com/SneachChea) (Shaheen Acheche) for a round of tooling, CI, and docs modernization: switching the project to `uv`, updating CI to support Python 3.9-3.12, adding a docs build, and fixing kernel code that had broken on newer numpy/scipy.
 
 We would like to thank [@eddiebergman](https://github.com/eddiebergman) for modernizing our CI and extending our python support.
