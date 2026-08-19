@@ -133,6 +133,24 @@ class GraphHopper(Kernel):
                     attributes = np.array([attr[j] for j in range(nv)])
                 except TypeError:
                     raise TypeError('All attributes of a single graph should have the same dimension.')
+
+                # Discrete labels come through as scalars, which leaves a
+                # one dimensional array here and fails much further down in
+                # the kernel arithmetic with an unreadable shape mismatch.
+                if attributes.ndim != 2 or not np.issubdtype(attributes.dtype,
+                                                             np.number):
+                    raise TypeError(
+                        'GraphHopper needs continuous node attributes: each '
+                        'node label must be a numeric vector, giving an array '
+                        'of shape (n_nodes, n_features) per graph. Got an '
+                        'array of shape ' + str(attributes.shape) + ' with '
+                        'dtype ' + str(attributes.dtype) + ' on the graph at '
+                        'index ' + str(i) + '. Datasets with discrete labels '
+                        '(MUTAG and the like) are not applicable to this '
+                        'kernel -- either fetch a dataset with node '
+                        'attributes, using prefer_attr_nodes=True, or use a '
+                        'kernel for discrete labels such as WeisfeilerLehman '
+                        'or ShortestPath.')
                 diam.append(int(np.max(spm[spm < float("Inf")])))
                 graphs.append((g.get_adjacency_matrix(), nv, attributes))
                 ni += 1
