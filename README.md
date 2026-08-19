@@ -3,8 +3,6 @@
 </p>
 
 --------------------------------------------------------------------------------
-> [!NOTE]
-> **GraKeL needs your support!** Keeping a graph kernel library working takes ongoing maintenance — updates for newer Python/numpy, CI upkeep, etc. Feel free to help out by opening a pull request or raising an issue, or reach out via the contact info on [ysig.github.io](https://ysig.github.io) if you'd like to help maintain GraKeL more closely — happy to gradually bring you on board. Thank you! 💕
 
 <table width="100%">
 <tr>
@@ -116,3 +114,7 @@ GraKeL is distributed under the __BSD 3-clause__ license. The library makes use 
 We would like to thank [@SneachChea](https://github.com/SneachChea) for a round of tooling, CI, and docs modernization.
 
 We would like to thank [@eddiebergman](https://github.com/eddiebergman) for modernizing our CI and extending our python support.
+
+--------------------------------------------------------------------------------
+> [!NOTE]
+> **GraKeL needs your support!** Keeping a graph kernel library working takes ongoing maintenance — updates for newer Python/numpy, CI upkeep, etc. Feel free to help out by opening a pull request or raising an issue, or reach out via the contact info on [ysig.github.io](https://ysig.github.io) if you'd like to help maintain GraKeL more closely — happy to gradually bring you on board. Thank you! 💕
