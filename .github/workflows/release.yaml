@@ -32,6 +32,13 @@ on:
       # Release branches
       - "[0-9]+.[0-9]+.X"
 
+# A push that supersedes another one cancels its pipeline rather than queueing
+# a second full matrix behind it. Manually dispatched runs are never cancelled,
+# so a deploy can't be interrupted half way through.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'push' }}
+
 env:
   package-name: GraKeL
 
