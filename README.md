@@ -7,9 +7,7 @@
 > **GraKeL needs your support!** Keeping a graph kernel library working takes ongoing maintenance — updates for newer Python/numpy, CI upkeep, etc. Feel free to help out by opening a pull request or raising an issue, or reach out via the contact info on [ysig.github.io](https://ysig.github.io) if you'd like to help maintain GraKeL more closely — happy to gradually bring you on board. Thank you! 💕
 
 [![PyPI](https://img.shields.io/pypi/v/grakel.svg)](https://pypi.org/project/GraKeL/)
-[![Pypi Versions](https://img.shields.io/pypi/pyversions/grakel.svg)](https://pypi.org/project/GraKeL/)
 [![CI](https://github.com/ysig/GraKeL/actions/workflows/release.yaml/badge.svg?branch=master)](https://github.com/ysig/GraKeL/actions/workflows/release.yaml)
-[![Coverage Status](https://codecov.io/gh/ysig/GraKeL/branch/master/graph/badge.svg)](https://codecov.io/gh/ysig/GraKeL)
 [![License](https://img.shields.io/badge/license-BSD--3--Clause-blue.svg)](https://github.com/ysig/GraKeL/blob/master/LICENSE)
 
 **[Documentation](https://ysig.github.io/GraKeL/)** | **[Paper](http://jmlr.org/papers/volume21/18-370/18-370.pdf)**
