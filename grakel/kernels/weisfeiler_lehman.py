@@ -217,9 +217,14 @@ class WeisfeilerLehman(Kernel):
                     # them for both graphs
                     # Keep for each node the temporary
                     L_temp[j] = dict()
-                    for v in Gs_ed[j].keys():
+                    # Iterate over every labelled node, not just those with
+                    # outgoing edges: a sink node is absent from the edge
+                    # dictionary and would otherwise drop out of the labelling
+                    # and raise a KeyError on the next iteration.
+                    for v in L[j].keys():
                         credential = str(L[j][v]) + "," + \
-                            str(sorted([L[j][n] for n in Gs_ed[j][v].keys()]))
+                            str(sorted([L[j][n]
+                                        for n in Gs_ed[j].get(v, dict()).keys()]))
                         L_temp[j][v] = credential
                         label_set.add(credential)
 
@@ -409,9 +414,14 @@ class WeisfeilerLehman(Kernel):
                     # Find unique labels and sort them for both graphs
                     # Keep for each node the temporary
                     L_temp[j] = dict()
-                    for v in Gs_ed[j].keys():
+                    # Iterate over every labelled node, not just those with
+                    # outgoing edges: a sink node is absent from the edge
+                    # dictionary and would otherwise drop out of the labelling
+                    # and raise a KeyError on the next iteration.
+                    for v in L[j].keys():
                         credential = str(L[j][v]) + "," + \
-                            str(sorted([L[j][n] for n in Gs_ed[j][v].keys()]))
+                            str(sorted([L[j][n]
+                                        for n in Gs_ed[j].get(v, dict()).keys()]))
                         L_temp[j][v] = credential
                         if credential not in self._inv_labels[i]:
                             label_set.add(credential)

@@ -133,6 +133,28 @@ def test_graph_edge_dictionary():
             npt.assert_equal(spl, desired_labels)
 
 
+def test_graph_repr():
+    """Test that a graph can be printed in either format (issue #102)."""
+    gd = Graph({0: {1: 1.0, 2: 1.0}, 1: {0: 1.0, 2: 1.0}, 2: {0: 1.0, 1: 1.0}},
+               node_labels={0: 'A', 1: 'B', 2: 'C'},
+               graph_format='dictionary')
+    ga = Graph(np.array([[0, 1, 1], [1, 0, 1], [1, 1, 0]]),
+               node_labels={0: 'A', 1: 'B', 2: 'C'},
+               graph_format='adjacency')
+
+    for g in (gd, ga):
+        out = str(g)
+        assert '#vertices' in out
+        assert '#edges' in out
+
+    assert '#node_labels' in str(gd)
+
+    # "any" has to be accepted by both, not just get_vertices
+    npt.assert_equal(sorted(map(str, gd.get_edges('any'))),
+                     sorted(map(str, gd.get_edges('dictionary'))))
+
+
 if __name__ == '__main__':
     test_graph_adjacency()
     test_graph_edge_dictionary()
+    test_graph_repr()

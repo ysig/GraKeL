@@ -8,6 +8,7 @@ import numpy as np
 from time import time
 from warnings import warn
 
+import numpy.testing as npt
 from numpy.testing import assert_array_less
 
 from sklearn.model_selection import train_test_split
@@ -55,6 +56,55 @@ try:
     import cvxopt
 except ImportError:
     cvxopt = False
+
+
+
+def test_weisfeiler_lehman_sink_node():
+    """A node with no outgoing edges must not break relabelling (issue #119)."""
+    from grakel import Graph
+    from grakel.kernels import WeisfeilerLehman
+
+    # node 2 is a sink, so it is absent from the edge dictionary
+    sink = Graph({0: [1, 2], 1: [2], 2: []},
+                 node_labels={0: 'A', 1: 'B', 2: 'C'})
+    other = Graph({0: [1], 1: [2], 2: []},
+                  node_labels={0: 'A', 1: 'B', 2: 'C'})
+
+    wl = WeisfeilerLehman(n_iter=3, normalize=True)
+    K = wl.fit_transform([sink, other])
+    assert K.shape == (2, 2)
+    npt.assert_array_almost_equal(np.diag(K), np.ones(2))
+
+    # and through the transform path as well
+    wl = WeisfeilerLehman(n_iter=3, normalize=True).fit([sink])
+    assert wl.transform([other]).shape == (1, 1)
+
+
+def test_weisfeiler_lehman_with_nspd_base_kernel():
+    """NSPD has to survive being used as a WL base kernel (issue #120)."""
+    from grakel import Graph
+    from grakel.kernels import WeisfeilerLehman
+    from grakel.kernels import NeighborhoodSubgraphPairwiseDistance
+
+    def graphs(n):
+        return [Graph({0: [1], 1: [0, 2], 2: [1]},
+                      node_labels={0: 'A', 1: 'B', 2: 'C'},
+                      edge_labels={(0, 1): 'x', (1, 0): 'x',
+                                   (1, 2): 'y', (2, 1): 'y'})
+                for _ in range(n)]
+
+    wl = WeisfeilerLehman(
+        n_iter=2, normalize=True,
+        base_graph_kernel=NeighborhoodSubgraphPairwiseDistance)
+
+    K = wl.fit_transform(graphs(3))
+    assert K.shape == (3, 3)
+    npt.assert_array_almost_equal(np.diag(K), np.ones(3))
+    assert wl.transform(graphs(2)).shape == (2, 3)
+
+    # the base kernel on its own returns one diagonal entry per graph
+    nspd = NeighborhoodSubgraphPairwiseDistance().fit(graphs(4))
+    assert np.asarray(nspd.diagonal()).shape == (4,)
 
 
 if __name__ == '__main__':
@@ -490,3 +540,5 @@ if verbose and main:
     test_subgraph_matching()
     test_graph_hopper()
     test_core_framework()
+    test_weisfeiler_lehman_sink_node()
+    test_weisfeiler_lehman_with_nspd_base_kernel()

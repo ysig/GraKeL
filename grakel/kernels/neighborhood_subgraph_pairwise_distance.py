@@ -280,7 +280,9 @@ class NeighborhoodSubgraphPairwiseDistance(Kernel):
         self._Y = Y
         self._is_transformed = True
         if self.normalize:
-            S /= np.sqrt(np.outer(*self.diagonal()))
+            X_diag, Y_diag = self.diagonal()
+            # S is (n_transformed, n_fitted), so Y comes first
+            S /= np.sqrt(np.outer(Y_diag, X_diag))
         return S
 
     def fit_transform(self, X, y=None):
@@ -334,11 +336,11 @@ class NeighborhoodSubgraphPairwiseDistance(Kernel):
 
         Returns
         -------
-        X_diag : int
-            Always equal with r*d.
+        X_diag : np.array
+            One entry per fitted graph, all equal with r*d.
 
-        Y_diag : int
-            Always equal with r*d.
+        Y_diag : np.array
+            One entry per transformed graph, all equal with r*d.
 
         """
         # constant based on normalization of krd
@@ -346,12 +348,15 @@ class NeighborhoodSubgraphPairwiseDistance(Kernel):
         try:
             check_is_fitted(self, ['_X_diag'])
         except NotFittedError:
-            # Calculate diagonal of X
-            self._X_diag = len(self.X)
+            # Every self similarity is the same constant, but the diagonal is
+            # still one value per graph: frameworks that wrap this kernel (the
+            # Weisfeiler-Lehman one, say) sum the diagonals of their base
+            # kernels elementwise and expect an array back, not a scalar.
+            self._X_diag = np.full(self._ngx, len(self.X), dtype=float)
 
         try:
             check_is_fitted(self, ['_Y'])
-            return self._X_diag, len(self._Y)
+            return self._X_diag, np.full(self._ngy, len(self._Y), dtype=float)
         except NotFittedError:
             return self._X_diag
 

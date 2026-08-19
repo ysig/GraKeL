@@ -1119,9 +1119,11 @@ class Graph(object):
 
         Parameters
         ----------
-        purpose : str, valid_values={"adjacency", "dictionary"}, default="adjacency"
+        purpose : str, valid_values={"adjacency", "dictionary", "any"},
+                  default="adjacency"
             Defines if the edges is given for the "dictionary" format of the
-            graph (symbol) to the "adjacency" (index).
+            graph (symbol) to the "adjacency" (index) or to "any" existing
+            format (if "all" the expected type is for "adjacency").
 
         Returns
         -------
@@ -1129,8 +1131,14 @@ class Graph(object):
             Returns a list of tuples for edges.
 
         """
-        if purpose not in ["adjacency", "dictionary"]:
+        if purpose not in ["adjacency", "dictionary", "any"]:
             raise ValueError('purpose is either "adjacency" of "dictionary"')
+
+        if purpose == "any":
+            if self._format in ['all', 'adjacency']:
+                purpose = "adjacency"
+            else:
+                purpose = "dictionary"
 
         if purpose == "adjacency":
             self.desired_format("adjacency", warn=True)
