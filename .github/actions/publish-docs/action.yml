@@ -1,13 +1,18 @@
 name: Publish docs
 description: >-
   Push a previously built docs artifact to the gh-pages branch, which is what
-  serves https://ysig.github.io/GraKeL/.
+  serves https://ysig.github.io/GraKeL/. The docs are filed under their version
+  number and also copied to latest/, which is where the README links point.
 
 inputs:
   artifact:
     description: "Name of the artifact holding the built html"
     required: false
     default: docs-html
+  version:
+    description: "Version to file the docs under; read from pyproject.toml if unset"
+    required: false
+    default: ""
 
 runs:
   using: composite
@@ -26,15 +31,40 @@ runs:
 
     - name: Publish to https://ysig.github.io/GraKeL/
       shell: bash
-      working-directory: gh-pages
+      env:
+        REQUESTED_VERSION: ${{ inputs.version }}
       run: |
-        # Drop the previously published site, but keep git metadata and the
-        # archived docs of the old releases (0.1a6, 0.1a7, 0.1a8), which are
-        # still linked to from elsewhere
-        find . -mindepth 1 -maxdepth 1 \
-          ! -name '.git' ! -name '0.1a*' -exec rm -rf {} +
+        set -euo pipefail
 
-        cp -R ../docs-html/. .
+        version="$REQUESTED_VERSION"
+        if [ -z "$version" ]; then
+          version=$(sed -n "s/^version[[:space:]]*=[[:space:]]*['\"]\([^'\"]*\)['\"].*/\1/p" \
+                    pyproject.toml | head -n 1)
+        fi
+        if [ -z "$version" ]; then
+          echo "could not determine the version to publish under" >&2
+          exit 1
+        fi
+        echo "Publishing the docs as $version"
+
+        cd gh-pages
+
+        # Clear the root, keeping git metadata, latest/, and every versioned
+        # directory -- anything starting with a digit, which covers both the
+        # old 0.1aN releases and the current scheme. This also sweeps up the
+        # loose html left at the root by earlier publishes.
+        find . -mindepth 1 -maxdepth 1 \
+          ! -name '.git' ! -name 'latest' ! -name '[0-9]*' \
+          -exec rm -rf {} +
+
+        rm -rf "$version" latest
+        mkdir -p "$version" latest
+        cp -R ../docs-html/. "$version"/
+        # latest/ is what the README deep links point at
+        cp -R ../docs-html/. latest/
+
+        # Send the root of the site to the current docs
+        printf '<meta http-equiv="refresh" content="0; latest/"/>\n' > index.html
         # Stop github pages running the output through jekyll
         touch .nojekyll
 
@@ -44,6 +74,6 @@ runs:
         if git diff --cached --quiet; then
           echo "Docs unchanged, nothing to publish"
         else
-          git commit -m "Publish docs for ${GITHUB_SHA} [ci skip]"
+          git commit -m "Publish $version docs for ${GITHUB_SHA} [ci skip]"
           git push
         fi
