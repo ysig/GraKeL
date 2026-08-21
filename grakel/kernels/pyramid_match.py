@@ -13,10 +13,7 @@ from scipy.sparse.linalg import eigs
 from grakel.graph import Graph
 from grakel.kernels import Kernel
 
-# Python 2/3 cross-compatibility import
-from six import itervalues
-from six import iteritems
-from six.moves.collections_abc import Iterable
+from collections.abc import Iterable
 
 class PyramidMatch(Kernel):
     """Pyramid match kernel class.
@@ -162,7 +159,7 @@ class PyramidMatch(Kernel):
                 self._num_labels = 0
                 self._labels = set()
                 for L in Ls:
-                    self._labels |= set(itervalues(L))
+                    self._labels |= set(L.values())
                 self._num_labels = len(self._labels)
                 self._labels = {l: i for (i, l) in enumerate(self._labels)}
                 return self._histogram_calculation(Us, Ls, self._labels)
@@ -170,9 +167,9 @@ class PyramidMatch(Kernel):
             elif self._method_calling == 3:
                 labels = set()
                 for L in Ls:
-                    labels |= set(itervalues(L))
+                    labels |= set(L.values())
                 rest_labels = labels - set(self._labels.keys())
-                nouveau_labels = dict(chain(iteritems(self._labels),
+                nouveau_labels = dict(chain(self._labels.items(),
                                       ((j, i) for (i, j) in enumerate(rest_labels, len(self._labels)))))
                 return self._histogram_calculation(Us, Ls, nouveau_labels)
         else:

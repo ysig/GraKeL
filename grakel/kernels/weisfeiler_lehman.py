@@ -1,4 +1,5 @@
 """The weisfeiler lehman kernel :cite:`shervashidze2011weisfeiler`."""
+
 # Author: Ioannis Siglidis <y.siglidis@gmail.com>
 # License: BSD 3 clause
 import warnings
@@ -13,10 +14,7 @@ from grakel.graph import Graph
 from grakel.kernels import Kernel
 from grakel.kernels.vertex_histogram import VertexHistogram
 
-# Python 2/3 cross-compatibility import
-from six import iteritems
-from six import itervalues
-from six.moves.collections_abc import Iterable
+from collections.abc import Iterable
 
 
 class WeisfeilerLehman(Kernel):
@@ -57,11 +55,16 @@ class WeisfeilerLehman(Kernel):
 
     _graph_format = "dictionary"
 
-    def __init__(self, n_jobs=None, verbose=False,
-                 normalize=False, n_iter=5, base_graph_kernel=VertexHistogram):
+    def __init__(
+        self,
+        n_jobs=None,
+        verbose=False,
+        normalize=False,
+        n_iter=5,
+        base_graph_kernel=VertexHistogram,
+    ):
         """Initialise a `weisfeiler_lehman` kernel."""
-        super(WeisfeilerLehman, self).__init__(
-            n_jobs=n_jobs, verbose=verbose, normalize=normalize)
+        super(WeisfeilerLehman, self).__init__(n_jobs=n_jobs, verbose=verbose, normalize=normalize)
 
         self.n_iter = n_iter
         self.base_graph_kernel = base_graph_kernel
@@ -81,19 +84,21 @@ class WeisfeilerLehman(Kernel):
                 try:
                     base_graph_kernel, params = base_graph_kernel
                 except Exception:
-                    raise TypeError('Base kernel was not formulated in '
-                                    'the correct way. '
-                                    'Check documentation.')
+                    raise TypeError(
+                        "Base kernel was not formulated in the correct way. Check documentation."
+                    )
 
-                if not (type(base_graph_kernel) is type and
-                        issubclass(base_graph_kernel, Kernel)):
-                    raise TypeError('The first argument must be a valid '
-                                    'grakel.kernel.kernel Object')
+                if not (type(base_graph_kernel) is type and issubclass(base_graph_kernel, Kernel)):
+                    raise TypeError(
+                        "The first argument must be a valid grakel.kernel.kernel Object"
+                    )
                 if type(params) is not dict:
-                    raise ValueError('If the second argument of base '
-                                     'kernel exists, it must be a diction'
-                                     'ary between parameters names and '
-                                     'values')
+                    raise ValueError(
+                        "If the second argument of base "
+                        "kernel exists, it must be a diction"
+                        "ary between parameters names and "
+                        "values"
+                    )
                 params.pop("normalize", None)
 
             params["normalize"] = False
@@ -129,26 +134,24 @@ class WeisfeilerLehman(Kernel):
 
         """
         if self._method_calling not in [1, 2]:
-            raise ValueError('method call must be called either from fit ' +
-                             'or fit-transform')
-        elif hasattr(self, '_X_diag'):
+            raise ValueError("method call must be called either from fit " + "or fit-transform")
+        elif hasattr(self, "_X_diag"):
             # Clean _X_diag value
-            delattr(self, '_X_diag')
+            delattr(self, "_X_diag")
 
         # Input validation and parsing
         if not isinstance(X, Iterable):
-            raise TypeError('input must be an iterable\n')
+            raise TypeError("input must be an iterable\n")
         else:
             nx = 0
             Gs_ed, L, distinct_values, extras = dict(), dict(), set(), dict()
-            for (idx, x) in enumerate(iter(X)):
+            for idx, x in enumerate(iter(X)):
                 is_iter = isinstance(x, Iterable)
                 if is_iter:
                     x = list(x)
                 if is_iter and (len(x) == 0 or len(x) >= 2):
                     if len(x) == 0:
-                        warnings.warn('Ignoring empty element on index: '
-                                      + str(idx))
+                        warnings.warn("Ignoring empty element on index: " + str(idx))
                         continue
                     else:
                         if len(x) > 2:
@@ -156,32 +159,39 @@ class WeisfeilerLehman(Kernel):
                             if len(x) > 3:
                                 extra = tuple(x[3:])
                             x = Graph(x[0], x[1], x[2], graph_format=self._graph_format)
-                            extra = (x.get_labels(purpose=self._graph_format,
-                                                  label_type="edge", return_none=True), ) + extra
+                            extra = (
+                                x.get_labels(
+                                    purpose=self._graph_format, label_type="edge", return_none=True
+                                ),
+                            ) + extra
                         else:
                             x = Graph(x[0], x[1], {}, graph_format=self._graph_format)
                             extra = tuple()
 
                 elif type(x) is Graph:
                     x.desired_format(self._graph_format)
-                    el = x.get_labels(purpose=self._graph_format, label_type="edge", return_none=True)
+                    el = x.get_labels(
+                        purpose=self._graph_format, label_type="edge", return_none=True
+                    )
                     if el is None:
                         extra = tuple()
                     else:
-                        extra = (el, )
+                        extra = (el,)
 
                 else:
-                    raise TypeError('each element of X must be either a ' +
-                                    'graph object or a list with at least ' +
-                                    'a graph like object and node labels ' +
-                                    'dict \n')
+                    raise TypeError(
+                        "each element of X must be either a "
+                        + "graph object or a list with at least "
+                        + "a graph like object and node labels "
+                        + "dict \n"
+                    )
                 Gs_ed[nx] = x.get_edge_dictionary()
                 L[nx] = x.get_labels(purpose="dictionary")
                 extras[nx] = extra
-                distinct_values |= set(itervalues(L[nx]))
+                distinct_values |= set(L[nx].values())
                 nx += 1
             if nx == 0:
-                raise ValueError('parsed input is empty')
+                raise ValueError("parsed input is empty")
 
         # Save the number of "fitted" graphs.
         self._nx = nx
@@ -222,9 +232,11 @@ class WeisfeilerLehman(Kernel):
                     # dictionary and would otherwise drop out of the labelling
                     # and raise a KeyError on the next iteration.
                     for v in L[j].keys():
-                        credential = str(L[j][v]) + "," + \
-                            str(sorted([L[j][n]
-                                        for n in Gs_ed[j].get(v, dict()).keys()]))
+                        credential = (
+                            str(L[j][v])
+                            + ","
+                            + str(sorted([L[j][n] for n in Gs_ed[j].get(v, dict()).keys()]))
+                        )
                         L_temp[j][v] = credential
                         label_set.add(credential)
 
@@ -245,26 +257,32 @@ class WeisfeilerLehman(Kernel):
                 self._inv_labels[i] = WL_labels_inverse
                 yield new_graphs
 
-        base_graph_kernel = {i: self._base_graph_kernel(**self._params) for i in range(self._n_iter)}
+        base_graph_kernel = {
+            i: self._base_graph_kernel(**self._params) for i in range(self._n_iter)
+        }
         if self._parallel is None:
             if self._method_calling == 1:
-                for (i, g) in enumerate(generate_graphs(label_count, WL_labels_inverse)):
+                for i, g in enumerate(generate_graphs(label_count, WL_labels_inverse)):
                     base_graph_kernel[i].fit(g)
             elif self._method_calling == 2:
                 graphs = generate_graphs(label_count, WL_labels_inverse)
-                values = [
-                    base_graph_kernel[i].fit_transform(g) for (i, g) in enumerate(graphs)
-                ]
+                values = [base_graph_kernel[i].fit_transform(g) for (i, g) in enumerate(graphs)]
                 K = np.sum(values, axis=0)
 
         else:
             if self._method_calling == 1:
-                self._parallel(joblib.delayed(efit)(base_graph_kernel[i], g)
-                               for (i, g) in enumerate(generate_graphs(label_count, WL_labels_inverse)))
+                self._parallel(
+                    joblib.delayed(efit)(base_graph_kernel[i], g)
+                    for (i, g) in enumerate(generate_graphs(label_count, WL_labels_inverse))
+                )
             elif self._method_calling == 2:
-                K = np.sum(self._parallel(joblib.delayed(efit_transform)(base_graph_kernel[i], g)
-                           for (i, g) in enumerate(generate_graphs(label_count, WL_labels_inverse))),
-                           axis=0)
+                K = np.sum(
+                    self._parallel(
+                        joblib.delayed(efit_transform)(base_graph_kernel[i], g)
+                        for (i, g) in enumerate(generate_graphs(label_count, WL_labels_inverse))
+                    ),
+                    axis=0,
+                )
 
         if self._method_calling == 1:
             return base_graph_kernel
@@ -298,13 +316,13 @@ class WeisfeilerLehman(Kernel):
         self._is_transformed = False
         self.initialize()
         if X is None:
-            raise ValueError('transform input cannot be None')
+            raise ValueError("transform input cannot be None")
         else:
             km, self.X = self.parse_input(X)
 
         self._X_diag = np.diagonal(km)
         if self.normalize:
-            old_settings = np.seterr(divide='ignore')
+            old_settings = np.seterr(divide="ignore")
             km = np.nan_to_num(np.divide(km, np.sqrt(np.outer(self._X_diag, self._X_diag))))
             np.seterr(**old_settings)
         return km
@@ -331,25 +349,24 @@ class WeisfeilerLehman(Kernel):
         """
         self._method_calling = 3
         # Check is fit had been called
-        check_is_fitted(self, ['X', '_nx', '_inv_labels'])
+        check_is_fitted(self, ["X", "_nx", "_inv_labels"])
 
         # Input validation and parsing
         if X is None:
-            raise ValueError('transform input cannot be None')
+            raise ValueError("transform input cannot be None")
         else:
             if not isinstance(X, Iterable):
-                raise ValueError('input must be an iterable\n')
+                raise ValueError("input must be an iterable\n")
             else:
                 nx = 0
                 Gs_ed, L, distinct_values, extras = dict(), dict(), set(), dict()
-                for (i, x) in enumerate(iter(X)):
+                for i, x in enumerate(iter(X)):
                     is_iter = isinstance(x, Iterable)
                     if is_iter:
                         x = list(x)
                     if is_iter and len(x) in [0, 2, 3]:
                         if len(x) == 0:
-                            warnings.warn('Ignoring empty element on index: '
-                                          + str(i))
+                            warnings.warn("Ignoring empty element on index: " + str(i))
                             continue
 
                         else:
@@ -358,45 +375,54 @@ class WeisfeilerLehman(Kernel):
                                 if len(x) > 3:
                                     extra = tuple(x[3:])
                                 x = Graph(x[0], x[1], x[2], graph_format=self._graph_format)
-                                extra = (x.get_labels(purpose=self._graph_format, label_type="edge", return_none=True),) + extra
+                                extra = (
+                                    x.get_labels(
+                                        purpose=self._graph_format,
+                                        label_type="edge",
+                                        return_none=True,
+                                    ),
+                                ) + extra
                             else:
                                 x = Graph(x[0], x[1], {}, graph_format=self._graph_format)
                                 extra = tuple()
 
                     elif type(x) is Graph:
                         x.desired_format("dictionary")
-                        el = x.get_labels(purpose=self._graph_format, label_type="edge", return_none=True)
+                        el = x.get_labels(
+                            purpose=self._graph_format, label_type="edge", return_none=True
+                        )
                         if el is None:
                             extra = tuple()
                         else:
-                            extra = (el, )
+                            extra = (el,)
                     else:
-                        raise TypeError('each element of X must be either a ' +
-                                        'graph object or a list with at least ' +
-                                        'a graph like object and node labels ' +
-                                        'dict \n')
+                        raise TypeError(
+                            "each element of X must be either a "
+                            + "graph object or a list with at least "
+                            + "a graph like object and node labels "
+                            + "dict \n"
+                        )
                     Gs_ed[nx] = x.get_edge_dictionary()
                     L[nx] = x.get_labels(purpose="dictionary")
 
                     # Hold all the distinct values
                     extras[nx] = extra
                     distinct_values |= set(
-                        v for v in itervalues(L[nx])
-                        if v not in self._inv_labels[0])
+                        v for v in L[nx].values() if v not in self._inv_labels[0]
+                    )
                     nx += 1
                 if nx == 0:
-                    raise ValueError('parsed input is empty')
+                    raise ValueError("parsed input is empty")
 
         nl = len(self._inv_labels[0])
-        WL_labels_inverse = {dv: idx for (idx, dv) in
-                             enumerate(sorted(list(distinct_values)), nl)}
+        WL_labels_inverse = {dv: idx for (idx, dv) in enumerate(sorted(list(distinct_values)), nl)}
 
         def generate_graphs(WL_labels_inverse, nl):
             # calculate the kernel matrix for the 0 iteration
             new_graphs = list()
             for j in range(nx):
                 new_labels = dict()
-                for (k, v) in iteritems(L[j]):
+                for k, v in L[j].items():
                     if v in self._inv_labels[0]:
                         new_labels[k] = self._inv_labels[0][v]
                     else:
@@ -419,9 +445,11 @@ class WeisfeilerLehman(Kernel):
                     # dictionary and would otherwise drop out of the labelling
                     # and raise a KeyError on the next iteration.
                     for v in L[j].keys():
-                        credential = str(L[j][v]) + "," + \
-                            str(sorted([L[j][n]
-                                        for n in Gs_ed[j].get(v, dict()).keys()]))
+                        credential = (
+                            str(L[j][v])
+                            + ","
+                            + str(sorted([L[j][n] for n in Gs_ed[j].get(v, dict()).keys()]))
+                        )
                         L_temp[j][v] = credential
                         if credential not in self._inv_labels[i]:
                             label_set.add(credential)
@@ -437,7 +465,7 @@ class WeisfeilerLehman(Kernel):
                 new_graphs = list()
                 for j in range(nx):
                     new_labels = dict()
-                    for (k, v) in iteritems(L_temp[j]):
+                    for k, v in L_temp[j].items():
                         if v in self._inv_labels[i]:
                             new_labels[k] = self._inv_labels[i][v]
                         else:
@@ -454,13 +482,18 @@ class WeisfeilerLehman(Kernel):
             K = np.sum(values, axis=0)
         else:
             # Calculate the kernel marix with parallelization
-            K = np.sum(self._parallel(joblib.delayed(etransform)(self.X[i], g) for (i, g)
-                       in enumerate(generate_graphs(WL_labels_inverse, nl))), axis=0)
+            K = np.sum(
+                self._parallel(
+                    joblib.delayed(etransform)(self.X[i], g)
+                    for (i, g) in enumerate(generate_graphs(WL_labels_inverse, nl))
+                ),
+                axis=0,
+            )
 
         self._is_transformed = True
         if self.normalize:
             X_diag, Y_diag = self.diagonal()
-            old_settings = np.seterr(divide='ignore')
+            old_settings = np.seterr(divide="ignore")
             K = np.nan_to_num(np.divide(K, np.sqrt(np.outer(Y_diag, X_diag))))
             np.seterr(**old_settings)
 
@@ -488,9 +521,9 @@ class WeisfeilerLehman(Kernel):
 
         """
         # Check if fit had been called
-        check_is_fitted(self, ['X'])
+        check_is_fitted(self, ["X"])
         try:
-            check_is_fitted(self, ['_X_diag'])
+            check_is_fitted(self, ["_X_diag"])
             if self._is_transformed:
                 Y_diag = self.X[0].diagonal()[1]
                 for i in range(1, self._n_iter):

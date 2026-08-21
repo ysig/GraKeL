@@ -5,7 +5,6 @@ Graph classification on a randomly generated dataset of Erdos-Renyi graphs.
 
 Script makes use of :class:`grakel.Graph` and :class:`grakel.ShortestPath`
 """
-from __future__ import print_function
 print(__doc__)
 
 import numpy as np

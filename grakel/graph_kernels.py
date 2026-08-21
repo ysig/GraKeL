@@ -33,8 +33,6 @@ from grakel.kernels import GraphHopper
 from grakel.kernels import CoreFramework
 from grakel.kernels import WeisfeilerLehmanOptimalAssignment
 
-# Python 2/3 cross-compatibility import
-from future.utils import iteritems
 
 # Supported base kernels
 sbk = [
@@ -479,7 +477,7 @@ class GraphKernel(BaseEstimator, TransformerMixin):
                                  'kernel')
             kernel_name = kernel.pop("name")
 
-        for (keys, val) in iteritems(hidden_args):
+        for (keys, val) in hidden_args.items():
             if keys in kernel:
                 warnings.warn('Overriding global kernel attribute ' + str(keys) + ' with ' + str(val) +
                               '. Please set this attribute as an argument of GraphKernel.')
@@ -561,7 +559,7 @@ class GraphKernel(BaseEstimator, TransformerMixin):
         params = copy.deepcopy(params)
 
         # Iterate over the parameters
-        for key, value in iteritems(params):
+        for key, value in params.items():
             key, delim, sub_key = key.partition('__')
             if delim:
                 if sub_key in self._initialized:

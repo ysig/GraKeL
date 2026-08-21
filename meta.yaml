@@ -21,8 +21,6 @@ requirements:
     - scikit-learn >=0.24.0
     - scipy >=1.12.0
     - cython >=0.29.21
-    - future >=0.16.0
-    - six >=1.11.0
     - cvxopt >=1.2.0
   run:
     - python >=3.9,<3.13
@@ -31,8 +29,6 @@ requirements:
     - scikit-learn >=0.24.0
     - scipy >=1.12.0
     - cython >=0.29.21
-    - future >=0.16.0
-    - six >=1.11.0
     - cvxopt >=1.2.0
   build:
     - {{ compiler('cxx') }}

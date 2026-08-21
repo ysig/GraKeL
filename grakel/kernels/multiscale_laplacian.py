@@ -1,8 +1,6 @@
 """Multiscale Laplacian Graph Kernel as defined in :cite:`kondor2016multiscale`."""
 # Author: Ioannis Siglidis <y.siglidis@gmail.com>
 # License: BSD 3 clause
-# Python 2/3 cross-compatibility import
-from __future__ import print_function
 
 import warnings
 import numpy as np
@@ -22,8 +20,7 @@ from scipy.sparse.csgraph import laplacian
 
 from grakel.kernels import Kernel
 
-# For python2/3 compatibility
-from six.moves.collections_abc import Iterable
+from collections.abc import Iterable
 
 positive_eigenvalue_limit = float("+1e-6")
 

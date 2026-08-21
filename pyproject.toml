@@ -10,8 +10,6 @@ dependencies = [
     "scipy >= 1.12.0",
     "cython >= 0.29.21",
     "scikit-learn >= 0.24.0",
-    "six >= 1.11.0",
-    "future >= 0.16.0",
     "joblib"
 ]
 requires-python=">=3.9,<3.13"

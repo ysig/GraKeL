@@ -1,4 +1,5 @@
 """The ODD-Sth kernel as defined in :cite:`Martino2012ATK`."""
+
 # Author: Ioannis Siglidis <y.siglidis@gmail.com>
 # License: BSD 3 clause
 import copy
@@ -14,9 +15,7 @@ from sklearn.exceptions import NotFittedError
 from grakel.kernels import Kernel
 from grakel.graph import Graph
 
-# Python 2/3 cross-compatibility import
-from six import iteritems
-from six.moves.collections_abc import Iterable
+from collections.abc import Iterable
 
 
 class OddSth(Kernel):
@@ -54,9 +53,7 @@ class OddSth(Kernel):
 
     def __init__(self, n_jobs=None, normalize=False, verbose=False, h=None):
         """Initialise an `odd_sth` kernel."""
-        super(OddSth, self).__init__(n_jobs=n_jobs,
-                                     normalize=normalize,
-                                     verbose=verbose)
+        super(OddSth, self).__init__(n_jobs=n_jobs, normalize=normalize, verbose=verbose)
         self.h = h
         self._initialized.update({"h": False})
 
@@ -64,14 +61,14 @@ class OddSth(Kernel):
         """Initialize all transformer arguments, needing initialization."""
         if not self._initialized["n_jobs"]:
             if self.n_jobs is not None:
-                warnings.warn('no implemented parallelization for OddSth')
+                warnings.warn("no implemented parallelization for OddSth")
             self._initialized["n_jobs"] = True
 
         if not self._initialized["h"]:
             if self.h is not None and (type(self.h) is not int or self.h <= 0):
-                raise ValueError('h must be an integer bigger than zero')
+                raise ValueError("h must be an integer bigger than zero")
 
-            self.h_ = (-1 if self.h is None else self.h)
+            self.h_ = -1 if self.h is None else self.h
             self._initialized["h"] = True
 
     def parse_input(self, X):
@@ -94,29 +91,30 @@ class OddSth(Kernel):
 
         """
         if not isinstance(X, Iterable):
-            raise TypeError('input must be an iterable\n')
+            raise TypeError("input must be an iterable\n")
         else:
             i = 0
             out = None
             if self._method_calling == 3:
                 out = copy.deepcopy(self.X)
-            for (idx, x) in enumerate(iter(X)):
+            for idx, x in enumerate(iter(X)):
                 is_iter = isinstance(x, Iterable)
                 if is_iter:
                     x = list(x)
                 if is_iter and (len(x) == 0 or len(x) >= 2):
                     if len(x) == 0:
-                        warnings.warn('Ignoring empty element' +
-                                      ' on index: '+str(idx))
+                        warnings.warn("Ignoring empty element" + " on index: " + str(idx))
                         continue
                     elif len(x) >= 2:
                         x = Graph(x[0], x[1], {}, self._graph_format)
                 elif type(x) is not Graph:
-                    raise TypeError('each element of X must have either ' +
-                                    'a graph with labels for node and edge ' +
-                                    'or 3 elements consisting of a graph ' +
-                                    'type object, labels for vertices and ' +
-                                    'labels for edges.')
+                    raise TypeError(
+                        "each element of X must have either "
+                        + "a graph with labels for node and edge "
+                        + "or 3 elements consisting of a graph "
+                        + "type object, labels for vertices and "
+                        + "labels for edges."
+                    )
                 out = big_dag_append(make_big_dag(x, self.h_), out, merge_features=False)
                 i += 1
 
@@ -126,7 +124,7 @@ class OddSth(Kernel):
                 self._ny = i
             if i == 0:
                 raise ValueError
-                ('parsed input is empty')
+                ("parsed input is empty")
             return out
 
     def fit_transform(self, X, y=None):
@@ -160,7 +158,7 @@ class OddSth(Kernel):
 
         C = np.empty(shape=(len(ref), 1))
         phi = np.empty(shape=(len(ref), self._nx))
-        for (i, v) in iteritems(ref):
+        for i, v in ref.items():
             # number of identical subtrees
             # equal the D element
             C[i] = self.X[0][v][0]
@@ -198,11 +196,11 @@ class OddSth(Kernel):
         """
         self._method_calling = 3
         # Check is fit had been called
-        check_is_fitted(self, ['X'])
+        check_is_fitted(self, ["X"])
 
         # Input validation and parsing
         if X is None:
-            raise ValueError('transform input cannot be None')
+            raise ValueError("transform input cannot be None")
         else:
             full_dag = self.parse_input(X)
 
@@ -211,7 +209,7 @@ class OddSth(Kernel):
         C = np.empty(shape=(len(ref), 1))
         phi_x = np.empty(shape=(len(ref), self._nx))
         phi_y = np.empty(shape=(len(ref), self._ny))
-        for (i, v) in enumerate(ref.keys()):
+        for i, v in enumerate(ref.keys()):
             # number of identical subtrees equal the D element
             C[i] = full_dag[0][v][0]
             for j in range(self._nx):
@@ -243,18 +241,16 @@ class OddSth(Kernel):
 
         """
         # Check is fit had been called
-        check_is_fitted(self, ['_phi_x', '_C'])
+        check_is_fitted(self, ["_phi_x", "_C"])
         try:
-            check_is_fitted(self, ['_X_diag'])
+            check_is_fitted(self, ["_X_diag"])
         except NotFittedError:
             # Calculate diagonal of X
-            self._X_diag = np.dot(np.square(self._phi_X),
-                                  self._C).reshape((self._nx, 1))
+            self._X_diag = np.dot(np.square(self._phi_X), self._C).reshape((self._nx, 1))
 
         try:
-            check_is_fitted(self, ['_phi_y'])
-            Y_diag = np.dot(np.square(self._phi_y).T,
-                            self._C).reshape((self._ny, 1))
+            check_is_fitted(self, ["_phi_y"])
+            Y_diag = np.dot(np.square(self._phi_y).T, self._C).reshape((self._ny, 1))
             return self._X_diag, Y_diag
         except NotFittedError:
             return self._X_diag
@@ -285,18 +281,20 @@ def make_big_dag(g, h):
 
     """
     big_dag = None
-    for v in g.get_vertices(purpose='any'):
+    for v in g.get_vertices(purpose="any"):
         dag_odd = make_dag_odd(v, g, h)
-        dag = tuple(hash_trees(dag_odd))+tuple([])+(dag_odd[1], dag_odd[3])
+        dag = tuple(hash_trees(dag_odd)) + tuple([]) + (dag_odd[1], dag_odd[3])
         big_dag = big_dag_append(dag, big_dag)
 
     _, D_edges, D_ordering, _ = odd(big_dag[0], big_dag[2], big_dag[3])
 
-    big_dag = (big_dag[0],
-               big_dag[1],
-               sorted(list(big_dag[0].keys()),
-               key=lambda x:
-                      (D_ordering[x], big_dag[3][x])), D_edges, big_dag[3])
+    big_dag = (
+        big_dag[0],
+        big_dag[1],
+        sorted(list(big_dag[0].keys()), key=lambda x: (D_ordering[x], big_dag[3][x])),
+        D_edges,
+        big_dag[3],
+    )
 
     return big_dag
 
@@ -327,7 +325,7 @@ def make_dag_odd(v, g, h):
 
     """
     vertices, edges = dag(v, g, h)
-    return odd(vertices, edges, g.get_labels(purpose='any'))
+    return odd(vertices, edges, g.get_labels(purpose="any"))
 
 
 def dag(v, g, h):
@@ -364,12 +362,12 @@ def dag(v, g, h):
         if level == h:
             break
 
-        for n in g.neighbors(u, purpose='any'):
+        for n in g.neighbors(u, purpose="any"):
             if n not in vertices:
                 edges[u].append(n)
-                q.append((n, level+1))
-                vertices[n] = level+1
-            elif vertices[n] >= level+1:
+                q.append((n, level + 1))
+                vertices[n] = level + 1
+            elif vertices[n] >= level + 1:
                 edges[u].append(n)
 
     vertices = set(vertices.keys())
@@ -420,9 +418,9 @@ def odd(vertices, edges, labels):
         zero_indegrees = set(vertices.keys())
         visited_nodes = len(vertices.keys())
     else:
-        raise TypeError('unsupported vertices type')
+        raise TypeError("unsupported vertices type")
 
-    for (k, e) in iteritems(edges):
+    for k, e in edges.items():
         for v in e:
             if v not in indegrees:
                 indegrees[v] = 1
@@ -501,7 +499,7 @@ def hash_trees(tree):
                 d += 1 + vertices[n][0]
                 neighbors_ids.append(vertices[n][2])
 
-            ID = str(labels[v])+'('+(','.join(neighbors_ids))+')'
+            ID = str(labels[v]) + "(" + (",".join(neighbors_ids)) + ")"
 
             vertices[v] = [d, 1, ID]
             if ID not in vertices_hash_map:
@@ -601,29 +599,9 @@ def big_dag_append(dag, big_dag=None, merge_features=True):
             if merge_features:
                 freq = vertices[q][1]
             else:
-                freq = (nf-1)*[0]+[vertices[q][1]]
+                freq = (nf - 1) * [0] + [vertices[q][1]]
 
             D_vertices[nodes_idx] = [vertices[q][1], freq, key]
             nodes_idx += 1
 
     return (D_vertices, D_hash_map, D_edges, D_labels)
-
-
-if __name__ == "__main__":
-    # Dag Example from original paper
-    tree_a = ({0, 1, 2, 3},
-              {0: [1, 2], 1: [3], 2: [], 3: []},
-              {0: 'a', 1: 'b', 2: 'd', 3: 'c'})
-    tree_b = ({0, 1, 2, 3, 4}, {0: [1, 2], 1: [3], 2: [4], 3: [], 4: []},
-              {0: 'a', 1: 'b', 2: 'c', 3: 'c', 4: 'd'})
-
-    todd_a = odd(tree_a[0], tree_a[1], tree_a[2])
-    todd_b = odd(tree_b[0], tree_b[1], tree_b[2])
-
-    Atree = tuple(hash_trees(todd_a))+tuple([])+(todd_a[1], todd_a[3])
-    Btree = tuple(hash_trees(todd_b))+tuple([])+(todd_b[1], todd_b[3])
-    big_dag = None
-    big_dag = big_dag_append(Atree, big_dag)
-    big_dag = big_dag_append(Btree, big_dag)
-
-    print("Tree A:\n", Atree, "\nTree B:\n", Btree, "\nBig Dag:\n", big_dag)

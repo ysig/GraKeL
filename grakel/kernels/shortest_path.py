@@ -11,8 +11,7 @@ from sklearn.utils.validation import check_is_fitted
 from grakel.graph import Graph
 from grakel.kernels import Kernel
 
-# For python2/3 compatibility
-from six.moves.collections_abc import Iterable
+from collections.abc import Iterable
 
 class ShortestPathAttr(Kernel):
     r"""The shortest path kernel for attributes.

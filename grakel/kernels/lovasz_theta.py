@@ -20,8 +20,7 @@ from scipy.linalg import cholesky
 from scipy.linalg import eigvalsh
 from scipy.linalg import solve
 
-# For python2/3 compatibility
-from six.moves.collections_abc import Iterable
+from collections.abc import Iterable
 
 cvxopt_installed = True
 try:

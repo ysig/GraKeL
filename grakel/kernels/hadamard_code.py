@@ -18,10 +18,7 @@ from grakel.graph import Graph
 from grakel.kernels import Kernel
 from grakel.kernels.vertex_histogram import VertexHistogram
 
-# Python 2/3 cross-compatibility import
-from six import iteritems
-from six import itervalues
-from six.moves.collections_abc import Iterable
+from collections.abc import Iterable
 
 
 class HadamardCode(Kernel):
@@ -178,7 +175,7 @@ class HadamardCode(Kernel):
                 inp.append((x.get_graph_object(), extra))
                 neighbors.append(x.get_edge_dictionary())
                 labels.append(label)
-                for v in set(itervalues(label)):
+                for v in set(label.values()):
                     if v not in labels_enum:
                         labels_enum[v] = nl
                         nl += 1
@@ -195,9 +192,9 @@ class HadamardCode(Kernel):
             new_graphs, new_labels = list(), list()
             for ((obj, extra), label) in zip(inp, labels):
                 new_label = dict()
-                for (k, v) in iteritems(label):
+                for (k, v) in label.items():
                     new_label[k] = H[labels_enum[v], :]
-                new_graphs.append((obj, {i: tuple(j) for (i, j) in iteritems(new_label)}) + extra)
+                new_graphs.append((obj, {i: tuple(j) for (i, j) in new_label.items()}) + extra)
                 new_labels.append(new_label)
 
             yield new_graphs
@@ -208,12 +205,12 @@ class HadamardCode(Kernel):
                     # Find unique labels and sort them for both graphs and keep for each node
                     # the temporary
                     new_label = dict()
-                    for (k, ns) in iteritems(neighbor):
+                    for (k, ns) in neighbor.items():
                         new_label[k] = old_label[k]
                         for q in ns:
                             new_label[k] = np.add(new_label[k], old_label[q])
                     new_labels.append(new_label)
-                    new_graphs.append((obj, {i: tuple(j) for (i, j) in iteritems(new_label)}) +
+                    new_graphs.append((obj, {i: tuple(j) for (i, j) in new_label.items()}) +
                                       extra)
                 yield new_graphs
 

@@ -1,6 +1,4 @@
 """The base file for loading default datasets."""
-# Python 2/3 cross-compatibility import
-from __future__ import print_function
 
 import os
 import shutil

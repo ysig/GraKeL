@@ -5,7 +5,6 @@ Graph classification on MUTAG using the Weisfeiler-Lehman subtree kernel.
 
 Script makes use of :class:`grakel.WeisfeilerLehman`, :class:`grakel.VertexHistogram`
 """
-from __future__ import print_function
 print(__doc__)
 
 import numpy as np

@@ -1,4 +1,5 @@
 """The Graph Hopper kernel as defined in :cite:`feragen2013scalable`."""
+
 # Author: Ioannis Siglidis <y.siglidis@gmail.com>
 # License: BSD 3 clause
 import numpy as np
@@ -11,9 +12,8 @@ from grakel.kernels import Kernel
 from grakel.graph import Graph
 from grakel.graph import dijkstra
 
-# Python 2/3 cross-compatibility import
-from six.moves import filterfalse
-from six.moves.collections_abc import Iterable
+from itertools import filterfalse
+from collections.abc import Iterable
 
 
 class GraphHopper(Kernel):
@@ -42,11 +42,9 @@ class GraphHopper(Kernel):
 
     _graph_format = "all"
 
-    def __init__(self, n_jobs=None, normalize=False, verbose=False, kernel_type='linear'):
+    def __init__(self, n_jobs=None, normalize=False, verbose=False, kernel_type="linear"):
         """Initialize an Graph Hopper kernel."""
-        super(GraphHopper, self).__init__(n_jobs=n_jobs,
-                                          normalize=normalize,
-                                          verbose=verbose)
+        super(GraphHopper, self).__init__(n_jobs=n_jobs, normalize=normalize, verbose=verbose)
         self.kernel_type = kernel_type
         self._initialized.update({"kernel_type": False})
 
@@ -65,18 +63,26 @@ class GraphHopper(Kernel):
                     self.metric_ = bridge_kernel
                     self.calculate_norm_ = False
                 else:
-                    raise ValueError('Unsupported kernel with name "' + str(self.kernel_type) + '"')
-            elif (type(self.kernel_type) is tuple and len(self.kernel_type) == 2 and
-                    self.kernel_type[0] == "gaussian" and isinstance(self.kernel_type[1], Real)):
+                    raise ValueError(
+                        'Unsupported kernel with name "' + str(self.kernel_type) + '"'
+                    )
+            elif (
+                type(self.kernel_type) is tuple
+                and len(self.kernel_type) == 2
+                and self.kernel_type[0] == "gaussian"
+                and isinstance(self.kernel_type[1], Real)
+            ):
                 self.metric_ = lambda x, y: gaussian_kernel(x, y, self.kernel_type[1])
                 self.calculate_norm_ = True
             elif callable(self.kernel_type):
                 self.metric_ = self._kernel_type
                 self.calculate_norm_ = False
             else:
-                raise TypeError('Unrecognized "kernel_type": can either be a str '
-                                'from the supported: "linear", "gaussian", "bridge" '
-                                'or tuple ("gaussian", mu) or a callable.')
+                raise TypeError(
+                    'Unrecognized "kernel_type": can either be a str '
+                    'from the supported: "linear", "gaussian", "bridge" '
+                    'or tuple ("gaussian", mu) or a callable.'
+                )
 
     def parse_input(self, X):
         """Parse and check the given input for the Graph Hopper kernel.
@@ -98,58 +104,64 @@ class GraphHopper(Kernel):
 
         """
         if not isinstance(X, Iterable):
-            raise TypeError('input must be an iterable\n')
+            raise TypeError("input must be an iterable\n")
         else:
             ni = 0
             diam = list()
             graphs = list()
-            for (i, x) in enumerate(iter(X)):
+            for i, x in enumerate(iter(X)):
                 is_iter = False
                 if isinstance(x, Iterable):
                     is_iter = True
                     x = list(x)
 
                 if type(x) is Graph:
-                    g = Graph(x.get_adjacency_matrix(),
-                              x.get_labels(purpose="adjacency"),
-                              {},
-                              self._graph_format)
+                    g = Graph(
+                        x.get_adjacency_matrix(),
+                        x.get_labels(purpose="adjacency"),
+                        {},
+                        self._graph_format,
+                    )
                 elif is_iter and len(x) == 0 or len(x) >= 2:
                     if len(x) == 0:
-                        warn('Ignoring empty element on index: '+str(i))
+                        warn("Ignoring empty element on index: " + str(i))
                         continue
                     elif len(x) >= 2:
                         g = Graph(x[0], x[1], {}, "adjacency")
                         g.change_format(self._graph_format)
                 else:
-                    raise TypeError('each element of X must be either a '
-                                    'graph object or a list with at least '
-                                    'a graph like object and node, ')
+                    raise TypeError(
+                        "each element of X must be either a "
+                        "graph object or a list with at least "
+                        "a graph like object and node, "
+                    )
 
                 spm, attr = g.build_shortest_path_matrix(labels="vertex")
                 nv = g.nv()
                 try:
                     attributes = np.array([attr[j] for j in range(nv)])
                 except TypeError:
-                    raise TypeError('All attributes of a single graph should have the same dimension.')
+                    raise TypeError(
+                        "All attributes of a single graph should have the same dimension."
+                    )
 
                 # Discrete labels come through as scalars, which leaves a
                 # one dimensional array here and fails much further down in
                 # the kernel arithmetic with an unreadable shape mismatch.
-                if attributes.ndim != 2 or not np.issubdtype(attributes.dtype,
-                                                             np.number):
+                if attributes.ndim != 2 or not np.issubdtype(attributes.dtype, np.number):
                     raise TypeError(
-                        'GraphHopper needs continuous node attributes: each '
-                        'node label must be a numeric vector, giving an array '
-                        'of shape (n_nodes, n_features) per graph. Got an '
-                        'array of shape ' + str(attributes.shape) + ' with '
-                        'dtype ' + str(attributes.dtype) + ' on the graph at '
-                        'index ' + str(i) + '. Datasets with discrete labels '
-                        '(MUTAG and the like) are not applicable to this '
-                        'kernel -- either fetch a dataset with node '
-                        'attributes, using prefer_attr_nodes=True, or use a '
-                        'kernel for discrete labels such as WeisfeilerLehman '
-                        'or ShortestPath.')
+                        "GraphHopper needs continuous node attributes: each "
+                        "node label must be a numeric vector, giving an array "
+                        "of shape (n_nodes, n_features) per graph. Got an "
+                        "array of shape " + str(attributes.shape) + " with "
+                        "dtype " + str(attributes.dtype) + " on the graph at "
+                        "index " + str(i) + ". Datasets with discrete labels "
+                        "(MUTAG and the like) are not applicable to this "
+                        "kernel -- either fetch a dataset with node "
+                        "attributes, using prefer_attr_nodes=True, or use a "
+                        "kernel for discrete labels such as WeisfeilerLehman "
+                        "or ShortestPath."
+                    )
                 diam.append(int(np.max(spm[spm < float("Inf")])))
                 graphs.append((g.get_adjacency_matrix(), nv, attributes))
                 ni += 1
@@ -168,7 +180,7 @@ class GraphHopper(Kernel):
             # Convert adjacency matrix to dictionary
             idx_i, idx_j = np.where(AM > 0)
             ed = defaultdict(dict)
-            for (a, b) in filterfalse(lambda a: a[0] == a[1], zip(idx_i, idx_j)):
+            for a, b in filterfalse(lambda a: a[0] == a[1], zip(idx_i, idx_j)):
                 ed[a][b] = AM[a, b]
 
             for j in range(node_nr):
@@ -245,10 +257,10 @@ class GraphHopper(Kernel):
                     for a in range(max_diam):
                         for b in range(a, max_diam):
                             # M[v,:,:] is M[v]; a = node coordinate in path, b = path length
-                            M[v, a, b] += des_mat_j_root[v, b - a]*occ_mat_j_root[v, a]
+                            M[v, a, b] += des_mat_j_root[v, b - a] * occ_mat_j_root[v, a]
 
             if self.calculate_norm_:
-                out.append((M, attributes, np.sum(attributes ** 2, axis=1)))
+                out.append((M, attributes, np.sum(attributes**2, axis=1)))
             else:
                 out.append((M, attributes))
         return out
@@ -275,8 +287,9 @@ class GraphHopper(Kernel):
         elif y[0].shape[1] > m:
             yp = yp[:, :m, :][:, :, :m]
 
-        return self.metric_((xp.reshape(xp.shape[0], m_sq),) + x[1:],
-                            (yp.reshape(yp.shape[0], m_sq),) + y[1:])
+        return self.metric_(
+            (xp.reshape(xp.shape[0], m_sq),) + x[1:], (yp.reshape(yp.shape[0], m_sq),) + y[1:]
+        )
 
 
 def linear_kernel(x, y):
@@ -321,8 +334,8 @@ def gaussian_kernel(x, y, mu):
     M_j, NA_j, norm2_j = y
     weight_matrix = np.dot(M_i, M_j.T)
     NA_linear_kernel = np.dot(NA_i, NA_j.T)
-    NA_squared_distmatrix = ((-2*NA_linear_kernel.T + norm2_i).T + norm2_j)
-    nodepair = np.exp(-mu*NA_squared_distmatrix)
+    NA_squared_distmatrix = (-2 * NA_linear_kernel.T + norm2_i).T + norm2_j
+    nodepair = np.exp(-mu * NA_squared_distmatrix)
     return np.dot(weight_matrix.flat, nodepair.flat)
 
 
@@ -346,8 +359,8 @@ def bridge_kernel(x, y):
     NAs = np.vstack([NA_i, NA_j])
     NAs_linear_kernel = np.dot(NAs, NAs.T)
     NAs_distances = kernelmatrix2distmatrix(NAs_linear_kernel)
-    NA_i_NA_j_distances = NAs_distances[:NA_i.shape[0], NA_i.shape[0]:]
-    nodepair = (4-NA_i_NA_j_distances)/4
+    NA_i_NA_j_distances = NAs_distances[: NA_i.shape[0], NA_i.shape[0] :]
+    nodepair = (4 - NA_i_NA_j_distances) / 4
     nodepair[nodepair < 0] = 0
     return np.dot(weight_matrix.flat, nodepair.flat)
 
@@ -367,7 +380,7 @@ def kernelmatrix2distmatrix(K):
 
     """
     diag_K = K.diagonal().reshape(K.shape[0], 1)
-    return np.sqrt(diag_K + diag_K.T - 2*K)
+    return np.sqrt(diag_K + diag_K.T - 2 * K)
 
 
 def od_vectors_dag(G, shortestpath_dists):
@@ -420,171 +433,17 @@ def od_vectors_dag(G, shortestpath_dists):
 
     for i in range(dag_size):
         edges_starting_at_ith = np.where(np.squeeze(sortedG[i, :]) == 1)[0]
-        occ[edges_starting_at_ith, :] = occ[edges_starting_at_ith, :] + \
-            np.tile(np.hstack([0, occ[i, :-1]]),
-                    (edges_starting_at_ith.shape[0], 1))
+        occ[edges_starting_at_ith, :] = occ[edges_starting_at_ith, :] + np.tile(
+            np.hstack([0, occ[i, :-1]]), (edges_starting_at_ith.shape[0], 1)
+        )
 
         # Now use message-passing from the bottom of the DAG to add up the
         # edges from each node. This is easy because the vertices in the DAG
         # are depth-first ordered in the original tree; thus, we can just start
         # from the end of the DAG matrix.
         edges_ending_at_ith_from_end = np.where(np.squeeze(sortedG[:, dag_size - i - 1]) == 1)[0]
-        des[edges_ending_at_ith_from_end, :] = (
-            des[edges_ending_at_ith_from_end, :] +
-            np.tile(np.hstack([0, des[dag_size - i - 1, :-1]]),
-                    (edges_ending_at_ith_from_end.shape[0], 1)))
+        des[edges_ending_at_ith_from_end, :] = des[edges_ending_at_ith_from_end, :] + np.tile(
+            np.hstack([0, des[dag_size - i - 1, :-1]]), (edges_ending_at_ith_from_end.shape[0], 1)
+        )
 
     return occ[re_sorted, :], des[re_sorted, :]
-
-
-if __name__ == '__main__':
-    from grakel.datasets import fetch_dataset
-    import argparse
-    # Create an argument parser for the installer of pynauty
-    parser = argparse.ArgumentParser(
-        description='Measuring classification accuracy '
-                    ' on multiscale_laplacian_fast')
-
-    parser.add_argument(
-        '--dataset',
-        help='choose the dataset you want the tests to be executed',
-        type=str,
-        default="BZR"
-    )
-
-    parser.add_argument(
-        '--full',
-        help='fit_transform the full graph',
-        action="store_true")
-
-    mec = parser.add_mutually_exclusive_group()
-
-    mec.add_argument(
-        '--linear',
-        help='choose a linear kernel',
-        action="store_true")
-
-    mec.add_argument(
-        '--gaussian',
-        help='choose a gaussian kernel (optionaly add a mu: default=1)',
-        nargs='?',
-        type=str,
-        const='1',
-        default=None)
-
-    mec.add_argument(
-        '--bridge',
-        help='choose a bridge kernel',
-        action="store_true")
-
-    # Get the dataset name
-    args = parser.parse_args()
-    dataset_name = args.dataset
-
-    if args.gaussian is not None:
-        kernel_type = ('gaussian', float(args.gaussian))
-    elif bool(args.bridge):
-        kernel_type = 'bridge'
-    else:
-        kernel_type = 'linear'
-
-    full = bool(args.full)
-    # The baseline dataset for node/edge-attributes
-    dataset_attr = fetch_dataset(dataset_name,
-                                 with_classes=True,
-                                 prefer_attr_nodes=True,
-                                 verbose=True)
-
-    from tqdm import tqdm
-    from time import time
-
-    from sklearn.metrics import accuracy_score
-    from sklearn.model_selection import KFold
-    from sklearn import svm
-
-    def sec_to_time(sec):
-        """Print time in a correct format."""
-        dt = list()
-        days = int(sec // 86400)
-        if days > 0:
-            sec -= 86400*days
-            dt.append(str(days) + " d")
-
-        hrs = int(sec // 3600)
-        if hrs > 0:
-            sec -= 3600*hrs
-            dt.append(str(hrs) + " h")
-
-        mins = int(sec // 60)
-        if mins > 0:
-            sec -= 60*mins
-            dt.append(str(mins) + " m")
-
-        if sec > 0:
-            dt.append(str(round(sec, 2)) + " s")
-        return " ".join(dt)
-
-    # Loads the Mutag dataset from:
-    # https://ls11-www.cs.tu-dortmund.de/staff/morris/graphkerneldatasets
-    # the biggest collection of benchmark datasets for graph_kernels.
-    G, y = dataset_attr.data, dataset_attr.target
-    C_grid = (10. ** np.arange(-7, 7, 2) / len(G)).tolist()
-
-    stats = {"acc": list(), "time": list()}
-
-    kf = KFold(n_splits=10, random_state=42, shuffle=True)
-    niter = kf.get_n_splits(y)
-
-    for (k, (train_index, test_index)) in tqdm(enumerate(kf.split(G, y)),
-                                               total=niter):
-        # Train-test split of graph data
-        tri = train_index.tolist()
-        tei = test_index.tolist()
-
-        G_train, G_test = list(), list()
-        y_train, y_test = list(), list()
-        for (i, (g, t)) in enumerate(zip(G, y)):
-            if len(tri) and i == tri[0]:
-                G_train.append(g)
-                y_train.append(t)
-                tri.pop(0)
-            elif len(tei) and i == tei[0]:
-                G_test.append(g)
-                y_test.append(t)
-                tei.pop(0)
-
-        start = time()
-        gk = GraphHopper(normalize=True, kernel_type=kernel_type)
-
-        # Calculate the kernel matrix.
-        if full:
-            K = gk.fit_transform(G)
-            K_train = K[train_index, :][:, train_index]
-            K_test = K[test_index, :][:, train_index]
-        else:
-            K_train = gk.fit_transform(G_train)
-            K_test = gk.transform(G_test)
-        end = time()
-
-        # Cross validation on C, variable
-        acc = 0
-        for c in C_grid:
-            # Initialise an SVM and fit.
-            clf = svm.SVC(kernel='precomputed', C=c)
-
-            # Fit on the train Kernel
-            clf.fit(K_train, y_train)
-
-            # Predict and test.
-            y_pred = clf.predict(K_test)
-
-            # Calculate accuracy of classification.
-            acc = max(acc, accuracy_score(y_test, y_pred))
-
-        stats["acc"].append(acc)
-        stats["time"].append(end-start)
-
-    print("Mean values of", niter, "iterations:")
-    print("GraphHopper", "> Accuracy:",
-          str(round(np.mean(stats["acc"])*100, 2)),
-          "% | Took:", sec_to_time(np.mean(stats["time"])))

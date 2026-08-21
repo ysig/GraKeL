@@ -12,9 +12,7 @@ from grakel.graph import Graph
 from grakel.kernels import Kernel
 from grakel.kernels.shortest_path import ShortestPath
 
-# Python 2/3 cross-compatibility import
-from six import iteritems
-from six.moves.collections_abc import Iterable
+from collections.abc import Iterable
 
 
 class CoreFramework(Kernel):
@@ -177,7 +175,7 @@ class CoreFramework(Kernel):
         for i in range(max_core_number, self.min_core, -1):
             subgraphs, indexes = list(), list()
             for (idx, (cn, (g, extra))) in enumerate(zip(core_numbers, graphs)):
-                vertices = [k for k, v in iteritems(cn) if v >= i]
+                vertices = [k for k, v in cn.items() if v >= i]
                 if len(vertices) > 0:
                     # Calculate subgraph and store the index of the non-empty vertices
                     sg = g.get_subgraph(vertices)
@@ -371,7 +369,7 @@ class CoreFramework(Kernel):
             self._X_diag = X_diag
         if self._is_transformed:
             if len(self._dummy_kernel):
-                for (idx, bk) in iteritems(self._dummy_kernel):
+                for (idx, bk) in self._dummy_kernel.items():
                     Y_diag[self._transform_indexes[idx]] += bk.diagonal()
             return self._X_diag, Y_diag
         else:

@@ -13,10 +13,7 @@ from grakel.kernels import Kernel
 
 from scipy.sparse import lil_matrix
 
-# Python 2/3 cross-compatibility import
-from six import iteritems
-from six import itervalues
-from six.moves.collections_abc import Iterable
+from collections.abc import Iterable
 
 
 class WeisfeilerLehmanOptimalAssignment(Kernel):
@@ -140,7 +137,7 @@ class WeisfeilerLehmanOptimalAssignment(Kernel):
                                     'dict \n')
                 Gs_ed[nx] = x.get_edge_dictionary()
                 L[nx] = x.get_labels(purpose="dictionary")
-                distinct_values |= set(itervalues(L[nx]))
+                distinct_values |= set(L[nx].values())
                 nx += 1
             if nx == 0:
                 raise ValueError('parsed input is empty')
@@ -343,7 +340,7 @@ class WeisfeilerLehmanOptimalAssignment(Kernel):
 
                     # Hold all the distinct values
                     distinct_values |= set(
-                        v for v in itervalues(L[nx])
+                        v for v in L[nx].values()
                         if v not in self._inv_labels[0])
                     nx += 1
                 if nx == 0:
@@ -361,7 +358,7 @@ class WeisfeilerLehmanOptimalAssignment(Kernel):
 
         for j in range(nx):
             new_labels = dict()
-            for (k, v) in iteritems(L[j]):
+            for (k, v) in L[j].items():
                 if v in self._inv_labels[0]:
                     new_labels[k] = self._inv_labels[0][v]
                 else:
@@ -392,7 +389,7 @@ class WeisfeilerLehmanOptimalAssignment(Kernel):
             # Recalculate labels
             for j in range(nx):
                 new_labels = dict()
-                for (k, v) in iteritems(L_temp[j]):
+                for (k, v) in L_temp[j].items():
                     if v in self._inv_labels[i]:
                         new_labels[k] = self._inv_labels[i][v]
                     else:

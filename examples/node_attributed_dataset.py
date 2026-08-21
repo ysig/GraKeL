@@ -5,7 +5,6 @@ Graph classification on a dataset that contains node-attributed graphs.
 
 Script makes use of :class:`grakel.PropagationAttr`
 """
-from __future__ import print_function
 print(__doc__)
 
 import numpy as np

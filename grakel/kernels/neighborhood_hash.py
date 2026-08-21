@@ -9,10 +9,7 @@ from grakel.kernels import Kernel
 from sklearn.utils import check_random_state
 from sklearn.utils.validation import check_is_fitted
 
-# Python 2/3 cross-compatibility import
-from six import itervalues
-from six import iteritems
-from six.moves.collections_abc import Iterable
+from collections.abc import Iterable
 
 class NeighborhoodHash(Kernel):
     """Neighborhood hashing kernel as proposed in :cite:`Hido2009ALG`.
@@ -157,7 +154,7 @@ class NeighborhoodHash(Kernel):
                      {n: x.neighbors(n, purpose="any") for n in vertices})
 
                 # collect all the labels
-                labels_hash_set |= set(itervalues(Labels))
+                labels_hash_set |= set(Labels.values())
                 gs.append(g)
                 i += 1
 
@@ -194,7 +191,7 @@ class NeighborhoodHash(Kernel):
             # for all graphs
             for vertices, labels, neighbors in gs:
                 new_labels = {v: self._labels_hash_dict[l]
-                              for v, l in iteritems(labels)}
+                              for v, l in labels.items()}
                 g = (vertices, new_labels, neighbors,)
                 gr = {0: self.NH_(g)}
                 for r in range(1, self.R):
@@ -300,7 +297,7 @@ class NeighborhoodHash(Kernel):
 
                 # Hash based on the labels of fit
                 new_labels = {v: self._labels_hash_dict.get(l, None)
-                              for v, l in iteritems(Labels)}
+                              for v, l in Labels.items()}
 
                 # Radix sort the other
                 g = ((vertices, new_labels) +

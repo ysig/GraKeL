@@ -5,7 +5,6 @@ Performing cross-validation n times, optimizing SVM's and kernel's hyperparamete
 
 Script makes use of :class:`grakel.WeisfeilerLehman`, :class:`grakel.VertexHistogram`
 """
-from __future__ import print_function
 print(__doc__)
 
 import numpy as np

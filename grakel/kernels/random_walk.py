@@ -22,9 +22,7 @@ from scipy.sparse.linalg import LinearOperator
 from grakel.kernels import Kernel
 from grakel.graph import Graph
 
-# Python 2/3 cross-compatibility import
-from builtins import range
-from six.moves.collections_abc import Iterable
+from collections.abc import Iterable
 
 
 class RandomWalk(Kernel):

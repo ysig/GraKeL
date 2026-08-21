@@ -16,11 +16,7 @@ from grakel.kernels import Kernel
 from grakel.kernels._c_functions import ConSubg
 from grakel.kernels._isomorphism import Graph as bGraph
 
-# Python 2/3 cross-compatibility import
-from six import iteritems
-from six import itervalues
-from six.moves.collections_abc import Iterable
-from builtins import range
+from collections.abc import Iterable
 
 
 class GraphletSampling(Kernel):
@@ -211,7 +207,7 @@ class GraphletSampling(Kernel):
 
                             isomorphism_prediction = \
                                 interp1d(list(fallback_map.keys()),
-                                         list(itervalues(fallback_map)),
+                                         list(fallback_map.values()),
                                          kind='cubic')
                             a = isomorphism_prediction(k)
                         else:
@@ -266,12 +262,12 @@ class GraphletSampling(Kernel):
             phi_x = self._phi_X
         except NotFittedError:
             phi_x = np.zeros(shape=(self._nx, len(self._graph_bins)))
-            for ((i, j), v) in iteritems(self.X):
+            for ((i, j), v) in self.X.items():
                 phi_x[i, j] = v
             self._phi_X = phi_x
         phi_y = np.zeros(shape=(self._ny, len(self._graph_bins) +
                                 len(self._Y_graph_bins)))
-        for ((i, j), v) in iteritems(Y):
+        for ((i, j), v) in Y.items():
             phi_y[i, j] = v
 
         # store _phi_Y for independent (of normalization arg diagonal-calls)
@@ -312,7 +308,7 @@ class GraphletSampling(Kernel):
 
         # calculate feature matrices.
         phi_x = np.zeros(shape=(self._nx, len(self._graph_bins)))
-        for ((i, j), v) in iteritems(self.X):
+        for ((i, j), v) in self.X.items():
             phi_x[i, j] = v
 
         # Transform - calculate kernel matrix

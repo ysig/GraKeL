@@ -17,10 +17,7 @@ from numpy import array
 from numpy import squeeze
 from scipy.sparse import csr_matrix
 
-# Python 2/3 cross-compatibility import
-from six import iteritems
-from six import itervalues
-from six.moves.collections_abc import Iterable
+from collections.abc import Iterable
 
 
 class VertexHistogram(Kernel):
@@ -107,7 +104,7 @@ class VertexHistogram(Kernel):
                                     'dict \n')
 
                 # construct the data input for the numpy array
-                for (label, frequency) in iteritems(Counter(itervalues(L))):
+                for (label, frequency) in Counter(L.values()).items():
                     # for the row that corresponds to that graph
                     rows.append(ni)
 

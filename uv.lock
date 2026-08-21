@@ -499,15 +499,6 @@ wheels = [
 ]
 
 [[package]]
-name = "future"
-version = "1.0.0"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/a7/b2/4140c69c6a66432916b26158687e821ba631a4c9273c474343badf84d3ba/future-1.0.0.tar.gz", hash = "sha256:bd2968309307861edae1458a4f8a4f3598c03be43b97521076aebf5d94c07b05", size = 1228490, upload-time = "2024-02-21T11:52:38.461Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/da/71/ae30dadffc90b9006d77af76b393cb9dfbfc9629f339fc1574a1c52e6806/future-1.0.0-py3-none-any.whl", hash = "sha256:929292d34f5872e70396626ef385ec22355a1fae8ad29e1a734c3e43f9fbc216", size = 491326, upload-time = "2024-02-21T11:52:35.956Z" },
-]
-
-[[package]]
 name = "googledrivedownloader"
 version = "0.4"
 source = { registry = "https://pypi.org/simple" }
@@ -522,7 +513,6 @@ version = "0.1.11"
 source = { editable = "." }
 dependencies = [
     { name = "cython" },
-    { name = "future" },
     { name = "joblib" },
     { name = "numpy", version = "2.0.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.10'" },
     { name = "numpy", version = "2.2.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.10.*'" },
@@ -535,7 +525,6 @@ dependencies = [
     { name = "scipy", version = "1.15.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.10.*'" },
     { name = "scipy", version = "1.17.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.11.*'" },
     { name = "scipy", version = "1.18.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12'" },
-    { name = "six" },
 ]
 
 [package.optional-dependencies]
@@ -568,7 +557,6 @@ requires-dist = [
     { name = "cvxopt", marker = "extra == 'dev'", specifier = ">=1.2.0" },
     { name = "cvxopt", marker = "extra == 'lovasz'", specifier = ">=1.2.0" },
     { name = "cython", specifier = ">=0.29.21" },
-    { name = "future", specifier = ">=0.16.0" },
     { name = "joblib" },
     { name = "numpy", specifier = ">=1.19.0" },
     { name = "pytest", marker = "extra == 'dev'" },
@@ -579,7 +567,6 @@ requires-dist = [
     { name = "pytest-coverage", marker = "extra == 'wheel'" },
     { name = "scikit-learn", specifier = ">=0.24.0" },
     { name = "scipy", specifier = ">=1.12.0" },
-    { name = "six", specifier = ">=1.11.0" },
     { name = "torch-geometric", marker = "extra == 'dev'" },
     { name = "torch-geometric", marker = "extra == 'test'" },
 ]

@@ -13,8 +13,7 @@ from grakel.kernels import Kernel
 from grakel.graph import Graph
 from grakel.tools import distribute_samples
 
-# For python2/3 compatibility
-from six.moves.collections_abc import Iterable
+from collections.abc import Iterable
 
 positive_eigenvalue_limit = float("+1e-6")
 min_weight = float("1e-10")
