@@ -135,6 +135,59 @@
 <section id="what-s-new">
 <h1>What’s New<a class="headerlink" href="#what-s-new" title="Link to this heading">¶</a></h1>
 <ul class="simple">
+<li><p>Version <strong>0.1.11</strong></p>
+<ul>
+<li><p>Python support is now <strong>3.9 to 3.12</strong>; wheels are built for all of them on
+Linux, macOS and Windows. Python 2 is gone from CI, the docs and the conda
+recipe.</p></li>
+<li><p>Dependency minimums raised to the first versions supporting 3.9: numpy
+1.19, scikit-learn 0.24, Cython 0.29.21 and scipy 1.12. <strong>scipy</strong> is now a
+declared dependency rather than one picked up transitively.</p></li>
+<li><p>Fixes for modern numpy and scipy, which the kernels had stopped working
+against: big-endian sparse dtypes in <code class="code docutils literal notranslate"><span class="pre">VertexHistogram</span></code>, the removed
+<code class="code docutils literal notranslate"><span class="pre">eigvals</span></code> keyword in <code class="code docutils literal notranslate"><span class="pre">SvmTheta</span></code> and <code class="code docutils literal notranslate"><span class="pre">LovaszTheta</span></code>, and
+scalar extraction under numpy 2 in <code class="code docutils literal notranslate"><span class="pre">SubgraphMatching</span></code>.</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">WeisfeilerLehman</span></code> no longer fails on a node with no outgoing edges
+(<a class="reference external" href="https://github.com/ysig/GraKeL/issues/119">#119</a>). Note that it
+relabels from outgoing edges, so on directed graphs incoming edges do not
+take part.</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">NeighborhoodSubgraphPairwiseDistance</span></code> can be used as a base kernel
+of a framework again (<a class="reference external" href="https://github.com/ysig/GraKeL/issues/120">#120</a>): its <code class="code docutils literal notranslate"><span class="pre">diagonal()</span></code>
+returned a scalar where one value per graph was expected.</p></li>
+<li><p>Printing a <code class="code docutils literal notranslate"><span class="pre">Graph</span></code> works again (<a class="reference external" href="https://github.com/ysig/GraKeL/issues/102">#102</a>).</p></li>
+<li><p>The geometric <code class="code docutils literal notranslate"><span class="pre">RandomWalk</span></code> kernel keeps its series convergent: the
+decay factor is checked against the spectral radius of the graphs it is
+given and lowered, with a warning, when it would diverge. Previously this
+produced negative self similarities and NaNs once normalized.</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">GraphHopper</span></code> says when it has been handed discrete labels instead of
+continuous node attributes (<a class="reference external" href="https://github.com/ysig/GraKeL/issues/106">#106</a>), rather than failing with a
+shape mismatch.</p></li>
+<li><p>Tooling: the project builds with <strong>uv</strong>, CI runs on github actions with the
+docs built and published from there, and the release is a single manual
+workflow. CircleCI is gone.</p></li>
+</ul>
+</li>
+<li><p>Version <strong>0.1.10</strong></p>
+<ul>
+<li><p>Fixes for a batch of reported bugs: <code class="code docutils literal notranslate"><span class="pre">EdgeHistogram</span></code> errors (<a class="reference external" href="https://github.com/ysig/GraKeL/issues/97">#97</a>), one against many comparison
+with <code class="code docutils literal notranslate"><span class="pre">WeisfeilerLehman.transform</span></code> (<a class="reference external" href="https://github.com/ysig/GraKeL/issues/95">#95</a>),
+<code class="code docutils literal notranslate"><span class="pre">RandomWalkLabeled</span></code> returning an all ones matrix (<a class="reference external" href="https://github.com/ysig/GraKeL/issues/96">#96</a>),
+<code class="code docutils literal notranslate"><span class="pre">NeighborhoodSubgraphPairwiseDistance</span></code> diagonals below one (<a class="reference external" href="https://github.com/ysig/GraKeL/issues/94">#94</a>), missing arguments on
+<code class="code docutils literal notranslate"><span class="pre">fit_transform</span></code> (<a class="reference external" href="https://github.com/ysig/GraKeL/issues/75">#75</a>) and the initialisation of
+<code class="code docutils literal notranslate"><span class="pre">self.mu_</span></code> in the random walk kernel (<a class="reference external" href="https://github.com/ysig/GraKeL/issues/71">#71</a>).</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">Graph.copy()</span></code> and a <code class="code docutils literal notranslate"><span class="pre">__repr__</span></code> for graphs (<a class="reference external" href="https://github.com/ysig/GraKeL/issues/90">#90</a>).</p></li>
+<li><p>Newer python and <strong>cvxopt</strong> versions; cp312 wheels were not yet buildable
+at the time of this release.</p></li>
+</ul>
+</li>
+<li><p>Version <strong>0.1.9</strong></p>
+<ul>
+<li><p>Wheels are built and published from CI for every supported python, with
+win32 dropped following scipy, and musllinux skipped.</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">LovaszTheta</span></code> warns on windows, where the underlying solver is
+unreliable.</p></li>
+</ul>
+</li>
 <li><p>Version <strong>0.1a8</strong></p>
 <ul>
 <li><p>Added a new kernel: [Weisfeiler-Lehman-Optimal-Assignment](<a class="reference external" href="https://ysig.github.io/GraKeL/0.1a8/kernels/weisfeiler_lehman_optimal_assignment.html">https://ysig.github.io/GraKeL/0.1a8/kernels/weisfeiler_lehman_optimal_assignment.html</a>).</p></li>
