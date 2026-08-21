@@ -587,7 +587,7 @@ class PropagationAttr(Propagation):
             else:
                 if self._dim != P.shape[1]:
                     raise ValueError(
-                        "transform attribute vectors shouldhave the same dimension as in fit"
+                        "transform attribute vectors should have the same dimension as in fit"
                     )
 
             if n == 0:

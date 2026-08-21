@@ -123,8 +123,7 @@ class OddSth(Kernel):
             elif self._method_calling == 3:
                 self._ny = i
             if i == 0:
-                raise ValueError
-                ("parsed input is empty")
+                raise ValueError("parsed input is empty")
             return out
 
     def fit_transform(self, X, y=None):
