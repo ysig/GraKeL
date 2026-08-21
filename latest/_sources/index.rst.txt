@@ -15,34 +15,6 @@ Getting Started
     documentation
 
 ==========
-Benchmarks
-==========
-
-To demonstrate the efficiency of the algorithms implemented in *GraKeL*, we present a comparison of the running times of the implementations of some graph kernels from *GraKeL* and from other packages. We also compare the running times of the different kernels to each other.
-
-  .. toctree::
-    :maxdepth: 2
-
-    benchmarks
-
-=================
-Package Reference
-=================
-
-A collection of all classes and functions important for the use and understanding of the *GraKeL* package.
-
-GraKeL provides
-
-  .. toctree::
-    :maxdepth: 1
-
-    api
-    classes
-    auto_examples/index
-    tutorials
-
-
-==========
 What's New
 ==========
 
@@ -140,6 +112,34 @@ What's New
   + Various bugfixes in kernel implementations.
   + Added a bunch of :code:`utils` functions for external operations: transforming existing *graph formats* (csv, pandas, networkx) to the grakel native, *k-fold cross validation* with an SVM and *kernel matrix transformer* for manipulating precomputed kernel matrices in an :code:`Transformer` fashion.
   + **Conda** compatibility: visit `<https://anaconda.org/ysig/grakel-dev>`_.
+
+==========
+Benchmarks
+==========
+
+To demonstrate the efficiency of the algorithms implemented in *GraKeL*, we present a comparison of the running times of the implementations of some graph kernels from *GraKeL* and from other packages. We also compare the running times of the different kernels to each other.
+
+  .. toctree::
+    :maxdepth: 2
+
+    benchmarks
+
+=================
+Package Reference
+=================
+
+A collection of all classes and functions important for the use and understanding of the *GraKeL* package.
+
+GraKeL provides
+
+  .. toctree::
+    :maxdepth: 1
+
+    api
+    classes
+    auto_examples/index
+    tutorials
+
 
 ================
 Acknowledgements
