@@ -1,0 +1,12 @@
+﻿:mod:`grakel`.cross_validate_Kfold_SVM
+===================================================
+
+.. currentmodule:: grakel
+
+.. autofunction:: cross_validate_Kfold_SVM
+
+.. include:: grakel.cross_validate_Kfold_SVM.examples
+
+.. raw:: html
+
+    <div class="clearer"></div>

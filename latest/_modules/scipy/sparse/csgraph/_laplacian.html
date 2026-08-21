@@ -1,0 +1,680 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>scipy.sparse.csgraph._laplacian &mdash; GraKeL 0.1.11 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/_static/css/supplementary.css" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/sg_gallery.css?v=fd6457a4" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../../../../_static/documentation_options.js?v=1e825a29"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../../_static/sg-tags.js?v=d80f6fa4"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            GraKeL
+              <img src="../../../../_static/logo.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../documentation.html">Documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../benchmarks.html">Benchmarks</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api.html">GraKeL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../classes.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../auto_examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials.html">Tutorials</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">GraKeL</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">scipy.sparse.csgraph._laplacian</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for scipy.sparse.csgraph._laplacian</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Laplacian of a compressed-sparse graph</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.sparse</span><span class="w"> </span><span class="kn">import</span> <span class="n">issparse</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.sparse.linalg</span><span class="w"> </span><span class="kn">import</span> <span class="n">LinearOperator</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.sparse._sputils</span><span class="w"> </span><span class="kn">import</span> <span class="n">convert_pydata_sparse_to_scipy</span><span class="p">,</span> <span class="n">is_pydata_spmatrix</span>
+
+
+<span class="c1">###############################################################################</span>
+<span class="c1"># Graph laplacian</span>
+<div class="viewcode-block" id="laplacian">
+<a class="viewcode-back" href="../../../../generated/grakel.graph.laplacian.html#grakel.graph.laplacian">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">laplacian</span><span class="p">(</span>
+    <span class="n">csgraph</span><span class="p">,</span>
+    <span class="n">normed</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">return_diag</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">use_out_degree</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">form</span><span class="o">=</span><span class="s2">&quot;array&quot;</span><span class="p">,</span>
+    <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">symmetrized</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return the Laplacian of a directed graph.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    csgraph : array_like or sparse array or matrix, 2 dimensions</span>
+<span class="sd">        compressed-sparse graph, with shape (N, N).</span>
+<span class="sd">    normed : bool, optional</span>
+<span class="sd">        If True, then compute symmetrically normalized Laplacian.</span>
+<span class="sd">        Default: False.</span>
+<span class="sd">    return_diag : bool, optional</span>
+<span class="sd">        If True, then also return an array related to vertex degrees.</span>
+<span class="sd">        Default: False.</span>
+<span class="sd">    use_out_degree : bool, optional</span>
+<span class="sd">        If True, then use out-degree instead of in-degree.</span>
+<span class="sd">        This distinction matters only if the graph is asymmetric.</span>
+<span class="sd">        Default: False.</span>
+<span class="sd">    copy : bool, optional</span>
+<span class="sd">        If False, then change `csgraph` in place if possible,</span>
+<span class="sd">        avoiding doubling the memory use.</span>
+<span class="sd">        Default: True, for backward compatibility.</span>
+<span class="sd">    form : &#39;array&#39;, or &#39;function&#39;, or &#39;lo&#39;</span>
+<span class="sd">        Determines the format of the output Laplacian:</span>
+
+<span class="sd">        * &#39;array&#39; is a numpy array;</span>
+<span class="sd">        * &#39;function&#39; is a pointer to evaluating the Laplacian-vector</span>
+<span class="sd">          or Laplacian-matrix product;</span>
+<span class="sd">        * &#39;lo&#39; results in the format of the `LinearOperator`.</span>
+
+<span class="sd">        Choosing &#39;function&#39; or &#39;lo&#39; always avoids doubling</span>
+<span class="sd">        the memory use, ignoring `copy` value.</span>
+<span class="sd">        Default: &#39;array&#39;, for backward compatibility.</span>
+<span class="sd">    dtype : None or one of numeric numpy dtypes, optional</span>
+<span class="sd">        The dtype of the output. If ``dtype=None``, the dtype of the</span>
+<span class="sd">        output matches the dtype of the input csgraph, except for</span>
+<span class="sd">        the case ``normed=True`` and integer-like csgraph, where</span>
+<span class="sd">        the output dtype is &#39;float&#39; allowing accurate normalization,</span>
+<span class="sd">        but dramatically increasing the memory use.</span>
+<span class="sd">        Default: None, for backward compatibility.</span>
+<span class="sd">    symmetrized : bool, optional</span>
+<span class="sd">        If True, then the output Laplacian is symmetric/Hermitian.</span>
+<span class="sd">        The symmetrization is done by ``csgraph + csgraph.T.conj``</span>
+<span class="sd">        without dividing by 2 to preserve integer dtypes if possible</span>
+<span class="sd">        prior to the construction of the Laplacian.</span>
+<span class="sd">        The symmetrization will increase the memory footprint of</span>
+<span class="sd">        sparse matrices unless the sparsity pattern is symmetric or</span>
+<span class="sd">        `form` is &#39;function&#39; or &#39;lo&#39;.</span>
+<span class="sd">        Default: False, for backward compatibility.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    lap : ndarray, or sparse array or matrix, or `LinearOperator`</span>
+<span class="sd">        The N x N Laplacian of csgraph. It will be a NumPy array (dense)</span>
+<span class="sd">        if the input was dense, or a sparse array otherwise, or</span>
+<span class="sd">        the format of a function or `LinearOperator` if</span>
+<span class="sd">        `form` equals &#39;function&#39; or &#39;lo&#39;, respectively.</span>
+<span class="sd">    diag : ndarray, optional</span>
+<span class="sd">        The length-N main diagonal of the Laplacian matrix.</span>
+<span class="sd">        For the normalized Laplacian, this is the array of square roots</span>
+<span class="sd">        of vertex degrees or 1 if the degree is zero.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The Laplacian matrix of a graph is sometimes referred to as the</span>
+<span class="sd">    &quot;Kirchhoff matrix&quot; or just the &quot;Laplacian&quot;, and is useful in many</span>
+<span class="sd">    parts of spectral graph theory.</span>
+<span class="sd">    In particular, the eigen-decomposition of the Laplacian can give</span>
+<span class="sd">    insight into many properties of the graph, e.g.,</span>
+<span class="sd">    is commonly used for spectral data embedding and clustering.</span>
+
+<span class="sd">    The constructed Laplacian doubles the memory use if ``copy=True`` and</span>
+<span class="sd">    ``form=&quot;array&quot;`` which is the default.</span>
+<span class="sd">    Choosing ``copy=False`` has no effect unless ``form=&quot;array&quot;``</span>
+<span class="sd">    or the matrix is sparse in the ``coo`` format, or dense array, except</span>
+<span class="sd">    for the integer input with ``normed=True`` that forces the float output.</span>
+
+<span class="sd">    Sparse input is reformatted into ``coo`` if ``form=&quot;array&quot;``,</span>
+<span class="sd">    which is the default.</span>
+
+<span class="sd">    If the input adjacency matrix is not symmetric, the Laplacian is</span>
+<span class="sd">    also non-symmetric unless ``symmetrized=True`` is used.</span>
+
+<span class="sd">    Diagonal entries of the input adjacency matrix are ignored and</span>
+<span class="sd">    replaced with zeros for the purpose of normalization where ``normed=True``.</span>
+<span class="sd">    The normalization uses the inverse square roots of row-sums of the input</span>
+<span class="sd">    adjacency matrix, and thus may fail if the row-sums contain</span>
+<span class="sd">    negative or complex with a non-zero imaginary part values.</span>
+
+<span class="sd">    The normalization is symmetric, making the normalized Laplacian also</span>
+<span class="sd">    symmetric if the input csgraph was symmetric.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [1] Laplacian matrix. https://en.wikipedia.org/wiki/Laplacian_matrix</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; from scipy.sparse import csgraph</span>
+
+<span class="sd">    Our first illustration is the symmetric graph</span>
+
+<span class="sd">    &gt;&gt;&gt; G = np.arange(4) * np.arange(4)[:, np.newaxis]</span>
+<span class="sd">    &gt;&gt;&gt; G</span>
+<span class="sd">    array([[0, 0, 0, 0],</span>
+<span class="sd">           [0, 1, 2, 3],</span>
+<span class="sd">           [0, 2, 4, 6],</span>
+<span class="sd">           [0, 3, 6, 9]])</span>
+
+<span class="sd">    and its symmetric Laplacian matrix</span>
+
+<span class="sd">    &gt;&gt;&gt; csgraph.laplacian(G)</span>
+<span class="sd">    array([[ 0,  0,  0,  0],</span>
+<span class="sd">           [ 0,  5, -2, -3],</span>
+<span class="sd">           [ 0, -2,  8, -6],</span>
+<span class="sd">           [ 0, -3, -6,  9]])</span>
+
+<span class="sd">    The non-symmetric graph</span>
+
+<span class="sd">    &gt;&gt;&gt; G = np.arange(9).reshape(3, 3)</span>
+<span class="sd">    &gt;&gt;&gt; G</span>
+<span class="sd">    array([[0, 1, 2],</span>
+<span class="sd">           [3, 4, 5],</span>
+<span class="sd">           [6, 7, 8]])</span>
+
+<span class="sd">    has different row- and column sums, resulting in two varieties</span>
+<span class="sd">    of the Laplacian matrix, using an in-degree, which is the default</span>
+
+<span class="sd">    &gt;&gt;&gt; L_in_degree = csgraph.laplacian(G)</span>
+<span class="sd">    &gt;&gt;&gt; L_in_degree</span>
+<span class="sd">    array([[ 9, -1, -2],</span>
+<span class="sd">           [-3,  8, -5],</span>
+<span class="sd">           [-6, -7,  7]])</span>
+
+<span class="sd">    or alternatively an out-degree</span>
+
+<span class="sd">    &gt;&gt;&gt; L_out_degree = csgraph.laplacian(G, use_out_degree=True)</span>
+<span class="sd">    &gt;&gt;&gt; L_out_degree</span>
+<span class="sd">    array([[ 3, -1, -2],</span>
+<span class="sd">           [-3,  8, -5],</span>
+<span class="sd">           [-6, -7, 13]])</span>
+
+<span class="sd">    Constructing a symmetric Laplacian matrix, one can add the two as</span>
+
+<span class="sd">    &gt;&gt;&gt; L_in_degree + L_out_degree.T</span>
+<span class="sd">    array([[ 12,  -4,  -8],</span>
+<span class="sd">            [ -4,  16, -12],</span>
+<span class="sd">            [ -8, -12,  20]])</span>
+
+<span class="sd">    or use the ``symmetrized=True`` option</span>
+
+<span class="sd">    &gt;&gt;&gt; csgraph.laplacian(G, symmetrized=True)</span>
+<span class="sd">    array([[ 12,  -4,  -8],</span>
+<span class="sd">           [ -4,  16, -12],</span>
+<span class="sd">           [ -8, -12,  20]])</span>
+
+<span class="sd">    that is equivalent to symmetrizing the original graph</span>
+
+<span class="sd">    &gt;&gt;&gt; csgraph.laplacian(G + G.T)</span>
+<span class="sd">    array([[ 12,  -4,  -8],</span>
+<span class="sd">           [ -4,  16, -12],</span>
+<span class="sd">           [ -8, -12,  20]])</span>
+
+<span class="sd">    The goal of normalization is to make the non-zero diagonal entries</span>
+<span class="sd">    of the Laplacian matrix to be all unit, also scaling off-diagonal</span>
+<span class="sd">    entries correspondingly. The normalization can be done manually, e.g.,</span>
+
+<span class="sd">    &gt;&gt;&gt; G = np.array([[0, 1, 1], [1, 0, 1], [1, 1, 0]])</span>
+<span class="sd">    &gt;&gt;&gt; L, d = csgraph.laplacian(G, return_diag=True)</span>
+<span class="sd">    &gt;&gt;&gt; L</span>
+<span class="sd">    array([[ 2, -1, -1],</span>
+<span class="sd">           [-1,  2, -1],</span>
+<span class="sd">           [-1, -1,  2]])</span>
+<span class="sd">    &gt;&gt;&gt; d</span>
+<span class="sd">    array([2, 2, 2])</span>
+<span class="sd">    &gt;&gt;&gt; scaling = np.sqrt(d)</span>
+<span class="sd">    &gt;&gt;&gt; scaling</span>
+<span class="sd">    array([1.41421356, 1.41421356, 1.41421356])</span>
+<span class="sd">    &gt;&gt;&gt; (1/scaling)*L*(1/scaling)</span>
+<span class="sd">    array([[ 1. , -0.5, -0.5],</span>
+<span class="sd">           [-0.5,  1. , -0.5],</span>
+<span class="sd">           [-0.5, -0.5,  1. ]])</span>
+
+<span class="sd">    Or using ``normed=True`` option</span>
+
+<span class="sd">    &gt;&gt;&gt; L, d = csgraph.laplacian(G, return_diag=True, normed=True)</span>
+<span class="sd">    &gt;&gt;&gt; L</span>
+<span class="sd">    array([[ 1. , -0.5, -0.5],</span>
+<span class="sd">           [-0.5,  1. , -0.5],</span>
+<span class="sd">           [-0.5, -0.5,  1. ]])</span>
+
+<span class="sd">    which now instead of the diagonal returns the scaling coefficients</span>
+
+<span class="sd">    &gt;&gt;&gt; d</span>
+<span class="sd">    array([1.41421356, 1.41421356, 1.41421356])</span>
+
+<span class="sd">    Zero scaling coefficients are substituted with 1s, where scaling</span>
+<span class="sd">    has thus no effect, e.g.,</span>
+
+<span class="sd">    &gt;&gt;&gt; G = np.array([[0, 0, 0], [0, 0, 1], [0, 1, 0]])</span>
+<span class="sd">    &gt;&gt;&gt; G</span>
+<span class="sd">    array([[0, 0, 0],</span>
+<span class="sd">           [0, 0, 1],</span>
+<span class="sd">           [0, 1, 0]])</span>
+<span class="sd">    &gt;&gt;&gt; L, d = csgraph.laplacian(G, return_diag=True, normed=True)</span>
+<span class="sd">    &gt;&gt;&gt; L</span>
+<span class="sd">    array([[ 0., -0., -0.],</span>
+<span class="sd">           [-0.,  1., -1.],</span>
+<span class="sd">           [-0., -1.,  1.]])</span>
+<span class="sd">    &gt;&gt;&gt; d</span>
+<span class="sd">    array([1., 1., 1.])</span>
+
+<span class="sd">    Only the symmetric normalization is implemented, resulting</span>
+<span class="sd">    in a symmetric Laplacian matrix if and only if its graph is symmetric</span>
+<span class="sd">    and has all non-negative degrees, like in the examples above.</span>
+
+<span class="sd">    The output Laplacian matrix is by default a dense array or a sparse</span>
+<span class="sd">    array or matrix inferring its class, shape, format, and dtype from</span>
+<span class="sd">    the input graph matrix:</span>
+
+<span class="sd">    &gt;&gt;&gt; G = np.array([[0, 1, 1], [1, 0, 1], [1, 1, 0]]).astype(np.float32)</span>
+<span class="sd">    &gt;&gt;&gt; G</span>
+<span class="sd">    array([[0., 1., 1.],</span>
+<span class="sd">           [1., 0., 1.],</span>
+<span class="sd">           [1., 1., 0.]], dtype=float32)</span>
+<span class="sd">    &gt;&gt;&gt; csgraph.laplacian(G)</span>
+<span class="sd">    array([[ 2., -1., -1.],</span>
+<span class="sd">           [-1.,  2., -1.],</span>
+<span class="sd">           [-1., -1.,  2.]], dtype=float32)</span>
+
+<span class="sd">    but can alternatively be generated matrix-free as a LinearOperator:</span>
+
+<span class="sd">    &gt;&gt;&gt; L = csgraph.laplacian(G, form=&quot;lo&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; L</span>
+<span class="sd">    &lt;3x3 _CustomLinearOperator with dtype=float32&gt;</span>
+<span class="sd">    &gt;&gt;&gt; L(np.eye(3))</span>
+<span class="sd">    array([[ 2., -1., -1.],</span>
+<span class="sd">           [-1.,  2., -1.],</span>
+<span class="sd">           [-1., -1.,  2.]])</span>
+
+<span class="sd">    or as a lambda-function:</span>
+
+<span class="sd">    &gt;&gt;&gt; L = csgraph.laplacian(G, form=&quot;function&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; L</span>
+<span class="sd">    &lt;function _laplace.&lt;locals&gt;.&lt;lambda&gt; at 0x0000012AE6F5A598&gt;</span>
+<span class="sd">    &gt;&gt;&gt; L(np.eye(3))</span>
+<span class="sd">    array([[ 2., -1., -1.],</span>
+<span class="sd">           [-1.,  2., -1.],</span>
+<span class="sd">           [-1., -1.,  2.]])</span>
+
+<span class="sd">    The Laplacian matrix is used for</span>
+<span class="sd">    spectral data clustering and embedding</span>
+<span class="sd">    as well as for spectral graph partitioning.</span>
+<span class="sd">    Our final example illustrates the latter</span>
+<span class="sd">    for a noisy directed linear graph.</span>
+
+<span class="sd">    &gt;&gt;&gt; from scipy.sparse import diags_array, random_array</span>
+<span class="sd">    &gt;&gt;&gt; from scipy.sparse.linalg import lobpcg</span>
+
+<span class="sd">    Create a directed linear graph with ``N=35`` vertices</span>
+<span class="sd">    using a sparse adjacency matrix ``G``:</span>
+
+<span class="sd">    &gt;&gt;&gt; N = 35</span>
+<span class="sd">    &gt;&gt;&gt; G = diags_array(np.ones(N - 1), offsets=1, format=&quot;csr&quot;)</span>
+
+<span class="sd">    Fix a random seed ``rng`` and add a random sparse noise to the graph ``G``:</span>
+
+<span class="sd">    &gt;&gt;&gt; rng = np.random.default_rng()</span>
+<span class="sd">    &gt;&gt;&gt; G += 1e-2 * random_array((N, N), density=0.1, rng=rng)</span>
+
+<span class="sd">    Set initial approximations for eigenvectors:</span>
+
+<span class="sd">    &gt;&gt;&gt; X = rng.random((N, 2))</span>
+
+<span class="sd">    The constant vector of ones is always a trivial eigenvector</span>
+<span class="sd">    of the non-normalized Laplacian to be filtered out:</span>
+
+<span class="sd">    &gt;&gt;&gt; Y = np.ones((N, 1))</span>
+
+<span class="sd">    Alternating (1) the sign of the graph weights allows determining</span>
+<span class="sd">    labels for spectral max- and min- cuts in a single loop.</span>
+<span class="sd">    Since the graph is undirected, the option ``symmetrized=True``</span>
+<span class="sd">    must be used in the construction of the Laplacian.</span>
+<span class="sd">    The option ``normed=True`` cannot be used in (2) for the negative weights</span>
+<span class="sd">    here as the symmetric normalization evaluates square roots.</span>
+<span class="sd">    The option ``form=&quot;lo&quot;`` in (2) is matrix-free, i.e., guarantees</span>
+<span class="sd">    a fixed memory footprint and read-only access to the graph.</span>
+<span class="sd">    Calling the eigenvalue solver ``lobpcg`` (3) computes the Fiedler vector</span>
+<span class="sd">    that determines the labels as the signs of its components in (5).</span>
+<span class="sd">    Since the sign in an eigenvector is not deterministic and can flip,</span>
+<span class="sd">    we fix the sign of the first component to be always +1 in (4).</span>
+
+<span class="sd">    &gt;&gt;&gt; for cut in [&quot;max&quot;, &quot;min&quot;]:</span>
+<span class="sd">    ...     G = -G  # 1.</span>
+<span class="sd">    ...     L = csgraph.laplacian(G, symmetrized=True, form=&quot;lo&quot;)  # 2.</span>
+<span class="sd">    ...     _, eves = lobpcg(L, X, Y=Y, largest=False, tol=1e-2)  # 3.</span>
+<span class="sd">    ...     eves *= np.sign(eves[0, 0])  # 4.</span>
+<span class="sd">    ...     print(cut + &quot;-cut labels:\\n&quot;, 1 * (eves[:, 0]&gt;0))  # 5.</span>
+<span class="sd">    max-cut labels:</span>
+<span class="sd">    [1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1]</span>
+<span class="sd">    min-cut labels:</span>
+<span class="sd">    [1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]</span>
+
+<span class="sd">    As anticipated for a (slightly noisy) linear graph,</span>
+<span class="sd">    the max-cut strips all the edges of the graph coloring all</span>
+<span class="sd">    odd vertices into one color and all even vertices into another one,</span>
+<span class="sd">    while the balanced min-cut partitions the graph</span>
+<span class="sd">    in the middle by deleting a single edge.</span>
+<span class="sd">    Both determined partitions are optimal.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">is_pydata_sparse</span> <span class="o">=</span> <span class="n">is_pydata_spmatrix</span><span class="p">(</span><span class="n">csgraph</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">is_pydata_sparse</span><span class="p">:</span>
+        <span class="n">pydata_sparse_cls</span> <span class="o">=</span> <span class="n">csgraph</span><span class="o">.</span><span class="vm">__class__</span>
+        <span class="n">csgraph</span> <span class="o">=</span> <span class="n">convert_pydata_sparse_to_scipy</span><span class="p">(</span><span class="n">csgraph</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">csgraph</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">csgraph</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">csgraph</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;csgraph must be a square matrix or array&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">normed</span> <span class="ow">and</span> <span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">issubdtype</span><span class="p">(</span><span class="n">csgraph</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">signedinteger</span><span class="p">)</span>
+        <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">issubdtype</span><span class="p">(</span><span class="n">csgraph</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">uint</span><span class="p">)</span>
+    <span class="p">):</span>
+        <span class="n">csgraph</span> <span class="o">=</span> <span class="n">csgraph</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">form</span> <span class="o">==</span> <span class="s2">&quot;array&quot;</span><span class="p">:</span>
+        <span class="n">create_lap</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">_laplacian_sparse</span> <span class="k">if</span> <span class="n">issparse</span><span class="p">(</span><span class="n">csgraph</span><span class="p">)</span> <span class="k">else</span> <span class="n">_laplacian_dense</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">create_lap</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">_laplacian_sparse_flo</span>
+            <span class="k">if</span> <span class="n">issparse</span><span class="p">(</span><span class="n">csgraph</span><span class="p">)</span>
+            <span class="k">else</span> <span class="n">_laplacian_dense_flo</span>
+        <span class="p">)</span>
+
+    <span class="n">degree_axis</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">use_out_degree</span> <span class="k">else</span> <span class="mi">0</span>
+
+    <span class="n">lap</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="n">create_lap</span><span class="p">(</span>
+        <span class="n">csgraph</span><span class="p">,</span>
+        <span class="n">normed</span><span class="o">=</span><span class="n">normed</span><span class="p">,</span>
+        <span class="n">axis</span><span class="o">=</span><span class="n">degree_axis</span><span class="p">,</span>
+        <span class="n">copy</span><span class="o">=</span><span class="n">copy</span><span class="p">,</span>
+        <span class="n">form</span><span class="o">=</span><span class="n">form</span><span class="p">,</span>
+        <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span>
+        <span class="n">symmetrized</span><span class="o">=</span><span class="n">symmetrized</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">is_pydata_sparse</span><span class="p">:</span>
+        <span class="n">lap</span> <span class="o">=</span> <span class="n">pydata_sparse_cls</span><span class="o">.</span><span class="n">from_scipy_sparse</span><span class="p">(</span><span class="n">lap</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">return_diag</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">lap</span><span class="p">,</span> <span class="n">d</span>
+    <span class="k">return</span> <span class="n">lap</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_setdiag_dense</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
+    <span class="n">step</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">flat</span><span class="p">[::</span><span class="n">step</span><span class="p">]</span> <span class="o">=</span> <span class="n">d</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_laplace</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
+    <span class="k">return</span> <span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="n">v</span> <span class="o">*</span> <span class="n">d</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">-</span> <span class="n">m</span> <span class="o">@</span> <span class="n">v</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_laplace_normed</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">nd</span><span class="p">):</span>
+    <span class="n">laplace</span> <span class="o">=</span> <span class="n">_laplace</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+    <span class="k">return</span> <span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="n">nd</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">laplace</span><span class="p">(</span><span class="n">v</span> <span class="o">*</span> <span class="n">nd</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">])</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_laplace_sym</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="n">v</span> <span class="o">*</span> <span class="n">d</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
+        <span class="o">-</span> <span class="n">m</span> <span class="o">@</span> <span class="n">v</span>
+        <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">conjugate</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">conjugate</span><span class="p">(</span><span class="n">v</span><span class="p">))</span> <span class="o">@</span> <span class="n">m</span><span class="p">))</span>
+    <span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_laplace_normed_sym</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">nd</span><span class="p">):</span>
+    <span class="n">laplace_sym</span> <span class="o">=</span> <span class="n">_laplace_sym</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+    <span class="k">return</span> <span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="n">nd</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">laplace_sym</span><span class="p">(</span><span class="n">v</span> <span class="o">*</span> <span class="n">nd</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">])</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_linearoperator</span><span class="p">(</span><span class="n">mv</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">LinearOperator</span><span class="p">(</span><span class="n">matvec</span><span class="o">=</span><span class="n">mv</span><span class="p">,</span> <span class="n">matmat</span><span class="o">=</span><span class="n">mv</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_laplacian_sparse_flo</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">normed</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">form</span><span class="p">,</span> <span class="n">dtype</span><span class="p">,</span> <span class="n">symmetrized</span><span class="p">):</span>
+    <span class="c1"># The keyword argument `copy` is unused and has no effect here.</span>
+    <span class="k">del</span> <span class="n">copy</span>
+
+    <span class="k">if</span> <span class="n">dtype</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">dtype</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">dtype</span>
+
+    <span class="n">graph_sum</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">))</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+    <span class="n">graph_diagonal</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">diagonal</span><span class="p">()</span>
+    <span class="n">diag</span> <span class="o">=</span> <span class="n">graph_sum</span> <span class="o">-</span> <span class="n">graph_diagonal</span>
+    <span class="k">if</span> <span class="n">symmetrized</span><span class="p">:</span>
+        <span class="n">graph_sum</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span> <span class="o">-</span> <span class="n">axis</span><span class="p">))</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+        <span class="n">diag</span> <span class="o">=</span> <span class="n">graph_sum</span> <span class="o">-</span> <span class="n">graph_diagonal</span> <span class="o">-</span> <span class="n">graph_diagonal</span>
+
+    <span class="k">if</span> <span class="n">normed</span><span class="p">:</span>
+        <span class="n">isolated_node_mask</span> <span class="o">=</span> <span class="n">diag</span> <span class="o">==</span> <span class="mi">0</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">isolated_node_mask</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">diag</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">symmetrized</span><span class="p">:</span>
+            <span class="n">md</span> <span class="o">=</span> <span class="n">_laplace_normed_sym</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">graph_sum</span><span class="p">,</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">w</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">md</span> <span class="o">=</span> <span class="n">_laplace_normed</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">graph_sum</span><span class="p">,</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">w</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">form</span> <span class="o">==</span> <span class="s2">&quot;function&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">md</span><span class="p">,</span> <span class="n">w</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">form</span> <span class="o">==</span> <span class="s2">&quot;lo&quot;</span><span class="p">:</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="n">_linearoperator</span><span class="p">(</span><span class="n">md</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">graph</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">m</span><span class="p">,</span> <span class="n">w</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid form: </span><span class="si">{</span><span class="n">form</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">symmetrized</span><span class="p">:</span>
+            <span class="n">md</span> <span class="o">=</span> <span class="n">_laplace_sym</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">graph_sum</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">md</span> <span class="o">=</span> <span class="n">_laplace</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">graph_sum</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">form</span> <span class="o">==</span> <span class="s2">&quot;function&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">md</span><span class="p">,</span> <span class="n">diag</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">form</span> <span class="o">==</span> <span class="s2">&quot;lo&quot;</span><span class="p">:</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="n">_linearoperator</span><span class="p">(</span><span class="n">md</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">graph</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">m</span><span class="p">,</span> <span class="n">diag</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid form: </span><span class="si">{</span><span class="n">form</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_laplacian_sparse</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">normed</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">form</span><span class="p">,</span> <span class="n">dtype</span><span class="p">,</span> <span class="n">symmetrized</span><span class="p">):</span>
+    <span class="c1"># The keyword argument `form` is unused and has no effect here.</span>
+    <span class="k">del</span> <span class="n">form</span>
+
+    <span class="k">if</span> <span class="n">dtype</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">dtype</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">dtype</span>
+
+    <span class="n">needs_copy</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="n">graph</span><span class="o">.</span><span class="n">format</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;lil&#39;</span><span class="p">,</span> <span class="s1">&#39;dok&#39;</span><span class="p">):</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">tocoo</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">graph</span>
+        <span class="k">if</span> <span class="n">copy</span><span class="p">:</span>
+            <span class="n">needs_copy</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">if</span> <span class="n">symmetrized</span><span class="p">:</span>
+        <span class="n">m</span> <span class="o">+=</span> <span class="n">m</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">conj</span><span class="p">()</span>
+
+    <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">))</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span> <span class="o">-</span> <span class="n">m</span><span class="o">.</span><span class="n">diagonal</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">normed</span><span class="p">:</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">tocoo</span><span class="p">(</span><span class="n">copy</span><span class="o">=</span><span class="n">needs_copy</span><span class="p">)</span>
+        <span class="n">isolated_node_mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">w</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">isolated_node_mask</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">w</span><span class="p">))</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">data</span> <span class="o">/=</span> <span class="n">w</span><span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">row</span><span class="p">]</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">data</span> <span class="o">/=</span> <span class="n">w</span><span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">col</span><span class="p">]</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">data</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">setdiag</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">isolated_node_mask</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">m</span><span class="o">.</span><span class="n">format</span> <span class="o">==</span> <span class="s1">&#39;dia&#39;</span><span class="p">:</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">tocoo</span><span class="p">(</span><span class="n">copy</span><span class="o">=</span><span class="n">needs_copy</span><span class="p">)</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">data</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">setdiag</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span> <span class="n">w</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_laplacian_dense_flo</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">normed</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">form</span><span class="p">,</span> <span class="n">dtype</span><span class="p">,</span> <span class="n">symmetrized</span><span class="p">):</span>
+
+    <span class="k">if</span> <span class="n">copy</span><span class="p">:</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">dtype</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">dtype</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">dtype</span>
+
+    <span class="n">graph_sum</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
+    <span class="n">graph_diagonal</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">diagonal</span><span class="p">()</span>
+    <span class="n">diag</span> <span class="o">=</span> <span class="n">graph_sum</span> <span class="o">-</span> <span class="n">graph_diagonal</span>
+    <span class="k">if</span> <span class="n">symmetrized</span><span class="p">:</span>
+        <span class="n">graph_sum</span> <span class="o">+=</span> <span class="n">m</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span> <span class="o">-</span> <span class="n">axis</span><span class="p">)</span>
+        <span class="n">diag</span> <span class="o">=</span> <span class="n">graph_sum</span> <span class="o">-</span> <span class="n">graph_diagonal</span> <span class="o">-</span> <span class="n">graph_diagonal</span>
+
+    <span class="k">if</span> <span class="n">normed</span><span class="p">:</span>
+        <span class="n">isolated_node_mask</span> <span class="o">=</span> <span class="n">diag</span> <span class="o">==</span> <span class="mi">0</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">isolated_node_mask</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">diag</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">symmetrized</span><span class="p">:</span>
+            <span class="n">md</span> <span class="o">=</span> <span class="n">_laplace_normed_sym</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">graph_sum</span><span class="p">,</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">w</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">md</span> <span class="o">=</span> <span class="n">_laplace_normed</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">graph_sum</span><span class="p">,</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">w</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">form</span> <span class="o">==</span> <span class="s2">&quot;function&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">md</span><span class="p">,</span> <span class="n">w</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">form</span> <span class="o">==</span> <span class="s2">&quot;lo&quot;</span><span class="p">:</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="n">_linearoperator</span><span class="p">(</span><span class="n">md</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">graph</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">m</span><span class="p">,</span> <span class="n">w</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid form: </span><span class="si">{</span><span class="n">form</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">symmetrized</span><span class="p">:</span>
+            <span class="n">md</span> <span class="o">=</span> <span class="n">_laplace_sym</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">graph_sum</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">md</span> <span class="o">=</span> <span class="n">_laplace</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">graph_sum</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">form</span> <span class="o">==</span> <span class="s2">&quot;function&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">md</span><span class="p">,</span> <span class="n">diag</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">form</span> <span class="o">==</span> <span class="s2">&quot;lo&quot;</span><span class="p">:</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="n">_linearoperator</span><span class="p">(</span><span class="n">md</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">graph</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">m</span><span class="p">,</span> <span class="n">diag</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid form: </span><span class="si">{</span><span class="n">form</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_laplacian_dense</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">normed</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">form</span><span class="p">,</span> <span class="n">dtype</span><span class="p">,</span> <span class="n">symmetrized</span><span class="p">):</span>
+
+    <span class="k">if</span> <span class="n">form</span> <span class="o">!=</span> <span class="s2">&quot;array&quot;</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">form</span><span class="si">!r}</span><span class="s1"> must be &quot;array&quot;&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">dtype</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">dtype</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">dtype</span>
+
+    <span class="k">if</span> <span class="n">copy</span><span class="p">:</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">dtype</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">dtype</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">dtype</span>
+
+    <span class="k">if</span> <span class="n">symmetrized</span><span class="p">:</span>
+        <span class="n">m</span> <span class="o">+=</span> <span class="n">m</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">conj</span><span class="p">()</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">fill_diagonal</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">normed</span><span class="p">:</span>
+        <span class="n">isolated_node_mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">w</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">isolated_node_mask</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">w</span><span class="p">))</span>
+        <span class="n">m</span> <span class="o">/=</span> <span class="n">w</span>
+        <span class="n">m</span> <span class="o">/=</span> <span class="n">w</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
+        <span class="n">m</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="n">_setdiag_dense</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">isolated_node_mask</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">m</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="n">_setdiag_dense</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span> <span class="n">w</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, DaSciM (BSD License).</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
