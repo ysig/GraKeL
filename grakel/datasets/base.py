@@ -4,14 +4,9 @@ import os
 import shutil
 import zipfile
 import ssl
-try:
-    # Python 2
-    from urllib2 import HTTPError
-    from urllib2 import urlopen
-except ImportError:
-    # Python 3+
-    from urllib.error import HTTPError
-    from urllib.request import urlopen
+
+from urllib.error import HTTPError
+from urllib.request import urlopen
 
 import numpy as np
 
