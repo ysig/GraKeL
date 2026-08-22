@@ -16,6 +16,17 @@ Overview
 What's New
 ==========
 
+- Version **0.1.12**
+
+  + :code:`networkx_from_graph` converts a :code:`grakel.Graph` back into a
+    NetworkX graph, completing the round trip with
+    :code:`graph_from_networkx`. NetworkX is now an optional dependency,
+    installable with :code:`pip install grakel[networkx]`, and support is
+    pinned to NetworkX >= 3.0.
+  + Fixed a label-conversion bug in :code:`Graph` that silently dropped edge
+    labels when converting an adjacency-format graph with edge-only labels to
+    the dictionary format.
+
 - Version **0.1.11**
 
   .. note::
