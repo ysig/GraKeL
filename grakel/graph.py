@@ -423,7 +423,7 @@ class Graph:
                 if cond_labels_nodes or cond_labels_edges:
                     if cond_labels_nodes:
                         self.node_labels = self.index_node_labels
-                    if cond_labels_nodes:
+                    if cond_labels_edges:
                         self.edge_labels = self.index_edge_labels
                 else:
                     if not init:

@@ -241,11 +241,11 @@ def graph_from_networkx(X, node_labels_tag=None, edge_labels_tag=None, edge_weig
             Define where to search for labels of nodes, inside the `node` attribute of each graph.
             If None no labels are assigned.
 
-        edge_labels_tag : tuple
+        edge_labels_tag : str
             Define where to search for labels of edges, inside the `edge` attribute of each graph.
             If None no labels are assigned.
 
-        edge_weight_tag : int
+        edge_weight_tag : str
             Define where to search for weights inside the `edge` attribute of each graph.
             If None 1.0 weights are assigned.
 
@@ -266,10 +266,13 @@ def graph_from_networkx(X, node_labels_tag=None, edge_labels_tag=None, edge_weig
             any grakel kernel.
 
     """
-    import networkx as nx
-    v2 = False
-    if nx.__version__ > '2.':
-        v2 = True
+    try:
+        import networkx as nx
+    except ImportError:
+        raise ImportError(
+            "networkx should be installed for using graph_from_networkx. "
+            "Install it with: pip install grakel[networkx]"
+        )
 
     if node_labels_tag is None:
         def nodel_init():
@@ -305,12 +308,8 @@ def graph_from_networkx(X, node_labels_tag=None, edge_labels_tag=None, edge_weig
         def edgel_init():
             return dict()
 
-        if v2:
-            def edgel_put(el, u, d):
-                el[u] = d[u][edge_labels_tag]
-        else:
-            def edgel_put(el, u, d):
-                el[u] = d[u[0]][u[1]][edge_labels_tag]
+        def edgel_put(el, u, d):
+            el[u] = d[u][edge_labels_tag]
     else:
         raise ValueError('edge_labels_tag must be a str indicating the '
                          'tag of the labels inside edges or None')
@@ -319,12 +318,8 @@ def graph_from_networkx(X, node_labels_tag=None, edge_labels_tag=None, edge_weig
         def get_weight(*args):
             return 1.0
     elif type(edge_weight_tag) is str:
-        if v2:
-            def get_weight(d, e):
-                return d[e][edge_weight_tag]
-        else:
-            def get_weight(d, e):
-                return d[e[0]][e[1]][edge_weight_tag]
+        def get_weight(d, e):
+            return d[e][edge_weight_tag]
 
     else:
         raise ValueError('weight_labels_tag must be a str indicating  '
@@ -333,12 +328,8 @@ def graph_from_networkx(X, node_labels_tag=None, edge_labels_tag=None, edge_weig
     if not isinstance(X, Iterable):
         raise ValueError('X must be an iterable')
 
-    if v2:
-        def take_ne(graph):
-            return graph.nodes, graph.edges
-    else:
-        def take_ne(graph):
-            return graph.node, graph.edge
+    def take_ne(graph):
+        return graph.nodes, graph.edges
 
     for G in X:
         graph_object = dict()
@@ -356,6 +347,81 @@ def graph_from_networkx(X, node_labels_tag=None, edge_labels_tag=None, edge_weig
             yield Graph(graph_object, nl, el)
         else:
             yield [graph_object, nl, el]
+
+
+def networkx_from_graph(G, node_labels_tag='label', edge_labels_tag='label',
+                        edge_weight_tag='weight', directed=False):
+    """Transform a grakel Graph object to a networkx graph.
+
+    A function for helping a user that has processed a collection of grakel
+    graphs return them to the networkx format.
+
+    Parameters
+    ----------
+        G : grakel.Graph
+            The grakel graph to be converted.
+
+        node_labels_tag : str or None, default='label'
+            Define the attribute name under which node labels are stored.
+            If None, node labels are not attached to the networkx graph.
+
+        edge_labels_tag : str or None, default='label'
+            Define the attribute name under which edge labels are stored.
+            If None, edge labels are not attached to the networkx graph.
+
+        edge_weight_tag : str or None, default='weight'
+            Define the attribute name under which edge weights are stored.
+            If None, weights are not attached (networkx defaults to 1.0).
+
+        directed : bool, default=False
+            If True return a networkx.DiGraph, otherwise a networkx.Graph.
+            Note: grakel.Graph does not store directedness, so this must be
+            set to match the original graph.
+
+    Returns
+    -------
+        netG : networkx.Graph or networkx.DiGraph
+            The equivalent networkx graph.
+
+    """
+    try:
+        import networkx as nx
+    except ImportError:
+        raise ImportError(
+            "networkx should be installed for using networkx_from_graph. "
+            "Install it with: pip install grakel[networkx]"
+        )
+
+    # Ensure a dictionary representation and a complete vertex set
+    G.desired_format("dictionary")
+    edge_dict = G.edge_dictionary
+    node_labels = G.node_labels
+    edge_labels = G.edge_labels
+
+    netG = nx.DiGraph() if directed else nx.Graph()
+
+    vertices = set(G.vertices) if G.vertices is not None else set()
+    vertices.update(edge_dict.keys())
+    for u in edge_dict:
+        vertices.update(edge_dict[u].keys())
+
+    for u in vertices:
+        attrs = dict()
+        if node_labels_tag is not None and bool(node_labels) and u in node_labels:
+            attrs[node_labels_tag] = node_labels[u]
+        netG.add_node(u, **attrs)
+
+    for u in edge_dict:
+        for v, w in edge_dict[u].items():
+            attrs = dict()
+            if edge_weight_tag is not None:
+                attrs[edge_weight_tag] = w
+            if edge_labels_tag is not None and bool(edge_labels) \
+                    and (u, v) in edge_labels:
+                attrs[edge_labels_tag] = edge_labels[(u, v)]
+            netG.add_edge(u, v, **attrs)
+
+    return netG
 
 
 def graph_from_pandas(edge_df, node_df=None, directed=False, as_Graph=False):

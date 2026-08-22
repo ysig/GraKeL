@@ -37,6 +37,7 @@ from grakel.utils import graph_from_networkx
 from grakel.utils import graph_from_pandas
 from grakel.utils import graph_from_csv
 from grakel.utils import graph_from_torch_geometric
+from grakel.utils import networkx_from_graph
 
 __all__ = [
     "datasets",
@@ -69,6 +70,7 @@ __all__ = [
     "graph_from_pandas",
     "graph_from_csv",
     "graph_from_torch_geometric",
+    "networkx_from_graph",
     "KMTransformer",
     "cross_validate_Kfold_SVM"
 ]
