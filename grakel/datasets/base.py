@@ -441,8 +441,8 @@ def fetch_dataset(
     else:
         raise ValueError('Dataset: "'+str(name)+'" is currently unsupported.' +
                          '\nSupported datasets come from '
-                         'http://ls11-www.cs.tu-dortmund.de/staff/morris/' +
-                         'graphkerneldatasets. If your dataset name appears' +
+                         'https://chrsmrrs.github.io/datasets/docs/' +
+                         'datasets/. If your dataset name appears' +
                          ' them send us a pm, to explain you either why we ' +
                          'don\'t support it, or to update our dataset ' +
                          'database.')

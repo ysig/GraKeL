@@ -149,4 +149,4 @@ Load from other file formats
 
 **User guide:** Usefull functions for applying to existing datasets, of other formats.
 
-.. _gd:	https://ls11-www.cs.tu-dortmund.de/staff/morris/graphkerneldatasets
+.. _gd:	https://chrsmrrs.github.io/datasets/docs/datasets/

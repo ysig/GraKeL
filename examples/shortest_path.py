@@ -1,7 +1,9 @@
 """
-=============================================================
+====================
+Shortest path kernel
+====================
+
 Graph classification on MUTAG using the shortest path kernel.
-=============================================================
 
 Script makes use of :class:`grakel.ShortestPath`
 """

@@ -489,7 +489,7 @@ if __name__ == '__main__':
         return " ".join(dt)
 
     # Loads the Mutag dataset from:
-    # https://ls11-www.cs.tu-dortmund.de/staff/morris/graphkerneldatasets
+    # https://chrsmrrs.github.io/datasets/docs/datasets/
     # the biggest collection of benchmark datasets for graph_kernels.
     G, y = dataset_attr.data, dataset_attr.target
     C_grid = (10. ** np.arange(-7, 7, 2) / len(G)).tolist()

@@ -52,7 +52,7 @@ jobs:
       run: |
         cd doc
         uv run --with "sphinx>=6,<9" --with "sphinx-gallery>=0.15" \
-          --with "sphinx-rtd-theme" --with "sphinxcontrib-bibtex>=2.5" \
+          --with "pydata-sphinx-theme" --with "sphinxcontrib-bibtex>=2.5" \
           --with "numpydoc" --with "matplotlib" --with "pillow" \
           make clean html doctest
 
