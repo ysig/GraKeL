@@ -1,11 +1,12 @@
 """
-=============================================================
+====================
+Shortest path kernel
+====================
+
 Graph classification on MUTAG using the shortest path kernel.
-=============================================================
 
 Script makes use of :class:`grakel.ShortestPath`
 """
-from __future__ import print_function
 print(__doc__)
 
 import numpy as np

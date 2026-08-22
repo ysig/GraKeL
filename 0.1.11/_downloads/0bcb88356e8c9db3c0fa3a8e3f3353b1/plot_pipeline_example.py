@@ -1,11 +1,12 @@
 """
-====================================================
+=======================
+Classification pipeline
+=======================
+
 Example of building a graph classification pipeline.
-====================================================
 
 Script makes use of :class:`grakel.ShortestPath`
 """
-from __future__ import print_function
 print(__doc__)
 
 import numpy as np

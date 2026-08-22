@@ -1,116 +1,486 @@
 
-
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" data-content_root="../">
-<head>
-  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Creating your Own Kernel &mdash; GraKeL 0.1.11 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
-      <link rel="stylesheet" type="text/css" href="../_static/_static/css/supplementary.css" />
-      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=fd6457a4" />
-      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
-      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
-      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
 
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Creating your Own Kernel &#8212; GraKeL 0.1.11 documentation</title>
   
-      <script src="../_static/documentation_options.js?v=1e825a29"></script>
-      <script src="../_static/doctools.js?v=9bcbadda"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-      <script src="../_static/sg-tags.js?v=d80f6fa4"></script>
-      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script src="../_static/js/theme.js"></script>
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=90905a2f556bf617f1a9" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=90905a2f556bf617f1a9" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/supplementary.css?v=6f47efb3" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=fd6457a4" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=90905a2f556bf617f1a9"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
+
+    <script src="../_static/documentation_options.js?v=1e825a29"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/sg-tags.js?v=d80f6fa4"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'documentation/creating_kernels';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Contributing" href="contributing.html" />
-    <link rel="prev" title="Core Concepts" href="core_concepts.html" /> 
-</head>
+    <link rel="prev" title="Core Concepts" href="core_concepts.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.1.11" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
 
-<body class="wy-body-for-nav"> 
-  <div class="wy-grid-for-nav">
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
 
-          
-          
-          <a href="../index.html" class="icon icon-home">
-            GraKeL
-              <img src="../_static/logo.svg" class="logo" alt="Logo"/>
-          </a>
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="../documentation.html">Documentation</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="installation.html">Installing GraKeL</a></li>
-<li class="toctree-l2"><a class="reference internal" href="introduction.html">A Short Introduction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="core_concepts.html">Core Concepts</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Creating your Own Kernel</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#overriding-the-kernel-class-methods">Overriding the <code class="code docutils literal notranslate"><span class="pre">Kernel</span></code> class methods</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#which-methods-should-i-implement">Which methods should I implement</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#the-parse-input-pairwise-operation-methods">The <code class="code docutils literal notranslate"><span class="pre">parse_input</span></code>, <code class="code docutils literal notranslate"><span class="pre">pairwise_operation</span></code> methods</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#why-should-i-follow-the-list-format-on-parse-input">Why should I follow the list format on parse input?</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#but-why-not-always-use-a-pairwise-operation">But why not always use a pairwise operation?</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#what-if-i-don-t-want-to-follow-this-structure-at-all">What if I don’t want to follow, this structure at all?</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#getting-more-advanced">Getting more advanced</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#wrapping-c-functions-for-the-kernels-to-use">Wrapping C++ functions for the kernels to use</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#parallelization">Parallelization</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#bibliography">Bibliography</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="contributing.html">Contributing</a></li>
-</ul>
-</li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../benchmarks.html">Benchmarks</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../api.html">GraKeL</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../classes.html">API Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials.html">Tutorials</a></li>
-</ul>
 
-        </div>
-      </div>
-    </nav>
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../index.html">GraKeL</a>
-      </nav>
+  
+    
+  
 
-      <div class="wy-nav-content">
-        <div class="rst-content">
-          <div role="navigation" aria-label="Page navigation">
-  <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="../documentation.html">Documentation</a></li>
-      <li class="breadcrumb-item active">Creating your Own Kernel</li>
-      <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/documentation/creating_kernels.rst.txt" rel="nofollow"> View page source</a>
-      </li>
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.svg" class="logo__image only-light" alt="GraKeL 0.1.11 documentation - Home"/>
+    <img src="../_static/logo.svg" class="logo__image only-dark pst-js-only" alt="GraKeL 0.1.11 documentation - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../documentation.html">
+    Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../benchmarks.html">
+    Benchmarks
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api.html">
+    GraKeL
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../classes.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../auto_examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials.html">
+    Tutorials
+  </a>
+</li>
+
   </ul>
-  <hr/>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ysig/GraKeL" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/GraKeL/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-box fa-lg" aria-hidden="true"></i><span class="visually-hidden">PyPI</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
 </div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-           <div itemprop="articleBody">
-             
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../documentation.html">
+    Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../benchmarks.html">
+    Benchmarks
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api.html">
+    GraKeL
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../classes.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../auto_examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials.html">
+    Tutorials
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ysig/GraKeL" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/GraKeL/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-box fa-lg" aria-hidden="true"></i><span class="visually-hidden">PyPI</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overriding-the-kernel-class-methods">Overriding the <code class="code docutils literal notranslate"><span class="pre">Kernel</span></code> class methods</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#which-methods-should-i-implement">Which methods should I implement</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-parse-input-pairwise-operation-methods">The <code class="code docutils literal notranslate"><span class="pre">parse_input</span></code>, <code class="code docutils literal notranslate"><span class="pre">pairwise_operation</span></code> methods</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-should-i-follow-the-list-format-on-parse-input">Why should I follow the list format on parse input?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#but-why-not-always-use-a-pairwise-operation">But why not always use a pairwise operation?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-if-i-don-t-want-to-follow-this-structure-at-all">What if I don’t want to follow, this structure at all?</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#getting-more-advanced">Getting more advanced</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#wrapping-c-functions-for-the-kernels-to-use">Wrapping C++ functions for the kernels to use</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parallelization">Parallelization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bibliography">Bibliography</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+        <div class="sidebar-primary-item">
+
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installing GraKeL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">A Short Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="core_concepts.html">Core Concepts</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Creating your Own Kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../documentation.html" class="nav-link">Documentation</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Creating your Own Kernel</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
   <section id="creating-your-own-kernel">
-<span id="myok"></span><h1>Creating your Own Kernel<a class="headerlink" href="#creating-your-own-kernel" title="Link to this heading">¶</a></h1>
+<span id="myok"></span><h1>Creating your Own Kernel<a class="headerlink" href="#creating-your-own-kernel" title="Link to this heading">#</a></h1>
 <p>As mentioned in the <a class="reference internal" href="core_concepts.html#core-concepts"><span class="std std-ref">Core Concepts</span></a> subsection, each kernel imported from the <code class="code docutils literal notranslate"><span class="pre">GraphKernel</span></code> generic wrapper
 and found inside <code class="code docutils literal notranslate"><span class="pre">grakel.kernels</span></code> sub-package, inherits the <code class="code docutils literal notranslate"><span class="pre">Kernel</span></code> class found there.
 In order to write any kernel that will be integrated (see <a class="reference internal" href="contributing.html#contributing"><span class="std std-ref">Contributing</span></a>), in our package we would like the
@@ -118,7 +488,7 @@ user to inherit that class. This may seem restricting but is not. We will try to
 following sections and we would like to mention the fact that the whole kernel package <strong>is not final</strong>, but must
 be always considered final when deploying a new package, because all the kernels should have a unified common interface.</p>
 <section id="overriding-the-kernel-class-methods">
-<h2>Overriding the <code class="code docutils literal notranslate"><span class="pre">Kernel</span></code> class methods<a class="headerlink" href="#overriding-the-kernel-class-methods" title="Link to this heading">¶</a></h2>
+<h2>Overriding the <code class="code docutils literal notranslate"><span class="pre">Kernel</span></code> class methods<a class="headerlink" href="#overriding-the-kernel-class-methods" title="Link to this heading">#</a></h2>
 <p>In order to start we will present the current interface of the <code class="code docutils literal notranslate"><span class="pre">Kernel</span></code> class
 (public methods) and guide the user how he can write a simple base <code class="code docutils literal notranslate"><span class="pre">Kernel</span></code>, such as the <em>vertex-histogram-kernel</em>.</p>
 <p>The <em>vertex-histogram-kernel</em>, defined in <span class="bibtex-citation" id="id1">[<a class="reference internal" href="../kernels/random_walk.html#id30" title="Mahito Sugiyama and Karsten M. Borgwardt. Halting in Random Walk Kernels. In Advances in Neural Information Processing Systems, 1639–1647. 2015.">SB15</a>]</span> p.4 section 2.3 is a simple kernel, that
@@ -127,7 +497,7 @@ value and as a kernel between two graphs calculates the sum of products between 
 occurrences</em>.</p>
 <p>To design this kernel let’s first learn some things about the kernel class.</p>
 <section id="which-methods-should-i-implement">
-<h3>Which methods should I implement<a class="headerlink" href="#which-methods-should-i-implement" title="Link to this heading">¶</a></h3>
+<h3>Which methods should I implement<a class="headerlink" href="#which-methods-should-i-implement" title="Link to this heading">#</a></h3>
 <p>Each kernel should have the following methods:</p>
 <ul class="simple">
 <li><p><code class="code docutils literal notranslate"><span class="pre">__init__</span></code> method implemented. This method should be always overrided.</p></li>
@@ -144,8 +514,7 @@ occurrences</em>.</p>
 </pre></div>
 </div>
 <p>and let’s define the <em>vertex-histogram-kernel</em></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">six.moves.collections_abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterable</span>
-
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 
 <span class="k">class</span><span class="w"> </span><span class="nc">VertexHistogram</span><span class="p">(</span><span class="n">Kernel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Vertex Histogram kernel as found in :cite:`Sugiyama2015NIPS`</span>
@@ -198,6 +567,7 @@ occurrences</em>.</p>
         <span class="c1"># for i=1 .. m</span>
         <span class="c1">#     if not self.initialized_[&quot;param_needing_initialization_i&quot;]:</span>
         <span class="c1">#         # Apply checks (raise ValueError or TypeError accordingly)</span>
+        <span class="c1">#         # calculate derived fields stored on self._derived_field_ia .. z</span>
 </pre></div>
 </div>
 <p>As you see there a few things we should note. Firstly the <code class="code docutils literal notranslate"><span class="pre">verbose</span></code>, <code class="code docutils literal notranslate"><span class="pre">normalize</span></code>,
@@ -212,7 +582,7 @@ parameter <em>resetting</em> through <code class="code docutils literal notransl
 his own kernel. These methods are <code class="code docutils literal notranslate"><span class="pre">parse_input</span></code> and <code class="code docutils literal notranslate"><span class="pre">pairwise_operation</span></code>.</p>
 </section>
 <section id="the-parse-input-pairwise-operation-methods">
-<h3>The <code class="code docutils literal notranslate"><span class="pre">parse_input</span></code>, <code class="code docutils literal notranslate"><span class="pre">pairwise_operation</span></code> methods<a class="headerlink" href="#the-parse-input-pairwise-operation-methods" title="Link to this heading">¶</a></h3>
+<h3>The <code class="code docutils literal notranslate"><span class="pre">parse_input</span></code>, <code class="code docutils literal notranslate"><span class="pre">pairwise_operation</span></code> methods<a class="headerlink" href="#the-parse-input-pairwise-operation-methods" title="Link to this heading">#</a></h3>
 <p>The <code class="code docutils literal notranslate"><span class="pre">parse_input</span></code> method actually produces all the features used from the kernel.
 The default procedure is that both <code class="code docutils literal notranslate"><span class="pre">fit</span></code> and <code class="code docutils literal notranslate"><span class="pre">transform</span></code> use <code class="code docutils literal notranslate"><span class="pre">parse_input</span></code>
 to create features for each graph producing a list where each element corresponds to the index
@@ -225,8 +595,7 @@ method, calculating a final kernel value.</p>
 this word is omitted on the kernel name definition.</p>
 </div>
 <p>So to continue or example we first define <code class="code docutils literal notranslate"><span class="pre">parse_input</span></code> inside the <code class="code docutils literal notranslate"><span class="pre">VertexHistogram</span></code> class:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="c1">#         self.initialized_[&quot;param_needing_initialization_i&quot;] = True</span>
-        <span class="k">pass</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="k">pass</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">parse_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Parse and check the given input for vertex kernel.</span>
@@ -274,6 +643,7 @@ this word is omitted on the kernel name definition.</p>
                 <span class="c1"># Append frequencies for the current Graph</span>
                 <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Counter</span><span class="p">(</span><span class="n">labels</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
 
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">out</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
 </pre></div>
 </div>
 <p>The procedure of reading the input is really standard, but must be specified for each kernel
@@ -282,8 +652,7 @@ After reading the labels, we calculate frequencies with a <code class="code docu
 adding them to a list for all the non empty element of the iterable. Finally on those list
 elements that are produced from <code class="code docutils literal notranslate"><span class="pre">parse_input</span></code> the pairwise operation that calculates
 the kernel value is</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;parsed input is empty&#39;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">out</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>            <span class="k">return</span> <span class="n">out</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">pairwise_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
         <span class="s2">&quot;&quot;&quot;Calculate sum of frequency products.</span>
@@ -297,6 +666,7 @@ the kernel value is</p>
 <span class="s2">        -------</span>
 <span class="s2">        kernel : number</span>
 <span class="s2">            The kernel value.</span>
+
 </pre></div>
 </div>
 <p>where we count the <span class="math notranslate nohighlight">\(\sum_{l \in L_{i} \cap L_{j}} f^{i}_{l}*f^{j}_{l}\)</span>, using the property of a <code class="code docutils literal notranslate"><span class="pre">Counter</span></code>
@@ -318,14 +688,14 @@ object, returning a <strong>0</strong> value on empty occurrences.</p>
 </div>
 </section>
 <section id="why-should-i-follow-the-list-format-on-parse-input">
-<h3>Why should I follow the list format on parse input?<a class="headerlink" href="#why-should-i-follow-the-list-format-on-parse-input" title="Link to this heading">¶</a></h3>
+<h3>Why should I follow the list format on parse input?<a class="headerlink" href="#why-should-i-follow-the-list-format-on-parse-input" title="Link to this heading">#</a></h3>
 <p>You can still avoid changing the list format result on <code class="code docutils literal notranslate"><span class="pre">parse_input</span></code>, by instead of overriding pairwise operation, doing so with overriding <code class="code docutils literal notranslate"><span class="pre">_calculate_kernel_matrix</span></code>
 method. This method must be able to receive one element whose default value is <code class="code docutils literal notranslate"><span class="pre">None</span></code>, where if it is, the method should calculate the kernel matrix between elements of <code class="code docutils literal notranslate"><span class="pre">self.X</span></code> (where the output of <code class="code docutils literal notranslate"><span class="pre">parse_input</span></code> is stored) and otherwise calculate between the input of <code class="code docutils literal notranslate"><span class="pre">Y</span></code> (which also comes from <code class="code docutils literal notranslate"><span class="pre">parse_input</span></code>) and <code class="code docutils literal notranslate"><span class="pre">self.X</span></code>.
 By doing so, the developer needs to override the <code class="code docutils literal notranslate"><span class="pre">diagonal</span></code> method, because it normally uses <code class="code docutils literal notranslate"><span class="pre">pairwise_operation</span></code>. The diagonal method can also see <strong>the last transformed
 input as resulted from :code:`parse_input`</strong> inside the attribute <code class="code docutils literal notranslate"><span class="pre">self._Y</span></code>.</p>
 </section>
 <section id="but-why-not-always-use-a-pairwise-operation">
-<h3>But why not always use a pairwise operation?<a class="headerlink" href="#but-why-not-always-use-a-pairwise-operation" title="Link to this heading">¶</a></h3>
+<h3>But why not always use a pairwise operation?<a class="headerlink" href="#but-why-not-always-use-a-pairwise-operation" title="Link to this heading">#</a></h3>
 <p>There are cases where the matrix calculation as a batch is much more computationally efficient.
 This can be demonstrated, by utilizing libraries such as <code class="code docutils literal notranslate"><span class="pre">numpy</span></code>.</p>
 <p>Let’s go back to the vertex histogram kernel and do so. The class definition of <code class="code docutils literal notranslate"><span class="pre">__init__</span></code> stands as above.
@@ -338,8 +708,7 @@ We will redefine the <code class="code docutils literal notranslate"><span class
 </pre></div>
 </div>
 <p>and define the new <code class="code docutils literal notranslate"><span class="pre">parse_input</span></code></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">six.moves.collections_abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterable</span>
-
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 
 <span class="k">class</span><span class="w"> </span><span class="nc">VertexHistogram</span><span class="p">(</span><span class="n">Kernel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Vertex Histogram kernel as found in :cite:`Sugiyama2015NIPS`</span>
@@ -471,6 +840,7 @@ We will redefine the <code class="code docutils literal notranslate"><span class
             <span class="n">features</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">ni</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)))</span>
             <span class="n">features</span><span class="p">[</span><span class="n">rows</span><span class="p">,</span> <span class="n">cols</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span>
 
+            <span class="k">if</span> <span class="n">ni</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
 </pre></div>
 </div>
 <p>Let’s stop here at two points.</p>
@@ -486,8 +856,7 @@ The labels corresponding to the dataset of <code class="code docutils literal no
 added on new positions coherently and forgotten (because there is no need to be remembered).</p></li>
 </ul>
 <p>Now we would like to define the <code class="code docutils literal notranslate"><span class="pre">_calculate_kernel_matrix</span></code> method, calculating simple the kernel matrix as a result of a simple dot product</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;parsed input is empty&#39;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">features</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>            <span class="k">return</span> <span class="n">features</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_calculate_kernel_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the kernel matrix given a target_graph and a kernel.</span>
@@ -511,12 +880,12 @@ added on new positions coherently and forgotten (because there is no need to be 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">Y</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">K</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
 </pre></div>
 </div>
 <p>as well as the diagonal method (using Einstein summation convention which is a really fast method for speeding up
 the diagonal calculation of the final matrix, as found <a class="reference external" href="https://stackoverflow.com/questions/14758283/is-there-a-numpy-scipy-dot-product-calculating-only-the-diagonal-entries-of-the">here</a>)</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>            <span class="n">K</span> <span class="o">=</span> <span class="n">Y</span><span class="p">[:,</span> <span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">K</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="k">return</span> <span class="n">K</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">diagonal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the kernel matrix diagonal of the fitted data.</span>
@@ -542,6 +911,7 @@ the diagonal calculation of the final matrix, as found <a class="reference exter
             <span class="bp">self</span><span class="o">.</span><span class="n">_X_diag</span> <span class="o">=</span> <span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;ij,ij-&gt;i&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">)</span>
 
 
+        <span class="n">Y_diag</span> <span class="o">=</span> <span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;ij,ij-&gt;i&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_Y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_Y</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Now let’s solve a classification problem on the <strong>“DD”</strong> dataset, by following a standard procedure.
@@ -590,7 +960,7 @@ First import and download the dataset</p>
 </div>
 </section>
 <section id="what-if-i-don-t-want-to-follow-this-structure-at-all">
-<h3>What if I don’t want to follow, this structure at all?<a class="headerlink" href="#what-if-i-don-t-want-to-follow-this-structure-at-all" title="Link to this heading">¶</a></h3>
+<h3>What if I don’t want to follow, this structure at all?<a class="headerlink" href="#what-if-i-don-t-want-to-follow-this-structure-at-all" title="Link to this heading">#</a></h3>
 <p>Although the basic methods (<code class="code docutils literal notranslate"><span class="pre">fit</span></code>, <code class="code docutils literal notranslate"><span class="pre">fit_transform</span></code>, <code class="code docutils literal notranslate"><span class="pre">transform</span></code>, <code class="code docutils literal notranslate"><span class="pre">diagonal</span></code>) are needed for the kernel
 pipeline, the kernel structure is not imposed, but proposed. The user can always write her/his methods, as long as they are coherent with some design specifications needed for a <em>valid</em> kernel, mainly:</p>
 <ul class="simple">
@@ -604,14 +974,14 @@ node labels and position <strong>2</strong> the edge labels.</p></li>
 </section>
 </section>
 <section id="getting-more-advanced">
-<h2>Getting more advanced<a class="headerlink" href="#getting-more-advanced" title="Link to this heading">¶</a></h2>
+<h2>Getting more advanced<a class="headerlink" href="#getting-more-advanced" title="Link to this heading">#</a></h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>This documentation entry is a preamble to the <a class="reference internal" href="contributing.html#contributing"><span class="std std-ref">Contributing</span></a> section and will evolve much more as users contribute to this project.</p>
 </div>
 <p>What if you do not want just to write your kernel, but fork the project in order to integrate an optimized version of your new kernel.</p>
 <section id="wrapping-c-functions-for-the-kernels-to-use">
-<h3>Wrapping C++ functions for the kernels to use<a class="headerlink" href="#wrapping-c-functions-for-the-kernels-to-use" title="Link to this heading">¶</a></h3>
+<h3>Wrapping C++ functions for the kernels to use<a class="headerlink" href="#wrapping-c-functions-for-the-kernels-to-use" title="Link to this heading">#</a></h3>
 <p>We have implemented a simple <a class="reference external" href="http://cython.org/">Cython</a> extension for the use of <strong>C++</strong> inside python kernel implementation.
 This package can be found inside <code class="code docutils literal notranslate"><span class="pre">grakel/kernels/_c_functions</span></code>. There the user can find the following files.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>grakel/kernels/_c_functions
@@ -631,7 +1001,7 @@ where the essential IO wraping of the C++ function is done inside Python. Finall
 the <code class="code docutils literal notranslate"><span class="pre">_c_functions</span></code> <code class="code docutils literal notranslate"><span class="pre">Extension</span></code> found on <code class="code docutils literal notranslate"><span class="pre">setup.py</span></code>, by adding it to the list given to the <code class="code docutils literal notranslate"><span class="pre">sources</span></code> argument.</p>
 </section>
 <section id="parallelization">
-<h3>Parallelization<a class="headerlink" href="#parallelization" title="Link to this heading">¶</a></h3>
+<h3>Parallelization<a class="headerlink" href="#parallelization" title="Link to this heading">#</a></h3>
 <p>A basic infrastracture for utilizing parallelization possibilities of the kernel computation, was created inside the kernel class.
 The user define n_jobs for each kernel and the indexes of the kernel matrix are <em>linearized</em> and splitted to the effective number of jobs
 on which the pairwise operation is applied in parallel. We use the <code class="code docutils literal notranslate"><span class="pre">joblib</span></code> library, as found inside the <code class="code docutils literal notranslate"><span class="pre">sklearn.externals</span></code>.
@@ -644,40 +1014,75 @@ her/his code anyway he wants or follow a different strategy that seems to have a
 in redisigning and extending the parallelization proccess he/she can see how in <a class="reference internal" href="contributing.html#contributing"><span class="std std-ref">Contributing</span></a>.</p>
 </section>
 <section id="bibliography">
-<h3>Bibliography<a class="headerlink" href="#bibliography" title="Link to this heading">¶</a></h3>
+<h3>Bibliography<a class="headerlink" href="#bibliography" title="Link to this heading">#</a></h3>
 <span class="target" id="id3"></span></section>
 </section>
 </section>
 
 
-           </div>
+                </article>
+              
+              
+              
+              
+              
+            </div>
+            
+            
+              
+            
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="core_concepts.html" class="btn btn-neutral float-left" title="Core Concepts" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="contributing.html" class="btn btn-neutral float-right" title="Contributing" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
     </div>
-
-  <hr/>
-
-  <div role="contentinfo">
-    <p>&#169; Copyright 2019, DaSciM (BSD License).</p>
   </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9"></script>
 
-  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
 
-</footer>
-        </div>
-      </div>
-    </section>
-  </div>
-  <script>
-      jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
-      });
-  </script> 
+  <p class="copyright">
+    
+      © Copyright 2019, DaSciM (BSD License).
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
 
-</body>
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.20.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
 </html>

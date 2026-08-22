@@ -18,15 +18,16 @@
 .. _sphx_glr_auto_examples_nx_to_grakel.py:
 
 
-=========================================================
-Example of transforming NetworkX graphs to GraKeL graphs.
-=========================================================
+==================
+NetworkX to GraKeL
+==================
 
-.. GENERATED FROM PYTHON SOURCE LINES 6-65
+Example of transforming NetworkX graphs to GraKeL graphs.
+
+.. GENERATED FROM PYTHON SOURCE LINES 8-66
 
 .. code-block:: Python
 
-    from __future__ import print_function
     print(__doc__)
 
     import numpy as np

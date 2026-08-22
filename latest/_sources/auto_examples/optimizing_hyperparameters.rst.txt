@@ -18,17 +18,18 @@
 .. _sphx_glr_auto_examples_optimizing_hyperparameters.py:
 
 
-===================================================================================
+==========================
+Optimizing hyperparameters
+==========================
+
 Performing cross-validation n times, optimizing SVM's and kernel's hyperparameters.
-===================================================================================
 
 Script makes use of :class:`grakel.WeisfeilerLehman`, :class:`grakel.VertexHistogram`
 
-.. GENERATED FROM PYTHON SOURCE LINES 8-35
+.. GENERATED FROM PYTHON SOURCE LINES 10-36
 
 .. code-block:: Python
 
-    from __future__ import print_function
     print(__doc__)
 
     import numpy as np

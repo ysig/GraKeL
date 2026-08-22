@@ -1,9 +1,10 @@
 """
-=========================================================
+==================
+NetworkX to GraKeL
+==================
+
 Example of transforming NetworkX graphs to GraKeL graphs.
-=========================================================
 """
-from __future__ import print_function
 print(__doc__)
 
 import numpy as np

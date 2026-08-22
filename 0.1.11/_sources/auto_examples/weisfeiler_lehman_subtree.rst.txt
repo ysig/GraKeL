@@ -18,17 +18,18 @@
 .. _sphx_glr_auto_examples_weisfeiler_lehman_subtree.py:
 
 
-=========================================================================
+================================
+Weisfeiler-Lehman subtree kernel
+================================
+
 Graph classification on MUTAG using the Weisfeiler-Lehman subtree kernel.
-=========================================================================
 
 Script makes use of :class:`grakel.WeisfeilerLehman`, :class:`grakel.VertexHistogram`
 
-.. GENERATED FROM PYTHON SOURCE LINES 8-40
+.. GENERATED FROM PYTHON SOURCE LINES 10-41
 
 .. code-block:: Python
 
-    from __future__ import print_function
     print(__doc__)
 
     import numpy as np

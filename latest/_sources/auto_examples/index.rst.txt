@@ -21,7 +21,7 @@ Examples that use graph kernels to perform various tasks (e.g., graph classifica
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="Script makes use of grakel.ShortestPath">
+    <div class="sphx-glr-thumbcontainer" tooltip="Example of building a graph classification pipeline.">
 
 .. only:: html
 
@@ -32,13 +32,13 @@ Examples that use graph kernels to perform various tasks (e.g., graph classifica
 
 .. raw:: html
 
-      <div class="sphx-glr-thumbnail-title">Example of building a graph classification pipeline.</div>
+      <div class="sphx-glr-thumbnail-title">Classification pipeline</div>
     </div>
 
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="Script makes use of grakel.ShortestPath">
+    <div class="sphx-glr-thumbcontainer" tooltip="Graph classification on MUTAG using the shortest path kernel.">
 
 .. only:: html
 
@@ -49,13 +49,13 @@ Examples that use graph kernels to perform various tasks (e.g., graph classifica
 
 .. raw:: html
 
-      <div class="sphx-glr-thumbnail-title">Graph classification on MUTAG using the shortest path kernel.</div>
+      <div class="sphx-glr-thumbnail-title">Shortest path kernel</div>
     </div>
 
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="Script makes use of grakel.PropagationAttr">
+    <div class="sphx-glr-thumbcontainer" tooltip="Graph classification on a dataset that contains node-attributed graphs.">
 
 .. only:: html
 
@@ -66,13 +66,13 @@ Examples that use graph kernels to perform various tasks (e.g., graph classifica
 
 .. raw:: html
 
-      <div class="sphx-glr-thumbnail-title">Graph classification on a dataset that contains node-attributed graphs.</div>
+      <div class="sphx-glr-thumbnail-title">Node-attributed graphs</div>
     </div>
 
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="Script makes use of grakel.WeisfeilerLehman, grakel.VertexHistogram">
+    <div class="sphx-glr-thumbcontainer" tooltip="Performing cross-validation n times, optimizing SVM&#x27;s and kernel&#x27;s hyperparameters.">
 
 .. only:: html
 
@@ -83,13 +83,13 @@ Examples that use graph kernels to perform various tasks (e.g., graph classifica
 
 .. raw:: html
 
-      <div class="sphx-glr-thumbnail-title">Performing cross-validation n times, optimizing SVM's and kernel's hyperparameters.</div>
+      <div class="sphx-glr-thumbnail-title">Optimizing hyperparameters</div>
     </div>
 
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="Script makes use of grakel.WeisfeilerLehman, grakel.VertexHistogram">
+    <div class="sphx-glr-thumbcontainer" tooltip="Graph classification on MUTAG using the Weisfeiler-Lehman subtree kernel.">
 
 .. only:: html
 
@@ -100,13 +100,13 @@ Examples that use graph kernels to perform various tasks (e.g., graph classifica
 
 .. raw:: html
 
-      <div class="sphx-glr-thumbnail-title">Graph classification on MUTAG using the Weisfeiler-Lehman subtree kernel.</div>
+      <div class="sphx-glr-thumbnail-title">Weisfeiler-Lehman subtree kernel</div>
     </div>
 
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="Script makes use of grakel.Graph and grakel.ShortestPath">
+    <div class="sphx-glr-thumbcontainer" tooltip="Graph classification on a randomly generated dataset of Erdos-Renyi graphs.">
 
 .. only:: html
 
@@ -117,13 +117,13 @@ Examples that use graph kernels to perform various tasks (e.g., graph classifica
 
 .. raw:: html
 
-      <div class="sphx-glr-thumbnail-title">Graph classification on a randomly generated dataset of Erdos-Renyi graphs.</div>
+      <div class="sphx-glr-thumbnail-title">Erdos-Renyi graphs</div>
     </div>
 
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="Retrieval of most similar document using the Weisfeiler-Lehman subtree kernel.">
+    <div class="sphx-glr-thumbcontainer" tooltip="Retrieval of most similar document using the Weisfeiler-Lehman subtree kernel. Script makes use of grakel.WeisfeilerLehman, grakel.VertexHistogram">
 
 .. only:: html
 
@@ -134,7 +134,7 @@ Examples that use graph kernels to perform various tasks (e.g., graph classifica
 
 .. raw:: html
 
-      <div class="sphx-glr-thumbnail-title">Retrieval of most similar document using the Weisfeiler-Lehman subtree kernel.</div>
+      <div class="sphx-glr-thumbnail-title">Document retrieval</div>
     </div>
 
 
@@ -151,7 +151,7 @@ Examples that use graph kernels to perform various tasks (e.g., graph classifica
 
 .. raw:: html
 
-      <div class="sphx-glr-thumbnail-title">Example of transforming NetworkX graphs to GraKeL graphs.</div>
+      <div class="sphx-glr-thumbnail-title">NetworkX to GraKeL</div>
     </div>
 
 

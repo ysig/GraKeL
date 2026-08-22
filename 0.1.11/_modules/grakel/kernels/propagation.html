@@ -1,88 +1,444 @@
 
-
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" data-content_root="../../../">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>grakel.kernels.propagation &mdash; GraKeL 0.1.11 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/_static/css/supplementary.css" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=fd6457a4" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>grakel.kernels.propagation &#8212; GraKeL 0.1.11 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=90905a2f556bf617f1a9" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=90905a2f556bf617f1a9" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/supplementary.css?v=6f47efb3" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=fd6457a4" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../../_static/scripts/fontawesome.js?digest=90905a2f556bf617f1a9"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
+
+    <script src="../../../_static/documentation_options.js?v=1e825a29"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/sg-tags.js?v=d80f6fa4"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/grakel/kernels/propagation';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.1.11" />
+  
+    
+    <script src="../../../_static/searchtools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <script src="../../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
 
   
-      <script src="../../../_static/documentation_options.js?v=1e825a29"></script>
-      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
-      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
-      <script src="../../../_static/sg-tags.js?v=d80f6fa4"></script>
-    <script src="../../../_static/js/theme.js"></script>
-    <link rel="index" title="Index" href="../../../genindex.html" />
-    <link rel="search" title="Search" href="../../../search.html" /> 
-</head>
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
 
-<body class="wy-body-for-nav"> 
-  <div class="wy-grid-for-nav">
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
-
-          
-          
-          <a href="../../../index.html" class="icon icon-home">
-            GraKeL
-              <img src="../../../_static/logo.svg" class="logo" alt="Logo"/>
-          </a>
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../documentation.html">Documentation</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../benchmarks.html">Benchmarks</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../api.html">GraKeL</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../classes.html">API Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html">Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorials.html">Tutorials</a></li>
-</ul>
 
-        </div>
-      </div>
-    </nav>
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">GraKeL</a>
-      </nav>
+  
+    
+  
 
-      <div class="wy-nav-content">
-        <div class="rst-content">
-          <div role="navigation" aria-label="Page navigation">
-  <ul class="wy-breadcrumbs">
-      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">grakel.kernels.propagation</li>
-      <li class="wy-breadcrumbs-aside">
-      </li>
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../_static/logo.svg" class="logo__image only-light" alt="GraKeL 0.1.11 documentation - Home"/>
+    <img src="../../../_static/logo.svg" class="logo__image only-dark pst-js-only" alt="GraKeL 0.1.11 documentation - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../documentation.html">
+    Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../benchmarks.html">
+    Benchmarks
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api.html">
+    GraKeL
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../classes.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../auto_examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../tutorials.html">
+    Tutorials
+  </a>
+</li>
+
   </ul>
-  <hr/>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ysig/GraKeL" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/GraKeL/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-box fa-lg" aria-hidden="true"></i><span class="visually-hidden">PyPI</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
 </div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-           <div itemprop="articleBody">
-             
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../documentation.html">
+    Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../benchmarks.html">
+    Benchmarks
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api.html">
+    GraKeL
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../classes.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../auto_examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../tutorials.html">
+    Tutorials
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ysig/GraKeL" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/GraKeL/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-box fa-lg" aria-hidden="true"></i><span class="visually-hidden">PyPI</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">grakel.kernels.propagation</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
   <h1>Source code for grakel.kernels.propagation</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;The propagation kernel as defined in :cite:`neumann2015propagation`.&quot;&quot;&quot;</span>
+
 <span class="c1"># Author: Ioannis Siglidis &lt;y.siglidis@gmail.com&gt;</span>
 <span class="c1"># License: BSD 3 clause</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
@@ -99,15 +455,12 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">grakel.graph</span><span class="w"> </span><span class="kn">import</span> <span class="n">Graph</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">grakel.kernels</span><span class="w"> </span><span class="kn">import</span> <span class="n">Kernel</span>
 
-<span class="c1"># Python 2/3 cross-compatibility import</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">six</span><span class="w"> </span><span class="kn">import</span> <span class="n">itervalues</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">six</span><span class="w"> </span><span class="kn">import</span> <span class="n">iteritems</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">six.moves</span><span class="w"> </span><span class="kn">import</span> <span class="n">filterfalse</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">six.moves.collections_abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">filterfalse</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterable</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_dot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
-    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">*</span><span class="n">y</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">x</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">*</span> <span class="n">y</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">x</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="Propagation">
@@ -157,27 +510,28 @@
 
 <div class="viewcode-block" id="Propagation.__init__">
 <a class="viewcode-back" href="../../../generated/grakel.Propagation.html#grakel.Propagation.__init__">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">n_jobs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                 <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                 <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">metric</span><span class="o">=</span><span class="n">_dot</span><span class="p">,</span>
-                 <span class="n">M</span><span class="o">=</span><span class="s2">&quot;TV&quot;</span><span class="p">,</span>
-                 <span class="n">t_max</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
-                 <span class="n">w</span><span class="o">=</span><span class="mf">0.01</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">n_jobs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">metric</span><span class="o">=</span><span class="n">_dot</span><span class="p">,</span>
+        <span class="n">M</span><span class="o">=</span><span class="s2">&quot;TV&quot;</span><span class="p">,</span>
+        <span class="n">t_max</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+        <span class="n">w</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialise a propagation kernel.&quot;&quot;&quot;</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">Propagation</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="n">n_jobs</span><span class="p">,</span>
-                                          <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span>
-                                          <span class="n">normalize</span><span class="o">=</span><span class="n">normalize</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Propagation</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="n">n_jobs</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="n">normalize</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span> <span class="o">=</span> <span class="n">random_state</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">M</span> <span class="o">=</span> <span class="n">M</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">t_max</span> <span class="o">=</span> <span class="n">t_max</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">w</span> <span class="o">=</span> <span class="n">w</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">metric</span> <span class="o">=</span> <span class="n">metric</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;M&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;t_max&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
-                                  <span class="s2">&quot;random_state&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;metric&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">})</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+            <span class="p">{</span><span class="s2">&quot;M&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;t_max&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;random_state&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;metric&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
+        <span class="p">)</span></div>
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -189,9 +543,11 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="p">[</span><span class="s2">&quot;random_state&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="p">[</span><span class="s2">&quot;metric&quot;</span><span class="p">]:</span>
-            <span class="k">if</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">M</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">str</span> <span class="ow">or</span>
-                    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">M</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;H&quot;</span><span class="p">,</span> <span class="s2">&quot;TV&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">attr_</span><span class="p">)</span> <span class="ow">or</span>
-                    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">M</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;L1&quot;</span><span class="p">,</span> <span class="s2">&quot;L2&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">attr_</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">M</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">str</span>
+                <span class="ow">or</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">M</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;H&quot;</span><span class="p">,</span> <span class="s2">&quot;TV&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">attr_</span><span class="p">)</span>
+                <span class="ow">or</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">M</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;L1&quot;</span><span class="p">,</span> <span class="s2">&quot;L2&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">attr_</span><span class="p">)</span>
+            <span class="p">):</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">attr_</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Metric type must be a str, one of &quot;L1&quot;, &quot;L2&quot;&#39;</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
@@ -205,18 +561,17 @@
 
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="p">[</span><span class="s2">&quot;t_max&quot;</span><span class="p">]:</span>
             <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t_max</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">int</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_max</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;The number of iterations must be a &#39;</span> <span class="o">+</span>
-                                <span class="s1">&#39;positive integer.&#39;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;The number of iterations must be a &quot;</span> <span class="o">+</span> <span class="s2">&quot;positive integer.&quot;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="p">[</span><span class="s2">&quot;t_max&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="p">[</span><span class="s2">&quot;w&quot;</span><span class="p">]:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="p">,</span> <span class="n">Real</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">w</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;The bin width must be a positive number.&#39;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;The bin width must be a positive number.&quot;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="p">[</span><span class="s2">&quot;w&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="p">[</span><span class="s2">&quot;metric&quot;</span><span class="p">]:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="nb">callable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">metric</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;The base kernel must be callable.&#39;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;The base kernel must be callable.&quot;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="p">[</span><span class="s2">&quot;metric&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">pairwise_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
@@ -256,20 +611,19 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;input must be an iterable</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;input must be an iterable</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">i</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
             <span class="n">transition_matrix</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
             <span class="n">labels</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
             <span class="n">L</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-            <span class="k">for</span> <span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">X</span><span class="p">)):</span>
+            <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">X</span><span class="p">)):</span>
                 <span class="n">is_iter</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">is_iter</span><span class="p">:</span>
                     <span class="n">x</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">is_iter</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]:</span>
                     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;Ignoring empty element on &#39;</span> <span class="o">+</span>
-                                      <span class="s1">&#39;index: &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">idx</span><span class="p">))</span>
+                        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Ignoring empty element on &quot;</span> <span class="o">+</span> <span class="s2">&quot;index: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">idx</span><span class="p">))</span>
                         <span class="k">continue</span>
                     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="ow">is</span> <span class="n">Graph</span><span class="p">:</span>
                         <span class="n">g</span><span class="p">,</span> <span class="n">T</span> <span class="o">=</span> <span class="n">x</span>
@@ -282,36 +636,44 @@
                 <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">is</span> <span class="n">Graph</span><span class="p">:</span>
                     <span class="n">g</span><span class="p">,</span> <span class="n">T</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="kc">None</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Each element of X must be either a &#39;</span> <span class="o">+</span>
-                                     <span class="s1">&#39;Graph or an iterable with at least 2 &#39;</span> <span class="o">+</span>
-                                     <span class="s1">&#39;and at most 4 elements</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                        <span class="s2">&quot;Each element of X must be either a &quot;</span>
+                        <span class="o">+</span> <span class="s2">&quot;Graph or an iterable with at least 2 &quot;</span>
+                        <span class="o">+</span> <span class="s2">&quot;and at most 4 elements</span><span class="se">\n</span><span class="s2">&quot;</span>
+                    <span class="p">)</span>
 
                 <span class="k">if</span> <span class="n">T</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">T</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">T</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
-                        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Transition matrix on index&#39;</span> <span class="o">+</span>
-                                        <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;must be &#39;</span> <span class="o">+</span>
-                                        <span class="s1">&#39;a square matrix.&#39;</span><span class="p">)</span>
+                        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                            <span class="s2">&quot;Transition matrix on index&quot;</span>
+                            <span class="o">+</span> <span class="s2">&quot; &quot;</span>
+                            <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+                            <span class="o">+</span> <span class="s2">&quot;must be &quot;</span>
+                            <span class="o">+</span> <span class="s2">&quot;a square matrix.&quot;</span>
+                        <span class="p">)</span>
                     <span class="k">if</span> <span class="n">T</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">g</span><span class="o">.</span><span class="n">nv</span><span class="p">():</span>
-                        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Propagation matrix must &#39;</span> <span class="o">+</span>
-                                        <span class="s1">&#39;have the same dimension &#39;</span> <span class="o">+</span>
-                                        <span class="s1">&#39;as the number of vertices.&#39;</span><span class="p">)</span>
+                        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                            <span class="s2">&quot;Propagation matrix must &quot;</span>
+                            <span class="o">+</span> <span class="s2">&quot;have the same dimension &quot;</span>
+                            <span class="o">+</span> <span class="s2">&quot;as the number of vertices.&quot;</span>
+                        <span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">T</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">get_adjacency_matrix</span><span class="p">()</span>
 
                 <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
-                <span class="n">transition_matrix</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">normalizer</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="s1">&#39;l1&#39;</span><span class="p">)</span>
-                <span class="n">label</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">get_labels</span><span class="p">(</span><span class="n">purpose</span><span class="o">=</span><span class="s1">&#39;adjacency&#39;</span><span class="p">)</span>
+                <span class="n">transition_matrix</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">normalizer</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="s2">&quot;l1&quot;</span><span class="p">)</span>
+                <span class="n">label</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">get_labels</span><span class="p">(</span><span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;adjacency&quot;</span><span class="p">)</span>
                 <span class="k">try</span><span class="p">:</span>
-                    <span class="n">labels</span> <span class="o">|=</span> <span class="nb">set</span><span class="p">(</span><span class="n">itervalues</span><span class="p">(</span><span class="n">label</span><span class="p">))</span>
+                    <span class="n">labels</span> <span class="o">|=</span> <span class="nb">set</span><span class="p">(</span><span class="n">label</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
                 <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;For a non attributed kernel, labels should be hashable.&#39;</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;For a non attributed kernel, labels should be hashable.&quot;</span><span class="p">)</span>
                 <span class="n">L</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">g</span><span class="o">.</span><span class="n">nv</span><span class="p">(),</span> <span class="n">label</span><span class="p">))</span>
 
             <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Parsed input is empty&#39;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Parsed input is empty&quot;</span><span class="p">)</span>
 
             <span class="c1"># The number of parsed graphs</span>
-            <span class="n">n</span> <span class="o">=</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span>
+            <span class="n">n</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
 
             <span class="c1"># enumerate labels</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_method_calling</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
@@ -321,15 +683,16 @@
             <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_method_calling</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
                 <span class="n">new_elements</span> <span class="o">=</span> <span class="n">labels</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parent_labels</span>
                 <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">new_elements</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-                    <span class="n">new_enum_labels</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">((</span><span class="n">l</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">l</span><span class="p">)</span> <span class="ow">in</span>
-                                           <span class="nb">enumerate</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">new_elements</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_enum_labels</span><span class="p">)))</span>
-                    <span class="n">enum_labels</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">chain</span><span class="p">(</span><span class="n">iteritems</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_enum_labels</span><span class="p">),</span> <span class="n">new_enum_labels</span><span class="p">))</span>
+                    <span class="n">new_enum_labels</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span>
+                        <span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">l</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">new_elements</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_enum_labels</span><span class="p">))</span>
+                    <span class="p">)</span>
+                    <span class="n">enum_labels</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">chain</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_enum_labels</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">new_enum_labels</span><span class="p">))</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">enum_labels</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_enum_labels</span>
 
             <span class="c1"># make a matrix for all graphs that contains label vectors</span>
             <span class="n">P</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">indexes</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(),</span> <span class="nb">list</span><span class="p">(),</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-            <span class="k">for</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="p">(</span><span class="n">nv</span><span class="p">,</span> <span class="n">label</span><span class="p">))</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">L</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="p">(</span><span class="n">nv</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">L</span><span class="p">):</span>
                 <span class="n">data</span> <span class="o">+=</span> <span class="p">[(</span><span class="n">indexes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">j</span><span class="p">,</span> <span class="n">enum_labels</span><span class="p">[</span><span class="n">label</span><span class="p">[</span><span class="n">j</span><span class="p">]])</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nv</span><span class="p">)]</span>
                 <span class="n">indexes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">indexes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">nv</span><span class="p">)</span>
 
@@ -352,7 +715,7 @@
 
                     <span class="bp">self</span><span class="o">.</span><span class="n">_u</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
                     <span class="c1"># random offset</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">_b</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state_</span><span class="o">.</span><span class="n">rand</span><span class="p">())</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_b</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">w</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">random_state_</span><span class="o">.</span><span class="n">rand</span><span class="p">())</span>
 
                 <span class="n">phi</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="nb">dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)}</span>
                 <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t_max</span><span class="p">):</span>
@@ -364,38 +727,44 @@
 
                     <span class="c1"># Accumulate the results.</span>
                     <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-                        <span class="n">phi</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">features</span><span class="p">[</span><span class="n">indexes</span><span class="p">[</span><span class="n">k</span><span class="p">]:</span><span class="n">indexes</span><span class="p">[</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">]])</span>
+                        <span class="n">phi</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">features</span><span class="p">[</span><span class="n">indexes</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="p">:</span> <span class="n">indexes</span><span class="p">[</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]])</span>
 
                     <span class="c1"># calculate the Propagation matrix if needed</span>
-                    <span class="k">if</span> <span class="n">t</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_max</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">t</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_max</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
                         <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-                            <span class="n">start</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="n">indexes</span><span class="p">[</span><span class="n">k</span><span class="p">:</span><span class="n">k</span><span class="o">+</span><span class="mi">2</span><span class="p">]</span>
+                            <span class="n">start</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="n">indexes</span><span class="p">[</span><span class="n">k</span> <span class="p">:</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]</span>
                             <span class="n">P</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">transition_matrix</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">P</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">,</span> <span class="p">:])</span>
 
                 <span class="k">return</span> <span class="p">[</span><span class="n">phi</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
 
-            <span class="k">elif</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_method_calling</span> <span class="o">==</span> <span class="mi">3</span> <span class="ow">and</span> <span class="n">dim_orig</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">enum_labels</span><span class="p">)):</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_method_calling</span> <span class="o">==</span> <span class="mi">3</span> <span class="ow">and</span> <span class="n">dim_orig</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">enum_labels</span><span class="p">):</span>
                 <span class="n">phi</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="nb">dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)}</span>
                 <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t_max</span><span class="p">):</span>
                     <span class="c1"># for hash all graphs inside P and produce the feature vectors</span>
                     <span class="n">hashes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculate_LSH</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_u</span><span class="p">[</span><span class="n">t</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_b</span><span class="p">[</span><span class="n">t</span><span class="p">])</span>
-                    <span class="n">hd</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">chain</span><span class="p">(</span>
-                            <span class="n">iteritems</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_hd</span><span class="p">[</span><span class="n">t</span><span class="p">]),</span>
-                            <span class="nb">iter</span><span class="p">((</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span>
-                                    <span class="n">filterfalse</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hd</span><span class="p">[</span><span class="n">t</span><span class="p">],</span>
-                                                <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">hashes</span><span class="p">)),</span>
-                                    <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_hd</span><span class="p">[</span><span class="n">t</span><span class="p">])))))</span>
+                    <span class="n">hd</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+                        <span class="n">chain</span><span class="p">(</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">_hd</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span>
+                            <span class="nb">iter</span><span class="p">(</span>
+                                <span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+                                <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span>
+                                    <span class="n">filterfalse</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hd</span><span class="p">[</span><span class="n">t</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">hashes</span><span class="p">)),</span>
+                                    <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_hd</span><span class="p">[</span><span class="n">t</span><span class="p">]),</span>
+                                <span class="p">)</span>
+                            <span class="p">),</span>
+                        <span class="p">)</span>
+                    <span class="p">)</span>
 
                     <span class="n">features</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vectorize</span><span class="p">(</span><span class="k">lambda</span> <span class="n">i</span><span class="p">:</span> <span class="n">hd</span><span class="p">[</span><span class="n">i</span><span class="p">])(</span><span class="n">hashes</span><span class="p">)</span>
 
                     <span class="c1"># Accumulate the results.</span>
                     <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-                        <span class="n">phi</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">features</span><span class="p">[</span><span class="n">indexes</span><span class="p">[</span><span class="n">k</span><span class="p">]:</span><span class="n">indexes</span><span class="p">[</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">]])</span>
+                        <span class="n">phi</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">features</span><span class="p">[</span><span class="n">indexes</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="p">:</span> <span class="n">indexes</span><span class="p">[</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]])</span>
 
                     <span class="c1"># calculate the Propagation matrix if needed</span>
-                    <span class="k">if</span> <span class="n">t</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_max</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">t</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_max</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
                         <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-                            <span class="n">start</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="n">indexes</span><span class="p">[</span><span class="n">k</span><span class="p">:</span><span class="n">k</span><span class="o">+</span><span class="mi">2</span><span class="p">]</span>
+                            <span class="n">start</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="n">indexes</span><span class="p">[</span><span class="n">k</span> <span class="p">:</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]</span>
                             <span class="n">P</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">transition_matrix</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">P</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">,</span> <span class="p">:])</span>
 
                 <span class="k">return</span> <span class="p">[</span><span class="n">phi</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
@@ -408,15 +777,20 @@
                 <span class="n">phi</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="nb">dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)}</span>
                 <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t_max</span><span class="p">):</span>
                     <span class="c1"># hash all graphs inside P and produce the feature vectors</span>
-                    <span class="n">hashes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculate_LSH</span><span class="p">(</span><span class="n">P</span><span class="p">[</span><span class="n">vertices</span><span class="p">,</span> <span class="p">:</span><span class="n">dim_orig</span><span class="p">],</span>
-                                                <span class="bp">self</span><span class="o">.</span><span class="n">_u</span><span class="p">[</span><span class="n">t</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_b</span><span class="p">[</span><span class="n">t</span><span class="p">])</span>
+                    <span class="n">hashes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculate_LSH</span><span class="p">(</span><span class="n">P</span><span class="p">[</span><span class="n">vertices</span><span class="p">,</span> <span class="p">:</span><span class="n">dim_orig</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_u</span><span class="p">[</span><span class="n">t</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_b</span><span class="p">[</span><span class="n">t</span><span class="p">])</span>
 
-                    <span class="n">hd</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">chain</span><span class="p">(</span>
-                            <span class="n">iteritems</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_hd</span><span class="p">[</span><span class="n">t</span><span class="p">]),</span>
-                            <span class="nb">iter</span><span class="p">((</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span>
-                                    <span class="n">filterfalse</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hd</span><span class="p">[</span><span class="n">t</span><span class="p">],</span>
-                                                <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">hashes</span><span class="p">)),</span>
-                                    <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_hd</span><span class="p">[</span><span class="n">t</span><span class="p">])))))</span>
+                    <span class="n">hd</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+                        <span class="n">chain</span><span class="p">(</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">_hd</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span>
+                            <span class="nb">iter</span><span class="p">(</span>
+                                <span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+                                <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span>
+                                    <span class="n">filterfalse</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hd</span><span class="p">[</span><span class="n">t</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">hashes</span><span class="p">)),</span>
+                                    <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_hd</span><span class="p">[</span><span class="n">t</span><span class="p">]),</span>
+                                <span class="p">)</span>
+                            <span class="p">),</span>
+                        <span class="p">)</span>
+                    <span class="p">)</span>
 
                     <span class="n">features</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vectorize</span><span class="p">(</span><span class="k">lambda</span> <span class="n">i</span><span class="p">:</span> <span class="n">hd</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">otypes</span><span class="o">=</span><span class="p">[</span><span class="nb">int</span><span class="p">])(</span><span class="n">hashes</span><span class="p">)</span>
 
@@ -430,22 +804,32 @@
 
                     <span class="c1"># calculate hashes for the remaining</span>
                     <span class="n">hashes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculate_LSH</span><span class="p">(</span><span class="n">P</span><span class="p">[</span><span class="n">vertices_p</span><span class="p">,</span> <span class="p">:],</span> <span class="n">u</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_b</span><span class="p">[</span><span class="n">t</span><span class="p">])</span>
-                    <span class="n">hd</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">chain</span><span class="p">(</span><span class="n">iteritems</span><span class="p">(</span><span class="n">hd</span><span class="p">),</span> <span class="nb">iter</span><span class="p">((</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">hashes</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">hd</span><span class="p">)))))</span>
+                    <span class="n">hd</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+                        <span class="n">chain</span><span class="p">(</span><span class="n">hd</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="nb">iter</span><span class="p">((</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">hashes</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">hd</span><span class="p">))))</span>
+                    <span class="p">)</span>
 
                     <span class="n">features_p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vectorize</span><span class="p">(</span><span class="k">lambda</span> <span class="n">i</span><span class="p">:</span> <span class="n">hd</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">otypes</span><span class="o">=</span><span class="p">[</span><span class="nb">int</span><span class="p">])(</span><span class="n">hashes</span><span class="p">)</span>
 
                     <span class="c1"># Accumulate the results</span>
                     <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-                        <span class="n">A</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">features</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span>
-                            <span class="n">indexes</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">vertices</span><span class="p">,</span> <span class="n">vertices</span> <span class="o">&lt;=</span> <span class="n">indexes</span><span class="p">[</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">])])</span>
-                        <span class="n">B</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">features_p</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span>
-                            <span class="n">indexes</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">vertices_p</span><span class="p">,</span> <span class="n">vertices_p</span> <span class="o">&lt;=</span> <span class="n">indexes</span><span class="p">[</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">])])</span>
+                        <span class="n">A</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span>
+                            <span class="n">features</span><span class="p">[</span>
+                                <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">indexes</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">vertices</span><span class="p">,</span> <span class="n">vertices</span> <span class="o">&lt;=</span> <span class="n">indexes</span><span class="p">[</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span>
+                            <span class="p">]</span>
+                        <span class="p">)</span>
+                        <span class="n">B</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span>
+                            <span class="n">features_p</span><span class="p">[</span>
+                                <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span>
+                                    <span class="n">indexes</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">vertices_p</span><span class="p">,</span> <span class="n">vertices_p</span> <span class="o">&lt;=</span> <span class="n">indexes</span><span class="p">[</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+                                <span class="p">)</span>
+                            <span class="p">]</span>
+                        <span class="p">)</span>
                         <span class="n">phi</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">A</span> <span class="o">+</span> <span class="n">B</span>
 
                     <span class="c1"># calculate the Propagation matrix if needed</span>
-                    <span class="k">if</span> <span class="n">t</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_max</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">t</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_max</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
                         <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-                            <span class="n">start</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="n">indexes</span><span class="p">[</span><span class="n">k</span><span class="p">:</span><span class="n">k</span><span class="o">+</span><span class="mi">2</span><span class="p">]</span>
+                            <span class="n">start</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="n">indexes</span><span class="p">[</span><span class="n">k</span> <span class="p">:</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]</span>
                             <span class="n">P</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">transition_matrix</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">P</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">,</span> <span class="p">:])</span>
 
                         <span class="n">Q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">P</span><span class="p">[:,</span> <span class="n">dim_orig</span><span class="p">:]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
@@ -480,7 +864,7 @@
             <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 
         <span class="c1"># hash</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">u</span><span class="p">)</span><span class="o">+</span><span class="n">b</span><span class="p">)</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">u</span><span class="p">)</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="p">)</span></div>
 
 
 
@@ -531,24 +915,28 @@
 
 <div class="viewcode-block" id="PropagationAttr.__init__">
 <a class="viewcode-back" href="../../../generated/grakel.PropagationAttr.html#grakel.PropagationAttr.__init__">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">n_jobs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                 <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                 <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">metric</span><span class="o">=</span><span class="n">_dot</span><span class="p">,</span>
-                 <span class="n">M</span><span class="o">=</span><span class="s2">&quot;L1&quot;</span><span class="p">,</span>
-                 <span class="n">t_max</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
-                 <span class="n">w</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">n_jobs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">metric</span><span class="o">=</span><span class="n">_dot</span><span class="p">,</span>
+        <span class="n">M</span><span class="o">=</span><span class="s2">&quot;L1&quot;</span><span class="p">,</span>
+        <span class="n">t_max</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+        <span class="n">w</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialise a propagation kernel.&quot;&quot;&quot;</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">PropagationAttr</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="n">n_jobs</span><span class="p">,</span>
-                                              <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span>
-                                              <span class="n">normalize</span><span class="o">=</span><span class="n">normalize</span><span class="p">,</span>
-                                              <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">,</span>
-                                              <span class="n">metric</span><span class="o">=</span><span class="n">metric</span><span class="p">,</span>
-                                              <span class="n">M</span><span class="o">=</span><span class="n">M</span><span class="p">,</span>
-                                              <span class="n">t_max</span><span class="o">=</span><span class="n">t_max</span><span class="p">,</span>
-                                              <span class="n">w</span><span class="o">=</span><span class="n">w</span><span class="p">)</span></div>
+        <span class="nb">super</span><span class="p">(</span><span class="n">PropagationAttr</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">n_jobs</span><span class="o">=</span><span class="n">n_jobs</span><span class="p">,</span>
+            <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span>
+            <span class="n">normalize</span><span class="o">=</span><span class="n">normalize</span><span class="p">,</span>
+            <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">,</span>
+            <span class="n">metric</span><span class="o">=</span><span class="n">metric</span><span class="p">,</span>
+            <span class="n">M</span><span class="o">=</span><span class="n">M</span><span class="p">,</span>
+            <span class="n">t_max</span><span class="o">=</span><span class="n">t_max</span><span class="p">,</span>
+            <span class="n">w</span><span class="o">=</span><span class="n">w</span><span class="p">,</span>
+        <span class="p">)</span></div>
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -576,21 +964,20 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;input must be an iterable</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;input must be an iterable</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># The number of parsed graphs</span>
             <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="n">transition_matrix</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
             <span class="n">indexes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
             <span class="n">Attr</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-            <span class="k">for</span> <span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">X</span><span class="p">)):</span>
+            <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">X</span><span class="p">)):</span>
                 <span class="n">is_iter</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">is_iter</span><span class="p">:</span>
                     <span class="n">x</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">is_iter</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]:</span>
                     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;Ignoring empty element on &#39;</span> <span class="o">+</span>
-                                      <span class="s1">&#39;index: &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">idx</span><span class="p">))</span>
+                        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Ignoring empty element on &quot;</span> <span class="o">+</span> <span class="s2">&quot;index: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">idx</span><span class="p">))</span>
                         <span class="k">continue</span>
                     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="ow">is</span> <span class="n">Graph</span><span class="p">:</span>
                         <span class="n">g</span><span class="p">,</span> <span class="n">T</span> <span class="o">=</span> <span class="n">x</span>
@@ -603,29 +990,39 @@
                 <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">is</span> <span class="n">Graph</span><span class="p">:</span>
                     <span class="n">g</span><span class="p">,</span> <span class="n">T</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="kc">None</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Each element of X must be either a &#39;</span> <span class="o">+</span>
-                                     <span class="s1">&#39;Graph or an iterable with at least 2 &#39;</span> <span class="o">+</span>
-                                     <span class="s1">&#39;and at most 4 elements</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                        <span class="s2">&quot;Each element of X must be either a &quot;</span>
+                        <span class="o">+</span> <span class="s2">&quot;Graph or an iterable with at least 2 &quot;</span>
+                        <span class="o">+</span> <span class="s2">&quot;and at most 4 elements</span><span class="se">\n</span><span class="s2">&quot;</span>
+                    <span class="p">)</span>
 
                 <span class="k">if</span> <span class="n">T</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">T</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">T</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
-                        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Transition matrix on index&#39;</span> <span class="o">+</span>
-                                        <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;must be &#39;</span> <span class="o">+</span>
-                                        <span class="s1">&#39;a square matrix.&#39;</span><span class="p">)</span>
+                        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                            <span class="s2">&quot;Transition matrix on index&quot;</span>
+                            <span class="o">+</span> <span class="s2">&quot; &quot;</span>
+                            <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+                            <span class="o">+</span> <span class="s2">&quot;must be &quot;</span>
+                            <span class="o">+</span> <span class="s2">&quot;a square matrix.&quot;</span>
+                        <span class="p">)</span>
                     <span class="k">if</span> <span class="n">T</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">g</span><span class="o">.</span><span class="n">nv</span><span class="p">():</span>
-                        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Propagation matrix must &#39;</span> <span class="o">+</span>
-                                        <span class="s1">&#39;have the same dimension &#39;</span> <span class="o">+</span>
-                                        <span class="s1">&#39;as the number of vertices.&#39;</span><span class="p">)</span>
+                        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                            <span class="s2">&quot;Propagation matrix must &quot;</span>
+                            <span class="o">+</span> <span class="s2">&quot;have the same dimension &quot;</span>
+                            <span class="o">+</span> <span class="s2">&quot;as the number of vertices.&quot;</span>
+                        <span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">T</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">get_adjacency_matrix</span><span class="p">()</span>
 
                 <span class="n">nv</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">nv</span><span class="p">()</span>
-                <span class="n">transition_matrix</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">normalizer</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="s1">&#39;l1&#39;</span><span class="p">)</span>
+                <span class="n">transition_matrix</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">normalizer</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="s2">&quot;l1&quot;</span><span class="p">)</span>
                 <span class="n">attr</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">get_labels</span><span class="p">(</span><span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;adjacency&quot;</span><span class="p">)</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">attributes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">attr</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nv</span><span class="p">)])</span>
                 <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;All attributes of a single graph should have the same dimension.&#39;</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                        <span class="s2">&quot;All attributes of a single graph should have the same dimension.&quot;</span>
+                    <span class="p">)</span>
 
                 <span class="n">Attr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">attributes</span><span class="p">)</span>
                 <span class="n">indexes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">indexes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">nv</span><span class="p">)</span>
@@ -633,17 +1030,18 @@
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">P</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">Attr</span><span class="p">)</span>
             <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Attribute dimensions should be the same, for all graphs&#39;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Attribute dimensions should be the same, for all graphs&quot;</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_method_calling</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_dim</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dim</span> <span class="o">!=</span> <span class="n">P</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
-                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;transform attribute vectors should&#39;</span>
-                                     <span class="s1">&#39;have the same dimension as in fit&#39;</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                        <span class="s2">&quot;transform attribute vectors should have the same dimension as in fit&quot;</span>
+                    <span class="p">)</span>
 
             <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Parsed input is empty&#39;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Parsed input is empty&quot;</span><span class="p">)</span>
 
             <span class="c1"># feature vectors</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_method_calling</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
@@ -657,7 +1055,7 @@
 
                     <span class="bp">self</span><span class="o">.</span><span class="n">_u</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
                     <span class="c1"># random offset</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">_b</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state_</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_dim</span><span class="p">))</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_b</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">w</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">random_state_</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_dim</span><span class="p">))</span>
 
                 <span class="n">phi</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="nb">dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)}</span>
                 <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t_max</span><span class="p">):</span>
@@ -671,12 +1069,12 @@
 
                     <span class="c1"># Accumulate the results.</span>
                     <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-                        <span class="n">phi</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">features</span><span class="p">[</span><span class="n">indexes</span><span class="p">[</span><span class="n">k</span><span class="p">]:</span><span class="n">indexes</span><span class="p">[</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">]]</span><span class="o">.</span><span class="n">flat</span><span class="p">)</span>
+                        <span class="n">phi</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">features</span><span class="p">[</span><span class="n">indexes</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="p">:</span> <span class="n">indexes</span><span class="p">[</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]]</span><span class="o">.</span><span class="n">flat</span><span class="p">)</span>
 
                     <span class="c1"># calculate the Propagation matrix if needed</span>
-                    <span class="k">if</span> <span class="n">t</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_max</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">t</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_max</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
                         <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-                            <span class="n">start</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="n">indexes</span><span class="p">[</span><span class="n">k</span><span class="p">:</span><span class="n">k</span><span class="o">+</span><span class="mi">2</span><span class="p">]</span>
+                            <span class="n">start</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="n">indexes</span><span class="p">[</span><span class="n">k</span> <span class="p">:</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]</span>
                             <span class="n">P</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">transition_matrix</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">P</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">,</span> <span class="p">:])</span>
 
                 <span class="k">return</span> <span class="p">[</span><span class="n">phi</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
@@ -687,23 +1085,31 @@
                     <span class="c1"># for hash all graphs inside P and produce the feature vectors</span>
                     <span class="n">hashes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculate_LSH</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_u</span><span class="p">[</span><span class="n">t</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_b</span><span class="p">[</span><span class="n">t</span><span class="p">])</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
 
-                    <span class="n">hd</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">chain</span><span class="p">(</span>
-                            <span class="n">iteritems</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_hd</span><span class="p">[</span><span class="n">t</span><span class="p">]),</span>
-                            <span class="nb">iter</span><span class="p">((</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span>
-                                    <span class="n">filterfalse</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hd</span><span class="p">[</span><span class="n">t</span><span class="p">],</span>
-                                                <span class="p">{</span><span class="nb">tuple</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">hashes</span><span class="p">}),</span>
-                                    <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_hd</span><span class="p">[</span><span class="n">t</span><span class="p">])))))</span>
+                    <span class="n">hd</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+                        <span class="n">chain</span><span class="p">(</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">_hd</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span>
+                            <span class="nb">iter</span><span class="p">(</span>
+                                <span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+                                <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span>
+                                    <span class="n">filterfalse</span><span class="p">(</span>
+                                        <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hd</span><span class="p">[</span><span class="n">t</span><span class="p">],</span> <span class="p">{</span><span class="nb">tuple</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">hashes</span><span class="p">}</span>
+                                    <span class="p">),</span>
+                                    <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_hd</span><span class="p">[</span><span class="n">t</span><span class="p">]),</span>
+                                <span class="p">)</span>
+                            <span class="p">),</span>
+                        <span class="p">)</span>
+                    <span class="p">)</span>
 
                     <span class="n">features</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">hd</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">l</span><span class="p">)]</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">hashes</span><span class="p">])</span>
 
                     <span class="c1"># Accumulate the results.</span>
                     <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-                        <span class="n">phi</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">features</span><span class="p">[</span><span class="n">indexes</span><span class="p">[</span><span class="n">k</span><span class="p">]:</span><span class="n">indexes</span><span class="p">[</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">]])</span>
+                        <span class="n">phi</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">features</span><span class="p">[</span><span class="n">indexes</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="p">:</span> <span class="n">indexes</span><span class="p">[</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]])</span>
 
                     <span class="c1"># calculate the Propagation matrix if needed</span>
-                    <span class="k">if</span> <span class="n">t</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_max</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">t</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_max</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
                         <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-                            <span class="n">start</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="n">indexes</span><span class="p">[</span><span class="n">k</span><span class="p">:</span><span class="n">k</span><span class="o">+</span><span class="mi">2</span><span class="p">]</span>
+                            <span class="n">start</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="n">indexes</span><span class="p">[</span><span class="n">k</span> <span class="p">:</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]</span>
                             <span class="n">P</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">transition_matrix</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">P</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">,</span> <span class="p">:])</span>
 
                 <span class="k">return</span> <span class="p">[</span><span class="n">phi</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
@@ -730,191 +1136,73 @@
 <span class="sd">            The local sensitive hash coresponding to each vertex.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">((</span><span class="n">X</span><span class="o">*</span><span class="n">u</span><span class="o">+</span><span class="n">b</span><span class="p">)</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">((</span><span class="n">X</span> <span class="o">*</span> <span class="n">u</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="p">)</span></div>
 
-
-
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">grakel.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">fetch_dataset</span>
-    <span class="kn">import</span><span class="w"> </span><span class="nn">argparse</span>
-    <span class="c1"># Create an argument parser for the installer of pynauty</span>
-    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span>
-        <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Measuring classification accuracy &#39;</span>
-                    <span class="s1">&#39;on multiscale_laplacian_fast&#39;</span><span class="p">)</span>
-
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s1">&#39;--dataset&#39;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;choose the datset you want the tests to be executed&#39;</span><span class="p">,</span>
-        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
-        <span class="n">default</span><span class="o">=</span><span class="kc">None</span>
-    <span class="p">)</span>
-
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s1">&#39;--full&#39;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;fit_transform the full graph&#39;</span><span class="p">,</span>
-        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">)</span>
-
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s1">&#39;--attr&#39;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;define if the attributed kernel will be used&#39;</span><span class="p">,</span>
-        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">)</span>
-
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s1">&#39;--tmax&#39;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;choose the datset you want the tests to be executed&#39;</span><span class="p">,</span>
-        <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
-        <span class="n">default</span><span class="o">=</span><span class="mi">5</span>
-    <span class="p">)</span>
-
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s1">&#39;--w&#39;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;choose the datset you want the tests to be executed&#39;</span><span class="p">,</span>
-        <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span>
-        <span class="n">default</span><span class="o">=</span><span class="mf">0.01</span>
-    <span class="p">)</span>
-
-    <span class="c1"># Get the dataset name</span>
-    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
-    <span class="n">has_attributes</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">attr</span><span class="p">)</span>
-    <span class="n">dataset_name</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">dataset</span>
-    <span class="n">tmax</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">tmax</span>
-    <span class="n">w</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">w</span>
-    <span class="n">full</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">full</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">dataset_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">has_attributes</span><span class="p">:</span>
-            <span class="n">dataset_name</span> <span class="o">=</span> <span class="s2">&quot;BZR&quot;</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">dataset_name</span> <span class="o">=</span> <span class="s2">&quot;MUTAG&quot;</span>
-
-    <span class="c1"># The baseline dataset for node/edge-attributes</span>
-    <span class="n">dataset_attr</span> <span class="o">=</span> <span class="n">fetch_dataset</span><span class="p">(</span><span class="n">dataset_name</span><span class="p">,</span>
-                                 <span class="n">with_classes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                                 <span class="n">prefer_attr_nodes</span><span class="o">=</span><span class="n">has_attributes</span><span class="p">,</span>
-                                 <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-    <span class="kn">from</span><span class="w"> </span><span class="nn">tqdm</span><span class="w"> </span><span class="kn">import</span> <span class="n">tqdm</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">time</span><span class="w"> </span><span class="kn">import</span> <span class="n">time</span>
-
-    <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">accuracy_score</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">KFold</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn</span><span class="w"> </span><span class="kn">import</span> <span class="n">svm</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">sec_to_time</span><span class="p">(</span><span class="n">sec</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Print time in a correct format.&quot;&quot;&quot;</span>
-        <span class="n">dt</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-        <span class="n">days</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">sec</span> <span class="o">//</span> <span class="mi">86400</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">days</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">sec</span> <span class="o">-=</span> <span class="mi">86400</span><span class="o">*</span><span class="n">days</span>
-            <span class="n">dt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">days</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; d&quot;</span><span class="p">)</span>
-
-        <span class="n">hrs</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">sec</span> <span class="o">//</span> <span class="mi">3600</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">hrs</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">sec</span> <span class="o">-=</span> <span class="mi">3600</span><span class="o">*</span><span class="n">hrs</span>
-            <span class="n">dt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">hrs</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; h&quot;</span><span class="p">)</span>
-
-        <span class="n">mins</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">sec</span> <span class="o">//</span> <span class="mi">60</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">mins</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">sec</span> <span class="o">-=</span> <span class="mi">60</span><span class="o">*</span><span class="n">mins</span>
-            <span class="n">dt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">mins</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; m&quot;</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="n">sec</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">dt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">sec</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot; s&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
-
-    <span class="c1"># Loads the Mutag dataset from:</span>
-    <span class="c1"># https://ls11-www.cs.tu-dortmund.de/staff/morris/graphkerneldatasets</span>
-    <span class="c1"># the biggest collection of benchmark datasets for graph_kernels.</span>
-    <span class="n">G</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">dataset_attr</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">dataset_attr</span><span class="o">.</span><span class="n">target</span>
-    <span class="n">C_grid</span> <span class="o">=</span> <span class="p">(</span><span class="mf">10.</span> <span class="o">**</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">G</span><span class="p">))</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-
-    <span class="n">stats</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;acc&quot;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(),</span> <span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="nb">list</span><span class="p">()}</span>
-
-    <span class="n">kf</span> <span class="o">=</span> <span class="n">KFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">niter</span> <span class="o">=</span> <span class="n">kf</span><span class="o">.</span><span class="n">get_n_splits</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
-
-    <span class="k">for</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="p">(</span><span class="n">train_index</span><span class="p">,</span> <span class="n">test_index</span><span class="p">))</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">enumerate</span><span class="p">(</span><span class="n">kf</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">y</span><span class="p">)),</span>
-                                               <span class="n">total</span><span class="o">=</span><span class="n">niter</span><span class="p">):</span>
-        <span class="c1"># Train-test split of graph data</span>
-        <span class="n">tri</span> <span class="o">=</span> <span class="n">train_index</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-        <span class="n">tei</span> <span class="o">=</span> <span class="n">test_index</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-
-        <span class="n">G_train</span><span class="p">,</span> <span class="n">G_test</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(),</span> <span class="nb">list</span><span class="p">()</span>
-        <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(),</span> <span class="nb">list</span><span class="p">()</span>
-        <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">t</span><span class="p">))</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">y</span><span class="p">)):</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tri</span><span class="p">)</span> <span class="ow">and</span> <span class="n">i</span> <span class="o">==</span> <span class="n">tri</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
-                <span class="n">G_train</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
-                <span class="n">y_train</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
-                <span class="n">tri</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">tei</span><span class="p">)</span> <span class="ow">and</span> <span class="n">i</span> <span class="o">==</span> <span class="n">tei</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
-                <span class="n">G_test</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
-                <span class="n">y_test</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
-                <span class="n">tei</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-
-        <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">has_attributes</span><span class="p">:</span>
-            <span class="n">gk</span> <span class="o">=</span> <span class="n">PropagationAttr</span><span class="p">(</span><span class="n">M</span><span class="o">=</span><span class="s2">&quot;L1&quot;</span><span class="p">,</span> <span class="n">t_max</span><span class="o">=</span><span class="n">tmax</span><span class="p">,</span> <span class="n">w</span><span class="o">=</span><span class="n">w</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">gk</span> <span class="o">=</span> <span class="n">Propagation</span><span class="p">(</span><span class="n">M</span><span class="o">=</span><span class="s2">&quot;H&quot;</span><span class="p">,</span> <span class="n">t_max</span><span class="o">=</span><span class="n">tmax</span><span class="p">,</span> <span class="n">w</span><span class="o">=</span><span class="n">w</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-        <span class="c1"># Calculate the kernel matrix.</span>
-        <span class="k">if</span> <span class="n">full</span><span class="p">:</span>
-            <span class="n">K</span> <span class="o">=</span> <span class="n">gk</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
-            <span class="n">K_train</span> <span class="o">=</span> <span class="n">K</span><span class="p">[</span><span class="n">train_index</span><span class="p">,</span> <span class="p">:][:,</span> <span class="n">train_index</span><span class="p">]</span>
-            <span class="n">K_test</span> <span class="o">=</span> <span class="n">K</span><span class="p">[</span><span class="n">test_index</span><span class="p">,</span> <span class="p">:][:,</span> <span class="n">train_index</span><span class="p">]</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">K_train</span> <span class="o">=</span> <span class="n">gk</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">G_train</span><span class="p">)</span>
-            <span class="n">K_test</span> <span class="o">=</span> <span class="n">gk</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">G_test</span><span class="p">)</span>
-        <span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
-
-        <span class="c1"># Cross validation on C, variable</span>
-        <span class="n">acc</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">C_grid</span><span class="p">:</span>
-            <span class="c1"># Initialise an SVM and fit.</span>
-            <span class="n">clf</span> <span class="o">=</span> <span class="n">svm</span><span class="o">.</span><span class="n">SVC</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;precomputed&#39;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="n">c</span><span class="p">)</span>
-
-            <span class="c1"># Fit on the train Kernel</span>
-            <span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">K_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
-
-            <span class="c1"># Predict and test.</span>
-            <span class="n">y_pred</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">K_test</span><span class="p">)</span>
-
-            <span class="c1"># Calculate accuracy of classification.</span>
-            <span class="n">acc</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">acc</span><span class="p">,</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))</span>
-
-        <span class="n">stats</span><span class="p">[</span><span class="s2">&quot;acc&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">acc</span><span class="p">)</span>
-        <span class="n">stats</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">end</span><span class="o">-</span><span class="n">start</span><span class="p">)</span>
-
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Mean values of&quot;</span><span class="p">,</span> <span class="n">niter</span><span class="p">,</span> <span class="s2">&quot;iterations:&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Propagation&quot;</span><span class="p">,</span> <span class="s2">&quot;&gt; Accuracy:&quot;</span><span class="p">,</span>
-          <span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">stats</span><span class="p">[</span><span class="s2">&quot;acc&quot;</span><span class="p">])</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span> <span class="mi">2</span><span class="p">)),</span>
-          <span class="s2">&quot;% | Took:&quot;</span><span class="p">,</span> <span class="n">sec_to_time</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">stats</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">])))</span>
 </pre></div>
 
-           </div>
+                </article>
+              
+              
+              
+              
+              
+            </div>
+            
+            
+              
+            
           </div>
-          <footer>
-
-  <hr/>
-
-  <div role="contentinfo">
-    <p>&#169; Copyright 2019, DaSciM (BSD License).</p>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
   </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9"></script>
 
-  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
 
-</footer>
-        </div>
-      </div>
-    </section>
-  </div>
-  <script>
-      jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
-      });
-  </script> 
+  <p class="copyright">
+    
+      © Copyright 2019, DaSciM (BSD License).
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
 
-</body>
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.20.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
 </html>
