@@ -55,6 +55,7 @@ The GraKeL library requires the following packages to be installed:
 * scikit-learn (>=0.24.0)
 * Cython (>=0.29.21)
 * cvxopt (>=1.2.0) [optional]
+* networkx (>=3.0) [optional]
 
 To install the package, run:
 

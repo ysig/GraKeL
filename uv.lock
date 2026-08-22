@@ -509,7 +509,7 @@ wheels = [
 
 [[package]]
 name = "grakel"
-version = "0.1.11"
+version = "0.1.12"
 source = { editable = "." }
 dependencies = [
     { name = "cython" },
@@ -530,6 +530,7 @@ dependencies = [
 [package.optional-dependencies]
 dev = [
     { name = "cvxopt" },
+    { name = "networkx" },
     { name = "pytest", version = "8.4.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.10'" },
     { name = "pytest", version = "9.1.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.10'" },
     { name = "pytest-coverage" },
@@ -539,7 +540,11 @@ dev = [
 lovasz = [
     { name = "cvxopt" },
 ]
+networkx = [
+    { name = "networkx" },
+]
 test = [
+    { name = "networkx" },
     { name = "pytest", version = "8.4.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.10'" },
     { name = "pytest", version = "9.1.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.10'" },
     { name = "pytest-coverage" },
@@ -558,6 +563,9 @@ requires-dist = [
     { name = "cvxopt", marker = "extra == 'lovasz'", specifier = ">=1.2.0" },
     { name = "cython", specifier = ">=0.29.21" },
     { name = "joblib" },
+    { name = "networkx", marker = "extra == 'dev'" },
+    { name = "networkx", marker = "extra == 'networkx'", specifier = ">=3.0" },
+    { name = "networkx", marker = "extra == 'test'" },
     { name = "numpy", specifier = ">=1.19.0" },
     { name = "pytest", marker = "extra == 'dev'" },
     { name = "pytest", marker = "extra == 'test'" },
@@ -570,7 +578,7 @@ requires-dist = [
     { name = "torch-geometric", marker = "extra == 'dev'" },
     { name = "torch-geometric", marker = "extra == 'test'" },
 ]
-provides-extras = ["lovasz", "dev", "test", "wheel"]
+provides-extras = ["lovasz", "networkx", "dev", "test", "wheel"]
 
 [[package]]
 name = "h5py"

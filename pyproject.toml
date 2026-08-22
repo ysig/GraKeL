@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "GraKeL"
-version='0.1.11'
+version='0.1.12'
 dependencies = [
     "numpy >= 1.19.0",
     "scipy >= 1.12.0",
@@ -40,8 +40,9 @@ license= { file = "LICENSE" }
 
 [project.optional-dependencies]
 lovasz = ["cvxopt>=1.2.0"]
-dev = ["cvxopt>=1.2.0", "pytest", "pytest-coverage", "torch_geometric"]
-test = ["pytest", "pytest-coverage", "torch_geometric"]
+networkx = ["networkx>=3.0"]
+dev = ["cvxopt>=1.2.0", "pytest", "pytest-coverage", "torch_geometric", "networkx"]
+test = ["pytest", "pytest-coverage", "torch_geometric", "networkx"]
 wheel = ["pytest", "pytest-coverage"]
 
 [project.urls]
