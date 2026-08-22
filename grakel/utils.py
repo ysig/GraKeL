@@ -276,10 +276,7 @@ def graph_from_networkx(X, node_labels_tag=None, edge_labels_tag=None, edge_weig
 
     if node_labels_tag is None:
         def nodel_init():
-            if val_node_labels is None:
-                return None
-            else:
-                return dict()
+            return dict() if val_node_labels is not None else None
 
         def nodel_put(nl, u, d):
             if val_node_labels is not None:
@@ -296,10 +293,7 @@ def graph_from_networkx(X, node_labels_tag=None, edge_labels_tag=None, edge_weig
 
     if edge_labels_tag is None:
         def edgel_init():
-            if val_edge_labels is None:
-                return None
-            else:
-                return dict()
+            return dict() if val_edge_labels is not None else None
 
         def edgel_put(el, u, d):
             if val_edge_labels is not None:
@@ -328,14 +322,11 @@ def graph_from_networkx(X, node_labels_tag=None, edge_labels_tag=None, edge_weig
     if not isinstance(X, Iterable):
         raise ValueError('X must be an iterable')
 
-    def take_ne(graph):
-        return graph.nodes, graph.edges
-
     for G in X:
         graph_object = dict()
         nl = nodel_init()
         el = edgel_init()
-        nodes, edges = take_ne(G)
+        nodes, edges = G.nodes, G.edges
         for u in G.nodes():
             graph_object[u] = dict()
             nodel_put(nl, u, nodes)
@@ -401,22 +392,20 @@ def networkx_from_graph(G, node_labels_tag='label', edge_labels_tag='label',
     netG = nx.DiGraph() if directed else nx.Graph()
 
     vertices = set(G.vertices) if G.vertices is not None else set()
-    vertices.update(edge_dict.keys())
-    for u in edge_dict:
-        vertices.update(edge_dict[u].keys())
+    vertices.update(edge_dict)
+    vertices.update(v for vs in edge_dict.values() for v in vs)
 
     for u in vertices:
-        attrs = dict()
-        if node_labels_tag is not None and bool(node_labels) and u in node_labels:
-            attrs[node_labels_tag] = node_labels[u]
-        netG.add_node(u, **attrs)
+        netG.add_node(u, **({node_labels_tag: node_labels[u]}
+                            if node_labels_tag is not None and node_labels
+                            and u in node_labels else {}))
 
     for u in edge_dict:
         for v, w in edge_dict[u].items():
             attrs = dict()
             if edge_weight_tag is not None:
                 attrs[edge_weight_tag] = w
-            if edge_labels_tag is not None and bool(edge_labels) \
+            if edge_labels_tag is not None and edge_labels \
                     and (u, v) in edge_labels:
                 attrs[edge_labels_tag] = edge_labels[(u, v)]
             netG.add_edge(u, v, **attrs)
