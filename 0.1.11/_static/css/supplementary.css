@@ -228,26 +228,17 @@ div.sphinxsidebar a {
 }
 
 
-/* responsive for font-size. */
+/* Responsive font-size.
+
+   These used to scale the body up to 115%, which suited the old theme's
+   smaller base. They never actually took effect -- the stylesheet was being
+   requested from the wrong path -- so once that was fixed they stacked on top
+   of a theme that is already comfortable to read, and the whole site came out
+   oversized. Leave the base alone and only lift it on narrow screens. */
 
 @media (max-width: 875px) {
     body {
-        font-size: 105%;
-        /* Increase font size for responsive theme */
-    }
-}
-
-@media (max-width: 1480px) and (min-width: 876px) {
-    body {
-        font-size: 110%;
-        /* Increase font size for not-so-big screens */
-    }
-}
-
-@media (min-width: 1481px) {
-    body {
-        font-size: 115%;
-        /* Increase even more font size for big screens */
+        font-size: 102%;
     }
 }
 
@@ -383,13 +374,13 @@ div.sphinxsidebar a {
    size on the container alone leaves them untouched. */
 .bd-sidebar-primary .onthispage,
 .bd-sidebar-primary .bd-links__title {
-    font-size: 1.2rem;
+    font-size: 1.05rem;
 }
 .bd-sidebar-primary nav a,
 .bd-sidebar-primary nav.page-toc a,
 .bd-sidebar-primary .toc-entry a {
     /* the theme sets these from a more specific rule, so it has to be forced */
-    font-size: 1.15rem !important;
+    font-size: 1rem !important;
 }
 
 /* Space the header links out, so the row reaches closer to the search box
