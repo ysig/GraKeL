@@ -395,3 +395,12 @@ div.sphinxsidebar a {
 .bd-header .navbar-header-items__end {
     margin-right: 5rem;
 }
+
+/* Bring the whole left block -- logo, page contents and the divider -- in
+   from the window edge, rather than sitting hard against it. */
+.bd-header .navbar-header-items__start {
+    margin-left: 2.5rem;
+}
+.bd-sidebar-primary {
+    margin-left: 2.5rem;
+}
