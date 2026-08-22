@@ -1,7 +1,9 @@
 """
-===========================================================================
+==================
+Erdos-Renyi graphs
+==================
+
 Graph classification on a randomly generated dataset of Erdos-Renyi graphs.
-===========================================================================
 
 Script makes use of :class:`grakel.Graph` and :class:`grakel.ShortestPath`
 """

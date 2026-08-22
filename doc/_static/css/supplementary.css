@@ -324,3 +324,83 @@ div.sphinxsidebar a {
     margin-right: auto;
     background-size: 35px 35px;
 }
+
+/* Narrow the left hand column: the nav entries are short, so the default
+   quarter of the viewport leaves a lot of empty space beside them. */
+.bd-sidebar-primary {
+    width: 17%;
+    max-width: 260px;
+}
+
+/* Pages with no child pages still render the "Section Navigation" heading
+   above an empty list; hide the whole block when there is nothing in it. */
+.bd-sidebar-primary nav.bd-links:has(> .bd-toc-item:empty) {
+    display: none;
+}
+
+/* The gallery download links are block containers, so they stack; put them
+   side by side instead. */
+.sphx-glr-footer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+}
+.sphx-glr-footer .sphx-glr-download {
+    /* share the row evenly: at their natural width the two labels are wider
+       than the content column and would wrap onto separate lines */
+    margin: 0;
+    max-width: none;
+    flex: 1 1 0;
+    min-width: 0;
+}
+.sphx-glr-footer .sphx-glr-download p {
+    margin: 0;
+}
+.sphx-glr-footer .sphx-glr-download code,
+.sphx-glr-footer .sphx-glr-download code span {
+    white-space: normal;
+    word-break: break-word;
+}
+
+/* The logo sits in an over-wide box, which pushed the navigation towards the
+   middle of the header; let it shrink to the logo and start the links there. */
+.bd-header .navbar-header-items {
+    justify-content: flex-start;
+}
+.bd-header .navbar-header-items__start {
+    width: auto;
+    flex: 0 0 auto;
+    margin-right: 2rem;
+}
+.bd-header .navbar-header-items__center {
+    flex: 1 1 auto;
+    justify-content: flex-start;
+}
+
+/* The page contents in the left column were noticeably smaller than the body
+   text. The links carry their own rule, so they need naming separately -- a
+   size on the container alone leaves them untouched. */
+.bd-sidebar-primary .onthispage,
+.bd-sidebar-primary .bd-links__title {
+    font-size: 1.2rem;
+}
+.bd-sidebar-primary nav a,
+.bd-sidebar-primary nav.page-toc a,
+.bd-sidebar-primary .toc-entry a {
+    /* the theme sets these from a more specific rule, so it has to be forced */
+    font-size: 1.15rem !important;
+}
+
+/* Space the header links out, so the row reaches closer to the search box
+   instead of bunching up on the left. */
+.bd-header .navbar-header-items__center .navbar-nav > li,
+.bd-header .navbar-nav li.nav-item {
+    margin-right: 1.1rem;
+}
+
+/* Pull the search box and the icon links in from the right edge, so they sit
+   inside the header rather than hard against it. */
+.bd-header .navbar-header-items__end {
+    margin-right: 5rem;
+}

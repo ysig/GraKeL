@@ -1,7 +1,9 @@
 """
-=========================================================================
+================================
+Weisfeiler-Lehman subtree kernel
+================================
+
 Graph classification on MUTAG using the Weisfeiler-Lehman subtree kernel.
-=========================================================================
 
 Script makes use of :class:`grakel.WeisfeilerLehman`, :class:`grakel.VertexHistogram`
 """

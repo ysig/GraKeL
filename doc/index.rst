@@ -7,12 +7,10 @@ Overview
 
 *GraKeL* is a Python package which provides implementations of several graph kernels, a family of powerful methods which allow kernel-based learning approaches such as SVMs to work directly on graphs.
 
-Getting Started
+.. toctree::
+   :maxdepth: 2
 
-  .. toctree::
-    :maxdepth: 2
-
-    documentation
+   documentation
 
 ==========
 What's New
@@ -80,38 +78,43 @@ What's New
 
 - Version **0.1a8**
 
-  + Added a new kernel: [Weisfeiler-Lehman-Optimal-Assignment](https://ysig.github.io/GraKeL/0.1a8/kernels/weisfeiler_lehman_optimal_assignment.html).
-  + Removed MultiScaleLaplacian (as being really slow and useless) and renamed MultiScaleLaplacianFast to MultiScaleLaplacian.
-  + Fixed minor issues (joblib deprecation, skbunch etc) from `0.1a7`.
+  + Added a new kernel:
+    `Weisfeiler-Lehman-Optimal-Assignment
+    <https://ysig.github.io/GraKeL/0.1a8/kernels/weisfeiler_lehman_optimal_assignment.html>`_.
+  + Removed :code:`MultiScaleLaplacian` as being really slow, and renamed
+    :code:`MultiScaleLaplacianFast` to :code:`MultiScaleLaplacian`.
+  + Fixed minor issues carried over from 0.1a7 (joblib deprecation, skbunch and
+    the like).
 
 - Version **0.1a7**
 
-  + Detailed installation instructions for c++ extensions in windows.
-  + Changed `base_kernel` alias in frameworks with `base_graph_kernel` to disambiguate with vectorial kernels.
-  + Speed-up for floyd_warshall calculation in graph.py.
-  + Large update throughout all the documentation.
+  + Detailed installation instructions for the c++ extensions on windows.
+  + Renamed the :code:`base_kernel` argument of the frameworks to
+    :code:`base_graph_kernel`, to disambiguate it from the vectorial kernels.
+  + Faster floyd-warshall calculation in :code:`graph.py`.
+  + Large update throughout the documentation.
 
 - Version **0.1a6**
 
-  + More scikit-learn compatibility:
-
-    1. Initialise kernels by name and alias on GraphKernel (as GraphKernel(kernel="shortest_path").
-    2. Fit and instantion by default parameters.
-    3. Random number generator standardized `check_random_state`. `random_seed` are now `random_state` arguments.
-    4. Doctests.
-
-  + Miscelanous: 
-
-    1. Detailed unsupported kernel output.
-    2. More detailed licensing information considering **cvxopt** and **BLISS**
-    3. Small bugfix inside the (Count Sensitive) Neighborhood Hash Kernel.
-    4. Added sparse-compatibility for VertexHistogram and for EdgeHistogram.
+  + More scikit-learn compatibility: kernels can be initialised by name and
+    alias on :code:`GraphKernel`, fitting and instantiation work from the
+    default parameters, the random number generator is standardised on
+    :code:`check_random_state` so :code:`random_seed` arguments are now
+    :code:`random_state`, and the docstrings carry doctests.
+  + More detailed output when a kernel is unsupported.
+  + More detailed licensing information covering **cvxopt** and **BLISS**.
+  + Bugfix in the (count sensitive) neighborhood hash kernel.
+  + Sparse input support for :code:`VertexHistogram` and :code:`EdgeHistogram`.
 
 - Version **0.1a5**
 
-  + Various bugfixes in kernel implementations.
-  + Added a bunch of :code:`utils` functions for external operations: transforming existing *graph formats* (csv, pandas, networkx) to the grakel native, *k-fold cross validation* with an SVM and *kernel matrix transformer* for manipulating precomputed kernel matrices in an :code:`Transformer` fashion.
-  + **Conda** compatibility: visit `<https://anaconda.org/ysig/grakel-dev>`_.
+  + Various bugfixes in the kernel implementations.
+  + Added :code:`utils` functions for external operations: converting existing
+    *graph formats* (csv, pandas, networkx) to the grakel native one, *k-fold
+    cross validation* with an SVM, and a *kernel matrix transformer* for
+    manipulating precomputed kernel matrices in a :code:`Transformer` fashion.
+  + **Conda** compatibility: visit `anaconda.org/ysig/grakel-dev
+    <https://anaconda.org/ysig/grakel-dev>`_.
 
 ==========
 Benchmarks
@@ -119,10 +122,10 @@ Benchmarks
 
 To demonstrate the efficiency of the algorithms implemented in *GraKeL*, we present a comparison of the running times of the implementations of some graph kernels from *GraKeL* and from other packages. We also compare the running times of the different kernels to each other.
 
-  .. toctree::
-    :maxdepth: 2
+.. toctree::
+   :maxdepth: 2
 
-    benchmarks
+   benchmarks
 
 =================
 Package Reference
@@ -130,15 +133,13 @@ Package Reference
 
 A collection of all classes and functions important for the use and understanding of the *GraKeL* package.
 
-GraKeL provides
+.. toctree::
+   :maxdepth: 2
 
-  .. toctree::
-    :maxdepth: 1
-
-    api
-    classes
-    auto_examples/index
-    tutorials
+   api
+   classes
+   auto_examples/index
+   tutorials
 
 
 ================

@@ -1,7 +1,9 @@
 """
-====================================================
+=======================
+Classification pipeline
+=======================
+
 Example of building a graph classification pipeline.
-====================================================
 
 Script makes use of :class:`grakel.ShortestPath`
 """

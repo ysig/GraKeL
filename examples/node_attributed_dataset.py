@@ -1,7 +1,9 @@
 """
-=======================================================================
+======================
+Node-attributed graphs
+======================
+
 Graph classification on a dataset that contains node-attributed graphs.
-=======================================================================
 
 Script makes use of :class:`grakel.PropagationAttr`
 """

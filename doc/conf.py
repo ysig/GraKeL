@@ -16,7 +16,6 @@ import sys
 import os
 
 import sphinx_gallery
-import sphinx_rtd_theme
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
@@ -65,8 +64,8 @@ xref_links = {
     "lgscv": ("sklearn.model_selection.GridSearchCV",
               "http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html"
               ),
-    "gd": ("https://ls11-www.cs.tu-dortmund.de/staff/morris/graphkerneldatasets",
-            "https://ls11-www.cs.tu-dortmund.de/staff/morris/graphkerneldatasets")
+    "gd": ("https://chrsmrrs.github.io/datasets/docs/datasets/",
+            "https://chrsmrrs.github.io/datasets/docs/datasets/")
     }
 
 # Bibtex files used by :cite: roles in docstrings and .. bibliography::
@@ -184,15 +183,33 @@ pygments_style = 'sphinx'
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-html_theme = 'sphinx_rtd_theme'
+html_theme = 'pydata_sphinx_theme'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
-#html_theme_options = {}
+html_theme_options = {
+    "github_url": "https://github.com/ysig/GraKeL",
+    "collapse_navigation": True,
+    "show_prev_next": False,
+    "navbar_end": ["theme-switcher", "navbar-icon-links"],
+    # no right hand column: the page contents sit on the left, and search is
+    # the button in the header
+    "secondary_sidebar_items": [],
+    "icon_links": [
+        {
+            "name": "PyPI",
+            "url": "https://pypi.org/project/GraKeL/",
+            "icon": "fa-solid fa-box",
+        },
+    ],
+}
+
+# page contents above the section navigation, in the left hand column
+html_sidebars = {"**": ["page-toc", "sidebar-nav-bs"]}
 
 # Add any paths that contain custom themes here, relative to this directory.
-html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
+html_theme_path = []
 
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".
@@ -353,7 +370,8 @@ def generate_example_rst(app, what, name, obj, options, lines):
 
 
 def setup(app):
-    app.add_css_file('_static/css/supplementary.css')
+    # sphinx already resolves this against _static/
+    app.add_css_file('css/supplementary.css')
     app.connect('autodoc-process-docstring', generate_example_rst)
 
 # Documents to append as an appendix to all manuals.

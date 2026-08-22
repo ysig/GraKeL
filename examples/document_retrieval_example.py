@@ -1,7 +1,9 @@
 """
-==============================================================================
+==================
+Document retrieval
+==================
+
 Retrieval of most similar document using the Weisfeiler-Lehman subtree kernel.
-==============================================================================
 Script makes use of :class:`grakel.WeisfeilerLehman`, :class:`grakel.VertexHistogram`
 """
 from __future__ import print_function

@@ -1,7 +1,9 @@
 """
-===================================================================================
+==========================
+Optimizing hyperparameters
+==========================
+
 Performing cross-validation n times, optimizing SVM's and kernel's hyperparameters.
-===================================================================================
 
 Script makes use of :class:`grakel.WeisfeilerLehman`, :class:`grakel.VertexHistogram`
 """
