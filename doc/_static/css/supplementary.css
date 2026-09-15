@@ -362,7 +362,7 @@ div.sphinxsidebar a {
 .bd-header .navbar-header-items__start {
     width: auto;
     flex: 0 0 auto;
-    margin-right: 2rem;
+    margin-right: 4rem;
 }
 .bd-header .navbar-header-items__center {
     flex: 1 1 auto;
@@ -399,8 +399,23 @@ div.sphinxsidebar a {
 /* Bring the whole left block -- logo, page contents and the divider -- in
    from the window edge, rather than sitting hard against it. */
 .bd-header .navbar-header-items__start {
-    margin-left: 2.5rem;
+    margin-left: 7rem;
 }
 .bd-sidebar-primary {
-    margin-left: 2.5rem;
+    margin-left: 7rem;
+    padding-left: 1rem;
+}
+
+/* The content column is centred inside the space left over by the sidebar,
+   which pushes it away from the divider and leaves a gap on both sides.
+   Start it against the sidebar instead, and take the outsized page title
+   down with it. */
+.bd-main .bd-content {
+    justify-content: flex-start;
+}
+.bd-article-container .bd-article {
+    padding-left: 0.5rem;
+}
+.bd-article h1 {
+    font-size: 2rem;
 }

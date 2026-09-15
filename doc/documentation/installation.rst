@@ -10,6 +10,7 @@ The GraKeL library requires the following packages to be installed:
 * SciPy (>=1.12.0)
 * scikit-learn (>=0.24.0)
 * cvxopt (>=1.2.0) [optional]
+* networkx (>=3.0) [optional]
 
 *GraKeL* is available via `PyPI`_ . You can install the latest release of *GraKeL* using the following command:
 
@@ -22,6 +23,12 @@ To also install the cvxopt package, which is a requirement of the Lovász-:math:
 .. code-block:: bash
 
    $ pip install grakel[lovasz]
+
+To convert NetworkX graphs with :code:`graph_from_networkx`, install the networkx extra:
+
+.. code-block:: bash
+
+   $ pip install grakel[networkx]
 
 .. *GraKeL* is also available via `anaconda`_.
 

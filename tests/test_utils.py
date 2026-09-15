@@ -9,6 +9,7 @@ from numpy import arange
 from numpy.random import RandomState
 from grakel import graph_from_pandas
 from grakel import graph_from_networkx
+from grakel import networkx_from_graph
 from grakel import graph_from_csv
 from grakel import cross_validate_Kfold_SVM
 from grakel import graph_from_torch_geometric
@@ -124,6 +125,89 @@ def test_networkx():
     gs = list(graph_from_networkx([g], 'nl', 'el', 'w'))[0]
 
     assert(gs[0] == ga and gs[1] == ganl and gs[2] == gael)
+
+    # as_Graph=True must yield a Graph with the same labels
+    g_graphs = list(graph_from_networkx([g], 'nl', 'el', 'w', as_Graph=True))
+    assert(len(g_graphs) == 1)
+    G0 = g_graphs[0]
+    assert(G0.node_labels == ganl and G0.edge_labels == gael)
+
+    # Undirected graph: each edge is visited from both endpoints
+    g_und = nx.Graph()
+    for n in range(4):
+        g_und.add_node(n, nl=ganl[n])
+    g_und.add_edge(0, 1, w=1.0, el='e01')
+    g_und.add_edge(1, 2, w=2.0, el='e12')
+    g_und.add_edge(2, 3, w=3.0, el='e23')
+
+    expected_ga = {0: {1: 1.0},
+                   1: {0: 1.0, 2: 2.0},
+                   2: {1: 2.0, 3: 3.0},
+                   3: {2: 3.0}}
+    expected_ganl = {0: 'l1', 1: 'l2', 2: 'l3', 3: 'l4'}
+    expected_gael = {(0, 1): 'e01', (1, 0): 'e01',
+                     (1, 2): 'e12', (2, 1): 'e12',
+                     (2, 3): 'e23', (3, 2): 'e23'}
+
+    gs_und = list(graph_from_networkx([g_und], 'nl', 'el', 'w'))[0]
+    assert(gs_und[0] == expected_ga and gs_und[1] == expected_ganl
+           and gs_und[2] == expected_gael)
+
+
+def test_networkx_roundtrip():
+    """Round-trip grakel -> networkx -> grakel preserves structure/labels."""
+    try:
+        import networkx as nx
+    except ImportError:
+        return
+
+    # Directed case
+    g = nx.DiGraph()
+    g.add_node(0, nl='l1')
+    g.add_node(1, nl='l2')
+    g.add_node(2, nl='l3')
+    g.add_edge(0, 1, w=2.0, el='e01')
+    g.add_edge(1, 2, w=3.0, el='e12')
+
+    G = list(graph_from_networkx([g], 'nl', 'el', 'w', as_Graph=True))[0]
+    netG = networkx_from_graph(G, 'nl', 'el', 'w', directed=True)
+
+    assert netG.is_directed()
+    assert netG.number_of_nodes() == 3
+    assert netG.number_of_edges() == 2
+    assert netG.nodes[0]['nl'] == 'l1'
+    assert netG[0][1]['w'] == 2.0
+    assert netG[0][1]['el'] == 'e01'
+
+    # Undirected case, including an isolated node with no edges
+    g_und = nx.Graph()
+    g_und.add_node(0, nl='l1')
+    g_und.add_node(1, nl='l2')
+    g_und.add_node(2, nl='l3')
+    g_und.add_edge(0, 1, w=1.5, el='x')
+
+    G_und = list(graph_from_networkx([g_und], 'nl', 'el', 'w',
+                                     as_Graph=True))[0]
+    netG_und = networkx_from_graph(G_und, 'nl', 'el', 'w', directed=False)
+
+    assert not netG_und.is_directed()
+    assert netG_und.number_of_nodes() == 3
+    assert netG_und.number_of_edges() == 1
+    assert netG_und[0][1]['w'] == 1.5
+    assert netG_und[0][1]['el'] == 'x'
+
+    # Adjacency-format graph with edge labels only (regression: the
+    # convert_labels copy-paste bug used to drop edge labels here)
+    from numpy import array
+    from grakel import Graph as GraKeLGraph
+    A = array([[0., 2.], [3., 0.]])
+    gk_adj = GraKeLGraph(A, edge_labels={(0, 1): 'a', (1, 0): 'b'})
+    netG_adj = networkx_from_graph(gk_adj, directed=True)
+
+    assert netG_adj[0][1]['weight'] == 2.0
+    assert netG_adj[0][1]['label'] == 'a'
+    assert netG_adj[1][0]['weight'] == 3.0
+    assert netG_adj[1][0]['label'] == 'b'
 
 
 def test_csv():

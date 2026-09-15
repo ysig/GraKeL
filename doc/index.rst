@@ -32,6 +32,14 @@ What's New
     radius of the graphs it is given and lowered, with a warning, when it
     would diverge. Previously this produced negative self similarities and
     NaNs once normalized.
+  + :code:`networkx_from_graph` converts a :code:`grakel.Graph` back into a
+    NetworkX graph, completing the round trip with
+    :code:`graph_from_networkx`. NetworkX is now an optional dependency,
+    installable with :code:`pip install grakel[networkx]`, and support is
+    pinned to NetworkX >= 3.0.
+  + Fixed a label-conversion bug in :code:`Graph` that silently dropped edge
+    labels when converting an adjacency-format graph with edge-only labels to
+    the dictionary format.
 
 - Version **0.1.11**
 
