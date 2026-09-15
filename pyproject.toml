@@ -1,51 +1,56 @@
 [build-system]
-requires = ["setuptools>=61.0.0", "cython", "numpy>=1.19.0"]
+requires = [
+    "setuptools>=77.0.0",
+    "cython>=0.29.21",
+    "numpy>=1.19.0",
+]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "GraKeL"
-version='0.1.11'
-dependencies = [
-    "numpy >= 1.19.0",
-    "scipy >= 1.12.0",
-    "cython >= 0.29.21",
-    "scikit-learn >= 0.24.0",
-    "joblib"
-]
-requires-python=">=3.9,<3.13"
+version = "0.1.12"
+description = "A scikit-learn compatible library for graph kernels."
+readme = "README.md"
+requires-python = ">=3.9,<3.13"
+license = "BSD-3-Clause"
+license-files = ["LICENSE"]
 authors = [
     { name = "Ioannis-Siglidis", email = "y.siglidis@gmail.com" }
 ]
-readme = "README.md"
-description='A scikit-learn compatible library for graph kernels.'
-classifiers=[
-    'Intended Audience :: Science/Research',
-    'Intended Audience :: Developers',
-    'License :: OSI Approved',
-    'Programming Language :: C',
-    'Programming Language :: Python',
-    'Topic :: Software Development',
-    'Topic :: Scientific/Engineering',
-    'Operating System :: POSIX',
-    'Operating System :: Unix',
-    'Operating System :: MacOS',
-    'Programming Language :: Python :: 3',
-    'Programming Language :: Python :: 3 :: Only',
-    'Programming Language :: Python :: 3.9',
-    'Programming Language :: Python :: 3.10',
-    'Programming Language :: Python :: 3.11',
-    'Programming Language :: Python :: 3.12',
+dependencies = [
+    "numpy>=1.19.0",
+    "scipy>=1.12.0",
+    "scikit-learn>=0.24.0",
+    "joblib",
 ]
-license= { file = "LICENSE" }
+classifiers = [
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Developers",
+    "Programming Language :: C",
+    "Programming Language :: Python",
+    "Topic :: Software Development",
+    "Topic :: Scientific/Engineering",
+    "Operating System :: POSIX",
+    "Operating System :: Unix",
+    "Operating System :: MacOS",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
 
 [project.optional-dependencies]
 lovasz = ["cvxopt>=1.2.0"]
-dev = ["cvxopt>=1.2.0", "pytest", "pytest-coverage", "torch_geometric"]
-test = ["pytest", "pytest-coverage", "torch_geometric"]
-wheel = ["pytest", "pytest-coverage"]
+networkx = ["networkx>=3.0"]
+pandas = ["pandas"]
+dev = ["cvxopt>=1.2.0", "pytest", "pytest-cov", "torch-geometric", "pandas", "networkx>=3.0"]
+test = ["pytest", "pytest-cov", "torch-geometric", "pandas", "networkx>=3.0"]
+wheel = ["pytest", "pytest-cov"]
 
 [project.urls]
-documentation = 'https://ysig.github.io/GraKeL/'
-feedback = 'http://www.lix.polytechnique.fr/dascim/contact/'
-source = 'https://github.com/ysig/GraKeL/'
-tracker = 'https://github.com/ysig/GraKeL/issues'
+Documentation = "https://ysig.github.io/GraKeL/"
+Feedback = "http://www.lix.polytechnique.fr/dascim/contact/"
+Source = "https://github.com/ysig/GraKeL/"
+Issues = "https://github.com/ysig/GraKeL/issues"

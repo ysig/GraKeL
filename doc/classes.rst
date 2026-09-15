@@ -143,9 +143,10 @@ Load from other file formats
    :toctree: generated/
    :template: function.rst
 
-   graph_from_networkx
-   graph_from_pandas
-   graph_from_csv
+    graph_from_networkx
+    graph_from_pandas
+    graph_from_csv
+    networkx_from_graph
 
 **User guide:** Usefull functions for applying to existing datasets, of other formats.
 
