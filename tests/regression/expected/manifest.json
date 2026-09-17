@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "reference_version": "0.1.10",
+  "cases": {
+    "vertex_histogram": {
+      "rtol": 1e-09,
+      "atol": 1e-09
+    },
+    "edge_histogram": {
+      "rtol": 1e-09,
+      "atol": 1e-09
+    },
+    "shortest_path": {
+      "rtol": 1e-09,
+      "atol": 1e-09
+    },
+    "weisfeiler_lehman": {
+      "rtol": 1e-09,
+      "atol": 1e-09
+    },
+    "wl_optimal_assignment": {
+      "rtol": 1e-09,
+      "atol": 1e-09
+    },
+    "graphlet_sampling_k4": {
+      "rtol": 1e-09,
+      "atol": 1e-09
+    },
+    "nspd": {
+      "rtol": 0.05,
+      "atol": 0.0001
+    }
+  }
+}

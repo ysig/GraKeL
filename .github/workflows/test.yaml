@@ -31,8 +31,7 @@ on:
 env:
 
   import-package-name: grakel
-  test-dir: grakel/tests
-  codecov-py: "3.9"
+  test-dir: tests
   codecov-args: >-
     --cov=grakel
     --cov-report=xml
@@ -51,8 +50,19 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        py: ["3.9", "3.10", "3.11", "3.12"]
-        os: ["ubuntu-latest", "macos-latest", "windows-latest"]
+        # Every supported Python is exercised on Linux. The other platforms
+        # run the boundaries of the support range (oldest/newest); the release
+        # pipeline builds and tests a wheel for every version on every OS.
+        include:
+          - { py: "3.10", os: "ubuntu-latest", coverage: true }
+          - { py: "3.11", os: "ubuntu-latest" }
+          - { py: "3.12", os: "ubuntu-latest" }
+          - { py: "3.13", os: "ubuntu-latest" }
+          - { py: "3.14", os: "ubuntu-latest" }
+          - { py: "3.10", os: "macos-latest" }
+          - { py: "3.14", os: "macos-latest" }
+          - { py: "3.10", os: "windows-latest" }
+          - { py: "3.14", os: "windows-latest" }
 
     steps:
     - name: Checkout
@@ -67,21 +77,30 @@ jobs:
       uses: astral-sh/setup-uv@v9.0.0
 
     - name: Install ${{ env.import-package-name }}
+      # cvxopt stays out of the core matrix (its wheels are only guaranteed on
+      # some platforms/versions); it is exercised by the dedicated cvxopt-test
+      # job below.
       run: |
-        # escape for cvxopt
-        if [[ "${{ matrix.py }}" == "3.12" ]];then
-          uv sync --locked --extra test
-        else
-          uv sync --locked --all-extras
-        fi
+        uv sync --locked --extra test
 
     - name: Tests
       run: |
-        uv run python -m pytest
+        uv run python -m pytest ${{ matrix.coverage && env.codecov-args || '' }} ${{ env.test-dir }}
 
-  # Testing with codecov coverage uploaded
-  codecov-test:
-    name: codecov-test
+    - name: Upload coverage
+      uses: codecov/codecov-action@v7
+      # Only upload coverage when it's **not** a scheduled test run
+      if: matrix.coverage && ! github.event.schedule
+      with:
+        # Tokenless uploads are rejected ("Token required because branch is
+        # protected"), so the report needs the repository upload token
+        token: ${{ secrets.CODECOV_TOKEN }}
+        verbose: true
+
+  # The optional cvxopt dependency (Lovasz-theta and SVM-theta kernels) is
+  # exercised once, on Linux, at the newest supported Python.
+  cvxopt-test:
+    name: cvxopt-test
     runs-on: ubuntu-latest
 
     steps:
@@ -91,7 +110,7 @@ jobs:
     - name: Setup Python
       uses: actions/setup-python@v7
       with:
-        python-version: ${{ env.codecov-py }}
+        python-version: "3.14"
 
     - name: Install uv
       uses: astral-sh/setup-uv@v9.0.0
@@ -102,14 +121,4 @@ jobs:
 
     - name: Tests
       run: |
-        uv run python -m pytest ${{ env.codecov-args }} ${{ env.test-dir }}
-
-    - name: Upload coverage
-      uses: codecov/codecov-action@v7
-      # Only upload coverage when it's **not** a scheduled test run
-      if: ${{ ! github.event.schedule }}
-      with:
-        # Tokenless uploads are rejected ("Token required because branch is
-        # protected"), so the report needs the repository upload token
-        token: ${{ secrets.CODECOV_TOKEN }}
-        verbose: true
+        uv run python -m pytest ${{ env.test-dir }}

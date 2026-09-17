@@ -18,6 +18,20 @@ What's New
 
 - Version **0.1.12**
 
+  + A fixed-corpus numerical regression suite under :code:`tests/regression/`
+    freezes the kernel matrices of six kernels, captured from GraKeL 0.1.10.
+    :code:`RandomWalk` and :code:`RandomWalkLabeled` are deliberately absent:
+    their behaviour differs between versions, so no single reference matrix
+    represents them. In 0.1.10 the initialisation of :code:`self.mu_` in the
+    random walk kernel was fixed (`#71
+    <https://github.com/ysig/GraKeL/issues/71>`_), where
+    :code:`RandomWalkLabeled` had returned an all ones matrix (`#96
+    <https://github.com/ysig/GraKeL/issues/96>`_), so 0.1.10 no longer behaves
+    like 0.1.8; in 0.1.11 the geometric :code:`RandomWalk` kernel keeps its
+    series convergent: the decay factor is checked against the spectral
+    radius of the graphs it is given and lowered, with a warning, when it
+    would diverge. Previously this produced negative self similarities and
+    NaNs once normalized.
   + :code:`networkx_from_graph` converts a :code:`grakel.Graph` back into a
     NetworkX graph, completing the round trip with
     :code:`graph_from_networkx`. NetworkX is now an optional dependency,
@@ -33,7 +47,7 @@ What's New
 
      From this release onwards **GraKeL is Python 3 only**. The last release
      that carried any Python 2 support was 0.1.10; if you are still on Python
-     2, pin ``grakel<=0.1.10``. Supported versions are 3.9 to 3.12.
+     2, pin ``grakel<=0.1.10``. Supported versions are 3.10 to 3.14.
 
   + The Python 2 compatibility layer is gone: :code:`six` and :code:`future`
     are no longer dependencies, the :code:`__future__` imports and the
@@ -47,7 +61,7 @@ What's New
     and shortest-path kernels on an empty queue.
   + :code:`setup.py` no longer imports :code:`distutils`, which was dropped
     from the standard library in 3.12.
-  + Python support is now **3.9 to 3.12**; wheels are built for all of them on
+  + Python support is now **3.10 to 3.14**; wheels are built for all of them on
     Linux, macOS and Windows. Python 2 is gone from CI, the docs and the conda
     recipe.
   + Dependency minimums raised to the first versions supporting 3.9: numpy

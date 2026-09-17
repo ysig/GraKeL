@@ -5,11 +5,10 @@ Installing GraKeL
 =================
 The GraKeL library requires the following packages to be installed:
 
-* Python (>=3.9, <3.13)
+* Python (>=3.10, <3.15)
 * NumPy (>=1.19.0)
 * SciPy (>=1.12.0)
 * scikit-learn (>=0.24.0)
-* Cython (>=0.29.21)
 * cvxopt (>=1.2.0) [optional]
 * networkx (>=3.0) [optional]
 
@@ -36,7 +35,7 @@ To convert NetworkX graphs with :code:`graph_from_networkx`, install the network
 Building GraKeL
 ---------------
 
-In order to build your own version of *GraKeL*, you need a C++ compiler since the package contains some C++ extensions. To build and install a local version of `GraKeL`, you need to execute :code:`pip install .` or :code:`python setup.py install` on the root folder. Furthermore, in case you want to build the extensions locally, execute :code:`python setup.py build_ext`.
+In order to build your own version of *GraKeL*, you need a C++ compiler since the package contains some C++ extensions. To build and install a local version of `GraKeL`, execute :code:`python -m pip install .` in the project root. For an editable install that rebuilds the extensions, execute :code:`python -m pip install -e .`.
 
 For a development install with all test dependencies, the recommended way is to use `uv <https://docs.astral.sh/uv/>`_:
 

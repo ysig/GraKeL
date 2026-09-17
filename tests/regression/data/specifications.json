@@ -1,0 +1,72 @@
+{
+  "graphs_file": "graphs.json",
+  "split": {
+    "train": [
+      "er_sparse_10",
+      "er_dense_10",
+      "ws_10",
+      "ba_20",
+      "rr_10",
+      "path_10",
+      "cycle_10",
+      "star_10",
+      "complete_10",
+      "er_sparse_20",
+      "ws_20",
+      "rr_20"
+    ],
+    "test": [
+      "er_dense_20",
+      "ba_50",
+      "path_20",
+      "cycle_20",
+      "star_20",
+      "complete_20"
+    ]
+  },
+  "cases": [
+    {
+      "id": "vertex_histogram",
+      "kernel": {"class": "VertexHistogram", "params": {"sparse": false}}
+    },
+    {
+      "id": "edge_histogram",
+      "kernel": {"class": "EdgeHistogram", "params": {"sparse": false}}
+    },
+    {
+      "id": "shortest_path",
+      "kernel": {
+        "class": "ShortestPath",
+        "params": {"with_labels": true, "algorithm_type": "floyd_warshall"}
+      }
+    },
+    {
+      "id": "weisfeiler_lehman",
+      "kernel": {
+        "class": "WeisfeilerLehman",
+        "params": {"n_iter": 3, "base_graph_kernel": {"class": "VertexHistogram"}}
+      }
+    },
+    {
+      "id": "wl_optimal_assignment",
+      "kernel": {
+        "class": "WeisfeilerLehmanOptimalAssignment",
+        "params": {"n_iter": 3, "sparse": false}
+      }
+    },
+    {
+      "id": "graphlet_sampling_k4",
+      "kernel": {
+        "class": "GraphletSampling",
+        "params": {"k": 4, "sampling": null}
+      }
+    },
+    {
+      "id": "nspd",
+      "kernel": {
+        "class": "NeighborhoodSubgraphPairwiseDistance",
+        "params": {"r": 2, "d": 2}
+      }
+    }
+  ]
+}

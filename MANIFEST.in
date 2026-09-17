@@ -11,8 +11,12 @@ recursive-include grakel/kernels/_c_functions/src *
 recursive-include grakel/kernels/_isomorphism/bliss-0.50 *
 recursive-include grakel/kernels/_isomorphism *
 
-recursive-include grakel/tests/data/Cuneiform *
-recursive-include grakel/tests/data/MUTAG *
+recursive-include tests/data/Cuneiform *
+recursive-include tests/data/MUTAG *
+recursive-include tests/regression/data *.json
+recursive-include tests/regression/expected *.json
+include tests/regression/README.md
+include tests/regression/test_regression.py
 
 include doc/*.rst
 include doc/conf.py
@@ -25,3 +29,6 @@ recursive-include doc/_templates *
 recursive-include doc/kernels *
 recursive-include doc/sphinxext *
 recursive-include examples *
+
+global-exclude .DS_Store
+global-exclude *.py[cod]

@@ -49,11 +49,10 @@ In case you find a bug, please open an [issue](https://github.com/ysig/GraKeL/is
 
 The GraKeL library requires the following packages to be installed:
 
-* Python (>=3.9, <3.13)
+* Python (>=3.10, <3.15)
 * NumPy (>=1.19.0)
 * SciPy (>=1.12.0)
 * scikit-learn (>=0.24.0)
-* Cython (>=0.29.21)
 * cvxopt (>=1.2.0) [optional]
 * networkx (>=3.0) [optional]
 

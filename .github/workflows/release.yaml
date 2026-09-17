@@ -46,7 +46,7 @@ env:
 
   test-cmd: pytest
   extra-requires: "wheel"
-  sdist-version: "3.9"
+  sdist-version: "3.10"
 
 jobs:
 
@@ -73,10 +73,11 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
         py:
-          - { cibw: "cp39-*", tag: "cp39" }
           - { cibw: "cp310-*", tag: "cp310" }
           - { cibw: "cp311-*", tag: "cp311" }
           - { cibw: "cp312-*", tag: "cp312" }
+          - { cibw: "cp313-*", tag: "cp313" }
+          - { cibw: "cp314-*", tag: "cp314" }
       # All workers independent, don't cancel all if one fails
       fail-fast: false
 
@@ -109,7 +110,8 @@ jobs:
           # {project} is a special string recognized by CIBW and replaced with the project dir
           CIBW_TEST_COMMAND: ${{ env.test-cmd }} {project}
           # * Scipy has no wheels released for musllinux and will not build because OpenBLAS is not found
-          CIBW_SKIP: "*-musllinux*"
+          # * Free-threaded Python (cp314t) is not part of the support contract
+          CIBW_SKIP: "*-musllinux* cp314t-*"
           # https://cibuildwheel.readthedocs.io/en/stable/options/#test-skip
           # * Will avoid testing on emulated architectures (aarch64)
           # * Skip trying to test arm64 builds on Intel Macs
@@ -161,7 +163,7 @@ jobs:
         working-directory: ${{ runner.temp }}
         run: |
           "${{ github.workspace }}/.venv/bin/python" -m pytest \
-            "${{ github.workspace }}/grakel/tests"
+            "${{ github.workspace }}/tests"
 
       - name: Store artifacts
         uses: actions/upload-artifact@v7

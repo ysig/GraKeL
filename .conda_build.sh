@@ -3,8 +3,9 @@ set -x
 rm -rf conda_build
 mkdir -p conda_build
 conda build purge
-conda-build . --output-folder conda_build/ --python 3.9
 conda-build . --output-folder conda_build/ --python 3.10
 conda-build . --output-folder conda_build/ --python 3.11
 conda-build . --output-folder conda_build/ --python 3.12
+conda-build . --output-folder conda_build/ --python 3.13
+conda-build . --output-folder conda_build/ --python 3.14
 conda convert -f --platform all conda_build/linux-64/*.tar.bz2 -o conda_build

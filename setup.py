@@ -68,7 +68,6 @@ bliss = Extension(
 
 setup(
     packages=find_packages(),
-    package_data={"grakel.tests": ["data/Cuneiform/*.txt", "data/MUTAG/*.txt"]},
     ext_modules=[intpybliss, bliss, ext],
     cmdclass={"build_ext": build_ext},
 )

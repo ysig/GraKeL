@@ -81,3 +81,4 @@ grakel/kernels/_c_functions/functions.cpp
 grakel/kernels/_isomorphism/bliss.cpp
 /graphify-out/
 AGENTS.md
+.DS_Store

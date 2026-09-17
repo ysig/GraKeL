@@ -1,7 +1,7 @@
 [build-system]
 requires = [
     "setuptools>=77.0.0",
-    "cython>=0.29.21",
+    "cython>=3.2.0",
     "numpy>=1.19.0",
 ]
 build-backend = "setuptools.build_meta"
@@ -11,7 +11,7 @@ name = "GraKeL"
 version = "0.1.12"
 description = "A scikit-learn compatible library for graph kernels."
 readme = "README.md"
-requires-python = ">=3.9,<3.13"
+requires-python = ">=3.10,<3.15"
 license = "BSD-3-Clause"
 license-files = ["LICENSE"]
 authors = [
@@ -35,10 +35,11 @@ classifiers = [
     "Operating System :: MacOS",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
 ]
 
 [project.optional-dependencies]
