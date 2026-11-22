@@ -971,7 +971,9 @@ def _refit_datasets(edge_labels=False):
         return [_refit_graph(n, off, edge_labels, path=path)
                 for n, off in specs]
     train_first = mk([(3, 0), (4, 1), (5, 0), (6, 2)])
-    train_refit_same = mk([(3, 2), (4, 2), (5, 1), (6, 1)], path=True)
+    # Change a label histogram as well as the topology: VertexHistogram
+    # ignores edges, and rotating the labels alone leaves its diagonal unchanged.
+    train_refit_same = mk([(3, 2), (5, 2), (5, 1), (6, 1)], path=True)
     train_refit_less = mk([(3, 2), (4, 2), (5, 1)], path=True)
     test = mk([(3, 1), (4, 0)])
     return train_first, train_refit_same, train_refit_less, test
@@ -1067,13 +1069,7 @@ def test_refit_neighborhood_subgraph_pairwise_distance():
 
 
 def test_refit_odd_sth():
-    """OddSth recomputes the training diagonal from the transform's dag.
-
-    diagonal() used to read a _phi_X attribute that never exists (transform
-    stores _phi_x), so a normalized transform after a plain fit crashed
-    before the diagonal was ever cached; the refit cases then keep the
-    recomputation honest.
-    """
+    """OddSth normalizes correctly after fitting without a cached diagonal."""
     train_first, train_refit_same, train_refit_less, test = _refit_datasets()
 
     # transform after a plain fit takes the recompute path of diagonal()
@@ -1086,6 +1082,31 @@ def test_refit_odd_sth():
         for seed_with_transform in (True, False):
             _assert_refit_matches_fresh(make, train_first, train_refit,
                                         test, seed_with_transform)
+
+
+def test_refit_odd_sth_diagonal():
+    """Reading the diagonal after refit uses only the new training data."""
+    train_first, train_refit_same, train_refit_less, test = _refit_datasets()
+    for train_refit in (train_refit_same, train_refit_less):
+        expected_train_diag = np.diag(OddSth().fit_transform(train_refit))
+        fresh = OddSth(normalize=True).fit(train_refit)
+        expected = fresh.transform(test)
+        _, expected_test_diag = fresh.diagonal()
+
+        for refit_method in ("fit", "fit_transform"):
+            reused = OddSth(normalize=True)
+            reused.fit_transform(train_first)
+            reused.transform(test[:1])
+            getattr(reused, refit_method)(train_refit)
+
+            train_diag = reused.diagonal()
+            assert isinstance(train_diag, np.ndarray)
+            np.testing.assert_allclose(train_diag.ravel(), expected_train_diag)
+
+            np.testing.assert_allclose(reused.transform(test), expected)
+            train_diag, test_diag = reused.diagonal()
+            np.testing.assert_allclose(train_diag.ravel(), expected_train_diag)
+            np.testing.assert_allclose(test_diag, expected_test_diag)
 
 
 def test_refit_weisfeiler_lehman():
@@ -1183,6 +1204,7 @@ if __name__ == "__main__":
     test_refit_shortest_path()
     test_refit_neighborhood_subgraph_pairwise_distance()
     test_refit_odd_sth()
+    test_refit_odd_sth_diagonal()
     test_refit_weisfeiler_lehman()
     test_refit_graphlet_sampling()
     test_refit_graph_kernel_wrapper()

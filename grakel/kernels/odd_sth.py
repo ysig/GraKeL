@@ -118,12 +118,15 @@ class OddSth(Kernel):
                 out = big_dag_append(make_big_dag(x, self.h_), out, merge_features=False)
                 i += 1
 
-            if self._method_calling == 1:
-                self._nx = i
-            elif self._method_calling == 3:
-                self._ny = i
             if i == 0:
                 raise ValueError("parsed input is empty")
+            if self._method_calling == 1:
+                self._nx = i
+                # These features belong to the combined fit/transform DAG.
+                for attr in ("_phi_x", "_phi_y", "_C", "_ny"):
+                    self.__dict__.pop(attr, None)
+            elif self._method_calling == 3:
+                self._ny = i
             return out
 
     def fit_transform(self, X, y=None):
@@ -225,7 +228,7 @@ class OddSth(Kernel):
         return km
 
     def diagonal(self):
-        """Calculate the kernel matrix diagonal of the fitted data.
+        """Calculate the kernel matrix diagonals of fitted and transformed data.
 
         Parameters
         ----------
@@ -234,25 +237,25 @@ class OddSth(Kernel):
         Returns
         -------
         X_diag : np.array
-            The diagonal of the kernel matrix, of the fitted. This consists
-            of each element calculated with itself.
+            Self-similarities of the fitted graphs.
 
-
+        Y_diag : np.array
+            Self-similarities of the most recently transformed graphs, if any.
         """
-        # Check is fit had been called
-        check_is_fitted(self, ["_phi_x", "_C"])
+        check_is_fitted(self, ["X", "_nx"])
         try:
             check_is_fitted(self, ["_X_diag"])
         except NotFittedError:
-            # Calculate diagonal of X
-            self._X_diag = np.dot(np.square(self._phi_x).T, self._C).reshape((self._nx, 1))
+            # The training DAG is available even before the first transform.
+            X_diag = np.zeros(self._nx)
+            for weight, frequencies, _ in self.X[0].values():
+                X_diag += weight * np.square(np.asarray(frequencies, dtype=float))
+            self._X_diag = X_diag.reshape((self._nx, 1))
 
-        try:
-            check_is_fitted(self, ["_phi_y"])
+        if self._is_transformed:
             Y_diag = np.dot(np.square(self._phi_y).T, self._C).reshape((self._ny, 1))
             return self._X_diag, Y_diag
-        except NotFittedError:
-            return self._X_diag
+        return self._X_diag
 
 
 def make_big_dag(g, h):
