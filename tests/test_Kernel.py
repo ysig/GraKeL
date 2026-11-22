@@ -937,6 +937,231 @@ def test_core_framework():
         assert False, exception
 
 
+def _refit_graph(n, off, edge_labels=False, path=False):
+    """A small labeled graph as a grakel input tuple.
+
+    Rings by default, or paths with the same number of vertices: two graphs
+    of equal size that still differ structurally, so a refit that keeps
+    state of the old fit cannot pass for a fresh one on values alone.
+    """
+    adjacency = np.zeros((n, n))
+    for i in range(n - 1):
+        adjacency[i, i + 1] = adjacency[i + 1, i] = 1
+    if not path:
+        adjacency[n - 1, 0] = adjacency[0, n - 1] = 1
+    labels = {i: "c%d" % ((i + off) % 3) for i in range(n)}
+    if not edge_labels:
+        return (adjacency, labels)
+    el = dict()
+    for i in range(n - 1):
+        el[(i, i + 1)] = el[(i + 1, i)] = "e%d" % ((i + off) % 2)
+    if not path:
+        el[(n - 1, 0)] = el[(0, n - 1)] = "e%d" % ((n - 1 + off) % 2)
+    return (adjacency, labels, el)
+
+
+def _refit_datasets(edge_labels=False):
+    """Datasets for the refit regression cases.
+
+    The first fit sees four ring graphs; the refit datasets then hold four
+    paths (equally many graphs, so a stale diagonal broadcasts) and three
+    paths (one fewer, so a stale diagonal crashes).
+    """
+    def mk(specs, path=False):
+        return [_refit_graph(n, off, edge_labels, path=path)
+                for n, off in specs]
+    train_first = mk([(3, 0), (4, 1), (5, 0), (6, 2)])
+    # Change a label histogram as well as the topology: VertexHistogram
+    # ignores edges, and rotating the labels alone leaves its diagonal unchanged.
+    train_refit_same = mk([(3, 2), (5, 2), (5, 1), (6, 1)], path=True)
+    train_refit_less = mk([(3, 2), (4, 2), (5, 1)], path=True)
+    test = mk([(3, 1), (4, 0)])
+    return train_first, train_refit_same, train_refit_less, test
+
+
+def _assert_refit_matches_fresh(make_kernel, train_first, train_refit, test,
+                                seed_with_transform):
+    """A refit estimator must equal a fresh one fitted on the new dataset."""
+    reused = make_kernel()
+    if seed_with_transform:
+        reused.fit(train_first)
+        reused.transform(test)
+    else:
+        reused.fit_transform(train_first)
+
+    fresh = make_kernel()
+    fresh.fit(train_refit)
+    expected = fresh.transform(test)
+
+    reused.fit(train_refit)
+    got = reused.transform(test)
+
+    assert got.shape == expected.shape
+    assert np.allclose(got, expected), \
+        "refit diverges from a fresh fit: max diff %f" % \
+        np.max(np.abs(got - expected))
+
+
+def test_refit_transform_normalized():
+    """Refit clears the diagonal and target caches of the previous fit.
+
+    Kernel.fit used to leave _X_diag and _Y in place, so a normalized
+    transform after a refit divided by the diagonal of the old dataset: a
+    broadcast error when the refit set was shorter, silently wrong values
+    when the sizes happened to match.
+    """
+    train_first, train_refit_same, train_refit_less, test = _refit_datasets()
+    def make():
+        return VertexHistogram(normalize=True)
+    for train_refit in (train_refit_same, train_refit_less):
+        for seed_with_transform in (True, False):
+            _assert_refit_matches_fresh(make, train_first, train_refit,
+                                        test, seed_with_transform)
+
+    # A refit without a new transform must also forget _Y: diagonal()
+    # reports the training diagonal alone, not a pair with the stale
+    # diagonal of the previous transform.
+    reused = VertexHistogram(normalize=True)
+    reused.fit(train_first)
+    reused.transform(test)
+    reused.fit(train_refit_less)
+    assert np.asarray(reused.diagonal()).shape == (len(train_refit_less),)
+
+    # After a refit and a new transform, diagonal() reports both
+    # self-similarity vectors fresh: the training diagonal of the refit
+    # set and the test diagonal of the new transform.
+    reused.transform(test)
+    x_diag, y_diag = reused.diagonal()
+    assert np.asarray(x_diag).shape == (len(train_refit_less),)
+    assert np.asarray(y_diag).shape == (len(test),)
+
+
+def test_refit_shortest_path():
+    """Refit drops the fitted feature matrix cached for transform.
+
+    ShortestPath.transform reuses _phi_X, which used to survive a refit
+    and describe the old training set: a shape error when the refit set
+    was shorter, silently wrong values when the sizes happened to match.
+    """
+    train_first, train_refit_same, train_refit_less, test = _refit_datasets()
+    def make():
+        return ShortestPath(normalize=True)
+    for train_refit in (train_refit_same, train_refit_less):
+        for seed_with_transform in (True, False):
+            _assert_refit_matches_fresh(make, train_first, train_refit,
+                                        test, seed_with_transform)
+
+
+def test_refit_neighborhood_subgraph_pairwise_distance():
+    """Refit drops the fit-level norms cached for transform.
+
+    NSPD.transform reuses _X_level_norm_factor, which used to survive a
+    refit and normalize against the norms of the old training set.
+    """
+    train_first, train_refit_same, train_refit_less, test = \
+        _refit_datasets(edge_labels=True)
+    def make():
+        return NeighborhoodSubgraphPairwiseDistance(normalize=True)
+    for train_refit in (train_refit_same, train_refit_less):
+        for seed_with_transform in (True, False):
+            _assert_refit_matches_fresh(make, train_first, train_refit,
+                                        test, seed_with_transform)
+
+
+def test_refit_odd_sth():
+    """OddSth normalizes correctly after fitting without a cached diagonal."""
+    train_first, train_refit_same, train_refit_less, test = _refit_datasets()
+
+    # transform after a plain fit takes the recompute path of diagonal()
+    km = OddSth(normalize=True).fit(train_first).transform(train_first)
+    assert np.allclose(np.diag(km), 1.0)
+
+    def make():
+        return OddSth(normalize=True)
+    for train_refit in (train_refit_same, train_refit_less):
+        for seed_with_transform in (True, False):
+            _assert_refit_matches_fresh(make, train_first, train_refit,
+                                        test, seed_with_transform)
+
+
+def test_refit_odd_sth_diagonal():
+    """Reading the diagonal after refit uses only the new training data."""
+    train_first, train_refit_same, train_refit_less, test = _refit_datasets()
+    for train_refit in (train_refit_same, train_refit_less):
+        expected_train_diag = np.diag(OddSth().fit_transform(train_refit))
+        fresh = OddSth(normalize=True).fit(train_refit)
+        expected = fresh.transform(test)
+        _, expected_test_diag = fresh.diagonal()
+
+        for refit_method in ("fit", "fit_transform"):
+            reused = OddSth(normalize=True)
+            reused.fit_transform(train_first)
+            reused.transform(test[:1])
+            getattr(reused, refit_method)(train_refit)
+
+            train_diag = reused.diagonal()
+            assert isinstance(train_diag, np.ndarray)
+            np.testing.assert_allclose(train_diag.ravel(), expected_train_diag)
+
+            np.testing.assert_allclose(reused.transform(test), expected)
+            train_diag, test_diag = reused.diagonal()
+            np.testing.assert_allclose(train_diag.ravel(), expected_train_diag)
+            np.testing.assert_allclose(test_diag, expected_test_diag)
+
+
+def test_refit_weisfeiler_lehman():
+    """WeisfeilerLehman manages its own diagonal cleanup and stays correct.
+
+    WL deletes _X_diag in parse_input and gates the transform diagonal on
+    _is_transformed rather than _Y, so refits were already safe: this pins
+    that contract while the shared Kernel class drops its caches too.
+    """
+    train_first, train_refit_same, train_refit_less, test = _refit_datasets()
+    def make():
+        return WeisfeilerLehman(n_iter=2,
+                                base_graph_kernel=VertexHistogram,
+                                normalize=True)
+    for train_refit in (train_refit_same, train_refit_less):
+        for seed_with_transform in (True, False):
+            _assert_refit_matches_fresh(make, train_first, train_refit,
+                                        test, seed_with_transform)
+
+
+def test_refit_graphlet_sampling():
+    """Refit drops the sampled feature matrix cached for transform.
+
+    GraphletSampling.transform reuses _phi_X, which used to survive a
+    refit: the matrix no longer fit the freshly sampled graphlet bins and
+    the transform crashed on a shape error. The sampled values themselves
+    differ from a fresh fit by design, so only the shape is pinned.
+    """
+    train_first, train_refit_same, train_refit_less, test = _refit_datasets()
+    for train_refit in (train_refit_same, train_refit_less):
+        for seed_with_transform in (True, False):
+            gs = GraphletSampling(normalize=True,
+                                   sampling=dict(n_samples=20))
+            if seed_with_transform:
+                gs.fit(train_first)
+                gs.transform(test)
+            else:
+                gs.fit_transform(train_first)
+            gs.fit(train_refit)
+            km = gs.transform(test)
+            assert km.shape == (len(test), len(train_refit))
+            assert np.isfinite(km).all()
+
+
+def test_refit_graph_kernel_wrapper():
+    """The GraphKernel wrapper refits the same wrapped kernel instance."""
+    train_first, train_refit_same, train_refit_less, test = _refit_datasets()
+    def make():
+        return GraphKernel(kernel="VH", normalize=True)
+    for train_refit in (train_refit_same, train_refit_less):
+        for seed_with_transform in (True, False):
+            _assert_refit_matches_fresh(make, train_first, train_refit,
+                                        test, seed_with_transform)
+
+
 if __name__ == "__main__":
     warnings.filterwarnings("once")
     verbose = True
@@ -975,3 +1200,11 @@ if __name__ == "__main__":
     test_graph_hopper()
     test_graph_hopper_pd()
     test_core_framework()
+    test_refit_transform_normalized()
+    test_refit_shortest_path()
+    test_refit_neighborhood_subgraph_pairwise_distance()
+    test_refit_odd_sth()
+    test_refit_odd_sth_diagonal()
+    test_refit_weisfeiler_lehman()
+    test_refit_graphlet_sampling()
+    test_refit_graph_kernel_wrapper()
