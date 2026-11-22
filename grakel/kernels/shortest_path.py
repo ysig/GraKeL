@@ -436,6 +436,12 @@ class ShortestPath(Kernel):
             i = -1
             sp_counts = dict()
             if self._method_calling == 1:
+                # Drop the feature caches of a previous fit: transform()
+                # reuses _phi_X, which would otherwise describe the old
+                # dataset and either crash on a shape mismatch or
+                # silently produce wrong values when the sizes match.
+                self.__dict__.pop("_phi_X", None)
+                self.__dict__.pop("_phi_Y", None)
                 self._enum = dict()
             elif self._method_calling == 3:
                 self._Y_enum = dict()

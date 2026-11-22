@@ -108,6 +108,15 @@ class Kernel(BaseEstimator, TransformerMixin):
         self._is_transformed = False
         self._method_calling = 1
 
+        # Drop caches left by a previous fit: with normalize=True,
+        # transform() would otherwise normalize a new dataset against the
+        # diagonal of the old one, which either crashes on a shape mismatch
+        # or silently produces wrong values when the sizes happen to match.
+        if hasattr(self, "_X_diag"):
+            del self._X_diag
+        if hasattr(self, "_Y"):
+            del self._Y
+
         # Parameter initialization
         self.initialize()
 

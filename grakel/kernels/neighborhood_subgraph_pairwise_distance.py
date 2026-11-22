@@ -199,6 +199,12 @@ class NeighborhoodSubgraphPairwiseDistance(Kernel):
                 raise ValueError('parsed input is empty')
 
             if self._method_calling == 1:
+                # Drop the fit-level norms of a previous fit: transform()
+                # reuses _X_level_norm_factor, which would otherwise
+                # describe the old dataset and either crash on a shape
+                # mismatch or silently produce wrong values when the
+                # sizes match.
+                self.__dict__.pop("_X_level_norm_factor", None)
                 # A feature matrix for all levels
                 M = dict()
 

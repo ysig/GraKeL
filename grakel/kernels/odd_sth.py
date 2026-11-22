@@ -245,7 +245,7 @@ class OddSth(Kernel):
             check_is_fitted(self, ["_X_diag"])
         except NotFittedError:
             # Calculate diagonal of X
-            self._X_diag = np.dot(np.square(self._phi_X), self._C).reshape((self._nx, 1))
+            self._X_diag = np.dot(np.square(self._phi_x).T, self._C).reshape((self._nx, 1))
 
         try:
             check_is_fitted(self, ["_phi_y"])
