@@ -12,7 +12,7 @@ This tutorial explores how an object recognition task can be formulated as a gra
 
 `Text Categorization <https://github.com/ysig/GraKeL/blob/master/tutorials/text_categorization/text_categorization.ipynb>`_
 ----------------------------------------------------------------------------------------------------------------------------------------------------
-In this tutorial, graph kernels are applied to the task of text categorization. Documents are represented as word co-occurence networks and then graph kernels are employed to classify the emerging graphs.
+In this tutorial, graph kernels are applied to the task of text categorization. Documents are represented as word co-occurrence networks and then graph kernels are employed to classify the emerging graphs.
 
 
 `Weisfeiler-Lehman Optimal Assignment with SVM <https://github.com/ysig/GraKeL/blob/master/tutorials/wl_optimal_assignment_svm/wl_optimal_assignment_svm.ipynb>`_
